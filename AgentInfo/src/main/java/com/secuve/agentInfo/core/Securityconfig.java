@@ -1,0 +1,53 @@
+package com.secuve.agentInfo.core;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class Securityconfig extends WebSecurityConfigurerAdapter{
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		
+		// 접속 권한
+		http.authorizeRequests()
+			.antMatchers("/users/**").hasRole("ADMIN")
+			.antMatchers("/agentInfo/**").hasAnyRole("MEMBER","ADMIN")
+			.antMatchers("/index").hasAnyRole("MEMBER","ADMIN")
+			.antMatchers("/").permitAll();
+		
+		// 로그인 설정
+		http.formLogin()
+			.loginPage("/login")
+			.usernameParameter("usersId")
+			.passwordParameter("usersPw")
+			.defaultSuccessUrl("/index")
+			.failureUrl("/failPage")
+			.permitAll();
+		
+		// 로그아웃 설정
+		http.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/login")
+			.invalidateHttpSession(true);
+		
+		// 권한이 없는 사용자가 접속한 경우
+		http.exceptionHandling()
+			.accessDeniedPage("/denied");
+	}
+	
+	@Bean 
+	public BCryptPasswordEncoder bCryptPasswordEncoder() { 
+		return new BCryptPasswordEncoder(); 
+	}
+	
+}
