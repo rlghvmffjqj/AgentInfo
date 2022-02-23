@@ -24,45 +24,14 @@
 	</delete>
 	
 	<select id="getEmployeeCount" resultType="_int">
-		SELECT COUNT(*) FROM employee e
-			<include refid="sqlEmployee" />
-	</select>
-	
-	<select id="getAdmin" resultMap="employee" parameterType="string">
-		SELECT *
-    	FROM
-    	(
-    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
-    		FROM (
-				SELECT e.*, u.usersRole FROM employee e INNER JOIN users u
-				ON e.employeeId = u.usersId
-					<include refid="sqlEmployee" />
-					) a
-		    	) b
-    	    WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
-	</select>
-	
-	<select id="getAdminCount" resultType="_int">
 		SELECT COUNT(*) FROM employee e INNER JOIN users u
 		ON e.employeeId = u.usersId
 			<include refid="sqlEmployee" />
 	</select>
 	
-	<update id="setEmployeeDepartmentNameUpdate">
-		UPDATE employee SET departmentName = #{departmentName} WHERE departmentName = #{departmentNameChange};
-	</update>
-	
-	<update id="updateDepartmentMove">
-		UPDATE employee SET departmentName = #{departmentName} WHERE employeeId = #{employeeId};
-	</update>
-	
-	<update id="updateEmployeeLeave">
-		UPDATE employee SET employeeStatus = '퇴사' WHERE employeeId = #{employeeId};
-	</update>
-	
 	<insert id="insertEmployee">
-		INSERT INTO employee(employeeId, departmentName, employeeType, employeeRank, employeeName, employeePhone, employeeEmail, employeeStatus) 
-		VALUES(#{employeeId}, #{departmentName}, #{employeeType}, #{employeeRank}, #{employeeName}, #{employeePhone}, #{employeeEmail}, #{employeeStatus});
+		INSERT INTO employee(employeeId, departmentName, employeeType, employeeRank, employeeName, employeePhone, employeeEmail, employeeStatus, employeeRegistrant, employeeRegistrationDate) 
+		VALUES(#{employeeId}, #{departmentName}, #{employeeType}, #{employeeRank}, #{employeeName}, #{employeePhone}, #{employeeEmail}, #{employeeStatus}, #{employeeRegistrant}, #{employeeRegistrationDate});
 	</insert>
 	
 	<select id="getEmployeeOne" parameterType="string" resultMap="employee">
@@ -72,7 +41,7 @@
 	</select>
 	
 	<update id="updateEmployee">
-		UPDATE employee SET employeeType = #{employeeType}, employeeRank = #{employeeRank}, employeeName = #{employeeName}, employeePhone = #{employeePhone}, employeeEmail = #{employeeEmail}, employeeStatus = #{employeeStatus}, departmentName = #{departmentName} 
+		UPDATE employee SET employeeType = #{employeeType}, employeeRank = #{employeeRank}, employeeName = #{employeeName}, employeePhone = #{employeePhone}, employeeEmail = #{employeeEmail}, employeeStatus = #{employeeStatus}, departmentName = #{departmentName}, employeeModifier = #{employeeModifier}, employeeModifiedDate = #{employeeModifiedDate} 
 		WHERE employeeId = #{employeeId}
 	</update>
 	

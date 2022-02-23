@@ -1,6 +1,9 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +44,6 @@ public class EmployeeController {
 	@ResponseBody
 	@PostMapping(value = "/employee")
 	public Map<String, Object> Employee(@ModelAttribute("search") Employee search) {
-		System.out.println(search.getSord());
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<Employee> list = new ArrayList<>(employeeService.getEmployeeList(search));
 		int totalCount = employeeService.getEmployeeListCount(search);
@@ -81,7 +83,13 @@ public class EmployeeController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/employee/insert")
-	public Map<String,String> InsertEmployee(Employee employee) {
+	public Map<String,String> InsertEmployee(Employee employee, Principal principal) {
+		employee.setEmployeeRegistrant(principal.getName());
+		// Date formatter 현재 시간
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		employee.setEmployeeRegistrationDate(formatter.format(now));
+
 		Map<String,String> map = new HashMap<String,String>();
 		String result = employeeService.insertEmployee(employee);
 		map.put("result", result);
@@ -108,7 +116,13 @@ public class EmployeeController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/employee/update")
-	public Map<String,String> UpdateEmployee(Employee employee) {
+	public Map<String,String> UpdateEmployee(Employee employee, Principal principal) {
+		employee.setEmployeeModifier(principal.getName());
+		// Date formatter 현재 시간
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		employee.setEmployeeModifiedDate(formatter.format(now));
+		
 		Map<String,String> map = new HashMap<String,String>();
 		String result = employeeService.updateEmployee(employee);
 		map.put("result", result);

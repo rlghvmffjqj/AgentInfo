@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class EmployeeService {
 	@Autowired Users users;
 	
 	public List<Employee> getEmployeeList(Employee search) {
+
 		List<Employee> list = new ArrayList<Employee>();
 		list = employeeDao.getEmployeeList(search);
 		for (Employee employee : list) {
@@ -48,15 +51,6 @@ public class EmployeeService {
 	}
 
 
-	public String updateEmployeeLeave(ArrayList<Employee> chkList) {
-		for(Employee employee: chkList) {
-			int sucess = employeeDao.updateEmployeeLeave(employee.getEmployeeId());
-			if(sucess <= 0) 
-				return "FALSE";
-		}
-		return "OK";
-	}
-
 	public String insertEmployee(Employee employee) {
 		if(employee.getEmployeeId().equals("") || employee.getEmployeeId() == "" ) { // 사원 번호가 비어있을경우 리턴
 			return "NotEmployeeId";
@@ -65,6 +59,7 @@ public class EmployeeService {
 		} else if(employeeDao.getEmployeeOne(employee.getEmployeeId()) != null) {
 			return "duplicateCheck";
 		}
+		
 		int sucess = employeeDao.insertEmployee(employee);
 		users.setUsersId(employee.getEmployeeId());
 		users.setUsersPw(employee.getUsersPw());
