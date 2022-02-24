@@ -6,8 +6,8 @@
 			$('.main').addClass('active');
 		} else if($.cookie('name') == 'employee') {
 			$('.employee').addClass('active');
-		} else if($.cookie('name') == 'agetInfo') {
-			$('.agetInfo').addClass('active');
+		} else if($.cookie('name') == 'packages') {
+			$('.packages').addClass('active');
 		} 
 	});
 </script>
@@ -44,8 +44,8 @@
          </ul>
          <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
          <ul class="pcoded-item pcoded-left-item">
-             <li class="agetInfo">
-                 <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
+             <li class="packages">
+                 <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
                      <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
                      <span class="pcoded-mcaret"></span>

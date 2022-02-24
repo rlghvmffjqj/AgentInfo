@@ -14,9 +14,9 @@
 				SELECT e.*, u.usersRole FROM employee e INNER JOIN users u
 				ON e.employeeId = u.usersId
 					<include refid="sqlEmployee" />
-					) a
-		    	) b
-    	    WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<delete id="delEmployee" parameterType="string">

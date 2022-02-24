@@ -42,7 +42,10 @@
 
 <!-- jqGrid -->
 <script type="text/javascript" src="<c:url value='/jqGrid/js/i18n/grid.locale-kr.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.min.js'/>"></script>     
+<script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.min.js'/>"></script>
+<%-- <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.json-2.3.min.js'/>"></script>   
+<script type="text/javascript" src="<c:url value='/jqGrid/js/jqgrid.extends2.js'/>"></script> --%>
+             
   
 <script type="text/javascript" src="<c:url value='/js/popper.js/popper.min.js'/>"></script>     
 <script type="text/javascript" src="<c:url value='/js/bootstrap/js/bootstrap.min.js'/>"></script>

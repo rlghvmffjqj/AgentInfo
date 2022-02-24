@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="packages">
+	<resultMap type="com.secuve.agentInfo.vo.Packages" id="packages"></resultMap>
+	
+	<select id="getPackages" resultMap="packages" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM packages
+					<include refid="sqlPackages" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getPackagesCount" resultType="_int">
+		SELECT COUNT(*) FROM packages
+			<include refid="sqlPackages" />
+	</select>
+	
+	<delete id="delPackages" parameterType="_int">
+		DELETE FROM packages WHERE packagesKeyNum = #{packagesKeyNum};
+	</delete>
+	
+	<select id="getPackagesKeyNum" resultType="_int">
+		SELECT MAX(packagesKeyNum) FROM packages;
+	</select>
+	
+	<insert id="insertPackages">
+		INSERT INTO packages(packagesKeyNum, customerName, requestDate, deliveryData, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, existingAgentVersion, legacyManagerVersion, managerOS, db, pkiAuthClient, note, packagesRegistrant, packagesRegistrationDate)
+		VALUES (#{packagesKeyNum}, #{customerName}, #{requestDate}, #{deliveryData}, #{existingNew}, #{managementServer}, #{agentOS}, #{osDetailVersion}, #{generalCustom}, #{osType}, #{agentVer}, #{packageName}, #{manager}, #{requestProductCategory}, #{deliveryMethod}, #{existingAgentVersion}, #{legacyManagerVersion}, #{managerOS}, #{db}, #{pkiAuthClient}, #{note}, #{packagesRegistrant}, #{packagesRegistrationDate});
+	</insert>
+	
+	<select id="getPackagesOne" parameterType="_int" resultMap="packages">
+		SELECT * FROM packages WHERE packagesKeyNum = #{packagesKeyNum};	
+	</select>
+	
+	<update id="updatePackages">
+		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerName}, requestDate = #{requestDate}, deliveryData = #{deliveryData}, existingNew = #{existingNew}, managementServer = #{managementServer}, agentOS = #{agentOS}, osDetailVersion = #{osDetailVersion}, generalCustom = #{generalCustom}, osType = #{osType}, agentVer = #{agentVer}, packageName = #{packageName}, manager = #{manager}, requestProductCategory = #{requestProductCategory}, deliveryMethod = #{deliveryMethod}, existingAgentVersion = #{existingAgentVersion}, legacyManagerVersion = #{legacyManagerVersion}, managerOS = #{managerOS}, db = #{db}, pkiAuthClient = #{pkiAuthClient}, note = #{note}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
+		WHERE packagesKeyNum = #{packagesKeyNum};
+	</update>
+	
+	
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlPackages">
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="customerName != null and customerName != ''">
+				AND customerName LIKE CONCAT('%',#{customerName},'%')
+			</if>
+			<if test="existingNew != null and existingNew != ''">
+				AND existingNew LIKE CONCAT('%',#{existingNew},'%')
+			</if>
+			<if test="managementServer != null and managementServer != ''">
+				AND managementServer LIKE CONCAT('%',#{managementServer},'%')
+			</if>
+			<if test="agentOS != null and agentOS != ''">
+				AND agentOS LIKE CONCAT('%',#{agentOS},'%')
+			</if>
+			<if test="osDetailVersion != null and osDetailVersion != ''">
+				AND osDetailVersion LIKE CONCAT('%',#{osDetailVersion},'%')
+			</if>
+			<if test="osType != null and osType != ''">
+				AND osType LIKE CONCAT('%',#{osType},'%')
+			</if>
+			<if test="agentVer != null and agentVer != ''">
+				AND agentVer LIKE CONCAT('%',#{agentVer},'%')
+			</if>
+			<if test="packageName != null and packageName != ''">
+				AND packageName LIKE CONCAT('%',#{packageName},'%')
+			</if>
+			<if test="manager != null and manager != ''">
+				AND manager LIKE CONCAT('%',#{manager},'%')
+			</if>
+			<if test="requestProductCategory != null and requestProductCategory != ''">
+				AND requestProductCategory LIKE CONCAT('%',#{requestProductCategory},'%')
+			</if>
+			<if test="deliveryMethod != null and deliveryMethod != ''">
+				AND deliveryMethod LIKE CONCAT('%',#{deliveryMethod},'%')
+			</if>
+			<if test="db != null and db != ''">
+				AND db LIKE CONCAT('%',#{db},'%')
+			</if>
+		</trim>
+	</sql>
+
+</mapper>

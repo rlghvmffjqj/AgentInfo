@@ -1,0 +1,45 @@
+package com.secuve.agentInfo.vo;
+
+import org.springframework.stereotype.Component;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@Component
+public class Packages {
+	private int packagesKeyNum;				// Key Number
+	private String customerName;			// 고객사명
+	private String requestDate;				// 요청일자
+	private String deliveryData;			// 전달일자
+	private String existingNew;				// 기존/신규
+	private String managementServer;		// 관리서버/Agent
+	private String agentOS;					// Agent OS
+	private String osDetailVersion;			// OS 상세버전
+	private String generalCustom;			// 일반/커스텀
+	private String osType;					// OS 종류
+	private String agentVer;				// Agent ver
+	private String packageName;				// 패키지명
+	private String manager;					// 담당자
+	private String requestProductCategory;	// 요청 제품구분
+	private String deliveryMethod;			// 전달 방법
+	private String existingAgentVersion;	// 기존 Agent 버전
+	private String legacyManagerVersion;	// 기존 Manager(War) 버전
+	private String managerOS;				// Manager OS
+	private String db;						// DB
+	private String pkiAuthClient;			// PKI & AuthClient
+	private String note;					// 비고
+	
+	private String packagesRegistrant;		// 데이터 추가 사용자
+	private String packagesRegistrationDate;	// 데이터 추가 날짜
+	private String packagesModifier;			// 데이터 수정 사용자
+	private String packagesModifiedDate;		// 데이터 수정 날짜
+	
+	private int page=1;							// 기본 페이지 번호
+	private int rows=30;						// 데이터 보여줄 갯수
+	private String sidx="packagesKeyNum";			// 정렬할 기준 데이터
+	private String sord;						// 오름차순, 내림차순
+}

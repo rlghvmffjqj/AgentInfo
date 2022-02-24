@@ -26,8 +26,8 @@ public class Employee {
 	private String employeeModifiedDate;		// 데이터 수정 날짜
 	
 	private int page=1;							// 기본 페이지 번호
-	private int rows=30;							// 데이터 보여줄 갯수
-	private String sidx="employeeId";						// 정렬할 기준 데이터
+	private int rows=30;						// 데이터 보여줄 갯수
+	private String sidx="employeeId";			// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
 	
 	private String usersRole;					// 사용자 역할 ex) 사용자, 관리자, 일반사용자
