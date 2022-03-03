@@ -13,9 +13,9 @@
     </script>
     <script>
 		/* =========== ajax _csrf 전송 ========= */
-		$(document).ajaxSend(function(e, xhr, options) {
+		/* $(document).ajaxSend(function(e, xhr, options) {
 			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-		});
+		}); */
 	</script>
 	<script>
 		$(document).ready(function(){
@@ -50,12 +50,13 @@
 		        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 		        gridview: true,				// 그리드뷰 방식 랜더링
 		        sortable: true,				// 컬럼을 마우스 순서 변경
-		        height : '790',
+		        height : '810',
 		        autowidth:true,				// 가로 넒이 자동조절
 		        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 		        altRows: false,				// 라인 강조
 			}); 
-			//$("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: true });
+			loadColumns('#list','employeeList');
+			setAutoResize('#list',810);
 		});
 			
 	</script>
@@ -158,6 +159,7 @@
 														<td style="font-weight:bold;">사원 관리 :
 															<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 															<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+															<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'employeeList');">컬럼 선택</button>
 															<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnLeave">퇴사</button> -->
 														</td>
 													</tr>

@@ -26,11 +26,6 @@ public class Packages {
 	private String manager;					// 담당자
 	private String requestProductCategory;	// 요청 제품구분
 	private String deliveryMethod;			// 전달 방법
-	private String existingAgentVersion;	// 기존 Agent 버전
-	private String legacyManagerVersion;	// 기존 Manager(War) 버전
-	private String managerOS;				// Manager OS
-	private String db;						// DB
-	private String pkiAuthClient;			// PKI & AuthClient
 	private String note;					// 비고
 	
 	private String packagesRegistrant;		// 데이터 추가 사용자

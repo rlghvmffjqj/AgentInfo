@@ -27,10 +27,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.mCustomScrollbar.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/amcharts/export.css'/>" media="all">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/myStyle.css'/>">
-<!-- jqGrid -->
+<!-- jqGrid UI -->
 <link href="<c:url value='/jquery-ui-1.13.1.custom/jquery-ui.min.css'/>" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/jqGrid/css/ui.jqgrid.css'/>">
-
 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.cookie.js'/>"></script> 
@@ -41,10 +39,16 @@
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.serializeObject.js'/>"></script>    
 
 <!-- jqGrid -->
-<script type="text/javascript" src="<c:url value='/jqGrid/js/i18n/grid.locale-kr.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/jqGrid/js/i18n/grid.locale-en.js'/>"></script>
+<%-- <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.src.js'/>"></script> --%>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.min.js'/>"></script>
-<%-- <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.json-2.3.min.js'/>"></script>   
-<script type="text/javascript" src="<c:url value='/jqGrid/js/jqgrid.extends2.js'/>"></script> --%>
+<script type="text/javascript" src="<c:url value='/jqGrid/js/grid.setcolumns.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/jqGrid/js/jqgrid.extends.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.fileDownload.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/jqGrid/css/ui.jqgrid.css'/>">
+
+<script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.json-2.3.min.js'/>"></script>   
+
              
   
 <script type="text/javascript" src="<c:url value='/js/popper.js/popper.min.js'/>"></script>     

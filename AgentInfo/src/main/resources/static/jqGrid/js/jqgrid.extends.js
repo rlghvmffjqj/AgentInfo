@@ -232,7 +232,6 @@
 	// url: 'ExportExec'
 	function doExportExec(formName, gridName, url)
 	{
-		alert("엑셀 출력");
 		if ( formName === undefined ) {
 			formName = "#form";
 		}
@@ -240,9 +239,8 @@
 		if ( gridName === undefined ) {
 			gridName = "#list";
 		}
-
 		if ( url === undefined ) {
-			url = "ExportExec";
+			url = "export";
 		}
 
 		var jqGrid = $(gridName);
@@ -273,6 +271,7 @@
 		formData.sord = sord; // 정렬방향
 		formData.columns = columns.join(','); // 컬럼순서
 		formData.headers = headers.join(','); // 헤더정보
+		
 
 		// 3. 완성된 formData 로 파일 다운로드 요청
 		$.fileDownload(

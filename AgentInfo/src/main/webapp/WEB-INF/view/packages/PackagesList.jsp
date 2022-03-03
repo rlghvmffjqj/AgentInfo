@@ -4,6 +4,7 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
   <head>
 	<%@ include file="/WEB-INF/view/common/_Head.jsp"%>
+	
     <!-- 쿠키 스크립트 -->
     <script>
     	/* =========== 페이지 쿠키 값 저장 ========= */
@@ -13,9 +14,9 @@
     </script>
     <script>
 		/* =========== ajax _csrf 전송 ========= */
-		$(document).ajaxSend(function(e, xhr, options) {
+		/* $(document).ajaxSend(function(e, xhr, options) {
 			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-		});
+		}); */
 	</script>
 	<script>
 		$(document).ready(function(){
@@ -25,9 +26,9 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사명','요청일자','전달일자','기존/신규','관리서버/Agent','Agent OS','OS 상세버전','일반/커스텀','OS 종류','Agent ver','패키지명','담당자','요청 제품구분','전달 방법','기존 Agent 버전','기존 Manager(War) 버전','Manager OS','DB','PKI & AuthClient','비고'],
+				colNames:['Key','고객사명','요청일자','전달일자','기존/신규','관리서버/Agent','Agent OS','OS 상세버전','일반/커스텀','OS 종류','Agent ver','패키지명','담당자','요청 제품구분','전달 방법','비고'],
 				colModel:[
-					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 100, hidden:true},
+					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 100, hidden:true, },
 					{name:'customerName', index:'customerName', align:'center', width: 150, formatter: linkFormatter},
 					{name:'requestDate', index:'requestDate', align:'center', width: 150},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 150},
@@ -42,11 +43,6 @@
 					{name:'manager', index:'manager', align:'center', width: 150},
 					{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 150},
 					{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 150},
-					{name:'existingAgentVersion', index:'existingAgentVersion', align:'center', width: 150},
-					{name:'legacyManagerVersion', index:'legacyManagerVersion', align:'center', width: 150},
-					{name:'managerOS', index:'managerOS', align:'center', width: 150},
-					{name:'db', index:'db', align:'center', width: 150},
-					{name:'pkiAuthClient', index:'pkiAuthClient', align:'center', width: 150},
 					{name:'note', index:'note', align:'center', width: 150},
 				],
 				jsonReader : {
@@ -62,17 +58,14 @@
 		        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 		        gridview: true,				// 그리드뷰 방식 랜더링
 		        sortable: true,				// 컬럼을 마우스 순서 변경
-		        height : '790',
+		        height : '810',
 		        autowidth:true,				// 가로 넒이 자동조절
 		        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 		        altRows: false,				// 라인 강조
-
-
 			}); 
-			/* loadColumns('#list','userAccountList'); */
-			//$("#list").jqGrid('navGrid', '#pager', { edit: false, add: false, del: false, search: true });
+			loadColumns('#list','packagesList');
+			setAutoResize('#list',810);
 		});
-		
 			
 	</script>
   </head>
@@ -175,16 +168,6 @@
 	                      							<label class="labelFontSize">전달 방법</label>
 	                      							<input type="text" id="deliveryMethod" name="deliveryMethod" class="form-control">
 	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">DB</label>
-	                      							<select class="form-control" id="db" name="db">
-														<option value=""></option>
-														<option value="tibero">tibero</option>
-														<option value="MySQL">MySQL</option>
-														<option value="MSSQL">MSSQL</option>
-														<option value="Oracle">Oracle</option>
-													</select>
-	                      						</div>
 	                      						
 	                      						<div class="col-lg-12 text-right">
 												<p class="search-btn">
@@ -206,9 +189,13 @@
 													<table style="width:100%">
 													<tbody><tr>
 														<td style="font-weight:bold;">패키지 관리 :
-															<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-															<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-															<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'userAccountList');">컬럼 선택</button>
+															<sec:authorize access="hasRole('ADMIN')">
+																<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
+																<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'packagesList');">컬럼 선택</button>
+																<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">Excel 가져오기</button>
+																<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
+															</sec:authorize>
 														</td>
 													</tr>
 													<tr>
@@ -238,6 +225,20 @@
 </body>
 
 <script>
+	/* =========== Excel Import Modal ========= */
+  	$('#BtnImport').click(function() {
+  		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/packages/import'/>",
+		    success: function (data) {
+		        $.modal(data, 's'); //modal창 호출
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});	
+  	})
+  	
 	/* =========== 패키지 추가 Modal ========= */
 	$('#BtnInsert').click(function() {
 		$.ajax({
@@ -345,17 +346,19 @@
 	
 	/* =========== 패키지 수정 Modal ========= */
 	function updateView(data) {
-		$.ajax({
-            type: 'POST',
-            url: "<c:url value='/packages/updateView'/>",
-            data: {"packagesKeyNum" : data},
-            success: function (data) {
-                $.modal(data, 'll'); //modal창 호출
-            },
-            error: function(e) {
-                // TODO 에러 화면
-            }
-        });
+		<sec:authorize access="hasRole('ADMIN')">
+			$.ajax({
+	            type: 'POST',
+	            url: "<c:url value='/packages/updateView'/>",
+	            data: {"packagesKeyNum" : data},
+	            success: function (data) {
+	                $.modal(data, 'll'); //modal창 호출
+	            },
+	            error: function(e) {
+	                // TODO 에러 화면
+	            }
+	        });
+		</sec:authorize>
 	}
 
 

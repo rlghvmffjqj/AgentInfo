@@ -5,9 +5,9 @@
 <%@ include file="/WEB-INF/view/common/_Head.jsp"%>
 <script>
 		// ajax _csrf 전송
-		$(document).ajaxSend(function(e, xhr, options) {
+		/* $(document).ajaxSend(function(e, xhr, options) {
 			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-		});
+		}); */
 	</script>
 <head>
 <meta charset="UTF-8">

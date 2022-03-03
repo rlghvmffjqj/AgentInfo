@@ -40,4 +40,8 @@ public class PackagesDao {
 		return sqlSession.update("packages.updatePackages", packages);
 	}
 
+	public List<Packages> getPackagesListAll(Packages packages) {
+		return sqlSession.selectList("packages.getPackagesListAll", packages);
+	}
+
 }

@@ -33,8 +33,8 @@
 	</select>
 	
 	<insert id="insertPackages">
-		INSERT INTO packages(packagesKeyNum, customerName, requestDate, deliveryData, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, existingAgentVersion, legacyManagerVersion, managerOS, db, pkiAuthClient, note, packagesRegistrant, packagesRegistrationDate)
-		VALUES (#{packagesKeyNum}, #{customerName}, #{requestDate}, #{deliveryData}, #{existingNew}, #{managementServer}, #{agentOS}, #{osDetailVersion}, #{generalCustom}, #{osType}, #{agentVer}, #{packageName}, #{manager}, #{requestProductCategory}, #{deliveryMethod}, #{existingAgentVersion}, #{legacyManagerVersion}, #{managerOS}, #{db}, #{pkiAuthClient}, #{note}, #{packagesRegistrant}, #{packagesRegistrationDate});
+		INSERT INTO packages(packagesKeyNum, customerName, requestDate, deliveryData, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate)
+		VALUES (#{packagesKeyNum}, #{customerName}, #{requestDate}, #{deliveryData}, #{existingNew}, #{managementServer}, #{agentOS}, #{osDetailVersion}, #{generalCustom}, #{osType}, #{agentVer}, #{packageName}, #{manager}, #{requestProductCategory}, #{deliveryMethod}, #{note}, #{packagesRegistrant}, #{packagesRegistrationDate});
 	</insert>
 	
 	<select id="getPackagesOne" parameterType="_int" resultMap="packages">
@@ -42,9 +42,14 @@
 	</select>
 	
 	<update id="updatePackages">
-		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerName}, requestDate = #{requestDate}, deliveryData = #{deliveryData}, existingNew = #{existingNew}, managementServer = #{managementServer}, agentOS = #{agentOS}, osDetailVersion = #{osDetailVersion}, generalCustom = #{generalCustom}, osType = #{osType}, agentVer = #{agentVer}, packageName = #{packageName}, manager = #{manager}, requestProductCategory = #{requestProductCategory}, deliveryMethod = #{deliveryMethod}, existingAgentVersion = #{existingAgentVersion}, legacyManagerVersion = #{legacyManagerVersion}, managerOS = #{managerOS}, db = #{db}, pkiAuthClient = #{pkiAuthClient}, note = #{note}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
+		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerName}, requestDate = #{requestDate}, deliveryData = #{deliveryData}, existingNew = #{existingNew}, managementServer = #{managementServer}, agentOS = #{agentOS}, osDetailVersion = #{osDetailVersion}, generalCustom = #{generalCustom}, osType = #{osType}, agentVer = #{agentVer}, packageName = #{packageName}, manager = #{manager}, requestProductCategory = #{requestProductCategory}, deliveryMethod = #{deliveryMethod}, note = #{note}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
 		WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
+	
+	<select id="getPackagesListAll" resultMap="packages" parameterType="string">
+		SELECT * FROM packages
+			<include refid="sqlPackages" />
+	</select>
 	
 	
 	
@@ -85,9 +90,6 @@
 			</if>
 			<if test="deliveryMethod != null and deliveryMethod != ''">
 				AND deliveryMethod LIKE CONCAT('%',#{deliveryMethod},'%')
-			</if>
-			<if test="db != null and db != ''">
-				AND db LIKE CONCAT('%',#{db},'%')
 			</if>
 		</trim>
 	</sql>

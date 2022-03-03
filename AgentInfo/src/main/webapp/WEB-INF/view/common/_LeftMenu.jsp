@@ -53,16 +53,18 @@
              </li>
          </ul>
 
-         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
-         <ul class="pcoded-item pcoded-left-item">
-             <li class="employee">
-                 <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
-                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
-                     <span class="pcoded-mcaret"></span>
-                 </a>
-             </li>
-         </ul>
+		 <sec:authorize access="hasRole('ADMIN')">
+	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="employee">
+	                 <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
+	                     <span class="pcoded-mcaret"></span>
+	                 </a>
+	             </li>
+	         </ul>
+         </sec:authorize>
 
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
  </nav>

@@ -3,12 +3,12 @@
 
 <script>
 	/* =========== ajax _csrf 전송 ========= */
-	$(document).ajaxSend(function(e, xhr, options) {
+	/* $(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-	});
+	}); */
 </script>
 
-<div class="modal-body" style="width: 100%; height: 720px;">
+<div class="modal-body" style="width: 100%; height: 510px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}"> 
 		<div class="leftDiv">
@@ -71,6 +71,8 @@
 	         	<label class="labelFontSize">OS 상세버전</label>
 	         	<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control viewForm" value="${packages.osDetailVersion}">
 	         </div>
+	     </div>
+         <div class="rightDiv">
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">
 			         <div class="pading5">
@@ -123,8 +125,7 @@
 	         	<label class="labelFontSize">Agent ver</label>
 	         	<input type="text" id="agentVer" name="agentVer" class="form-control viewForm" value="${packages.agentVer}">
 	         </div>
-         </div>
-         <div class="rightDiv">
+         
 	         <div class="pading5">
 	         	<label class="labelFontSize">패키지명</label>
 	         	<input type="text" id="packageName" name="packageName" class="form-control viewForm" value="${packages.packageName}">
@@ -136,52 +137,6 @@
 	         <div class="pading5">
 	         	<label class="labelFontSize">전달 방법</label>
 	         	<input type="text" id="deliveryMethod" name="deliveryMethod" class="form-control viewForm" value="${packages.deliveryMethod}">
-	         </div>
-	         <div class="pading5">
-	         	<label class="labelFontSize">기존 Agent 버전</label>
-	         	<input type="text" id="existingAgentVersion" name="existingAgentVersion" class="form-control viewForm" value="${packages.existingAgentVersion}">
-	         </div>
-	         <div class="pading5">
-	         	<label class="labelFontSize">기존 Manager(War) 버전</label>
-	         	<input type="text" id="legacyManagerVersion" name="legacyManagerVersion" class="form-control viewForm" value="${packages.legacyManagerVersion}">
-	         </div>
-	         <div class="pading5">
-	         	<label class="labelFontSize">Manager OS</label>
-	         	<input type="text" id="managerOS" name="managerOS" class="form-control viewForm" value="${packages.managerOS}">
-	         </div>
-	         <div class="pading5">
-	         	<label class="labelFontSize">요청 제품 구분</label>
-	         	<input type="text" id="requestProductCategory" name="requestProductCategory" class="form-control viewForm" value="${packages.requestProductCategory}">
-	         </div>
-	         <c:choose>
-				<c:when test="${viewType eq 'insert'}">
-					 <div class="pading5">
-					 	<label class="labelFontSize">DB</label>
-		                <select class="form-control" id="db" name="db">
-							<option value=""></option>
-							<option value="tibero">tibero</option>
-							<option value="MySQL">MySQL</option>
-							<option value="MSSQL">MSSQL</option>
-							<option value="Oracle">Oracle</option>
-						</select>
-					 </div>
-			 	</c:when>
-				<c:when test="${viewType eq 'update'}">
-			         <div class="pading5">
-					 	<label class="labelFontSize">DB</label>
-		                <select class="form-control" id="db" name="db">
-		                	<option value="" <c:if test="${packages.db eq ''}">selected</c:if>></option>
-							<option value="tibero" <c:if test="${packages.db eq 'tibero'}">selected</c:if>>tibero</option>
-							<option value="MySQL" <c:if test="${packages.db eq 'MySQL'}">selected</c:if>>MySQL</option>
-							<option value="MSSQL" <c:if test="${packages.db eq 'MSSQL'}">selected</c:if>>MSSQL</option>
-							<option value="Oracle" <c:if test="${packages.db eq 'Oracle'}">selected</c:if>>Oracle</option>
-						</select>
-					 </div>
-			    </c:when>
-			 </c:choose>
-			 <div class="pading5">
-	         	<label class="labelFontSize">PKI & AuhClient</label>
-	         	<input type="text" id="pkiAuthClient" name="pkiAuthClient" class="form-control viewForm" value="${packages.pkiAuthClient}">
 	         </div>
 	         <div class="pading5">
 	         	<label class="labelFontSize">비고</label>

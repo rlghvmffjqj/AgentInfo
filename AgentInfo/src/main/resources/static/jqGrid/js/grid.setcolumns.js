@@ -7,12 +7,16 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl-2.0.html
 **/
+
+// 20120417
+// yang
+// Ok, Cancel ������ Default ��ư�� �߰��ϰ� onDefault �̺�Ʈ �ڵ鷯�� �߰��ߴ�.
 $.jgrid.extend({
 	setColumns : function(p) {
 		p = $.extend({
 			top : 0,
 			left: 0,
-			width: 300,
+			width: 300, // yang
 			height: 'auto',
 			dataheight: 'auto',
 			modal: false,
@@ -25,7 +29,9 @@ $.jgrid.extend({
 			jqModal : false,
 			saveicon: [true,"left","ui-icon-disk"],
 			closeicon: [true,"left","ui-icon-close"],
+			defaulticon: [true,"left","ui-icon-arrowreturnthick-1-w"], // yang
 			onClose : null,
+			onDefault: null, // yang
 			colnameview : true,
 			closeAfterSubmit : true,
 			updateAfterCheck : false,
@@ -58,9 +64,13 @@ $.jgrid.extend({
 					}
 				}
 				formdata += "</tbody></table></div>"
-				var bS  = !p.updateAfterCheck ? "<a href='javascript:void(0)' id='dData' class='fm-button ui-state-default ui-corner-all'>"+p.bSubmit+"</a>" : "",
-				bC  ="<a href='javascript:void(0)' id='eData' class='fm-button ui-state-default ui-corner-all'>"+p.bCancel+"</a>";
-				formdata += "<table border='0' class='EditTable' id='"+dtbl+"_2'><tbody><tr style='display:block;height:3px;'><td></td></tr><tr><td class='DataTD ui-widget-content'></td></tr><tr><td class='ColButton EditButton'>"+bS+"&#160;"+bC+"</td></tr></tbody></table>";
+				// yang
+				//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				var bS  = !p.updateAfterCheck ? "<a href='javascript:void(0)' id='dData' class='fm-button ui-state-default ui-corner-all'>"+"저장"+"</a>" : "";
+				var bC  ="<a href='javascript:void(0)' id='eData' class='fm-button ui-state-default ui-corner-all'>"+"취소"+"</a>";
+				var bR  = p.onDefault != null ? "<a href='javascript:void(0)' id='rData' class='fm-button ui-state-default ui-corner-all'>기본값</a>" : ""; // yang
+				formdata += "<table border='0' class='EditTable' id='"+dtbl+"_2'><tbody><tr style='display:block;height:3px;'><td></td></tr><tr><td class='DataTD ui-widget-content'></td></tr><tr><td class='ColButton EditButton' style='white-space: nowrap;'>"+bS+"&#160;"+bC+"&#160;"+bR+"</td></tr></tbody></table>";
+				//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 				p.gbox = "#gbox_"+gID;
 				$.jgrid.createModal(IDs,formdata,p,"#gview_"+$t.p.id,$("#gview_"+$t.p.id)[0]);
 				if(p.saveicon[0]==true) {
@@ -71,12 +81,19 @@ $.jgrid.extend({
 					$("#eData","#"+dtbl+"_2").addClass(p.closeicon[1] == "right" ? 'fm-button-icon-right' : 'fm-button-icon-left')
 					.append("<span class='ui-icon "+p.closeicon[2]+"'></span>");
 				}
+				// yang
+				//------------------------------------------------------------------------------------------------------------------
+				if(p.defaulticon[0]==true) {
+					$("#rData","#"+dtbl+"_2").addClass(p.defaulticon[1] == "right" ? 'fm-button-icon-right' : 'fm-button-icon-left')
+					.append("<span class='ui-icon "+p.defaulticon[2]+"'></span>");
+				}
+				//------------------------------------------------------------------------------------------------------------------
 				if(!p.updateAfterCheck) {
 					$("#dData","#"+dtbl+"_2").click(function(e){
 						for(i=0;i<$t.p.colModel.length;i++){
 							if(!$t.p.colModel[i].hidedlg) { // added from T. Tomov
 								var nm = $t.p.colModel[i].name.replace(/\./g, "\\.");
-								if($("#col_" + nm,"#"+dtbl).attr("checked")) {
+								if($("#col_" + nm)[0].checked) { 	// 체크리스트 체크 유무확인 변형
 									$($t).jqGrid("showCol",$t.p.colModel[i].name);
 									$("#col_" + nm,"#"+dtbl).attr("defaultChecked",true); // Added from T. Tomov IE BUG
 								} else {
@@ -112,6 +129,13 @@ $.jgrid.extend({
 					$.jgrid.hideModal("#"+IDs.themodal,{gb:"#gbox_"+gID,jqm:p.jqModal, onClose: p.onClose});
 					return false;
 				});
+				// yang
+				//-------------------------------------------------------------------------------------------
+				$("#rData", "#"+dtbl+"_2").click(function(e){
+					$.jgrid.hideModal("#"+IDs.themodal,{gb:"#gbox_"+gID,jqm:p.jqModal, onClose: p.onDefault});
+					return false;
+				});
+				//-------------------------------------------------------------------------------------------
 				$("#dData, #eData","#"+dtbl+"_2").hover(
 				   function(){$(this).addClass('ui-state-hover');}, 
 				   function(){$(this).removeClass('ui-state-hover');}

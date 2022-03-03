@@ -3,9 +3,9 @@
 
 <script>
 	/* =========== ajax _csrf 전송 ========= */
-	$(document).ajaxSend(function(e, xhr, options) {
+	/* $(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-	});
+	}); */
 </script>
 
 <div class="modal-body" style="width: 100%; height: 790px;">

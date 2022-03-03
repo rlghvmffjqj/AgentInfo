@@ -20,10 +20,10 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		
 		// 접속 권한
 		http.authorizeRequests()
-			.antMatchers("/users/**").hasRole("ADMIN")
-			.antMatchers("/agentInfo/**").hasAnyRole("MEMBER","ADMIN")
-			.antMatchers("/index").hasAnyRole("MEMBER","ADMIN")
-			.antMatchers("/").permitAll();
+			.antMatchers("/employee/**").hasAnyRole("ADMIN")
+			.antMatchers("/packages/**").hasAnyRole("ADMIN","USER")
+			.antMatchers("/index").hasAnyRole("USER","ADMIN")
+			.antMatchers("/").hasAnyRole("USER","ADMIN");
 		
 		// 로그인 설정
 		http.formLogin()
@@ -43,6 +43,10 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		// 권한이 없는 사용자가 접속한 경우
 		http.exceptionHandling()
 			.accessDeniedPage("/denied");
+		
+		http.headers().frameOptions().sameOrigin();
+		
+		http.csrf().disable();
 	}
 	
 	@Bean 

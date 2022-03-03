@@ -150,13 +150,13 @@ p {
 	width: 480px;
 }
 
-.modal-ss {
+.modal-sm {
 	max-width:350px;
 	top: 30%;
 }
 
 .modal-ll {
-	top: 17%;
+	top: 25%;
 	width: 1000px;
 	max-width: 1500px;
 }
