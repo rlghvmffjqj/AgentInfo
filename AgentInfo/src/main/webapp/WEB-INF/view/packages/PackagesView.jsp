@@ -7,67 +7,68 @@
 		xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 	}); */
 </script>
-
 <div class="modal-body" style="width: 100%; height: 510px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}"> 
 		<div class="leftDiv">
-			 <div class="pading5">
+			 <div class="pading5Width450">
 			 	<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
 				<input type="text" id="customerName" name="customerName" class="form-control viewForm" value="${packages.customerName}"> 
 				<span class="colorRed" id="NotCustomerName" style="display: none">고객사명을 입력해주세요.</span>
 			 </div>
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청일자</label>
 	         	<input type="text" id="requestDate" name="requestDate" class="form-control viewForm" value="${packages.requestDate}">
 	         </div>
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">전달일자</label>
 	         	<input type="text" id="deliveryData" name="deliveryData" class="form-control viewForm" value="${packages.deliveryData}">
 	         </div>
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">
-			         <div class="pading5">
+			         <div class="pading5Width450">
 					  	<label class="labelFontSize">기존/신규</label>
 					  	<select class="form-control viewForm" id="existingNew" name="existingNew">
 					  		<option value=""></option>
-							<option value="기존">기존</option>
-							<option value="신규">신규</option>
+							<c:forEach var="item" items="${existingNew}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 					 </div>
-					 <div class="pading5">
+					 <div class="pading5Width450">
 					  	<label class="labelFontSize">관리서버/Agent</label>
 					  	<select class="form-control viewForm" id="managementServer" name="managementServer">
 					  		<option value=""></option>
-							<option value="관리서버">관리서버</option>
-							<option value="Agent">Agent</option>
+							<c:forEach var="item" items="${managementServer}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 					 </div>
 			 	</c:when>
 				<c:when test="${viewType eq 'update'}">
-					<div class="pading5">
+					<div class="pading5Width450">
 			         	<label class="labelFontSize">기존/신규</label>
 			         	<select class="form-control viewForm" id="existingNew" name="existingNew">
-			         		<option value="" <c:if test="${packages.existingNew eq ''}">selected</c:if>></option>
-							<option value="기존" <c:if test="${packages.existingNew eq '기존'}">selected</c:if>>기존</option>
-							<option value="신규" <c:if test="${packages.existingNew eq '신규'}">selected</c:if>>신규</option>
+							<c:forEach var="item" items="${existingNew}">
+								<option value="${item}" <c:if test="${item eq packages.existingNew}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 			         </div>
-			         <div class="pading5">
+			         <div class="pading5Width450">
 			         	<label class="labelFontSize">관리서버/Agent</label>
 			         	<select class="form-control viewForm" id="managementServer" name="managementServer">
-			         		<option value="" <c:if test="${packages.managementServer eq ''}">selected</c:if>></option>
-							<option value="관리서버" <c:if test="${packages.managementServer eq '관리서버'}">selected</c:if>>관리서버</option>
-							<option value="Agent" <c:if test="${packages.managementServer eq 'Agent'}">selected</c:if>>Agent</option>
+			         		<c:forEach var="item" items="${managementServer}">
+								<option value="${item}" <c:if test="${item eq packages.managementServer}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 			         </div>
 			    </c:when>
 			 </c:choose>
-			 <div class="pading5">
+			 <div class="pading5Width450">
 	         	<label class="labelFontSize">Agent OS</label>
 	         	<input type="text" id="agentOS" name="agentOS" class="form-control viewForm" value="${packages.agentOS}">
 	         </div>
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">OS 상세버전</label>
 	         	<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control viewForm" value="${packages.osDetailVersion}">
 	         </div>
@@ -75,70 +76,62 @@
          <div class="rightDiv">
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">
-			         <div class="pading5">
+			         <div class="pading5Width450">
 					  	<label class="labelFontSize">일반/커스텀</label>
 					  	<select class="form-control viewForm" id="generalCustom" name="generalCustom">
 					  		<option value=""></option>
-							<option value="일반">일반</option>
-							<option value="커스텀">커스텀</option>
+							<c:forEach var="item" items="${generalCustom}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 					 </div>
-					 <div class="pading5">
+					 <div class="pading5Width450">
 					 	<label class="labelFontSize">OS종류</label>
-		                <select class="form-control" id="osType" name="osType">
+		                <select class="form-control viewForm" id="osType" name="osType">
 		                	<option value=""></option>
-							<option value="Linux">Linux</option>
-							<option value="Windows">Windows</option>
-							<option value="Unix">Unix</option>
-							<option value="UnixLinux">UnixLinux</option>
-							<option value="AIX">AIX</option>
-							<option value="HP-UX">HP-UX</option>
-							<option value="SunOS">SunOS</option>
+							<c:forEach var="item" items="${osType}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 					 </div>
 			 	</c:when>
 				<c:when test="${viewType eq 'update'}">
-					<div class="pading5">
+					<div class="pading5Width450">
 			         	<label class="labelFontSize">일반/커스텀</label>
 			         	<select class="form-control viewForm" id="generalCustom" name="generalCustom">
-			         		<option value=""></option>
-							<option value="일반" <c:if test="${packages.generalCustom eq '일반'}">selected</c:if>>일반</option>
-							<option value="커스텀" <c:if test="${packages.generalCustom eq '커스텀'}">selected</c:if>>커스텀</option>
+							<c:forEach var="item" items="${generalCustom}">
+								<option value="${item}" <c:if test="${item eq packages.generalCustom}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 			         </div>
-			         <div class="pading5">
+			         <div class="pading5Width450">
 					 	<label class="labelFontSize">OS종류</label>
-		                <select class="form-control" id="osType" name="osType">
-		                	<option value="" <c:if test="${packages.osType eq ''}">selected</c:if>></option>
-							<option value="Linux" <c:if test="${packages.osType eq 'Linux'}">selected</c:if>>Linux</option>
-							<option value="Windows" <c:if test="${packages.osType eq 'Windows'}">selected</c:if>>Windows</option>
-							<option value="Unix" <c:if test="${packages.osType eq 'Unix'}">selected</c:if>>Unix</option>
-							<option value="UnixLinux" <c:if test="${packages.osType eq 'UnixLinux'}">selected</c:if>>UnixLinux</option>
-							<option value="AIX" <c:if test="${packages.osType eq 'AIX'}">selected</c:if>>AIX</option>
-							<option value="HP-UX" <c:if test="${packages.osType eq 'HP-UX'}">selected</c:if>>HP-UX</option>
-							<option value="SunOS" <c:if test="${packages.osType eq 'SunOS'}">selected</c:if>>SunOS</option>
+		                <select class="form-control viewForm" id="osType" name="osType">
+							<c:forEach var="item" items="${osType}">
+								<option value="${item}" <c:if test="${item eq packages.osType}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
 						</select>
 					 </div>
 			    </c:when>
 			 </c:choose>
-			 <div class="pading5">
+			 <div class="pading5Width450">
 	         	<label class="labelFontSize">Agent ver</label>
 	         	<input type="text" id="agentVer" name="agentVer" class="form-control viewForm" value="${packages.agentVer}">
 	         </div>
          
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">패키지명</label>
 	         	<input type="text" id="packageName" name="packageName" class="form-control viewForm" value="${packages.packageName}">
 	         </div>
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">담당자</label>
 	         	<input type="text" id="manager" name="manager" class="form-control viewForm" value="${packages.manager}">
 	         </div>
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">전달 방법</label>
 	         	<input type="text" id="deliveryMethod" name="deliveryMethod" class="form-control viewForm" value="${packages.deliveryMethod}">
 	         </div>
-	         <div class="pading5">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">비고</label>
 	         	<input type="text" id="note" name="note" class="form-control viewForm" value="${packages.note}">
 	         </div>

@@ -53,7 +53,6 @@
 	
 	
 	
-	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlPackages">
@@ -90,6 +89,12 @@
 			</if>
 			<if test="deliveryMethod != null and deliveryMethod != ''">
 				AND deliveryMethod LIKE CONCAT('%',#{deliveryMethod},'%')
+			</if>
+			<if test="requestDate != null and requestDate != ''">
+				AND requestDate = #{requestDate}
+			</if>
+			<if test="deliveryData != null and deliveryData != ''">
+				AND deliveryData = #{deliveryData}
 			</if>
 		</trim>
 	</sql>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="category">
+	<resultMap type="com.secuve.agentInfo.vo.Category" id="category"></resultMap>
+	
+	<select id="getCategoryValue" resultType="string" parameterType="string">
+		SELECT categoryValue FROM category WHERE categoryName = #{categoryName};
+	</select>
+	
+	<select id="getCategoryList" resultMap="category" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM category
+				WHERE categoryName = #{categoryName}
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getCategoryListCount" resultType="_int">
+		SELECT COUNT(*) FROM category WHERE categoryName = #{categoryName}
+	</select>
+	
+	<delete id="delCategory" parameterType="_int">
+		DELETE FROM category WHERE categoryKeyNum = #{categoryKeyNum};
+	</delete>
+	
+	<select id="getCategoryKeyNum" resultType="_int">
+		SELECT MAX(categoryKeyNum) FROM category;
+	</select>
+	
+	<insert id="insertCategory">
+		INSERT INTO category(categoryKeyNum, categoryName, categoryValue, categoryRegistrant, categoryRegistrationDate)
+		VALUES (#{categoryKeyNum}, #{categoryName}, #{categoryValue}, #{categoryRegistrant}, #{categoryRegistrationDate});
+	</insert>
+	
+	<select id="getCategoryOne" parameterType="_int" resultMap="category">
+		SELECT * FROM category WHERE categoryKeyNum = #{categoryKeyNum};	
+	</select>
+	
+	<update id="updateCategory">
+		UPDATE category SET categoryValue = #{categoryValue}, categoryModifier = #{categoryModifier}, categoryModifiedDate = #{categoryModifiedDate}
+		WHERE categoryKeyNum = #{categoryKeyNum};
+	</update>
+	
+	<select id="getCategoryCheck" parameterType="string" resultMap="category">
+		SELECT * FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValue};
+	</select>
+
+</mapper>

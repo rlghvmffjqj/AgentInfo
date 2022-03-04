@@ -21,9 +21,10 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		// 접속 권한
 		http.authorizeRequests()
 			.antMatchers("/employee/**").hasAnyRole("ADMIN")
-			.antMatchers("/packages/**").hasAnyRole("ADMIN","USER")
-			.antMatchers("/index").hasAnyRole("USER","ADMIN")
-			.antMatchers("/").hasAnyRole("USER","ADMIN");
+			.antMatchers("/category/**").hasAnyRole("ADMIN")
+			.antMatchers("/packages/**").hasAnyRole("ADMIN","MEMBER")
+			.antMatchers("/index").hasAnyRole("MEMBER","ADMIN")
+			.antMatchers("/").hasAnyRole("MEMBER","ADMIN");
 		
 		// 로그인 설정
 		http.formLogin()

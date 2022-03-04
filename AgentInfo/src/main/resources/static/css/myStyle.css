@@ -203,10 +203,14 @@ p {
 	display: none;
 }
 
-.pading5{
+.pading5Width450{
 	padding: 5px;
 	/* float: left; */
 	width: 450px;
+}
+
+.pading5 {
+	padding: 5px;
 }
 
 .modal-backdrop {

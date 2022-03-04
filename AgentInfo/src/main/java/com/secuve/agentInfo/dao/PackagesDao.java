@@ -44,4 +44,6 @@ public class PackagesDao {
 		return sqlSession.selectList("packages.getPackagesListAll", packages);
 	}
 
+	
+
 }

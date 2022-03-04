@@ -28,7 +28,7 @@
 				datatype: 'json',
 				colNames:['Key','고객사명','요청일자','전달일자','기존/신규','관리서버/Agent','Agent OS','OS 상세버전','일반/커스텀','OS 종류','Agent ver','패키지명','담당자','요청 제품구분','전달 방법','비고'],
 				colModel:[
-					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 100, hidden:true, },
+					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 100, hidden:true },
 					{name:'customerName', index:'customerName', align:'center', width: 150, formatter: linkFormatter},
 					{name:'requestDate', index:'requestDate', align:'center', width: 150},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 150},
@@ -109,24 +109,34 @@
 	                      					<form id="form" name="form" method ="post"> 
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사명</label>
-													<input type="text" id="customerName" name="customerName" class="form-control"> 
+													<input class="form-control" type="text" id="customerName" name="customerName"> 
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">요청일자</label>
+													<input class="form-control" type="date" id="requestDate" name="requestDate"> 
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">전달일자</label>
+													<input class="form-control" type="date" id="deliveryData" name="deliveryData"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">기존/신규</label>
-	                      							<select class="form-control" id="existingNew" name="existingNew">
+													<select class="form-control" id="existingNew" name="existingNew">
 														<option value=""></option>
-														<option value="기존">기존</option>
-														<option value="신규">신규</option>
+														<c:forEach var="item" items="${existingNew}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
 													</select>
-	                      						</div>
-	                      						<div class="col-lg-2">
+												</div>
+												<div class="col-lg-2">
 	                      							<label class="labelFontSize">관리서버/Agent</label>
-	                      							<select class="form-control" id="managementServer" name="managementServer">
+													<select class="form-control" id="managementServer" name="managementServer">
 														<option value=""></option>
-														<option value="관리서버">관리서버</option>
-														<option value="Agent">Agent</option>
+														<c:forEach var="item" items="${managementServer}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
 													</select>
-	                      						</div>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent OS</label>
 	                      							<input type="text" id="agentOS" name="agentOS" class="form-control">
@@ -136,18 +146,23 @@
 	                      							<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">OS종류</label>
-	                      							<select class="form-control" id="osType" name="osType">
+	                      							<label class="labelFontSize">일반/커스텀</label>
+													<select class="form-control" id="generalCustom" name="generalCustom">
 														<option value=""></option>
-														<option value="Linux">Linux</option>
-														<option value="Windows">Windows</option>
-														<option value="Unix">Unix</option>
-														<option value="UnixLinux">UnixLinux</option>
-														<option value="AIX">AIX</option>
-														<option value="HP-UX">HP-UX</option>
-														<option value="SunOS">SunOS</option>
+														<c:forEach var="item" items="${generalCustom}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
 													</select>
-	                      						</div>
+												</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">OS종류</label>
+													<select class="form-control" id="osType" name="osType">
+														<option value=""></option>
+														<c:forEach var="item" items="${osType}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent ver</label>
 	                      							<input type="text" id="agentVer" name="agentVer" class="form-control">
@@ -278,6 +293,11 @@
 		}
 	});
 	
+	/* =========== 갤린더 검색 ========= */
+	$("input[type=date]").change(function() {
+		tableRefresh();
+	});
+	
 	/* =========== Select Box 선택 ========= */
 	$("select").change(function() {
 		tableRefresh();
@@ -286,6 +306,7 @@
 	/* =========== 검색 초기화 ========= */
 	$('#btnReset').click(function() {
 		$("input[type='text']").val("");
+		$("input[type='date']").val("");
 		$("select").each(function(index){
 			$("option:eq(0)",this).prop("selected",true);
 		});

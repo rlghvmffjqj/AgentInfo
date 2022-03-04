@@ -25,7 +25,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.secuve.agentInfo.core.Util;
+import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.PackagesService;
+import com.secuve.agentInfo.vo.Category;
 import com.secuve.agentInfo.vo.Packages;
 
 @Controller
@@ -33,9 +35,20 @@ public class PackagesController {
 	
 	@Autowired PackagesService packagesService;
 	@Autowired Packages packages;
+	@Autowired CategoryService caegoryService;
 
 	@GetMapping(value = "/packages/list")
-	public String PackagesList() {
+	public String PackagesList( Model model) {
+		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
+		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
+		List<String> osType = caegoryService.getCategoryValue("osType");
+		
+		model.addAttribute("existingNew", existingNew);
+		model.addAttribute("managementServer", managementServer);
+		model.addAttribute("generalCustom", generalCustom);
+		model.addAttribute("osType", osType);
+		
 		return "packages/PackagesList";
 	}
 	
@@ -44,6 +57,7 @@ public class PackagesController {
 	public Map<String, Object> Package(@ModelAttribute("search") Packages search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<Packages> list = new ArrayList<>(packagesService.getPackagesList(search));
+		
 		int totalCount = packagesService.getPackagesListCount(search);
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float)totalCount/search.getRows()));
@@ -60,6 +74,15 @@ public class PackagesController {
 	
 	@PostMapping(value = "/packages/insertView")
 	public String InsertPackagesView(Model model, Packages packages) {
+		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
+		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
+		List<String> osType = caegoryService.getCategoryValue("osType");
+		
+		model.addAttribute("existingNew", existingNew);
+		model.addAttribute("managementServer", managementServer);
+		model.addAttribute("generalCustom", generalCustom);
+		model.addAttribute("osType", osType);
 		model.addAttribute("viewType","insert").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -82,6 +105,16 @@ public class PackagesController {
 	@PostMapping(value ="/packages/updateView")
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
+		
+		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
+		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
+		List<String> osType = caegoryService.getCategoryValue("osType");
+		
+		model.addAttribute("existingNew", existingNew);
+		model.addAttribute("managementServer", managementServer);
+		model.addAttribute("generalCustom", generalCustom);
+		model.addAttribute("osType", osType);
 		model.addAttribute("viewType","update").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}

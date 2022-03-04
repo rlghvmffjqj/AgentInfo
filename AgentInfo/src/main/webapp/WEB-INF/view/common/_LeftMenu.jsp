@@ -8,6 +8,14 @@
 			$('.employee').addClass('active');
 		} else if($.cookie('name') == 'packages') {
 			$('.packages').addClass('active');
+		} else if($.cookie('name') == 'existingNew') {
+			$('.existingNew').addClass('active');
+		} else if($.cookie('name') == 'managementServer') {
+			$('.managementServer').addClass('active');
+		} else if($.cookie('name') == 'generalCustom') {
+			$('.generalCustom').addClass('active');
+		} else if($.cookie('name') == 'osType') {
+			$('.osType').addClass('active');
 		} 
 	});
 </script>
@@ -23,15 +31,7 @@
              </div>
 
          </div>
-         <div class="p-15 p-b-0">
-             <form class="form-material">
-                 <div class="form-group form-primary">
-                     <input type="text" name="footer-email" class="form-control" required>
-                     <span class="form-bar"></span>
-                     <label class="float-label"><i class="fa fa-search m-r-10"></i>Search</label>
-                 </div>
-             </form>
-         </div>
+         <div class="p-15 p-b-0"></div>
          <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">home</div>
          <ul class="pcoded-item pcoded-left-item">
              <li class="main">
@@ -61,6 +61,39 @@
 	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
 	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
 	                     <span class="pcoded-mcaret"></span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="existingNew">
+	                 <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">기존/신규</span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="managementServer">
+	                 <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">관리서버/Agent</span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="generalCustom">
+	                 <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">일반/커스텀</span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="osType">
+	                 <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">OS 종류</span>
 	                 </a>
 	             </li>
 	         </ul>

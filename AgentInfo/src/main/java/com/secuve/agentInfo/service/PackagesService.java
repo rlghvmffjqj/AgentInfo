@@ -1,7 +1,6 @@
 package com.secuve.agentInfo.service;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +26,7 @@ public class PackagesService {
      
 
 	public List<Packages> getPackagesList(Packages search) {
-		List<Packages> list = new ArrayList<Packages>();
-		list = packagesDao.getPackagesList(search);
-		return list;
+		return packagesDao.getPackagesList(search);
 	}
 
 	public int getPackagesListCount(Packages search) {
@@ -50,8 +47,6 @@ public class PackagesService {
 			return "NotCustomerName";
 		} 
 		
-		int num = packagesDao.getPackagesKeyNum();
-		System.out.println(num);
 		packages.setPackagesKeyNum(packagesDao.getPackagesKeyNum()+1);
 		int sucess = packagesDao.insertPackages(packages);
 		
@@ -110,5 +105,6 @@ public class PackagesService {
 	public List<Packages> listAll(Packages packages) {
 		return packagesDao.getPackagesListAll(packages);
 	}
+
 
 }
