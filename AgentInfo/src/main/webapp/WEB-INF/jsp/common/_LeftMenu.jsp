@@ -16,7 +16,11 @@
 			$('.generalCustom').addClass('active');
 		} else if($.cookie('name') == 'osType') {
 			$('.osType').addClass('active');
-		} 
+		} else if($.cookie('name') == 'requestProductCategory') {
+			$('.requestProductCategory').addClass('active');
+		} else if($.cookie('name') == 'deliveryMethod') {
+			$('.deliveryMethod').addClass('active');
+		}
 	});
 </script>
 <nav class="pcoded-navbar">
@@ -94,6 +98,22 @@
 	                 <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
 	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
 	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">OS 종류</span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="osType">
+	                 <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 제품 구분</span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="osType">
+	                 <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">전달 방법</span>
 	                 </a>
 	             </li>
 	         </ul>

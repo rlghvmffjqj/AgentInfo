@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<%@ include file="/WEB-INF/view/common/_Head.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 <script>
 		// ajax _csrf 전송
 		/* $(document).ajaxSend(function(e, xhr, options) {

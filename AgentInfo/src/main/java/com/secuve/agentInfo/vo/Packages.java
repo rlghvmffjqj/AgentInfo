@@ -28,6 +28,9 @@ public class Packages {
 	private String deliveryMethod;			// 전달 방법
 	private String note;					// 비고
 	
+	private String deliveryDataStart;		// 전달일자  시작일
+	private String deliveryDataEnd;			// 전달일자  종료일
+	
 	private String packagesRegistrant;		// 데이터 추가 사용자
 	private String packagesRegistrationDate;	// 데이터 추가 날짜
 	private String packagesModifier;			// 데이터 수정 사용자

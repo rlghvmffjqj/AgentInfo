@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common/_Head.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
     <title>로그인</title>
 
  </head>

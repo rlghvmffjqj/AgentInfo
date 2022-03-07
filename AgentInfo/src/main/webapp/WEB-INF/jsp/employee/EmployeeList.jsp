@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
   <head>
-	<%@ include file="/WEB-INF/view/common/_Head.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
     <!-- 쿠키 스크립트 -->
     <script>
     	/* =========== 페이지 쿠키 값 저장 ========= */
@@ -66,11 +66,11 @@
   <div id="pcoded" class="pcoded iscollapsed">
       <div class="pcoded-overlay-box"></div>
       <div class="pcoded-container navbar-wrapper">
-          <%@ include file="/WEB-INF/view/common/_TopMenu.jsp"%>
+          <%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
 
           <div class="pcoded-main-container" style="margin-top: 56px;">
               <div class="pcoded-wrapper">
-                  <%@ include file="/WEB-INF/view/common/_LeftMenu.jsp"%>
+                  <%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
                   <div class="pcoded-content" id="page-wrapper">
                       <div class="page-header">
                           <div class="page-block">

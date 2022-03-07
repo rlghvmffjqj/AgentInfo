@@ -1,6 +1,5 @@
 package com.secuve.agentInfo.controller;
 
-import java.io.File;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,14 +19,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.PackagesService;
-import com.secuve.agentInfo.vo.Category;
 import com.secuve.agentInfo.vo.Packages;
 
 @Controller
@@ -43,11 +38,15 @@ public class PackagesController {
 		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
 		List<String> osType = caegoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
+		model.addAttribute("requestProductCategory", requestProductCategory);
+		model.addAttribute("deliveryMethod", deliveryMethod);
 		
 		return "packages/PackagesList";
 	}
@@ -78,11 +77,15 @@ public class PackagesController {
 		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
 		List<String> osType = caegoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
+		model.addAttribute("requestProductCategory", requestProductCategory);
+		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("viewType","insert").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -110,11 +113,15 @@ public class PackagesController {
 		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
 		List<String> osType = caegoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
+		model.addAttribute("requestProductCategory", requestProductCategory);
+		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("viewType","update").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -138,38 +145,6 @@ public class PackagesController {
 	public String UpdatePackagesImport() {
 		return "/packages/Import";
 	}
-	
-	@ResponseBody
-    @PostMapping(value = "/packages/excelImport")
-        public ModelAndView excelUploadAjax(MultipartFile testFile, MultipartHttpServletRequest request) throws  Exception{
-        
-        System.out.println("업로드 진행");
-        
-        MultipartFile excelFile = request.getFile("excelFile");
-        
-        if(excelFile == null || excelFile.isEmpty()) {
-            throw new RuntimeException("엑셀파일을 선택해 주세요");
-        }
-        
-        File destFile = new File("C:\\upload\\"+excelFile.getOriginalFilename());
-        
-        try {
-            //내가 설정한 위치에 내가 올린 파일을 만들고 
-            excelFile.transferTo(destFile);
-        }catch(Exception e) {
-            throw new RuntimeException(e.getMessage(),e);
-        }
-        
-        //업로드를 진행하고 다시 지우기
-        packagesService.excelUpload(destFile);
-        
-        destFile.delete();
-        
-        ModelAndView view = new ModelAndView();
-        view.setViewName("/packages/list");
-        
-        return view;
-    }
 	
 	
     @PostMapping(value="/packages/export")

@@ -7,7 +7,7 @@
 		xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 	}); */
 </script>
-<div class="modal-body" style="width: 100%; height: 510px;">
+<div class="modal-body" style="width: 100%; height: 570px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}"> 
 		<div class="leftDiv">
@@ -49,6 +49,8 @@
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">기존/신규</label>
 			         	<select class="form-control viewForm" id="existingNew" name="existingNew">
+			         		<c:if test="${packages.existingNew ne ''}"><option value=""></option></c:if>	
+			         		<c:if test="${packages.existingNew eq ''}"><option value=""></option></c:if>
 							<c:forEach var="item" items="${existingNew}">
 								<option value="${item}" <c:if test="${item eq packages.existingNew}">selected</c:if>><c:out value="${item}"/></option>
 							</c:forEach>
@@ -57,6 +59,8 @@
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">관리서버/Agent</label>
 			         	<select class="form-control viewForm" id="managementServer" name="managementServer">
+			         		<c:if test="${packages.managementServer ne ''}"><option value=""></option></c:if>
+			         		<c:if test="${packages.managementServer eq ''}"><option value=""></option></c:if>
 			         		<c:forEach var="item" items="${managementServer}">
 								<option value="${item}" <c:if test="${item eq packages.managementServer}">selected</c:if>><c:out value="${item}"/></option>
 							</c:forEach>
@@ -71,6 +75,10 @@
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">OS 상세버전</label>
 	         	<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control viewForm" value="${packages.osDetailVersion}">
+	         </div>
+	         <div class="pading5Width450">
+	         	<label class="labelFontSize">Agent ver</label>
+	         	<input type="text" id="agentVer" name="agentVer" class="form-control viewForm" value="${packages.agentVer}">
 	         </div>
 	     </div>
          <div class="rightDiv">
@@ -99,6 +107,8 @@
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">일반/커스텀</label>
 			         	<select class="form-control viewForm" id="generalCustom" name="generalCustom">
+			         		<c:if test="${packages.generalCustom ne ''}"><option value=""></option></c:if>
+			         		<c:if test="${packages.generalCustom eq ''}"><option value=""></option></c:if>
 							<c:forEach var="item" items="${generalCustom}">
 								<option value="${item}" <c:if test="${item eq packages.generalCustom}">selected</c:if>><c:out value="${item}"/></option>
 							</c:forEach>
@@ -107,6 +117,8 @@
 			         <div class="pading5Width450">
 					 	<label class="labelFontSize">OS종류</label>
 		                <select class="form-control viewForm" id="osType" name="osType">
+		                	<c:if test="${packages.osType ne ''}"><option value=""></option></c:if>
+		                	<c:if test="${packages.osType eq ''}"><option value=""></option></c:if>
 							<c:forEach var="item" items="${osType}">
 								<option value="${item}" <c:if test="${item eq packages.osType}">selected</c:if>><c:out value="${item}"/></option>
 							</c:forEach>
@@ -114,11 +126,6 @@
 					 </div>
 			    </c:when>
 			 </c:choose>
-			 <div class="pading5Width450">
-	         	<label class="labelFontSize">Agent ver</label>
-	         	<input type="text" id="agentVer" name="agentVer" class="form-control viewForm" value="${packages.agentVer}">
-	         </div>
-         
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">패키지명</label>
 	         	<input type="text" id="packageName" name="packageName" class="form-control viewForm" value="${packages.packageName}">
@@ -127,10 +134,50 @@
 	         	<label class="labelFontSize">담당자</label>
 	         	<input type="text" id="manager" name="manager" class="form-control viewForm" value="${packages.manager}">
 	         </div>
-	         <div class="pading5Width450">
-	         	<label class="labelFontSize">전달 방법</label>
-	         	<input type="text" id="deliveryMethod" name="deliveryMethod" class="form-control viewForm" value="${packages.deliveryMethod}">
-	         </div>
+	         <c:choose>
+				<c:when test="${viewType eq 'insert'}">
+			         <div class="pading5Width450">
+					  	<label class="labelFontSize">요청 제품 구분</label>
+					  	<select class="form-control viewForm" id="requestProductCategory" name="requestProductCategory">
+					  		<option value=""></option>
+							<c:forEach var="item" items="${requestProductCategory}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					 </div>
+					 <div class="pading5Width450">
+					 	<label class="labelFontSize">전달 방법</label>
+		                <select class="form-control viewForm" id="deliveryMethod" name="deliveryMethod">
+		                	<option value=""></option>
+							<c:forEach var="item" items="${deliveryMethod}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					 </div>
+			 	</c:when>
+				<c:when test="${viewType eq 'update'}">
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">요청 제품 구분</label>
+			         	<select class="form-control viewForm" id="requestProductCategory" name="requestProductCategory">
+			         		<c:if test="${packages.requestProductCategory ne ''}"><option value=""></option></c:if>
+			         		<c:if test="${packages.requestProductCategory eq ''}"><option value=""></option></c:if>
+							<c:forEach var="item" items="${requestProductCategory}">
+								<option value="${item}" <c:if test="${item eq packages.requestProductCategory}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+			         </div>
+			         <div class="pading5Width450">
+					 	<label class="labelFontSize">전달 방법</label>
+		                <select class="form-control viewForm" id="deliveryMethod" name="deliveryMethod">
+		                	<c:if test="${packages.deliveryMethod ne ''}"><option value=""></option></c:if>
+		                	<c:if test="${packages.deliveryMethod eq ''}"><option value=""></option></c:if>
+							<c:forEach var="item" items="${deliveryMethod}">
+								<option value="${item}" <c:if test="${item eq packages.deliveryMethod}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					 </div>
+			    </c:when>
+			 </c:choose>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">비고</label>
 	         	<input type="text" id="note" name="note" class="form-control viewForm" value="${packages.note}">

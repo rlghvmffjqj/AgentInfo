@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
   <head>
-	<%@ include file="/WEB-INF/view/common/_Head.jsp"%>
+	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 	
     <!-- 쿠키 스크립트 -->
     <script>
@@ -74,11 +74,11 @@
   <div id="pcoded" class="pcoded iscollapsed">
       <div class="pcoded-overlay-box"></div>
       <div class="pcoded-container navbar-wrapper">
-          <%@ include file="/WEB-INF/view/common/_TopMenu.jsp"%>
+          <%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
 
           <div class="pcoded-main-container" style="margin-top: 56px;">
               <div class="pcoded-wrapper">
-                  <%@ include file="/WEB-INF/view/common/_LeftMenu.jsp"%>
+                  <%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
                   <div class="pcoded-content" id="page-wrapper">
                       <div class="page-header">
                           <div class="page-block">
@@ -107,6 +107,16 @@
                                 	<div class="ibox">
 	                                	<div class="searchbos">
 	                      					<form id="form" name="form" method ="post"> 
+	                      						<div style="padding-left:15px; width:100%; float: left;">
+	                      							<label class="labelFontSize">전달일자</label>
+	                      							<div>
+														<input class="form-control" style="width: 284px; float: left;" type="date" id="deliveryDataStart" name="deliveryDataStart">
+														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
+														<input class="form-control" style="width: 284px; float: left;" type="date" id="deliveryDataEnd" name="deliveryDataEnd">
+													</div>
+	                      						</div>
+	                      						
+	                      						
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사명</label>
 													<input class="form-control" type="text" id="customerName" name="customerName"> 
@@ -114,10 +124,6 @@
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청일자</label>
 													<input class="form-control" type="date" id="requestDate" name="requestDate"> 
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">전달일자</label>
-													<input class="form-control" type="date" id="deliveryData" name="deliveryData"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">기존/신규</label>
@@ -177,11 +183,21 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청제품 구분</label>
-	                      							<input type="text" id="requestProductCategory" name="requestProductCategory" class="form-control">
+	                      							<select class="form-control" id="requestProductCategory" name="requestProductCategory">
+														<option value=""></option>
+														<c:forEach var="item" items="${requestProductCategory}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">전달 방법</label>
-	                      							<input type="text" id="deliveryMethod" name="deliveryMethod" class="form-control">
+	                      							<select class="form-control" id="deliveryMethod" name="deliveryMethod">
+														<option value=""></option>
+														<c:forEach var="item" items="${deliveryMethod}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
 	                      						</div>
 	                      						
 	                      						<div class="col-lg-12 text-right">
@@ -270,7 +286,34 @@
 	
 	/* =========== 검색 ========= */
 	$('#btnSearch').click(function() {
-		tableRefresh();
+		var deliveryDataStart = $("#deliveryDataStart").val();
+		var deliveryDataEnd = $("#deliveryDataEnd").val();
+		if(deliveryDataStart > deliveryDataEnd) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '전달일자 시작일이 종료일자 보다 큽니다.',    
+			});
+		} else if(deliveryDataStart == "") {
+			if(deliveryDataEnd != "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '전달일자 시작일을 입력해주세요.',    
+				});
+			}
+		} else if(deliveryDataEnd == "") {
+			if(deliveryDataStart != "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '전달일자 종료일을 입력해주세요.',    
+				});
+			}
+		} else {
+			tableRefresh();	
+		}
+		
 	});
 	
 	/* =========== 테이블 새로고침 ========= */
@@ -294,7 +337,7 @@
 	});
 	
 	/* =========== 갤린더 검색 ========= */
-	$("input[type=date]").change(function() {
+	$("#requestDate").change(function() {
 		tableRefresh();
 	});
 	

@@ -53,6 +53,20 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	@GetMapping(value = "/category/requestProductCategory")
+	public String requestProductCategory( Model model) {
+		model.addAttribute("category", "requestProductCategory");
+		
+		return "category/CategoryList";
+	}
+	
+	@GetMapping(value = "/category/deliveryMethod")
+	public String deliveryMethod( Model model) {
+		model.addAttribute("category", "deliveryMethod");
+		
+		return "category/CategoryList";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/category")
 	public Map<String, Object> Category(@ModelAttribute("search") Category search) {

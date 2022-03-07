@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<%@ include file="/WEB-INF/view/common/_Head.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 <title>denied</title>
 </head>
 <body>
