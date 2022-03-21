@@ -51,6 +51,15 @@
 			<include refid="sqlPackages" />
 	</select>
 	
+	<select id="uidLogKeyNum" resultType="_int">
+		SELECT MAX(uidKeyNum) FROM uidLog;
+	</select>
+	
+	<insert id="uidLog">
+		INSERT INTO uidLog(uidKeyNum, uidCustomerName, uidOsDetailVersion, uidPackageName, uidEvent, uidUser, uidTime)
+		VALUES (#{uidKeyNum}, #{uidCustomerName}, #{uidOsDetailVersion}, #{uidPackageName}, #{uidEvent}, #{uidUser}, #{uidTime});
+	</insert>
+	
 	
 	
 	<!-- ==================================================================================== -->

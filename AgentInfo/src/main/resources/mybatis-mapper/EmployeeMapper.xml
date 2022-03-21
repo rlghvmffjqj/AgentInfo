@@ -45,8 +45,12 @@
 		WHERE employeeId = #{employeeId}
 	</update>
 	
-	<update id="insertUsers">
+	<update id="updateUsers">
 		UPDATE users SET usersPw = #{usersPw}, usersRole = #{usersRole} WHERE usersId = #{employeeId} 
+	</update>
+	
+	<update id="updateUsersRole">
+		UPDATE users SET usersRole = #{usersRole} WHERE usersId = #{employeeId}
 	</update>
 	
 	<!-- ==================================================================================== -->

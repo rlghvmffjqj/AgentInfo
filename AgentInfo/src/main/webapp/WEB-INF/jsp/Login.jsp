@@ -45,7 +45,7 @@
                                              </label>
                                          </div>
                                          <div class="forgot-phone text-right f-right">
-                                             <a href="#" class="text-right f-w-600"> 패스워드 찾기</a>
+                                             <!-- <a href="#" class="text-right f-w-600"> 패스워드 찾기</a> -->
                                          </div>
                                      </div>
                                  </div>

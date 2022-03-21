@@ -9,12 +9,20 @@
 	}); */
 </script>
 
-<div class="modal-body" style="width: 100%; height: 180px;">
-	<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post" action="/AgentInfo/packages/excelImport">
+<div class="modal-body" style="width: 100%; height: 200px;">
+	<form id="excelUploadForm" name="excelUploadForm" method="post" enctype="multipart/form-data" action="AgentInfo/packages/import">
 		<h4><strong>첨부 파일</strong></h4>
-		<input id="excelFile" type="file" name="excelFile" />
+		<label class="labelFontSize">연도 선택 : </label>
+	    <select class="form-control marginBttom20 width-200" id="excelImportYear" name="excelImportYear">
+			<option value=""></option>
+			<option value="CSV">CSV</option>
+			<option value="2016년">2019년</option>
+			<option value="2021년">2021년</option>
+			<option value="2022년">2022년</option>
+		</select>
+		<input id="file" type="file" name="file" />
 		<div style="height: 20px"></div>
-		<label class="colorRed">*첨부파일은 한개만 등록 가능합니다.</label>
+		<label class="colorRed">* 첨부파일은 한개 씩 등록 가능합니다.</label>
 
 	</form>
 </div>
@@ -25,39 +33,66 @@
 
 
 <script>
-	/* =========== 패키지 추가 ========= */
-	function checkFileType(filePath) {
-		var fileFormat = filePath.split(".");
-
-		if (fileFormat.indexOf("xls") > -1 || fileFormat.indexOf("xlsx") > -1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	$('#insertBtn').click(function() {
-		var file = $("#excelFile").val();
+		var file = $("#file").val();
+		var year = $("#excelImportYear").val();
 
-		if (file == "" || file == null) {
-			alert("파일을 선택해주세요.");
-
-			return false;
-		} else if (!checkFileType(file)) {
-			alert("엑셀 파일만 업로드 가능합니다.");
-
+		// 연도 미입력 에러 발생
+		if(year == "" || year == null) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '첨부파일 연도를 입력해주세요.',    
+			});
 			return false;
 		}
-
+		// 파일 미 선택 에러 발생
+		if (file == "" || file == null) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '파일을 선택해주세요.',    
+			});
+			return false;
+		} 
+		
 		if (confirm("업로드 하시겠습니까?")) {
-			var options = {
-				success : function(data) {
-					console.log(data);
-					alert("모든 데이터가 업로드 되었습니다.");
+			var form = $('#excelUploadForm')[0];
+			var data = new FormData(form);
+			
+			$.ajax({
+				url: "<c:url value='/packages/import'/>",
+				type : "POST",
+				enctype: 'multipart/form-data',
+		        data: data,
+		        processData: false,
+		        contentType: false,
+		        success: function(result) {
+		        	if(result == "FALSE") {
+		        		Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '작업 실패 하였습니다.',    
+						});
+		        	}
+		        	if(result == "OK") {
+		        		Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						});
+		        	}
+		        	
+		        	$('#modal').modal("hide"); // 모달 닫기
+            		$('#modal').on('hidden.bs.modal', function () {
+            			tableRefresh();
+            		});
 				},
-				type : "POST"
-			};
-			$("#excelUploadForm").ajaxSubmit(options);
+				error: function(error) {
+					console.log(error);
+				}
+		    });
 		}
 	});
 </script>

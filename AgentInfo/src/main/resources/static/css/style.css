@@ -2714,7 +2714,12 @@ table.matrics-table tr:first-child td {
   color: #ff5252; }
 
 .width-100 {
-  width: 100%; }
+  width: 100%; 
+}
+
+.width-200 {
+  width: 200px; 
+}
 
 .post-input {
   padding: 10px 10px 10px 5px;
@@ -16453,4 +16458,8 @@ body.dark {
 .fixed-button.active {
   bottom: 50px;
   opacity: 1;
+}
+
+.marginBttom20 {
+	margin-bottom: 20px;	
 }

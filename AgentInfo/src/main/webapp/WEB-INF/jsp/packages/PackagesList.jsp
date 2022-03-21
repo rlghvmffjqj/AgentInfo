@@ -26,7 +26,7 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사명','요청일자','전달일자','기존/신규','관리서버/Agent','Agent OS','OS 상세버전','일반/커스텀','OS 종류','Agent ver','패키지명','담당자','요청 제품구분','전달 방법','비고'],
+				colNames:['Key','고객사 명','요청일자','전달일자','기존/신규','관리서버 / Agent','Agent OS','OS 상세버전','일반/커스텀','OS종류','Agent ver','패키지명','담당자','요청 제품구분','전달 방법','비고'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 100, hidden:true },
 					{name:'customerName', index:'customerName', align:'center', width: 150, formatter: linkFormatter},
@@ -118,7 +118,7 @@
 	                      						
 	                      						
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">고객사명</label>
+	                      							<label class="labelFontSize">고객사 명</label>
 													<input class="form-control" type="text" id="customerName" name="customerName"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
@@ -135,7 +135,7 @@
 													</select>
 												</div>
 												<div class="col-lg-2">
-	                      							<label class="labelFontSize">관리서버/Agent</label>
+	                      							<label class="labelFontSize">관리서버 / Agent</label>
 													<select class="form-control" id="managementServer" name="managementServer">
 														<option value=""></option>
 														<c:forEach var="item" items="${managementServer}">
@@ -182,7 +182,7 @@
 	                      							<input type="text" id="manager" name="manager" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">요청제품 구분</label>
+	                      							<label class="labelFontSize">요청 제품구분</label>
 	                      							<select class="form-control" id="requestProductCategory" name="requestProductCategory">
 														<option value=""></option>
 														<c:forEach var="item" items="${requestProductCategory}">
@@ -225,8 +225,8 @@
 																<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'packagesList');">컬럼 선택</button>
 																<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">Excel 가져오기</button>
-																<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
 															</sec:authorize>
+															<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
 														</td>
 													</tr>
 													<tr>
@@ -260,7 +260,7 @@
   	$('#BtnImport').click(function() {
   		$.ajax({
 		    type: 'POST',
-		    url: "<c:url value='/packages/import'/>",
+		    url: "<c:url value='/packages/importView'/>",
 		    success: function (data) {
 		        $.modal(data, 's'); //modal창 호출
 		    },

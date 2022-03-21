@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +13,11 @@
 			Swal.fire({               
 				icon: 'error',          
 				title: '실패!',           
-				text: '아이디 또는 패스워드가 일치하지 않습니다.',    
-			});	
+				text: '${msg}',    
+			}).then((result) => {
+				location.href="${pageContext.request.contextPath}${loc}";
+			})
 		})
-		
 	</script>
 </head>
-<body>
-	실패
-</body>
 </html>

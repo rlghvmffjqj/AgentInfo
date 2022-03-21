@@ -3,6 +3,7 @@ package com.secuve.agentInfo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,6 +106,15 @@ public class UsersController {
 	@GetMapping("/denied")
 	public String deniedView() {
 		return "Denied";
+	}
+	
+	@GetMapping("/loginFail")
+	public String loginFail(Model model) {
+		String loc = "/login";
+		String msg = "아이디 및 패스워드가 일치하지 않습니다.";
+
+		model.addAttribute("loc", loc).addAttribute("msg", msg);
+		return "common/msg";
 	}
 	
 	

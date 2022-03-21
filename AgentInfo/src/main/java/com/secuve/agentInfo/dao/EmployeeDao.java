@@ -38,8 +38,12 @@ public class EmployeeDao {
 		return sqlSession.update("employee.updateEmployee", employee);
 	}
 
-	public int insertUsers(Employee employee) {
-		return sqlSession.insert("employee.insertUsers", employee);
+	public int updateUsers(Employee employee) {
+		return sqlSession.insert("employee.updateUsers", employee);
+	}
+
+	public int updateUsersRole(Employee employee) {
+		return sqlSession.insert("employee.updateUsersRole", employee);
 	}
 
 }

@@ -36,12 +36,17 @@ public class CategoryService {
 	}
 
 	public String insertCategory(Category category) {
+		int categroyKeyNum = 0;
+		
 		if(category.getCategoryValue().equals("") || category.getCategoryValue() == "") 
 			return "NotCategory";
 		if(categoryDao.getCategoryCheck(category) != null)
 			return "duplicateCheck";
 		
-		category.setCategoryKeyNum(categoryDao.getCategoryKeyNum()+1);
+		try {
+			categroyKeyNum = categoryDao.getCategoryKeyNum();
+		} catch (Exception e) {}
+		category.setCategoryKeyNum(++categroyKeyNum);
 		int sucess = categoryDao.insertCategory(category);
 		
 		if(sucess <= 0) 

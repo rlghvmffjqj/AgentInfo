@@ -73,13 +73,19 @@ public class EmployeeService {
 	}
 
 	public String updateEmployee(Employee employee) {
+		int sucess = 0;
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		if(employee.getEmployeeName().equals("") || employee.getEmployeeName() == "") { // 사원 이름이 비어있을 경우 리턴
 			return "NotEmployeeName";
 		}
-		employee.setUsersPw(passwordEncoder.encode(employee.getUsersPw()));
-		int sucess = employeeDao.updateEmployee(employee);
-		sucess *= employeeDao.insertUsers(employee);
+		if(!employee.getUsersPw().equals("") || employee.getUsersPw().equals(null)) {
+			employee.setUsersPw(passwordEncoder.encode(employee.getUsersPw()));
+			sucess = employeeDao.updateUsers(employee);
+		} else {
+			sucess = employeeDao.updateUsersRole(employee);
+		}
+		sucess *= employeeDao.updateEmployee(employee);
+		
 		
 		if(sucess <= 0) 
 			return "FALSE";

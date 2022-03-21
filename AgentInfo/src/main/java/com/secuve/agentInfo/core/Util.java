@@ -363,22 +363,21 @@ public class Util {
 	
 	// ����� ���� ���ڵ� ����
 	// ����ڰ� ������ ��� ������ ���� �����Ѵ�. (cookies['lang'])
-	public static String getDefaultFileEncoding() {
-		String lang = getCookie("lang", "en");
-		
-		String encoding = "";
-
-		if ( lang.startsWith("ko") ) {
-			encoding = "MS949";
-		} else if ( lang.startsWith("ja") ) {
-			encoding = "MS932";
-		} else {
-			encoding = "UTF-8";
-		}
-		
-		System.out.println("### defaultFileEncoding: lang="+lang+", encoding="+encoding);
-		return encoding;
-	}
+//	public static String getDefaultFileEncoding() {
+//		String lang = getCookie("lang", "ko");
+//		
+//		String encoding = "";
+//
+//		if ( lang.startsWith("ko") ) {
+//			encoding = "MS949";
+//		} else if ( lang.startsWith("ja") ) {
+//			encoding = "MS932";
+//		} else {
+//			encoding = "UTF-8";
+//		}
+//		System.out.println("### defaultFileEncoding: lang="+lang+", encoding="+encoding);
+//		return encoding;
+//	}
 	
 
 	// Spring Application Context ��������

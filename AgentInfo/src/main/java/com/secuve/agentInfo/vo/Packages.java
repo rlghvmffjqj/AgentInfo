@@ -36,6 +36,8 @@ public class Packages {
 	private String packagesModifier;			// 데이터 수정 사용자
 	private String packagesModifiedDate;		// 데이터 수정 날짜
 	
+	private String excelImportYear;
+	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=30;						// 데이터 보여줄 갯수
 	private String sidx="packagesKeyNum";			// 정렬할 기준 데이터

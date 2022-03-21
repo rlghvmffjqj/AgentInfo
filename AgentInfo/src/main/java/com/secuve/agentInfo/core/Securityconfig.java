@@ -32,7 +32,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.usernameParameter("usersId")
 			.passwordParameter("usersPw")
 			.defaultSuccessUrl("/index")
-			.failureUrl("/failPage")
+			.failureUrl("/loginFail")
 			.permitAll();
 		
 		// 로그아웃 설정
