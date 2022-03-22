@@ -18,11 +18,11 @@
 			 </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청일자</label>
-	         	<input type="text" id="requestDate" name="requestDate" class="form-control viewForm" value="${packages.requestDate}">
+	         	<input type="date" id="requestDate" name="requestDate" class="form-control viewForm" value="${packages.requestDate}">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">전달일자</label>
-	         	<input type="text" id="deliveryData" name="deliveryData" class="form-control viewForm" value="${packages.deliveryData}">
+	         	<input type="date" id="deliveryData" name="deliveryData" class="form-control viewForm" value="${packages.deliveryData}">
 	         </div>
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">

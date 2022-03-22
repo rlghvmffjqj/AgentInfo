@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -8,12 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.secuve.agentInfo.AgentInfoApplication;
 import com.secuve.agentInfo.service.UsersService;
 import com.secuve.agentInfo.vo.Users;
 
 @Controller
 @RequestMapping(value = "/")
 public class UsersController {
+	private static final Logger LOGGER = LogManager.getLogger(UsersController.class);
 	@Autowired UsersService usersService;
 	
 	/**
@@ -40,7 +44,7 @@ public class UsersController {
 	 */
 	@GetMapping("/login")
 	public String loginView() {
-		System.out.println("로그인 페이지");
+		LOGGER.info("로그인 페이지");
 		return "Login";
 	}
 	
@@ -69,16 +73,11 @@ public class UsersController {
 	 */
 	@PostMapping("/signup")
 	public String signup(Users users) {
-		System.out.println("회원가입");
+		LOGGER.info("회원가입");
 		usersService.save(users);
 		return "Login";
 	}
 	
-	@PostMapping("/sing")
-	public String sig(Users users) {
-		System.out.println("회원가입");
-		return "Login";
-	}
 	
 	/**
 	 * 일반 사용자 정보
