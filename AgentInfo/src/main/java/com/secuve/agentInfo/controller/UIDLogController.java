@@ -19,12 +19,21 @@ public class UIDLogController {
 	
 	@Autowired UIDLogService uidLogService;
 	
-	
+	/**
+	 * 로그 리스트 페이지 이동
+	 * @return
+	 */
 	@GetMapping(value = "/uidLog/list")
 	public String UIDLogList() {
 		return "uidLog/UIDLogList";
 	}
 	
+	
+	/**
+	 * 로그 데이터 가져오기
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/uidLog")
 	public Map<String, Object> UIDLog(@ModelAttribute("search") UIDLog search) {

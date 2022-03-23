@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <a href="index.html">
+            <a href="<c:url value='/index'/>">
                 <img class="img-fluid" src="/AgentInfo/images/logo2.png" alt="Theme-Logo">
             </a>
             <a class="mobile-options waves-effect waves-light">

@@ -49,7 +49,6 @@
 
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.json-2.3.min.js'/>"></script>   
 
-             
   
 <script type="text/javascript" src="<c:url value='/js/popper.js/popper.min.js'/>"></script>     
 <script type="text/javascript" src="<c:url value='/js/bootstrap/js/bootstrap.min.js'/>"></script>
@@ -68,8 +67,6 @@
 <script type="text/javascript" src="<c:url value='/js/common-pages.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/pcoded.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/vertical-layout.min.js'/>"></script>
-
-
 
 
 <script type="text/javascript" src="<c:url value='/js/amcharts/fabric.min.js'/>" async=""></script>

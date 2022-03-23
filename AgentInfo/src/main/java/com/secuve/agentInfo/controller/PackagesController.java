@@ -296,6 +296,12 @@ public class PackagesController {
 		return "/packages/PackagesView";
 	}
     
+    /**
+     * 패키지 복사
+     * @param packages
+     * @param principal
+     * @return
+     */
     @ResponseBody
 	@PostMapping(value = "/packages/copy")
 	public Map<String,String> copyPackages(Packages packages, Principal principal) {
