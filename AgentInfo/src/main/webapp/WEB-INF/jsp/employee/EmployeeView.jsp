@@ -8,7 +8,7 @@
 	}); */
 </script>
 
-<div class="modal-body" style="width: 100%; height: 790px;">
+<div class="modal-body" style="width: 100%; height: 720px;">
 	<form id="modalForm" name="form" method ="post"> 
 		<c:choose>
 			<c:when test="${viewType eq 'insert'}">

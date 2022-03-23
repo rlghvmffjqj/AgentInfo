@@ -20,6 +20,8 @@
 			$('.requestProductCategory').addClass('active');
 		} else if($.cookie('name') == 'deliveryMethod') {
 			$('.deliveryMethod').addClass('active');
+		} else if($.cookie('name') == 'log') {
+			$('.log').addClass('active');
 		}
 	});
 </script>
@@ -46,6 +48,7 @@
                  </a>
              </li>
          </ul>
+         
          <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
          <ul class="pcoded-item pcoded-left-item">
              <li class="packages">
@@ -58,6 +61,16 @@
          </ul>
 
 		 <sec:authorize access="hasRole('ADMIN')">
+		 	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="log">
+	                 <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">로그 정보</span>
+	                     <span class="pcoded-mcaret"></span>
+	                 </a>
+	             </li>
+	         </ul>
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
 	         <ul class="pcoded-item pcoded-left-item">
 	             <li class="employee">

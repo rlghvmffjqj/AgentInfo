@@ -92,6 +92,24 @@ public class PackagesService {
 			return "FALSE";
 		return "OK";
 	}
+	
+	public String copyPackages(Packages packages, Principal principal) {
+		if(packages.getCustomerName().equals("") || packages.getCustomerName() == "" ) { // 고객사명 값이 비어있을 경우
+			return "NotCustomerName";
+		} 
+		packagesDao.plusPackagesKeyNum(packages.getPackagesKeyNum()); // 복사 대상 이상의 키값을 +1 해준다.
+		
+		packages.setPackagesKeyNum(packages.getPackagesKeyNum()+1); // 복사 대상의 윗 번호로 값 변경
+		int sucess = packagesDao.insertPackages(packages);
+		
+		// uid 로그 기록
+		if(sucess > 0) 
+			uidLog(packages, principal, "INSERT");
+		
+		if(sucess <= 0) 
+			return "FALSE";
+		return "OK";
+	}
 
 	/**
 	 * 패키지 Key Num으로 하나의 정보 조회
@@ -629,6 +647,8 @@ public class PackagesService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(now);
 	}
+
+	
 
 
 }

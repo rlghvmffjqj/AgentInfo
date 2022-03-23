@@ -146,13 +146,13 @@ p {
 }
 
 .modal-lg {
-	top: 16.5%;
+	top: 18.5%;
 	width: 480px;
 }
 
 .modal-sm {
 	max-width:350px;
-	top: 30%;
+	top: 40%;
 }
 
 .modal-ll {

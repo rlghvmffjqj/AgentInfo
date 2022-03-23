@@ -53,6 +53,10 @@ public class PackagesDao {
 		sqlSession.insert("packages.uidLog", uidLog);		
 	}
 
+	public void plusPackagesKeyNum(int packagesKeyNum) {
+		sqlSession.update("packages.plusPackagesKeyNum", packagesKeyNum);
+	}
+
 	
 
 }

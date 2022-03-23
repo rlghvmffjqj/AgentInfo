@@ -7,7 +7,7 @@
 		xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
 	}); */
 </script>
-<div class="modal-body" style="width: 100%; height: 570px;">
+<div class="modal-body" style="width: 100%; height: 550px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}"> 
 		<div class="leftDiv">
@@ -45,7 +45,7 @@
 						</select>
 					 </div>
 			 	</c:when>
-				<c:when test="${viewType eq 'update'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">기존/신규</label>
 			         	<select class="form-control viewForm" id="existingNew" name="existingNew">
@@ -103,7 +103,7 @@
 						</select>
 					 </div>
 			 	</c:when>
-				<c:when test="${viewType eq 'update'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">일반/커스텀</label>
 			         	<select class="form-control viewForm" id="generalCustom" name="generalCustom">
@@ -155,7 +155,7 @@
 						</select>
 					 </div>
 			 	</c:when>
-				<c:when test="${viewType eq 'update'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">요청 제품 구분</label>
 			         	<select class="form-control viewForm" id="requestProductCategory" name="requestProductCategory">
@@ -192,6 +192,9 @@
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
 			<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
+		</c:when>
+		<c:when test="${viewType eq 'copy'}">
+			<button class="btn btn-default btn-outline-info-add" id="copyBtn">복사</button>
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
@@ -280,6 +283,49 @@
 				console.log(error);
 			}
         });
+	});
+	
+	/* =========== 패키지 복사 ========= */
+	$('#copyBtn').click(function() {
+		
+		var postData = $('#modalForm').serializeObject();
+		$.ajax({
+			url: "<c:url value='/packages/copy'/>",
+	        type: 'post',
+	        data: postData,
+	        success: function(result) {
+	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
+					$('#NotCustomerName').show();
+	        		
+				} else {
+					$('#NotCustomerName').hide();
+				} 
+				
+	        	
+				if(result.result == "OK") {
+					Swal.fire({
+						icon: 'success',
+						title: '성공!',
+						text: '작업을 완료했습니다.',
+					});
+					$('#modal').modal("hide"); // 모달 닫기
+	        		$('#modal').on('hidden.bs.modal', function () {
+	        			tableRefresh();
+	        		});
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업을 실패하였습니다.',
+					});
+				}
+				
+				
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
 	});
 
 </script>

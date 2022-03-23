@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="uidLog">
+	<resultMap type="com.secuve.agentInfo.vo.UIDLog" id="uidLog"></resultMap>
+	
+	<select id="getUIDLog" resultMap="uidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM uidLog
+					<include refid="sqlUIDLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getUIDLogCount" resultType="_int">
+		SELECT COUNT(*) FROM uidLog
+			<include refid="sqlUIDLog" />
+	</select>
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlUIDLog">
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidCustomerName != null and uidCustomerName != ''">
+				AND uidCustomerName LIKE CONCAT('%',#{uidCustomerName},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidOsDetailVersion != null and uidOsDetailVersion != ''">
+				AND uidOsDetailVersion LIKE CONCAT('%',#{uidOsDetailVersion},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidPackageName != null and uidPackageName != ''">
+				AND uidPackageName LIKE CONCAT('%',#{uidPackageName},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidEvent != null and uidEvent != ''">
+				AND uidEvent LIKE CONCAT('%',#{uidEvent},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidUser != null and uidUser != ''">
+				AND uidUser LIKE CONCAT('%',#{uidUser},'%')
+			</if>
+		</trim>
+	</sql>
+
+</mapper>

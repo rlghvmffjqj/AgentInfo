@@ -8,7 +8,7 @@
 	}); */
 </script>
 
-<div class="modal-body" style="width: 100%; height: 200px;">
+<div class="modal-body" style="width: 100%; height: 170px;">
 	<form id="modalForm" name="form" method ="post"> 
 		<input type="hidden" id="categoryKeyNum" name=categoryKeyNum class="form-control viewForm" value="${category.categoryKeyNum}">
 		<div class="pading5">

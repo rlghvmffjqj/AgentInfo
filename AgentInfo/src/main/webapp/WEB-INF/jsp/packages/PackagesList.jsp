@@ -223,6 +223,7 @@
 															<sec:authorize access="hasRole('ADMIN')">
 																<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
 																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'packagesList');">컬럼 선택</button>
 																<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">Excel 가져오기</button>
 															</sec:authorize>
@@ -368,7 +369,7 @@
 		} else {
 			Swal.fire({
 				  title: '삭제!',
-				  text: "선택한 패키지지 삭제하시겠습니까?",
+				  text: "선택한 패키지를 삭제하시겠습니까?",
 				  icon: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#7066e0',
@@ -408,6 +409,37 @@
 		}
 	});
 	
+	/* =========== 데이터 복사 Modal ========= */
+	$('#BtnCopy').click(function() {
+		var chkList = $("#list").getGridParam('selarrrow');
+		var packagesKeyNum = chkList[0];
+		if(chkList.length == 0) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '선택한 행이 존재하지 않습니다.',    
+			});    
+		} else if(chkList.length == 1) {
+			$.ajax({
+	            type: 'POST',
+	            url: "<c:url value='/packages/copyView'/>",
+	            data: {"packagesKeyNum" : packagesKeyNum},
+	            success: function (data) {
+	                $.modal(data, 'll'); //modal창 호출
+	            },
+	            error: function(e) {
+	                // TODO 에러 화면
+	            }
+	        });
+		} else {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '복사를 원하는 데이터 한 행만 체크 해주세요.',    
+			}); 
+		}
+	});
+	
 	/* =========== 패키지 수정 Modal ========= */
 	function updateView(data) {
 		<sec:authorize access="hasRole('ADMIN')">
@@ -424,6 +456,8 @@
 	        });
 		</sec:authorize>
 	}
+	
+	
 
 
 </script>

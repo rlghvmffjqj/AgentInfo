@@ -1,0 +1,204 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
+  <head>
+	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+    <!-- 쿠키 스크립트 -->
+    <script>
+    	/* =========== 페이지 쿠키 값 저장 ========= */
+	    $(function() {
+	    	$.cookie('name','log');
+	    });
+    </script>
+    <script>
+		/* =========== ajax _csrf 전송 ========= */
+		/* $(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
+		}); */
+	</script>
+	<script>
+		$(document).ready(function(){
+			var formData = $('#form').serializeObject();
+			$("#list").jqGrid({
+				url: "<c:url value='/uidLog'/>",
+				mtype: 'POST',
+				postData: formData,
+				datatype: 'json',
+				colNames:['Key','고객사 명','OS 상세버전','패키지 명','이벤트','사용자','시간'],
+				colModel:[
+					{name:'uidKeyNum', index:'uidKeyNum', align:'center', width: 50, hidden:true},
+					{name:'uidCustomerName', index:'uidCustomerName',align:'center', width: 150},
+					{name:'uidOsDetailVersion', index:'uidOsDetailVersion',align:'center', width: 350},
+					{name:'uidPackageName', index:'uidPackageName', align:'center', width: 650},
+					{name:'uidEvent', index:'uidEvent', align:'center', width: 100},
+					{name:'uidUser', index:'uidUser', align:'center', width: 100},
+					{name:'uidTime', index:'uidTime', width: 180, align:'center', width: 200},
+				],
+				jsonReader : {
+		        	id: 'uidKeyNum',
+		        	repeatitems: false
+		        },
+		        pager: '#pager',			// 페이징
+		        rowNum: 30,					// 보여중 행의 수
+		        sortname: 'uidKeyNum', 		// 기본 정렬 
+		        sortorder: 'desc',			// 정렬 방식
+		        
+		        multiselect: true,			// 체크박스를 이용한 다중선택
+		        viewrecords: false,			// 시작과 끝 레코드 번호 표시
+		        gridview: true,				// 그리드뷰 방식 랜더링
+		        sortable: true,				// 컬럼을 마우스 순서 변경
+		        height : '810',
+		        autowidth:true,				// 가로 넒이 자동조절
+		        shrinkToFit: false,			// 컬럼 폭 고정값 유지
+		        altRows: false,				// 라인 강조
+			}); 
+			loadColumns('#list','uidLogList');
+			setAutoResize('#list',810);
+		});
+			
+	</script>
+  </head>
+  <body>
+  
+  <div id="pcoded" class="pcoded iscollapsed">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+          <%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
+
+          <div class="pcoded-main-container" style="margin-top: 56px;">
+              <div class="pcoded-wrapper">
+                  <%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
+                  <div class="pcoded-content" id="page-wrapper">
+                      <div class="page-header">
+                          <div class="page-block">
+                              <div class="row align-items-center">
+                                  <div class="col-md-8">
+                                      <div class="page-header-title" >
+                                          <h5 class="m-b-10">로그 리스트</h5>
+                                          <p class="m-b-0">Log List</p>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <ul class="breadcrumb-title">
+                                          <li class="breadcrumb-item">
+                                              <a href="index.html"> <i class="fa fa-home"></i> </a>
+                                          </li>
+                                          <li class="breadcrumb-item"><a href="#!">로그</a>
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                	<div class="ibox">
+	                                	<div class="searchbos">
+	                      					<form id="form" name="form" method ="post"> 
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">고객사 명</label>
+													<input type="text" id="uidCustomerName" name="uidCustomerName" class="form-control"> 
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">OS 상세버전</label>
+	                      							<input type="text" id="uidOsDetailVersion" name="uidOsDetailVersion" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">패키지명</label>
+	                      							<input type="text" id="uidPackageName" name="uidPackageName" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">이벤트</label>
+	                      							<input type="text" id="uidEvent" name="uidEvent" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">사용자</label>
+	                      							<input type="text" id="uidUser" name="uidUser" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-12 text-right">
+												<p class="search-btn">
+													<button class="btn btn-primary btnm" type="button" id="btnSearch">
+														<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+													</button>
+													<button class="btn btn-default btnm" type="button" id="btnReset">
+														<span>초기화</span>
+													</button>
+												</p>
+											</div>
+	                      						
+	                      					</form>
+	                     				</div>
+                     				 </div>
+		                           	 	<table style="width:100%;">
+											<tbody><tr>
+												<td style="padding:0px 0px 0px 0px;" class="box">
+													<table style="width:100%">
+													<tbody><tr>
+														<td style="font-weight:bold;">로그 관리 :
+															<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'uidLogList');">컬럼 선택</button>
+														</td>
+													</tr>
+													<tr>
+														<td class="border1" colspan="2">
+															<!------- Grid ------->
+															<div class="jqGrid_wrapper">
+																<table id="list"></table>
+																<div id="pager"></div>
+															</div>
+															<!------- Grid ------->
+														</td>
+													</tr>
+													</tbody>
+												</table>
+											</td>
+										</tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+<script>
+	
+	/* =========== 검색 ========= */
+	$('#btnSearch').click(function() {
+		tableRefresh();
+	});
+	
+	/* =========== 테이블 새로고침 ========= */
+	function tableRefresh() {
+		var jqGrid = $("#list");
+		jqGrid.clearGridData();
+		jqGrid.setGridParam({ postData: $("#form").serializeObject() });
+		jqGrid.trigger('reloadGrid');
+	}
+
+	/* =========== Enter 검색 ========= */
+	$("input[type=text]").keypress(function(event) {
+		if (window.event.keyCode == 13) {
+			tableRefresh();
+		}
+	});
+	
+	/* =========== 검색 초기화 ========= */
+	$('#btnReset').click(function() {
+		$("input[type='text']").val("");
+		$("select").each(function(index){
+			$("option:eq(0)",this).prop("selected",true);
+		});
+		tableRefresh();
+	});
+	
+	
+
+
+</script>
+</html>

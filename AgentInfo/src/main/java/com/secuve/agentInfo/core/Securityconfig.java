@@ -22,6 +22,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 			.antMatchers("/employee/**").hasAnyRole("ADMIN")
 			.antMatchers("/category/**").hasAnyRole("ADMIN")
+			.antMatchers("/uidLog/**").hasAnyRole("ADMIN")
 			.antMatchers("/packages/**").hasAnyRole("ADMIN","MEMBER")
 			.antMatchers("/index").hasAnyRole("MEMBER","ADMIN")
 			.antMatchers("/").hasAnyRole("MEMBER","ADMIN");

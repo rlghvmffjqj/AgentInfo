@@ -60,6 +60,10 @@
 		VALUES (#{uidKeyNum}, #{uidCustomerName}, #{uidOsDetailVersion}, #{uidPackageName}, #{uidEvent}, #{uidUser}, #{uidTime});
 	</insert>
 	
+	<update id="plusPackagesKeyNum">
+		UPDATE packages SET packagesKeyNum = packagesKeyNum + 1 WHERE packagesKeyNum > #{packagesKeyNum};
+	</update>
+	
 	
 	
 	<!-- ==================================================================================== -->

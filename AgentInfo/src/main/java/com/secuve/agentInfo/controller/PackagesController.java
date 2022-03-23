@@ -269,5 +269,44 @@ public class PackagesController {
 
 	}
     
+    /**
+     * 패키지 한 행 복사 모달
+     * @param model
+     * @param packagesKeyNum
+     * @return
+     */
+    @PostMapping(value ="/packages/copyView")
+	public String CopyPackagesView(Model model, int packagesKeyNum) {
+		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
+		
+		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
+		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
+		List<String> osType = caegoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
+		
+		model.addAttribute("existingNew", existingNew);
+		model.addAttribute("managementServer", managementServer);
+		model.addAttribute("generalCustom", generalCustom);
+		model.addAttribute("osType", osType);
+		model.addAttribute("requestProductCategory", requestProductCategory);
+		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("viewType","copy").addAttribute("packages", packages);
+		return "/packages/PackagesView";
+	}
+    
+    @ResponseBody
+	@PostMapping(value = "/packages/copy")
+	public Map<String,String> copyPackages(Packages packages, Principal principal) {
+		packages.setPackagesRegistrant(principal.getName());
+		packages.setPackagesRegistrationDate(packagesService.nowDate());
+
+		Map<String,String> map = new HashMap<String,String>();
+		String result = packagesService.copyPackages(packages, principal);
+		map.put("result", result);
+		return map;
+	}
+    
     
 }
