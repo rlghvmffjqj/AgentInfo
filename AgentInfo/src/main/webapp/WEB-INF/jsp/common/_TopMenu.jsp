@@ -59,3 +59,18 @@
         </div>
     </div>
 </nav>
+
+<script>
+function updateView(data) {
+	$.ajax({
+	    type: 'POST',
+	    url: "<c:url value='/usres/profileView'/>",
+	    data: {"employeeId" : data},
+	    success: function (data) {
+	        $.modal(data, 'll'); //modal창 호출
+	    },
+	    error: function(e) {
+	        // TODO 에러 화면
+	    }
+	});
+</script>

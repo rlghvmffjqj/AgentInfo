@@ -1,0 +1,7 @@
+dbname: agentInfo
+dbpasswd: secuve00.
+mydatabase: mysql
+myurl: 172.16.100.90
+myport: 3307 
+myname: agentInfo
+
