@@ -138,6 +138,7 @@
 		    type: 'POST',
 		    url: "<c:url value='/category/insertView'/>",
 		    data: formData,
+		    async: false,
 		    success: function (data) {
 		        $.modal(data, 's'); //modal창 호출
 		    },
@@ -219,6 +220,7 @@
             type: 'POST',
             url: "<c:url value='/category/updateView'/>",
             data: {"categoryKeyNum" : data},
+            async: false,
             success: function (data) {
                 $.modal(data, 's'); //modal창 호출
             },

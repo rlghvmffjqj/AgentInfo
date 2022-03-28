@@ -219,7 +219,7 @@ public class PackagesService {
             cell = row.getCell(6);
             if(null != cell) 
             	packages.setAgentOS(cell.getStringCellValue());
-            // 행의 8번째 열(OS 상세버전)
+            // 행의 8번째 열(패키지 상세버전)
             cell = row.getCell(7);
             if(null != cell) 
             	packages.setOsDetailVersion(cell.getStringCellValue());
@@ -335,7 +335,7 @@ public class PackagesService {
             cell = row.getCell(6);
             if(null != cell) 
             	packages.setAgentOS(cell.getStringCellValue());
-            // 행의 8번째 열(OS 상세버전)
+            // 행의 8번째 열(패키지 상세버전)
             cell = row.getCell(7);
             if(null != cell) 
             	packages.setOsDetailVersion(cell.getStringCellValue());
@@ -451,7 +451,7 @@ public class PackagesService {
             cell = row.getCell(6);
             if(null != cell) 
             	packages.setAgentOS(cell.getStringCellValue());
-            // 행의 8번째 열(OS 상세버전)
+            // 행의 8번째 열(패키지 상세버전)
             cell = row.getCell(7);
             if(null != cell) 
             	packages.setOsDetailVersion(cell.getStringCellValue());
@@ -576,18 +576,18 @@ public class PackagesService {
             cell = row.getCell(8);
             if(null != cell) 
             	packages.setOsType(cell.getStringCellValue());
-            // 행의 10번째 열(Agent OS)
+            // 행의 10번째 열(패키지 상세버전)
+            cell = row.getCell(9);
+            if(null != cell) 
+            	packages.setOsDetailVersion(cell.getStringCellValue());
+            // 행의 11번째 열(Agent OS)
             cell = row.getCell(10);
             if(null != cell) 
             	packages.setAgentOS(cell.getStringCellValue());
-            // 행의 11번째 열(기존/신규)
-            cell = row.getCell(9);
-            if(null != cell) 
-            	packages.setExistingNew(cell.getStringCellValue());
-            // 행의 12번째 열(OS 상세버전)
+            // 행의 12번째 열(기존/신규)
             cell = row.getCell(11);
             if(null != cell) 
-            	packages.setOsDetailVersion(cell.getStringCellValue());
+            	packages.setExistingNew(cell.getStringCellValue());
             // 행의 13번째 열(요청 제품구분)
             cell = row.getCell(12);
             if(null != cell) 

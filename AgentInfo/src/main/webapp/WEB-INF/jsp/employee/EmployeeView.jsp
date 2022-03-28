@@ -162,6 +162,7 @@
 				url: "<c:url value='/employee/insert'/>",
 	            type: 'post',
 	            data: postData,
+	            async: false,
 	            success: function(result) {
 	            	if(result.result == "NotEmployeeId") { // 사원 번호 미 입력 알림.
 						$('#NotEmployeeId').show();
@@ -217,6 +218,7 @@
             url: 'update',
             type: 'post',
             data: postData,
+            async: false,
             success: function(result) {
 				if(result.result == "OK") {
 					Swal.fire({

@@ -25,7 +25,7 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사 명','OS 상세버전','패키지 명','이벤트','사용자','시간'],
+				colNames:['Key','고객사 명','패키지 상세버전','패키지 명','이벤트','사용자','시간'],
 				colModel:[
 					{name:'uidKeyNum', index:'uidKeyNum', align:'center', width: 50, hidden:true},
 					{name:'uidCustomerName', index:'uidCustomerName',align:'center', width: 150},
@@ -102,7 +102,7 @@
 													<input type="text" id="uidCustomerName" name="uidCustomerName" class="form-control"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">OS 상세버전</label>
+	                      							<label class="labelFontSize">패키지 상세버전</label>
 	                      							<input type="text" id="uidOsDetailVersion" name="uidOsDetailVersion" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
@@ -196,9 +196,6 @@
 		});
 		tableRefresh();
 	});
-	
-	
-
 
 </script>
 </html>

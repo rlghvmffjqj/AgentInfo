@@ -18,7 +18,7 @@ public class Packages {
 	private String existingNew;				// 기존/신규
 	private String managementServer;		// 패키지 종류
 	private String agentOS;					// Agent OS
-	private String osDetailVersion;			// OS 상세버전
+	private String osDetailVersion;			// 패키지 상세버전
 	private String generalCustom;			// 일반/커스텀
 	private String osType;					// OS 종류
 	private String agentVer;				// Agent ver

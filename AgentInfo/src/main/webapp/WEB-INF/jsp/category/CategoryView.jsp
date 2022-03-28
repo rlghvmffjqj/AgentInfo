@@ -45,6 +45,7 @@
 			url: "<c:url value='/category/insert'/>",
 	           type: 'post',
 	           data: postData,
+	           async: false,
 	           success: function(result) {
 		           	if(result.result == "NotCategory") { 
 						$('#NotCategory').show();
@@ -91,6 +92,7 @@
             url: 'update',
             type: 'post',
             data: postData,
+            async: false,
             success: function(result) {
 				if(result.result == "OK") {
 					Swal.fire({

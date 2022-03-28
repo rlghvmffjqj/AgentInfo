@@ -36,9 +36,9 @@
 					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 150},
 					{name:'packageName', index:'packageName', align:'center', width: 600},
-					{name:'manager', index:'manager', align:'center', width: 70},
+					{name:'manager', index:'manager', align:'center', width: 80},
 					{name:'osType', index:'osType', align:'center', width: 60},
-					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 270},
+					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 280},
 					{name:'agentOS', index:'agentOS', align:'center', width: 90},
 					{name:'existingNew', index:'existingNew', align:'center', width: 70},
 					{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 90},
@@ -262,6 +262,7 @@
   		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/packages/importView'/>",
+		    async: false,
 		    success: function (data) {
 		        $.modal(data, 's'); //modal창 호출
 		    },
@@ -276,6 +277,7 @@
 		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/packages/insertView'/>",
+		    async: false,
 		    success: function (data) {
 		        $.modal(data, 'll'); //modal창 호출
 		    },
@@ -424,6 +426,7 @@
 	            type: 'POST',
 	            url: "<c:url value='/packages/copyView'/>",
 	            data: {"packagesKeyNum" : packagesKeyNum},
+	            async: false,
 	            success: function (data) {
 	                $.modal(data, 'll'); //modal창 호출
 	            },
@@ -447,6 +450,7 @@
 	            type: 'POST',
 	            url: "<c:url value='/packages/updateView'/>",
 	            data: {"packagesKeyNum" : data},
+	            async: false,
 	            success: function (data) {
 	                $.modal(data, 'll'); //modal창 호출
 	            },

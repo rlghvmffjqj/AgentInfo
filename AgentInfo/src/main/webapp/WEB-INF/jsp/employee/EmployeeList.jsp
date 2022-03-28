@@ -195,6 +195,7 @@
 		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/employee/insertView'/>",
+		    async: false,
 		    success: function (data) {
 		        $.modal(data, 'l'); //modal창 호출
 		    },
@@ -301,6 +302,7 @@
             type: 'POST',
             url: "<c:url value='/employee/updateView'/>",
             data: {"employeeId" : data},
+            async: false,
             success: function (data) {
                 $.modal(data, 'l'); //modal창 호출
             },

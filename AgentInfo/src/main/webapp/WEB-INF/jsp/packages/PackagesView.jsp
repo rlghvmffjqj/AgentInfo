@@ -211,6 +211,7 @@
 			url: "<c:url value='/packages/insert'/>",
 	        type: 'post',
 	        data: postData,
+	        async: false,
 	        success: function(result) {
 	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
 					$('#NotCustomerName').show();
@@ -253,6 +254,7 @@
 			url: "<c:url value='/packages/update'/>",
             type: 'post',
             data: postData,
+            async: false,
             success: function(result) {
 				if(result.result == "OK") {
 					Swal.fire({
@@ -293,6 +295,7 @@
 			url: "<c:url value='/packages/copy'/>",
 	        type: 'post',
 	        data: postData,
+	        async: false,
 	        success: function(result) {
 	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
 					$('#NotCustomerName').show();

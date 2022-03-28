@@ -66,6 +66,7 @@
 				type : "POST",
 				enctype: 'multipart/form-data',
 		        data: data,
+		        async: false,
 		        processData: false,
 		        contentType: false,
 		        success: function(result) {
