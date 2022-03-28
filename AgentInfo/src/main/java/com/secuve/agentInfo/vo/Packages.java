@@ -16,7 +16,7 @@ public class Packages {
 	private String requestDate;				// 요청일자
 	private String deliveryData;			// 전달일자
 	private String existingNew;				// 기존/신규
-	private String managementServer;		// 관리서버/Agent
+	private String managementServer;		// 패키지 종류
 	private String agentOS;					// Agent OS
 	private String osDetailVersion;			// OS 상세버전
 	private String generalCustom;			// 일반/커스텀

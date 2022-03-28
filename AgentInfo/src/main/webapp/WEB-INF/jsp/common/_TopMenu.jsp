@@ -44,7 +44,7 @@
                     </a>
                     <ul class="show-notification profile-notification">
                         <li class="waves-effect waves-light">
-                            <a href="user-profile.html">
+                            <a href="#" onclick="profileView()">
                                 <i class="ti-user"></i> Profile
                             </a>
                         </li>
@@ -61,11 +61,10 @@
 </nav>
 
 <script>
-function updateView(data) {
+function profileView() {	
 	$.ajax({
 	    type: 'POST',
 	    url: "<c:url value='/usres/profileView'/>",
-	    data: {"employeeId" : data},
 	    success: function (data) {
 	        $.modal(data, 'll'); //modal창 호출
 	    },
@@ -73,4 +72,5 @@ function updateView(data) {
 	        // TODO 에러 화면
 	    }
 	});
+}
 </script>

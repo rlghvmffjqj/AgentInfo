@@ -83,18 +83,18 @@
 	         </ul>
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
 	         <ul class="pcoded-item pcoded-left-item">
-	             <li class="existingNew">
-	                 <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
+	             <li class="managementServer">
+	                 <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
 	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">기존/신규</span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 종류</span>
 	                 </a>
 	             </li>
 	         </ul>
 	         <ul class="pcoded-item pcoded-left-item">
-	             <li class="managementServer">
-	                 <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
+	             <li class="existingNew">
+	                 <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
 	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">관리서버/Agent</span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">기존/신규</span>
 	                 </a>
 	             </li>
 	         </ul>

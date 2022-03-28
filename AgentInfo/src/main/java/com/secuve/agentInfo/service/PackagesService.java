@@ -211,7 +211,7 @@ public class PackagesService {
             cell = row.getCell(4);
             if(null != cell) 
             	packages.setExistingNew(cell.getStringCellValue());
-            // 행의 6번째 열(관리서버 / Agent)
+            // 행의 6번째 열(패키지 종류)
             cell = row.getCell(5);
             if(null != cell) 
             	packages.setManagementServer(cell.getStringCellValue());
@@ -327,7 +327,7 @@ public class PackagesService {
             cell = row.getCell(4);
             if(null != cell) 
             	packages.setExistingNew(cell.getStringCellValue());
-            // 행의 6번째 열(관리서버 / Agent)
+            // 행의 6번째 열(패키지 종류)
             cell = row.getCell(5);
             if(null != cell) 
             	packages.setManagementServer(cell.getStringCellValue());
@@ -443,7 +443,7 @@ public class PackagesService {
             cell = row.getCell(4);
             if(null != cell) 
             	packages.setExistingNew(cell.getStringCellValue());
-            // 행의 6번째 열(관리서버 / Agent)
+            // 행의 6번째 열(패키지 종류)
             cell = row.getCell(5);
             if(null != cell) 
             	packages.setManagementServer(cell.getStringCellValue());
@@ -537,7 +537,7 @@ public class PackagesService {
             // 행의 1번째 열(고객사 명) 
             HSSFCell cell = row.getCell(0);
             
-            if(row.getCell(1).getStringCellValue() == "" || row.getCell(1).getStringCellValue() == null) {
+            if(row.getCell(0).getStringCellValue() == "" || row.getCell(0).getStringCellValue() == null) {
             	return "OK";
             }
             
@@ -552,42 +552,42 @@ public class PackagesService {
             if(null != cell) {
             	packages.setDeliveryData(cell.getStringCellValue());
             }
-            // 행의 4번째 열(기존/신규)
+            // 행의 4번째 열(패키지 종류)
             cell = row.getCell(3);
             if(null != cell) 
-            	packages.setExistingNew(cell.getStringCellValue());
-            // 행의 5번째 열(관리서버 / Agent)
+            	packages.setManagementServer(cell.getStringCellValue());
+            // 행의 5번째 열(일반/커스텀)
             cell = row.getCell(4);
             if(null != cell) 
-            	packages.setManagementServer(cell.getStringCellValue());
-            // 행의 6번째 열(Agent OS)
+            	packages.setGeneralCustom(cell.getStringCellValue());
+            // 행의 6번째 열(Agent ver)
             cell = row.getCell(5);
             if(null != cell) 
-            	packages.setAgentOS(cell.getStringCellValue());
-            // 행의 7번째 열(OS 상세버전)
+            	packages.setAgentVer(cell.getStringCellValue());
+            // 행의 7번째 열(패키지명)
             cell = row.getCell(6);
             if(null != cell) 
-            	packages.setOsDetailVersion(cell.getStringCellValue());
-            // 행의 8번째 열(일반/커스텀)
+            	packages.setPackageName(cell.getStringCellValue());
+            // 행의 8번째 열(담당자)
             cell = row.getCell(7);
             if(null != cell) 
-            	packages.setGeneralCustom(cell.getStringCellValue());
+            	packages.setManager(cell.getStringCellValue());
             // 행의 9번째 열(OS종류)
             cell = row.getCell(8);
             if(null != cell) 
             	packages.setOsType(cell.getStringCellValue());
-            // 행의 10번째 열(Agent ver)
-            cell = row.getCell(9);
-            if(null != cell) 
-            	packages.setAgentVer(cell.getStringCellValue());
-            // 행의 11번째 열(패키지명)
+            // 행의 10번째 열(Agent OS)
             cell = row.getCell(10);
             if(null != cell) 
-            	packages.setPackageName(cell.getStringCellValue());
-            // 행의 12번째 열(담당자)
+            	packages.setAgentOS(cell.getStringCellValue());
+            // 행의 11번째 열(기존/신규)
+            cell = row.getCell(9);
+            if(null != cell) 
+            	packages.setExistingNew(cell.getStringCellValue());
+            // 행의 12번째 열(OS 상세버전)
             cell = row.getCell(11);
             if(null != cell) 
-            	packages.setManager(cell.getStringCellValue());
+            	packages.setOsDetailVersion(cell.getStringCellValue());
             // 행의 13번째 열(요청 제품구분)
             cell = row.getCell(12);
             if(null != cell) 

@@ -253,7 +253,7 @@
 
 		var columns = [];
 		var headers = [];
-		for(var i=0; i < colModel.length; i++)
+		for(var i=1; i < colModel.length; i++)
 		{
 			// 숨겨진 컬럼을 제외하고 순서데로 저장
 			var item = colModel[i];

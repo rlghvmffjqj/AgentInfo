@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.secuve.agentInfo.AgentInfoApplication;
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.UsersService;
+import com.secuve.agentInfo.vo.Employee;
 import com.secuve.agentInfo.vo.Users;
 
 @Controller
@@ -19,6 +22,7 @@ import com.secuve.agentInfo.vo.Users;
 public class UsersController {
 	private static final Logger LOGGER = LogManager.getLogger(UsersController.class);
 	@Autowired UsersService usersService;
+	@Autowired EmployeeService employeeService;
 	
 	/**
 	 * 인덱스
@@ -114,6 +118,13 @@ public class UsersController {
 
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 		return "common/msg";
+	}
+	
+	@PostMapping(value ="/usres/profileView")
+	public String UpdateEmployeeView(Model model, Principal principal) {
+		Employee employee = employeeService.getEmployeeOne(principal.getName());
+		model.addAttribute("employee", employee);
+		return "users/ProfileView";
 	}
 	
 	

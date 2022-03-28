@@ -26,31 +26,31 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사 명','요청일자','전달일자','기존/신규','관리서버 / Agent','Agent OS','OS 상세버전','일반/커스텀','OS종류','Agent ver','패키지명','담당자','요청 제품구분','전달 방법','비고'],
+				colNames:['Key','고객사 명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고'],
 				colModel:[
-					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 100, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 150, formatter: linkFormatter},
-					{name:'requestDate', index:'requestDate', align:'center', width: 150},
-					{name:'deliveryData', index:'deliveryData',align:'center', width: 150},
-					{name:'existingNew', index:'existingNew', align:'center', width: 150},
-					{name:'managementServer', index:'managementServer', align:'center', width: 150},
-					{name:'agentOS', index:'agentOS', align:'center', width: 150},
-					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 450},
-					{name:'generalCustom', index:'generalCustom', align:'center', width: 150},
-					{name:'osType', index:'osType', align:'center', width: 150},
+					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
+					{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
+					{name:'requestDate', index:'requestDate', align:'center', width: 70},
+					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
+					{name:'managementServer', index:'managementServer', align:'center', width: 80},
+					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 150},
-					{name:'packageName', index:'packageName', align:'center', width: 700},
-					{name:'manager', index:'manager', align:'center', width: 150},
-					{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 150},
-					{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 150},
-					{name:'note', index:'note', align:'center', width: 150},
+					{name:'packageName', index:'packageName', align:'center', width: 600},
+					{name:'manager', index:'manager', align:'center', width: 70},
+					{name:'osType', index:'osType', align:'center', width: 60},
+					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 270},
+					{name:'agentOS', index:'agentOS', align:'center', width: 90},
+					{name:'existingNew', index:'existingNew', align:'center', width: 70},
+					{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 90},
+					{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 60},
+					{name:'note', index:'note', align:'center', width: 300},
 				],
 				jsonReader : {
 		        	id: 'packagesKeyNum',
 		        	repeatitems: false
 		        },
 		        pager: '#pager',			// 페이징
-		        rowNum: 30,					// 보여중 행의 수
+		        rowNum: 25,					// 보여중 행의 수
 		        sortname: 'packagesKeyNum',	// 기본 정렬 
 		        sortorder: 'asc',			// 정렬 방식
 		        
@@ -58,7 +58,7 @@
 		        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 		        gridview: true,				// 그리드뷰 방식 랜더링
 		        sortable: true,				// 컬럼을 마우스 순서 변경
-		        height : '810',
+		        height : '670',
 		        autowidth:true,				// 가로 넒이 자동조절
 		        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 		        altRows: false,				// 라인 강조
@@ -126,16 +126,7 @@
 													<input class="form-control" type="date" id="requestDate" name="requestDate"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">기존/신규</label>
-													<select class="form-control" id="existingNew" name="existingNew">
-														<option value=""></option>
-														<c:forEach var="item" items="${existingNew}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">관리서버 / Agent</label>
+	                      							<label class="labelFontSize">패키지 종류</label>
 													<select class="form-control" id="managementServer" name="managementServer">
 														<option value=""></option>
 														<c:forEach var="item" items="${managementServer}">
@@ -143,15 +134,7 @@
 														</c:forEach>
 													</select>
 												</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">Agent OS</label>
-	                      							<input type="text" id="agentOS" name="agentOS" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">OS 상세버전</label>
-	                      							<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
+												<div class="col-lg-2">
 	                      							<label class="labelFontSize">일반/커스텀</label>
 													<select class="form-control" id="generalCustom" name="generalCustom">
 														<option value=""></option>
@@ -160,16 +143,7 @@
 														</c:forEach>
 													</select>
 												</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">OS종류</label>
-													<select class="form-control" id="osType" name="osType">
-														<option value=""></option>
-														<c:forEach var="item" items="${osType}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-	                      						<div class="col-lg-2">
+												<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent ver</label>
 	                      							<input type="text" id="agentVer" name="agentVer" class="form-control">
 	                      						</div>
@@ -181,6 +155,32 @@
 	                      							<label class="labelFontSize">담당자</label>
 	                      							<input type="text" id="manager" name="manager" class="form-control">
 	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">OS종류</label>
+													<select class="form-control" id="osType" name="osType">
+														<option value=""></option>
+														<c:forEach var="item" items="${osType}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">패키지 상세버전</label>
+	                      							<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">Agent OS</label>
+	                      							<input type="text" id="agentOS" name="agentOS" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">기존/신규</label>
+													<select class="form-control" id="existingNew" name="existingNew">
+														<option value=""></option>
+														<c:forEach var="item" items="${existingNew}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청 제품구분</label>
 	                      							<select class="form-control" id="requestProductCategory" name="requestProductCategory">
