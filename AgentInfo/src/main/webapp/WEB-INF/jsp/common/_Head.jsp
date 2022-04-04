@@ -27,6 +27,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.mCustomScrollbar.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/amcharts/export.css'/>" media="all">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/myStyle.css'/>">
+
+
 <!-- jqGrid UI -->
 <link href="<c:url value='/jquery-ui-1.13.1.custom/jquery-ui.min.css'/>" rel="stylesheet" type="text/css" />
 
@@ -40,7 +42,7 @@
 
 <!-- jqGrid -->
 <script type="text/javascript" src="<c:url value='/jqGrid/js/i18n/grid.locale-en.js'/>"></script>
-<%-- <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.src.js'/>"></script> --%>
+<script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.src.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/grid.setcolumns.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jqgrid.extends.js'/>"></script>
@@ -67,6 +69,10 @@
 <script type="text/javascript" src="<c:url value='/js/common-pages.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/pcoded.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/vertical-layout.min.js'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/js/select/bootstrap-select.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/js/select/bootstrap-select.css'/>">
+
 
 
 <script type="text/javascript" src="<c:url value='/js/amcharts/fabric.min.js'/>" async=""></script>

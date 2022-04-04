@@ -8,7 +8,7 @@
 	}); */
 </script>
 
-<div class="modal-body" style="width: 100%; height: 720px;">
+<div class="modal-body" style="width: 100%; height: 600px;">
 	<form id="modalForm" name="form" method ="post"> 
 		 <div class="pading5">
 		  	<label class="labelFontSize">사원번호</label>
@@ -16,35 +16,35 @@
 		 </div>
          <div class="pading5">
          	<label class="labelFontSize">사원명</label>
-         	<input type="text" id="employeeName" name="employeeName" class="form-control viewForm" value="${employee.employeeName}">
+         	<input type="text" id="employeeName" name="employeeName" class="form-control viewForm" value="${employee.employeeName}" readonly>
          </div>
          <div class="pading5">
          	<label class="labelFontSize">부서명</label>
-         	<input type="text" id="departmentName" name="departmentName" class="form-control viewForm" value="${employee.departmentName}">
+         	<input type="text" id="departmentName" name="departmentName" class="form-control viewForm" value="${employee.departmentName}" readonly>
          </div>
          <div class="pading5">
          	<label class="labelFontSize">전화번호</label>
-         	<input type="text" id="employeePhone" name="employeePhone" class="form-control viewForm" value="${employee.employeePhone}">
+         	<input type="text" id="employeePhone" name="employeePhone" class="form-control viewForm" value="${employee.employeePhone}" readonly>
          </div>
          <div class="pading5">
          	<label class="labelFontSize">이메일</label>
-         	<input type="text" id="employeeEmail" name="employeeEmail" class="form-control viewForm" value="${employee.employeeEmail}">
+         	<input type="text" id="employeeEmail" name="employeeEmail" class="form-control viewForm" value="${employee.employeeEmail}" readonly>
          </div>
          <div class="pading5">
          	<label class="labelFontSize">직급</label>
-			<input type="text" id="employeeRank" name="employeeRank" class="form-control viewForm" value="${employee.employeeRank}">
+			<input type="text" id="employeeRank" name="employeeRank" class="form-control viewForm" value="${employee.employeeRank}" readonly>
          </div>
 		 <div class="pading5">
 		 	<label class="labelFontSize">타입</label>
-			<input type="text" id="employeeType" name="employeeType" class="form-control viewForm" value="${employee.employeeType}">
+			<input type="text" id="employeeType" name="employeeType" class="form-control viewForm" value="${employee.employeeType}" readonly>
 		  </div>
 		  <div class="pading5">
 		  	<label class="labelFontSize">상태</label>
-			<input type="text" id="employeeStatus" name="employeeStatus" class="form-control viewForm" value="${employee.employeeStatus}">
+			<input type="text" id="employeeStatus" name="employeeStatus" class="form-control viewForm" value="${employee.employeeStatus}" readonly>
 		  </div>
 		  <div class="pading5">
 		  	<label class="labelFontSize">역할</label>
-			<input type="text" id="usersRole" name="usersRole" class="form-control viewForm" value="${employee.usersRole}">
+			<input type="text" id="usersRole" name="usersRole" class="form-control viewForm" value="${employee.usersRole}" readonly>
 		 </div>
 	</form>
 </div>

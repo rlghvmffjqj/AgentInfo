@@ -52,5 +52,9 @@
 	<select id="getCategoryCheck" parameterType="string" resultMap="category">
 		SELECT * FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValue};
 	</select>
-
+	
+	<select id="getCategoryManagementServer" resultType="_int">
+		SELECT COUNT(*) FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValue};
+	</select>
+	
 </mapper>

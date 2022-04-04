@@ -67,6 +67,20 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	@GetMapping(value = "/category/agentVer")
+	public String agentVer( Model model) {
+		model.addAttribute("category", "agentVer");
+		
+		return "category/CategoryList";
+	}
+	
+	@GetMapping(value = "/category/agentOS")
+	public String agentOS( Model model) {
+		model.addAttribute("category", "agentOS");
+		
+		return "category/CategoryList";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/category")
 	public Map<String, Object> Category(@ModelAttribute("search") Category search) {

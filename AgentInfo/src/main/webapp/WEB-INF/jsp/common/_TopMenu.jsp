@@ -66,7 +66,7 @@ function profileView() {
 	    type: 'POST',
 	    url: "<c:url value='/usres/profileView'/>",
 	    success: function (data) {
-	        $.modal(data, 'll'); //modal창 호출
+	        $.modal(data, 'l'); //modal창 호출
 	    },
 	    error: function(e) {
 	        // TODO 에러 화면

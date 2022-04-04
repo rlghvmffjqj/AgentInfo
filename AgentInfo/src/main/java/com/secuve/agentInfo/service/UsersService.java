@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -16,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import com.secuve.agentInfo.core.Role;
 import com.secuve.agentInfo.dao.UsersJpaDao;
@@ -44,6 +49,14 @@ public class UsersService implements UserDetailsService{
 			session.setAttribute("usersId", "users");
 		}
 		
+//		ServletWebRequest servletContainer = (ServletWebRequest)RequestContextHolder.getRequestAttributes();
+//		HttpServletResponse response = servletContainer.getResponse();
+//		
+//		Cookie idCookie = new Cookie("usersId", usersId);
+//		response.addCookie(idCookie);
+
+
+
 		
 		return new User(usersEntity.getUsersId(), usersEntity.getUsersPw(), authorities);
 	}

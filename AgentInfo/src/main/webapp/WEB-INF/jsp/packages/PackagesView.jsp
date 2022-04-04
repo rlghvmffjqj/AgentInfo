@@ -26,9 +26,9 @@
 	         </div>
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">
-					 <div class="pading5Width450">
+					<div class="pading5Width450">
 					  	<label class="labelFontSize">패키지 종류</label>
-					  	<select class="form-control viewForm" id="managementServer" name="managementServer">
+					  	<select class="form-control viewForm selectpicker" id="managementServer" name="managementServer" data-live-search="true" data-size="5" data-actions-box="true">
 					  		<option value=""></option>
 							<c:forEach var="item" items="${managementServer}">
 								<option value="${item}"><c:out value="${item}"/></option>
@@ -40,6 +40,15 @@
 					  	<select class="form-control viewForm" id="generalCustom" name="generalCustom">
 					  		<option value=""></option>
 							<c:forEach var="item" items="${generalCustom}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					 </div>
+					 <div class="pading5Width450">
+					  	<label class="labelFontSize">Agent ver</label>
+					  	<select class="form-control viewForm" id="agentVer" name="agentVer">
+					  		<option value=""></option>
+							<c:forEach var="item" items="${agentVer}">
 								<option value="${item}"><c:out value="${item}"/></option>
 							</c:forEach>
 						</select>
@@ -66,12 +75,18 @@
 							</c:forEach>
 						</select>
 			         </div>
+			         <div class="pading5Width450">
+			         	<label class="labelFontSize">Agent ver</label>
+			         	<select class="form-control viewForm" id="agentVer" name="agentVer">
+			         		<c:if test="${packages.agentVer ne ''}"><option value=""></option></c:if>
+			         		<c:if test="${packages.agentVer eq ''}"><option value=""></option></c:if>
+							<c:forEach var="item" items="${agentVer}">
+								<option value="${item}" <c:if test="${item eq packages.agentVer}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+			         </div>
 			    </c:when>
 			 </c:choose>
-			 <div class="pading5Width450">
-	         	<label class="labelFontSize">Agent ver</label>
-	         	<input type="text" id="agentVer" name="agentVer" class="form-control viewForm" value="${packages.agentVer}">
-	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">패키지명</label>
 	         	<input type="text" id="packageName" name="packageName" class="form-control viewForm" value="${packages.packageName}">
@@ -111,12 +126,17 @@
 	         	<label class="labelFontSize">패키지 상세버전</label>
 	         	<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control viewForm" value="${packages.osDetailVersion}">
 	         </div>
-	         <div class="pading5Width450">
-	         	<label class="labelFontSize">Agent OS</label>
-	         	<input type="text" id="agentOS" name="agentOS" class="form-control viewForm" value="${packages.agentOS}">
-	         </div>
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">
+					<div class="pading5Width450">
+					  	<label class="labelFontSize">Agent OS</label>
+					  	<select class="form-control viewForm" id="agentOS" name="agentOS">
+					  		<option value=""></option>
+							<c:forEach var="item" items="${agentOS}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					 </div>
 					<div class="pading5Width450">
 					  	<label class="labelFontSize">기존/신규</label>
 					  	<select class="form-control viewForm" id="existingNew" name="existingNew">
@@ -146,6 +166,16 @@
 					 </div>
 			 	</c:when>
 				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Agent OS</label>
+			         	<select class="form-control viewForm" id="agentOS" name="agentOS">
+			         		<c:if test="${packages.agentOS ne ''}"><option value=""></option></c:if>	
+			         		<c:if test="${packages.agentOS eq ''}"><option value=""></option></c:if>
+							<c:forEach var="item" items="${agentOS}">
+								<option value="${item}" <c:if test="${item eq packages.agentOS}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+			         </div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">기존/신규</label>
 			         	<select class="form-control viewForm" id="existingNew" name="existingNew">

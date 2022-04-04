@@ -34,7 +34,6 @@ import com.secuve.agentInfo.vo.Packages;
 public class PackagesController {
 	
 	@Autowired PackagesService packagesService;
-	@Autowired Packages packages;
 	@Autowired CategoryService caegoryService;
 
 	/**
@@ -50,6 +49,8 @@ public class PackagesController {
 		List<String> osType = caegoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
+		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -57,6 +58,8 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("agentOS", agentOS);
 		
 		return "packages/PackagesList";
 	}
@@ -68,7 +71,7 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages")
-	public Map<String, Object> Package(@ModelAttribute("search") Packages search) {
+	public Map<String, Object> Package(Packages search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<Packages> list = new ArrayList<>(packagesService.getPackagesList(search));
 		
@@ -100,6 +103,8 @@ public class PackagesController {
 		List<String> osType = caegoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
+		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -107,6 +112,8 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("viewType","insert").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -145,6 +152,8 @@ public class PackagesController {
 		List<String> osType = caegoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
+		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -152,6 +161,8 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("viewType","update").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}

@@ -69,39 +69,114 @@
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlPackages">
-		<trim prefix="WHERE" prefixOverrides="AND">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="customerName != null and customerName != ''">
-				AND customerName LIKE CONCAT('%',#{customerName},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="existingNew != null and existingNew != ''">
-				AND existingNew LIKE CONCAT('%',#{existingNew},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="existingNewArr" item="arr">
+						OR existingNew LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="managementServer != null and managementServer != ''">
-				AND managementServer LIKE CONCAT('%',#{managementServer},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managementServerArr" item="arr">
+						OR managementServer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="agentOS != null and agentOS != ''">
-				AND agentOS LIKE CONCAT('%',#{agentOS},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="agentOSArr" item="arr">
+						OR agentOS LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="osDetailVersion != null and osDetailVersion != ''">
-				AND osDetailVersion LIKE CONCAT('%',#{osDetailVersion},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osDetailVersionArr" item="arr">
+						OR osDetailVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="osType != null and osType != ''">
-				AND osType LIKE CONCAT('%',#{osType},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osTypeArr" item="arr">
+						OR osType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="generalCustom != null and generalCustom != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="generalCustomArr" item="arr">
+						OR generalCustom LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="agentVer != null and agentVer != ''">
-				AND agentVer LIKE CONCAT('%',#{agentVer},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="agentVerArr" item="arr">
+						OR agentVer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="packageName != null and packageName != ''">
-				AND packageName LIKE CONCAT('%',#{packageName},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="packageNameArr" item="arr">
+						OR packageName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="manager != null and manager != ''">
-				AND manager LIKE CONCAT('%',#{manager},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managerArr" item="arr">
+						OR manager LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="requestProductCategory != null and requestProductCategory != ''">
-				AND requestProductCategory LIKE CONCAT('%',#{requestProductCategory},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="requestProductCategoryArr" item="arr">
+						OR requestProductCategory LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="deliveryMethod != null and deliveryMethod != ''">
-				AND deliveryMethod LIKE CONCAT('%',#{deliveryMethod},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="deliveryMethodArr" item="arr">
+						OR deliveryMethod LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 			<if test="requestDate != null and requestDate != ''">
 				AND requestDate = #{requestDate}

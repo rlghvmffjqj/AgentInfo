@@ -29,21 +29,21 @@
 				colNames:['Key','고객사 명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
+					{name:'customerName', index:'customerName', align:'center', width: 280, formatter: linkFormatter},
 					{name:'requestDate', index:'requestDate', align:'center', width: 70},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
 					{name:'managementServer', index:'managementServer', align:'center', width: 80},
 					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
-					{name:'agentVer', index:'agentVer', align:'center', width: 150},
-					{name:'packageName', index:'packageName', align:'center', width: 600},
+					{name:'agentVer', index:'agentVer', align:'center', width: 170},
+					{name:'packageName', index:'packageName', align:'center', width: 650},
 					{name:'manager', index:'manager', align:'center', width: 80},
 					{name:'osType', index:'osType', align:'center', width: 60},
-					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 280},
-					{name:'agentOS', index:'agentOS', align:'center', width: 90},
+					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 350},
+					{name:'agentOS', index:'agentOS', align:'center', width: 120},
 					{name:'existingNew', index:'existingNew', align:'center', width: 70},
 					{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 90},
 					{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 60},
-					{name:'note', index:'note', align:'center', width: 300},
+					{name:'note', index:'note', align:'center', width: 600},
 				],
 				jsonReader : {
 		        	id: 'packagesKeyNum',
@@ -94,7 +94,7 @@
                                           <li class="breadcrumb-item">
                                               <a href="index.html"> <i class="fa fa-home"></i> </a>
                                           </li>
-                                          <li class="breadcrumb-item"><a href="#!">패키지</a>
+                                          <li class="breadcrumb-item"><a href="#!">패키지 배포 내용</a>
                                           </li>
                                       </ul>
                                   </div>
@@ -106,7 +106,7 @@
                                 <div class="page-wrapper">
                                 	<div class="ibox">
 	                                	<div class="searchbos">
-	                      					<form id="form" name="form" method ="post"> 
+	                                		<form id="form" name="form" method ="post">
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">전달일자</label>
 	                      							<div>
@@ -127,8 +127,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지 종류</label>
-													<select class="form-control" id="managementServer" name="managementServer">
-														<option value=""></option>
+													<select class="form-control selectpicker" id="managementServerStr" name="managementServerStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${managementServer}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -136,8 +135,7 @@
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">일반/커스텀</label>
-													<select class="form-control" id="generalCustom" name="generalCustom">
-														<option value=""></option>
+													<select class="form-control selectpicker" id="generalCustomStr" name="generalCustomStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${generalCustom}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -145,8 +143,12 @@
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent ver</label>
-	                      							<input type="text" id="agentVer" name="agentVer" class="form-control">
-	                      						</div>
+													<select class="form-control selectpicker" id="agentVerStr" name="agentVerStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${agentVer}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지명</label>
 	                      							<input type="text" id="packageName" name="packageName" class="form-control">
@@ -157,8 +159,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">OS종류</label>
-													<select class="form-control" id="osType" name="osType">
-														<option value=""></option>
+													<select class="form-control selectpicker" id="osTypeStr" name="osTypeStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${osType}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -170,12 +171,15 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent OS</label>
-	                      							<input type="text" id="agentOS" name="agentOS" class="form-control">
-	                      						</div>
+													<select class="form-control selectpicker" id="agentOSStr" name="agentOSStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${agentOS}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">기존/신규</label>
-													<select class="form-control" id="existingNew" name="existingNew">
-														<option value=""></option>
+													<select class="form-control selectpicker" id="existingNewStr" name="existingNewStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${existingNew}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -183,8 +187,7 @@
 												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청 제품구분</label>
-	                      							<select class="form-control" id="requestProductCategory" name="requestProductCategory">
-														<option value=""></option>
+	                      							<select class="form-control selectpicker" id="requestProductCategoryStr" name="requestProductCategoryStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${requestProductCategory}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -192,14 +195,20 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">전달 방법</label>
-	                      							<select class="form-control" id="deliveryMethod" name="deliveryMethod">
-														<option value=""></option>
+	                      							<select class="form-control selectpicker" id="deliveryMethodStr" name="deliveryMethodStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${deliveryMethod}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
 													</select>
 	                      						</div>
-	                      						
+	                      						<input type="hidden" id="managementServer" name="managementServer" class="form-control">
+	                      						<input type="hidden" id="generalCustom" name="generalCustom" class="form-control">
+	                      						<input type="hidden" id="agentVer" name="agentVer" class="form-control">
+	                      						<input type="hidden" id="osType" name="osType" class="form-control">
+	                      						<input type="hidden" id="agentOS" name="agentOS" class="form-control">
+	                      						<input type="hidden" id="existingNew" name="existingNew" class="form-control">
+	                      						<input type="hidden" id="requestProductCategory" name="requestProductCategory" class="form-control">
+	                      						<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
 	                      						<div class="col-lg-12 text-right">
 												<p class="search-btn">
 													<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -210,8 +219,7 @@
 													</button>
 												</p>
 											</div>
-	                      						
-	                      					</form>
+											</form>
 	                     				</div>
                      				 </div>
 		                           	 	<table style="width:100%;">
@@ -297,22 +305,18 @@
 				title: '실패!',           
 				text: '전달일자 시작일이 종료일자 보다 큽니다.',    
 			});
-		} else if(deliveryDataStart == "") {
-			if(deliveryDataEnd != "") {
+		} else if(deliveryDataStart == "" && deliveryDataEnd != "") {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
 					text: '전달일자 시작일을 입력해주세요.',    
 				});
-			}
-		} else if(deliveryDataEnd == "") {
-			if(deliveryDataStart != "") {
+		} else if(deliveryDataEnd == "" && deliveryDataStart != "") {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
 					text: '전달일자 종료일을 입력해주세요.',    
 				});
-			}
 		} else {
 			tableRefresh();	
 		}
@@ -321,9 +325,21 @@
 	
 	/* =========== 테이블 새로고침 ========= */
 	function tableRefresh() {
+		$('#managementServer').val($('#managementServerStr').val().join());
+		$('#generalCustom').val($('#generalCustomStr').val().join());
+		$('#agentVer').val($('#agentVerStr').val().join());
+		$('#osType').val($('#osTypeStr').val().join());
+		$('#agentOS').val($('#agentOSStr').val().join());
+		$('#existingNew').val($('#existingNewStr').val().join());
+		$('#requestProductCategory').val($('#requestProductCategoryStr').val().join());
+		$('#deliveryMethod').val($('#deliveryMethodStr').val().join());
+		
+		var _postDate = $("#form").serializeObject();
+		
 		var jqGrid = $("#list");
+		console.log(jqGrid.getGridParam("postData"));
 		jqGrid.clearGridData();
-		jqGrid.setGridParam({ postData: $("#form").serializeObject() });
+		jqGrid.setGridParam({ postData: _postDate });
 		jqGrid.trigger('reloadGrid');
 	}
 
@@ -353,9 +369,10 @@
 	$('#btnReset').click(function() {
 		$("input[type='text']").val("");
 		$("input[type='date']").val("");
-		$("select").each(function(index){
-			$("option:eq(0)",this).prop("selected",true);
-		});
+        
+        $('.selectpicker').val('');
+        $('.filter-option-inner-inner').text('');
+		
 		tableRefresh();
 	});
 	

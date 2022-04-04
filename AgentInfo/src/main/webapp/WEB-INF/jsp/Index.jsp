@@ -2,25 +2,24 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
+<head>
 	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
     <title>Mega Able bootstrap admin template by codedthemes </title>
     <script>
-    $(function() {
-    	$.cookie('name','main');
-    });
+	    $(function() {
+	    	$.cookie('name','main');
+	    });
     </script>
-
-  <body themebg-pattern="theme1">
-  <div id="pcoded" class="pcoded iscollapsed" theme-layout="vertical" vertical-placement="left" vertical-layout="wide" pcoded-device-type="desktop" vertical-nav-type="expanded" vertical-effect="shrink" vnavigation-view="view1" nav-type="st2" fream-type="theme1" sidebar-img="false" sidebar-img-type="img1" layout-type="light">
+</head>
+<body themebg-pattern="theme1">
+  <div id="pcoded" class="pcoded iscollapsed">
       <div class="pcoded-overlay-box"></div>
       <div class="pcoded-container navbar-wrapper">
           <%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
-
           <div class="pcoded-main-container" style="margin-top: 56px;">
               <div class="pcoded-wrapper">
                   <%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
-                  <div class="pcoded-content">
-                      <!-- Page-header start -->
+                  <div class="pcoded-content" id="page-wrapper">
                       <div class="page-header">
                           <div class="page-block">
                               <div class="row align-items-center">

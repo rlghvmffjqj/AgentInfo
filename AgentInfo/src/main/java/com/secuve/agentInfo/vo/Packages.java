@@ -28,6 +28,19 @@ public class Packages {
 	private String deliveryMethod;			// 전달 방법
 	private String note;					// 비고
 	
+	private String[] customerNameArr;
+	private String[] existingNewArr;
+	private String[] managementServerArr;
+	private String[] agentOSArr;
+	private String[] osDetailVersionArr;
+	private String[] generalCustomArr;
+	private String[] osTypeArr;
+	private String[] agentVerArr;
+	private String[] packageNameArr;
+	private String[] managerArr;
+	private String[] requestProductCategoryArr;
+	private String[] deliveryMethodArr;
+	
 	private String deliveryDataStart;		// 전달일자  시작일
 	private String deliveryDataEnd;			// 전달일자  종료일
 	
@@ -39,7 +52,7 @@ public class Packages {
 	private String excelImportYear;
 	
 	private int page=1;							// 기본 페이지 번호
-	private int rows=30;						// 데이터 보여줄 갯수
+	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="packagesKeyNum";			// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
 }

@@ -28,7 +28,7 @@
 				colNames:['Key','고객사 명','패키지 상세버전','패키지 명','이벤트','사용자','시간'],
 				colModel:[
 					{name:'uidKeyNum', index:'uidKeyNum', align:'center', width: 50, hidden:true},
-					{name:'uidCustomerName', index:'uidCustomerName',align:'center', width: 150},
+					{name:'uidCustomerName', index:'uidCustomerName',align:'center', width: 280},
 					{name:'uidOsDetailVersion', index:'uidOsDetailVersion',align:'center', width: 350},
 					{name:'uidPackageName', index:'uidPackageName', align:'center', width: 650},
 					{name:'uidEvent', index:'uidEvent', align:'center', width: 100},
