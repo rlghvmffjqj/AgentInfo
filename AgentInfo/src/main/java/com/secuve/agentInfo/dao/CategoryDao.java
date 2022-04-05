@@ -48,21 +48,8 @@ public class CategoryDao {
 		return sqlSession.selectOne("category.getCategoryCheck", category);
 	}
 
-	public int getCategory(String categoryName, String categoryValue) {
-		Category category = new Category();
-    	category.setCategoryName(categoryName);
-    	category.setCategoryValue(categoryValue);
+	public int getCategory(Category category) {
 		return sqlSession.selectOne("category.getCategoryManagementServer", category);
-	}
-
-	public void setCategory(String categoryName, String categoryValue, String categoryRegistrant, String categoryRegistrationDate) {
-		Category category = new Category();
-    	category.setCategoryName(categoryName);
-    	category.setCategoryValue(categoryValue);
-    	category.setCategoryRegistrant(categoryRegistrant);
-    	category.setCategoryRegistrationDate(categoryRegistrationDate);
-    	sqlSession.insert("category.insertCategory", category);
-		
 	}
 
 }

@@ -296,6 +296,8 @@ public class PackagesController {
 		List<String> osType = caegoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
+		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
 		
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -303,6 +305,8 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("viewType","copy").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}

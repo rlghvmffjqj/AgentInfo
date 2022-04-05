@@ -69,5 +69,29 @@ public class CategoryService {
 			return "FALSE";
 		return "OK";
 	}
+	
+	public int getCategory(String categoryName, String categoryValue) {
+		Category category = new Category();
+    	category.setCategoryName(categoryName);
+    	category.setCategoryValue(categoryValue);
+		return categoryDao.getCategory(category);
+	}
+
+	public void setCategory(String categoryName, String categoryValue, String categoryRegistrant, String categoryRegistrationDate) {
+		if(categoryValue == "" || categoryValue == null || categoryValue.equals("") || categoryValue.equals(null) || categoryValue.length() == 0) {
+			return;
+		}
+		int categroyKeyNum = 0;
+		try {
+			categroyKeyNum = categoryDao.getCategoryKeyNum();
+		} catch (Exception e) {}
+		Category category = new Category();
+		category.setCategoryKeyNum(++categroyKeyNum);
+    	category.setCategoryName(categoryName);
+    	category.setCategoryValue(categoryValue);
+    	category.setCategoryRegistrant(categoryRegistrant);
+    	category.setCategoryRegistrationDate(categoryRegistrationDate);
+    	categoryDao.insertCategory(category);
+	}
 
 }

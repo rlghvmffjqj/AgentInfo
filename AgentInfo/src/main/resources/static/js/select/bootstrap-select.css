@@ -42,11 +42,11 @@ select.selectpicker {
 .bootstrap-select > .dropdown-toggle {
 	background-color: white;
     border: 1px solid #cccccc;
-    font-size: 14px;
+    font-size: 12px;
     background-size: 28px auto;
     letter-spacing: -0.8px;
     color: black;
-    height: 37px;
+    height: 32px;
   position: relative;
   width: 100%;
   text-align: right;
@@ -73,11 +73,11 @@ select.selectpicker {
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
     background-color: white;
     border: 1px solid #cccccc;
-    font-size: 14px;
+    font-size: 12px;
     background-size: 28px auto;
     letter-spacing: -0.8px;
     color: black;
-    height: 37px;
+    height: 32px;
 }
 .bootstrap-select > .dropdown-toggle.bs-placeholder.btn-primary,
 .bootstrap-select > .dropdown-toggle.bs-placeholder.btn-secondary,

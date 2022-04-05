@@ -34,3 +34,4 @@ $.closeModal = function(fnCallback, param1, param2) {
     });
     $('#modal').modal('hide');
 };
+

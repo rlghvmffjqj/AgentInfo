@@ -41,7 +41,7 @@
              </div>
 
          </div>
-         <div class="box" style="overflow-y: scroll; height: 85%;">
+         <div class="box" style="overflow-y: scroll; height: auto;">
 	         <div class="p-15 p-b-0"></div>
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">home</div>
 	         <ul class="pcoded-item pcoded-left-item">
@@ -151,22 +151,7 @@
 		                 </a>
 		             </li>
 		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="agentOS">
-		                 <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">Agent OS</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="agentOS">
-		                 <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">Agent OS</span>
-		                 </a>
-		             </li>
-		         </ul>
+		         
 	         </sec:authorize>
          </div>
 
