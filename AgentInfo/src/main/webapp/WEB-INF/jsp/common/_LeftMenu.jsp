@@ -41,7 +41,7 @@
              </div>
 
          </div>
-         <div class="box" style="overflow-y: scroll; height: auto;">
+         <div class="box" style="overflow-y: scroll; height: 85%;">
 	         <div class="p-15 p-b-0"></div>
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">home</div>
 	         <ul class="pcoded-item pcoded-left-item">
