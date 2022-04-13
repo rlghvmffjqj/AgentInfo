@@ -67,7 +67,7 @@
 		});
 		
 		$(window).on('resize.list', function () {
-		    jQuery("#list").jqGrid( 'setGridWidth', $(".searchbos").width()+16 );
+		    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 		});
 			
 	</script>
@@ -225,7 +225,7 @@
 											</form>
 	                     				</div>
                      				 </div>
-		                           	 	<table style="width:100%;">
+		                           	 	<table style="width:99%;">
 											<tbody><tr>
 												<td style="padding:0px 0px 0px 0px;" class="box">
 													<table style="width:100%">
