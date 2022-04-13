@@ -12,21 +12,21 @@ import lombok.ToString;
 @Component
 public class Packages {
 	private int packagesKeyNum;				// Key Number
-	private String customerName;			// 고객사명
-	private String requestDate;				// 요청일자
-	private String deliveryData;			// 전달일자
-	private String existingNew;				// 기존/신규
-	private String managementServer;		// 패키지 종류
-	private String agentOS;					// Agent OS
-	private String osDetailVersion;			// 패키지 상세버전
-	private String generalCustom;			// 일반/커스텀
-	private String osType;					// OS 종류
-	private String agentVer;				// Agent ver
-	private String packageName;				// 패키지명
-	private String manager;					// 담당자
-	private String requestProductCategory;	// 요청 제품구분
-	private String deliveryMethod;			// 전달 방법
-	private String note;					// 비고
+	private String customerName = "";			// 고객사명
+	private String requestDate = "";				// 요청일자
+	private String deliveryData = "";			// 전달일자
+	private String existingNew = "";				// 기존/신규
+	private String managementServer = "";		// 패키지 종류
+	private String agentOS = "";					// Agent OS
+	private String osDetailVersion = "";			// 패키지 상세버전
+	private String generalCustom = "";			// 일반/커스텀
+	private String osType = "";					// OS 종류
+	private String agentVer = "";				// Agent ver
+	private String packageName = "";				// 패키지명
+	private String manager = "";					// 담당자
+	private String requestProductCategory = "";	// 요청 제품구분
+	private String deliveryMethod = "";			// 전달 방법
+	private String note = "";					// 비고
 	
 	// Modal에서 사용
 	private String customerNameView;			// View 고객사명
@@ -90,4 +90,13 @@ public class Packages {
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="packagesKeyNum";			// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
+	
+	private String chartName;
+	private int chartCount;
+	
+	private int chartColumn1;
+	private int chartColumn2;
+	private int chartColumn3;
+	private int chartColumn4;
+	private int chartColumn5;
 }

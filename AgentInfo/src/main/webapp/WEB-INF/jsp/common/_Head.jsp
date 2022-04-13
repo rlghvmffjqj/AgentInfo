@@ -3,16 +3,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-
 <title>AgentInfo</title>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Mega Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs.">
-<meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive">
-<meta name="author" content="codedthemes">
-
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
@@ -25,13 +18,13 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/google/font.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.mCustomScrollbar.css'/>">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/amcharts/export.css'/>" media="all">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/myStyle.css'/>">
 
 
 <!-- jqGrid UI -->
 <link href="<c:url value='/jquery-ui-1.13.1.custom/jquery-ui.min.css'/>" rel="stylesheet" type="text/css" />
 
+<script type="text/javascript" src="<c:url value='/js/jquery-3.3.1.slim.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.cookie.js'/>"></script> 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.bpopup.min.js'/>"></script>
@@ -42,7 +35,7 @@
 
 <!-- jqGrid -->
 <script type="text/javascript" src="<c:url value='/jqGrid/js/i18n/grid.locale-en.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.src.js'/>"></script>
+<%-- <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.src.js'/>"></script> --%>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.jqGrid.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/grid.setcolumns.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jqgrid.extends.js'/>"></script>
@@ -58,27 +51,19 @@
 <script type="text/javascript" src="<c:url value='/pages/waves/js/waves.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/modernizr/modernizr.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery-slimscroll/jquery.slimscroll.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/chart.js/Chart.js'/>"></script>
+<%-- <script type="text/javascript" src="<c:url value='/js/chart.js/Chart.js'/>"></script> --%>
+<script type="text/javascript" src="<c:url value='/js/chart.js/chart.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/chart.js/chartjs-plugin-datalabels@2.0.0.js'/>"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> -->
 <script type="text/javascript" src="<c:url value='/js/SmoothScroll.js'/>"></script>     
-<script type="text/javascript" src="<c:url value='/js/amcharts/amcharts.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/pages/widget/amchart/gauge.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/pages/widget/amchart/serial.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/pages/widget/amchart/light.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/pages/widget/amchart/pie.min.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/amcharts/export.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/common-pages.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/pcoded.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/vertical-layout.min.js'/>"></script>
 
+<!-- Bootstrap Select -->
 <script type="text/javascript" src="<c:url value='/js/select/bootstrap-select.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/js/select/bootstrap-select.css'/>">
 
 
 
-<script type="text/javascript" src="<c:url value='/js/amcharts/fabric.min.js'/>" async=""></script>
-<script type="text/javascript" src="<c:url value='/js/amcharts/FileSaver.min.js'/>" async=""></script>
-<script type="text/javascript" src="<c:url value='/js/amcharts/jszip.min.js'/>" async=""></script>
-<script type="text/javascript" src="<c:url value='/js/amcharts/pdfmake.min.js'/>" async=""></script>
-<script type="text/javascript" src="<c:url value='/js/amcharts/xlsx.min.js'/>" async=""></script>
-<script type="text/javascript" src="<c:url value='/js/amcharts/vfs_fonts.js'/>" async=""></script>
 

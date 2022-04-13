@@ -3,8 +3,12 @@ package com.secuve.agentInfo.service;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -948,9 +952,15 @@ public class PackagesService {
 		}
 
 		uidLog.setUidKeyNum(++uidLogKeyNum);
-		uidLog.setUidCustomerName(packages.getCustomerNameView());
-		uidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
-		uidLog.setUidPackageName(packages.getPackageNameView());
+		if(event == "DELETE") {
+			uidLog.setUidCustomerName(packages.getCustomerName());
+			uidLog.setUidOsDetailVersion(packages.getOsDetailVersion());
+			uidLog.setUidPackageName(packages.getPackageName());
+		} else {
+			uidLog.setUidCustomerName(packages.getCustomerNameView());
+			uidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
+			uidLog.setUidPackageName(packages.getPackageNameView());
+		}
 		uidLog.setUidEvent(event);
 		uidLog.setUidUser(principal.getName());
 		uidLog.setUidTime(nowDate());
@@ -974,21 +984,21 @@ public class PackagesService {
 	 * @return
 	 */
 	public Packages selfInput(Packages packages) {
-		if(packages.getManagementServerView() == "" || packages.getManagementServerView() == null) 
+		if(packages.getManagementServerSelf() != "" || packages.getManagementServerSelf() != null) 
 			packages.setManagementServerView(packages.getManagementServerSelf());
-		if(packages.getGeneralCustomView() == "" || packages.getGeneralCustomView() == null)
+		if(packages.getGeneralCustomSelf() != "" || packages.getGeneralCustomSelf() != null)
 			packages.setGeneralCustomView(packages.getGeneralCustomSelf());
-		if(packages.getAgentVerView() == "" || packages.getAgentVerView() == null)
+		if(packages.getAgentVerSelf() != "" || packages.getAgentVerSelf() != null)
 			packages.setAgentVerView(packages.getAgentVerSelf());
-		if(packages.getOsTypeView() == "" || packages.getOsTypeView() == null)
+		if(packages.getOsTypeSelf() != "" || packages.getOsTypeSelf() != null)
 			packages.setOsTypeView(packages.getOsTypeSelf());
-		if(packages.getAgentOSView() == "" || packages.getAgentOSView() == null)
+		if(packages.getAgentOSSelf() != "" || packages.getAgentOSSelf() != null)
 			packages.setAgentOSView(packages.getAgentOSSelf());
-		if(packages.getExistingNewView() == "" || packages.getExistingNewView() == null)
+		if(packages.getExistingNewSelf() != "" || packages.getExistingNewSelf() != null)
 			packages.setExistingNewView(packages.getExistingNewSelf());
-		if(packages.getRequestProductCategoryView() == "" || packages.getRequestProductCategoryView() == null)
+		if(packages.getRequestProductCategorySelf() != "" || packages.getRequestProductCategorySelf() != null)
 			packages.setRequestProductCategoryView(packages.getRequestProductCategorySelf());
-		if(packages.getDeliveryMethodView() == "" || packages.getDeliveryMethodView() == null)
+		if(packages.getDeliveryMethodSelf() != "" || packages.getDeliveryMethodSelf() != null)
 			packages.setDeliveryMethodView(packages.getDeliveryMethodSelf());
 		
 		return packages;
@@ -1046,6 +1056,155 @@ public class PackagesService {
 		search.setDeliveryMethodArr(search.getDeliveryMethod().split(","));
 		
 		return search;
+	}
+
+	/**
+	 * 패키지 배포 현황 차트
+	 * @return
+	 */
+	public List<Integer> getChartManagementServer() {
+		int count = 0;
+		List<Integer> list = new ArrayList<Integer>();
+		List<Packages> packagesList = packagesDao.getChartManagementServer();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		for(Packages packages: packagesList) {
+			map.put(packages.getChartName(), packages.getChartCount());
+			if(!packages.getChartName().equals("관리서버") && !packages.getChartName().equals("Agent") && !packages.getChartName().equals("Portal") && !packages.getChartName().equals("TOSRF")) {
+				count += packages.getChartCount();
+			}
+		}
+		list.add(map.get("관리서버"));
+		list.add(map.get("Agent"));
+		list.add(map.get("Portal"));
+		list.add(map.get("TOSRF"));
+		list.add(count);
+		
+		return list;
+	}
+
+	/**
+	 * OS종류 별 Agent배포 현황 차트
+	 * @return
+	 */
+	public List<Integer> getOsType() {
+		List<Integer> list = new ArrayList<Integer>();
+		List<Packages> packagesList = packagesDao.getOsType();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		for(Packages packages: packagesList) {
+			map.put(packages.getChartName(), packages.getChartCount());
+		}
+		list.add(map.get("Linux"));
+		list.add(map.get("Windows"));
+		list.add(map.get("HP-UX"));
+		list.add(map.get("AIX"));
+		list.add(map.get("Solaris"));
+		
+		return list;
+	}
+
+	/**
+	 * Agent 종류별 배포현황 차트
+	 * @return
+	 */
+	public List<Integer> getChartRequestProductCategory() {
+		List<Integer> list = new ArrayList<Integer>();
+		Packages packages = packagesDao.getChartRequestProductCategory();
+		
+		list.add(packages.getChartColumn1());
+		list.add(packages.getChartColumn2());
+		list.add(packages.getChartColumn3());
+		list.add(packages.getChartColumn4());
+		list.add(packages.getChartColumn5());
+		
+		return list;
+	}
+
+	/**
+	 * OS종류별 최대 배포 Agent 버전 차트
+	 * @return
+	 */
+	public Map<String,List> getAgentVer() {
+		Map<String, List> map = new HashMap();
+		List<String> name = new ArrayList<String>();
+		List<Integer> count = new ArrayList<Integer>();
+		String topAgentVer;
+		String topAgentVerArr[];
+		String osType = null;
+		for(int i=0; i<5; i++) {
+			if(osType == "" || osType == null)
+				osType = "Linux";
+			else if(osType == "Linux")
+				osType = "Windows";
+			else if(osType == "Windows")
+				osType = "AIX";
+			else if(osType == "AIX")
+				osType = "HP-UX";
+			else if(osType == "HP-UX")
+				osType = "Solaris";
+			topAgentVer = packagesDao.getTopAgentVer(osType);
+			if(topAgentVer == null)
+				topAgentVer = "Not Exist";
+			topAgentVerArr = topAgentVer.split("-");
+			
+			Packages packages = packagesDao.getAgentVer(topAgentVerArr[0]);
+			if(packages.getChartName() == null)
+				packages.setChartName("Not Exist");
+			name.add(osType+". "+packages.getChartName());
+			count.add(packages.getChartCount());
+		}
+		
+		map.put("name", name);
+		map.put("count", count);
+		
+		return map;
+	}
+
+	/**
+	 * 월별 배포 현황(금년) 차트
+	 * @return
+	 */
+	public List<Integer> getDeliveryData() {
+		List<Integer> list = new ArrayList<Integer>();
+		List<Packages> packagesList = packagesDao.getDeliveryData();
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		String str = null;
+		for(Packages packages: packagesList) {
+			map.put(packages.getChartName(), packages.getChartCount());
+		}
+
+		for(int i=1; i<=12; i++) {
+			if(i<10)
+				str = "0"+Integer.toString(i);
+			else 
+				str = Integer.toString(i);
+			if(map.get(str) != null)
+				list.add(map.get(str));
+			else 
+				list.add(0);
+		}
+		
+		return list;
+	}
+
+	/**
+	 * 고객사별 패키지 배포 수량 TOP 7
+	 * @return
+	 */
+	public Map<String, List> getCustomerName() {
+		Map<String, List> map = new HashMap();
+		List<String> name = new ArrayList<String>();
+		List<Integer> count = new ArrayList<Integer>();
+		
+		List<Packages> packagesList = packagesDao.getCustomerName();
+		
+		for(Packages packages: packagesList) {
+			name.add(packages.getChartName());
+			count.add(packages.getChartCount());
+		}
+		map.put("name", name);
+		map.put("count", count);
+
+		return map;
 	}
 
 }

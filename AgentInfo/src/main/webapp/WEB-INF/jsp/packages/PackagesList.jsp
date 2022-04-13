@@ -110,9 +110,9 @@
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">전달일자</label>
 	                      							<div>
-														<input class="form-control" style="width: 284px; float: left;" type="date" id="deliveryDataStart" name="deliveryDataStart">
+														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDataStart" name="deliveryDataStart">
 														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 284px; float: left;" type="date" id="deliveryDataEnd" name="deliveryDataEnd">
+														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDataEnd" name="deliveryDataEnd">
 													</div>
 	                      						</div>
 	                      						

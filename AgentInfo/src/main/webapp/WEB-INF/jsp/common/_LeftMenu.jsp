@@ -2,8 +2,8 @@
 <script>
 	// Left 메뉴바 선택 표시를 위해 쿠키 사용
 	$(function() {
-		if($.cookie('name') == 'main') {
-			$('.main').addClass('active');
+		if($.cookie('name') == 'home') {
+			$('.home').addClass('active');
 		} else if($.cookie('name') == 'employee') {
 			$('.employee').addClass('active');
 		} else if($.cookie('name') == 'packages') {
@@ -31,9 +31,9 @@
 </script>
 <nav class="pcoded-navbar">
      <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
-     <div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px);"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="position: relative; top: 0px; left: 0px; width: 100%; height: 100%" dir="ltr">
-         <div class="" style="height: 115px;">
-             <div class="main-menu-header">
+     <div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px);"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="background-color: lightgray; position: relative; top: 0px; left: 0px; width: 100%; height: 100%" dir="ltr">
+         <div class="height-100">
+             <div class="main-menu-header page-header height-100">
                  <img class="img-80 img-radius mCS_img_loaded" src="/AgentInfo/images/profile.png" alt="User-Profile-Image">
                  <div class="user-details">
                      <span id="more-details"><sec:authentication property="name"/></span>
@@ -41,14 +41,14 @@
              </div>
 
          </div>
-         <div class="box" style="overflow-y: scroll; height: 85%;">
+         <div class="box" style="overflow-y: scroll; height: 85%; background-color: lightgray;">
 	         <div class="p-15 p-b-0"></div>
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">home</div>
 	         <ul class="pcoded-item pcoded-left-item">
-	             <li class="main">
+	             <li class="home">
 	                 <a href="<c:url value='/index'/>" class="waves-effect waves-dark">
 	                     <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-	                     <span class="pcoded-mtext" data-i18n="nav.dash.main">Main</span>
+	                     <span class="pcoded-mtext" data-i18n="nav.dash.main">Home</span>
 	                     <span class="pcoded-mcaret"></span>
 	                 </a>
 	             </li>

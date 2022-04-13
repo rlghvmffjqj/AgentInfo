@@ -64,7 +64,50 @@
 		UPDATE packages SET packagesKeyNum = packagesKeyNum + 1 WHERE packagesKeyNum > #{packagesKeyNum};
 	</update>
 	
+	<select id="getChartManagementServer" resultMap="packages">
+		SELECT DISTINCT(managementServer) AS 'chartName', COUNT(*) AS 'chartCount'
+		FROM packages
+		GROUP BY managementServer;
+	</select>
 	
+	<select id="getOsType" resultMap="packages">
+		SELECT DISTINCT(osType) AS 'chartName', COUNT(*) AS 'chartCount'
+		FROM packages
+		WHERE managementServer = 'Agent'
+		GROUP BY osType;
+	</select>
+	
+	<select id="getChartRequestProductCategory" resultMap="packages">
+		SELECT 
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 5.0%' AND managementServer = 'Agent') AS 'chartColumn1',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 3.0%' AND managementServer = 'Agent') AS 'chartColumn2',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.60%' AND managementServer = 'Agent') AS 'chartColumn3',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.70%' AND managementServer = 'Agent') AS 'chartColumn4',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TGRIFFIN 5.0%' AND managementServer = 'Agent') AS 'chartColumn5'
+		FROM DUAL;
+	</select>
+	
+	<select id="getTopAgentVer" resultType="string">
+		SELECT agentVer FROM packages WHERE managementServer = 'Agent' AND deliveryData BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH ) AND NOW() AND osType = #{osType} GROUP BY agentVer ORDER BY COUNT(*) DESC LIMIT 1;
+	</select>
+	
+	<select id="getAgentVer" resultMap="packages">
+		SELECT agentVer AS 'chartName', COUNT(*) AS 'chartCount'
+		FROM packages
+		WHERE agentVer LIKE CONCAT('%',#{topAgentVer},'%')
+		AND deliveryData BETWEEN DATE_ADD(NOW(),INTERVAL -3 MONTH ) AND NOW();
+	</select>
+	
+	<select id="getDeliveryData" resultMap="packages">
+		SELECT DATE_FORMAT(deliveryData,'%m') AS 'chartName', COUNT(*) AS 'chartCount'
+		FROM packages
+		WHERE	deliveryData BETWEEN CONCAT(YEAR(NOW()),'-01-01') AND CONCAT(YEAR(NOW()),'-12-31')
+		GROUP BY chartName;
+	</select>
+	
+	<select id="getCustomerName" resultMap="packages">
+		SELECT customerName AS 'chartName', COUNT(*) AS 'chartCount' FROM packages GROUP BY customerName ORDER BY COUNT(*) DESC LIMIT 7;
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

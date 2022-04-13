@@ -57,6 +57,34 @@ public class PackagesDao {
 		sqlSession.update("packages.plusPackagesKeyNum", packagesKeyNum);
 	}
 
+	public List<Packages> getChartManagementServer() {
+		return sqlSession.selectList("packages.getChartManagementServer");
+	}
+
+	public List<Packages> getOsType() {
+		return sqlSession.selectList("packages.getOsType");
+	}
+
+	public Packages getChartRequestProductCategory() {
+		return sqlSession.selectOne("packages.getChartRequestProductCategory");
+	}
+
+	public Packages getAgentVer(String topAgentVer) {
+		return sqlSession.selectOne("packages.getAgentVer", topAgentVer);
+	}
+
+	public String getTopAgentVer(String osType) {
+		return sqlSession.selectOne("packages.getTopAgentVer", osType);
+	}
+
+	public List<Packages> getDeliveryData() {
+		return sqlSession.selectList("packages.getDeliveryData");
+	}
+
+	public List<Packages> getCustomerName() {
+		return sqlSession.selectList("packages.getCustomerName");
+	}
+
 	
 
 }

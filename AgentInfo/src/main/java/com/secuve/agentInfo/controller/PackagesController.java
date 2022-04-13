@@ -329,5 +329,77 @@ public class PackagesController {
 		return map;
 	}
     
+    /**
+     * 차트 패키지 배포 현황
+     * @return
+     */
+    @ResponseBody
+   	@PostMapping(value = "/packages/chart/managementServer")
+   	public List<Integer> chartManagementServer() {
+    	List<Integer> list = new ArrayList<Integer>();
+    	list = packagesService.getChartManagementServer();
+    	return list;
+    }
+    
+    /**
+     * 차트 OS종류별 Agent 배포 현황
+     * @return
+     */
+    @ResponseBody
+   	@PostMapping(value = "/packages/chart/osType")
+   	public List<Integer> chartOsType() {
+    	List<Integer> list = new ArrayList<Integer>();
+    	list = packagesService.getOsType();
+    	return list;
+    }
+    
+    /**
+     * 차트 OS종류별 Agent 배포 현황
+     * @return
+     */
+    @ResponseBody
+   	@PostMapping(value = "/packages/chart/requestProductCategory")
+   	public List<Integer> chartRequestProductCategory() {
+    	List<Integer> list = new ArrayList<Integer>();
+    	list = packagesService.getChartRequestProductCategory();
+    	return list;
+    }
+    
+    /**
+     * 차트 OS종류별 최다 배포 Agent버전(최근 3개월)
+     * @return
+     */
+    @ResponseBody
+   	@PostMapping(value = "/packages/chart/agentVer")
+   	public Map<String,List> chartAgentVer() {
+    	Map<String, List> map = new HashMap<String,List>();
+    	map = packagesService.getAgentVer();
+    	return map;
+    }
+    
+    /**
+     * 월별 배포 현황(금년)
+     * @return
+     */
+    @ResponseBody
+   	@PostMapping(value = "/packages/chart/deliveryData")
+   	public List<Integer> chartDeliveryData() {
+    	List<Integer> list = new ArrayList<Integer>();
+    	list = packagesService.getDeliveryData();
+    	return list;
+    }
+    
+    /**
+     * 고객사별 패키지 배포 수량 TOP 7 (현재)
+     * @return
+     */
+    @ResponseBody
+   	@PostMapping(value = "/packages/chart/customerName")
+   	public Map<String,List> chartCustomerName() {
+    	Map<String, List> map = new HashMap<String,List>();
+    	map = packagesService.getCustomerName();
+    	return map;
+    }
+    
     
 }
