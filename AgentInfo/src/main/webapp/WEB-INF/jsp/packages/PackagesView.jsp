@@ -31,7 +31,7 @@
 					  		<label class="labelFontSize">패키지 종류</label>
 					  		<a href="#" class="selfInput" id="managementServerView" onclick="selfInput('managementServerView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.managementServer}">
+					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="managementServerViewSelf">
 						  	<select class="form-control selectpicker selectForm" id="managementServerView" name="managementServerView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
@@ -46,7 +46,7 @@
 					  		<label class="labelFontSize">일반/커스텀</label>
 					  		<a href="#" class="selfInput" id="generalCustomView" onclick="selfInput('generalCustomView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.generalCustom}">
+					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
 						  	<select class="form-control viewForm selectpicker" id="generalCustomView" name="generalCustomView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
@@ -61,7 +61,7 @@
 					  		<label class="labelFontSize">Agent ver</label>
 					  		<a href="#" class="selfInput" id="agentVerView" onclick="selfInput('agentVerView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.agentVer}">
+					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
 						  	<select class="form-control viewForm selectpicker" id="agentVerView" name="agentVerView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
@@ -78,7 +78,7 @@
 					  		<label class="labelFontSize">패키지 종류</label>
 					  		<a href="#" class="selfInput" id="managementServerView" onclick="selfInput('managementServerView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.managementServer}">
+					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="managementServerViewSelf">
 				         	<select class="form-control viewForm selectpicker" id="managementServerView" name="managementServerView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.managementServer ne ''}"><option value=""></option></c:if>
@@ -94,7 +94,7 @@
 					  		<label class="labelFontSize">일반/커스텀</label>
 					  		<a href="#" class="selfInput" id="generalCustomView" onclick="selfInput('generalCustomView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.generalCustom}">
+					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
 				         	<select class="form-control viewForm selectpicker" id="generalCustomView" name="generalCustomView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.generalCustom ne ''}"><option value=""></option></c:if>
@@ -110,7 +110,7 @@
 					  		<label class="labelFontSize">Agent ver</label>
 					  		<a href="#" class="selfInput" id="agentVerView" onclick="selfInput('agentVerView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.agentVer}">
+					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
 				         	<select class="form-control viewForm selectpicker" id="agentVerView" name="agentVerView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.agentVer ne ''}"><option value=""></option></c:if>
@@ -140,7 +140,7 @@
 					  		<label class="labelFontSize">OS종류</label>
 					  		<a href="#" class="selfInput" id="osTypeView" onclick="selfInput('osTypeView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.osType}">
+					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
 			                <select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
 			                	<option value=""></option>
@@ -157,7 +157,7 @@
 					  		<label class="labelFontSize">OS종류</label>
 					  		<a href="#" class="selfInput" id="osTypeView" onclick="selfInput('osTypeView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.osType}">
+					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
 			                <select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
 			                	<c:if test="${packages.osType ne ''}"><option value=""></option></c:if>
@@ -181,7 +181,7 @@
 					  		<label class="labelFontSize">Agent OS</label>
 					  		<a href="#" class="selfInput" id="agentOSView" onclick="selfInput('agentOSView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.agentOS}">
+					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
 						  	<select class="form-control viewForm selectpicker" id="agentOSView" name="agentOSView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
@@ -196,7 +196,7 @@
 					  		<label class="labelFontSize">기존/신규</label>
 					  		<a href="#" class="selfInput" id="existingNewView" onclick="selfInput('existingNewView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.existingNew}">
+					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
 						  	<select class="form-control viewForm selectpicker" id="existingNewView" name="existingNewView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
@@ -211,7 +211,7 @@
 					  		<label class="labelFontSize">요청 제품 구분</label>
 					  		<a href="#" class="selfInput" id="requestProductCategoryView" onclick="selfInput('requestProductCategoryView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="${packages.requestProductCategory}">
+					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
 						  	<select class="form-control viewForm selectpicker" id="requestProductCategoryView" name="requestProductCategoryView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
@@ -226,7 +226,7 @@
 					  		<label class="labelFontSize">전달 방법</label>
 					  		<a href="#" class="selfInput" id="deliveryMethodView" onclick="selfInput('deliveryMethodView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.deliveryMethod}">
+					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
 			                <select class="form-control viewForm selectpicker" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5">
 			                	<option value=""></option>
@@ -243,7 +243,7 @@
 					  		<label class="labelFontSize">Agent OS</label>
 					  		<a href="#" class="selfInput" id="agentOSView" onclick="selfInput('agentOSView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.agentOS}">
+					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
 				         	<select class="form-control viewForm selectpicker" id="agentOSView" name="agentOSView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.agentOS ne ''}"><option value=""></option></c:if>	
@@ -259,7 +259,7 @@
 					  		<label class="labelFontSize">기존/신규</label>
 					  		<a href="#" class="selfInput" id="existingNewView" onclick="selfInput('existingNewView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.existingNew}">
+					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
 				         	<select class="form-control viewForm selectpicker" id="existingNewView" name="existingNewView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.existingNew ne ''}"><option value=""></option></c:if>	
@@ -275,7 +275,7 @@
 					  		<label class="labelFontSize">요청 제품 구분</label>
 					  		<a href="#" class="selfInput" id="requestProductCategoryView" onclick="selfInput('requestProductCategoryView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="${packages.requestProductCategory}">
+					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
 				         	<select class="form-control viewForm selectpicker" id="requestProductCategoryView" name="requestProductCategoryView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.requestProductCategory ne ''}"><option value=""></option></c:if>
@@ -291,7 +291,7 @@
 					  		<label class="labelFontSize">전달 방법</label>
 					  		<a href="#" class="selfInput" id="deliveryMethodView" onclick="selfInput('deliveryMethodView');">직접입력</a>
 					  	</div>
-					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="${packages.deliveryMethod}">
+					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
 			                <select class="form-control viewForm selectpicker" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5">
 			                	<c:if test="${packages.deliveryMethod ne ''}"><option value=""></option></c:if>

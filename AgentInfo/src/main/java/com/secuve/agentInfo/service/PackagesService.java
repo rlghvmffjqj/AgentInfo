@@ -984,21 +984,21 @@ public class PackagesService {
 	 * @return
 	 */
 	public Packages selfInput(Packages packages) {
-		if(packages.getManagementServerSelf() != "" || packages.getManagementServerSelf() != null) 
+		if(packages.getManagementServerSelf().length() > 0) 
 			packages.setManagementServerView(packages.getManagementServerSelf());
-		if(packages.getGeneralCustomSelf() != "" || packages.getGeneralCustomSelf() != null)
+		if(packages.getGeneralCustomSelf().length() > 0)
 			packages.setGeneralCustomView(packages.getGeneralCustomSelf());
-		if(packages.getAgentVerSelf() != "" || packages.getAgentVerSelf() != null)
+		if(packages.getAgentVerSelf().length() > 0)
 			packages.setAgentVerView(packages.getAgentVerSelf());
-		if(packages.getOsTypeSelf() != "" || packages.getOsTypeSelf() != null)
+		if(packages.getOsTypeSelf().length() > 0)
 			packages.setOsTypeView(packages.getOsTypeSelf());
-		if(packages.getAgentOSSelf() != "" || packages.getAgentOSSelf() != null)
+		if(packages.getAgentOSSelf().length() > 0)
 			packages.setAgentOSView(packages.getAgentOSSelf());
-		if(packages.getExistingNewSelf() != "" || packages.getExistingNewSelf() != null)
+		if(packages.getExistingNewSelf().length() > 0)
 			packages.setExistingNewView(packages.getExistingNewSelf());
-		if(packages.getRequestProductCategorySelf() != "" || packages.getRequestProductCategorySelf() != null)
+		if(packages.getRequestProductCategorySelf().length() > 0)
 			packages.setRequestProductCategoryView(packages.getRequestProductCategorySelf());
-		if(packages.getDeliveryMethodSelf() != "" || packages.getDeliveryMethodSelf() != null)
+		if(packages.getDeliveryMethodSelf().length() > 0)
 			packages.setDeliveryMethodView(packages.getDeliveryMethodSelf());
 		
 		return packages;
