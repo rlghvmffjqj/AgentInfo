@@ -52,6 +52,9 @@
 		        altRows: false,				// 라인 강조
 			}); 
 		});
+		$(window).on('resize.list', function () {
+		    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width()+16 );
+		});
 			
 	</script>
   </head>

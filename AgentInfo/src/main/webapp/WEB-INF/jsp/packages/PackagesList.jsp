@@ -64,7 +64,10 @@
 		        altRows: false,				// 라인 강조
 			}); 
 			loadColumns('#list','packagesList');
-			setAutoResize('#list',810);
+		});
+		
+		$(window).on('resize.list', function () {
+		    jQuery("#list").jqGrid( 'setGridWidth', $(".searchbos").width()+16 );
 		});
 			
 	</script>

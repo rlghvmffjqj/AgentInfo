@@ -47,9 +47,14 @@
 		        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 		        altRows: false,				// 라인 강조
 			}); 
-			setAutoResize('#list',410);
-		});
+//			setAutoResize('#list',410);
 			
+		});
+		$(window).on('resize.list', function () {
+		    jQuery("#list").jqGrid( 'setGridWidth', $(".indexTable").width() );
+		});
+
+
 	</script>
     
 </head>
