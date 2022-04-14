@@ -78,8 +78,8 @@
                               <div class="row align-items-center">
                                   <div class="col-md-8">
                                       <div class="page-header-title" >
-                                          <h5 class="m-b-10">로그 목록</h5>
-                                          <p class="m-b-0">Log List</p>
+                                          <h5 class="m-b-10">로그 정보</h5>
+                                          <p class="m-b-0">Log Information</p>
                                       </div>
                                   </div>
                                   <div class="col-md-4">

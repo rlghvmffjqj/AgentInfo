@@ -74,8 +74,8 @@
                               <div class="row align-items-center">
                                   <div class="col-md-8">
                                       <div class="page-header-title" >
-                                          <h5 class="m-b-10">카테고리 목록</h5>
-                                          <p class="m-b-0">Category List</p>
+                                          <h5 class="m-b-10">카테고리</h5>
+                                          <p class="m-b-0">Category</p>
                                       </div>
                                   </div>
                                   <div class="col-md-4">
