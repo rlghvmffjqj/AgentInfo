@@ -17,7 +17,7 @@
                 </div>
             </div>
             <a href="<c:url value='/index'/>">
-                <img class="img-fluid" src="/AgentInfo/images/logo2.png" alt="Theme-Logo">
+                <img class="img-fluid" src="/AgentInfo/images/logo2.png" alt="Theme-Logo" style="margin-left: -10px;">
             </a>
             <a class="mobile-options waves-effect waves-light">
                 <i class="ti-more"></i>
@@ -39,7 +39,7 @@
                 <li class="user-profile header-notification">
                     <a href="#!" class="waves-effect waves-light">
                         <img src="/AgentInfo/images/profile.png" class="img-radius" alt="User-Profile-Image">
-                        <span><sec:authentication property="name"/></span>
+                        <span style="color:black;"><sec:authentication property="name"/></span>
                         <i class="ti-angle-down"></i>
                     </a>
                     <ul class="show-notification profile-notification">

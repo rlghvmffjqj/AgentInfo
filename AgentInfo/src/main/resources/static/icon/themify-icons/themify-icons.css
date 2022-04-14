@@ -250,6 +250,7 @@
 }
 .ti-angle-down:before {
 	content: "\e64b";
+	color: black;
 }
 .ti-check:before {
 	content: "\e64c";
@@ -292,6 +293,7 @@
 }
 .ti-fullscreen:before {
 	content: "\e659";
+	color: black;
 }
 .ti-arrow-top-right:before {
 	content: "\e65a";
@@ -451,6 +453,8 @@
 }
 .ti-menu:before {
 	content: "\e68e";
+	color: black;
+    margin-left: 21px;
 }
 .ti-menu-alt:before {
 	content: "\e68f";

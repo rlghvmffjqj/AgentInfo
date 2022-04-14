@@ -8418,7 +8418,7 @@ body[themebg-pattern="theme6"] {
 .pcoded[theme-layout="vertical"][vertical-nav-type="fullpage"] .pcoded-main-container, .pcoded[theme-layout="vertical"][vnavigation-view="view3"] .pcoded-main-container {
   position: static; }
 .pcoded .pcoded-header[header-theme="theme1"] {
-  background: saddlebrown; }
+  background: #EAEAEA; }
   .pcoded .pcoded-header[header-theme="theme1"] .input-group-addon,
   .pcoded .pcoded-header[header-theme="theme1"] a {
     color: #fff; }
@@ -8448,7 +8448,7 @@ body[themebg-pattern="theme6"] {
   .pcoded .pcoded-header[header-theme="theme6"] a {
     color: #fff; }
 .pcoded[fream-type="theme1"] .page-header:before, .pcoded[fream-type="theme1"] .main-menu .main-menu-header:before {
-  background: rgba(184, 134, 11, 0.5); }
+  background: rgba(250, 150, 10, 0.5); }
 .pcoded[fream-type="theme2"] .page-header:before, .pcoded[fream-type="theme2"] .main-menu .main-menu-header:before {
   background: rgba(183, 28, 28, 0.5); }
 .pcoded[fream-type="theme3"] .page-header:before, .pcoded[fream-type="theme3"] .main-menu .main-menu-header:before {
