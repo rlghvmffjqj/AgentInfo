@@ -213,7 +213,7 @@ public class PackagesController {
 			if (fileext.equalsIgnoreCase("csv") == true ) {
 				result = packagesService.importPackagesCSV(mfile, principal);
 			} else if(fileext.equalsIgnoreCase("xlsx") == true) {
-				if(packages.getExcelImportYear().equals("2016년"))
+				if(packages.getExcelImportYear().equals("2019년"))
 					result = packagesService.importPackagesXlxs2019(mfile, principal);
 				if(packages.getExcelImportYear().equals("2021년"))
 					result = packagesService.importPackagesXlxs2021(mfile, principal);

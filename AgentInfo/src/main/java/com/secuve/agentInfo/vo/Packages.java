@@ -11,25 +11,27 @@ import lombok.ToString;
 @ToString
 @Component
 public class Packages {
-	private int packagesKeyNum;				// Key Number
+	private int packagesKeyNum;					// Key Number
 	private String customerName = "";			// 고객사명
-	private String requestDate = "";				// 요청일자
+	private String businessName = "";			// 사업명
+	private String requestDate = "";			// 요청일자
 	private String deliveryData = "";			// 전달일자
-	private String existingNew = "";				// 기존/신규
+	private String existingNew = "";			// 기존/신규
 	private String managementServer = "";		// 패키지 종류
-	private String agentOS = "";					// Agent OS
-	private String osDetailVersion = "";			// 패키지 상세버전
+	private String agentOS = "";				// Agent OS
+	private String osDetailVersion = "";		// 패키지 상세버전
 	private String generalCustom = "";			// 일반/커스텀
 	private String osType = "";					// OS 종류
 	private String agentVer = "";				// Agent ver
-	private String packageName = "";				// 패키지명
-	private String manager = "";					// 담당자
+	private String packageName = "";			// 패키지명
+	private String manager = "";				// 담당자
 	private String requestProductCategory = "";	// 요청 제품구분
 	private String deliveryMethod = "";			// 전달 방법
 	private String note = "";					// 비고
 	
 	// Modal에서 사용
 	private String customerNameView;			// View 고객사명
+	private String businessNameView;			// View 사업명
 	private String requestDateView;				// View 요청일자
 	private String deliveryDataView;			// View 전달일자
 	private String existingNewView;				// View 기존/신규
@@ -47,6 +49,7 @@ public class Packages {
 	
 	// Select를 Input 으로 변경 시 사용
 	private String customerNameSelf;			// Self 고객사명
+	private String businessNameSelf;			// Self 사업명
 	private String requestDateSelf;				// Self 요청일자
 	private String deliveryDataSelf;			// Self 전달일자
 	private String existingNewSelf;				// Self 기존/신규
@@ -64,6 +67,7 @@ public class Packages {
 	
 	// 검색 시 ','를 기준으로 배열로 사용
 	private String[] customerNameArr;
+	private String[] businessNameArr;			
 	private String[] existingNewArr;
 	private String[] managementServerArr;
 	private String[] agentOSArr;

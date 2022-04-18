@@ -16,7 +16,7 @@
 	    <select class="form-control marginBttom20 width-200" id="excelImportYear" name="excelImportYear">
 			<option value=""></option>
 			<option value="CSV">CSV</option>
-			<option value="2016년">2019년</option>
+			<option value="2019년">2019년</option>
 			<option value="2021년">2021년</option>
 			<option value="2022년">2022년</option>
 		</select>

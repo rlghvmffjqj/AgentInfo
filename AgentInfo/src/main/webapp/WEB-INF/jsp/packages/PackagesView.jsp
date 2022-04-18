@@ -16,6 +16,10 @@
 				<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${packages.customerName}"> 
 				<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
 			 </div>
+			 <div class="pading5Width450">
+			 	<label class="labelFontSize">사업명</label>
+				<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm" value="${packages.businessName}"> 
+			 </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청일자</label>
 	         	<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${packages.requestDate}">
@@ -127,12 +131,12 @@
 	         	<label class="labelFontSize">패키지명</label>
 	         	<input type="text" id="packageNameView" name="packageNameView" class="form-control viewForm" value="${packages.packageName}">
 	         </div>
-	         <div class="pading5Width450">
+	     </div>
+         <div class="rightDiv">
+         	<div class="pading5Width450">
 	         	<label class="labelFontSize">담당자</label>
 	         	<input type="text" id="managerView" name="managerView" class="form-control viewForm" value="${packages.manager}">
 	         </div>
-	     </div>
-         <div class="rightDiv">
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">
 					 <div class="pading5Width450">

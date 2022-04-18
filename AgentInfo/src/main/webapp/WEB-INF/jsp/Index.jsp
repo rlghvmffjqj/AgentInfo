@@ -17,17 +17,18 @@
 				mtype: 'POST',
 				datatype: 'json',
 				caption: '최근 배포 패키지',
-				colNames:['Key','고객사 명','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류'],
+				colNames:['Key','고객사 명','사업명','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 300},
-					{name:'deliveryData', index:'deliveryData',align:'center', width: 80},
-					{name:'managementServer', index:'managementServer', align:'center', width: 90},
-					{name:'generalCustom', index:'generalCustom', align:'center', width: 70},
+					{name:'customerName', index:'customerName', align:'center', width: 250},
+					{name:'businessName', index:'businessName', align:'center', width: 180},
+					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
+					{name:'managementServer', index:'managementServer', align:'center', width: 80},
+					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 170},
-					{name:'packageName', index:'packageName', align:'center', width: 660},
-					{name:'manager', index:'manager', align:'center', width: 90},
-					{name:'osType', index:'osType', align:'center', width: 77},
+					{name:'packageName', index:'packageName', align:'center', width: 650},
+					{name:'manager', index:'manager', align:'center', width: 80},
+					{name:'osType', index:'osType', align:'center', width: 60},
 				],
 				jsonReader : {
 		        	id: 'packagesKeyNum',
@@ -72,7 +73,7 @@
                               <div class="row align-items-center">
                                   <div class="col-md-8">
                                       <div class="page-header-title">
-                                          <h5 class="m-b-10">대쉬보드</h5>
+                                          <h5 class="m-b-10">대시보드</h5>
                                           <p class="m-b-0">Welcome chart & table dashboard</p>
                                       </div>
                                   </div>
@@ -154,7 +155,7 @@
     
 </body>
 <script>
-	/* =========== 패키지 배포 현황(현재) ========= */
+	/* =========== 패키지 배포 현황(~현재) ========= */
 	var managementServer;
 	$.ajax({
 	    type: 'POST',
@@ -201,9 +202,13 @@
 	    	plugins: {
 	            title: {
 	              display: true,
-	              text: '패키지 배포 현황(현재)'
+	              text: '패키지 배포 현황(~현재)'
 	            },
+	            legend: {
+		            display: false
+		        },
 	        },
+	        
 	    	indexAxis: 'y',
 	        scales: {
 	            y: {
@@ -227,7 +232,7 @@
 	    }
 	});	
 
-	/* =========== OS종류 별 Agent 배표현황(현재) ========= */
+	/* =========== OS종류 별 Agent 배표현황(~현재) ========= */
 	var ctx = document.getElementById('osType').getContext('2d');
 	var osType = new Chart(ctx, {
 		plugins: [ChartDataLabels],
@@ -235,7 +240,7 @@
 	    data: {
 	        labels: ['Linux', 'Windows', 'HP-UX', 'AIX', 'Solaris'],
 	        datasets: [{
-	            label: 'OS종류 별 Agent 배표현황(현재)',
+	            label: 'OS종류 별 Agent 배표현황(~현재)',
 	            data: osType,
 	            backgroundColor: [
 	                'rgba(255, 127, 14, 0.6)',
@@ -285,7 +290,7 @@
 		        },
 	            title: {
 	              display: true,
-	              text: 'OS종류 별 Agent 배표현황(현재)'
+	              text: 'OS종류 별 Agent 배표현황(~현재)'
 	            }
 	        }
 	    }
@@ -305,15 +310,15 @@
 	    }
 	});	
 	
-	/* =========== Agent 종류별 배포현황(현재) ========= */
+	/* =========== Agent 종류별 배포현황(~현재) ========= */
 	var ctx = document.getElementById('requestProductCategory').getContext('2d');
 	var requestProductCategory = new Chart(ctx, {
 		plugins: [ChartDataLabels],
 	    type: 'doughnut',
 	    data: {
-	        labels: ['TOS 5.0', 'TOS 3.0', 'TOS 2.0.60.X', 'TOS 2.0.70.X', 'TGRIFFIN 5.0'],
+	        labels: ['TOS 5.0', 'TOS 3.0', 'TOS 2.0.60.X', 'TOS 2.0.70.X', 'IGRIFFIN 5.0'],
 	        datasets: [{
-	            label: 'Agent 종류별 배포현황(현재)',
+	            label: 'Agent 종류별 배포현황(~현재)',
 	            data: requestProductCategory,
 	            backgroundColor: [
 	                'rgba(255, 127, 14, 0.6)',
@@ -364,7 +369,7 @@
 		        },
 			    title: {
 		            display: true,
-		            text: 'Agent 종류별 배포현황(현재)'
+		            text: 'Agent 종류별 배포현황(~현재)'
 		         }
 	   	 	}
 	    }
@@ -422,6 +427,9 @@
 	              display: true,
 	              text: 'OS종류별 최다 배포 Agent 버전 (최근 3개월)'
 	            },
+	            legend: {
+		            display: false
+		        },
 	        },
 	    	indexAxis: 'y',
 	        scales: {
@@ -479,10 +487,10 @@
 	              display: true,
 	              text: '월별 배포 현황 (금년)'
 	            },
+	            legend: {
+		            display: false
+		        },
 	          },
-		    legend: {
-		      display: true
-		    }
 	    }
 	 });
 </script>
@@ -501,7 +509,7 @@
 	        // TODO 에러 화면
 	    }
 	});	
-	/* =========== 고객사별 패키지 배포 수량 TOP 7 (현재) ========= */
+	/* =========== 고객사별 패키지 배포 수량 TOP 7 (~현재) ========= */
 	var ctx = document.getElementById('customerName').getContext('2d');
 	var customerName = new Chart(ctx, {
 		plugins: [ChartDataLabels],
@@ -543,8 +551,11 @@
 		        },
 	            title: {
 	              display: true,
-	              text: '고객사별 패키지 배포 수량 TOP 7 (현재)'
+	              text: '고객사별 패키지 배포 수량 TOP 7 (~현재)'
 	            },
+	            legend: {
+		            display: false
+		        },
 	        },
 	    	indexAxis: 'y',
 	        scales: {

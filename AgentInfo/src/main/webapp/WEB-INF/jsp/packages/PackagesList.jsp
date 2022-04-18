@@ -26,10 +26,11 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사 명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고'],
+				colNames:['Key','고객사 명','사업명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 280, formatter: linkFormatter},
+					{name:'customerName', index:'customerName', align:'center', width: 250, formatter: linkFormatter},
+					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'requestDate', index:'requestDate', align:'center', width: 70},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
 					{name:'managementServer', index:'managementServer', align:'center', width: 80},
@@ -123,6 +124,10 @@
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사 명</label>
 													<input class="form-control" type="text" id="customerName" name="customerName"> 
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">사업명</label>
+													<input class="form-control" type="text" id="businessName" name="businessName"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청일자</label>
