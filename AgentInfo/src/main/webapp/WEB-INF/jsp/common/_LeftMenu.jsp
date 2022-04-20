@@ -26,6 +26,10 @@
 			$('.agentOS').addClass('active');
 		} else if($.cookie('name') == 'log') {
 			$('.log').addClass('active');
+		} else if($.cookie('name') == 'customerName') {
+			$('.customerName').addClass('active');
+		} else if($.cookie('name') == 'businessName') {
+			$('.businessName').addClass('active');
 		}
 	});
 </script>
@@ -87,6 +91,22 @@
 		             </li>
 		         </ul>
 		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
+		         <ul class="pcoded-item pcoded-left-item">
+		             <li class="customerName">
+		                 <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
+		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사명</span>
+		                 </a>
+		             </li>
+		         </ul>
+		         <ul class="pcoded-item pcoded-left-item">
+		             <li class="businessName">
+		                 <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
+		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사업명</span>
+		                 </a>
+		             </li>
+		         </ul>
 		         <ul class="pcoded-item pcoded-left-item">
 		             <li class="managementServer">
 		                 <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">

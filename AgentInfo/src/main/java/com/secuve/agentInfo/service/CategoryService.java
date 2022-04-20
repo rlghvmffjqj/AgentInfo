@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.CategoryDao;
 import com.secuve.agentInfo.vo.Category;
+import com.secuve.agentInfo.vo.Packages;
 
 @Service
 public class CategoryService {
@@ -16,6 +17,10 @@ public class CategoryService {
 	
 	public List<String> getCategoryValue(String categoryName) {
 		return categoryDao.getCategoryValue(categoryName);
+	}
+	
+	public List<String> getCategoryValue(String categoryName, String customerName) {
+		return categoryDao.getCategoryValue(categoryName, customerName);
 	}
 
 	public List<Category> getCategoryList(Category search) {
@@ -93,5 +98,7 @@ public class CategoryService {
     	category.setCategoryRegistrationDate(categoryRegistrationDate);
     	categoryDao.insertCategory(category);
 	}
+
+	
 
 }

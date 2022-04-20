@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,13 @@ public class CategoryDao {
 
 	public List<String> getCategoryValue(String categoryName) {
 		return sqlSession.selectList("category.getCategoryValue", categoryName);
+	}
+	
+	public List<String> getCategoryValue(String categoryName, String customerName) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("categoryName", categoryName);
+		map.put("customerName", customerName);
+		return sqlSession.selectList("category.getCategoryBusinessName", map);
 	}
 
 	public List<Category> getCategoryList(Category search) {
@@ -51,5 +60,7 @@ public class CategoryDao {
 	public int getCategory(Category category) {
 		return sqlSession.selectOne("category.getCategoryManagementServer", category);
 	}
+
+	
 
 }

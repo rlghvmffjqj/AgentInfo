@@ -29,7 +29,7 @@
 				colNames:['Key','고객사 명','사업명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 250, formatter: linkFormatter},
+					{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'requestDate', index:'requestDate', align:'center', width: 70},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
@@ -119,16 +119,22 @@
 														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDataEnd" name="deliveryDataEnd">
 													</div>
 	                      						</div>
-	                      						
-	                      						
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">고객사 명</label>
-													<input class="form-control" type="text" id="customerName" name="customerName"> 
-	                      						</div>
-	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">고객사명</label>
+													<select class="form-control selectpicker" id="customerNameStr" name="customerNameStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${customerName}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
+												<div class="col-lg-2">
 	                      							<label class="labelFontSize">사업명</label>
-													<input class="form-control" type="text" id="businessName" name="businessName"> 
-	                      						</div>
+													<select class="form-control selectpicker" id="businessNameStr" name="businessNameStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${businessName}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청일자</label>
 													<input class="form-control" type="date" id="requestDate" name="requestDate"> 
@@ -217,6 +223,8 @@
 	                      						<input type="hidden" id="existingNew" name="existingNew" class="form-control">
 	                      						<input type="hidden" id="requestProductCategory" name="requestProductCategory" class="form-control">
 	                      						<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
+	                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
+	                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
 	                      						<div class="col-lg-12 text-right">
 												<p class="search-btn">
 													<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -240,10 +248,12 @@
 																<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
-																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'packagesList');">컬럼 선택</button>
-																<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">Excel 가져오기</button>
 															</sec:authorize>
-															<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
+															<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'packagesList');">컬럼 선택</button>
+															<sec:authorize access="hasRole('ADMIN')">
+																<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">Excel 가져오기</button>
+																<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
+															</sec:authorize>
 														</td>
 													</tr>
 													<tr>
@@ -341,6 +351,8 @@
 		$('#existingNew').val($('#existingNewStr').val().join());
 		$('#requestProductCategory').val($('#requestProductCategoryStr').val().join());
 		$('#deliveryMethod').val($('#deliveryMethodStr').val().join());
+		$('#customerName').val($('#customerNameStr').val().join());
+		$('#businessName').val($('#businessNameStr').val().join());
 		
 		var _postDate = $("#form").serializeObject();
 		
@@ -485,9 +497,6 @@
 	        });
 		</sec:authorize>
 	}
-	
-	
-
 
 </script>
 </html>

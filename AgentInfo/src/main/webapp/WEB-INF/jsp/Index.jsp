@@ -20,13 +20,13 @@
 				colNames:['Key','고객사 명','사업명','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 250},
+					{name:'customerName', index:'customerName', align:'center', width: 200},
 					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
 					{name:'managementServer', index:'managementServer', align:'center', width: 80},
 					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 170},
-					{name:'packageName', index:'packageName', align:'center', width: 650},
+					{name:'packageName', index:'packageName', align:'center', width: 640},
 					{name:'manager', index:'manager', align:'center', width: 80},
 					{name:'osType', index:'osType', align:'center', width: 60},
 				],
@@ -232,7 +232,7 @@
 	    }
 	});	
 
-	/* =========== OS종류 별 Agent 배표현황(~현재) ========= */
+	/* =========== OS종류 별 Agent 배포현황(~현재) ========= */
 	var ctx = document.getElementById('osType').getContext('2d');
 	var osType = new Chart(ctx, {
 		plugins: [ChartDataLabels],
@@ -240,7 +240,7 @@
 	    data: {
 	        labels: ['Linux', 'Windows', 'HP-UX', 'AIX', 'Solaris'],
 	        datasets: [{
-	            label: 'OS종류 별 Agent 배표현황(~현재)',
+	            label: 'OS종류 별 Agent 배포현황(~현재)',
 	            data: osType,
 	            backgroundColor: [
 	                'rgba(255, 127, 14, 0.6)',
@@ -290,7 +290,7 @@
 		        },
 	            title: {
 	              display: true,
-	              text: 'OS종류 별 Agent 배표현황(~현재)'
+	              text: 'OS종류 별 Agent 배포현황(~현재)'
 	            }
 	        }
 	    }
@@ -316,7 +316,7 @@
 		plugins: [ChartDataLabels],
 	    type: 'doughnut',
 	    data: {
-	        labels: ['TOS 5.0', 'TOS 3.0', 'TOS 2.0.60.X', 'TOS 2.0.70.X', 'IGRIFFIN 5.0'],
+	        labels: ['TOS 5.0', 'TOS 3.0', 'TOS 2.0.60.X', 'TOS 2.0.70.X', 'iGRIFFIN 5.0'],
 	        datasets: [{
 	            label: 'Agent 종류별 배포현황(~현재)',
 	            data: requestProductCategory,

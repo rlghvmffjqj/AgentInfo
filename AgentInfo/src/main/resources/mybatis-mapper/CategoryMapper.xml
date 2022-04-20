@@ -9,6 +9,10 @@
 		SELECT categoryValue FROM category WHERE categoryName = #{categoryName};
 	</select>
 	
+	<select id="getCategoryBusinessName" resultType="string">
+		SELECT DISTINCT categoryValue FROM category c, packages p WHERE c.categoryName = #{categoryName} AND c.categoryValue = p.businessName AND p.customerName = #{customerName};
+	</select>
+	
 	<select id="getCategoryList" resultMap="category" parameterType="string">
 		SELECT *
     	FROM

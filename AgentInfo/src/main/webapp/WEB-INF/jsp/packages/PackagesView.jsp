@@ -11,15 +11,73 @@
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}"> 
 		<div class="leftDiv">
-			 <div class="pading5Width450">
-			 	<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-				<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${packages.customerName}"> 
-				<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
-			 </div>
-			 <div class="pading5Width450">
-			 	<label class="labelFontSize">사업명</label>
-				<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm" value="${packages.businessName}"> 
-			 </div>
+			 <c:choose>
+				<c:when test="${viewType eq 'insert'}">
+					<div class="pading5Width450">
+					 	<div>
+					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+					  	</div>
+					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+					  	<div id="customerNameViewSelf">
+						  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+						  		<option value=""></option>
+								<c:forEach var="item" items="${customerName}">
+									<option value="${item}"><c:out value="${item}"/></option>
+								</c:forEach>
+							</select>
+						</div>
+						<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+					 </div>
+					 <div class="pading5Width450">
+					 	<div>
+					  		<label class="labelFontSize">사업명</label>
+					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+					  	</div>
+					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+					  	<div id="businessNameViewSelf">
+						  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+						  		<option value=""></option>
+							</select>
+						</div>
+					 </div>
+				</c:when>
+				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+					<div class="pading5Width450">
+						<div>
+					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+					  	</div>
+					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+					  	<div id="customerNameViewSelf">
+				         	<select class="form-control viewForm selectpicker" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+				         		<c:if test="${packages.customerName ne ''}"><option value=""></option></c:if>
+				         		<c:if test="${packages.customerName eq ''}"><option value=""></option></c:if>
+				         		<c:forEach var="item" items="${customerName}">
+									<option value="${item}" <c:if test="${item eq packages.customerName}">selected</c:if>><c:out value="${item}"/></option>
+								</c:forEach>
+							</select>
+						</div>
+						<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+			         </div>
+			         <div class="pading5Width450">
+						<div>
+					  		<label class="labelFontSize">사업명</label>
+					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+					  	</div>
+					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+					  	<div id="businessNameViewSelf">
+				         	<select class="form-control viewForm selectpicker" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+				         		<c:if test="${packages.businessName ne ''}"><option value=""></option></c:if>
+				         		<c:if test="${packages.businessName eq ''}"><option value=""></option></c:if>
+				         		<c:forEach var="item" items="${businessName}">
+									<option value="${item}" <c:if test="${item eq packages.businessName}">selected</c:if>><c:out value="${item}"/></option>
+								</c:forEach>
+							</select>
+						</div>
+			         </div>
+		 		</c:when>
+			 </c:choose>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청일자</label>
 	         	<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${packages.requestDate}">
@@ -33,7 +91,7 @@
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">패키지 종류</label>
-					  		<a href="#" class="selfInput" id="managementServerView" onclick="selfInput('managementServerView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="managementServerChange" onclick="selfInput('managementServerChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="managementServerViewSelf">
@@ -48,7 +106,7 @@
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">일반/커스텀</label>
-					  		<a href="#" class="selfInput" id="generalCustomView" onclick="selfInput('generalCustomView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="generalCustomChange" onclick="selfInput('generalCustomChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
@@ -63,7 +121,7 @@
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">Agent ver</label>
-					  		<a href="#" class="selfInput" id="agentVerView" onclick="selfInput('agentVerView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="agentVerChange" onclick="selfInput('agentVerChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
@@ -80,7 +138,7 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">패키지 종류</label>
-					  		<a href="#" class="selfInput" id="managementServerView" onclick="selfInput('managementServerView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="managementServerChange" onclick="selfInput('managementServerChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="managementServerViewSelf">
@@ -96,7 +154,7 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">일반/커스텀</label>
-					  		<a href="#" class="selfInput" id="generalCustomView" onclick="selfInput('generalCustomView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="generalCustomChange" onclick="selfInput('generalCustomChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
@@ -112,7 +170,7 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">Agent ver</label>
-					  		<a href="#" class="selfInput" id="agentVerView" onclick="selfInput('agentVerView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="agentVerChange" onclick="selfInput('agentVerChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
@@ -142,7 +200,7 @@
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">OS종류</label>
-					  		<a href="#" class="selfInput" id="osTypeView" onclick="selfInput('osTypeView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
@@ -159,7 +217,7 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">OS종류</label>
-					  		<a href="#" class="selfInput" id="osTypeView" onclick="selfInput('osTypeView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
@@ -183,7 +241,7 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">Agent OS</label>
-					  		<a href="#" class="selfInput" id="agentOSView" onclick="selfInput('agentOSView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="agentOSChange" onclick="selfInput('agentOSChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
@@ -198,7 +256,7 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">기존/신규</label>
-					  		<a href="#" class="selfInput" id="existingNewView" onclick="selfInput('existingNewView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="existingNewChange" onclick="selfInput('existingNewChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
@@ -213,7 +271,7 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">요청 제품 구분</label>
-					  		<a href="#" class="selfInput" id="requestProductCategoryView" onclick="selfInput('requestProductCategoryView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="requestProductCategoryChange" onclick="selfInput('requestProductCategoryChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
@@ -228,7 +286,7 @@
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">전달 방법</label>
-					  		<a href="#" class="selfInput" id="deliveryMethodView" onclick="selfInput('deliveryMethodView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="deliveryMethodChange" onclick="selfInput('deliveryMethodChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
@@ -245,7 +303,7 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">Agent OS</label>
-					  		<a href="#" class="selfInput" id="agentOSView" onclick="selfInput('agentOSView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="agentOSChange" onclick="selfInput('agentOSChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
@@ -261,7 +319,7 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">기존/신규</label>
-					  		<a href="#" class="selfInput" id="existingNewView" onclick="selfInput('existingNewView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="existingNewChange" onclick="selfInput('existingNewChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
@@ -277,7 +335,7 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">요청 제품 구분</label>
-					  		<a href="#" class="selfInput" id="requestProductCategoryView" onclick="selfInput('requestProductCategoryView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="requestProductCategoryChange" onclick="selfInput('requestProductCategoryChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
@@ -293,7 +351,7 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">전달 방법</label>
-					  		<a href="#" class="selfInput" id="deliveryMethodView" onclick="selfInput('deliveryMethodView');">직접입력</a>
+					  		<a href="#" class="selfInput" id="deliveryMethodChange" onclick="selfInput('deliveryMethodChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
@@ -335,7 +393,6 @@
 <script>
 	/* =========== 패키지 추가 ========= */
 	$('#insertBtn').click(function() {
-		
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/packages/insert'/>",
@@ -368,8 +425,6 @@
 						text: '작업을 실패하였습니다.',
 					});
 				}
-				
-				
 			},
 			error: function(error) {
 				console.log(error);
@@ -465,108 +520,149 @@
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
 	function selfInput(data) {
-		if(data == "managementServerView") {
-			if($("#managementServerView").text() == "직접입력") {
+		if(data == "managementServerChange") {
+			if($("#managementServerChange").text() == "직접입력") {
 				$('#managementServerViewSelf').hide();
 				$('#managementServerSelf').attr('type','text');
 				$('#managementServerView').val('');
-				$("#managementServerView").text("선택입력");
-			} else if($("#managementServerView").text() == "선택입력") {
+				$("#managementServerChange").text("선택입력");
+			} else if($("#managementServerChange").text() == "선택입력") {
 				$('#managementServerViewSelf').show();
 				$('#managementServerSelf').attr('type','hidden');
 				$('#managementServerSelf').val('');
-				$("#managementServerView").text("직접입력");
+				$("#managementServerChange").text("직접입력");
 			}
-		} else if (data == "generalCustomView") {
-			if($('#generalCustomView').text() == "직접입력") {
+		} else if (data == "generalCustomChange") {
+			if($('#generalCustomChange').text() == "직접입력") {
 				$('#generalCustomViewSelf').hide();
 				$('#generalCustomSelf').attr('type','text');
 				$('#generalCustomView').val('');
-				$("#generalCustomView").text("선택입력");
-			} else if($('#generalCustomView').text() == "선택입력") {
+				$("#generalCustomChange").text("선택입력");
+			} else if($('#generalCustomChange').text() == "선택입력") {
 				$('#generalCustomViewSelf').show();
 				$('#generalCustomSelf').attr('type','hidden');
 				$('#generalCustomSelf').val('');
-				$("#generalCustomView").text("직접입력");
+				$("#generalCustomChange").text("직접입력");
 			}
-		} else if (data == "agentVerView") {
-			if($('#agentVerView').text() == "직접입력") {
+		} else if (data == "agentVerChange") {
+			if($('#agentVerChange').text() == "직접입력") {
 				$('#agentVerViewSelf').hide();
 				$('#agentVerSelf').attr('type','text');
 				$('#agentVerView').val('');
-				$("#agentVerView").text("선택입력");
-			} else if($('#agentVerView').text() == "선택입력") {
+				$("#agentVerChange").text("선택입력");
+			} else if($('#agentVerChange').text() == "선택입력") {
 				$('#agentVerViewSelf').show();
 				$('#agentVerSelf').attr('type','hidden');
 				$('#agentVerSelf').val('');
-				$("#agentVerView").text("직접입력");
+				$("#agentVerChange").text("직접입력");
 			}
-		} else if (data == "osTypeView") {
-			if($('#osTypeView').text() == "직접입력") {
+		} else if (data == "osTypeChange") {
+			if($('#osTypeChange').text() == "직접입력") {
 				$('#osTypeViewSelf').hide();
 				$('#osTypeSelf').attr('type','text');
 				$('#osTypeView').val('');
-				$("#osTypeView").text("선택입력");
-			} else if($('#osTypeView').text() == "선택입력") {
+				$("#osTypeChange").text("선택입력");
+			} else if($('#osTypeChange').text() == "선택입력") {
 				$('#osTypeViewSelf').show();
 				$('#osTypeSelf').attr('type','hidden');
 				$('#osTypeSelf').val('');
-				$("#osTypeView").text("직접입력");
+				$("#osTypeChange").text("직접입력");
 			}
-		} else if (data == "agentOSView") {
-			if($('#agentOSView').text() == "직접입력") {
+		} else if (data == "agentOSChange") {
+			if($('#agentOSChange').text() == "직접입력") {
 				$('#agentOSViewSelf').hide();
 				$('#agentOSSelf').attr('type','text');
 				$('#agentOSView').val('');	
-				$("#agentOSView").text("선택입력");
-			} else if($('#agentOSView').text() == "선택입력") {
+				$("#agentOSChange").text("선택입력");
+			} else if($('#agentOSChange').text() == "선택입력") {
 				$('#agentOSViewSelf').show();
 				$('#agentOSSelf').attr('type','hidden');
 				$('#agentOSSelf').val('');	
-				$("#agentOSView").text("직접입력");
+				$("#agentOSChange").text("직접입력");
 			}
-		} else if (data == "existingNewView") {
-			if($('#existingNewView').text() == "직접입력") {
+		} else if (data == "existingNewChange") {
+			if($('#existingNewChange').text() == "직접입력") {
 				$('#existingNewViewSelf').hide();
 				$('#existingNewSelf').attr('type','text');
 				$('#existingNewView').val('');
-				$("#existingNewView").text("선택입력");
-			} else if($('#existingNewView').text() == "선택입력") {
+				$("#existingNewChange").text("선택입력");
+			} else if($('#existingNewChange').text() == "선택입력") {
 				$('#existingNewViewSelf').show();
 				$('#existingNewSelf').attr('type','hidden');
 				$('#existingNewSelf').val('');
-				$("#existingNewView").text("직접입력");
+				$("#existingNewChange").text("직접입력");
 			}
-		} else if (data == "requestProductCategoryView") {
-			if($('#requestProductCategoryView').text() == "직접입력") {
+		} else if (data == "requestProductCategoryChange") {
+			if($('#requestProductCategoryChange').text() == "직접입력") {
 				$('#requestProductCategoryViewSelf').hide();
 				$('#requestProductCategorySelf').attr('type','text');
 				$('#requestProductCategoryView').val('');
-				$("#requestProductCategoryView").text("선택입력");
-			} else if($('#requestProductCategoryView').text() == "선택입력") {
+				$("#requestProductCategoryChange").text("선택입력");
+			} else if($('#requestProductCategoryChange').text() == "선택입력") {
 				$('#requestProductCategoryViewSelf').show();
 				$('#requestProductCategorySelf').attr('type','hidden');
 				$('#requestProductCategorySelf').val('');
-				$("#requestProductCategoryView").text("직접입력");
+				$("#requestProductCategoryChange").text("직접입력");
 			}
-		} else if (data == "deliveryMethodView") {
-			if($('#deliveryMethodView').text() == "직접입력") {
+		} else if (data == "deliveryMethodChange") {
+			if($('#deliveryMethodChange').text() == "직접입력") {
 				$('#deliveryMethodViewSelf').hide();
 				$('#deliveryMethodSelf').attr('type','text');
 				$('#deliveryMethodView').val('');	
-				$("#deliveryMethodView").text("선택입력");
-			} else if($('#deliveryMethodView').text() == "선택입력") {
+				$("#deliveryMethodChange").text("선택입력");
+			} else if($('#deliveryMethodChange').text() == "선택입력") {
 				$('#deliveryMethodViewSelf').show();
 				$('#deliveryMethodSelf').attr('type','hidden');
 				$('#deliveryMethodSelf').val('');	
-				$("#deliveryMethodView").text("직접입력");
+				$("#deliveryMethodChange").text("직접입력");
+			}
+		} else if (data == "customerNameChange") {
+			if($('#customerNameChange').text() == "직접입력") {
+				$('#customerNameViewSelf').hide();
+				$('#customerNameSelf').attr('type','text');
+				$('#customerNameView').val('');	
+				$("#customerNameChange").text("선택입력");
+			} else if($('#customerNameChange').text() == "선택입력") {
+				$('#customerNameViewSelf').show();
+				$('#customerNameSelf').attr('type','hidden');
+				$('#customerNameSelf').val('');	
+				$("#customerNameChange").text("직접입력");
+			}
+		} else if (data == "businessNameChange") {
+			if($('#businessNameChange').text() == "직접입력") {
+				$('#businessNameViewSelf').hide();
+				$('#businessNameSelf').attr('type','text');
+				$('#businessNameView').val('');	
+				$("#businessNameChange").text("선택입력");
+			} else if($('#businessNameChange').text() == "선택입력") {
+				$('#businessNameViewSelf').show();
+				$('#businessNameSelf').attr('type','hidden');
+				$('#businessNameSelf').val('');	
+				$("#businessNameChange").text("직접입력");
 			}
 		}
 	}
-
+	/* =========== Select Box 선택 ========= */
+	$("#customerNameView").change(function() {
+		$("#businessNameView").empty();
+		$("#businessNameView").selectpicker("refresh");
+		var customerName = $('#customerNameView').val();
+		$.ajax({
+			url: "<c:url value='/category/categoryBusinessName'/>",
+	        type: 'post',
+	        data: {'customerName':customerName},
+	        async: false,
+	        success: function(items) {
+	        	$("#businessNameView").append('<option value=""></option>');
+	        	$.each(items, function (i, item) {
+	        		$("#businessNameView").append('<option value="'+item+'">'+item+'</option>');
+	        		$("#businessNameView").selectpicker("refresh");
+	        	});
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	});
 </script>
-	
-	
-	
-	
-	
+

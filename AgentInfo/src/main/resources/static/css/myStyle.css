@@ -517,3 +517,6 @@ p {
 	height: 100px;
 }
 
+.ui-jqgrid tr.ui-row-ltr td { text-overflow : ellipsis; -o-text-overflow : ellipsis; }
+
+

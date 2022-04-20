@@ -83,7 +83,7 @@
 			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 3.0%' AND managementServer = 'Agent') AS 'chartColumn2',
 			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.60%' AND managementServer = 'Agent') AS 'chartColumn3',
 			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.70%' AND managementServer = 'Agent') AS 'chartColumn4',
-			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%IGRIFFIN 5.0%' AND managementServer = 'Agent') AS 'chartColumn5'
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%iGRIFFIN 5.0%' AND managementServer = 'Agent') AS 'chartColumn5'
 		FROM DUAL;
 	</select>
 	
