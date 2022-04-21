@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,13 @@ import com.secuve.agentInfo.vo.Category;
 @Controller
 public class CategoryController {
 	
-	@Autowired
-	CategoryService categoryService;
+	@Autowired CategoryService categoryService;
 	
+	/**
+	 * 기존/신규
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/existingNew")
 	public String ExistingNew( Model model) {
 		model.addAttribute("category", "existingNew");
@@ -32,6 +37,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 패키지 종류
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/managementServer")
 	public String managementServer( Model model) {
 		model.addAttribute("category", "managementServer");
@@ -39,6 +49,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 일반/커스텀
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/generalCustom")
 	public String generalCustom( Model model) {
 		model.addAttribute("category", "generalCustom");
@@ -46,6 +61,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * OS 종류
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/osType")
 	public String osType( Model model) {
 		model.addAttribute("category", "osType");
@@ -53,6 +73,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 요청 제품 구분
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/requestProductCategory")
 	public String requestProductCategory( Model model) {
 		model.addAttribute("category", "requestProductCategory");
@@ -60,6 +85,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 전달방법
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/deliveryMethod")
 	public String deliveryMethod( Model model) {
 		model.addAttribute("category", "deliveryMethod");
@@ -67,6 +97,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * Agent Ver
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/agentVer")
 	public String agentVer( Model model) {
 		model.addAttribute("category", "agentVer");
@@ -74,6 +109,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * Agent OS
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/agentOS")
 	public String agentOS( Model model) {
 		model.addAttribute("category", "agentOS");
@@ -81,6 +121,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 고객사명
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/customerName")
 	public String customerName( Model model) {
 		model.addAttribute("category", "customerName");
@@ -88,6 +133,25 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 고객사별 사업명
+	 * @param model
+	 * @param customerName
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value = "/category/customerBusinessName")
+	public List customerBusinessName(Model model, String customerName) {
+		List<String> businessName = categoryService.getCategoryValue("businessName", customerName);
+		model.addAttribute("businessName", businessName);
+		return businessName;
+	}
+	
+	/**
+	 * 사업명
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/category/businessName")
 	public String businessName( Model model) {
 		model.addAttribute("category", "businessName");
@@ -95,6 +159,11 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	/**
+	 * 카테고리 리스트 조회
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/category")
 	public Map<String, Object> Category(@ModelAttribute("search") Category search) {
@@ -109,18 +178,35 @@ public class CategoryController {
 		return map;
 	}
 	
+	/**
+	 * 카테고리 삭제
+	 * @param chkList
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/category/delete")
 	public String CategoryDelete(@RequestParam int[] chkList) {
 		return categoryService.delCategory(chkList);
 	}
 	
+	/**
+	 * 추가 Model
+	 * @param model
+	 * @param category
+	 * @return
+	 */
 	@PostMapping(value = "/category/insertView")
 	public String InsertCategoryView(Model model, Category category) {
 		model.addAttribute("viewType","insert").addAttribute("category", category);
 		return "/category/CategoryView";
 	}
 	
+	/**
+	 * 카테고리 추가
+	 * @param category
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/category/insert")
 	public Map<String,String> InsertCategory(Category category, Principal principal) {
@@ -136,6 +222,12 @@ public class CategoryController {
 		return map;
 	}
 	
+	/**
+	 * 카테고리 업데이트 Model
+	 * @param model
+	 * @param categoryKeyNum
+	 * @return
+	 */
 	@PostMapping(value ="/category/updateView")
 	public String UpdateCategoryView(Model model, int categoryKeyNum) {
 		Category category = categoryService.getCategoryOne(categoryKeyNum);
@@ -143,6 +235,12 @@ public class CategoryController {
 		return "/category/CategoryView";
 	}
 	
+	/**
+	 * 카테고리 업데이트
+	 * @param category
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/category/update")
 	public Map<String,String> UpdateCategory(Category category, Principal principal) {

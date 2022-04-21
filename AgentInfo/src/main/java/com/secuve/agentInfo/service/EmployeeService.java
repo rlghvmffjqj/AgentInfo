@@ -21,7 +21,6 @@ public class EmployeeService {
 	@Autowired Users users;
 	
 	public List<Employee> getEmployeeList(Employee search) {
-
 		List<Employee> list = new ArrayList<Employee>();
 		list = employeeDao.getEmployeeList(search);
 		for (Employee employee : list) {
@@ -41,7 +40,6 @@ public class EmployeeService {
 				return "FALSE";
 		}
 		return "OK";
-		
 	}
 
 	public int getEmployeeListCount(Employee search) {
@@ -85,7 +83,6 @@ public class EmployeeService {
 			sucess = employeeDao.updateUsersRole(employee);
 		}
 		sucess *= employeeDao.updateEmployee(employee);
-		
 		
 		if(sucess <= 0) 
 			return "FALSE";

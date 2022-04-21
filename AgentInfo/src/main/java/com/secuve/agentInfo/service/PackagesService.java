@@ -29,12 +29,9 @@ import com.secuve.agentInfo.vo.UIDLog;
 
 @Service
 public class PackagesService {
-	@Autowired
-	PackagesDao packagesDao;
-	@Autowired
-	CategoryService categoryService;
-	@Autowired
-	Packages packages;
+	@Autowired PackagesDao packagesDao;
+	@Autowired CategoryService categoryService;
+	@Autowired Packages packages;
 
 	/**
 	 * 패키지 리스트 조회

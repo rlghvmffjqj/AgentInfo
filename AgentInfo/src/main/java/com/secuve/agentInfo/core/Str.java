@@ -3,17 +3,11 @@ package com.secuve.agentInfo.core;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.apache.commons.lang.StringUtils;
-
-
 public class Str {
 	
-	/** BLANK ���� */
 	public static final String BLANK = "";
 
-	/** NULL ���� */
 	public static final String NULL = "null";
-
 	
 	public static boolean equalsOnly(String value, String validStrings) {
 		String[] validList = validStrings.split(",");
@@ -27,18 +21,6 @@ public class Str {
 		return false;
 	}
 	
-	// perl join() �Լ� ����
-	// StringUtils.join ���� �ٲ�� ��
-
-	// StringUtils.join ���� �ٲ�� ��
-//	@Deprecated
-//	public static String join(char del, List<String> list)
-//	{
-//		return StringUtils.join(list, del);
-//	}
-
-	// 20140331 csv ��� ��������/�ҷ������ ���������͸� �״�� �����ϰ�
-	// ���� ȣȯ�� ���ؼ� Ư�����ڳ� 0���� �����ϴ� ���� ó���ϴ� �κ��� ��ǥ���� ����
 	public static String toCSV(String ... array)
 	{
 		StringBuffer buf = new StringBuffer();
@@ -50,8 +32,6 @@ public class Str {
 				token = "";
 			}
 			
-			// �ܾ��� �� ���� �ڵ�����.
-			// ����) ���� ���ڿ��� �������� �� �� �ֱ��ѵ�...
 			token = token.trim();
 
 			if ( token.indexOf(',') > -1 ) {
@@ -79,11 +59,6 @@ public class Str {
 		return splitQuotedString(line, ',', '"');
 	}
 	
-	// ��ɾ� �Է� ����(�Ǵ� CSV����)�� ���ڿ��� �Ľ�
-	// - , �� ���Ե� ���ڿ��� " �� ���´�.
-	// - ù ���ڰ� + �̸� { } �� ���´�
-	//
-	// TODO: " �� ó���� ���� �ִ°͸� �����ؾ� �ϴµ�, ������ �߰��� ���Ե� " �� �����ϰ� �ִ� ����
 	public static String[] splitQuotedString(String line, char del, char quote)
 	{
 		ArrayList<String> tokens = new ArrayList<String>();
@@ -130,50 +105,6 @@ public class Str {
 		return (String[])tokens.toArray(new String[0]);
 	}
 	
-	/*
-	// 20140328 CSV ������ �� Excel �� ������ �� ǥ�õ��� �ʴ� ���ڵ��� ó�����ش�.
-	private static String escapeExcel(String token) {
-		// +, -, %, =, 0 ���� �����ϴ� ���ڿ��� =" " �� ���´�.
-		if ( token.startsWith("+") || token.startsWith("-") || token.startsWith("%") || token.startsWith("=") || token.startsWith("0") ) {
-			token = String.format("=\"%s\"", token);
-		}
-		// ���ڿ��� , �� �����ϰ� �ִٸ� " " �� ���Ѵ�.
-		else if ( token.indexOf(',') > -1 ) {
-			token = String.format("\"%s\"", token);
-		}
-		
-		return token;
-	}
-
-	private static String unescapeExcel(String token) {
-		// =+, =-, =%, ==, =0 ���� �����ϸ� = �� �����Ѵ�.
-		if ( token.startsWith("=+") || token.startsWith("=-") || token.startsWith("=%") || token.startsWith("==") || token.startsWith("=0") ) {
-			token = token.substring(1, token.length());
-		}
-		// =" " �� ���������� Ǯ���ش�
-		else if ( token.startsWith("=\"") && token.endsWith("\"") ) {
-			token = token.substring(2, token.length()-1);
-		}
-		
-		return token;
-	}
-	
-	@Test
-	public void test1() {
-		String[] tokens1 = {"+Everyone", "123,456","-abc","%123","=abc","001"};
-		String line1 = toCSV(tokens1);
-		//String line2 = "=\"+Everyone\",\"123,456\",=\"-abc\",=\"%123\",=\"=abc\",=\"001\"";
-		String[] tokens2 = splitCSV(line1);
-	}
-	*/
-
-	/**
-	* ��Ʈ�� ���ռ� �˻� ��ƿ��Ƽ �޼ҵ�
-	* ��Ʈ���� null�̰ų� �� ��Ʈ������ ���θ� �Ǵ��Ѵ�.
-
-	* @param string üũ�� ��Ʈ��
-	* @return true ��Ʈ���� null�� ���; flase ��Ʈ���� null�� �ƴ� ���
-	*/
 	public static boolean isNullOrEmpty(String string) 
 	{
 		boolean boolRtn = false;

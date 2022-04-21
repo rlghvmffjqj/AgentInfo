@@ -80,27 +80,27 @@ public class Packages {
 	private String[] requestProductCategoryArr;
 	private String[] deliveryMethodArr;
 	
-	private String deliveryDataStart;		// 전달일자  시작일
-	private String deliveryDataEnd;			// 전달일자  종료일
+	private String deliveryDataStart;			// 전달일자  시작일
+	private String deliveryDataEnd;				// 전달일자  종료일
 	
-	private String packagesRegistrant;		// 데이터 추가 사용자
+	private String packagesRegistrant;			// 데이터 추가 사용자
 	private String packagesRegistrationDate;	// 데이터 추가 날짜
 	private String packagesModifier;			// 데이터 수정 사용자
 	private String packagesModifiedDate;		// 데이터 수정 날짜
 	
-	private String excelImportYear;
+	private String excelImportYear;				// 엑셀 Import 년도
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
-	private String sidx="packagesKeyNum";			// 정렬할 기준 데이터
+	private String sidx="packagesKeyNum";		// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
 	
-	private String chartName;
-	private int chartCount;
+	private String chartName;					// 차트 키
+	private int chartCount;						// 차트 값
 	
-	private int chartColumn1;
-	private int chartColumn2;
-	private int chartColumn3;
-	private int chartColumn4;
-	private int chartColumn5;
+	private int chartColumn1;					// 차트 값1
+	private int chartColumn2;					// 차트 값2
+	private int chartColumn3;					// 차트 값3
+	private int chartColumn4;					// 차트 값4
+	private int chartColumn5;					// 차트 값5
 }

@@ -634,7 +634,7 @@
 		$("#businessNameView").selectpicker("refresh");
 		var customerName = $('#customerNameView').val();
 		$.ajax({
-			url: "<c:url value='/category/categoryBusinessName'/>",
+			url: "<c:url value='/category/customerBusinessName'/>",
 	        type: 'post',
 	        data: {'customerName':customerName},
 	        async: false,

@@ -28,7 +28,6 @@ public class UIDLogController {
 		return "uidLog/UIDLogList";
 	}
 	
-	
 	/**
 	 * 로그 데이터 가져오기
 	 * @param search

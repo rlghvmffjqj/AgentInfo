@@ -13,10 +13,20 @@ public class UIDLogService {
 	
 	@Autowired UIDLogDao uidLogDao;
 
+	/**
+	 * 로그 리스트 조회
+	 * @param search
+	 * @return
+	 */
 	public List<UIDLog> getUIDLogList(UIDLog search) {
 		return uidLogDao.getUIDLogList(search);
 	}
 
+	/**
+	 * 로그 갯수 조회
+	 * @param search
+	 * @return
+	 */
 	public int getUIDLogListCount(UIDLog search) {
 		return uidLogDao.getUIDLogListCount(search);
 	}

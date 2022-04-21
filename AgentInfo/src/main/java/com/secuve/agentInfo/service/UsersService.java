@@ -28,11 +28,8 @@ import com.secuve.agentInfo.vo.Users;
 
 @Service
 public class UsersService implements UserDetailsService{
-    
-    
 	@Autowired UsersJpaDao usersJpaDao;
 	@Autowired HttpSession session;
-	
 	
 	@Override
 	public UserDetails loadUserByUsername(String usersId) throws UsernameNotFoundException {
@@ -48,16 +45,6 @@ public class UsersService implements UserDetailsService{
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 			session.setAttribute("usersId", "users");
 		}
-		
-//		ServletWebRequest servletContainer = (ServletWebRequest)RequestContextHolder.getRequestAttributes();
-//		HttpServletResponse response = servletContainer.getResponse();
-//		
-//		Cookie idCookie = new Cookie("usersId", usersId);
-//		response.addCookie(idCookie);
-
-
-
-		
 		return new User(usersEntity.getUsersId(), usersEntity.getUsersPw(), authorities);
 	}
 	
@@ -71,6 +58,5 @@ public class UsersService implements UserDetailsService{
 		}
 		return "OK";
 	}
-	
 
 }

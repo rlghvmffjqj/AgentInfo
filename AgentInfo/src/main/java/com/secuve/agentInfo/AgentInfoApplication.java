@@ -23,7 +23,4 @@ public class AgentInfoApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(AgentInfoApplication.class);
 	}
-
-	
-
 }

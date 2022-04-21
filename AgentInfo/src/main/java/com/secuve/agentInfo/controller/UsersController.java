@@ -126,9 +126,5 @@ public class UsersController {
 		model.addAttribute("employee", employee);
 		return "users/ProfileView";
 	}
-	
-	
-	
-	
 
 }

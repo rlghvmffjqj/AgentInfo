@@ -61,6 +61,4 @@ public class CategoryDao {
 		return sqlSession.selectOne("category.getCategoryManagementServer", category);
 	}
 
-	
-
 }

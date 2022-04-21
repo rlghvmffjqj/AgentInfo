@@ -38,7 +38,6 @@ import org.springframework.web.util.WebUtils;
 
 public class Util {
 
-
 	public static final int MAX_EXPORT_ROWS = 65535;
 
 	public static ModelAndView createResultView(String output, String url) {
@@ -67,7 +66,6 @@ public class Util {
 			view.addObject("result", "FAIL");
 			view.addObject("output", "\\r\\n" + JavascriptEscape(output));
 		}
-
 		view.addObject("url", url);
 
 		return view;

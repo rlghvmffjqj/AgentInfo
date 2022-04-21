@@ -33,10 +33,8 @@ import com.secuve.agentInfo.vo.Packages;
 @Controller
 public class PackagesController {
 
-	@Autowired
-	PackagesService packagesService;
-	@Autowired
-	CategoryService caegoryService;
+	@Autowired PackagesService packagesService;
+	@Autowired CategoryService categoryService;
 
 	/**
 	 * 패키지 리스트 이동
@@ -46,16 +44,16 @@ public class PackagesController {
 	 */
 	@GetMapping(value = "/packages/list")
 	public String PackagesList(Model model) {
-		List<String> customerName = caegoryService.getCategoryValue("customerName");
-		List<String> businessName = caegoryService.getCategoryValue("businessName");
-		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
-		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
-		List<String> osType = caegoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
-		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
-		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> existingNew = categoryService.getCategoryValue("existingNew");
+		List<String> managementServer = categoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
+		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
@@ -67,7 +65,6 @@ public class PackagesController {
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
-		
 
 		return "packages/PackagesList";
 	}
@@ -92,6 +89,12 @@ public class PackagesController {
 		return map;
 	}
 
+	/**
+	 * 패키지 삭제
+	 * @param chkList
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/delete")
 	public String PackagesDelete(@RequestParam int[] chkList, Principal principal) {
@@ -107,18 +110,15 @@ public class PackagesController {
 	 */
 	@PostMapping(value = "/packages/insertView")
 	public String InsertPackagesView(Model model, Packages packages) {
-		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
-		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
-		List<String> osType = caegoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
-		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
-		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
-		List<String> customerName = caegoryService.getCategoryValue("customerName");
-		/*
-		 * List<String> businessName = caegoryService.getCategoryValue("businessName");
-		 */
+		List<String> existingNew = categoryService.getCategoryValue("existingNew");
+		List<String> managementServer = categoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
+		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> agentOS = categoryService.getCategoryValue("agentOS");
+		List<String> customerName = categoryService.getCategoryValue("customerName");
 
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -129,7 +129,6 @@ public class PackagesController {
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
-		/* model.addAttribute("businessName", businessName); */
 		model.addAttribute("viewType", "insert").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -164,16 +163,16 @@ public class PackagesController {
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
 
-		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
-		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
-		List<String> osType = caegoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
-		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
-		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
-		List<String> customerName = caegoryService.getCategoryValue("customerName");
-		List<String> businessName = caegoryService.getCategoryValue("businessName", packages.getCustomerName());
+		List<String> existingNew = categoryService.getCategoryValue("existingNew");
+		List<String> managementServer = categoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
+		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> agentOS = categoryService.getCategoryValue("agentOS");
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName", packages.getCustomerName());
 
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -241,10 +240,8 @@ public class PackagesController {
 				if (packages.getExcelImportYear().equals("2022년"))
 					result = packagesService.importPackagesXlxs2022(mfile, principal);
 			}
-
 		} catch (IOException e) {
 			System.out.println("에러 : " + e);
-
 		} finally {
 			IOUtils.closeQuietly(rd);
 		}
@@ -252,6 +249,10 @@ public class PackagesController {
 		return result;
 	}
 
+	/**
+	 * Excel Import Model
+	 * @return
+	 */
 	@PostMapping(value = "/packages/importView")
 	public String UpdatePackagesImport() {
 		return "/packages/Import";
@@ -271,9 +272,6 @@ public class PackagesController {
 	public void exportServerList(@ModelAttribute Packages packages, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String info1 = "";
-		String result = "";
-
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String filename = "Package All Data - " + formatter.format(now) + ".csv";
@@ -290,12 +288,10 @@ public class PackagesController {
 				filename = "전달일자 범위 오류.csv";
 				list = new ArrayList<Object>();
 			}
-			info1 = filename;
 			Util.exportExcelFile(response, filename, list, columns, headers);
 		} catch (Exception e) {
 			System.out.println("FAIL: Export failed.\n" + e.toString());
 		}
-
 	}
 
 	/**
@@ -309,16 +305,16 @@ public class PackagesController {
 	public String CopyPackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
 
-		List<String> existingNew = caegoryService.getCategoryValue("existingNew");
-		List<String> managementServer = caegoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = caegoryService.getCategoryValue("generalCustom");
-		List<String> osType = caegoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = caegoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = caegoryService.getCategoryValue("deliveryMethod");
-		List<String> agentVer = caegoryService.getCategoryValue("agentVer");
-		List<String> agentOS = caegoryService.getCategoryValue("agentOS");
-		List<String> customerName = caegoryService.getCategoryValue("customerName");
-		List<String> businessName = caegoryService.getCategoryValue("businessName", packages.getCustomerName());
+		List<String> existingNew = categoryService.getCategoryValue("existingNew");
+		List<String> managementServer = categoryService.getCategoryValue("managementServer");
+		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
+		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
+		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> agentOS = categoryService.getCategoryValue("agentOS");
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName", packages.getCustomerName());
 
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -429,14 +425,6 @@ public class PackagesController {
 		Map<String, List> map = new HashMap<String, List>();
 		map = packagesService.getCustomerName();
 		return map;
-	}
-	
-	@ResponseBody
-	@PostMapping(value = "/category/categoryBusinessName")
-	public List categoryBusinessName(Model model, String customerName) {
-		List<String> businessName = caegoryService.getCategoryValue("businessName", customerName);
-		model.addAttribute("businessName", businessName);
-		return businessName;
 	}
 
 }
