@@ -74,14 +74,14 @@ p {
 	background-image: none;
     border-color: blue;
     color: blue;
-    background: cornsilk;
+    background: white;
 }
 
 .btn-outline-info-nomal {
 	background-image: none;
-    border-color: orange;
+    border-color: black;
     color: black;
-    background: cornsilk;
+    background: white;
 }
 
 .btn-outline-info-add:hover {
@@ -91,14 +91,14 @@ p {
 
 .btn-outline-info-nomal:hover {
     color: white;
-    background: orange;
+    background: black;
 }
 
 .btn-outline-info-del {
 	background-image: none;
     border-color: red;
     color: red;
-    background: cornsilk;
+    background: white;
 }
 
 .btn-outline-info-del:hover {
