@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script>
-	/* =========== ajax _csrf 전송 ========= */
-	/* $(document).ajaxSend(function(e, xhr, options) {
-		xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-	}); */
-</script>
-
 <div class="modal-body" style="width: 100%; height: 720px;">
 	<form id="modalForm" name="form" method ="post"> 
 		<c:choose>
@@ -138,9 +131,7 @@
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-    
 </div>
-
 
 <script>
 	/* =========== 사용자 추가 ========= */
@@ -201,8 +192,6 @@
 							text: '작업을 실패하였습니다.',
 						});
 					}
-					
-					
 				},
 				error: function(error) {
 					console.log(error);
@@ -252,8 +241,4 @@
 	});
 
 </script>
-	
-	
-	
-	
 	

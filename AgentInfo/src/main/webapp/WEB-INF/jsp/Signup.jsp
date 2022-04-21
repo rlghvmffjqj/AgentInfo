@@ -23,10 +23,7 @@
 
 <script>
 	function signup() {
-		alert("접근");
 		var postData = $('#form').serializeArray();
-		console.log(postData);
-		alert("확인 전");
 		$.ajax({
 			url: "<c:url value='/signup'/>",
 			method : 'POST',

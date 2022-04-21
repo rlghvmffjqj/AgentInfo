@@ -11,12 +11,6 @@
 	    	$.cookie('name','log');
 	    });
     </script>
-    <script>
-		/* =========== ajax _csrf 전송 ========= */
-		/* $(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-		}); */
-	</script>
 	<script>
 		$(document).ready(function(){
 			var formData = $('#form').serializeObject();
@@ -68,7 +62,6 @@
       <div class="pcoded-overlay-box"></div>
       <div class="pcoded-container navbar-wrapper">
           <%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
-
           <div class="pcoded-main-container" style="margin-top: 56px;">
               <div class="pcoded-wrapper">
                   <%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
@@ -130,7 +123,6 @@
 													</button>
 												</p>
 											</div>
-	                      						
 	                      					</form>
 	                     				</div>
                      				 </div>
@@ -199,6 +191,5 @@
 		});
 		tableRefresh();
 	});
-
 </script>
 </html>

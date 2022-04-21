@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <script>
-	// Left 메뉴바 선택 표시를 위해 쿠키 사용
+	/** Left 메뉴바 선택 표시를 위해 쿠키 사용 **/
 	$(function() {
 		if($.cookie('name') == 'home') {
 			$('.home').addClass('active');
@@ -43,7 +43,6 @@
                      <span id="more-details"><sec:authentication property="name"/></span>
                  </div>
              </div>
-
          </div>
          <div class="box" style="overflow-y: scroll; height: 85%; background-color: lightgray;">
 	         <div class="p-15 p-b-0"></div>
@@ -57,7 +56,6 @@
 	                 </a>
 	             </li>
 	         </ul>
-	         
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
 	         <ul class="pcoded-item pcoded-left-item">
 	             <li class="packages">
@@ -68,7 +66,6 @@
 	                 </a>
 	             </li>
 	         </ul>
-	
 			 <sec:authorize access="hasRole('ADMIN')">
 			 	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
 		         <ul class="pcoded-item pcoded-left-item">
@@ -171,7 +168,6 @@
 		                 </a>
 		             </li>
 		         </ul>
-		         
 	         </sec:authorize>
          </div>
 

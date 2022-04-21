@@ -20,15 +20,15 @@
 				colNames:['Key','고객사 명','사업명','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
-					{name:'customerName', index:'customerName', align:'center', width: 200},
+					{name:'customerName', index:'customerName', align:'center', width: 190},
 					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
 					{name:'managementServer', index:'managementServer', align:'center', width: 80},
 					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 170},
-					{name:'packageName', index:'packageName', align:'center', width: 640},
+					{name:'packageName', index:'packageName', align:'center', width: 630},
 					{name:'manager', index:'manager', align:'center', width: 80},
-					{name:'osType', index:'osType', align:'center', width: 60},
+					{name:'osType', index:'osType', align:'center', width: 80},
 				],
 				jsonReader : {
 		        	id: 'packagesKeyNum',
@@ -41,21 +41,18 @@
 		        
 		        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 		        gridview: true,				// 그리드뷰 방식 랜더링
-		        sortable: false,				// 컬럼을 마우스 순서 변경
+		        sortable: false,			// 컬럼을 마우스 순서 변경
 		        loadonce: false,
 		        height : '410',
 		        autowidth:true,				// 가로 넒이 자동조절
 		        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 		        altRows: false,				// 라인 강조
 			}); 
-//			setAutoResize('#list',410);
 			
 		});
 		$(window).on('resize.list', function () {
 		    jQuery("#list").jqGrid( 'setGridWidth', $(".indexTable").width() );
 		});
-
-
 	</script>
     
 </head>
@@ -100,7 +97,6 @@
 													<canvas id="managementServer"></canvas>
 												</div>
 											</div>
-											
 											<div class="firstCahrt">
                                             	<div class="margin-1" style="position: relative; height:37vh; width:19vw;">
 													<!--차트가 그려질 부분-->
@@ -119,7 +115,6 @@
 													<canvas id="agentVer"></canvas>
 												</div>
 											</div>
-											
 											<div class="secondCahrt">
                                             	<div class="margin-1" style="position: relative; height:29.3vh; width:51vw;">
 													<!--차트가 그려질 부분-->

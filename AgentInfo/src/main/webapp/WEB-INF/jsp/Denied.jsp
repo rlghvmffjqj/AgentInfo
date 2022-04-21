@@ -8,11 +8,8 @@
 <title>denied</title>
 </head>
 <body>
-
 <div class="error-404">
-    <!-- Container-fluid starts -->
     <div class="container-fluid">
-        <!-- Row start -->
         <div class="row">
             <div class="text-uppercase col-xs-12">
                 <h1>접근 거부</h1>
@@ -21,10 +18,7 @@
                 <a href="/AgentInfo/login" class="btn btn-error btn-lg waves-effect">back to home page</a>
             </div>
         </div>
-        <!-- Row end -->
     </div>
-    <!-- Container-fluid ends -->
 </div>
-
 </body>
 </html>

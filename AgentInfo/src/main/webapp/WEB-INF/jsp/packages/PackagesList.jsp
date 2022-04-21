@@ -5,19 +5,12 @@
   <head>
 	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 	
-    <!-- 쿠키 스크립트 -->
     <script>
     	/* =========== 페이지 쿠키 값 저장 ========= */
 	    $(function() {
 	    	$.cookie('name','packages');
 	    });
     </script>
-    <script>
-		/* =========== ajax _csrf 전송 ========= */
-		/* $(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-		}); */
-	</script>
 	<script>
 		$(document).ready(function(){
 			var formData = $('#form').serializeObject();
@@ -36,9 +29,9 @@
 					{name:'managementServer', index:'managementServer', align:'center', width: 80},
 					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 170},
-					{name:'packageName', index:'packageName', align:'center', width: 650},
+					{name:'packageName', index:'packageName', align:'center', width: 630},
 					{name:'manager', index:'manager', align:'center', width: 80},
-					{name:'osType', index:'osType', align:'center', width: 60},
+					{name:'osType', index:'osType', align:'center', width: 80},
 					{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 350},
 					{name:'agentOS', index:'agentOS', align:'center', width: 120},
 					{name:'existingNew', index:'existingNew', align:'center', width: 70},
@@ -70,7 +63,6 @@
 		$(window).on('resize.list', function () {
 		    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 		});
-			
 	</script>
   </head>
   <body>

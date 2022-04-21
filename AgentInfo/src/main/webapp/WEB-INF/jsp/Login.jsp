@@ -23,7 +23,6 @@
 				/* =========== CheckBox true 일경우 쿠키 저장 (기간 1일) ========= */
 				if($('#checkbox').is(':checked') == true) {
 					$.cookie('usersId',$('#usersId').val(),{ expires: 1 });
-					
 				}
 				
 				/* =========== CheckBox false일 경우 쿠키 삭제 ========= */
@@ -35,12 +34,10 @@
 	</script>
  </head>
 <body themebg-pattern="theme1">
-
     <section class="login-block">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    
                      <form class="md-float-material form-material" id="form" method="post" >
                          <div class="text-center">
                              <img src="<c:url value='/images/logo.png' />" alt="logo.png">
@@ -71,26 +68,20 @@
                                                  <span class="text-inverse">아이디 저장</span>
                                              </label>
                                          </div>
-                                         <div class="forgot-phone text-right f-right">
-                                             <!-- <a href="#" class="text-right f-w-600"> 패스워드 찾기</a> -->
-                                         </div>
                                      </div>
                                  </div>
                                  <div class="row m-t-30">
                                      <div class="col-md-12">
                                          <button type="submit" id="btn" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center">Login</button>
-
                                          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                      </div>
                                  </div>
                              </div>
                          </div>
                      </form>
-                     
                 </div>
             </div>
         </div>
     </section>
 </body>
-
 </html>

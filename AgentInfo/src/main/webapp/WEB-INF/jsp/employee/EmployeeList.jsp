@@ -4,19 +4,12 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
   <head>
 	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-    <!-- 쿠키 스크립트 -->
     <script>
     	/* =========== 페이지 쿠키 값 저장 ========= */
 	    $(function() {
 	    	$.cookie('name','employee');
 	    });
     </script>
-    <script>
-		/* =========== ajax _csrf 전송 ========= */
-		/* $(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader( "${_csrf.headerName}", "${_csrf.token}" );
-		}); */
-	</script>
 	<script>
 		$(document).ready(function(){
 			var formData = $('#form').serializeObject();
@@ -65,7 +58,6 @@
 	</script>
   </head>
   <body>
-  
   <div id="pcoded" class="pcoded iscollapsed">
       <div class="pcoded-overlay-box"></div>
       <div class="pcoded-container navbar-wrapper">
@@ -163,7 +155,6 @@
 															<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 															<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 															<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'employeeList');">컬럼 선택</button>
-															<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnLeave">퇴사</button> -->
 														</td>
 													</tr>
 													<tr>
@@ -314,7 +305,5 @@
             }
         });
 	}
-
-
 </script>
 </html>
