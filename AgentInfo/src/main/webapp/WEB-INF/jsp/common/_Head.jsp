@@ -40,13 +40,13 @@
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.fileDownload.js'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/jqGrid/js/jquery.json-2.3.min.js'/>"></script>   
-<script type="text/javascript" src="<c:url value='/js/popper.js/popper.min.js'/>"></script>     
+<script type="text/javascript" src="<c:url value='/js/popper/popper.min.js'/>"></script>     
 <script type="text/javascript" src="<c:url value='/js/bootstrap/js/bootstrap.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/pages/widget/excanvas.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/pages/waves/js/waves.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery-slimscroll/jquery.slimscroll.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/chart.js/chart.min.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/chart.js/chartjs-plugin-datalabels@2.0.0.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/chart/chart.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/chart/chartjs-plugin-datalabels@2.0.0.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/SmoothScroll.js'/>"></script>     
 <script type="text/javascript" src="<c:url value='/js/common-pages.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/pcoded.min.js'/>"></script>
