@@ -643,7 +643,7 @@
 		}
 	}
 	/* =========== Select Box 선택 ========= */
-	$("#customerNameView").change(function() {
+	/* $("#customerNameView").change(function() {
 		$("#businessNameView").empty();
 		$("#businessNameView").selectpicker("refresh");
 		var customerName = $('#customerNameView').val();
@@ -663,6 +663,6 @@
 				console.log(error);
 			}
 	    });
-	});
+	}); */
 </script>
 

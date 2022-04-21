@@ -65,6 +65,7 @@ function profileView() {
 	$.ajax({
 	    type: 'POST',
 	    url: "<c:url value='/usres/profileView'/>",
+	    async: false,
 	    success: function (data) {
 	        $.modal(data, 'l'); //modal창 호출
 	    },

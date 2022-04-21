@@ -517,6 +517,12 @@ p {
 	height: 100px;
 }
 
-.ui-jqgrid tr.ui-row-ltr td { text-overflow : ellipsis; -o-text-overflow : ellipsis; }
+.ui-jqgrid tr.ui-row-ltr td { 
+	text-overflow : ellipsis; -o-text-overflow : ellipsis; 
+}
+
+[id*='bs-select-'] {
+	max-height: 152px !important;
+}
 
 
