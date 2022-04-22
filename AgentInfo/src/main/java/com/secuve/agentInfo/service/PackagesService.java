@@ -1246,6 +1246,11 @@ public class PackagesService {
 		return map;
 	}
 	
+	/**
+	 * 패키지 휴지통
+	 * @param packages
+	 * @param principal
+	 */
 	public void trash(Packages packages, Principal principal) {
 		int trashKeyNum = 0;
 		

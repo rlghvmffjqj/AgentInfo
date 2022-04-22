@@ -27,6 +27,11 @@ public class TrashController {
 		return "trash/TrashList";
 	}
 	
+	/**
+	 * 휴지통 리스트 조회
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/trash")
 	public Map<String, Object> Trash(@ModelAttribute("search") Trash search) {
