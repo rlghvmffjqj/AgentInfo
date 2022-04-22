@@ -83,7 +83,7 @@
                               <div class="row align-items-center">
                                   <div class="col-md-8">
                                       <div class="page-header-title" >
-                                          <h5 class="m-b-10">휴지통</h5>
+                                          <h5 class="m-b-10">삭제 이력</h5>
                                           <p class="m-b-0">Trash Storage</p>
                                       </div>
                                   </div>
@@ -92,7 +92,7 @@
                                           <li class="breadcrumb-item">
                                               <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
                                           </li>
-                                          <li class="breadcrumb-item"><a href="#!">휴지통</a>
+                                          <li class="breadcrumb-item"><a href="#!">삭제 이력</a>
                                           </li>
                                       </ul>
                                   </div>
@@ -107,7 +107,7 @@
 											<td style="padding:0px 0px 0px 0px;" class="box">
 												<table style="width:100%">
 												<tbody><tr>
-													<td style="font-weight:bold;">휴지통 관리 :
+													<td style="font-weight:bold;">삭제 이력 관리 :
 														<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'trashList');">컬럼 선택</button>
 													</td>
 												</tr>

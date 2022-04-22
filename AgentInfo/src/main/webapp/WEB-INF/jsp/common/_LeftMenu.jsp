@@ -62,7 +62,7 @@
 	         <ul class="pcoded-item pcoded-left-item">
 	             <li class="packages">
 	                 <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
-	                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+	                     <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
 	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
 	                     <span class="pcoded-mcaret"></span>
 	                 </a>
@@ -73,7 +73,7 @@
 		         <ul class="pcoded-item pcoded-left-item">
 		             <li class="log">
 		                 <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+		                     <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">로그 정보</span>
 		                     <span class="pcoded-mcaret"></span>
 		                 </a>
@@ -83,7 +83,7 @@
 		         <ul class="pcoded-item pcoded-left-item">
 		             <li class="employee">
 		                 <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+		                     <span class="pcoded-micon"><i class="ti-user"></i><b>FC</b></span>
 		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
 		                     <span class="pcoded-mcaret"></span>
 		                 </a>
@@ -93,8 +93,8 @@
 		         <ul class="pcoded-item pcoded-left-item">
 		             <li class="trash">
 		                 <a href="<c:url value='/trash/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">휴지통</span>
+		                     <span class="pcoded-micon"><i class="ti-eraser"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">삭제 이력</span>
 		                     <span class="pcoded-mcaret"></span>
 		                 </a>
 		             </li>
@@ -103,7 +103,7 @@
 		         <ul class="pcoded-item pcoded-left-item">
 		             <li class="customerName">
 		                 <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+		                     <span class="pcoded-micon"><i class=ti-layers></i><b>FC</b></span>
 		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사명</span>
 		                 </a>
 		             </li>
