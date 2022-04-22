@@ -1,52 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 720px;">
+<div class="modal-body" style="width: 100%; height: 750px;">
 	<form id="modalForm" name="form" method ="post"> 
 		<c:choose>
 			<c:when test="${viewType eq 'insert'}">
 		        <div class="pading5">
 		         	<label class="labelFontSize">사원번호</label><label class="colorRed">*</label>
 					<input type="text" id="employeeId" name="employeeId" class="form-control viewForm" value="${employee.employeeId}"> 
-					<span class="colorRed" id="NotEmployeeId" style="display: none">사원 번호를 입력해주세요.</span>
+					<span class="colorRed fontSize10" id="NotEmployeeId" style="display: none">사원 번호를 입력해주세요.</span>
+					<span class="colorRed fontSize10" id="duplicateCheck" style="display: none">동일한 사원 번호가 존재합니다.</span>
 		         </div>
 		    </c:when>
 		    <c:when test="${viewType eq 'update'}">
 		   		<div class="pading5">
 		         	<label class="labelFontSize">사원번호</label>
 					<input type="text" id="employeeId" name="employeeId" class="form-control viewForm" value="${employee.employeeId}" readonly> 
-					<span class="colorRed" id="NotEmployeeId" style="display: none">사원 번호를 입력해주세요.</span>
+					<span class="colorRed fontSize10" id="NotEmployeeId" style="display: none">사원 번호를 입력해주세요.</span>
 		         </div>
 		    </c:when>
 		 </c:choose>
          <div class="pading5">
          	<label class="labelFontSize">사원명</label><label class="colorRed">*</label>
          	<input type="text" id="employeeName" name="employeeName" class="form-control viewForm" value="${employee.employeeName}">
-         	<span class="colorRed" id="NotEmployeeName" style="display: none">사원 이름을 입력해주세요.</span>
+         	<span class="colorRed fontSize10" id="NotEmployeeName" style="display: none">사원 이름을 입력해주세요.</span>
          </div>
          <c:choose>
 			<c:when test="${viewType eq 'insert'}">
 			     <div class="pading5">
 					<label class="labelFontSize">패스워드</label><label class="colorRed">*</label>
 					<input type="password" id="usersPw" name="usersPw" class="form-control viewForm" required> 
-					<span class="colorRed" id="NoUsersPw" style="display: none">패스워드를 입력해주세요.</span>
+					<span class="colorRed fontSize10" id="NotUsersPw" style="display: none">패스워드를 입력해주세요.</span>
 				 </div>
 				 <div class="pading5">
 					<label class="labelFontSize">패스워드 확인</label><label class="colorRed">*</label>
 					<input type="password" id="usersPwRe" name="usersPwRe" class="form-control viewForm" required> 
-					<span class="colorRed" id="Inconsistency" style="display: none">패스워드가 일지하지 않습니다.</span>
+					<span class="colorRed fontSize10" id="Inconsistency" style="display: none">패스워드가 일지하지 않습니다.</span>
 				 </div>
 			</c:when>
 			<c:when test="${viewType eq 'update'}">
 				<div class="pading5">
 					<label class="labelFontSize">패스워드</label>
 					<input type="password" id="usersPw" name="usersPw" class="form-control viewForm"> 
-					<span>※ 패스워드 변경 시 입력 바랍니다.</span>
+					<span class="fontSize10">※ 패스워드 변경 시 입력 바랍니다.</span>
 				 </div>
 				 <div class="pading5">
 					<label class="labelFontSize">패스워드 확인</label>
 					<input type="password" id="usersPwRe" name="usersPwRe" class="form-control viewForm"> 
-					<span class="colorRed" id="Inconsistency" style="display: none">패스워드가 일지하지 않습니다.</span>
+					<span class="colorRed fontSize10" id="Inconsistency" style="display: none">패스워드가 일지하지 않습니다.</span>
 				 </div>
 			</c:when>
 		 </c:choose>
@@ -145,8 +146,11 @@
     			title: '실패!',           
     			text: '패스워드가 일치 하지 않습니다.',    
     		}); 
+			$('#NotUsersPw').hide();
+			$('#NotEmployeeId').hide();
+			$('#NotEmployeeName').hide();
 			$('#Inconsistency').show();	
-			$('#NoUsersPw').hide()
+			$('#duplicateCheck').hide();
 		} else {
 			var postData = $('#modalForm').serializeObject();
 			$.ajax({
@@ -156,17 +160,36 @@
 	            async: false,
 	            success: function(result) {
 	            	if(result.result == "NotEmployeeId") { // 사원 번호 미 입력 알림.
+						$('#NotUsersPw').hide();
 						$('#NotEmployeeId').show();
+						$('#NotEmployeeName').hide();
+						$('#Inconsistency').hide();	
+						$('#duplicateCheck').hide();
 	            		true;
 					} else if (result.result != "NotEmployeeId"){
 						$('#NotEmployeeId').hide();
 					} 
 					
 	            	if(result.result == "NotEmployeeName") { // 사원 이름 미 입력 알림.
+						$('#NotUsersPw').hide();
+						$('#NotEmployeeId').hide();
 						$('#NotEmployeeName').show();
+						$('#Inconsistency').hide();	
+						$('#duplicateCheck').hide();
 						true;
 					} else {
 						$('#NotEmployeeName').hide();
+					}
+	            	
+	            	if(result.result == "NotUsersPw") { // 패스워드 미 입력 알림.
+	            		$('#NotUsersPw').show();
+						$('#NotEmployeeId').hide();
+						$('#NotEmployeeName').hide();
+						$('#Inconsistency').hide();	
+						$('#duplicateCheck').hide();
+						true;
+					} else {
+						$('#NotUsersPw').hide();
 					}
 	            	
 					if(result.result == "OK") {
@@ -185,6 +208,11 @@
 							title: '실패!',
 							text: '동일한 사원 번호가 존재합니다.',
 						});
+						$('#NotUsersPw').hide();
+						$('#NotEmployeeId').hide();
+						$('#NotEmployeeName').hide();
+						$('#Inconsistency').hide();	
+						$('#duplicateCheck').show();
 					} else {
 						Swal.fire({
 							icon: 'error',
@@ -202,6 +230,27 @@
 	
 	/* =========== 사용자 정보 수정 ========= */
 	$('#updateBtn').click(function() {
+		var pwd = $('#usersPw').val();
+		var pwdRe = $('#usersPwRe').val();
+		if(pwd != null) {
+			if(pwd != pwdRe) {
+				Swal.fire({               
+	    			icon: 'error',          
+	    			title: '실패!',           
+	    			text: '패스워드가 일치 하지 않습니다.',    
+	    		}); 
+				$('#Inconsistency').show();	
+				$('#NotEmployeeName').hide();
+			} else {
+				update();
+			} 
+		} else {
+			update();
+		}
+	});
+	
+	/* =========== update 중복 코드 분리 ========= */
+	function update() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
             url: 'update',
@@ -226,19 +275,18 @@
 						text: '작업을 실패했습니다.',    
 					});  
 				}
-				
 				if(result.result == "NotEmployeeName") {  // 사원 이름 미 입력 알림.
 					$('#NotEmployeeName').show();
+					$('#Inconsistency').hide();	
 				} else {
 					$('#NotEmployeeName').hide();
 				}
-				
 			},
 			error: function(error) {
 				console.log(error);
 			}
         });
-	});
+	}
 
 </script>
 	

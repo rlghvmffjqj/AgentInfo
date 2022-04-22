@@ -52,7 +52,9 @@ public class EmployeeService {
 			return "NotEmployeeId";
 		} else if(employee.getEmployeeName().equals("") || employee.getEmployeeName() == "") { // 사원 이름이 비어있을 경우 리턴
 			return "NotEmployeeName";
-		} else if(employeeDao.getEmployeeOne(employee.getEmployeeId()) != null) {
+		} else if(employee.getUsersPw().equals("") || employee.getUsersPw() == "") {	// 패스워드 미입력
+			return "NotUsersPw";
+		} else if(employeeDao.getEmployeeOne(employee.getEmployeeId()) != null) {	// 사용자 중복 확인
 			return "duplicateCheck";
 		}
 		
