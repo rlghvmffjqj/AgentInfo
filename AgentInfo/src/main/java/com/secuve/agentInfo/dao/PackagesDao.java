@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.secuve.agentInfo.vo.Packages;
-import com.secuve.agentInfo.vo.UIDLog;
 
 @Repository
 public class PackagesDao {
@@ -45,14 +44,6 @@ public class PackagesDao {
 		return sqlSession.selectList("packages.getPackagesListAll", packages);
 	}
 
-	public int uidLogKeyNum() {
-		return sqlSession.selectOne("packages.uidLogKeyNum");
-	}
-
-	public void uidLog(UIDLog uidLog) {
-		sqlSession.insert("packages.uidLog", uidLog);		
-	}
-
 	public void plusPackagesKeyNum(int packagesKeyNum) {
 		sqlSession.update("packages.plusPackagesKeyNum", packagesKeyNum);
 	}
@@ -84,7 +75,5 @@ public class PackagesDao {
 	public List<Packages> getCustomerName() {
 		return sqlSession.selectList("packages.getCustomerName");
 	}
-
-	
 
 }

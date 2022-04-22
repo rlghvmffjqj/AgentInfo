@@ -30,6 +30,8 @@
 			$('.customerName').addClass('active');
 		} else if($.cookie('name') == 'businessName') {
 			$('.businessName').addClass('active');
+		} else if($.cookie('name') == 'trash') {
+			$('.trash').addClass('active');
 		}
 	});
 </script>
@@ -83,6 +85,16 @@
 		                 <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
 		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
 		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
+		                     <span class="pcoded-mcaret"></span>
+		                 </a>
+		             </li>
+		         </ul>
+		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">trash</div>
+		         <ul class="pcoded-item pcoded-left-item">
+		             <li class="trash">
+		                 <a href="<c:url value='/trash/list'/>" class="waves-effect waves-dark">
+		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">휴지통</span>
 		                     <span class="pcoded-mcaret"></span>
 		                 </a>
 		             </li>

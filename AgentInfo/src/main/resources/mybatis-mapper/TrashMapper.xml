@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="trash">
+	<resultMap type="com.secuve.agentInfo.vo.Trash" id="trash"></resultMap>
+	
+	
+	<select id="getTrashList" resultMap="trash" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM trash
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getTrashListCount" resultType="_int">
+		SELECT COUNT(*) FROM trash;
+	</select>
+	
+	<select id="trashKeyNum" resultType="_int">
+		SELECT MAX(trashKeyNum) FROM trash;
+	</select>
+	
+	<insert id="insertTrash">
+		INSERT INTO trash(trashKeyNum, trashCustomerName, trashBusinessName, trashRequestDate, trashDeliveryData, trashExistingNew, trashManagementServer, trashAgentOS, trashOsDetailVersion, trashGeneralCustom, trashOsType, trashAgentVer, trashPackageName, trashManager, trashRequestProductCategory, trashDeliveryMethod, trashNote, trashUser, trashTime)
+		VALUES (#{trashKeyNum}, #{trashCustomerName}, #{trashBusinessName}, #{trashRequestDate}, #{trashDeliveryData}, #{trashExistingNew}, #{trashManagementServer}, #{trashAgentOS}, #{trashOsDetailVersion}, #{trashGeneralCustom}, #{trashOsType}, #{trashAgentVer}, #{trashPackageName}, #{trashManager}, #{trashRequestProductCategory}, #{trashDeliveryMethod}, #{trashNote}, #{trashUser}, #{trashTime});
+	</insert>
+	
+</mapper>

@@ -20,4 +20,12 @@ public class UIDLogDao {
 	public int getUIDLogListCount(UIDLog search) {
 		return sqlSession.selectOne("uidLog.getUIDLogCount", search);
 	}
+	
+	public int uidLogKeyNum() {
+		return sqlSession.selectOne("uidLog.uidLogKeyNum");
+	}
+	
+	public void insertUIDLog(UIDLog uidLog) {
+		sqlSession.insert("uidLog.insertUIDLog", uidLog);		
+	}
 }

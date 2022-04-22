@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -24,7 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.PackagesDao;
+import com.secuve.agentInfo.dao.TrashDao;
+import com.secuve.agentInfo.dao.UIDLogDao;
 import com.secuve.agentInfo.vo.Packages;
+import com.secuve.agentInfo.vo.Trash;
 import com.secuve.agentInfo.vo.UIDLog;
 
 @Service
@@ -32,6 +34,8 @@ public class PackagesService {
 	@Autowired PackagesDao packagesDao;
 	@Autowired CategoryService categoryService;
 	@Autowired Packages packages;
+	@Autowired UIDLogDao uidLogDao;
+	@Autowired TrashDao trashDao;
 
 	/**
 	 * 패키지 리스트 조회
@@ -66,8 +70,10 @@ public class PackagesService {
 			int sucess = packagesDao.delPackages(packagesKeyNum);
 
 			// uid 로그 기록
-			if (sucess > 0)
+			if (sucess > 0) {
 				uidLog(packages, principal, "DELETE");
+				trash(packages, principal);
+			}
 
 			if (sucess <= 0)
 				return "FALSE";
@@ -967,7 +973,7 @@ public class PackagesService {
 
 		UIDLog uidLog = new UIDLog();
 		try {
-			uidLogKeyNum = packagesDao.uidLogKeyNum();
+			uidLogKeyNum = uidLogDao.uidLogKeyNum();
 		} catch (Exception e) {
 		}
 
@@ -984,7 +990,7 @@ public class PackagesService {
 		uidLog.setUidEvent(event);
 		uidLog.setUidUser(principal.getName());
 		uidLog.setUidTime(nowDate());
-		packagesDao.uidLog(uidLog);
+		uidLogDao.insertUIDLog(uidLog);
 	}
 
 	/**
@@ -1238,6 +1244,39 @@ public class PackagesService {
 		map.put("count", count);
 
 		return map;
+	}
+	
+	public void trash(Packages packages, Principal principal) {
+		int trashKeyNum = 0;
+		
+		Trash trash = new Trash();
+
+		try {
+			trashKeyNum = trashDao.trashKeyNum();
+		} catch (Exception e) {
+		}
+
+		trash.setTrashKeyNum(++trashKeyNum);
+		trash.setTrashCustomerName(packages.getCustomerName());
+		trash.setTrashBusinessName(packages.getBusinessName());
+		trash.setTrashRequestDate(packages.getRequestDate());
+		trash.setTrashDeliveryData(packages.getDeliveryData());
+		trash.setTrashExistingNew(packages.getExistingNew());
+		trash.setTrashManagementServer(packages.getManagementServer());
+		trash.setTrashAgentOS(packages.getAgentOS());
+		trash.setTrashOsDetailVersion(packages.getOsDetailVersion());
+		trash.setTrashAgentVer(packages.getAgentVer());
+		trash.setTrashPackageName(packages.getPackageName());
+		trash.setTrashOsType(packages.getOsType());
+		trash.setTrashManager(packages.getManager());
+		trash.setTrashGeneralCustom(packages.getGeneralCustom());
+		trash.setTrashRequestProductCategory(packages.getRequestProductCategory());
+		trash.setTrashDeliveryMethod(packages.getDeliveryMethod());
+		trash.setTrashNote(packages.getNote());
+		trash.setTrashUser(principal.getName());
+		trash.setTrashTime(nowDate());
+		
+		trashDao.insertTrash(trash);
 	}
 
 }
