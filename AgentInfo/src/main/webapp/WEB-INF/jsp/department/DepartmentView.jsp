@@ -61,6 +61,7 @@
 					"departmentName" : departmentName
 				},
 			dataType: "json",
+			async: false,
 			success: function(data) {
 				if(data.result == "OK"){
 					Swal.fire({
@@ -110,6 +111,7 @@
 			type: "POST",
 			data: {"departmentFullPath": path, "newDepartmentName": newDepartmentName},
 			dataType: "json",
+			async: false,
 			success: function(data) {
 				if(data.result == "OK") {
 					Swal.fire({

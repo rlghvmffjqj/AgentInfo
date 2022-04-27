@@ -402,6 +402,7 @@
 			type: "POST",
 			data: {"parentPath" : path},
 			dataType: "json",
+			async: false,
 			success: function(data)
 			{
 				var tree = $("#tree").dynatree("getTree");
@@ -507,6 +508,7 @@
 			type: "POST",
 			data: {"departmentFullPath" : departmentFullPath},
 			dataType: "json",
+			async: false,
 			success: function(data) {
 				console.log("확인"+data.result);
 				if(data.result == "OK"){
