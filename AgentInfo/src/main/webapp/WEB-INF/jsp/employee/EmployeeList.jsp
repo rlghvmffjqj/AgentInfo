@@ -502,33 +502,44 @@
 	function btnDepartmentDelect() {
 		var node = $("#tree").dynatree("getActiveNode");
 		var departmentFullPath = node.data.key;
-		
-		$.ajax({
-			url: "<c:url value='/department/delete'/>",
-			type: "POST",
-			data: {"departmentFullPath" : departmentFullPath},
-			dataType: "json",
-			async: false,
-			success: function(data) {
-				console.log("확인"+data.result);
-				if(data.result == "OK"){
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					reloadParent();
-				} else if(data.result == "SubDepartment") {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '하위부서가 존재합니다.',
-					});
-				}
-			},
-			error: function(e) {
-		    	console.log(e);
-		    }
+		Swal.fire({
+			  title: '삭제!',
+			  text: "선택한 사원을 삭제하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#7066e0',
+			  cancelButtonColor: '#FF99AB',
+			  confirmButtonText: '예'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+				$.ajax({
+					url: "<c:url value='/department/delete'/>",
+					type: "POST",
+					data: {"departmentFullPath" : departmentFullPath},
+					dataType: "json",
+					async: false,
+					success: function(data) {
+						console.log("확인"+data.result);
+						if(data.result == "OK"){
+							Swal.fire({
+								icon: 'success',
+								title: '성공!',
+								text: '작업을 완료했습니다.',
+							});
+							reloadParent();
+						} else if(data.result == "SubDepartment") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '하위부서가 존재합니다.',
+							});
+						}
+					},
+					error: function(e) {
+				    	console.log(e);
+				    }
+				});
+		  }
 		});
 	}
 	
