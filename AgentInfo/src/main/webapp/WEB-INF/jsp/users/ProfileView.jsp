@@ -4,7 +4,7 @@
 <div class="modal-body" style="width: 100%; height: 600px;">
 	<form id="modalForm" name="form" method ="post"> 
 		 <div class="pading5">
-		  	<label class="labelFontSize">사원번호</label>
+		  	<label class="labelFontSize">사용자ID</label>
 			<input type="text" id="employeeId" name="employeeId" class="form-control viewForm" value="${employee.employeeId}" readonly> 
 		 </div>
          <div class="pading5">
@@ -45,8 +45,3 @@
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 </div>
 
-
-	
-	
-	
-	

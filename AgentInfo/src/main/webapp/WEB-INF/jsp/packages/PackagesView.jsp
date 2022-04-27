@@ -384,6 +384,8 @@
 </div>
 
 <script>
+	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
+	
 	/* =========== 패키지 추가 ========= */
 	$('#insertBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
@@ -501,8 +503,6 @@
 			}
 	    });
 	});
-	
-	$('.selectpicker').selectpicker();
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
 	function selfInput(data) {

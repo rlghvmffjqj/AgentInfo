@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,26 @@ public class EmployeeDao {
 
 	public int updateUsersRole(Employee employee) {
 		return sqlSession.insert("employee.updateUsersRole", employee);
+	}
+
+	public int updateEmployeeDepartment(String departmentName, String newDepartmentName) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("departmentName", departmentName);
+		parameters.put("newDepartmentName", newDepartmentName);
+		return sqlSession.update("employee.updateEmployeeDepartment", parameters);
+	}
+
+	public int updateDept(String ordDepartmentFullPath, String departmentFullPath, String departmentParentPath, String departmentName) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("ordDepartmentFullPath", ordDepartmentFullPath);
+		parameters.put("departmentFullPath", departmentFullPath);
+		parameters.put("departmentParentPath", departmentParentPath);
+		parameters.put("departmentName", departmentName);
+		return sqlSession.insert("employee.updateDept", parameters);
+	}
+
+	public int updateDepartmentMove(Employee employee) {
+		return sqlSession.update("employee.updateDepartmentMove", employee);
 	}
 
 }

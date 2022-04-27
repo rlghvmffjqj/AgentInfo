@@ -122,12 +122,17 @@ p {
 
 .modal-lg {
 	top: 18.5%;
-	width: 480px;
+	max-width: 480px;
 }
 
 .modal-sm {
 	max-width:350px;
 	top: 40%;
+}
+
+.modal-sl {
+	max-width:350px;
+	top: 30%;
 }
 
 .modal-ll {
@@ -143,6 +148,10 @@ p {
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;
+}
+
+.backgroundWhite {
+	background-color:white; 
 }
 
 .labelFontSize {
@@ -189,6 +198,10 @@ p {
 
 .margin-1 {
 	margin: 1%;
+}
+
+.margin10 {
+	margin: 10px;
 }
 
 
@@ -354,3 +367,24 @@ p {
 	font-size: 11px;
 }
 
+.hight60 {
+	height: 60px;
+}
+
+.modelHeadFont {
+	margin: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.modelHead {
+	background: palegoldenrod;
+    height: 30px;
+    border-radius: 0.3rem;
+}
+
+.modalBody {
+	/* margin-left: 25px; */
+    margin-top: -10px;
+    font-size: 15px;
+}

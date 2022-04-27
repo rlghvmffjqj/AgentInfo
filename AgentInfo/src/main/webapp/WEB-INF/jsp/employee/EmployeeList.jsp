@@ -18,7 +18,7 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['사원번호','부서명','사원명','이메일','직급','타입','전화번호','상태','역할'],
+				colNames:['사용자ID','부서명','사원명','이메일','직급','타입','전화번호','상태','역할'],
 				colModel:[
 					{name:'employeeId', index:'employeeId', align:'center', width: 200, formatter: linkFormatter},
 					{name:'departmentName', index:'departmentName', align:'center' ,width: 200},
@@ -52,7 +52,7 @@
 		});
 		
 		$(window).on('resize.list', function () {
-		    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+		    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() - $(".departmentTable").width() - 10);
 		});
 			
 	</script>
@@ -94,8 +94,10 @@
                                 	<div class="ibox">
 	                                	<div class="searchbos">
 	                      					<form id="form" name="form" method ="post"> 
+	                      						<input type="hidden" id="departmentName" name="departmentName" class="form-control">
+	                      						<input type="hidden" id="departmentFullPath" name="departmentFullPath" class="form-control">
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">사원번호</label>
+	                      							<label class="labelFontSize">사용자ID</label>
 													<input type="text" id="employeeId" name="employeeId" class="form-control"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
@@ -103,16 +105,12 @@
 	                      							<input type="text" id="employeeName" name="employeeName" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">부서명</label>
-	                      							<input type="text" id="departmentName" name="departmentName" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">전화번호</label>
 	                      							<input type="text" id="employeePhone" name="employeePhone" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">타입</label>
-	                      							<select class="form-control" id="employeeType" name="employeeType">
+	                      							<select class="form-control selectpicker" id="employeeType" name="employeeType" data-live-search="true" data-size="5">
 														<option value=""></option>
 														<option value="정사원">정사원</option>
 														<option value="외주">외주</option>
@@ -121,11 +119,21 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">직급</label>
-													<input type="text" id="employeeRank" name="employeeRank" class="form-control">
+	                      							<select class="form-control selectpicker" id="employeeRank" name="employeeRank" data-live-search="true" data-size="5">
+	                      								<option value=""></option>
+														<option value="연구원">연구원</option>
+														<option value="전임">전임</option>
+														<option value="인턴">선임</option>
+														<option value="차장">차장</option>
+														<option value="책임">책임</option>
+														<option value="실장">실장</option>
+														<option value="소장">소장</option>
+														<option value="대표">대표</option>
+													</select>
 	                      						</div><br>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">상태</label>
-	                      							<select class="form-control" id="employeeStatus" name="employeeStatus">
+	                      							<select class="form-control selectpicker" id="employeeStatus" name="employeeStatus" data-live-search="true" data-size="5">
 														<option value=""></option>
 														<option value="재직">재직</option>
 														<option value="퇴사">퇴사</option>
@@ -142,31 +150,55 @@
 													</button>
 												</p>
 											</div>
-	                      						
 	                      					</form>
 	                     				</div>
                      				 </div>
-		                           	 	<table style="width:99%;">
-											<tbody><tr>
-												<td style="padding:0px 0px 0px 0px;" class="box">
-													<table style="width:100%">
-													<tbody><tr>
-														<td style="font-weight:bold;">사원 관리 :
-															<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-															<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-															<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'employeeList');">컬럼 선택</button>
-														</td>
-													</tr>
-													<tr>
-														<td class="border1" colspan="2">
-															<!------- Grid ------->
-															<div class="jqGrid_wrapper">
-																<table id="list"></table>
-																<div id="pager"></div>
-															</div>
-															<!------- Grid ------->
-														</td>
-													</tr>
+		                           	 <table class="fullTable" style="width:100%; float:left">
+										<tbody><tr>
+											<td style="padding:0px 0px 0px 0px;" class="box">
+												<table class="departmentTable" style="width:17%;float:left">
+													<tbody>
+														<tr>
+															<td style="font-weight:bold;">
+																부서관리 :
+																<button class="btn btn-outline-info-add myBtn" id="BtnDepartmentInsert" onClick="btnDepartmentInsert()">추가</button>
+																<button class="btn btn-outline-info-nomal myBtn" id="BtnDepartmentUpdate" onClick="btnDepartmentUpdate()">수정</button>
+																<button class="btn btn-outline-info-del myBtn" id="BtnDepartmentDelect" onClick="btnDepartmentDelect()">삭제</button>
+															</td>
+														</tr>
+														<tr>
+															<td valign="top">
+																<div class="border1" style="overflow:scroll; height:728px;">
+																	<div class="margin10">
+																		<!----------------------- dynatree ----------------------->
+																		<div id="tree"></div>
+																		<!----------------------- dynatree ----------------------->
+																	</div>
+																</div>
+				 											</td>
+														</tr>
+													</tbody>
+												</table>
+												<table class="employeeTable" style="width:82%; float:right;">
+													<tbody>
+														<tr>
+															<td style="font-weight:bold;">사원 관리 :
+																<button class="btn btn-outline-info-add myBtn" id="BtnEmployeeInsert">추가</button>
+																<button class="btn btn-outline-info-del myBtn" id="BtnEmployeeDelete">삭제</button>
+																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'employeeList');">컬럼 선택</button>
+																<button class="btn btn-outline-info-nomal myBtn" onclick="departmentMove()">부서 이동</button>
+															</td>
+														</tr>
+														<tr>
+															<td class="border1" colspan="2">
+																<!------- Grid ------->
+																<div class="jqGrid_wrapper">
+																	<table id="list"></table>
+																	<div id="pager"></div>
+																</div>
+																<!------- Grid ------->
+															</td>
+														</tr>
 													</tbody>
 												</table>
 											</td>
@@ -185,18 +217,32 @@
 
 <script>
 	/* =========== 사원 추가 Modal ========= */
-	$('#BtnInsert').click(function() {
-		$.ajax({
-		    type: 'POST',
-		    url: "<c:url value='/employee/insertView'/>",
-		    async: false,
-		    success: function (data) {
-		        $.modal(data, 'l'); //modal창 호출
-		    },
-		    error: function(e) {
-		        // TODO 에러 화면
-		    }
-		});			
+	$('#BtnEmployeeInsert').click(function() {
+		var departmentName = $("#departmentName").val();
+		var departmentFullPath = $("#departmentFullPath").val();
+		if(departmentName == "") {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '부서를 선택해주세요.',    
+			}); 
+		} else {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/employee/insertView'/>",
+			    data: {
+			    		"departmentName" : departmentName,
+			    		"departmentFullPath" : departmentFullPath
+			    	},
+			    async: false,
+			    success: function (data) {
+			        $.modal(data, 'l'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});
+		}
 	});
 	
 	/* =========== 검색 ========= */
@@ -232,14 +278,16 @@
 	/* =========== 검색 초기화 ========= */
 	$('#btnReset').click(function() {
 		$("input[type='text']").val("");
+		$("input[type='hidden']").val("");
 		$("select").each(function(index){
 			$("option:eq(0)",this).prop("selected",true);
 		});
+		reqRootNode();
 		tableRefresh();
 	});
 	
 	/* =========== 사원 삭제 ========= */
-	$('#BtnDelect').click(function() {
+	$('#BtnEmployeeDelete').click(function() {
 		var chkList = $("#list").getGridParam('selarrrow');
 		if(chkList == 0) {
 			Swal.fire({               
@@ -266,7 +314,6 @@
 					traditional: true,
 					async: false,
 					success: function(data) {
-						console.log(data);
 						if(data == "OK")
 							Swal.fire(
 							  '성공!',
@@ -305,5 +352,251 @@
             }
         });
 	}
+</script>
+
+<script>
+	/* =========== Tree 시작 ========= */
+	$(document).ready(function() {
+		createTree();
+	});
+
+	/* =========== 트리 컨트롤러 생성 ========= */
+	function createTree()
+	{
+		$("#tree").dynatree({
+			onActivate: function(node) {
+				var path = node.data.key;
+				reqChildNode(node, path);
+			},
+			onQueryExpand: function(flag, node) {
+				if(flag) {
+					$('#tree').dynatree('getTree').activateKey(node.data.key);
+				}
+			}
+		});
+	
+		var root = $("#tree").dynatree("getRoot");
+		var rootNode = root.addChild({
+			title : '/',
+			tooltip : '/',
+			key : '/',
+			children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
+			isFolder : true
+		});
+	
+		reqRootNode();
+	}
+	
+	/* =========== 트리 루트노드 데이터 요청 ========= */
+	function reqRootNode()
+	{
+		var rootNode = $("#tree").dynatree("getTree").selectKey('/');
+		reqChildNode(rootNode, '/');
+	}
+	
+	/* =========== 트리 하위노드 데이터 요청 ========= */
+	function reqChildNode(node, path)
+	{
+		$.ajax({
+			url: "<c:url value='/department/list'/>",
+			type: "POST",
+			data: {"parentPath" : path},
+			dataType: "json",
+			success: function(data)
+			{
+				var tree = $("#tree").dynatree("getTree");
+				node.removeChildren();
+
+				if(data != null && data.length > 0)
+				{
+					/* ===================== */
+					tree.enableUpdate(false);
+					/* ===================== */
+
+					for(var i = 0; i < data.length; i++)
+					{
+						var childNode = node.addChild({
+							title : data[i].departmentName,
+							tooltip : data[i].departmentName,
+							key : data[i].departmentFullPath,
+							children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
+							isFolder : true
+						});
+					}
+					
+					/* ===================== */
+					tree.enableUpdate(true);
+					/* ===================== */
+
+					node.expand(true);
+				}
+				else
+				{
+					node.expand(false); // for IE7
+				}
+
+				if (path != '/') reqMember(path);
+			},
+			error: function(e) {
+	        	console.log(e);
+	        }
+		});
+	}
+	
+	/* =========== 디렉토리에 해당하는 사용자 목록 요청 ========= */
+	function reqMember(path)
+	{
+		var node = $("#tree").dynatree("getActiveNode");
+		var path = node.data.key; // 선택 부서 풀 경로
+		var title = node.data.title; // 선택 부서
+		$("#departmentName").val(title); //부서경로
+		$("#departmentFullPath").val(path); // 부서 풀 경로
+
+		var postData = $("#form").serializeObject();
+		var jqGrid = $("#list");
+		jqGrid.clearGridData();
+		jqGrid.setGridParam({ datatype: 'json', postData: postData });
+		jqGrid.trigger('reloadGrid');
+	}
+	
+	/* =========== 부서 추가 ========= */
+	function btnDepartmentInsert() {
+		var path = getCurrentPath();
+
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/department/insertView'/>",
+		    data: {"departmentFullPath" : path},
+		    async: false,
+		    success: function (data) {
+		        $.modal(data, 's'); //modal창 호출
+		    },
+		    error: function(e) {
+		    	console.log(e);
+		    }
+		});
+	}
+	
+	/* =========== DepartmentFullPath 경로 가져오기 ========= */
+	function getCurrentPath() {
+		var node = $("#tree").dynatree("getActiveNode");
+		if (node != null )
+			return node.data.key;
+		else
+			return '/';
+	}
+	
+	/* =========== 현재 디렉토리 다시 불러오기 ========= */
+	function reloadView()
+	{
+		var node = $("#tree").dynatree("getActiveNode");
+		if ( node != null ) {
+			$('#tree').dynatree('getTree').reactivate(true);
+		} else {
+			reqRootNode();
+		}
+	}
+	
+	/* =========== 부서 삭제 ========= */
+	function btnDepartmentDelect() {
+		var node = $("#tree").dynatree("getActiveNode");
+		var departmentFullPath = node.data.key;
+		
+		$.ajax({
+			url: "<c:url value='/department/delete'/>",
+			type: "POST",
+			data: {"departmentFullPath" : departmentFullPath},
+			dataType: "json",
+			success: function(data) {
+				console.log("확인"+data.result);
+				if(data.result == "OK"){
+					Swal.fire({
+						icon: 'success',
+						title: '성공!',
+						text: '작업을 완료했습니다.',
+					});
+					reloadParent();
+				} else if(data.result == "SubDepartment") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '하위부서가 존재합니다.',
+					});
+				}
+			},
+			error: function(e) {
+		    	console.log(e);
+		    }
+		});
+	}
+	
+	/* =========== 상위 디렉토리 다시 불러오기 (현재 디렉토리 삭제, 이름변경, 추가 등) ========= */
+	function reloadParent()
+	{
+		var path = getParentPath();
+		if ( path != '/' ) {
+			$("#tree").dynatree("getTree").activateKey(path);
+		} else {
+			reqRootNode();
+		}
+	}
+	
+	/* =========== 부모 부서 위치 ========= */
+	function getParentPath() {
+		var path = getCurrentPath();
+
+		var pos = path.lastIndexOf('/');
+		if ( pos > 0 ) {
+			return path.substring(0, pos);
+		} else {
+			return '/';
+		}
+	}
+	
+	
+	/* =========== 부서 수정 ========= */
+	function btnDepartmentUpdate() {
+		var path = getCurrentPath();
+
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/department/updateView'/>",
+		    data: {"departmentFullPath" : path},
+		    async: false,
+		    success: function (data) {
+		        $.modal(data, 's'); //modal창 호출
+		    },
+		    error: function(e) {
+		    	console.log(e);
+		    }
+		});
+	}
+	
+	/* =========== 부서 이동 ========= */
+	function departmentMove() {
+		var chkList = $("#list").getGridParam('selarrrow');
+		if(chkList == 0) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '선택한 행이 존재하지 않습니다.',    
+			});    
+		} else {
+			$.ajax({
+			    url: "<c:url value='/department/departmentMoveView'/>",
+			    type: "POST",
+				dataType: "text",
+				traditional: true,
+			    async: false,
+			    success: function (data) {
+			        $.modal(data, 'sl'); //modal창 호출
+			    },
+			    error: function(e) {
+			    	console.log(e);
+			    }
+			});
+		}
+	}
+
 </script>
 </html>

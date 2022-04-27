@@ -128,4 +128,16 @@ public class EmployeeController {
 		map.put("result", result);
 		return map;
 	}
+	
+	/**
+	 * 부서 이동
+	 * @param chkList
+	 * @param employee
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value = "/employee/departmentMove")
+	public String departmentMove(@RequestParam String[] chkList, Employee employee) {
+		return employeeService.updateDepartmentMove(chkList, employee);
+	}
 }

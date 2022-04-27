@@ -13,6 +13,8 @@ import lombok.ToString;
 public class Employee {
 	private String employeeId;					// 사원 번호
 	private String departmentName;				// 부서 이름
+	private String departmentFullPath;			// 부서 풀 경로
+	private String departmentParentPath;		// 부서 부모 경로
 	private String employeeType;				// ex) 정사원, 외주
 	private String employeeRank;				// ex) 연구원, 선임, 대리, 과장
 	private String employeeName;				// 사원 이름

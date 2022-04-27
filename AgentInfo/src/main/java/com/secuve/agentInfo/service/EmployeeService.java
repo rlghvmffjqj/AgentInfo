@@ -57,6 +57,7 @@ public class EmployeeService {
 		} else if(employeeDao.getEmployeeOne(employee.getEmployeeId()) != null) {	// 사용자 중복 확인
 			return "duplicateCheck";
 		}
+		employee.setDepartmentParentPath(employee.getDepartmentFullPath().replace("/"+employee.getDepartmentName(), ""));
 		
 		int sucess = employeeDao.insertEmployee(employee);
 		users.setUsersId(employee.getEmployeeId());
@@ -91,5 +92,14 @@ public class EmployeeService {
 		return "OK";
 	}
 
-	
+	public String updateDepartmentMove(String[] chkList, Employee employee) {
+		employee.setDepartmentParentPath(employee.getDepartmentFullPath().replace("/"+employee.getDepartmentName(), ""));
+		for(String employeeId: chkList) {
+			employee.setEmployeeId(employeeId);
+			int sucess =  employeeDao.updateDepartmentMove(employee);
+			if(sucess <= 0) 
+				return "FALSE";
+		}
+		return "OK";
+	}
 }

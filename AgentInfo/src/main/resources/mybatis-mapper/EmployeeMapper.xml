@@ -30,8 +30,8 @@
 	</select>
 	
 	<insert id="insertEmployee">
-		INSERT INTO employee(employeeId, departmentName, employeeType, employeeRank, employeeName, employeePhone, employeeEmail, employeeStatus, employeeRegistrant, employeeRegistrationDate) 
-		VALUES(#{employeeId}, #{departmentName}, #{employeeType}, #{employeeRank}, #{employeeName}, #{employeePhone}, #{employeeEmail}, #{employeeStatus}, #{employeeRegistrant}, #{employeeRegistrationDate});
+		INSERT INTO employee(employeeId, departmentName, departmentFullPath, departmentParentPath, employeeType, employeeRank, employeeName, employeePhone, employeeEmail, employeeStatus, employeeRegistrant, employeeRegistrationDate) 
+		VALUES(#{employeeId}, #{departmentName}, #{departmentFullPath}, #{departmentParentPath}, #{employeeType}, #{employeeRank}, #{employeeName}, #{employeePhone}, #{employeeEmail}, #{employeeStatus}, #{employeeRegistrant}, #{employeeRegistrationDate});
 	</insert>
 	
 	<select id="getEmployeeOne" parameterType="string" resultMap="employee">
@@ -51,6 +51,14 @@
 	
 	<update id="updateUsersRole">
 		UPDATE users SET usersRole = #{usersRole} WHERE usersId = #{employeeId}
+	</update>
+	
+	<update id="updateDept">
+		UPDATE employee SET departmentFullPath = #{departmentFullPath}, departmentParentPath = #{departmentParentPath}, departmentName = #{departmentName} WHERE departmentFullPath = #{ordDepartmentFullPath};
+	</update>
+	
+	<update id="updateDepartmentMove">
+		UPDATE employee SET departmentFullPath = #{departmentFullPath}, departmentParentPath = #{departmentParentPath}, departmentName = #{departmentName} WHERE employeeId = #{employeeId};
 	</update>
 	
 	<!-- ==================================================================================== -->
@@ -76,7 +84,10 @@
 				AND e.employeeStatus LIKE CONCAT('%',#{employeeStatus},'%')
 			</if>
 			<if test="departmentName != null and departmentName != ''">
-				AND e.departmentName LIKE CONCAT('%',#{departmentName},'%')
+				AND e.departmentName = #{departmentName}
+			</if>
+			<if test="departmentFullPath != null and departmentFullPath != ''">
+				AND e.departmentFullPath = #{departmentFullPath}
 			</if>
 		</trim>
 	</sql>
