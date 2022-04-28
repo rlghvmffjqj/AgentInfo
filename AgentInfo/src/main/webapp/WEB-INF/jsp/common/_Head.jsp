@@ -60,3 +60,7 @@
 <script type="text/javascript" src="<c:url value='/js/dynatree/jquery.dynatree.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/skin-vista/ui.dynatree.css'/>">
 
+<!-- SummerNote -->
+<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
+

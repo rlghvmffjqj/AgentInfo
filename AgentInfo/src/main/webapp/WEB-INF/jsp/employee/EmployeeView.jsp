@@ -101,6 +101,7 @@
 		         	<select class="form-control viewForm selectpicker" id="usersRole" name="usersRole" data-live-search="true" data-size="5">
 						<option value="USER">일반사용자</option>
 						<option value="ADMIN">관리자</option>
+						<option value="ENGINEER">엔지니어</option>
 					</select>
 		         </div>
 		         
@@ -142,6 +143,7 @@
 		         	<select class="form-control viewForm selectpicker" id="usersRole" name="usersRole" data-live-search="true" data-size="5">
 						<option value="USER" <c:if test="${employee.usersRole eq 'USER'}">selected</c:if>>일반사용자</option>
 						<option value="ADMIN" <c:if test="${employee.usersRole eq 'ADMIN'}">selected</c:if>>관리자</option>
+						<option value="ENGINEER" <c:if test="${employee.usersRole eq 'ENGINEER'}">selected</c:if>>엔지니어</option>
 					</select>
 		         </div>
 			</c:when>

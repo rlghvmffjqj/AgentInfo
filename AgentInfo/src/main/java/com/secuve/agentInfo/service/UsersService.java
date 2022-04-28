@@ -41,7 +41,10 @@ public class UsersService implements UserDetailsService{
 		if (usersEntity.getUsersRole().equals("ADMIN")) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 			session.setAttribute("usersId", "admin");
-		} else {
+		} else if(usersEntity.getUsersRole().equals("ENGINEER")) {
+			authorities.add(new SimpleGrantedAuthority(Role.ENGINEER.getValue()));
+			session.setAttribute("usersId", "engineer");
+		}else {
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 			session.setAttribute("usersId", "users");
 		}

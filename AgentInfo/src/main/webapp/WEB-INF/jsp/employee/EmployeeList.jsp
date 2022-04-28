@@ -156,7 +156,7 @@
 		                           	 <table class="fullTable" style="width:100%; float:left">
 										<tbody><tr>
 											<td style="padding:0px 0px 0px 0px;" class="box">
-												<table class="departmentTable" style="width:17%;float:left">
+												<table class="departmentTable" style="width:19%;float:left">
 													<tbody>
 														<tr>
 															<td style="font-weight:bold;">
@@ -171,7 +171,7 @@
 																<div class="border1" style="overflow:scroll; height:728px;">
 																	<div class="margin10">
 																		<!----------------------- dynatree ----------------------->
-																		<div id="tree"></div>
+																		<div id="tree" style="width: 100px;"></div>
 																		<!----------------------- dynatree ----------------------->
 																	</div>
 																</div>
@@ -179,7 +179,7 @@
 														</tr>
 													</tbody>
 												</table>
-												<table class="employeeTable" style="width:82%; float:right;">
+												<table class="employeeTable" style="width:80%; float:right;">
 													<tbody>
 														<tr>
 															<td style="font-weight:bold;">사원 관리 :

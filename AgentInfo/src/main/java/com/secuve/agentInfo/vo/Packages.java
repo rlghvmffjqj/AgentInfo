@@ -16,6 +16,7 @@ public class Packages {
 	private String businessName = "";			// 사업명
 	private String requestDate = "";			// 요청일자
 	private String deliveryData = "";			// 전달일자
+	private String state = "";					// 상태
 	private String existingNew = "";			// 기존/신규
 	private String managementServer = "";		// 패키지 종류
 	private String agentOS = "";				// Agent OS
@@ -28,12 +29,14 @@ public class Packages {
 	private String requestProductCategory = "";	// 요청 제품구분
 	private String deliveryMethod = "";			// 전달 방법
 	private String note = "";					// 비고
+	private String statusComment = "";			// 상태변경 의견
 	
 	// Modal에서 사용
 	private String customerNameView;			// View 고객사명
 	private String businessNameView;			// View 사업명
 	private String requestDateView;				// View 요청일자
 	private String deliveryDataView;			// View 전달일자
+	private String stateView;					// View 상태
 	private String existingNewView;				// View 기존/신규
 	private String managementServerView;		// View 패키지 종류
 	private String agentOSView;					// View Agent OS
@@ -52,6 +55,7 @@ public class Packages {
 	private String businessNameSelf;			// Self 사업명
 	private String requestDateSelf;				// Self 요청일자
 	private String deliveryDataSelf;			// Self 전달일자
+	private String stateSelf;					// Self 상태
 	private String existingNewSelf;				// Self 기존/신규
 	private String managementServerSelf;		// Self 패키지 종류
 	private String agentOSSelf;					// Self Agent OS

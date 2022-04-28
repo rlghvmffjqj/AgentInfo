@@ -141,6 +141,11 @@ p {
 	max-width: 1500px;
 }
 
+.modal-r {
+	top: 25%;
+	max-width: 960px;
+}
+
 .btn-outline-info-add{
 	margin: 1px;
 }
@@ -387,4 +392,27 @@ p {
 	/* margin-left: 25px; */
     margin-top: -10px;
     font-size: 15px;
+}
+
+.backGreen {
+	background: green;
+	color: white;
+	border-radius: 20px;
+}
+
+.backYellow {
+	background: #FFEA00;
+    color: white;
+    border-radius: 20px;
+}
+
+.backRed {
+	background: Red;
+	color: white;
+	border-radius: 20px;
+}
+
+.summerNoteSize {
+	height: 200px;
+    width: 300px;
 }

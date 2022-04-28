@@ -96,6 +96,7 @@ public class PackagesService {
 			return "NotCustomerName";
 		}
 		selfInput(packages);
+		packages.setState("배포완료");
 		packages.setPackagesKeyNum(packagesKeyNum());
 		int sucess = packagesDao.insertPackages(packages);
 
@@ -1282,6 +1283,16 @@ public class PackagesService {
 		trash.setTrashTime(nowDate());
 		
 		trashDao.insertTrash(trash);
+	}
+
+	public String stateChange(int[] chkList, String statusComment, String state) {
+		for (int packagesKeyNum : chkList) {
+			int sucess = packagesDao.stateChange(packagesKeyNum, statusComment, state);
+
+			if (sucess <= 0)
+				return "FALSE";
+		}
+		return "OK";
 	}
 
 }

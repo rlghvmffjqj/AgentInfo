@@ -20,7 +20,7 @@
 						<td>부서 경로 :</td><td><span id="departmentParentsView">${departmentFullPath}</span></td>
 					</tr>
 					<tr>
-						<td style="width: 70px;">부서명 : </td><td><input type="text" id="departmentNameView"></td>
+						<td style="width: 70px;">부서명 : </td><td><input type="text" id="departmentNameView" autofocus></td>
 					</tr>
 				</c:when>
 				<c:when test="${viewType eq 'update'}">
@@ -28,7 +28,7 @@
 						<td>부서 경로 :</td><td><span id="departmentNameChangeView">${departmentFullPath}</span></td>	
 					</tr>
 					<tr>
-						<td style="width: 70px;">부서명 변경 : </td><td><input type="text" id="departmentNameView"></td>											
+						<td style="width: 70px;">부서명 변경 : </td><td><input type="text" id="departmentNameView" autofocus></td>											
 					</tr>
 				</c:when>
 			</c:choose>
@@ -48,6 +48,11 @@
 </div>
 
 <script>
+	/* =========== autofocus 미작동시 추가 ========= */
+	$(document).on('shown.bs.modal', function (e) {
+	    $(this).find('[autofocus]').focus();
+	});
+
 	/* =========== 부서 추가 ========= */
 	function BtnDepartmentViewInsert() {
 		var departmentParentPath = getCurrentPath();

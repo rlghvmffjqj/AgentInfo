@@ -33,8 +33,8 @@
 	</select>
 	
 	<insert id="insertPackages">
-		INSERT INTO packages(packagesKeyNum, customerName, businessName, requestDate, deliveryData, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate)
-		VALUES (#{packagesKeyNum}, #{customerNameView}, #{businessNameView}, #{requestDateView}, #{deliveryDataView}, #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate});
+		INSERT INTO packages(packagesKeyNum, customerName, businessName, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate)
+		VALUES (#{packagesKeyNum}, #{customerNameView}, #{businessNameView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate});
 	</insert>
 	
 	<select id="getPackagesOne" parameterType="_int" resultMap="packages">
@@ -99,6 +99,10 @@
 	<select id="getCustomerName" resultMap="packages">
 		SELECT customerName AS 'chartName', COUNT(*) AS 'chartCount' FROM packages GROUP BY customerName ORDER BY COUNT(*) DESC LIMIT 7;
 	</select>
+	
+	<update id="stateChange">
+		UPDATE packages SET statusComment = #{statusComment}, state = #{state} WHERE packagesKeyNum = #{packagesKeyNum};
+	</update>
 	
 	<!-- ==================================================================================== -->
 	

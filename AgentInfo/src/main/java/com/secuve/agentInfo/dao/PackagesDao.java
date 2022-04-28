@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,15 @@ public class PackagesDao {
 
 	public List<Packages> getCustomerName() {
 		return sqlSession.selectList("packages.getCustomerName");
+	}
+
+	public int stateChange(int packagesKeyNum, String statusComment, String state) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("packagesKeyNum", packagesKeyNum);
+		parameters.put("statusComment", statusComment);
+		parameters.put("state", state);
+		
+		return sqlSession.update("packages.stateChange", parameters);
 	}
 
 }

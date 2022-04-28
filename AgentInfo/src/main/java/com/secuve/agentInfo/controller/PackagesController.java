@@ -426,5 +426,20 @@ public class PackagesController {
 		map = packagesService.getCustomerName();
 		return map;
 	}
+	
+	@PostMapping(value = "/packages/stateView")
+	public String stateView() {
+		return "/packages/StateView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/packages/stateChange")
+	public Map<String, String> stateChange(@RequestParam int[] chkList, @RequestParam String statusComment, @RequestParam String state) {
+
+		Map<String, String> map = new HashMap<String, String>();
+		String result = packagesService.stateChange(chkList, statusComment, state);
+		map.put("result", result);
+		return map;
+	}
 
 }

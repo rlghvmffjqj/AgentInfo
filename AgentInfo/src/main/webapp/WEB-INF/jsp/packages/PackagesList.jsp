@@ -19,13 +19,14 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사 명','사업명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고'],
+				colNames:['Key','고객사 명','사업명','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 				colModel:[
 					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
 					{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'requestDate', index:'requestDate', align:'center', width: 70},
 					{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
+					{name:'state', index:'state',align:'center', width: 50, formatter: stateFormatter, sortable:false},
 					{name:'managementServer', index:'managementServer', align:'center', width: 80},
 					{name:'generalCustom', index:'generalCustom', align:'center', width: 60},
 					{name:'agentVer', index:'agentVer', align:'center', width: 170},
@@ -38,6 +39,7 @@
 					{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 90},
 					{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 60},
 					{name:'note', index:'note', align:'center', width: 600},
+					{name:'statusComment', index:'statusComment', align:'center', width: 400},
 				],
 				jsonReader : {
 		        	id: 'packagesKeyNum',
@@ -246,6 +248,9 @@
 																<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">Excel 가져오기</button>
 																<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
 															</sec:authorize>
+															<sec:authorize access="hasAnyRole('ENGINEER','ADMIN')">
+																<button class="btn btn-outline-info-nomal myBtn" id="BtnState" onClick="btnState()">상태 변경</button>
+															</sec:authorize>
 														</td>
 													</tr>
 													<tr>
@@ -360,6 +365,18 @@
 		return '<a onclick="updateView('+"'"+rowdata.packagesKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 	}
 	
+	function stateFormatter(value, options, row) {
+		var state = row.state.toUpperCase();
+		if(state == "배포완료") {
+			return '<div><img src="/AgentInfo/images/distribute.png" style="width:50px;"></div';
+		} else if(state == "적용") {
+			return '<div><img src="/AgentInfo/images/apply.png" style="width:50px;"></div';
+		} else if(state == "대기") {
+			return '<div><img src="/AgentInfo/images/waiting.png" style="width:50px;"></div';
+		}
+		return '<div></div>';
+	}
+	
 	/* =========== Enter 검색 ========= */
 	$("input[type=text]").keypress(function(event) {
 		if (window.event.keyCode == 13) {
@@ -416,7 +433,6 @@
 					traditional: true,
 					async: false,
 					success: function(data) {
-						console.log(data);
 						if(data == "OK")
 							Swal.fire(
 							  '성공!',
@@ -488,6 +504,30 @@
 	            }
 	        });
 		</sec:authorize>
+	}
+	
+	/* =========== 상태 변경 ========= */
+	function btnState() {
+		var chkList = $("#list").getGridParam('selarrrow');
+		if(chkList == 0) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '선택한 행이 존재하지 않습니다.',    
+			});    
+		} else {
+			$.ajax({
+	            type: 'POST',
+	            url: "<c:url value='/packages/stateView'/>",
+	            async: false,
+	            success: function (data) {
+	                $.modal(data, 'r'); //modal창 호출
+	            },
+	            error: function(e) {
+	                // TODO 에러 화면
+	            }
+	        });
+		}
 	}
 
 </script>
