@@ -10,7 +10,7 @@
 			<tr class="hight60">
 				<td style="width: 50px;">상태 : </td>
 				<td style="width: 100px;">
-					<select class="form-control selectpicker" id="state" name="state" data-size="5" data-actions-box="true">
+					<select class="form-control selectpicker" id="stateView" name="stateView" data-size="5" data-actions-box="true">
 						<option value='적용' class="backGreen">적용</option>
 						<option value="대기" class="backYellow">대기</option>
 						<option value="배포완료" class="backRed">배포완료</option>
@@ -47,7 +47,7 @@
 	function btnStateChange() {
 		var chkList = $("#list").getGridParam('selarrrow');
 		var statusComment = $('#summernote').val();
-		var state = $("#state").val();
+		var stateView = $("#stateView").val();
 		
 		$.ajax({
 			url: "<c:url value='/packages/stateChange'/>",
@@ -55,7 +55,7 @@
 			data: {
 					chkList: chkList,
 					"statusComment" : statusComment,
-					"state" : state
+					"stateView" : stateView
 				},
 			dataType: "json",
 			async: false,

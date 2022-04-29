@@ -1081,6 +1081,7 @@ public class PackagesService {
 	public Packages packagesSearch(Packages search) {
 		search.setCustomerNameArr(search.getCustomerName().split(","));
 		search.setBusinessNameArr(search.getBusinessName().split(","));
+		search.setStateArr(search.getState().split(","));
 		search.setExistingNewArr(search.getExistingNew().split(","));
 		search.setManagementServerArr(search.getManagementServer().split(","));
 		search.setAgentOSArr(search.getAgentOS().split(","));
@@ -1285,9 +1286,9 @@ public class PackagesService {
 		trashDao.insertTrash(trash);
 	}
 
-	public String stateChange(int[] chkList, String statusComment, String state) {
+	public String stateChange(int[] chkList, String statusComment, String stateView) {
 		for (int packagesKeyNum : chkList) {
-			int sucess = packagesDao.stateChange(packagesKeyNum, statusComment, state);
+			int sucess = packagesDao.stateChange(packagesKeyNum, statusComment, stateView);
 
 			if (sucess <= 0)
 				return "FALSE";

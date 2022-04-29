@@ -101,7 +101,7 @@
 	</select>
 	
 	<update id="stateChange">
-		UPDATE packages SET statusComment = #{statusComment}, state = #{state} WHERE packagesKeyNum = #{packagesKeyNum};
+		UPDATE packages SET statusComment = #{statusComment}, state = #{stateView} WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
 	
 	<!-- ==================================================================================== -->
@@ -122,6 +122,15 @@
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="businessNameArr" item="arr">
 						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="state != null and state != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="stateArr" item="arr">
+						OR state LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)

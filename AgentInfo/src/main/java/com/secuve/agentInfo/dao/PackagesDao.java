@@ -78,11 +78,11 @@ public class PackagesDao {
 		return sqlSession.selectList("packages.getCustomerName");
 	}
 
-	public int stateChange(int packagesKeyNum, String statusComment, String state) {
+	public int stateChange(int packagesKeyNum, String statusComment, String stateView) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("packagesKeyNum", packagesKeyNum);
 		parameters.put("statusComment", statusComment);
-		parameters.put("state", state);
+		parameters.put("stateView", stateView);
 		
 		return sqlSession.update("packages.stateChange", parameters);
 	}

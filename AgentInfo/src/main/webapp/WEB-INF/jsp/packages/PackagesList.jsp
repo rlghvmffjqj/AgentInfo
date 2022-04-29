@@ -134,6 +134,15 @@
 													<input class="form-control" type="date" id="requestDate" name="requestDate"> 
 	                      						</div>
 	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">상태</label>
+													<select class="form-control selectpicker" id="stateStr" name="stateStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<option value=""></option>
+														<option value="배포완료">배포완료</option>
+														<option value="적용">적용</option>
+														<option value="대기">대기</option>
+													</select>
+												</div>
+	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지 종류</label>
 													<select class="form-control selectpicker" id="managementServerStr" name="managementServerStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${managementServer}">
@@ -214,6 +223,7 @@
 	                      						<input type="hidden" id="agentVer" name="agentVer" class="form-control">
 	                      						<input type="hidden" id="osType" name="osType" class="form-control">
 	                      						<input type="hidden" id="agentOS" name="agentOS" class="form-control">
+	                      						<input type="hidden" id="state" name="state" class="form-control">
 	                      						<input type="hidden" id="existingNew" name="existingNew" class="form-control">
 	                      						<input type="hidden" id="requestProductCategory" name="requestProductCategory" class="form-control">
 	                      						<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
@@ -345,6 +355,7 @@
 		$('#agentVer').val($('#agentVerStr').val().join());
 		$('#osType').val($('#osTypeStr').val().join());
 		$('#agentOS').val($('#agentOSStr').val().join());
+		$('#state').val($('#stateStr').val().join());
 		$('#existingNew').val($('#existingNewStr').val().join());
 		$('#requestProductCategory').val($('#requestProductCategoryStr').val().join());
 		$('#deliveryMethod').val($('#deliveryMethodStr').val().join());

@@ -71,7 +71,8 @@ public class Packages {
 	
 	// 검색 시 ','를 기준으로 배열로 사용
 	private String[] customerNameArr;
-	private String[] businessNameArr;			
+	private String[] businessNameArr;	
+	private String[] stateArr;
 	private String[] existingNewArr;
 	private String[] managementServerArr;
 	private String[] agentOSArr;

@@ -434,10 +434,10 @@ public class PackagesController {
 	
 	@ResponseBody
 	@PostMapping(value = "/packages/stateChange")
-	public Map<String, String> stateChange(@RequestParam int[] chkList, @RequestParam String statusComment, @RequestParam String state) {
+	public Map<String, String> stateChange(@RequestParam int[] chkList, @RequestParam String statusComment, @RequestParam String stateView) {
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = packagesService.stateChange(chkList, statusComment, state);
+		String result = packagesService.stateChange(chkList, statusComment, stateView);
 		map.put("result", result);
 		return map;
 	}

@@ -10,28 +10,56 @@
 			$('.packages').addClass('active');
 		} else if($.cookie('name') == 'existingNew') {
 			$('.existingNew').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'managementServer') {
 			$('.managementServer').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'generalCustom') {
 			$('.generalCustom').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'osType') {
 			$('.osType').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'requestProductCategory') {
 			$('.requestProductCategory').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'deliveryMethod') {
 			$('.deliveryMethod').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'agentVer') {
 			$('.agentVer').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'agentOS') {
 			$('.agentOS').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'log') {
 			$('.log').addClass('active');
 		} else if($.cookie('name') == 'customerName') {
 			$('.customerName').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'businessName') {
 			$('.businessName').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'trash') {
 			$('.trash').addClass('active');
+		} else if($.cookie('name') == 'generalPackage') {
+			$('.generalPackage').addClass('active');
+			$('.releaseNotes').addClass('active');
+			$('.releaseNotes').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'customPackage') {
+			$('.customPackage').addClass('active');
+			$('.releaseNotes').addClass('active');
+			$('.releaseNotes').addClass('pcoded-trigger');
 		}
 	});
 </script>
@@ -68,6 +96,32 @@
 	                 </a>
 	             </li>
 	         </ul>
+	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="releaseNotes pcoded-hasmenu">
+	                 <a href="<c:url value='/releaseNotes/generalPackage'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-download"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">릴리즈 노트</span>
+	                     <span class="pcoded-mcaret"></span>
+	                 </a>
+	                 <ul class="pcoded-submenu" style="display: block;">
+                      	<li class="generalPackage">
+                             <a href="<c:url value='/releaseNotes/generalPackage'/>" class="waves-effect waves-dark">
+					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					             <span class="pcoded-mtext">일반패키지</span>
+					             <span class="pcoded-mcaret"></span>
+					           </a>
+					     </li>
+					     <li class="customPackage">
+					           <a href="<c:url value='/releaseNotes/customPackage'/>" class="waves-effect waves-dark">
+					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					             <span class="pcoded-mtext">커스텀 패키지</span>
+					             <span class="pcoded-mcaret"></span>
+					           </a>
+					     </li>
+					  </ul>
+	             </li>
+	         </ul>
 			 <sec:authorize access="hasRole('ADMIN')">
 			 	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
 		         <ul class="pcoded-item pcoded-left-item">
@@ -101,83 +155,84 @@
 		         </ul>
 		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
 		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="customerName">
+		             <li class="categroy pcoded-hasmenu">
 		                 <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class=ti-layers></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사명</span>
+		                     <span class="pcoded-micon"><i class="ti-view-grid"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">카테고리</span>
+		                     <span class="pcoded-mcaret"></span>
 		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="businessName">
-		                 <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사업명</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="managementServer">
-		                 <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 종류</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="existingNew">
-		                 <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">기존/신규</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="generalCustom">
-		                 <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">일반/커스텀</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="osType">
-		                 <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">OS 종류</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="requestProductCategory">
-		                 <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 제품 구분</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="deliveryMethod">
-		                 <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">전달 방법</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="agentVer">
-		                 <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">Agent ver</span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="agentOS">
-		                 <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">Agent OS</span>
-		                 </a>
+		                 <ul class="pcoded-submenu" style="display: block;">
+                         	<li class="customerName">
+                                <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i><b>FC</b></span>
+					                <span class="pcoded-mtext">고객사명</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					        </li>
+					        <li class="businessName">
+					              <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">사업명</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					        </li>
+					        <li class="managementServer">
+					              <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">패키지 종류</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					         </li>
+					         <li class="existingNew">
+					              <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">기존/신규</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+					    	<li class="generalCustom">
+					              <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">일반/커스텀</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+					    	<li class="osType">
+					              <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">OS 종류</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+					    	<li class="requestProductCategory">
+					              <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">요청 제품 구분</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+					    	<li class="deliveryMethod">
+					              <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">전달 방법</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+					    	<li class="agentVer">
+					              <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">Agent ver</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+					    	<li class="agentOS">
+					              <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					                <span class="pcoded-mtext">Agent OS</span>
+					                <span class="pcoded-mcaret"></span>
+					              </a>
+					    	</li>
+                     	</ul>
 		             </li>
 		         </ul>
 	         </sec:authorize>
