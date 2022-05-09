@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="generalPackage">
+	<resultMap type="com.secuve.agentInfo.vo.GeneralPackage" id="generalPackage"></resultMap>
+	
+	<select id="getGeneralPackage" resultMap="generalPackage" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM generalPackage
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getGeneralPackageCount" resultType="_int">
+		SELECT COUNT(*) FROM generalPackage;
+	</select>
+	
+	<select id="getGeneralPackageKeyNum" resultType="_int">
+		SELECT MAX(generalPackageKeyNum) FROM generalPackage;
+	</select>
+	
+	<insert id="insertGeneralPackage">
+		INSERT INTO generalpackage(generalPackageKeyNum, managementServer, agentVer, releaseNotes, generalPackageRegistrant, generalPackageRegistrationDate)
+		VALUES (#{generalPackageKeyNum}, #{managementServerView}, #{agentVerView}, #{releaseNotes}, #{generalPackageRegistrant}, #{generalPackageRegistrationDate});
+	</insert>
+	
+	<delete id="deleteGeneralPackage">
+		DELETE FROM generalpackage WHERE generalPackageKeyNum = #{generalPackageKeyNum};
+	</delete>
+	
+	<select id="getGeneralPackageOne" parameterType="_int" resultMap="generalPackage">
+		SELECT * FROM generalpackage WHERE generalPackageKeyNum = #{generalPackageKeyNum};
+	</select>
+	
+	<update id="updateGeneralPackage">
+		UPDATE generalpackage SET managementServer = #{managementServerView}, agentVer = #{agentVerView}, releaseNotes = #{releaseNotes}, generalPackageModifier = #{generalPackageModifier}, generalPackageModifiedDate = #{generalPackageModifiedDate}
+		WHERE generalPackageKeyNum = #{generalPackageKeyNum};
+	</update>
+	
+</mapper>

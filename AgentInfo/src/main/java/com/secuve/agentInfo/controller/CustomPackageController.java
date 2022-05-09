@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class CustomPackageController {
-	@GetMapping(value = "/releaseNotes/customPackage")
+	@GetMapping(value = "/customPackage/List")
 	public String CustomPackage( Model model) {
-		return "releaseNotes/CustomPackage";
+		return "customPackage/CustomPackageList";
 	}
 }

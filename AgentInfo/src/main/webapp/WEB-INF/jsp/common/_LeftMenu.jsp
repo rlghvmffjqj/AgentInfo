@@ -99,21 +99,21 @@
 	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 	         <ul class="pcoded-item pcoded-left-item">
 	             <li class="releaseNotes pcoded-hasmenu">
-	                 <a href="<c:url value='/releaseNotes/generalPackage'/>" class="waves-effect waves-dark">
+	                 <a href="<c:url value='/generalPackage/List'/>" class="waves-effect waves-dark">
 	                     <span class="pcoded-micon"><i class="ti-download"></i><b>FC</b></span>
 	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">릴리즈 노트</span>
 	                     <span class="pcoded-mcaret"></span>
 	                 </a>
 	                 <ul class="pcoded-submenu" style="display: block;">
                       	<li class="generalPackage">
-                             <a href="<c:url value='/releaseNotes/generalPackage'/>" class="waves-effect waves-dark">
+                             <a href="<c:url value='/generalPackage/List'/>" class="waves-effect waves-dark">
 					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 					             <span class="pcoded-mtext">일반패키지</span>
 					             <span class="pcoded-mcaret"></span>
 					           </a>
 					     </li>
 					     <li class="customPackage">
-					           <a href="<c:url value='/releaseNotes/customPackage'/>" class="waves-effect waves-dark">
+					           <a href="<c:url value='/customPackage/List'/>" class="waves-effect waves-dark">
 					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 					             <span class="pcoded-mtext">커스텀 패키지</span>
 					             <span class="pcoded-mcaret"></span>

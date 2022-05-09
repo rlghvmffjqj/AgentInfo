@@ -173,6 +173,12 @@ p {
 	width: 450px;
 }
 
+.pading5Width320 {
+    padding: 5px;
+    margin-bottom: 15px;
+    width: 320px;
+}
+
 .pading5 {
 	padding: 5px;
 }
