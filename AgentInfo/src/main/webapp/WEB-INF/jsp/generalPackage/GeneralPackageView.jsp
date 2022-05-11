@@ -108,6 +108,21 @@
 <script>
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
+	function test() {
+		Swal.fire({
+			  title: '덮어쓰기!',
+			  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#7066e0',
+			  cancelButtonColor: '#FF99AB',
+			  confirmButtonText: '예'
+		}).then((result) => {
+			if (result.isConfirmed) {
+			}
+		});
+	}
+	
 	/* =========== 일반 패키지 추가 ========= */
 	$('#insertBtn').click(function() {
 		var releaseNotesView = $('#releaseNotesView')[0];
@@ -115,6 +130,7 @@
 		var managementServerSelf = $('#managementServerSelf').val();
 		var agentVerView = $('#agentVerView').val();
 		var agentVerSelf = $('#agentVerSelf').val();
+		var existenceConfirmation;
 		const postData = new FormData();
 		
 		postData.append('managementServerView',managementServerView);
@@ -134,6 +150,41 @@
 		} 
 		$('#NotreleaseNotesView').hide();
 		
+		// 파일 존재 유무 확인
+		$.ajax({
+            type: 'post',
+            url: "<c:url value='/generalPackage/existenceConfirmation'/>",
+            async: false,
+            processData: false,
+	        contentType: false,
+            data: postData,
+            success: function (data) {
+            	existenceConfirmation = data;
+            },
+        });
+		
+		// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
+		if(existenceConfirmation == "existence") {
+			Swal.fire({
+				  title: '덮어쓰기!',
+				  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: '예'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					insert(postData);	// insert
+				}
+			});
+		} else {
+			insert(postData);		// insert
+		}
+	});
+	
+	/* =========== 추가(중복 분리) ========= */
+	function insert(postData) {
 		$.ajax({
 			url: "<c:url value='/generalPackage/insert'/>",
 	           type: 'post',
@@ -174,7 +225,7 @@
 					console.log(error);
 				}
 	       });
-	});
+	}
 	
 	/* =========== 일반패키지 수정 ========= */
 	$('#updateBtn').click(function() {
@@ -184,6 +235,7 @@
 		var agentVerView = $('#agentVerView').val();
 		var agentVerSelf = $('#agentVerSelf').val();
 		var generalPackageKeyNum = $('#generalPackageKeyNum').val();
+		var existenceConfirmation;
 		const postData = new FormData();
 		
 		postData.append('managementServerView',managementServerView);
@@ -204,6 +256,43 @@
 		} 
 		$('#NotreleaseNotesView').hide();
 		
+		// 파일 존재 유무 확인
+		$.ajax({
+            type: 'post',
+            url: "<c:url value='/generalPackage/existenceConfirmation'/>",
+            async: false,
+            processData: false,
+	        contentType: false,
+            data: postData,
+            success: function (data) {
+            	existenceConfirmation = data;
+            },
+        });
+		
+		// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
+		if(existenceConfirmation == "existence") {
+			Swal.fire({
+				  title: '덮어쓰기!',
+				  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: '예'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					update(postData);	// update
+				}
+			});
+		} else {
+			update(postData);		// update
+		}
+		
+		
+	});
+	
+	/* =========== 수정(중복 분리) ========= */
+	function update(postData) {
 		$.ajax({
             url: "<c:url value='/generalPackage/update'/>",
             type: 'post',
@@ -242,7 +331,7 @@
 				console.log(error);
 			}
         });
-	});
+	}
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
 	function selfInput(data) {

@@ -34,10 +34,9 @@ public class GeneralPackageService {
 	}
 
 	public String insertGeneralPackage(GeneralPackage generalPackage, MultipartFile releaseNotesView, Principal principal) throws IllegalStateException, IOException {
-		if(generalPackage.getManagementServerView().length() <= 0 && generalPackage.getManagementServerSelf() == null) {
-			return "NotManagementServer";
-		} else if(generalPackage.getAgentVerView().length() <= 0 && generalPackage.getAgentVerSelf() == null) {
-			return "NotAgentVer";
+		String inspection = inspection(generalPackage);
+		if(inspection != null) {
+			return inspection;
 		}
 		
 		if(generalPackage.getManagementServerView().length() <= 0) {
@@ -58,10 +57,9 @@ public class GeneralPackageService {
 	}
 	
 	public String updateGeneralPackage(GeneralPackage generalPackage, MultipartFile releaseNotesView, Principal principal) throws IllegalStateException, IOException {
-		if(generalPackage.getManagementServerView().length() <= 0 && generalPackage.getManagementServerSelf() == null) {
-			return "NotManagementServer";
-		} else if(generalPackage.getAgentVerView().length() <= 0 && generalPackage.getAgentVerSelf() == null) {
-			return "NotAgentVer";
+		String inspection = inspection(generalPackage);
+		if(inspection != null) {
+			return inspection;
 		}
 		
 		if(generalPackage.getManagementServerView().length() <= 0) {
@@ -116,6 +114,17 @@ public class GeneralPackageService {
 		if (categoryService.getCategory("agentVer", generalPackage.getAgentVerView()) == 0) {
 			categoryService.setCategory("agentVer", generalPackage.getAgentVerView(), principal.getName(), nowDate());
 		}
+	}
+	
+	public String inspection(GeneralPackage generalPackage) {
+		if(generalPackage.getManagementServerView().equals(null) || generalPackage.getManagementServerView().equals("")) {
+			if(generalPackage.getManagementServerSelf().equals(null) || generalPackage.getManagementServerSelf().equals(""))
+				return "NotManagementServer";
+		} else if(generalPackage.getAgentVerView().equals(null) || generalPackage.getAgentVerView().equals("")) {
+			if(generalPackage.getAgentVerSelf().equals(null) || generalPackage.getAgentVerSelf().equals(""))
+				return "NotAgentVer";
+		}
+		return null;
 	}
 
 }

@@ -157,7 +157,6 @@
 	/* =========== 삭제 ========= */
 	$('#BtnDelect').click(function() {
 		var chkList = $("#list").getGridParam('selarrrow');
-		console.log(chkList);
 		if(chkList == "") {
 			Swal.fire({               
 				icon: 'error',          
@@ -256,6 +255,7 @@
         });
 	}
 	
+	/* =========== 릴리즈 노트 일괄 다운로드 ========= */
 	$('#BtnBatchDownload').click(function() {
 		$.ajax({
             type: 'post',
@@ -265,6 +265,7 @@
             },
         });
 	});
+	
 	
 
 </script>

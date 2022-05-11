@@ -72,12 +72,15 @@ public class CustomPackageService {
 	}
 	
 	public String inspection(CustomPackage customPackage) {
-		if(customPackage.getCustomerNameView().length() <= 0 && customPackage.getCustomerNameSelf().length() <= 0) {
-			return "NotCustomerName";
-		} else if(customPackage.getManagementServerView().length() <= 0 && customPackage.getManagementServerSelf().length() <= 0) {
-			return "NotManagementServer";
-		} else if(customPackage.getAgentVerView().length() <= 0 && customPackage.getAgentVerSelf().length() <= 0) {
-			return "NotAgentVer";
+		if(customPackage.getCustomerNameView().equals(null) || customPackage.getCustomerNameView().equals("")) {
+			if(customPackage.getCustomerNameSelf().equals(null) || customPackage.getCustomerNameSelf().equals(""))
+				return "NotCustomerName";
+		} else if(customPackage.getManagementServerView().equals(null) || customPackage.getManagementServerView().equals("")) {
+			if(customPackage.getManagementServerSelf().equals(null) || customPackage.getManagementServerSelf().equals(""))
+				return "NotManagementServer";
+		} else if(customPackage.getAgentVerView().equals(null) || customPackage.getAgentVerView().equals("")) {
+			if(customPackage.getAgentVerSelf().equals(null) || customPackage.getAgentVerSelf().equals(""))
+				return "NotAgentVer";
 		}
 		return null;
 	}

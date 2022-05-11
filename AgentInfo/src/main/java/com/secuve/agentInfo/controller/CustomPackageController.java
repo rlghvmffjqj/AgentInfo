@@ -162,6 +162,22 @@ public class CustomPackageController {
 		
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/customPackage/existenceConfirmation")
+	public String ExistenceConfirmation(MultipartFile releaseNotesView) {
+		
+		// Create a file object
+		File file = new File(filePath + File.separator + releaseNotesView.getOriginalFilename());
+		
+		boolean isExists = file.exists();
+		
+		if(isExists) {
+			return "existence";
+		} else {
+			return "nonExistence";
+		}
+	}
+	
 	
 	
 }
