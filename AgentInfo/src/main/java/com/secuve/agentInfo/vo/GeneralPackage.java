@@ -24,7 +24,6 @@ public class GeneralPackage {
 	private String managementServerView;			// 패키지 종류
 	private String agentVerView;					// Version\
 	
-	
 	private String managementServerSelf;			// 패키지 종류
 	private String agentVerSelf;					// Version
 	

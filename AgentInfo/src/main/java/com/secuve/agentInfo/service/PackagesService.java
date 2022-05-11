@@ -36,6 +36,7 @@ public class PackagesService {
 	@Autowired Packages packages;
 	@Autowired UIDLogDao uidLogDao;
 	@Autowired TrashDao trashDao;
+	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 
 	/**
 	 * 패키지 리스트 조회
@@ -100,8 +101,9 @@ public class PackagesService {
 		packages.setPackagesKeyNum(packagesKeyNum());
 		int sucess = packagesDao.insertPackages(packages);
 
-		// uid 로그 기록 및 카테고리 추가
+		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
+			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			uidLog(packages, principal, "INSERT");
 		}
@@ -109,6 +111,7 @@ public class PackagesService {
 			return "FALSE";
 		return "OK";
 	}
+	
 	
 	/**
 	 * 패키지 키값 증가
@@ -143,8 +146,9 @@ public class PackagesService {
 		selfInput(packages);
 		int sucess = packagesDao.insertPackages(packages);
 
-		// uid 로그 기록 및 카테고리 추가
+		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
+			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			uidLog(packages, principal, "INSERT");
 		}
@@ -180,8 +184,9 @@ public class PackagesService {
 		selfInput(packages);
 		int sucess = packagesDao.updatePackages(packages);
 
-		// uid 로그 기록 및 카테고릭 추가
+		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
+			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			uidLog(packages, principal, "UPDATE");
 		}
@@ -973,6 +978,8 @@ public class PackagesService {
 			packages.setPackagesRegistrationDate(nowDate());
 
 			packagesDao.insertPackages(packages);
+			// 고객사 사업명 매핑
+			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			// uid 로그 기록
 			uidLog(packages, principal, "INSERT");
 		}
@@ -1201,9 +1208,9 @@ public class PackagesService {
 			if(topAgentVer == null)
 				topAgentVer = "Not Exist";
 			topAgentVerArr = topAgentVer.split("-");
-			
+			Packages packages = new Packages();
 			try {
-				Packages packages = packagesDao.getAgentVer(topAgentVerArr[0]);
+				packages = packagesDao.getAgentVer(topAgentVerArr[0]);
 				topAgentVerArr = packages.getChartName().split("-");
 			} catch (Exception e) {
 				packages.setChartName("Not Exist");

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="customPackage">
+	<resultMap type="com.secuve.agentInfo.vo.CustomPackage" id="customPackage"></resultMap>
+	
+	<select id="getCustomPackage" resultMap="customPackage" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM customPackage
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getCustomPackageCount" resultType="_int">
+		SELECT COUNT(*) FROM customPackage;
+	</select>
+	
+	<select id="getCustomPackageKeyNum" resultType="_int">
+		SELECT MAX(customPackageKeyNum) FROM customPackage;
+	</select>
+	
+	<insert id="insertCustomPackage">
+		INSERT INTO customPackage(customPackageKeyNum, customerName, businessName, managementServer, agentVer, releaseNotes, customPackageRegistrant, customPackageRegistrationDate)
+		VALUES (#{customPackageKeyNum}, #{customerNameView}, #{businessNameView}, #{managementServerView}, #{agentVerView}, #{releaseNotes}, #{customPackageRegistrant}, #{customPackageRegistrationDate});
+	</insert>
+	
+	<update id="updateCustomPackage">
+		UPDATE customPackage SET customerName = #{customerNameView}, businessName = #{businessNameView}, managementServer = #{managementServerView}, agentVer = #{agentVerView}, releaseNotes = #{releaseNotes}, customPackageModifier = #{customPackageModifier}, customPackageModifiedDate = #{customPackageModifiedDate}
+		WHERE customPackageKeyNum = #{customPackageKeyNum};
+	</update>
+	
+	<delete id="deleteCustomPackage">
+		DELETE FROM customPackage WHERE customPackageKeyNum = #{customPackageKeyNum};
+	</delete>
+	
+	<select id="getCustomPackageOne" parameterType="_int" resultMap="customPackage">
+		SELECT * FROM customPackage WHERE customPackageKeyNum = #{customPackageKeyNum};
+	</select>
+	
+</mapper>

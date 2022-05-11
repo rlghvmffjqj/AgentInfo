@@ -92,8 +92,10 @@
 													<table style="width:100%">
 													<tbody><tr>
 														<td style="font-weight:bold;">일반 패키지 관리 :
-															<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-															<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+															<sec:authorize access="hasRole('ADMIN')">
+																<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
+																<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+															</sec:authorize>
 															<button class="btn btn-outline-info-nomal myBtn" id="BtnBatchDownload">일괄 다운로드</button>
 														</td>
 													</tr>
@@ -207,18 +209,20 @@
 	
 	/* =========== 수정 Modal ========= */
 	function updateView(data) {
-		$.ajax({
-            type: 'POST',
-            url: "<c:url value='/generalPackage/updateView'/>",
-            data: {"generalPackageKeyNum" : data},
-            async: false,
-            success: function (data) {
-                $.modal(data, 's'); //modal창 호출
-            },
-            error: function(e) {
-                // TODO 에러 화면
-            }
-        });
+		<sec:authorize access="hasRole('ADMIN')">
+			$.ajax({
+	            type: 'POST',
+	            url: "<c:url value='/generalPackage/updateView'/>",
+	            data: {"generalPackageKeyNum" : data},
+	            async: false,
+	            success: function (data) {
+	                $.modal(data, 'sl'); //modal창 호출
+	            },
+	            error: function(e) {
+	                // TODO 에러 화면
+	            }
+	        });
+		</sec:authorize>
 	}
 	
 	/* =========== 릴리즈 노트 포멧털 ========= */
@@ -251,6 +255,16 @@
             }
         });
 	}
+	
+	$('#BtnBatchDownload').click(function() {
+		$.ajax({
+            type: 'post',
+            url: "<c:url value='/generalPackage/batchDownload'/>",
+            async: false,
+            success: function (data) {
+            },
+        });
+	});
 	
 
 </script>

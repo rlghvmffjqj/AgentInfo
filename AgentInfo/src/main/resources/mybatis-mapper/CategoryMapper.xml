@@ -10,7 +10,7 @@
 	</select>
 	
 	<select id="getCategoryBusinessName" resultType="string">
-		SELECT DISTINCT categoryValue FROM category c, packages p WHERE c.categoryName = #{categoryName} AND c.categoryValue = p.businessName AND p.customerName = #{customerName};
+		SELECT DISTINCT categoryValue FROM category c, customerBusinessMapping cb WHERE c.categoryName = #{categoryName} AND c.categoryValue = cb.businessName AND cb.customerName = #{customerName};
 	</select>
 	
 	<select id="getCategoryList" resultMap="category" parameterType="string">

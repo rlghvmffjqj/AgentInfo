@@ -2,7 +2,6 @@ package com.secuve.agentInfo.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.GeneralPackageService;
 import com.secuve.agentInfo.vo.GeneralPackage;
-import com.secuve.agentInfo.vo.Packages;
 
 @Controller
 public class GeneralPackageController {
@@ -40,7 +37,7 @@ public class GeneralPackageController {
 	@Autowired CategoryService categoryService;
 	
 	@GetMapping(value = "/generalPackage/List")
-	public String GeneralPackageList( Model model) {
+	public String GeneralPackageList() {
 		return "generalPackage/GeneralPackageList";
 	}
 	
@@ -151,6 +148,14 @@ public class GeneralPackageController {
 	        }
 
 	        return result;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/generalPackage/batchDownload")
+	public void BatchDownload() {
+		
+		
+		
 	}
 	
 }
