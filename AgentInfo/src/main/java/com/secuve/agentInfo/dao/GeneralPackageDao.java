@@ -26,7 +26,6 @@ public class GeneralPackageDao {
 
 	public int insertGeneralPackage(GeneralPackage generalPackage) {
 		return sqlSession.insert("generalPackage.insertGeneralPackage", generalPackage);
-		
 	}
 
 	public int deleteGeneralPackage(int generalPackageKeyNum) {
@@ -39,5 +38,9 @@ public class GeneralPackageDao {
 
 	public int updateGeneralPackage(GeneralPackage generalPackage) {
 		return sqlSession.update("generalPackage.updateGeneralPackage", generalPackage);
+	}
+
+	public String BatchDownload(int generalPackageKeyNum) {
+		return sqlSession.selectOne("generalPackage.batchDownload", generalPackageKeyNum);
 	}
 }

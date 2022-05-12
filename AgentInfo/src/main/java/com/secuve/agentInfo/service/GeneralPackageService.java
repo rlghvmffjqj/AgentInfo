@@ -127,4 +127,14 @@ public class GeneralPackageService {
 		return null;
 	}
 
+	public String[] BatchDownload(int[] chkList) {
+		String[] files = new String[chkList.length];
+		int num = 0;
+		for(int generalPackageKeyNum: chkList) {
+			files[num] = generalPackageDao.BatchDownload(generalPackageKeyNum);
+			num++;
+		}
+		return files;
+	}
+
 }

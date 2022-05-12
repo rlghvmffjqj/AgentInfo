@@ -1,11 +1,20 @@
 package com.secuve.agentInfo.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.servlet.ServletOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -142,6 +151,16 @@ public class CustomPackageService {
 
 	public CustomPackage getCustomPackageOne(int customPackageKeyNum) {
 		return customPackageDao.getCustomPackageOne(customPackageKeyNum);
+	}
+
+	public String[] BatchDownload(int[] chkList) {
+		String[] files = new String[chkList.length];
+		int num = 0;
+		for(int customPackageKeyNum: chkList) {
+			files[num] = customPackageDao.BatchDownload(customPackageKeyNum);
+			num++;
+		}
+		return files;
 	}
 
 }

@@ -1,24 +1,21 @@
 package com.secuve.agentInfo.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.View;
 
+import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.GeneralPackageService;
 import com.secuve.agentInfo.vo.GeneralPackage;
@@ -108,64 +107,60 @@ public class GeneralPackageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/generalPackage/delete")
-	public String deleteGeneralPackage(@RequestParam int[] chkList) {
+	public String DeleteGeneralPackage(@RequestParam int[] chkList) {
 		return generalPackageService.deleteGeneralPackage(chkList);
 	}
 	
 	@Value("${spring.servlet.multipart.location}")
 	String filePath;
 	
-	@GetMapping(value = "/generalPackage/fileDownload", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public ResponseEntity<Resource> fileDownload(@RequestParam String fileName, HttpServletRequest request) {
-		 ResponseEntity<Resource> result = null;
-
-	        try {
-	            String originFileName = fileName;
-	            String agent = request.getHeader("User-Agent");
-
-	            Resource file = new FileSystemResource(filePath + File.separator + originFileName);
-
-	            if(!file.exists()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	            
-	          //브라우저별 한글파일 명 처리
-                if(agent.contains("Trident"))//Internet Explore
-                	originFileName = URLEncoder.encode(originFileName, "UTF-8").replaceAll("\\+", " ");
-                    
-                else if(agent.contains("Edge")) //Micro Edge
-                	originFileName = URLEncoder.encode(originFileName, "UTF-8");
-                    
-                else //Chrome
-                	originFileName = new String(originFileName.getBytes("UTF-8"), "ISO-8859-1");
-                //브라우저별 한글파일 명 처리
-	            
-	            String onlyFileName = originFileName.substring(originFileName.lastIndexOf("_") + 1);
-	            HttpHeaders header = new HttpHeaders();
-	            header.add("Content-Disposition", "attachment; filename=" + onlyFileName);
-
-	            result = new ResponseEntity<>(file, header, HttpStatus.OK);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-
-	        return result;
+	@GetMapping(value = "/generalPackage/fileDownload")
+	public View FileDownload(@RequestParam String fileName,  Model model) {
+		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);     // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);          // 출력할 파일 이름
+	
+		return new FileDownloadView();
 	}
 	
-	@ResponseBody
-	@PostMapping(value = "/generalPackage/batchDownload")
-	public void BatchDownload() {
-		// Create a file object
-				File file = new File("C:\\AgentInfo\\releaseNotes\\TEST.txt");
-				
-				// 1. check if the file exists or not
-				boolean isExists = file.exists();
-				
-				if(isExists) {
-					System.out.println("I find the existFile.txt");
-				} else {
-					System.out.println("No, there is not a no file.");
-				}
+	@GetMapping(value = "/generalPackage/batchDownload")
+	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
+
+		String files[] = generalPackageService.BatchDownload(chkList);
+		String changeFileName =  "GeneralPackage-" + principal.getName() + ".zip"; 
 		
+		String zipFileName  = filePath + File.separator + changeFileName;		//ZIP 압축 파일명
+		byte[] buf = new byte[4096];
+		try {
+		    ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
+		    for (int i=0; i<files.length; i++) {
+		    	files[i] = filePath + File.separator + files[i];
+		        FileInputStream in = new FileInputStream(files[i]);
+		        Path p = Paths.get(files[i]);
+		        String fileName = p.getFileName().toString();
+		                
+		        ZipEntry ze = new ZipEntry(fileName);
+		        out.putNextEntry(ze);
+		          
+		        int len;
+		        while ((len = in.read(buf)) > 0) {
+		            out.write(buf, 0, len);
+		        }
+		          
+		        out.closeEntry();
+		        in.close();
+		    }
+		          
+		    out.close();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
 		
+		model.addAttribute("fileUploadPath", filePath);					// 파일 경로
+		model.addAttribute("filePhysicalName", "/"+changeFileName);		// 파일 이름
+		model.addAttribute("fileLogicalName", "GeneralPackage.zip");		// 출력할 파일 이름
+	
+		return new FileDownloadView();
 	}
 	
 	@ResponseBody

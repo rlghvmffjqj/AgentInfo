@@ -44,4 +44,8 @@
 		WHERE generalPackageKeyNum = #{generalPackageKeyNum};
 	</update>
 	
+	<select id="batchDownload"  parameterType="_int" resultType="string">
+		SELECT releaseNotes FROM generalpackage WHERE generalPackageKeyNum = #{generalPackageKeyNum};
+	</select>
+	
 </mapper>

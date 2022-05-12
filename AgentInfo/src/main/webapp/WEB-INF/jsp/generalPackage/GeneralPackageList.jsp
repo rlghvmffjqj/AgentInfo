@@ -257,13 +257,50 @@
 	
 	/* =========== 릴리즈 노트 일괄 다운로드 ========= */
 	$('#BtnBatchDownload').click(function() {
-		$.ajax({
-            type: 'post',
-            url: "<c:url value='/generalPackage/batchDownload'/>",
-            async: false,
-            success: function (data) {
-            },
-        });
+		var chkList = $("#list").getGridParam('selarrrow');
+		var params = "";
+		for (var value of chkList) {
+			params = params + value + ",";
+		}
+		params = params.slice(0, -1);
+		if(chkList == "") {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '선택한 행이 존재하지 않습니다.',    
+			});    
+		} else if(chkList.length <= 1){
+			Swal.fire({               
+				icon: 'info',          
+				title: '확인!',           
+				text: '일괄다운로드의 경우 2개 이상의 행을 선택 후 사용바랍니다.',    
+			});
+		} else {
+			 $.ajax({
+				type: "GET",
+				url: "<c:url value='/generalPackage/batchDownload'/>",
+				data: {chkList: params},
+				async: false,
+				success: function(data) {
+					window.location ="<c:url value='/generalPackage/batchDownload?chkList="+params+"'/>";
+					Swal.fire(
+					  '성공!',
+					  '처리 완료하였습니다.',
+					  'success'
+					)
+					tableRefresh();
+				},
+				error: function(error) {
+					console.log(error);
+					Swal.fire(
+					  '실패!',
+					  '처리 실패하였습니다.',
+					  'error'
+					)
+				}
+			});
+			
+		}
 	});
 	
 	

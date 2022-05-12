@@ -44,4 +44,8 @@
 		SELECT * FROM customPackage WHERE customPackageKeyNum = #{customPackageKeyNum};
 	</select>
 	
+	<select id="batchDownload" parameterType="_int" resultType="string">
+		SELECT releaseNotes FROM customPackage WHERE customPackageKeyNum = #{customPackageKeyNum};
+	</select>
+	
 </mapper>
