@@ -30,7 +30,7 @@ public class GeneralPackageService {
 
 	public String nowDate() {
 		Date now = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy년MM월dd일_HH시mm분ss초");
 		return formatter.format(now);
 	}
 

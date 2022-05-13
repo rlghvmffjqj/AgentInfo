@@ -208,7 +208,35 @@ public class CustomPackageController {
 	 * @return
 	 */
 	@GetMapping(value = "/customPackage/fileDownload")
-	public View FileDownload(@RequestParam String fileName, Model model) {
+	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) {
+		String files = fileName;
+		String changeFileName =  fileName + "-" + principal.getName() + "-" + customPackageService.nowDate() + ".zip";  // 바뀌는 파일 명
+		
+		String zipFileName  = filePath + File.separator + "CustomPackageHistory"+ File.separator + changeFileName;		//ZIP 파일이 저장될 위치 및 파일 명
+		byte[] buf = new byte[4096];
+		try {
+		    ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
+		    files = filePath + File.separator + files;
+		    FileInputStream in = new FileInputStream(files);
+		    Path p = Paths.get(files);
+		    fileName = p.getFileName().toString();
+		            
+		    ZipEntry ze = new ZipEntry(fileName);
+		    out.putNextEntry(ze);
+		      
+		    int len;
+		    while ((len = in.read(buf)) > 0) {
+		        out.write(buf, 0, len);
+		    }
+		      
+		    out.closeEntry();
+		    in.close();
+		          
+		    out.close();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
 		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
 		model.addAttribute("filePhysicalName", "/"+fileName);     // 파일 이름    
 		model.addAttribute("fileLogicalName", fileName);          // 출력할 파일 이름
@@ -227,9 +255,9 @@ public class CustomPackageController {
 	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
 		
 		String files[] = customPackageService.BatchDownload(chkList);
-		String changeFileName =  "CustomPackage-" + principal.getName() + ".zip"; 
+		String changeFileName =  "CustomPackage-" + principal.getName() + "-" + customPackageService.nowDate() +".zip"; 	// 바뀌는 파일 명
 		
-		String zipFileName  = filePath + File.separator + changeFileName;		//ZIP 압축 파일명
+		String zipFileName  = filePath + File.separator + "CustomPackageHistory"+ File.separator + changeFileName;	//ZIP 파일이 저장될 경로 및 파일 명
 		byte[] buf = new byte[4096];
 		try {
 		    ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
@@ -256,7 +284,7 @@ public class CustomPackageController {
 		    e.printStackTrace();
 		}
 		
-		model.addAttribute("fileUploadPath", filePath);					// 파일 경로
+		model.addAttribute("fileUploadPath", filePath + File.separator + "CustomPackageHistory");					// 파일 경로
 		model.addAttribute("filePhysicalName", "/"+changeFileName);		// 파일 이름
 		model.addAttribute("fileLogicalName", "CustomPackage.zip");		// 출력할 파일 이름
 	

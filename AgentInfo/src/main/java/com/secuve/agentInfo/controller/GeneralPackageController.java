@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -174,12 +177,42 @@ public class GeneralPackageController {
 	 * @param fileName
 	 * @param model
 	 * @return
+	 * @throws Exception 
 	 */
 	@GetMapping(value = "/generalPackage/fileDownload")
-	public View FileDownload(@RequestParam String fileName,  Model model) {
-		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
-		model.addAttribute("filePhysicalName", "/"+fileName);     // 파일 이름    
-		model.addAttribute("fileLogicalName", fileName);          // 출력할 파일 이름
+	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) throws Exception {
+		String files = fileName;
+		String changeFileName =  fileName + "-" + principal.getName() + "-" + generalPackageService.nowDate()  + ".zip"; 
+		
+		String zipFileName  = filePath + File.separator + "GeneralPackageHistory"+ File.separator + changeFileName;		//ZIP 파일이 저장될 위치 및 파일 명
+		byte[] buf = new byte[4096];
+		try {
+		    ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
+		    files = filePath + File.separator + files;
+		    FileInputStream in = new FileInputStream(files);
+		    Path p = Paths.get(files);
+		    fileName = p.getFileName().toString();
+		            
+		    ZipEntry ze = new ZipEntry(fileName);
+		    out.putNextEntry(ze);
+		      
+		    int len;
+		    while ((len = in.read(buf)) > 0) {
+		        out.write(buf, 0, len);
+		    }
+		      
+		    out.closeEntry();
+		    in.close();
+		          
+		    out.close();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);  		 // 출력할 파일 이름
 	
 		return new FileDownloadView();
 	}
@@ -193,11 +226,10 @@ public class GeneralPackageController {
 	 */
 	@GetMapping(value = "/generalPackage/batchDownload")
 	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
-
 		String files[] = generalPackageService.BatchDownload(chkList);
-		String changeFileName =  "GeneralPackage-" + principal.getName() + ".zip"; 
+		String changeFileName =  "GeneralPackage-" + principal.getName() + "-" + generalPackageService.nowDate() + ".zip"; 
 		
-		String zipFileName  = filePath + File.separator + changeFileName;		//ZIP 압축 파일명
+		String zipFileName  = filePath + File.separator + "GeneralPackageHistory"+ File.separator + changeFileName;		//ZIP 파일이 저장될 경로 및 파일 명
 		byte[] buf = new byte[4096];
 		try {
 		    ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
@@ -224,9 +256,9 @@ public class GeneralPackageController {
 		    e.printStackTrace();
 		}
 		
-		model.addAttribute("fileUploadPath", filePath);					// 파일 경로
-		model.addAttribute("filePhysicalName", "/"+changeFileName);		// 파일 이름
-		model.addAttribute("fileLogicalName", "GeneralPackage.zip");		// 출력할 파일 이름
+		model.addAttribute("fileUploadPath", filePath + File.separator + "GeneralPackageHistory");			// 파일 경로
+		model.addAttribute("filePhysicalName", "/"+changeFileName);											// 파일 이름
+		model.addAttribute("fileLogicalName", "GeneralPackage.zip");										// 출력할 파일 이름
 	
 		return new FileDownloadView();
 	}
