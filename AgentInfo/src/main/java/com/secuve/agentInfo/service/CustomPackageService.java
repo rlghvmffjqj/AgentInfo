@@ -1,20 +1,11 @@
 package com.secuve.agentInfo.service;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.servlet.ServletOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.CustomPackageDao;
 import com.secuve.agentInfo.vo.CustomPackage;
+import com.secuve.agentInfo.vo.Packages;
 
 @Service
 public class CustomPackageService {
@@ -30,11 +22,11 @@ public class CustomPackageService {
 	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 
 	public List<CustomPackage> getCustomPackage(CustomPackage search) {
-		return customPackageDao.getCustomPackage(search);
+		return customPackageDao.getCustomPackage(CustomPackageSearch(search));
 	}
 
 	public int getCustomPackageCount(CustomPackage search) {
-		return customPackageDao.getCustomPackageCount(search);
+		return customPackageDao.getCustomPackageCount(CustomPackageSearch(search));
 	}
 	
 	public String nowDate() {
@@ -49,7 +41,7 @@ public class CustomPackageService {
 			return inspection;
 		}
 		
-		customPackage = selfInput(customPackage);
+		selfInput(customPackage);
 		customPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
 		customPackage.setCustomPackageKeyNum(customPackageKeyNum());
 		int sucess = customPackageDao.insertCustomPackage(customPackage);
@@ -68,7 +60,7 @@ public class CustomPackageService {
 			return inspection;
 		}
 		
-		customPackage = selfInput(customPackage);
+		selfInput(customPackage);
 		customPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
 		int sucess = customPackageDao.updateCustomPackage(customPackage);
 
@@ -90,24 +82,29 @@ public class CustomPackageService {
 		} else if(customPackage.getAgentVerView().equals(null) || customPackage.getAgentVerView().equals("")) {
 			if(customPackage.getAgentVerSelf().equals(null) || customPackage.getAgentVerSelf().equals(""))
 				return "NotAgentVer";
+		} else if(customPackage.getOsTypeView().equals(null) || customPackage.getOsTypeView().equals("")) {
+			if(customPackage.getOsTypeSelf().equals(null) || customPackage.getOsTypeSelf().equals(""))
+				return "NotOsType";
 		}
 		return null;
 	}
 	
-	public CustomPackage selfInput(CustomPackage customPackage) {
-		if(customPackage.getManagementServerView().length() <= 0) {
+	public void selfInput(CustomPackage customPackage) {
+		if(customPackage.getManagementServerSelf().length() > 0) {
 			customPackage.setManagementServerView(customPackage.getManagementServerSelf());
 		}
-		if(customPackage.getAgentVerView().length() <= 0) {
+		if(customPackage.getAgentVerSelf().length() > 0) {
 			customPackage.setAgentVerView(customPackage.getAgentVerSelf());
 		}
-		if(customPackage.getCustomerNameView().length() <= 0) {
+		if(customPackage.getCustomerNameSelf().length() > 0) {
 			customPackage.setCustomerNameView(customPackage.getCustomerNameSelf());
 		}
-		if(customPackage.getBusinessNameView().length() <= 0) {
+		if(customPackage.getBusinessNameSelf().length() > 0) {
 			customPackage.setBusinessNameView(customPackage.getBusinessNameSelf());
 		}
-		return customPackage;
+		if(customPackage.getOsTypeSelf().length() > 0) {
+			customPackage.setOsTypeView(customPackage.getOsTypeSelf());
+		}
 	}
 	
 	public int customPackageKeyNum() {
@@ -138,6 +135,9 @@ public class CustomPackageService {
 		if (categoryService.getCategory("businessName", customPackage.getBusinessNameView()) == 0) {
 			categoryService.setCategory("businessName", customPackage.getBusinessNameView(), principal.getName(), nowDate());
 		}
+		if (categoryService.getCategory("osType", customPackage.getOsTypeView()) == 0) {
+			categoryService.setCategory("osType", customPackage.getOsTypeView(), principal.getName(), nowDate());
+		}
 	}
 
 	public String deleteCustomPackage(int[] chkList) {
@@ -161,6 +161,16 @@ public class CustomPackageService {
 			num++;
 		}
 		return files;
+	}
+	
+	public CustomPackage CustomPackageSearch(CustomPackage search) {
+		search.setCustomerNameArr(search.getCustomerName().split(","));
+		search.setBusinessNameArr(search.getBusinessName().split(","));
+		search.setManagementServerArr(search.getManagementServer().split(","));
+		search.setOsTypeArr(search.getOsType().split(","));
+		search.setAgentVerArr(search.getAgentVer().split(","));
+		
+		return search;
 	}
 
 }

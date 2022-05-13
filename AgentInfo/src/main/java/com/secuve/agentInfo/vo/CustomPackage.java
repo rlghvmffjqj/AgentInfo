@@ -16,6 +16,7 @@ public class CustomPackage {
 	private String businessName;				// 사업명
 	private String managementServer;			// 패키지 종류
 	private String agentVer;					// Version
+	private String osType;
 	private String releaseNotes;				// 릴리즈 노트
 	
 	private String customPackageRegistrant;			// 데이터 추가 사용자
@@ -27,11 +28,19 @@ public class CustomPackage {
 	private String businessNameView;				// View 사업명
 	private String managementServerView;			// View 패키지 종류
 	private String agentVerView;					// View Version
+	private String osTypeView;
 	
 	private String customerNameSelf;				// Self 고객사
 	private String businessNameSelf;				// Self 사업명
 	private String managementServerSelf;			// Self 패키지 종류
 	private String agentVerSelf;					// Self Version
+	private String osTypeSelf;
+	
+	private String[] customerNameArr;
+	private String[] businessNameArr;	
+	private String[] managementServerArr;
+	private String[] osTypeArr;
+	private String[] agentVerArr;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

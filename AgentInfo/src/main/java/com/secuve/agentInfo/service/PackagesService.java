@@ -90,7 +90,7 @@ public class PackagesService {
 	 * @return
 	 */
 	public String insertPackages(Packages packages, Principal principal) {
-		if (!packages.getCustomerNameSelf().equals("") || packages.getCustomerNameSelf() != "") {
+		if (packages.getCustomerNameSelf().length() > 0) {
 			packages.setCustomerNameView(packages.getCustomerNameSelf());
 		}
 		if (packages.getCustomerNameView().equals("") || packages.getCustomerNameView() == "") { // 고객사명 값이 비어있을 경우
@@ -134,7 +134,7 @@ public class PackagesService {
 	 * @return
 	 */
 	public String copyPackages(Packages packages, Principal principal) {
-		if (!packages.getCustomerNameSelf().equals("") || packages.getCustomerNameSelf() != "") {
+		if (packages.getCustomerNameSelf().length() > 0) {
 			packages.setCustomerNameView(packages.getCustomerNameSelf());
 		}
 		if (packages.getCustomerNameView().equals("") || packages.getCustomerNameView() == "") { // 고객사명 값이 비어있을 경우
@@ -175,7 +175,7 @@ public class PackagesService {
 	 * @return
 	 */
 	public String updatePackages(Packages packages, Principal principal) {
-		if (!packages.getCustomerNameSelf().equals("") || packages.getCustomerNameSelf() != "") {
+		if (packages.getCustomerNameSelf().length() > 0) {
 			packages.setCustomerNameView(packages.getCustomerNameSelf());
 		}
 		if (packages.getCustomerNameView().equals("") || packages.getCustomerNameView() == "") { // 사원 이름이 비어있을 경우 리턴

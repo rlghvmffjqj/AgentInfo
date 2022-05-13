@@ -13,13 +13,15 @@
     		FROM (
 				SELECT *
 				FROM customPackage
+					<include refid="sqlCustomPackage" />
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getCustomPackageCount" resultType="_int">
-		SELECT COUNT(*) FROM customPackage;
+		SELECT COUNT(*) FROM customPackage
+			<include refid="sqlCustomPackage" />
 	</select>
 	
 	<select id="getCustomPackageKeyNum" resultType="_int">
@@ -27,12 +29,12 @@
 	</select>
 	
 	<insert id="insertCustomPackage">
-		INSERT INTO customPackage(customPackageKeyNum, customerName, businessName, managementServer, agentVer, releaseNotes, customPackageRegistrant, customPackageRegistrationDate)
-		VALUES (#{customPackageKeyNum}, #{customerNameView}, #{businessNameView}, #{managementServerView}, #{agentVerView}, #{releaseNotes}, #{customPackageRegistrant}, #{customPackageRegistrationDate});
+		INSERT INTO customPackage(customPackageKeyNum, customerName, businessName, managementServer, agentVer, osType, releaseNotes, customPackageRegistrant, customPackageRegistrationDate)
+		VALUES (#{customPackageKeyNum}, #{customerNameView}, #{businessNameView}, #{managementServerView}, #{agentVerView}, #{osTypeView}, #{releaseNotes}, #{customPackageRegistrant}, #{customPackageRegistrationDate});
 	</insert>
 	
 	<update id="updateCustomPackage">
-		UPDATE customPackage SET customerName = #{customerNameView}, businessName = #{businessNameView}, managementServer = #{managementServerView}, agentVer = #{agentVerView}, releaseNotes = #{releaseNotes}, customPackageModifier = #{customPackageModifier}, customPackageModifiedDate = #{customPackageModifiedDate}
+		UPDATE customPackage SET customerName = #{customerNameView}, businessName = #{businessNameView}, managementServer = #{managementServerView}, agentVer = #{agentVerView}, osType = #{osTypeView}, releaseNotes = #{releaseNotes}, customPackageModifier = #{customPackageModifier}, customPackageModifiedDate = #{customPackageModifiedDate}
 		WHERE customPackageKeyNum = #{customPackageKeyNum};
 	</update>
 	
@@ -47,5 +49,57 @@
 	<select id="batchDownload" parameterType="_int" resultType="string">
 		SELECT releaseNotes FROM customPackage WHERE customPackageKeyNum = #{customPackageKeyNum};
 	</select>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlCustomPackage">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="managementServer != null and managementServer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managementServerArr" item="arr">
+						OR managementServer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="osType != null and osType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osTypeArr" item="arr">
+						OR osType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="agentVer != null and agentVer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="agentVerArr" item="arr">
+						OR agentVer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+		</trim>
+	</sql>
 	
 </mapper>

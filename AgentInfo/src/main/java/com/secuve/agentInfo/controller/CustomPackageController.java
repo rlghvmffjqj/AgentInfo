@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
@@ -15,17 +14,8 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,11 +35,32 @@ public class CustomPackageController {
 	@Autowired CustomPackageService customPackageService;
 	@Autowired CategoryService categoryService;
 	
+	/**
+	 * 커스텀 패키지 이동
+	 * @return
+	 */
 	@GetMapping(value = "/customPackage/List")
-	public String CustomPackageList() {
+	public String CustomPackageList(Model model) {
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> managementServer = categoryService.getCategoryValue("managementServer");
+		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("businessName", businessName);
+		model.addAttribute("managementServer", managementServer);
+		model.addAttribute("osType", osType);
+		model.addAttribute("agentVer", agentVer);
+		
 		return "customPackage/CustomPackageList";
 	}
 	
+	/**
+	 * 커스텀 패키지 테이블 데이터 가져오기
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customPackage")
 	public Map<String, Object> CustomPackage(CustomPackage search) {
@@ -64,19 +75,35 @@ public class CustomPackageController {
 		return map;
 	}
 	
+	/**
+	 * 커스텀 패키지 추가 Modal
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value = "/customPackage/insertView")
 	public String InsertCustomPackageView(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> osType = categoryService.getCategoryValue("osType");
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("osType", osType);
 		model.addAttribute("viewType","insert");
 		return "/customPackage/CustomPackageView";
 	}
 	
+	/**
+	 * 커스텀 패키지 추가
+	 * @param customPackage
+	 * @param releaseNotesView
+	 * @param principal
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customPackage/insert")
 	public Map<String, String> InsertCustomPackage(CustomPackage customPackage, MultipartFile releaseNotesView, Principal principal) throws IllegalStateException, IOException {
@@ -90,6 +117,12 @@ public class CustomPackageController {
 		return map;
 	}
 	
+	/**
+	 * 커스텀 패키지 추가 Modal
+	 * @param model
+	 * @param customPackageKeyNum
+	 * @return
+	 */
 	@PostMapping(value = "/customPackage/updateView")
 	public String UpdateCustomPackageView(Model model, int customPackageKeyNum) {
 		CustomPackage customPackage = customPackageService.getCustomPackageOne(customPackageKeyNum);
@@ -97,15 +130,26 @@ public class CustomPackageController {
 		List<String> businessName = categoryService.getCategoryValue("businessName", customPackage.getCustomerName());
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> osType = categoryService.getCategoryValue("osType");
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("osType", osType);
 		model.addAttribute("viewType","update").addAttribute("customPackage", customPackage);
 		return "/customPackage/CustomPackageView";
 	}
 	
+	/**
+	 * 커스텀 패키지 추가
+	 * @param customPackage
+	 * @param releaseNotesView
+	 * @param principal
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customPackage/update")
 	public Map<String, String> UpdateCustomPackage(CustomPackage customPackage, MultipartFile releaseNotesView, Principal principal) throws IllegalStateException, IOException {
@@ -119,15 +163,28 @@ public class CustomPackageController {
 		return map;
 	}
 	
+	/**
+	 * 커스텀 패키지 삭제
+	 * @param chkList
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customPackage/delete")
 	public String deleteCustomPackage(@RequestParam int[] chkList) {
 		return customPackageService.deleteCustomPackage(chkList);
 	}
 	
+	/**
+	 * 파일 저장 경로(application.properties)
+	 */
 	@Value("${spring.servlet.multipart.location}")
 	String filePath;
 	
+	/**
+	 * 파일 존재 유무 덮어쓰기하기위해 사용
+	 * @param releaseNotesView
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customPackage/existenceConfirmation")
 	public String ExistenceConfirmation(MultipartFile releaseNotesView) {
@@ -144,7 +201,12 @@ public class CustomPackageController {
 		}
 	}
 	
-	
+	/**
+	 * 커스텀 패키지 단일 파일 다운로드
+	 * @param fileName
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/customPackage/fileDownload")
 	public View FileDownload(@RequestParam String fileName, Model model) {
 		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
@@ -154,7 +216,13 @@ public class CustomPackageController {
 		return new FileDownloadView();
 	}
 	
-	
+	/**
+	 * 커스텀 패키지 일괃 파일 다운로드 Zip
+	 * @param chkList
+	 * @param principal
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/customPackage/batchDownload")
 	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
 		
@@ -194,5 +262,4 @@ public class CustomPackageController {
 	
 		return new FileDownloadView();
 	}
-
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 420px;">
+<div class="modal-body" style="width: 100%; height: 500px;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="customPackageKeyNum" name=customPackageKeyNum class="form-control viewForm" value="${customPackage.customPackageKeyNum}">
 		<c:choose>
@@ -66,6 +66,22 @@
 					 </div>
 					 <span class="colorRed" id="NotAgentVer" style="display: none; line-height: initial;">Version을 선택 또는 입력해주세요.</span>
 				 </div>
+				 <div class="pading5Width320">
+					<div>
+				 		<label class="labelFontSize">OS종류</label>
+				 		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
+				 	</div>
+				 	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
+				 	<div id="osTypeViewSelf">
+			        	<select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
+				           	<option value=""></option>
+							<c:forEach var="item" items="${osType}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					</div>
+					<span class="colorRed" id="NotOsType" style="display: none; line-height: initial;">OS타입을 선택 또는 입력해주세요.</span>
+				</div>
 				  <div class="pading5Width320">
 					 <div>
 					 	<label class="labelFontSize">릴리즈 노트</label>
@@ -143,6 +159,23 @@
 					<span class="colorRed" id="NotAgentVer" style="display: none; line-height: initial;">Version을 선택 또는 입력해주세요.</span>
 				</div>
 				<div class="pading5Width320">
+			    	<div>
+				 		<label class="labelFontSize">OS종류</label>
+				 		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
+				 	</div>
+				 	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
+				 	<div id="osTypeViewSelf">
+			           <select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
+				           	<c:if test="${customPackage.osType ne ''}"><option value=""></option></c:if>
+				           	<c:if test="${customPackage.osType eq ''}"><option value=""></option></c:if>
+							<c:forEach var="item" items="${osType}">
+								<option value="${item}" <c:if test="${item eq customPackage.osType}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					</div>
+					<span class="colorRed" id="NotOsType" style="display: none; line-height: initial;">OS타입을 선택 또는 입력해주세요.</span>
+				</div>
+				<div class="pading5Width320">
 					 <div>
 					 	<label class="labelFontSize">릴리즈 노트</label>
 					 </div>
@@ -176,6 +209,8 @@
 		var managementServerSelf = $('#managementServerSelf').val();
 		var agentVerView = $('#agentVerView').val();
 		var agentVerSelf = $('#agentVerSelf').val();
+		var osTypeView = $('#osTypeView').val();
+		var osTypeSelf = $('#osTypeSelf').val();
 		var customerNameView = $('#customerNameView').val();
 		var customerNameSelf = $('#customerNameSelf').val();
 		var businessNameView = $('#businessNameView').val();
@@ -186,6 +221,8 @@
 		postData.append('managementServerSelf',managementServerSelf);
 		postData.append('agentVerView',agentVerView);
 		postData.append('agentVerSelf',agentVerSelf);
+		postData.append('osTypeView',osTypeView);
+		postData.append('osTypeSelf',osTypeSelf);
 		postData.append('customerNameView',customerNameView);
 		postData.append('customerNameSelf',customerNameSelf);
 		postData.append('businessNameView',businessNameView);
@@ -252,14 +289,22 @@
 	        	    	$('#NotCustomerName').show();
 						$('#NotManagementServer').hide();
 						$('#NotAgentVer').hide();
+						$('#NotOsType').hide();
 	        	    } else if(result.result == "NotManagementServer") { 
 						$('#NotManagementServer').show();
 						$('#NotAgentVer').hide();
 						$('#NotCustomerName').hide();
+						$('#NotOsType').hide();
 					} else if (result.result == "NotAgentVer"){
 						$('#NotAgentVer').show();
 						$('#NotManagementServer').hide();
 						$('#NotCustomerName').hide();
+						$('#NotOsType').hide();
+					} else if (result.result == "NotOsType"){
+						$('#NotManagementServer').hide();
+						$('#NotAgentVer').hide();
+						$('#NotCustomerName').hide();
+						$('#NotOsType').show();
 					} 
 		           	
 					if(result.result == "OK") {
@@ -295,6 +340,8 @@
 		var managementServerSelf = $('#managementServerSelf').val();
 		var agentVerView = $('#agentVerView').val();
 		var agentVerSelf = $('#agentVerSelf').val();
+		var osTypeView = $('#osTypeView').val();
+		var osTypeSelf = $('#osTypeSelf').val();
 		var customerNameView = $('#customerNameView').val();
 		var customerNameSelf = $('#customerNameSelf').val();
 		var businessNameView = $('#businessNameView').val();
@@ -306,6 +353,8 @@
 		postData.append('managementServerSelf',managementServerSelf);
 		postData.append('agentVerView',agentVerView);
 		postData.append('agentVerSelf',agentVerSelf);
+		postData.append('osTypeView',osTypeView);
+		postData.append('osTypeSelf',osTypeSelf);
 		postData.append('customerNameView',customerNameView);
 		postData.append('customerNameSelf',customerNameSelf);
 		postData.append('businessNameView',businessNameView);
@@ -454,6 +503,18 @@
 				$('#businessNameSelf').attr('type','hidden');
 				$('#businessNameSelf').val('');	
 				$("#businessNameChange").text("직접입력");
+			} 
+		} else if (data == "osTypeChange") {
+			if($('#osTypeChange').text() == "직접입력") {
+				$('#osTypeViewSelf').hide();
+				$('#osTypeSelf').attr('type','text');
+				$('#osTypeView').val('');
+				$("#osTypeChange").text("선택입력");
+			} else if($('#osTypeChange').text() == "선택입력") {
+				$('#osTypeViewSelf').show();
+				$('#osTypeSelf').attr('type','hidden');
+				$('#osTypeSelf').val('');
+				$("#osTypeChange").text("직접입력");
 			}
 		}
 	}

@@ -13,13 +13,15 @@
     		FROM (
 				SELECT *
 				FROM generalPackage
+					<include refid="sqlGeneralPackage" />
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getGeneralPackageCount" resultType="_int">
-		SELECT COUNT(*) FROM generalPackage;
+		SELECT COUNT(*) FROM generalPackage
+			<include refid="sqlGeneralPackage" />
 	</select>
 	
 	<select id="getGeneralPackageKeyNum" resultType="_int">
@@ -27,8 +29,8 @@
 	</select>
 	
 	<insert id="insertGeneralPackage">
-		INSERT INTO generalpackage(generalPackageKeyNum, managementServer, agentVer, releaseNotes, generalPackageRegistrant, generalPackageRegistrationDate)
-		VALUES (#{generalPackageKeyNum}, #{managementServerView}, #{agentVerView}, #{releaseNotes}, #{generalPackageRegistrant}, #{generalPackageRegistrationDate});
+		INSERT INTO generalpackage(generalPackageKeyNum, managementServer, agentVer, osType, releaseNotes, generalPackageRegistrant, generalPackageRegistrationDate)
+		VALUES (#{generalPackageKeyNum}, #{managementServerView}, #{agentVerView}, #{osTypeView}, #{releaseNotes}, #{generalPackageRegistrant}, #{generalPackageRegistrationDate});
 	</insert>
 	
 	<delete id="deleteGeneralPackage">
@@ -40,12 +42,47 @@
 	</select>
 	
 	<update id="updateGeneralPackage">
-		UPDATE generalpackage SET managementServer = #{managementServerView}, agentVer = #{agentVerView}, releaseNotes = #{releaseNotes}, generalPackageModifier = #{generalPackageModifier}, generalPackageModifiedDate = #{generalPackageModifiedDate}
+		UPDATE generalpackage SET managementServer = #{managementServerView}, agentVer = #{agentVerView}, osType = #{osTypeView}, releaseNotes = #{releaseNotes}, generalPackageModifier = #{generalPackageModifier}, generalPackageModifiedDate = #{generalPackageModifiedDate}
 		WHERE generalPackageKeyNum = #{generalPackageKeyNum};
 	</update>
 	
 	<select id="batchDownload"  parameterType="_int" resultType="string">
 		SELECT releaseNotes FROM generalpackage WHERE generalPackageKeyNum = #{generalPackageKeyNum};
 	</select>
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlGeneralPackage">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="managementServer != null and managementServer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managementServerArr" item="arr">
+						OR managementServer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="osType != null and osType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osTypeArr" item="arr">
+						OR osType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="agentVer != null and agentVer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="agentVerArr" item="arr">
+						OR agentVer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+		</trim>
+	</sql>
 	
 </mapper>

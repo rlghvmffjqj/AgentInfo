@@ -35,11 +35,27 @@ public class GeneralPackageController {
 	@Autowired GeneralPackageService generalPackageService;
 	@Autowired CategoryService categoryService;
 	
+	/**
+	 * 일반 패키지 이동
+	 * @return
+	 */
 	@GetMapping(value = "/generalPackage/List")
-	public String GeneralPackageList() {
+	public String GeneralPackageList(Model model) {
+		List<String> managementServer = categoryService.getCategoryValue("managementServer");
+		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		
+		model.addAttribute("managementServer", managementServer);
+		model.addAttribute("osType", osType);
+		model.addAttribute("agentVer", agentVer);
 		return "generalPackage/GeneralPackageList";
 	}
 	
+	/**
+	 * 일반 패키지 테이블 조회
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/generalPackage")
 	public Map<String, Object> GeneralPackage(GeneralPackage search) {
@@ -54,31 +70,53 @@ public class GeneralPackageController {
 		return map;
 	}
 	
+	/**
+	 * 일반 패키지 추가 Modal
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value = "/generalPackage/insertView")
 	public String InsertGeneralPackageView(Model model) {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> osType = categoryService.getCategoryValue("osType");
 		
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("osType", osType);
 		model.addAttribute("viewType","insert");
 		return "/generalPackage/GeneralPackageView";
 	}
 	
+	/**
+	 * 일반 패키지 수정 Modal
+	 * @param model
+	 * @param generalPackageKeyNum
+	 * @return
+	 */
 	@PostMapping(value = "/generalPackage/updateView")
 	public String UpdateGeneralPackageView(Model model, int generalPackageKeyNum) {
 		GeneralPackage generalPackage = generalPackageService.getGeneralPackageOne(generalPackageKeyNum);
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
+		List<String> osType = categoryService.getCategoryValue("osType");
 		
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("agentVer", agentVer);
+		model.addAttribute("osType", osType);
 		model.addAttribute("viewType","update").addAttribute("generalPackage", generalPackage);
 		return "/generalPackage/GeneralPackageView";
 	}
 	
-	
-	
+	/**
+	 * 일반 패키지 추가
+	 * @param generalPackage
+	 * @param releaseNotesView
+	 * @param principal
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@PostMapping(value = "/generalPackage/insert")
 	public Map<String, String> InsertGeneralPackage(GeneralPackage generalPackage, MultipartFile releaseNotesView, Principal principal) throws IllegalStateException, IOException {
@@ -92,6 +130,15 @@ public class GeneralPackageController {
 		return map;
 	}
 	
+	/**
+	 * 일반 패키지 수정
+	 * @param generalPackage
+	 * @param releaseNotesView
+	 * @param principal
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@PostMapping(value = "/generalPackage/update")
 	public Map<String, String> UpdateGeneralPackage(GeneralPackage generalPackage, MultipartFile releaseNotesView, Principal principal) throws IllegalStateException, IOException {
@@ -105,15 +152,29 @@ public class GeneralPackageController {
 		return map;
 	}
 	
+	/**
+	 * 일반 패키지 삭제
+	 * @param chkList
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/generalPackage/delete")
 	public String DeleteGeneralPackage(@RequestParam int[] chkList) {
 		return generalPackageService.deleteGeneralPackage(chkList);
 	}
 	
+	/**
+	 * 파일 저장 경로(application.properties 설정 정보)
+	 */
 	@Value("${spring.servlet.multipart.location}")
 	String filePath;
 	
+	/**
+	 * 일반 패키지 단일 다운로드
+	 * @param fileName
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/generalPackage/fileDownload")
 	public View FileDownload(@RequestParam String fileName,  Model model) {
 		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
@@ -123,6 +184,13 @@ public class GeneralPackageController {
 		return new FileDownloadView();
 	}
 	
+	/**
+	 * 일반 패키지 일괄 다운로드
+	 * @param chkList
+	 * @param principal
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/generalPackage/batchDownload")
 	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
 
@@ -163,6 +231,11 @@ public class GeneralPackageController {
 		return new FileDownloadView();
 	}
 	
+	/**
+	 * 파일 존재 유무 덮어쓰기에 사용
+	 * @param releaseNotesView
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/generalPackage/existenceConfirmation")
 	public String ExistenceConfirmation(MultipartFile releaseNotesView) {

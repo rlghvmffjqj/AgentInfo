@@ -21,7 +21,7 @@
 				datatype: 'json',
 				colNames:['Key','고객사 명','사업명','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 				colModel:[
-					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 25, hidden:true },
+					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 					{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'requestDate', index:'requestDate', align:'center', width: 70},
@@ -115,7 +115,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사명</label>
-													<select class="form-control selectpicker" id="customerNameStr" name="customerNameStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${customerName}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -123,7 +123,7 @@
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">사업명</label>
-													<select class="form-control selectpicker" id="businessNameStr" name="businessNameStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="businessNameMulti" name="businessNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${businessName}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -135,8 +135,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">상태</label>
-													<select class="form-control selectpicker" id="stateStr" name="stateStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<option value=""></option>
+													<select class="form-control selectpicker" id="stateMulti" name="stateMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<option value="배포완료">배포완료</option>
 														<option value="적용">적용</option>
 														<option value="대기">대기</option>
@@ -144,7 +143,7 @@
 												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지 종류</label>
-													<select class="form-control selectpicker" id="managementServerStr" name="managementServerStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="managementServerMulti" name="managementServerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${managementServer}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -152,7 +151,7 @@
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">일반/커스텀</label>
-													<select class="form-control selectpicker" id="generalCustomStr" name="generalCustomStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="generalCustomMulti" name="generalCustomMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${generalCustom}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -160,7 +159,7 @@
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent ver</label>
-													<select class="form-control selectpicker" id="agentVerStr" name="agentVerStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="agentVerMulti" name="agentVerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${agentVer}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -176,7 +175,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">OS종류</label>
-													<select class="form-control selectpicker" id="osTypeStr" name="osTypeStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="osTypeMulti" name="osTypeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${osType}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -188,7 +187,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">Agent OS</label>
-													<select class="form-control selectpicker" id="agentOSStr" name="agentOSStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="agentOSMulti" name="agentOSMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${agentOS}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -196,7 +195,7 @@
 												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">기존/신규</label>
-													<select class="form-control selectpicker" id="existingNewStr" name="existingNewStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													<select class="form-control selectpicker" id="existingNewMulti" name="existingNewMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${existingNew}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -204,7 +203,7 @@
 												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청 제품구분</label>
-	                      							<select class="form-control selectpicker" id="requestProductCategoryStr" name="requestProductCategoryStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+	                      							<select class="form-control selectpicker" id="requestProductCategoryMulti" name="requestProductCategoryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${requestProductCategory}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -212,7 +211,7 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">전달 방법</label>
-	                      							<select class="form-control selectpicker" id="deliveryMethodStr" name="deliveryMethodStr" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+	                      							<select class="form-control selectpicker" id="deliveryMethodMulti" name="deliveryMethodMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${deliveryMethod}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
@@ -350,22 +349,21 @@
 	
 	/* =========== 테이블 새로고침 ========= */
 	function tableRefresh() {
-		$('#managementServer').val($('#managementServerStr').val().join());
-		$('#generalCustom').val($('#generalCustomStr').val().join());
-		$('#agentVer').val($('#agentVerStr').val().join());
-		$('#osType').val($('#osTypeStr').val().join());
-		$('#agentOS').val($('#agentOSStr').val().join());
-		$('#state').val($('#stateStr').val().join());
-		$('#existingNew').val($('#existingNewStr').val().join());
-		$('#requestProductCategory').val($('#requestProductCategoryStr').val().join());
-		$('#deliveryMethod').val($('#deliveryMethodStr').val().join());
-		$('#customerName').val($('#customerNameStr').val().join());
-		$('#businessName').val($('#businessNameStr').val().join());
+		$('#managementServer').val($('#managementServerMulti').val().join());
+		$('#generalCustom').val($('#generalCustomMulti').val().join());
+		$('#agentVer').val($('#agentVerMulti').val().join());
+		$('#osType').val($('#osTypeMulti').val().join());
+		$('#agentOS').val($('#agentOSMulti').val().join());
+		$('#state').val($('#stateMulti').val().join());
+		$('#existingNew').val($('#existingNewMulti').val().join());
+		$('#requestProductCategory').val($('#requestProductCategoryMulti').val().join());
+		$('#deliveryMethod').val($('#deliveryMethodMulti').val().join());
+		$('#customerName').val($('#customerNameMulti').val().join());
+		$('#businessName').val($('#businessNameMulti').val().join());
 		
 		var _postDate = $("#form").serializeObject();
 		
 		var jqGrid = $("#list");
-		console.log(jqGrid.getGridParam("postData"));
 		jqGrid.clearGridData();
 		jqGrid.setGridParam({ postData: _postDate });
 		jqGrid.trigger('reloadGrid');

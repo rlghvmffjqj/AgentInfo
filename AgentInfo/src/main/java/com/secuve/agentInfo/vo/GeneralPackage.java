@@ -14,6 +14,7 @@ public class GeneralPackage {
 	private int generalPackageKeyNum;			// Key
 	private String managementServer;			// 패키지 종류
 	private String agentVer;					// Version
+	private String osType;
 	private String releaseNotes;
 	
 	private String generalPackageRegistrant;			// 데이터 추가 사용자
@@ -23,9 +24,15 @@ public class GeneralPackage {
 	
 	private String managementServerView;			// 패키지 종류
 	private String agentVerView;					// Version\
+	private String osTypeView;
 	
 	private String managementServerSelf;			// 패키지 종류
 	private String agentVerSelf;					// Version
+	private String osTypeSelf;
+	
+	private String[] managementServerArr;
+	private String[] osTypeArr;
+	private String[] agentVerArr;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

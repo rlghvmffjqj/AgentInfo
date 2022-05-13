@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.GeneralPackageDao;
 import com.secuve.agentInfo.vo.GeneralPackage;
+import com.secuve.agentInfo.vo.Packages;
 
 @Service
 public class GeneralPackageService {
@@ -20,11 +21,11 @@ public class GeneralPackageService {
 	@Autowired CategoryService categoryService;
 
 	public List<GeneralPackage> getGeneralPackage(GeneralPackage search) {
-		return generalPackageDao.getGeneralPackage(search);
+		return generalPackageDao.getGeneralPackage(GeneralPackageSearch(search));
 	}
 
 	public int getGeneralPackageCount(GeneralPackage search) {
-		return generalPackageDao.getGeneralPackageCount(search);
+		return generalPackageDao.getGeneralPackageCount(GeneralPackageSearch(search));
 	}
 
 	public String nowDate() {
@@ -39,12 +40,7 @@ public class GeneralPackageService {
 			return inspection;
 		}
 		
-		if(generalPackage.getManagementServerView().length() <= 0) {
-			generalPackage.setManagementServerView(generalPackage.getManagementServerSelf());
-		}
-		if(generalPackage.getAgentVerView().length() <= 0) {
-			generalPackage.setAgentVerView(generalPackage.getAgentVerSelf());
-		}
+		selfInput(generalPackage);
 		generalPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
 		generalPackage.setGeneralPackageKeyNum(generalPackageKeyNum());
 		int sucess = generalPackageDao.insertGeneralPackage(generalPackage);
@@ -62,12 +58,7 @@ public class GeneralPackageService {
 			return inspection;
 		}
 		
-		if(generalPackage.getManagementServerView().length() <= 0) {
-			generalPackage.setManagementServerView(generalPackage.getManagementServerSelf());
-		}
-		if(generalPackage.getAgentVerView().length() <= 0) {
-			generalPackage.setAgentVerView(generalPackage.getAgentVerSelf());
-		}
+		selfInput(generalPackage);
 		generalPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
 		int sucess = generalPackageDao.updateGeneralPackage(generalPackage);
 
@@ -76,6 +67,19 @@ public class GeneralPackageService {
 		categoryCheck(generalPackage, principal);
 		fileDownload(generalPackage, releaseNotesView);
 		return "OK";
+	}
+	
+	public void selfInput(GeneralPackage generalPackage) {
+		if(generalPackage.getManagementServerSelf().length() > 0) {
+			generalPackage.setManagementServerView(generalPackage.getManagementServerSelf());
+		}
+		if(generalPackage.getAgentVerSelf().length() > 0) {
+			generalPackage.setAgentVerView(generalPackage.getAgentVerSelf());
+		}
+		
+		if(generalPackage.getOsTypeSelf().length() >0) {
+			generalPackage.setOsTypeView(generalPackage.getOsTypeSelf());
+		}
 	}
 	
 	public int generalPackageKeyNum() {
@@ -114,6 +118,10 @@ public class GeneralPackageService {
 		if (categoryService.getCategory("agentVer", generalPackage.getAgentVerView()) == 0) {
 			categoryService.setCategory("agentVer", generalPackage.getAgentVerView(), principal.getName(), nowDate());
 		}
+		
+		if (categoryService.getCategory("osType", generalPackage.getOsTypeView()) == 0) {
+			categoryService.setCategory("osType", generalPackage.getOsTypeView(), principal.getName(), nowDate());
+		}
 	}
 	
 	public String inspection(GeneralPackage generalPackage) {
@@ -123,6 +131,9 @@ public class GeneralPackageService {
 		} else if(generalPackage.getAgentVerView().equals(null) || generalPackage.getAgentVerView().equals("")) {
 			if(generalPackage.getAgentVerSelf().equals(null) || generalPackage.getAgentVerSelf().equals(""))
 				return "NotAgentVer";
+		} else if(generalPackage.getOsTypeView().equals(null) || generalPackage.getOsTypeView().equals("")) {
+			if(generalPackage.getOsTypeSelf().equals(null) || generalPackage.getOsTypeSelf().equals(""))
+				return "NotOsType";
 		}
 		return null;
 	}
@@ -135,6 +146,14 @@ public class GeneralPackageService {
 			num++;
 		}
 		return files;
+	}
+	
+	public GeneralPackage GeneralPackageSearch(GeneralPackage search) {
+		search.setManagementServerArr(search.getManagementServer().split(","));
+		search.setOsTypeArr(search.getOsType().split(","));
+		search.setAgentVerArr(search.getAgentVer().split(","));
+		
+		return search;
 	}
 
 }
