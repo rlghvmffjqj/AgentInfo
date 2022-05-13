@@ -229,7 +229,7 @@
 		postData.append('businessNameSelf',businessNameSelf);
 		postData.append('releaseNotesView',releaseNotesView.files[0]);
 		
-		if (form.releaseNotesView.value == "") {  
+		if (releaseNotesView.value == "") {  
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
@@ -362,7 +362,7 @@
 		postData.append('customPackageKeyNum', customPackageKeyNum);
 		postData.append('releaseNotesView',releaseNotesView.files[0]);
 		
-		if (form.releaseNotesView.value == "") {  
+		if (releaseNotesView.value == "") {  
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',

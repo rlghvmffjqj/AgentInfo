@@ -54,13 +54,6 @@
 					</div>
 					<span class="colorRed" id="NotOsType" style="display: none; line-height: initial;">OS타입을 선택 또는 입력해주세요.</span>
 				</div>
-				  <div class="pading5Width320">
-					 <div>
-					 	<label class="labelFontSize">릴리즈 노트</label>
-					 </div>
-					 <input class="form-control viewForm" type="file" name="releaseNotesView" id="releaseNotesView" />
-					 <span class="colorRed" id="NotreleaseNotesView" style="display: none; line-height: initial;">파일을 선택해 주세요.</span>
-				 </div>
 			</c:when>
 			<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 				<div class="pading5Width320">
@@ -114,15 +107,15 @@
 					</div>
 					<span class="colorRed" id="NotOsType" style="display: none; line-height: initial;">OS타입을 선택 또는 입력해주세요.</span>
 				</div>
-				<div class="pading5Width320">
-					 <div>
-					 	<label class="labelFontSize">릴리즈 노트</label>
-					 </div>
-					 <input class="form-control viewForm" type="file" name="releaseNotesView" id="releaseNotesView" />
-					 <span class="colorRed" id="NotreleaseNotesView" style="display: none; line-height: initial;">파일을 선택해 주세요.</span>
-				 </div>
 			 </c:when>
 		</c:choose>
+		<div class="pading5Width320">
+			<div>
+				<label class="labelFontSize">릴리즈 노트</label>
+			</div>
+			<input class="form-control viewForm" type="file" name="releaseNotesView" id="releaseNotesView" />
+			<span class="colorRed" id="NotreleaseNotesView" style="display: none; line-height: initial;">파일을 선택해 주세요.</span>
+		</div>
 	</form>
 </div>
 <div class="modal-footer">
@@ -176,7 +169,7 @@
 		postData.append('osTypeSelf',osTypeSelf);
 		postData.append('releaseNotesView',releaseNotesView.files[0]);
 		
-		if (form.releaseNotesView.value == "") {  
+		if (releaseNotesView.value == "") {  
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
@@ -292,7 +285,7 @@
 		postData.append('generalPackageKeyNum', generalPackageKeyNum);
 		postData.append('releaseNotesView',releaseNotesView.files[0]);
 		
-		if (form.releaseNotesView.value == "") {  
+		if (releaseNotesView.value == "") {  
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
