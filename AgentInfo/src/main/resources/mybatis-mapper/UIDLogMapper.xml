@@ -29,16 +29,31 @@
 	</select>
 	
 	<insert id="insertUIDLog">
-		INSERT INTO uidLog(uidKeyNum, uidCustomerName, uidOsDetailVersion, uidPackageName, uidEvent, uidUser, uidTime)
-		VALUES (#{uidKeyNum}, #{uidCustomerName}, #{uidOsDetailVersion}, #{uidPackageName}, #{uidEvent}, #{uidUser}, #{uidTime});
+		INSERT INTO uidLog(uidKeyNum, uidCustomerName, uidOsDetailVersion, uidPackageName, packagesKeyNum, uidEvent, uidUser, uidTime)
+		VALUES (#{uidKeyNum}, #{uidCustomerName}, #{uidOsDetailVersion}, #{uidPackageName}, #{packagesKeyNum}, #{uidEvent}, #{uidUser}, #{uidTime});
 	</insert>
 	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlUIDLog">
-		<trim prefix="WHERE" prefixOverrides="AND">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="uidCustomerName != null and uidCustomerName != ''">
-				AND uidCustomerName LIKE CONCAT('%',#{uidCustomerName},'%')
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="uidCustomerNameArr" item="arr">
+						OR uidCustomerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="uidEvent != null and uidEvent != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="uidEventArr" item="arr">
+						OR uidEvent LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 		</trim>
 		<trim prefix="WHERE" prefixOverrides="AND">
@@ -52,13 +67,13 @@
 			</if>
 		</trim>
 		<trim prefix="WHERE" prefixOverrides="AND">
-			<if test="uidEvent != null and uidEvent != ''">
-				AND uidEvent LIKE CONCAT('%',#{uidEvent},'%')
+			<if test="uidUser != null and uidUser != ''">
+				AND uidUser LIKE CONCAT('%',#{uidUser},'%')
 			</if>
 		</trim>
 		<trim prefix="WHERE" prefixOverrides="AND">
-			<if test="uidUser != null and uidUser != ''">
-				AND uidUser LIKE CONCAT('%',#{uidUser},'%')
+			<if test="packagesKeyNum != null and packagesKeyNum != ''">
+				AND packagesKeyNum LIKE CONCAT('%',#{packagesKeyNum},'%')
 			</if>
 		</trim>
 	</sql>

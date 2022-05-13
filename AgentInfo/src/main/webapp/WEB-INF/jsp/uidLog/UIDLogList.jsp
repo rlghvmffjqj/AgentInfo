@@ -19,12 +19,13 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사 명','패키지 상세버전','패키지 명','이벤트','사용자','시간'],
+				colNames:['Key','고객사 명','패키지 상세버전','패키지 명','패키지Key','이벤트','사용자','시간'],
 				colModel:[
 					{name:'uidKeyNum', index:'uidKeyNum', align:'center', width: 50, hidden:true},
 					{name:'uidCustomerName', index:'uidCustomerName',align:'center', width: 280},
 					{name:'uidOsDetailVersion', index:'uidOsDetailVersion',align:'center', width: 350},
 					{name:'uidPackageName', index:'uidPackageName', align:'center', width: 650},
+					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 60},
 					{name:'uidEvent', index:'uidEvent', align:'center', width: 100},
 					{name:'uidUser', index:'uidUser', align:'center', width: 100},
 					{name:'uidTime', index:'uidTime', width: 180, align:'center', width: 200},
@@ -94,9 +95,13 @@
 	                                	<div class="searchbos">
 	                      					<form id="form" name="form" method ="post"> 
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">고객사 명</label>
-													<input type="text" id="uidCustomerName" name="uidCustomerName" class="form-control"> 
-	                      						</div>
+	                      							<label class="labelFontSize">고객사명</label>
+													<select class="form-control selectpicker" id="uidCustomerNameMulti" name="uidCustomerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${customerName}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지 상세버전</label>
 	                      							<input type="text" id="uidOsDetailVersion" name="uidOsDetailVersion" class="form-control">
@@ -106,23 +111,37 @@
 	                      							<input type="text" id="uidPackageName" name="uidPackageName" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">이벤트</label>
-	                      							<input type="text" id="uidEvent" name="uidEvent" class="form-control">
+	                      							<label class="labelFontSize">패키지 Key</label>
+	                      							<input type="text" id="packagesKeyNum" name="packagesKeyNum" class="form-control">
 	                      						</div>
+	                      						
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">이벤트</label>
+													<select class="form-control selectpicker" id="uidEventMulti" name="uidEventMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<option value="INSERT">INSERT</option>
+														<option value="UPDATE">UPDATE</option>
+														<option value="DELETE">DELETE</option>
+														<option value="배포완료">배포완료</option>
+														<option value="적용">적용</option>
+														<option value="대기">대기</option>
+													</select>
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">사용자</label>
 	                      							<input type="text" id="uidUser" name="uidUser" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-12 text-right">
-												<p class="search-btn">
-													<button class="btn btn-primary btnm" type="button" id="btnSearch">
-														<i class="fa fa-search"></i>&nbsp;<span>검색</span>
-													</button>
-													<button class="btn btn-default btnm" type="button" id="btnReset">
-														<span>초기화</span>
-													</button>
-												</p>
-											</div>
+	                      							<input type="hidden" id="uidCustomerName" name="uidCustomerName" class="form-control">
+	                      							<input type="hidden" id="uidEvent" name="uidEvent" class="form-control">
+													<p class="search-btn">
+														<button class="btn btn-primary btnm" type="button" id="btnSearch">
+															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+														</button>
+														<button class="btn btn-default btnm" type="button" id="btnReset">
+															<span>초기화</span>
+														</button>
+													</p>
+												</div>
 	                      					</form>
 	                     				</div>
                      				 </div>
@@ -170,6 +189,9 @@
 	
 	/* =========== 테이블 새로고침 ========= */
 	function tableRefresh() {
+		$('#uidCustomerName').val($('#uidCustomerNameMulti').val().join());
+		$('#uidEvent').val($('#uidEventMulti').val().join());
+		
 		var jqGrid = $("#list");
 		jqGrid.clearGridData();
 		jqGrid.setGridParam({ postData: $("#form").serializeObject() });
@@ -186,9 +208,15 @@
 	/* =========== 검색 초기화 ========= */
 	$('#btnReset').click(function() {
 		$("input[type='text']").val("");
-		$("select").each(function(index){
-			$("option:eq(0)",this).prop("selected",true);
-		});
+		$("input[type='date']").val("");
+        
+        $('.selectpicker').val('');
+        $('.filter-option-inner-inner').text('');
+		tableRefresh();
+	});
+	
+	/* =========== Select Box 선택 ========= */
+	$("select").change(function() {
 		tableRefresh();
 	});
 </script>

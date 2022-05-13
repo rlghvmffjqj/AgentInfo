@@ -1003,7 +1003,7 @@ public class PackagesService {
 		}
 
 		uidLog.setUidKeyNum(++uidLogKeyNum);
-		if(event == "DELETE") {
+		if(event == "DELETE" || event.equals("적용") || event.equals("대기") || event.equals("배포완료")) {
 			uidLog.setUidCustomerName(packages.getCustomerName());
 			uidLog.setUidOsDetailVersion(packages.getOsDetailVersion());
 			uidLog.setUidPackageName(packages.getPackageName());
@@ -1012,6 +1012,7 @@ public class PackagesService {
 			uidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
 			uidLog.setUidPackageName(packages.getPackageNameView());
 		}
+		uidLog.setPackagesKeyNum(Integer.toString(packages.getPackagesKeyNum()));
 		uidLog.setUidEvent(event);
 		uidLog.setUidUser(principal.getName());
 		uidLog.setUidTime(nowDate());
@@ -1312,12 +1313,17 @@ public class PackagesService {
 		trashDao.insertTrash(trash);
 	}
 
-	public String stateChange(int[] chkList, String statusComment, String stateView) {
+	public String stateChange(int[] chkList, String statusComment, String stateView, Principal principal) {
 		for (int packagesKeyNum : chkList) {
+			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
 			int sucess = packagesDao.stateChange(packagesKeyNum, statusComment, stateView);
 
-			if (sucess <= 0)
+			// uid 로그 기록
+			if (sucess > 0) {
+				uidLog(packages, principal, stateView);
+			} else {
 				return "FALSE";
+			}
 		}
 		return "OK";
 	}

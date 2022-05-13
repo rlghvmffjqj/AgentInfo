@@ -19,7 +19,7 @@ public class UIDLogService {
 	 * @return
 	 */
 	public List<UIDLog> getUIDLogList(UIDLog search) {
-		return uidLogDao.getUIDLogList(search);
+		return uidLogDao.getUIDLogList(UIDLogSearch(search));
 	}
 
 	/**
@@ -28,7 +28,14 @@ public class UIDLogService {
 	 * @return
 	 */
 	public int getUIDLogListCount(UIDLog search) {
-		return uidLogDao.getUIDLogListCount(search);
+		return uidLogDao.getUIDLogListCount(UIDLogSearch(search));
+	}
+	
+	public UIDLog UIDLogSearch(UIDLog search) {
+		search.setUidCustomerNameArr(search.getUidCustomerName().split(","));
+		search.setUidEventArr(search.getUidEvent().split(","));
+		
+		return search;
 	}
 
 }
