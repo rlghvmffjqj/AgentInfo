@@ -12,6 +12,7 @@ import lombok.ToString;
 @Component
 public class Packages {
 	private int packagesKeyNum;					// Key Number
+	private int packagesKeyNumOrigin;			// 정렬을 위한 키 값
 	private String customerName = "";			// 고객사명
 	private String businessName = "";			// 사업명
 	private String requestDate = "";			// 요청일자
@@ -97,7 +98,7 @@ public class Packages {
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
-	private String sidx="packagesKeyNum";		// 정렬할 기준 데이터
+	private String sidx="packagesKeyNumOrigin";		// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
 	
 	private String chartName;					// 차트 키

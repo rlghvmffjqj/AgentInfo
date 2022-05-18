@@ -19,9 +19,10 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','고객사 명','사업명','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
+				colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 				colModel:[
-					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
+					{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35 },
+					/* {name:'packagesKeyNumOrigin', index:'packagesKeyNumOrigin', align:'center', width: 50, hidden:true }, */
 					{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 					{name:'businessName', index:'businessName', align:'center', width: 180},
 					{name:'requestDate', index:'requestDate', align:'center', width: 70},
@@ -47,7 +48,7 @@
 		        },
 		        pager: '#pager',			// 페이징
 		        rowNum: 25,					// 보여중 행의 수
-		        sortname: 'packagesKeyNum',	// 기본 정렬 
+		        sortname: 'packagesKeyNumOrigin',	// 기본 정렬 
 		        sortorder: 'desc',			// 정렬 방식
 		        
 		        multiselect: true,			// 체크박스를 이용한 다중선택

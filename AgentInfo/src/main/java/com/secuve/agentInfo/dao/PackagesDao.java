@@ -46,8 +46,8 @@ public class PackagesDao {
 		return sqlSession.selectList("packages.getPackagesListAll", packages);
 	}
 
-	public void plusPackagesKeyNum(int packagesKeyNum) {
-		sqlSession.update("packages.plusPackagesKeyNum", packagesKeyNum);
+	public void plusPackagesKeyNumOrigin(int packagesKeyNumOrigin) {
+		sqlSession.update("packages.plusPackagesKeyNum", packagesKeyNumOrigin);
 	}
 
 	public List<Packages> getChartManagementServer() {
