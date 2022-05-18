@@ -8,7 +8,7 @@
 			<c:when test="${viewType eq 'insert'}">
 				<div class="pading5Width320">
 					 <div>
-					 	<label class="labelFontSize">패키지 종류</label>
+					 	<label class="labelFontSize">패키지 종류</label><label class="colorRed">*</label>
 					 	<a href="#" class="selfInput" id="managementServerChange" onclick="selfInput('managementServerChange');">직접입력</a>
 					 </div>
 					 <input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -24,7 +24,7 @@
 				 </div>
 				 <div class="pading5Width320">
 					 <div>
-					 	<label class="labelFontSize">Agent ver</label>
+					 	<label class="labelFontSize">Agent ver</label><label class="colorRed">*</label>
 					 	<a href="#" class="selfInput" id="agentVerChange" onclick="selfInput('agentVerChange');">직접입력</a>
 					 </div>
 					 <input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -40,12 +40,12 @@
 				 </div>
 				 <div class="pading5Width320">
 					<div>
-				 		<label class="labelFontSize">OS종류</label>
+				 		<label class="labelFontSize">OS종류</label><label class="colorRed">*</label>
 				 		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
 				 	</div>
 				 	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 				 	<div id="osTypeViewSelf">
-			        	<select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
+			        	<select class="form-control selectForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
 				           	<option value=""></option>
 							<c:forEach var="item" items="${osType}">
 								<option value="${item}"><c:out value="${item}"/></option>
@@ -58,7 +58,7 @@
 			<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 				<div class="pading5Width320">
 					<div>
-						<label class="labelFontSize">패키지 종류</label>
+						<label class="labelFontSize">패키지 종류</label><label class="colorRed">*</label>
 						<a href="#" class="selfInput" id="managementServerChange" onclick="selfInput('managementServerChange');">직접입력</a>
 					</div>
 					<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -75,7 +75,7 @@
 				</div>
 				<div class="pading5Width320">
 				    <div>
-						<label class="labelFontSize">Agent ver</label>
+						<label class="labelFontSize">Agent ver</label><label class="colorRed">*</label>
 						<a href="#" class="selfInput" id="agentVerChange" onclick="selfInput('agentVerChange');">직접입력</a>
 					</div>
 					<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -92,12 +92,12 @@
 				</div>
 				<div class="pading5Width320">
 			    	<div>
-				 		<label class="labelFontSize">OS종류</label>
+				 		<label class="labelFontSize">OS종류</label><label class="colorRed">*</label>
 				 		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
 				 	</div>
 				 	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 				 	<div id="osTypeViewSelf">
-			           <select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
+			           <select class="form-control selectForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
 				           	<c:if test="${generalPackage.osType ne ''}"><option value=""></option></c:if>
 				           	<c:if test="${generalPackage.osType eq ''}"><option value=""></option></c:if>
 							<c:forEach var="item" items="${osType}">
@@ -111,7 +111,7 @@
 		</c:choose>
 		<div class="pading5Width320">
 			<div>
-				<label class="labelFontSize">릴리즈 노트</label>
+				<label class="labelFontSize">릴리즈 노트</label><label class="colorRed">*</label>
 			</div>
 			<input class="form-control viewForm" type="file" name="releaseNotesView" id="releaseNotesView" />
 			<span class="colorRed" id="NotreleaseNotesView" style="display: none; line-height: initial;">파일을 선택해 주세요.</span>

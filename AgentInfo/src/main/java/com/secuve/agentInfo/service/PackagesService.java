@@ -214,6 +214,7 @@ public class PackagesService {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings({ "deprecation", "resource" })
 	public String importPackagesXlxs2019(MultipartFile mfile, Principal principal) throws IOException {
 		Date date = null;
 
@@ -401,6 +402,7 @@ public class PackagesService {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings({ "deprecation", "resource" })
 	public String importPackagesXlxs2021(MultipartFile mfile, Principal principal) throws IOException {
 		Date date = null;
 
@@ -584,6 +586,7 @@ public class PackagesService {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings({ "deprecation", "resource" })
 	public String importPackagesXlxs2022(MultipartFile mfile, Principal principal) throws IOException {
 		Date date = null;
 
@@ -776,6 +779,7 @@ public class PackagesService {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings({ "deprecation", "resource" })
 	public String importPackagesCSV(MultipartFile mfile, Principal principal) throws IOException {
 		Date date = null;
 		String cellString;

@@ -45,7 +45,7 @@
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.customerName ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.customerName eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${customerName}">
@@ -62,7 +62,7 @@
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.businessName ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.businessName eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${businessName}">
@@ -105,7 +105,7 @@
 					  	</div>
 					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
-						  	<select class="form-control viewForm selectpicker" id="generalCustomView" name="generalCustomView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="generalCustomView" name="generalCustomView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${generalCustom}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -120,7 +120,7 @@
 					  	</div>
 					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
-						  	<select class="form-control viewForm selectpicker" id="agentVerView" name="agentVerView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="agentVerView" name="agentVerView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${agentVer}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -137,7 +137,7 @@
 					  	</div>
 					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="managementServerViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="managementServerView" name="managementServerView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="managementServerView" name="managementServerView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.managementServer ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.managementServer eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${managementServer}">
@@ -153,7 +153,7 @@
 					  	</div>
 					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="generalCustomView" name="generalCustomView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="generalCustomView" name="generalCustomView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.generalCustom ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.generalCustom eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${generalCustom}">
@@ -169,7 +169,7 @@
 					  	</div>
 					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="agentVerView" name="agentVerView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="agentVerView" name="agentVerView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.agentVer ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.agentVer eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${agentVer}">
@@ -199,7 +199,7 @@
 					  	</div>
 					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
-			                <select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
+			                <select class="form-control selectpicker selectForm" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
 			                	<option value=""></option>
 								<c:forEach var="item" items="${osType}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -216,7 +216,7 @@
 					  	</div>
 					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
-			                <select class="form-control viewForm selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
+			                <select class="form-control selectpicker selectForm" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5">
 			                	<c:if test="${packages.osType ne ''}"><option value=""></option></c:if>
 			                	<c:if test="${packages.osType eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${osType}">
@@ -240,7 +240,7 @@
 					  	</div>
 					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
-						  	<select class="form-control viewForm selectpicker" id="agentOSView" name="agentOSView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="agentOSView" name="agentOSView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${agentOS}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -255,7 +255,7 @@
 					  	</div>
 					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
-						  	<select class="form-control viewForm selectpicker" id="existingNewView" name="existingNewView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="existingNewView" name="existingNewView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${existingNew}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -270,7 +270,7 @@
 					  	</div>
 					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
-						  	<select class="form-control viewForm selectpicker" id="requestProductCategoryView" name="requestProductCategoryView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="requestProductCategoryView" name="requestProductCategoryView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${requestProductCategory}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -285,7 +285,7 @@
 					  	</div>
 					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
-			                <select class="form-control viewForm selectpicker" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5">
+			                <select class="form-control selectpicker selectForm" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5">
 			                	<option value=""></option>
 								<c:forEach var="item" items="${deliveryMethod}">
 									<option value="${item}"><c:out value="${item}"/></option>
@@ -302,7 +302,7 @@
 					  	</div>
 					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="agentOSView" name="agentOSView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="agentOSView" name="agentOSView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.agentOS ne ''}"><option value=""></option></c:if>	
 				         		<c:if test="${packages.agentOS eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${agentOS}">
@@ -318,7 +318,7 @@
 					  	</div>
 					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="existingNewView" name="existingNewView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="existingNewView" name="existingNewView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.existingNew ne ''}"><option value=""></option></c:if>	
 				         		<c:if test="${packages.existingNew eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${existingNew}">
@@ -334,7 +334,7 @@
 					  	</div>
 					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
-				         	<select class="form-control viewForm selectpicker" id="requestProductCategoryView" name="requestProductCategoryView" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="requestProductCategoryView" name="requestProductCategoryView" data-live-search="true" data-size="5">
 				         		<c:if test="${packages.requestProductCategory ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.requestProductCategory eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${requestProductCategory}">
@@ -350,7 +350,7 @@
 					  	</div>
 					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
-			                <select class="form-control viewForm selectpicker" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5">
+			                <select class="form-control selectpicker selectForm" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5">
 			                	<c:if test="${packages.deliveryMethod ne ''}"><option value=""></option></c:if>
 			                	<c:if test="${packages.deliveryMethod eq ''}"><option value=""></option></c:if>
 								<c:forEach var="item" items="${deliveryMethod}">

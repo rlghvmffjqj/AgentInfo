@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.GeneralPackageDao;
 import com.secuve.agentInfo.vo.GeneralPackage;
-import com.secuve.agentInfo.vo.Packages;
 
 @Service
 public class GeneralPackageService {

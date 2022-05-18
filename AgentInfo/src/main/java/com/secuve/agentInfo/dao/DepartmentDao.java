@@ -14,7 +14,7 @@ import com.secuve.agentInfo.vo.Department;
 public class DepartmentDao {
 	@Autowired SqlSessionTemplate sqlSession;
 
-	public List getDepartmentList(String parentPath) {
+	public List<Department> getDepartmentList(String parentPath) {
 		return sqlSession.selectList("department.getDepartmentList", parentPath);
 	}
 
@@ -26,7 +26,7 @@ public class DepartmentDao {
 		return sqlSession.selectOne("department.getDepartmentFullPath",departmentFullPath);
 	}
 
-	public List getDepartmentParentPath(String departmentFullPath) {
+	public List<Department> getDepartmentParentPath(String departmentFullPath) {
 		return sqlSession.selectList("department.getDepartmentParentPath",departmentFullPath);
 	}
 

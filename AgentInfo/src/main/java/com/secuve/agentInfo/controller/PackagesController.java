@@ -427,11 +427,23 @@ public class PackagesController {
 		return map;
 	}
 	
+	/**
+	 * 상태 변경 Modal
+	 * @return
+	 */
 	@PostMapping(value = "/packages/stateView")
 	public String stateView() {
 		return "/packages/StateView";
 	}
 	
+	/**
+	 * 상태 변경
+	 * @param chkList
+	 * @param statusComment
+	 * @param stateView
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/stateChange")
 	public Map<String, String> stateChange(@RequestParam int[] chkList, @RequestParam String statusComment, @RequestParam String stateView, Principal principal) {

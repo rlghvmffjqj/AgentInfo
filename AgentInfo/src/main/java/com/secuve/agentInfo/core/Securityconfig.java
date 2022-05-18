@@ -2,7 +2,6 @@ package com.secuve.agentInfo.core;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +20,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		// 접속 권한
 		http.authorizeRequests()
 			.antMatchers("/employee/**").hasAnyRole("ADMIN")
+			.antMatchers("/department/**").hasAnyRole("ADMIN")
 			.antMatchers("/category/**").hasAnyRole("ADMIN")
 			.antMatchers("/uidLog/**").hasAnyRole("ADMIN")
 			.antMatchers("/packages/**").hasAnyRole("ADMIN","MEMBER","ENGINEER")

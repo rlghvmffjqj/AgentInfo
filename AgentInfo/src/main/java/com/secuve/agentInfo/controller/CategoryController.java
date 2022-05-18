@@ -141,7 +141,7 @@ public class CategoryController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/category/customerBusinessName")
-	public List customerBusinessName(Model model, String customerName) {
+	public List<String> customerBusinessName(Model model, String customerName) {
 		List<String> businessName = categoryService.getCategoryValue("businessName", customerName);
 		model.addAttribute("businessName", businessName);
 		return businessName;

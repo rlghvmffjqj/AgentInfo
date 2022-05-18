@@ -16,8 +16,8 @@ public class DepartmentService {
 	@Autowired DepartmentDao departmentDao;
 	@Autowired EmployeeDao employeeDao;
 
-	public List getDepartmentList(String parentPath) {
-		List departmentList = departmentDao.getDepartmentList(parentPath);
+	public List<Department> getDepartmentList(String parentPath) {
+		List<Department> departmentList = departmentDao.getDepartmentList(parentPath);
 		return departmentList;
 	}
 
@@ -42,7 +42,7 @@ public class DepartmentService {
 
 	public String deleteDepartment(Department department) {
 		int sucess = 0;
-		List subDepartment = departmentDao.getDepartmentParentPath(department.getDepartmentFullPath());
+		List<Department> subDepartment = departmentDao.getDepartmentParentPath(department.getDepartmentFullPath());
 		if(subDepartment.size() == 0) {
 			sucess = departmentDao.deleteDepartment(department);
 		} else {

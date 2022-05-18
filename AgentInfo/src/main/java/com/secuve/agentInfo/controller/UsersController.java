@@ -60,29 +60,7 @@ public class UsersController {
 	public String failView() {
 		return "FailPage";
 	}
-	
-	/**
-	 * 회원가입 페이지
-	 * @return
-	 */
-	@GetMapping("/signup")
-	public String signupView() {
-		return "Signup";
-	}
-	
-	/**
-	 * 회원가입
-	 * @param usersVo
-	 * @return
-	 */
-	@PostMapping("/signup")
-	public String signup(Users users) {
-		LOGGER.info("회원가입");
-		usersService.save(users);
-		return "Login";
-	}
-	
-	
+		
 	/**
 	 * 일반 사용자 정보
 	 * @return
@@ -111,6 +89,11 @@ public class UsersController {
 		return "Denied";
 	}
 	
+	/**
+	 * 로그인 실패 알림
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/loginFail")
 	public String loginFail(Model model) {
 		String loc = "/login";
@@ -120,6 +103,12 @@ public class UsersController {
 		return "common/msg";
 	}
 	
+	/**
+	 * 프로필 Modal
+	 * @param model
+	 * @param principal
+	 * @return
+	 */
 	@PostMapping(value ="/usres/profileView")
 	public String UpdateEmployeeView(Model model, Principal principal) {
 		Employee employee = employeeService.getEmployeeOne(principal.getName());

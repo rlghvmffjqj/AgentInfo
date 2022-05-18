@@ -16,6 +16,12 @@ import org.springframework.web.servlet.view.AbstractView;
 
 @Component
 public class FileDownloadView extends AbstractView {
+	
+	/**
+	 * 파일 다운로드
+	 * 파일 경로, 파일 이름, 다운로드 받을 파일 명 Model로 전달 받음
+	 * 중요) AbstractView 상속
+	 */
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> fileMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
