@@ -7,6 +7,7 @@ $.modal = function (modalContent, size) {
     html += '	<div class="modal-dialog';
     if(size=='l')  html += ' modal-lg';
     if(size=='ll')  html += ' modal-ll';
+    if(size=='ls')  html += ' modal-ls';
     if(size=='s')  html += ' modal-sm';
     if(size=='ss')  html += ' modal-ss';
     if(size=='sl')  html += ' modal-sl';

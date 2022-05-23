@@ -60,6 +60,8 @@
 			$('.customPackage').addClass('active');
 			$('.releaseNotes').addClass('active');
 			$('.releaseNotes').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'customer') {
+			$('.customer').addClass('active');
 		}
 	});
 </script>
@@ -92,6 +94,15 @@
 	                 <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
 	                     <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
 	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
+	                     <span class="pcoded-mcaret"></span>
+	                 </a>
+	             </li>
+	         </ul>
+	         <ul class="pcoded-item pcoded-left-item">
+	             <li class="customer">
+	                 <a href="<c:url value='/customer/list'/>" class="waves-effect waves-dark">
+	                     <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
+	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보</span>
 	                     <span class="pcoded-mcaret"></span>
 	                 </a>
 	             </li>

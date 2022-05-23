@@ -28,6 +28,7 @@
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.cookie.js'/>"></script> 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.bpopup.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/myJS.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/postcode.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/sweetalert.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery-ui/jquery-ui.min.js'/>"></script>   
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.serializeObject.js'/>"></script>    

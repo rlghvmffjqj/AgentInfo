@@ -141,6 +141,11 @@ p {
 	max-width: 1500px;
 }
 
+.modal-ls {
+	top: 18%;
+	max-width: 485px;
+}
+
 .modal-r {
 	top: 25%;
 	max-width: 960px;
@@ -421,4 +426,24 @@ p {
 .summerNoteSize {
 	height: 200px;
     width: 300px;
+}
+
+.width100 {
+	width: 100%;
+}
+
+.addressFom {
+	float: left;
+    width: 285px;
+}
+
+.zipCodeForm {
+	float: left;
+    width: 75px;
+}
+
+.addressButton {
+	float: left;
+    width: 80px;
+    margin-bottom: 10px;
 }

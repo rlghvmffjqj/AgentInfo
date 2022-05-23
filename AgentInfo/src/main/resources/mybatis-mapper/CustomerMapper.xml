@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="customer">
+	<resultMap type="com.secuve.agentInfo.vo.Customer" id="customer"></resultMap>
+	
+	<select id="getCustomer" resultMap="customer" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM customer
+					<include refid="sqlCustomer" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getCustomerCount" resultType="_int">
+		SELECT COUNT(*) FROM customer
+			<include refid="sqlCustomer" />
+	</select>
+	
+	<select id="getCustomerKeyNum" resultType="_int">
+		SELECT MAX(customerKeyNum) FROM customer;
+	</select>
+	
+	<insert id="insertCustomer">
+		INSERT INTO customer(customerKeyNum, customerName, businessName, customerManagerName, customerPhoneNumber, customerZipCode, customerAddress, customerFullAddress, customerDept, packageName, osType, employeeSeName, employeeSalesName, customerRegistrant, customerRegistrationDate)
+		VALUES(#{customerKeyNum}, #{customerNameView}, #{businessNameView}, #{customerManagerNameView}, #{customerPhoneNumberView}, #{customerZipCodeView}, #{customerAddressView}, #{customerFullAddressView}, #{customerDeptView}, #{packageNameView}, #{osTypeView}, #{employeeSeNameView}, #{employeeSalesNameView}, #{customerRegistrant}, #{customerRegistrationDate});
+	</insert>
+	
+	<delete id="delCustomer" parameterType="_int">
+		DELETE FROM customer WHERE customerKeyNum = #{customerKeyNum};
+	</delete>
+	
+	<select id="getCustomerOne" parameterType="_int" resultMap="customer">
+		SELECT * FROM customer WHERE customerKeyNum = #{customerKeyNum};
+	</select>
+	
+	<update id="updateCustomer">
+		UPDATE customer SET customerName = #{customerNameView}, businessName = #{businessNameView}, customerManagerName = #{customerManagerNameView}, customerPhoneNumber = #{customerPhoneNumberView}, customerZipCode = #{customerZipCodeView}, customerAddress = #{customerAddressView}, customerFullAddress = #{customerFullAddressView}, customerDept = #{customerDeptView}, packageName = #{packageNameView}, osType =  #{osTypeView}, employeeSeName = #{employeeSeNameView}, employeeSalesName = #{employeeSalesNameView}, customerModifier = #{customerModifier}, customerModifiedDate = #{customerModifiedDate}
+		WHERE customerKeyNum = #{customerKeyNum};
+	</update>
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlCustomer">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="customerManagerName != null and customerManagerName != ''">
+				AND customerManagerName LIKE CONCAT('%',#{customerManagerName},'%')
+			</if>
+			<if test="employeeSeName != null and employeeSeName != ''">
+				AND employeeSeName LIKE CONCAT('%',#{employeeSeName},'%')
+			</if>
+			<if test="employeeSalesName != null and employeeSalesName != ''">
+				AND employeeSalesName LIKE CONCAT('%',#{employeeSalesName},'%')
+			</if>
+		</trim>
+	</sql>
+	
+	
+</mapper>
