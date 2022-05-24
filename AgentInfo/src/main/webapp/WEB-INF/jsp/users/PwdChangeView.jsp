@@ -115,7 +115,7 @@
 	/* =========== Enter 검색 ========= */
 	$("input[type=password]").keypress(function(event) {
 		if (window.event.keyCode == 13) {
-			pwdCheck();
+			btnPwdChange();
 		}
 	});
 </script>
