@@ -36,6 +36,7 @@ public class EmployeeService {
 	public String delEmployee(String[] chkList) {
 		for(String employeeId: chkList) {
 			int sucess = employeeDao.delEmployee(employeeId);
+			sucess *= employeeDao.delUsers(employeeId);
 			if(sucess <= 0) 
 				return "FALSE";
 		}
@@ -63,6 +64,7 @@ public class EmployeeService {
 		users.setUsersId(employee.getEmployeeId());
 		users.setUsersPw(employee.getUsersPw());
 		users.setUsersRole(employee.getUsersRole());
+		users.setPwdChangeYn(employee.getPwdChangeYn());
 		
 		if(sucess <= 0) 
 			return "FALSE";

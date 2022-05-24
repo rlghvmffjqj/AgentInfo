@@ -11,11 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.UsersService;
 import com.secuve.agentInfo.vo.Employee;
-import com.secuve.agentInfo.vo.Users;
 
 @Controller
 @RequestMapping(value = "/")
@@ -109,11 +109,46 @@ public class UsersController {
 	 * @param principal
 	 * @return
 	 */
-	@PostMapping(value ="/usres/profileView")
+	@PostMapping(value ="/users/profileView")
 	public String UpdateEmployeeView(Model model, Principal principal) {
 		Employee employee = employeeService.getEmployeeOne(principal.getName());
 		model.addAttribute("employee", employee);
 		return "users/ProfileView";
+	}
+	
+	/**
+	 * 아이디 패스워드 일치여부 검사
+	 * @param usersId
+	 * @param usersPw
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value = "/users/pwdCheck")
+	public String PwdCheck(String usersId, String usersPw) {
+		return usersService.loginIdPwd(usersId, usersPw);
+	}
+	
+	/**
+	 * 패스워드 변경 Modal
+	 * @return
+	 */
+	@PostMapping(value = "/users/pwdChangeView")
+	public String PwdChange() {
+		return "users/PwdChangeView";
+	}
+	
+	/**
+	 * 패스워드 변경
+	 * @param oldPwd
+	 * @param changePwd
+	 * @param confirmPwd
+	 * @param usersId
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value = "/users/pwdChange")
+	public String PwdChange(String oldPwd, String changePwd, String confirmPwd, String usersId) {
+		return usersService.updateUsersPwd(oldPwd, changePwd, confirmPwd, usersId);
 	}
 
 }

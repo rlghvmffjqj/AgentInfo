@@ -40,11 +40,11 @@ public class EmployeeDao {
 	}
 
 	public int updateUsers(Employee employee) {
-		return sqlSession.insert("employee.updateUsers", employee);
+		return sqlSession.update("employee.updateUsers", employee);
 	}
 
 	public int updateUsersRole(Employee employee) {
-		return sqlSession.insert("employee.updateUsersRole", employee);
+		return sqlSession.update("employee.updateUsersRole", employee);
 	}
 
 	public int updateEmployeeDepartment(String departmentName, String newDepartmentName) {
@@ -65,6 +65,25 @@ public class EmployeeDao {
 
 	public int updateDepartmentMove(Employee employee) {
 		return sqlSession.update("employee.updateDepartmentMove", employee);
+	}
+
+	public String pwdCheck(String usersId) {
+		return sqlSession.selectOne("employee.pwdCheck", usersId);
+	}
+
+	public String getUsersPw(String usersId) {
+		return sqlSession.selectOne("employee.getUsersPw", usersId);
+	}
+
+	public int updateUserPwd(String usersId, String changePwd) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("usersId", usersId);
+		parameters.put("changePwd", changePwd);
+		return sqlSession.update("employee.updateUserPwd", parameters);
+	}
+
+	public int delUsers(String employeeId) {
+		return sqlSession.delete("employee.delUsers", employeeId);
 	}
 
 }

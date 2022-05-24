@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.core.Role;
+import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.UsersJpaDao;
 import com.secuve.agentInfo.vo.Users;
 
@@ -25,6 +26,7 @@ import com.secuve.agentInfo.vo.Users;
 public class UsersService implements UserDetailsService{
 	@Autowired UsersJpaDao usersJpaDao;
 	@Autowired HttpSession session;
+	@Autowired EmployeeDao employeeDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String usersId) throws UsernameNotFoundException {
@@ -55,6 +57,42 @@ public class UsersService implements UserDetailsService{
 			return "FALSE";
 		}
 		return "OK";
+	}
+
+	public String updateUsersPwd(String oldPwd, String changePwd, String confirmPwd, String usersId) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String nowPwd = employeeDao.getUsersPw(usersId);
+		if(oldPwd.length() <= 0) {
+			return "NotOldPwd";
+		}
+		if(changePwd.length() <= 0) {
+			return "NotChangePwd";
+		}
+		if(confirmPwd.length() <= 0) {
+			return "NotConfirmPwd";
+		}
+		if(!passwordEncoder.matches(oldPwd,nowPwd)) {
+			return "NotPassword";
+		}
+		if(!changePwd.equals(confirmPwd)) {
+			return "PwdMisMatch";
+		}
+		
+		changePwd = passwordEncoder.encode(changePwd);
+		int count = employeeDao.updateUserPwd(usersId, changePwd);
+		if(count > 0) 
+			return "OK";
+		return "FALSE";
+		
+	}
+
+	public String loginIdPwd(String usersId, String usersPw) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String nowPwd = employeeDao.getUsersPw(usersId);
+		if(passwordEncoder.matches(usersPw,nowPwd)) {
+			return employeeDao.pwdCheck(usersId);
+		}
+		return "FALSE";
 	}
 
 }

@@ -121,7 +121,7 @@ p {
 }
 
 .modal-lg {
-	top: 18.5%;
+	top: 14.5%;
 	max-width: 480px;
 }
 
@@ -391,10 +391,11 @@ p {
 	margin: 5px;
     font-weight: bold;
     font-size: 18px;
+    color: white;
 }
 
 .modelHead {
-	background: palegoldenrod;
+	background: tan;
     height: 30px;
     border-radius: 0.3rem;
 }
@@ -446,4 +447,17 @@ p {
 	float: left;
     width: 80px;
     margin-bottom: 10px;
+}
+
+.top10 {
+    margin-top: 10px;
+}
+
+.botton10 {
+	margin-bottom: 10px;	
+}
+
+.topBotton5 {
+	margin-bottom: 5px;
+    margin-top: 5px;
 }

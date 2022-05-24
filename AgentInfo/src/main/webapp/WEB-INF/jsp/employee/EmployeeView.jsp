@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 750px;">
+<div class="modal-body" style="width: 100%; height: 800px;">
 	<form id="modalForm" name="form" method ="post"> 
 		<input type="hidden" id="departmentFullPath" name="departmentFullPath" class="form-control" value="${employee.departmentFullPath}">
 		<c:choose>
@@ -104,7 +104,11 @@
 						<option value="ENGINEER">엔지니어</option>
 					</select>
 		         </div>
-		         
+		         <div class="pading5">
+		         	<label class="labelFontSize">다음로그인시 암호변경</label><br>
+		         	<input type="radio" id="pwdMustChange_yes" name="pwdChangeYn" value="YES" checked>&nbsp<label for="pwdMustChange_yes" style="margin-right: 45px;">YES</label>
+		         	<input type="radio" id="pwdMustChange_no" name="pwdChangeYn" value="NO">&nbsp<label for="pwdMustChange_no">NO</label>
+		        </div>
 		    </c:when>
 			<c:when test="${viewType eq 'update'}">
 				<div class="pading5">
@@ -146,6 +150,11 @@
 						<option value="ENGINEER" <c:if test="${employee.usersRole eq 'ENGINEER'}">selected</c:if>>엔지니어</option>
 					</select>
 		         </div>
+		         <div class="pading5">
+		         	<label class="labelFontSize">다음로그인시 암호변경</label><br>
+		         	<input type="radio" id="pwdMustChange_yes" name="pwdChangeYn" value="YES" <c:if test="${employee.pwdChangeYn eq 'YES'}">checked</c:if>>&nbsp<label for="pwdMustChange_yes" style="margin-right: 45px;">YES</label>
+		         	<input type="radio" id="pwdMustChange_no" name="pwdChangeYn" value="NO" <c:if test="${employee.pwdChangeYn eq 'NO'}">checked</c:if>>&nbsp<label for="pwdMustChange_no">NO</label>
+		        </div>
 			</c:when>
 		</c:choose>
 	</form>
@@ -176,13 +185,11 @@
     			title: '실패!',           
     			text: '패스워드가 일치 하지 않습니다.',    
     		}); 
-			$('#NotUsersPw').hide();
-			$('#NotEmployeeId').hide();
-			$('#NotEmployeeName').hide();
+			$('.colorRed').hide();
 			$('#Inconsistency').show();	
-			$('#duplicateCheck').hide();
 		} else {
 			var postData = $('#modalForm').serializeObject();
+			console.log(postData);
 			$.ajax({
 				url: "<c:url value='/employee/insert'/>",
 	            type: 'post',
@@ -190,33 +197,24 @@
 	            async: false,
 	            success: function(result) {
 	            	if(result.result == "NotEmployeeId") { // 사원 번호 미 입력 알림.
-						$('#NotUsersPw').hide();
+	            		$('.colorRed').hide();
 						$('#NotEmployeeId').show();
-						$('#NotEmployeeName').hide();
-						$('#Inconsistency').hide();	
-						$('#duplicateCheck').hide();
 	            		true;
 					} else if (result.result != "NotEmployeeId"){
 						$('#NotEmployeeId').hide();
 					} 
 					
 	            	if(result.result == "NotEmployeeName") { // 사원 이름 미 입력 알림.
-						$('#NotUsersPw').hide();
-						$('#NotEmployeeId').hide();
+	            		$('.colorRed').hide();
 						$('#NotEmployeeName').show();
-						$('#Inconsistency').hide();	
-						$('#duplicateCheck').hide();
 						true;
 					} else {
 						$('#NotEmployeeName').hide();
 					}
 	            	
 	            	if(result.result == "NotUsersPw") { // 패스워드 미 입력 알림.
+	            		$('.colorRed').hide();
 	            		$('#NotUsersPw').show();
-						$('#NotEmployeeId').hide();
-						$('#NotEmployeeName').hide();
-						$('#Inconsistency').hide();	
-						$('#duplicateCheck').hide();
 						true;
 					} else {
 						$('#NotUsersPw').hide();
@@ -238,10 +236,7 @@
 							title: '실패!',
 							text: '동일한 사원 번호가 존재합니다.',
 						});
-						$('#NotUsersPw').hide();
-						$('#NotEmployeeId').hide();
-						$('#NotEmployeeName').hide();
-						$('#Inconsistency').hide();	
+						$('.colorRed').hide();
 						$('#duplicateCheck').show();
 					} else {
 						Swal.fire({

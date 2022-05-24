@@ -146,7 +146,7 @@
 												<td style="padding:0px 0px 0px 0px;" class="box">
 													<table style="width:100%">
 													<tbody><tr>
-														<td style="font-weight:bold;">패키지 관리 :
+														<td style="font-weight:bold;">고객사 관리 :
 															<sec:authorize access="hasAnyRole('ENGINEER','ADMIN')">
 																<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
@@ -181,7 +181,7 @@
 </body>
 
 <script>
-	/* =========== 패키지 추가 Modal ========= */
+	/* =========== 고객사 추가 Modal ========= */
 	$('#BtnInsert').click(function() {
 		$.ajax({
 		    type: 'POST',
@@ -265,7 +265,7 @@
 		tableRefresh();
 	});
 	
-	/* =========== 패키지 삭제 ========= */
+	/* =========== 고객사 삭제 ========= */
 	$('#BtnDelect').click(function() {
 		var chkList = $("#list").getGridParam('selarrrow');
 		if(chkList == 0) {
@@ -277,7 +277,7 @@
 		} else {
 			Swal.fire({
 				  title: '삭제!',
-				  text: "선택한 패키지를 삭제하시겠습니까?",
+				  text: "선택한 고객사를 삭제하시겠습니까?",
 				  icon: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#7066e0',
@@ -316,7 +316,7 @@
 		}
 	});
 	
-	/* =========== 패키지 수정 Modal ========= */
+	/* =========== 고객사 수정 Modal ========= */
 	function updateView(data) {
 		<sec:authorize access="hasRole('ADMIN')">
 			$.ajax({

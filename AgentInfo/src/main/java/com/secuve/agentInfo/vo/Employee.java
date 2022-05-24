@@ -34,5 +34,6 @@ public class Employee {
 	
 	private String usersRole;					// 사용자 역할 ex) 사용자, 관리자, 일반사용자
 	private String usersPw;						// 사용자 패스워드
+	private String pwdChangeYn;					// 패스워드 변경 유무
 }
 
