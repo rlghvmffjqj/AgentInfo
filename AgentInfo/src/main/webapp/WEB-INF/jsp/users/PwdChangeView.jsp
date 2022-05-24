@@ -9,14 +9,14 @@
 		<tbody>
 			<tr>
 				<td>기존 암호 : </td>
-				<td><input type="password" id="oldPwd" name="oldPwd" class="form-control" required></td>
+				<td style="width:100%"><input type="password" id="oldPwd" name="oldPwd" class="form-control" required></td>
 			</tr>
 			<tr>
 				<td><span class="colorRed fontSize10" id="NotOldPwd" style="display: none">기존 암호를 입력해주세요.</span></td>
 				<td><span class="colorRed fontSize10" id="NotPassword" style="display: none">기존암호가 일치하지 않습니다.</span></td>
 			</tr>
 			<tr>
-				<td colspan='2'><span class="topBotton5">=============================</span></td>
+				<td colspan='2'><span class="topBotton5">----------------------------------------------------------------------------</span></td>
 			</tr>
 			<tr>
 				<td>새암호 : </td>

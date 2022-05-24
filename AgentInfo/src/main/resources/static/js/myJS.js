@@ -6,10 +6,11 @@ $.modal = function (modalContent, size) {
     html += '<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
     html += '	<div class="modal-dialog';
     if(size=='l')  html += ' modal-lg';
-    if(size=='ll')  html += ' modal-ll';
     if(size=='ls')  html += ' modal-ls';
+    if(size=='ll')  html += ' modal-ll';
     if(size=='s')  html += ' modal-sm';
     if(size=='ss')  html += ' modal-ss';
+    if(size=='sr')  html += ' modal-sr';
     if(size=='sl')  html += ' modal-sl';
     if(size=='r') html += ' modal-r';
     html += '" role="document">';
