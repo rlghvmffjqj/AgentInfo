@@ -60,6 +60,9 @@ public class UsersService implements UserDetailsService{
 	}
 
 	public String updateUsersPwd(String oldPwd, String changePwd, String confirmPwd, String usersId) {
+		if(oldPwd == null && changePwd == null && confirmPwd == null) { // 암호 변경 후 로그인 시 최근 접속 경로를 한번 경유하는 걸로 예상 에러 컴파일 제거 용도로 추가
+			return "login";
+		}
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String nowPwd = employeeDao.getUsersPw(usersId);
 		if(oldPwd.length() <= 0) {

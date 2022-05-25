@@ -61,7 +61,6 @@
 				},
 			async: false,
 			success: function(data) {
-				console.log(data);
 				if(data == "OK"){
 					Swal.fire({
 						icon: 'success',
@@ -86,6 +85,8 @@
 					});
 					$('.colorRed').hide();
 					$('#PwdMisMatch').show();
+				} else if(data == "login") {
+					
 				} else {
 					if(data == "NotOldPwd") {
 						$('.colorRed').hide();

@@ -39,7 +39,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                     <form class="md-float-material form-material" id="form" method="post" >
+                     <form class="md-float-material form-material" id="form" method="post" action="<c:url value='/login'/>" >
                          <div class="text-center">
                              <img src="<c:url value='/images/logo.png' />" alt="logo.png">
                          </div>
@@ -127,7 +127,7 @@
 						title: '실패!',
 						text: '아이디 패스워드가 일치하지 않습니다.',
 					});
-                } else {
+                } else if(data == "NO"){
                 	$("form").submit();
                 }
             },

@@ -125,7 +125,8 @@ public class UsersController {
 	@ResponseBody
 	@PostMapping(value = "/users/pwdCheck")
 	public String PwdCheck(String usersId, String usersPw) {
-		return usersService.loginIdPwd(usersId, usersPw);
+		String result = usersService.loginIdPwd(usersId, usersPw); 
+		return result;
 	}
 	
 	/**
