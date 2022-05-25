@@ -87,6 +87,12 @@
 					$('#PwdMisMatch').show();
 				} else if(data == "login") {
 					
+				} else if(data == "PwdMinLength") {
+					Swal.fire({
+						icon: 'info',
+						title: '확인!',
+						text: '암호 최소 길이를 8글자 이상으로 입력 바랍니다.',
+					});
 				} else {
 					if(data == "NotOldPwd") {
 						$('.colorRed').hide();

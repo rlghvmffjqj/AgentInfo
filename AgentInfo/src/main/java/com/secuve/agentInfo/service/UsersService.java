@@ -80,6 +80,9 @@ public class UsersService implements UserDetailsService{
 		if(!changePwd.equals(confirmPwd)) {
 			return "PwdMisMatch";
 		}
+		if(changePwd.length() < 8) {
+			return "PwdMinLength";
+		}
 		
 		changePwd = passwordEncoder.encode(changePwd);
 		int count = employeeDao.updateUserPwd(usersId, changePwd);
