@@ -83,6 +83,7 @@
 <script>
 	$('#sendBtn').click(function() {
 		var formData = $("#form").serializeObject();
+		console.log(formData);
 		$.ajax({
 		    type: 'post',
 		    url: "<c:url value='/requests/write'/>",
