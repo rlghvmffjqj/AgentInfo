@@ -12,8 +12,8 @@ import com.secuve.agentInfo.vo.Trash;
 public class TrashService {
 	@Autowired TrashDao trashDao;
 
-	public List<Trash> getTrashList(Trash serach) {
-		return trashDao.getTrashList(serach);
+	public List<Trash> getTrashList(Trash search) {
+		return trashDao.getTrashList(search);
 	}
 
 	public int getTrashListCount() {

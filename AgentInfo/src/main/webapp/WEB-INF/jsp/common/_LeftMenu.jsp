@@ -62,6 +62,10 @@
 			$('.releaseNotes').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'customer') {
 			$('.customer').addClass('active');
+		} else if($.cookie('name') == 'requests') {
+			$('.requests').addClass('active');
+		} else if($.cookie('name') == 'requestsWrite') {
+			$('.requestsWrite').addClass('active');
 		}
 	});
 </script>
@@ -160,7 +164,7 @@
 		         <ul class="pcoded-item pcoded-left-item">
 		             <li class="trash">
 		                 <a href="<c:url value='/trash/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-eraser"></i><b>FC</b></span>
+		                     <span class="pcoded-micon"><i class="ti-trash"></i><b>FC</b></span>
 		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">삭제 이력</span>
 		                     <span class="pcoded-mcaret"></span>
 		                 </a>
@@ -248,7 +252,26 @@
                      	</ul>
 		             </li>
 		         </ul>
+		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">request</div>
+		         <ul class="pcoded-item pcoded-left-item">
+		             <li class="requests">
+		                 <a href="<c:url value='/requests/list'/>" class="waves-effect waves-dark">
+		                     <span class="pcoded-micon"><i class="ti-view-list"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 사항</span>
+		                     <span class="pcoded-mcaret"></span>
+		                 </a>
+		             </li>
+		         </ul>
 	         </sec:authorize>
+	          <ul class="pcoded-item pcoded-left-item">
+		             <li class="requestsWrite">
+		                 <a href="<c:url value='/requestsWrite/list'/>" class="waves-effect waves-dark">
+		                     <span class="pcoded-micon"><i class="ti-write"></i><b>FC</b></span>
+		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 작성</span>
+		                     <span class="pcoded-mcaret"></span>
+		                 </a>
+		             </li>
+		         </ul>
          </div>
 
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>

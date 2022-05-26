@@ -560,6 +560,26 @@
 	        }
 	    }
 	});
+	
+	/* =========== 공지사항 Modal ========= */
+	$(function() {
+		<sec:authorize access="hasRole('ADMIN')">
+			if(!$.cookie('notice')) {
+				$.ajax({
+			        type: 'POST',
+			        url: "<c:url value='/requests/notice'/>",
+			        async: false,
+			        success: function (data) {
+			            $.modal(data, 'notice'); //modal창 호출
+			        },
+			        error: function(e) {
+			            // TODO 에러 화면
+			        }
+			    });
+			}
+		</sec:authorize>
+	});
+	
 
 </script>
 

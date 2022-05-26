@@ -86,4 +86,12 @@ public class EmployeeDao {
 		return sqlSession.delete("employee.delUsers", employeeId);
 	}
 
+	public List<String> getEmployeeId() {
+		return sqlSession.selectList("employee.getEmployeeId");
+	}
+
+	public List<String> getEmployeeName() {
+		return sqlSession.selectList("employee.getEmployeeName");
+	}
+
 }

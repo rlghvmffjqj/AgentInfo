@@ -24,9 +24,11 @@ public class EmployeeService {
 		List<Employee> list = new ArrayList<Employee>();
 		list = employeeDao.getEmployeeList(search);
 		for (Employee employee : list) {
-			if(employee.getUsersRole().equals("ADMIN"))
+			if(employee.getUsersRole().equals("ADMIN")) {
 				employee.setUsersRole("관리자");
-			else {
+			} else if(employee.getUsersRole().equals("ENGINEER")) {
+				employee.setUsersRole("엔지니어");
+			} else {
 				employee.setUsersRole("일반 사용자");
 			}
 		}
@@ -103,5 +105,13 @@ public class EmployeeService {
 				return "FALSE";
 		}
 		return "OK";
+	}
+
+	public List<String> getEmployeeId() {
+		return employeeDao.getEmployeeId();
+	}
+
+	public List<String> getEmployeeName() {
+		return employeeDao.getEmployeeName();
 	}
 }

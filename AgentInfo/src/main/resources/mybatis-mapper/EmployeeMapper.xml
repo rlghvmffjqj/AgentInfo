@@ -77,6 +77,14 @@
 		DELETE FROM users WHERE usersId = #{employeeId};
 	</delete>
 	
+	<select id="getEmployeeId" resultType="string">
+		SELECT DISTINCT employeeId FROM employee;
+	</select>
+	
+	<select id="getEmployeeName" resultType="string">
+		SELECT DISTINCT employeeName FROM employee;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

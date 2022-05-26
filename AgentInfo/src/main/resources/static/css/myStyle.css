@@ -156,6 +156,16 @@ p {
 	max-width: 960px;
 }
 
+.modal-requests {
+	top: 20%;
+    max-width: 800px;
+}
+
+.modal-notice {
+	top: 20%;
+    max-width: 600px;
+}
+
 .btn-outline-info-add{
 	margin: 1px;
 }
@@ -175,7 +185,7 @@ p {
 }
 
 .colorRed {
-	color: red;
+    color: red !important;
 }
 
 .pading5Width450{
@@ -458,11 +468,36 @@ p {
     margin-top: 10px;
 }
 
-.botton10 {
-	margin-bottom: 10px;	
-}
-
 .topBotton5 {
 	margin-bottom: 5px;
     margin-top: 5px;
+}
+
+.requestsBtn {
+	margin: 50px;
+    text-align: center;
+}
+
+.form-static-label {
+	margin-bottom: 2em;
+}
+
+.noticeHeader {
+	text-align: center;
+    padding: 30px 15px;
+    display: block !important;
+}
+
+.margin50 {
+	margin: 50px;
+}
+
+.alignCenter {
+	text-align: center;
+}
+
+.cnt {
+	font-size: 30px;
+    color: #007bff;
+    font-weight: bold;
 }

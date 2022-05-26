@@ -10373,7 +10373,7 @@ body.menu-bottom #collapse-menu {
   width: 100%;
   border: none;
   border-radius: 0 !important;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   padding: 0;
   background-color: transparent;
@@ -10391,7 +10391,9 @@ body.menu-bottom #collapse-menu {
     top: -14px;
     font-size: 11px; }
 .form-material textarea {
-  height: 100px !important; }
+  height: 300px !important; }
+.form-material textarea .view{
+  height: 130px !important; }
 .form-material .form-bar {
   position: relative;
   display: block;
@@ -10492,9 +10494,10 @@ body.menu-bottom #collapse-menu {
 .form-material .form-default .form-control:focus ~ .form-bar:after, .form-material .form-default .form-control:focus ~ .form-bar:before {
   background: #d6d6d6; }
 .form-material .form-default.form-static-label .float-label {
-  color: #d6d6d6; }
+  color: black; }
 .form-material .form-default.form-static-label .form-control {
-  border-bottom-color: #d6d6d6; }
+  border-bottom-color: #d6d6d6;
+  opacity: 1; }
 .form-material .material-group-default .material-addone i, .form-material .material-group-default .material-addone span {
   color: #d6d6d6; }
 .form-material .form-danger .form-control:focus ~ label {

@@ -375,6 +375,7 @@
 		return '<a onclick="updateView('+"'"+rowdata.packagesKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 	}
 	
+	/* =========== 상태에 따른 이미지 부여 ========= */
 	function stateFormatter(value, options, row) {
 		var state = row.state.toUpperCase();
 		if(state == "배포완료") {

@@ -12,6 +12,9 @@ $.modal = function (modalContent, size) {
     if(size=='ss')  html += ' modal-ss';
     if(size=='sr')  html += ' modal-sr';
     if(size=='sl')  html += ' modal-sl';
+    if(size=='requests')  html += ' modal-requests';
+    if(size=='notice')  html += ' modal-notice';
+    
     if(size=='r') html += ' modal-r';
     html += '" role="document">';
     html += '		<div class="modal-content">';

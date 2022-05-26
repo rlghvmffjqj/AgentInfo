@@ -21,7 +21,7 @@
 				datatype: 'json',
 				colNames:['Key','고객사 명','사업명','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','사용자','시간'],
 				colModel:[
-					{name:'trashKeyNum', index:'trashKeyNum', align:'center', width: 25, hidden:true },
+					{name:'trashKeyNum', index:'trashKeyNum', align:'center', width: 40, hidden:true },
 					{name:'trashCustomerName', index:'trashCustomerName', align:'center', width: 200},
 					{name:'trashBusinessName', index:'trashBusinessName', align:'center', width: 180},
 					{name:'trashRequestDate', index:'trashRequestDate', align:'center', width: 70},
@@ -103,29 +103,32 @@
                             <div class="main-body">
                                 <div class="page-wrapper">
 		                           	<table style="width:99%;">
-										<tbody><tr>
-											<td style="padding:0px 0px 0px 0px;" class="box">
-												<table style="width:100%">
-												<tbody><tr>
-													<td style="font-weight:bold;">삭제 이력 관리 :
-														<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'trashList');">컬럼 선택</button>
-													</td>
-												</tr>
-												<tr>
-													<td class="border1" colspan="2">
-														<!------- Grid ------->
-														<div class="jqGrid_wrapper">
-															<table id="list"></table>
-															<div id="pager"></div>
-														</div>
-														<!------- Grid ------->
-													</td>
-												</tr>
-												</tbody>
-											</table>
-										</td>
-									</tbody>
-								</table>
+										<tbody>
+											<tr>
+												<td style="padding:0px 0px 0px 0px;" class="box">
+													<table style="width:100%">
+														<tbody>
+															<tr>
+																<td style="font-weight:bold;">삭제 이력 관리 :
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'trashList');">컬럼 선택</button>
+																</td>
+															</tr>
+															<tr>
+																<td class="border1" colspan="2">
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper">
+																		<table id="list"></table>
+																		<div id="pager"></div>
+																	</div>
+																	<!------- Grid ------->
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
                                 </div>
                             </div>
                         </div>
