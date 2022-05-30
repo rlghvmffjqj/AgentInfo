@@ -54,7 +54,7 @@ public class RequestsController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/requests/write")
+	@PostMapping(value = "/requestsWrite/write")
 	public String InsertRequests(Requests requests, Principal principal) {
 		requests.setEmployeeId(principal.getName());
 		requests.setRequestsRegistrant(principal.getName());

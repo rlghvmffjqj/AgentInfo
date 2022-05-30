@@ -86,7 +86,7 @@
 		console.log(formData);
 		$.ajax({
 		    type: 'post',
-		    url: "<c:url value='/requests/write'/>",
+		    url: "<c:url value='/requestsWrite/write'/>",
 		    data: formData,
 		    async: false,
 		    success: function (data) {
