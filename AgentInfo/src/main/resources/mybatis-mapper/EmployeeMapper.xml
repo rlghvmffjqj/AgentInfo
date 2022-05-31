@@ -114,6 +114,9 @@
 			<if test="employeeStatus != null and employeeStatus != ''">
 				AND e.employeeStatus LIKE CONCAT('%',#{employeeStatus},'%')
 			</if>
+			<if test="employeePhone != null and employeePhone != ''">
+				AND e.employeePhone LIKE CONCAT('%',#{employeePhone},'%')
+			</if>
 			<if test="departmentName != null and departmentName != ''">
 				AND e.departmentName = #{departmentName}
 			</if>
