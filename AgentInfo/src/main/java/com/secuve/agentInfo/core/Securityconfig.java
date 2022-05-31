@@ -19,6 +19,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		
 		// 접속 권한
 		http.authorizeRequests()
+			.antMatchers("/employee/loginSession").hasAnyRole("ADMIN","MEMBER","ENGINEER")
 			.antMatchers("/employee/**").hasAnyRole("ADMIN")
 			.antMatchers("/department/**").hasAnyRole("ADMIN")
 			.antMatchers("/category/**").hasAnyRole("ADMIN")

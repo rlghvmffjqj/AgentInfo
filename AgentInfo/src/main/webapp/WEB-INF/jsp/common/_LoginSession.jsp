@@ -5,8 +5,25 @@
 
 
 <script>
+	/* =========== config.yml에 등록한 세션 유효 시간(분) ========= */
+	var loginSession = ${sessionTimeOut};
+	
 	$(function() {
-		loginSession = ${sessionTimeOut};
+		/* =========== 세션 검사주기 체크 ========= */
+		setTimerSessionTimeoutCheck();
+	});
+	
+	/* =========== 세션 검사 주기 ========= */
+	function setTimerSessionTimeoutCheck()
+	{
+		// 검사주기 범위 [1~60]분, 0 이면 세션타임아웃 사용안함.
+		if ( loginSession > 0 && loginSession <= 60 ) {
+			setTimeout("sessionTimeoutCheck()", 10*60*1000); // 10분에 한번씩 체크
+		}
+	}
+	
+	/* =========== 검사주기 시간이 초과할 경우 실행 ========= */
+	function sessionTimeoutCheck() {
 		$.ajax({
 			url: "<c:url value='/employee/loginSession'/>",
             type: 'post',
@@ -21,11 +38,13 @@
 					}).then((result) => {
 						location.href="<c:url value='/logout' />";
 					});
+				} else {
+					setTimerSessionTimeoutCheck();
 				}
 			},
 			error: function(error) {
 				console.log(error);
 			}
         });
-	});
+	}
 </script>
