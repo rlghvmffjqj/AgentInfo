@@ -53,15 +53,6 @@ public class UsersController {
 	}
 	
 	/**
-	 * 로그인 실패
-	 * @return
-	 */
-	@GetMapping("/failPage")
-	public String failView() {
-		return "FailPage";
-	}
-		
-	/**
 	 * 일반 사용자 정보
 	 * @return
 	 */

@@ -10,7 +10,7 @@
 <body>
 <div class="error-404">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" style="text-align: center; display: inline;">
             <div class="text-uppercase col-xs-12">
                 <h1>접근 거부</h1>
                 <h5>No Access</h5>
