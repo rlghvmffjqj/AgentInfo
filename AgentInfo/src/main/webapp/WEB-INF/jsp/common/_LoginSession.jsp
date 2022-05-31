@@ -3,7 +3,6 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <spring:eval var="sessionTimeOut" expression="@environment.getProperty('sessionTimeOut')" />
 
-
 <script>
 	/* =========== config.yml에 등록한 세션 유효 시간(분) ========= */
 	var loginSession = ${sessionTimeOut};

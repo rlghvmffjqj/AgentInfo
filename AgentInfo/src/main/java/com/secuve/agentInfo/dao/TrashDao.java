@@ -28,5 +28,4 @@ public class TrashDao {
 	public void insertTrash(Trash trash) {
 		sqlSession.insert("trash.insertTrash", trash);		
 	}
-
 }

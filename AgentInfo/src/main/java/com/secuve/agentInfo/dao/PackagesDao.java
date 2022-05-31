@@ -86,5 +86,4 @@ public class PackagesDao {
 		
 		return sqlSession.update("packages.stateChange", parameters);
 	}
-
 }

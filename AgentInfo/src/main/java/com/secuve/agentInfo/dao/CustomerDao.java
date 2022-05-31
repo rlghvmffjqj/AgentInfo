@@ -39,5 +39,4 @@ public class CustomerDao {
 	public int updateCustomer(Customer customer) {
 		return sqlSession.update("customer.updateCustomer", customer);
 	}
-
 }

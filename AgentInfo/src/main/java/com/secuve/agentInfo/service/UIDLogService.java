@@ -37,5 +37,4 @@ public class UIDLogService {
 		
 		return search;
 	}
-
 }

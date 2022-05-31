@@ -36,13 +36,13 @@
 <script>
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
+	/* =========== 섬머노트 ========= */
 	$(function() {
 		$('#summernote').summernote({
 			height:200,
 			placeholder:"상태 변경 시 특이 사항입력 바랍니다.(예시: 고객사 사정으로 **년 **월 **일 까지 대기 합니다.)"
 		});
 	});
-	
 	
 	/* =========== 상태 변경 ========= */
 	function btnStateChange() {
@@ -87,4 +87,3 @@
 		});
 	}
 </script>
-	

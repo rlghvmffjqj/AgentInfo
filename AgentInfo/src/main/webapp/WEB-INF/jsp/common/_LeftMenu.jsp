@@ -70,64 +70,64 @@
 	});
 </script>
 <nav class="pcoded-navbar">
-     <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
-     <div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px);"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="background-color: lightgray; position: relative; top: 0px; left: 0px; width: 100%; height: 100%" dir="ltr">
-         <div class="height-100">
-             <div class="main-menu-header page-header height-100">
-                 <img class="img-80 img-radius mCS_img_loaded" src="/AgentInfo/images/profile.png" alt="User-Profile-Image">
-                 <div class="user-details">
-                     <span id="more-details"><sec:authentication property="name"/></span>
-                 </div>
-             </div>
-         </div>
-         <div class="box" style="overflow-y: scroll; height: 85%; background-color: lightgray;">
-	         <div class="p-15 p-b-0"></div>
-	         <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">home</div>
-	         <ul class="pcoded-item pcoded-left-item">
-	             <li class="home">
-	                 <a href="<c:url value='/index'/>" class="waves-effect waves-dark">
-	                     <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-	                     <span class="pcoded-mtext" data-i18n="nav.dash.main">Home</span>
-	                     <span class="pcoded-mcaret"></span>
-	                 </a>
-	             </li>
-	         </ul>
-	         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
-	         <ul class="pcoded-item pcoded-left-item">
-	             <li class="packages">
-	                 <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
-	                     <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
-	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
-	                     <span class="pcoded-mcaret"></span>
-	                 </a>
-	             </li>
-	         </ul>
-	         <%-- <ul class="pcoded-item pcoded-left-item">
-	             <li class="customer">
-	                 <a href="<c:url value='/customer/list'/>" class="waves-effect waves-dark">
-	                     <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
-	                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보</span>
-	                     <span class="pcoded-mcaret"></span>
-	                 </a>
-	             </li>
-	         </ul> --%>
-	         <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
-		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="releaseNotes pcoded-hasmenu">
-		                 <a href="<c:url value='/generalPackage/List'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-download"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">릴리즈 노트</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		                 <ul class="pcoded-submenu" style="display: block;">
-	                      	<li class="generalPackage">
-	                             <a href="<c:url value='/generalPackage/List'/>" class="waves-effect waves-dark">
-						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-						             <span class="pcoded-mtext">일반패키지</span>
-						             <span class="pcoded-mcaret"></span>
-						           </a>
-						     </li>
+	<div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+	<div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px);"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="background-color: lightgray; position: relative; top: 0px; left: 0px; width: 100%; height: 100%" dir="ltr">
+		<div class="height-100">
+			<div class="main-menu-header page-header height-100">
+			    <img class="img-80 img-radius mCS_img_loaded" src="/AgentInfo/images/profile.png" alt="User-Profile-Image">
+			    <div class="user-details">
+			        <span id="more-details"><sec:authentication property="name"/></span>
+			    </div>
+			</div>
+		</div>
+		<div class="box" style="overflow-y: scroll; height: 85%; background-color: lightgray;">
+		    <div class="p-15 p-b-0"></div>
+		    <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">home</div>
+		    <ul class="pcoded-item pcoded-left-item">
+		        <li class="home">
+		            <a href="<c:url value='/index'/>" class="waves-effect waves-dark">
+		                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+		                <span class="pcoded-mtext" data-i18n="nav.dash.main">Home</span>
+		                <span class="pcoded-mcaret"></span>
+		            </a>
+		        </li>
+		    </ul>
+		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
+		    <ul class="pcoded-item pcoded-left-item">
+		        <li class="packages">
+		            <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
+		                <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
+		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
+		                <span class="pcoded-mcaret"></span>
+		            </a>
+		        </li>
+		    </ul>
+		    <%-- <ul class="pcoded-item pcoded-left-item">
+		        <li class="customer">
+		            <a href="<c:url value='/customer/list'/>" class="waves-effect waves-dark">
+		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
+		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보</span>
+		                <span class="pcoded-mcaret"></span>
+		            </a>
+		        </li>
+		    </ul> --%>
+		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
+		        <ul class="pcoded-item pcoded-left-item">
+					<li class="releaseNotes pcoded-hasmenu">
+						<a href="<c:url value='/generalPackage/List'/>" class="waves-effect waves-dark">
+		                    <span class="pcoded-micon"><i class="ti-download"></i><b>FC</b></span>
+		                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">릴리즈 노트</span>
+		                    <span class="pcoded-mcaret"></span>
+		                </a>
+		                <ul class="pcoded-submenu" style="display: block;">
+		                 	<li class="generalPackage">
+								<a href="<c:url value='/generalPackage/List'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">일반패키지</span>
+									<span class="pcoded-mcaret"></span>
+								</a>
+					     	</li>
 						     <li class="customPackage">
 						           <a href="<c:url value='/customPackage/List'/>" class="waves-effect waves-dark">
 						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -135,52 +135,52 @@
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						     </li>
-						  </ul>
-		             </li>
-		         </ul>
-	         </sec:authorize>
-			 <sec:authorize access="hasRole('ADMIN')">
-			 	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="log">
-		                 <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">로그 정보</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="employee">
-		                 <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-user"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">trash</div>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="trash">
-		                 <a href="<c:url value='/trash/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-trash"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">삭제 이력</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		             </li>
-		         </ul>
-		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="categroy pcoded-hasmenu">
-		                 <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-view-grid"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">카테고리</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		                 <ul class="pcoded-submenu" style="display: block;">
-                         	<li class="customerName">
-                                <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
+					  	</ul>
+		            </li>
+		        </ul>
+		    </sec:authorize>
+			<sec:authorize access="hasRole('ADMIN')">
+		 		<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
+			        <ul class="pcoded-item pcoded-left-item">
+			            <li class="log">
+			                <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
+			                    <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+			                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">로그 정보</span>
+			                    <span class="pcoded-mcaret"></span>
+			                </a>
+			            </li>
+			        </ul>
+		        	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
+		        	<ul class="pcoded-item pcoded-left-item">
+			            <li class="employee">
+			                <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
+			                    <span class="pcoded-micon"><i class="ti-user"></i><b>FC</b></span>
+			                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
+			                    <span class="pcoded-mcaret"></span>
+			                </a>
+			            </li>
+		        	</ul>
+			        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">trash</div>
+			        <ul class="pcoded-item pcoded-left-item">
+			            <li class="trash">
+			                <a href="<c:url value='/trash/list'/>" class="waves-effect waves-dark">
+			                    <span class="pcoded-micon"><i class="ti-trash"></i><b>FC</b></span>
+			                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">삭제 이력</span>
+			                    <span class="pcoded-mcaret"></span>
+			                </a>
+			            </li>
+			        </ul>
+			        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
+			        <ul class="pcoded-item pcoded-left-item">
+			            <li class="categroy pcoded-hasmenu">
+			                <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
+			                    <span class="pcoded-micon"><i class="ti-view-grid"></i><b>FC</b></span>
+			                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">카테고리</span>
+			                    <span class="pcoded-mcaret"></span>
+			                </a>
+			                <ul class="pcoded-submenu" style="display: block;">
+			                	<li class="customerName">
+			                       <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-angle-right"></i><b>FC</b></span>
 					                <span class="pcoded-mtext">고객사명</span>
 					                <span class="pcoded-mcaret"></span>
@@ -249,30 +249,29 @@
 					                <span class="pcoded-mcaret"></span>
 					              </a>
 					    	</li>
-                     	</ul>
-		             </li>
-		         </ul>
-		         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">request</div>
-		         <ul class="pcoded-item pcoded-left-item">
-		             <li class="requests">
-		                 <a href="<c:url value='/requests/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-view-list"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 사항</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		             </li>
-		         </ul>
-	         </sec:authorize>
-	          <ul class="pcoded-item pcoded-left-item">
-		             <li class="requestsWrite">
-		                 <a href="<c:url value='/requestsWrite/list'/>" class="waves-effect waves-dark">
-		                     <span class="pcoded-micon"><i class="ti-write"></i><b>FC</b></span>
-		                     <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 작성</span>
-		                     <span class="pcoded-mcaret"></span>
-		                 </a>
-		             </li>
-		         </ul>
-         </div>
-
+			            	</ul>
+			            </li>
+			        </ul>
+			        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">request</div>
+			        <ul class="pcoded-item pcoded-left-item">
+			            <li class="requests">
+			                <a href="<c:url value='/requests/list'/>" class="waves-effect waves-dark">
+			                    <span class="pcoded-micon"><i class="ti-view-list"></i><b>FC</b></span>
+			                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 사항</span>
+			                    <span class="pcoded-mcaret"></span>
+			                </a>
+			            </li>
+			        </ul>
+		    	</sec:authorize>
+		     	<ul class="pcoded-item pcoded-left-item">
+		            <li class="requestsWrite">
+		                <a href="<c:url value='/requestsWrite/list'/>" class="waves-effect waves-dark">
+		                    <span class="pcoded-micon"><i class="ti-write"></i><b>FC</b></span>
+		                    <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 작성</span>
+		                    <span class="pcoded-mcaret"></span>
+		                </a>
+		            </li>
+		        </ul>
+			</div>
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
  </nav>

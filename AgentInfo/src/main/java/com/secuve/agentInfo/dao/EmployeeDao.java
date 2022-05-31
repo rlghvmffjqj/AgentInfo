@@ -104,5 +104,4 @@ public class EmployeeDao {
 	public String loginSession(String employeeId) {
 		return sqlSession.selectOne("employee.loginSession",employeeId);
 	}
-
 }

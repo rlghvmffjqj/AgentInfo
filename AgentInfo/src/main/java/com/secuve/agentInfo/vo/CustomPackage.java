@@ -47,4 +47,3 @@ public class CustomPackage {
 	private String sidx="customerName";		// 정렬할 기준 데이터
 	private String sord;
 }
-

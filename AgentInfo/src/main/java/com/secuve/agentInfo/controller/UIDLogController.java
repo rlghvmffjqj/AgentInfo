@@ -19,7 +19,6 @@ import com.secuve.agentInfo.vo.UIDLog;
 
 @Controller
 public class UIDLogController {
-	
 	@Autowired UIDLogService uidLogService;
 	@Autowired CategoryService categoryService;
 	

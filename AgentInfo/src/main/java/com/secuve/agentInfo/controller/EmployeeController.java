@@ -19,11 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.vo.Employee;
 
-
-
 @Controller
 public class EmployeeController {
-	
 	@Autowired EmployeeService employeeService;
 	@Autowired Employee employee;
 	
@@ -141,6 +138,12 @@ public class EmployeeController {
 		return employeeService.updateDepartmentMove(chkList, employee);
 	}
 	
+	/**
+	 * 로그인 세션 만료 조회
+	 * @param loginSession
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/employee/loginSession")
 	public String loginSession(@RequestParam int loginSession, Principal principal) {

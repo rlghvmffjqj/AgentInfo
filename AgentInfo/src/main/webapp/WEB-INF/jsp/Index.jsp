@@ -4,7 +4,6 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
 <head>
 	<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-    <title>Mega Able bootstrap admin template by codedthemes </title>
     <script>
 	    $(function() {
 	    	$.cookie('name','home');

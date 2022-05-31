@@ -123,8 +123,6 @@ public class Str {
 				boolRtn = false;
 			}
 		}
-	
 		return boolRtn;
 	}
-
 }

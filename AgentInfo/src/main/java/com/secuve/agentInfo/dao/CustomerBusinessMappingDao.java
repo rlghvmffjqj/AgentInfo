@@ -24,5 +24,4 @@ public class CustomerBusinessMappingDao {
 		parameters.put("businessName", businessName);
 		return sqlSession.selectOne("customerBusinessMapping.getBusinessCount", parameters);
 	}
-
 }

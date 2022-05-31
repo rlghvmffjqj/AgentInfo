@@ -280,6 +280,4 @@ public class GeneralPackageController {
 			return "nonExistence";
 		}
 	}
-	
-	
 }

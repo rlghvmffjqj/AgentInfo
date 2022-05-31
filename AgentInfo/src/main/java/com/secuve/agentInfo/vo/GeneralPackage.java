@@ -38,5 +38,4 @@ public class GeneralPackage {
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="managementServer";		// 정렬할 기준 데이터
 	private String sord;
-	
 }

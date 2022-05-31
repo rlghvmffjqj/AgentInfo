@@ -142,5 +142,4 @@ public class UsersController {
 	public String PwdChange(String oldPwd, String changePwd, String confirmPwd, String usersId) {
 		return usersService.updateUsersPwd(oldPwd, changePwd, confirmPwd, usersId);
 	}
-
 }

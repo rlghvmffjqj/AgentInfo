@@ -32,7 +32,6 @@ import com.secuve.agentInfo.vo.Packages;
 
 @Controller
 public class PackagesController {
-
 	@Autowired PackagesService packagesService;
 	@Autowired CategoryService categoryService;
 
@@ -453,5 +452,4 @@ public class PackagesController {
 		map.put("result", result);
 		return map;
 	}
-
 }

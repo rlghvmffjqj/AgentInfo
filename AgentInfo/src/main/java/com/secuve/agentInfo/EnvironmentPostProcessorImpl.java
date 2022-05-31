@@ -39,7 +39,4 @@ public class EnvironmentPostProcessorImpl implements EnvironmentPostProcessor {
 					"Failed to load yaml configuration from " + path, ex);
 		}
 	}
-	
-	
-
 }

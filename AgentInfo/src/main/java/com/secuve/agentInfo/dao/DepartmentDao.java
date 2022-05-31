@@ -49,6 +49,4 @@ public class DepartmentDao {
 		parameters.put("departmentName", departmentName);
 		return sqlSession.insert("department.updateDept", parameters);
 	}
-
-
 }

@@ -122,5 +122,4 @@ public class CustomerService {
 			categoryService.setCategory("businessName", customer.getBusinessNameView(), principal.getName(), nowDate());
 		}
 	}
-
 }

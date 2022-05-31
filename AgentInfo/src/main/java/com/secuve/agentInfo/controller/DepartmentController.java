@@ -102,5 +102,4 @@ public class DepartmentController {
 	public String DepartmentMoveView() {
 		return "/department/DepartmentMoveView";
 	}
-	
 }

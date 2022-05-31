@@ -50,7 +50,6 @@
 		var confirmPwd = $('#confirmPwd').val();
 		var usersId = $('#usersId').val();
 		
-		
 		$.ajax({
 			url: "<c:url value='/users/pwdChange'/>",
 			type: "POST",
@@ -127,4 +126,3 @@
 		}
 	});
 </script>
-	

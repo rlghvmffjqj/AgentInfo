@@ -97,7 +97,4 @@ public class CategoryService {
     	category.setCategoryRegistrationDate(categoryRegistrationDate);
     	categoryDao.insertCategory(category);
 	}
-
-	
-
 }

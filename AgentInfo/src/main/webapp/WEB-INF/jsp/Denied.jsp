@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8" />
 <%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-<title>denied</title>
+<title>접근 거부</title>
 </head>
 <body>
 <div class="error-404">

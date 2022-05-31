@@ -382,7 +382,6 @@
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-    
 </div>
 
 <script>
@@ -630,6 +629,7 @@
 			}
 		}
 	}
+	
 	/* =========== 고객사명 Select Box 선택 ========= */
 	$("#customerNameView").change(function() {
 		$("#businessNameView").empty();
@@ -653,4 +653,3 @@
 	    });
 	});
 </script>
-

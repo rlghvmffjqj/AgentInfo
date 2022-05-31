@@ -37,4 +37,3 @@ public class Employee {
 	private String usersPw;						// 사용자 패스워드
 	private String pwdChangeYn;					// 패스워드 변경 유무
 }
-

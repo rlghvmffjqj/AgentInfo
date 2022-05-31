@@ -19,5 +19,4 @@ public class TrashService {
 	public int getTrashListCount() {
 		return trashDao.getTrashListCount();
 	}
-
 }

@@ -43,5 +43,4 @@ public class CustomPackageDao {
 	public String BatchDownload(int customPackageKeyNum) {
 		return sqlSession.selectOne("customPackage.batchDownload", customPackageKeyNum);
 	}
-
 }

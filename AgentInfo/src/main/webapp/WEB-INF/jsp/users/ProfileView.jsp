@@ -45,4 +45,3 @@
 <div class="modal-footer">
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 </div>
-

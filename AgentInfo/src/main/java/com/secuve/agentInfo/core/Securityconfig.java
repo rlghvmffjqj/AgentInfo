@@ -65,5 +65,4 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 	public BCryptPasswordEncoder bCryptPasswordEncoder() { 
 		return new BCryptPasswordEncoder(); 
 	}
-	
 }

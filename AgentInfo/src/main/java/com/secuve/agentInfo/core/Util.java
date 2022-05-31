@@ -86,7 +86,6 @@ public class Util {
 	}
 
 	public static void exportExcelFile(HttpServletResponse response, String filename, List<Object> list, String[] columns, String[] headers) throws Exception {
-		
 		if ( list.size() > MAX_EXPORT_ROWS ) {
 			System.out.println("Max number of rows exceeded. ["+MAX_EXPORT_ROWS+"]");
 			return;
@@ -104,7 +103,6 @@ public class Util {
 	}
 
 	private static boolean writeExcelFileFromObject(String filepath, List<Object> list, String[] columns, String[] headers) {
-
 		HSSFWorkbook wb = new HSSFWorkbook();
 		Sheet sheet1 = wb.createSheet("sheet1");
 
@@ -298,10 +296,4 @@ public class Util {
 	private static String getXssFromat() {
 		return "<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>";
 	}
-
-
 }
-
-
-
-

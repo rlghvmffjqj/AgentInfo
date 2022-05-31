@@ -26,7 +26,6 @@
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-    
 </div>
 
 <script>
@@ -75,7 +74,7 @@
 			error: function(error) {
 				console.log(error);
 			}
-	       });
+	    });
 	});
 	
 	/* =========== 카테고리 수정 ========= */
@@ -124,4 +123,3 @@
         });
 	});
 </script>
-	

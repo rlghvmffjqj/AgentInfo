@@ -22,7 +22,6 @@ import com.secuve.agentInfo.vo.Category;
 
 @Controller
 public class CategoryController {
-	
 	@Autowired CategoryService categoryService;
 	
 	/**
@@ -255,5 +254,4 @@ public class CategoryController {
 		map.put("result", result);
 		return map;
 	}
-
 }

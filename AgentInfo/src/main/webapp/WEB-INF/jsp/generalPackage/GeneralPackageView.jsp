@@ -135,21 +135,6 @@
 <script>
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
-	function test() {
-		Swal.fire({
-			  title: '덮어쓰기!',
-			  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#7066e0',
-			  cancelButtonColor: '#FF99AB',
-			  confirmButtonText: '예'
-		}).then((result) => {
-			if (result.isConfirmed) {
-			}
-		});
-	}
-	
 	/* =========== 일반 패키지 추가 ========= */
 	$('#insertBtn').click(function() {
 		var releaseNotesView = $('#releaseNotesView')[0];
@@ -414,6 +399,4 @@
 			}
 		}
 	}
-	
 </script>
-	

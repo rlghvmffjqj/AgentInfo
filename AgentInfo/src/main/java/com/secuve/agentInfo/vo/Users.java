@@ -33,5 +33,4 @@ public class Users implements Serializable{
 	private String usersRole;				// 역할 ex) 일반사용자, 관리자, 사용자
 	@Column(name = "pwdchangeyn")
 	private String pwdChangeYn;				// 패스워드 변경 유무
-	
 }

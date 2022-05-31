@@ -10,7 +10,6 @@ import com.secuve.agentInfo.dao.DepartmentDao;
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.vo.Department;
 
-
 @Service
 public class DepartmentService {
 	@Autowired DepartmentDao departmentDao;
@@ -105,6 +104,4 @@ public class DepartmentService {
 		}
 		return "FAIL";
 	}
-
-	
 }

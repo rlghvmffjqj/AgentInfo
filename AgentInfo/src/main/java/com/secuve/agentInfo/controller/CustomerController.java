@@ -23,6 +23,11 @@ public class CustomerController {
 	@Autowired CustomerService customerService;
 	@Autowired CategoryService categoryService;
 	
+	/**
+	 * 고객사 리스트 페이지 이동
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/customer/list")
 	public String CustomerList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -34,6 +39,11 @@ public class CustomerController {
 		return "customer/CustomerList";
 	}
 	
+	/**
+	 * 고객사 데이터 조회 및 검색
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customer")
 	public Map<String, Object> Customer(Customer search) {
@@ -48,6 +58,12 @@ public class CustomerController {
 		return map;
 	}
 	
+	/**
+	 * 고객사 추가 Modal
+	 * @param model
+	 * @param customer
+	 * @return
+	 */
 	@PostMapping(value = "/customer/insertView")
 	public String InsertCustomerView(Model model, Customer customer) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -57,6 +73,12 @@ public class CustomerController {
 		return "/customer/CustomerView";
 	}
 	
+	/**
+	 * 고객사 추가
+	 * @param customer
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customer/insert")
 	public Map<String, String> InsertCustomer(Customer customer, Principal principal) {
@@ -69,12 +91,24 @@ public class CustomerController {
 		return map;
 	}
 	
+	/**
+	 * 고객사 삭제
+	 * @param chkList
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customer/delete")
 	public String CustomerDelete(@RequestParam int[] chkList, Principal principal) {
 		return customerService.delCustomer(chkList, principal);
 	}
 	
+	/**
+	 * 고객사 수정 Modal
+	 * @param model
+	 * @param customerKeyNum
+	 * @return
+	 */
 	@PostMapping(value = "/customer/updateView")
 	public String UpdateCustomerView(Model model, int customerKeyNum) {
 		Customer customer = customerService.getCustomerOne(customerKeyNum);
@@ -88,6 +122,12 @@ public class CustomerController {
 		return "/customer/CustomerView";
 	}
 	
+	/**
+	 * 고객사 수정
+	 * @param customer
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customer/update")
 	public Map<String, String> UpdateEmployee(Customer customer, Principal principal) {
@@ -99,7 +139,4 @@ public class CustomerController {
 		map.put("result", result);
 		return map;
 	}
-	
-	
-
 }

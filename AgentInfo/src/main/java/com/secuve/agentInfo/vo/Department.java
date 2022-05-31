@@ -18,5 +18,4 @@ public class Department {
 	private String newDepartmentFullPath;
 	private String newDepartmentParentPath;
 	private String newDepartmentName;
-	
 }

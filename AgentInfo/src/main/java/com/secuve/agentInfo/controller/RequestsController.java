@@ -24,6 +24,11 @@ public class RequestsController {
 	@Autowired RequestsService requestsService;
 	@Autowired EmployeeService employeeService;
 	
+	/**
+	 * 요청 사항 리스트 이동
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/requests/list")
 	public String ReqestsList(Model model) {
 		List<String> employeeId = employeeService.getEmployeeId();
@@ -34,6 +39,11 @@ public class RequestsController {
 		return "requests/RequestsList";
 	}
 	
+	/**
+	 * 요청 사항 테이블 정보 조회 및 검색
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/requests")
 	public Map<String, Object> Requests(@ModelAttribute("search") Requests search) {
@@ -48,11 +58,21 @@ public class RequestsController {
 		return map;
 	}
 	
+	/**
+	 * 요청 페이지 이동
+	 * @return
+	 */
 	@GetMapping(value = "/requestsWrite/list")
 	public String RequestsWriteList() {
 		return "requests/RequestsWrite";
 	}
 	
+	/**
+	 * 요청서 작성
+	 * @param requests
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/requestsWrite/write")
 	public String InsertRequests(Requests requests, Principal principal) {
@@ -64,6 +84,12 @@ public class RequestsController {
 		return requestsService.insertRequests(requests);
 	}
 	
+	/**
+	 * 요청 사항 수정 Modal
+	 * @param model
+	 * @param requestsKeyNum
+	 * @return
+	 */
 	@PostMapping(value ="/requests/updateView")
 	public String UpdateRequestsView(Model model, int requestsKeyNum) {
 		Requests requests = requestsService.getRequestsOne(requestsKeyNum);
@@ -71,6 +97,12 @@ public class RequestsController {
 		return "/requests/RequestsView";
 	}
 	
+	/**
+	 * 요청 사항 상태 수정
+	 * @param requests
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/requests/update")
 	public String UpdateEmployee(Requests requests, Principal principal) {
@@ -81,18 +113,35 @@ public class RequestsController {
 		return requestsService.updateRequests(requests, principal);
 	}
 	
+	/**
+	 * 일괄 상태 변경(확인)
+	 * @param chkList
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/requests/confirm")
 	public String RequestsConfirm(@RequestParam int[] chkList, Principal principal) {
 		return requestsService.setRequestsState(chkList, "확인", principal);
 	}
 	
+	/**
+	 * 일괄 상태 변경(대기)
+	 * @param chkList
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/requests/wait")
 	public String RequestsWait(@RequestParam int[] chkList, Principal principal) {
 		return requestsService.setRequestsState(chkList, "대기", principal);
 	}
 	
+	/**
+	 * 요청 사항 요청 카운터 공지
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value ="/requests/notice")
 	public String RequestsNotice(Model model) {
 		model.addAttribute("request", requestsService.getRequestsCount());

@@ -45,5 +45,4 @@ public class TrashController {
 		map.put("rows", list);
 		return map;
 	}
-
 }

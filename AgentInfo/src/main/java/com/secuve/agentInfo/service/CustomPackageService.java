@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.CustomPackageDao;
 import com.secuve.agentInfo.vo.CustomPackage;
-import com.secuve.agentInfo.vo.Packages;
 
 @Service
 public class CustomPackageService {
@@ -172,5 +171,4 @@ public class CustomPackageService {
 		
 		return search;
 	}
-
 }

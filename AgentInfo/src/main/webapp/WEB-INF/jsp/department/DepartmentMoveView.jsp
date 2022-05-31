@@ -168,4 +168,3 @@
 		jqGrid.trigger('reloadGrid');
 	}
 </script>
-	

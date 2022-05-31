@@ -119,7 +119,6 @@
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-    
 </div>
 
 <script>
@@ -288,10 +287,7 @@
                 $('#customerZipCodeView').val(data.zonecode);
                 $('#customerAddressView').val(fullRoadAddr);
                 $('#customerFullAddressView').val(fullRoadAddr);
-                
 	        }
 	    }).open();  
 	})
-	
 </script>
-
