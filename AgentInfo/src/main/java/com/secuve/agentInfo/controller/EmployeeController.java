@@ -140,4 +140,10 @@ public class EmployeeController {
 	public String departmentMove(@RequestParam String[] chkList, Employee employee) {
 		return employeeService.updateDepartmentMove(chkList, employee);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/employee/loginSession")
+	public String loginSession(@RequestParam int loginSession, Principal principal) {
+		return employeeService.loginSession(loginSession, principal.getName());
+	}
 }

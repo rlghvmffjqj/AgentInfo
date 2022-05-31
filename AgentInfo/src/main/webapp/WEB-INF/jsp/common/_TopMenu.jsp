@@ -73,5 +73,5 @@ function profileView() {
 	        // TODO 에러 화면
 	    }
 	});
-}
+ }
 </script>

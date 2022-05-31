@@ -94,4 +94,15 @@ public class EmployeeDao {
 		return sqlSession.selectList("employee.getEmployeeName");
 	}
 
+	public void lastLogin(String lastLogin, String usersId) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("lastLogin", lastLogin);
+		parameters.put("usersId", usersId);
+		sqlSession.update("employee.lastLogin", parameters);
+	}
+
+	public String loginSession(String employeeId) {
+		return sqlSession.selectOne("employee.loginSession",employeeId);
+	}
+
 }

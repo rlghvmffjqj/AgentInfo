@@ -85,6 +85,14 @@
 		SELECT DISTINCT employeeName FROM employee;
 	</select>
 	
+	<update id="lastLogin">
+		UPDATE employee SET lastLogin = #{lastLogin} WHERE employeeId = #{usersId};
+	</update>
+	
+	<select id="loginSession" parameterType="string" resultType="string">
+		SELECT lastLogin FROM employee WHERE employeeId = #{employeeId};
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

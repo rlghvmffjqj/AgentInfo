@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,7 +97,10 @@ public class UsersService implements UserDetailsService{
 	public String loginIdPwd(String usersId, String usersPw) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String nowPwd = employeeDao.getUsersPw(usersId);
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if(passwordEncoder.matches(usersPw,nowPwd)) {
+			employeeDao.lastLogin(formatter.format(now), usersId);
 			return employeeDao.pwdCheck(usersId);
 		}
 		return "FALSE";

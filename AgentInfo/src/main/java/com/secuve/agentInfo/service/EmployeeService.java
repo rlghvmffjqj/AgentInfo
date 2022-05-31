@@ -1,8 +1,14 @@
 package com.secuve.agentInfo.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -113,5 +119,22 @@ public class EmployeeService {
 
 	public List<String> getEmployeeName() {
 		return employeeDao.getEmployeeName();
+	}
+
+	public String loginSession(int loginSession, String employeeId) {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date lastLogin = null;
+		try {
+			lastLogin = formatter.parse(employeeDao.loginSession(employeeId));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		Date expireTime = DateUtils.addMinutes(lastLogin, loginSession);
+		if(now.getTime() > expireTime.getTime()) {
+			return "TimeOut";
+		}
+		return "OK";
 	}
 }

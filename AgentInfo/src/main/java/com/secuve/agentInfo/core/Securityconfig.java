@@ -47,7 +47,9 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		http.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/login")
-			.invalidateHttpSession(true);
+			.invalidateHttpSession(true)
+			.deleteCookies("JSESSIONID")
+			.permitAll();
 		
 		// 권한이 없는 사용자가 접속한 경우
 		http.exceptionHandling()

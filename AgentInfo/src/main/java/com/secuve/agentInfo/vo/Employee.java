@@ -21,6 +21,7 @@ public class Employee {
 	private String employeePhone;				// 휴대폰 번호
 	private String employeeEmail;				// 이메일
 	private String employeeStatus;				// ex) 휴직, 재직, 퇴사
+	private String lastLogin;
 	
 	private String employeeRegistrant;			// 데이터 추가 사용자
 	private String employeeRegistrationDate;	// 데이터 추가 날짜
