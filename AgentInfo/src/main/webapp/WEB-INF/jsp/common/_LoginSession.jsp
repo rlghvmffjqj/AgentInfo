@@ -7,7 +7,6 @@
 <script>
 	$(function() {
 		loginSession = ${sessionTimeOut};
-		console.log(loginSession);
 		$.ajax({
 			url: "<c:url value='/employee/loginSession'/>",
             type: 'post',
