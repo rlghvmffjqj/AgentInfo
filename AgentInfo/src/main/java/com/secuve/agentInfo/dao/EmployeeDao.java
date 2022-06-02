@@ -102,6 +102,10 @@ public class EmployeeDao {
 	}
 
 	public String loginSession(String employeeId) {
-		return sqlSession.selectOne("employee.loginSession",employeeId);
+		return sqlSession.selectOne("employee.loginSession", employeeId);
+	}
+
+	public String getUsersRole(String usersId) {
+		return sqlSession.selectOne("employee.getUsersRole", usersId);
 	}
 }

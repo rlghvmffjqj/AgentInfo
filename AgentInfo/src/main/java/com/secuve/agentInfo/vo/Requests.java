@@ -23,6 +23,7 @@ public class Requests {
 	private String requestsModifiedDate;		// 수정 날짜
 	
 	private String employeeName = "";
+	private String usersId;
 	
 	private String[] employeeIdArr;
 	private String[] employeeNameArr;

@@ -141,4 +141,8 @@ public class EmployeeService {
 		}
 		return "OK";
 	}
+
+	public String getUsersRole(String usersId) {
+		return employeeDao.getUsersRole(usersId);
+	}
 }

@@ -92,6 +92,10 @@
 		SELECT lastLogin FROM employee WHERE employeeId = #{employeeId};
 	</select>
 	
+	<select id="getUsersRole" parameterType="string" resultType="string">
+		SELECT usersRole FROM users WHERE usersId = #{usersId};
+	</select> 
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

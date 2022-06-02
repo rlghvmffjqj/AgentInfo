@@ -31,7 +31,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/generalPackage/**").hasAnyRole("ADMIN","ENGINEER")
 			.antMatchers("/customPackage/**").hasAnyRole("ADMIN","ENGINEER")
 			.antMatchers("/trash/**").hasAnyRole("ADMIN")
-			.antMatchers("/requests/**").hasAnyRole("ADMIN")
+			.antMatchers("/requests/**").hasAnyRole("ADMIN","MEMBER","ENGINEER")
 			.antMatchers("/requestsWrite/**").hasAnyRole("ADMIN","MEMBER","ENGINEER")
 			.antMatchers("/").hasAnyRole("MEMBER","ADMIN","ENGINEER");
 		

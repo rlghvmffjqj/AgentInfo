@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="getRequestsListCount" resultType="_int">
-		SELECT COUNT(*) FROM requests;
+		SELECT COUNT(*) FROM requests r
 			<include refid="sqlRequests" />
 	</select>
 	
@@ -53,6 +53,9 @@
 	
 	<sql id="sqlRequests">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="usersId != null and usersId != ''"> 
+				AND r.employeeId = #{usersId}
+			</if>
 			<if test="employeeId != null and employeeId != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">

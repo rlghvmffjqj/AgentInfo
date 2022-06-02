@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <div class="modal-body" style="width: 100%; height: 590px;">
@@ -31,20 +32,32 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label">내용</label>
 			</div>
-			<div class="form-group form-default form-static-label">
-			    <select class="form-control" id="requestsState" name="requestsState">
-			     <option value="요청" <c:if test="${'요청' eq requests.requestsState}">selected</c:if>>요청</option>
-			     <option value="확인" <c:if test="${'확인' eq requests.requestsState}">selected</c:if>>확인</option>
-			     <option value="대기" <c:if test="${'대기' eq requests.requestsState}">selected</c:if>>대기</option>
-			    </select>
-			    <span class="form-bar"></span>
-			    <label class="float-label">상태</label>
-			</div>
+			<sec:authorize access="hasAnyRole('MEMBER','ENGINEER')">
+				<div class="form-group form-default form-static-label">
+				    <input type="text" id="requestsState" name="requestsState" class="form-control" required="" value="${requests.requestsState}" disabled>
+				    <span class="form-bar"></span>
+				    <label class="float-label">상태</label>
+				</div>
+			</sec:authorize>
+			
+			<sec:authorize access="hasRole('ADMIN')">
+				<div class="form-group form-default form-static-label">
+				    <select class="form-control" id="requestsState" name="requestsState">
+				     <option value="요청" <c:if test="${'요청' eq requests.requestsState}">selected</c:if>>요청</option>
+				     <option value="확인" <c:if test="${'확인' eq requests.requestsState}">selected</c:if>>확인</option>
+				     <option value="대기" <c:if test="${'대기' eq requests.requestsState}">selected</c:if>>대기</option>
+				    </select>
+				    <span class="form-bar"></span>
+				    <label class="float-label">상태</label>
+				</div>
+			</sec:authorize>
 		 </form>
      </div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default btn-outline-info-add" id="updateBtn">상태 변경</button>
+	<sec:authorize access="hasRole('ADMIN')">
+		<button class="btn btn-default btn-outline-info-add" id="updateBtn">상태 변경</button>
+	</sec:authorize>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 </div>
 

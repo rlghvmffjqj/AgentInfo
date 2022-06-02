@@ -91,22 +91,24 @@
 	                                	<div class="ibox">
 		                                	<div class="searchbos">
 		                      					<form id="form" name="form" method ="post"> 
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">사용자ID</label>
-														<select class="form-control selectpicker" id="employeeIdMulti" name="employeeIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${employeeId}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">사원명</label>
-														<select class="form-control selectpicker" id="employeeNameMulti" name="employeeNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${employeeName}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
+		                      						<sec:authorize access="hasRole('ADMIN')">
+			                      						<div class="col-lg-2">
+			                      							<label class="labelFontSize">사용자ID</label>
+															<select class="form-control selectpicker" id="employeeIdMulti" name="employeeIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${employeeId}">
+																	<option value="${item}"><c:out value="${item}"/></option>
+																</c:forEach>
+															</select>
+														</div>
+														<div class="col-lg-2">
+			                      							<label class="labelFontSize">사원명</label>
+															<select class="form-control selectpicker" id="employeeNameMulti" name="employeeNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${employeeName}">
+																	<option value="${item}"><c:out value="${item}"/></option>
+																</c:forEach>
+															</select>
+														</div>
+													</sec:authorize>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">제목</label>
 		                      							<input type="text" id="requestsTitle" name="requestsTitle" class="form-control">
@@ -148,8 +150,10 @@
 																<tr>
 																	<td style="font-weight:bold;">요청 사항 관리 :
 																		<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'requestsList');">컬럼 선택</button>
-																		<button class="btn btn-outline-info-nomal myBtn" onclick="bntConfirm();">일괄 확인</button>
-																		<button class="btn btn-outline-info-nomal myBtn" onclick="btnWait();">일괄 대기</button>
+																		<sec:authorize access="hasRole('ADMIN')">
+																			<button class="btn btn-outline-info-nomal myBtn" onclick="bntConfirm();">일괄 확인</button>
+																			<button class="btn btn-outline-info-nomal myBtn" onclick="btnWait();">일괄 대기</button>
+																		</sec:authorize>
 																	</td>
 																</tr>
 																<tr>
@@ -186,17 +190,17 @@
 		/* =========== 요청사항 수정 Modal ========= */
 		function updateView(data) {
 			$.ajax({
-	            type: 'POST',
-	            url: "<c:url value='/requests/updateView'/>",
-	            data: {"requestsKeyNum" : data},
-	            async: false,
-	            success: function (data) {
-	                $.modal(data, 'requests'); //modal창 호출
-	            },
-	            error: function(e) {
-	                // TODO 에러 화면
-	            }
-	        });
+			    type: 'POST',
+			    url: "<c:url value='/requests/updateView'/>",
+			    data: {"requestsKeyNum" : data},
+			    async: false,
+			    success: function (data) {
+			        $.modal(data, 'requests'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+		    });
 		}
 		
 		/* =========== 검색 ========= */
@@ -206,8 +210,10 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
-			$('#employeeId').val($('#employeeIdMulti').val().join());
-			$('#employeeName').val($('#employeeNameMulti').val().join());
+			<sec:authorize access="hasRole('ADMIN')">
+				$('#employeeId').val($('#employeeIdMulti').val().join());
+				$('#employeeName').val($('#employeeNameMulti').val().join());
+			</sec:authorize>
 			$('#requestsState').val($('#requestsStateMulti').val().join());
 			
 			var jqGrid = $("#list");

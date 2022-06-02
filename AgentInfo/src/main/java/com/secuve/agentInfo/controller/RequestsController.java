@@ -46,11 +46,16 @@ public class RequestsController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/requests")
-	public Map<String, Object> Requests(@ModelAttribute("search") Requests search) {
+	public Map<String, Object> Requests(@ModelAttribute("search") Requests search, Principal principal) {
+		String role = employeeService.getUsersRole(principal.getName());
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<Requests> list = new ArrayList<>(requestsService.getRequestsList(search));
 		
+		if(!role.equals("ADMIN")) {
+			search.setUsersId(principal.getName());
+		} 
+		ArrayList<Requests> list = new ArrayList<>(requestsService.getRequestsList(search));
 		int totalCount = requestsService.getRequestsListCount();
+		
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float)totalCount/search.getRows()));
 		map.put("records", totalCount);
