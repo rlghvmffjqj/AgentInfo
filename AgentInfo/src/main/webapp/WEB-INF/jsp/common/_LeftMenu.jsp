@@ -113,7 +113,7 @@
 		            </a>
 		        </li>
 		    </ul> --%>
-		    <ul class="pcoded-item pcoded-left-item">
+		    <%-- <ul class="pcoded-item pcoded-left-item">
 		        <li class="product">
 		            <a href="<c:url value='/product/list'/>" class="waves-effect waves-dark">
 		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
@@ -121,7 +121,7 @@
 		                <span class="pcoded-mcaret"></span>
 		            </a>
 		        </li>
-		    </ul>
+		    </ul> --%>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">
