@@ -51,10 +51,7 @@ public class CustomerService {
 			customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
-		
-		if (sucess <= 0)
-			return "FALSE";
-		return "OK";
+		return parameter(sucess);
 	}
 	
 	public int customerKeyNum() {
@@ -72,7 +69,6 @@ public class CustomerService {
 			customer.setCustomerNameView(customer.getCustomerNameSelf());
 		if(customer.getBusinessNameSelf().length() > 0)
 			customer.setBusinessNameView(customer.getBusinessNameSelf());
-		
 		return customer;
 	}
 
@@ -105,16 +101,12 @@ public class CustomerService {
 			customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
-		
-		if (sucess <= 0)
-			return "FALSE";
-		return "OK";
+		return parameter(sucess);
 	}
 	
 	public Customer customerSearch(Customer search) {
 		search.setCustomerNameArr(search.getCustomerName().split(","));
 		search.setBusinessNameArr(search.getBusinessName().split(","));
-		
 		return search;
 	}
 	
@@ -125,5 +117,11 @@ public class CustomerService {
 		if (categoryService.getCategory("businessName", customer.getBusinessNameView()) == 0) {
 			categoryService.setCategory("businessName", customer.getBusinessNameView(), principal.getName(), nowDate());
 		}
+	}
+	
+	public String parameter(int sucess) {
+		if (sucess <= 0)
+			return "FALSE";
+		return "OK";
 	}
 }

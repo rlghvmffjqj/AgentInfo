@@ -433,6 +433,10 @@ p {
     border-radius: 20px;
 }
 
+.marginBottom1 {
+	margin-bottom: 1px !important;
+}
+
 .backRed {
 	background: Red;
 	color: white;
@@ -500,4 +504,28 @@ p {
 	font-size: 30px;
     color: #007bff;
     font-weight: bold;
+}
+
+.displayNone {
+	display: none;
+}
+
+.outLine {
+	outline: red 1px solid;
+    width: 450px;
+    margin-top: 20px;
+}
+
+.redFont {
+	margin-top: 3px;
+    font-size: 12px;
+}
+
+.marginLeft22 {
+	margin-left: 22px;
+}
+
+.checkBoxView{
+	width: 30%;
+    float: left;
 }

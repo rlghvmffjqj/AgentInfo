@@ -7,33 +7,35 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','customer');
+		    	$.cookie('name','product');
 		    });
 	    </script>
 		<script>
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/customer'/>",
+					url: "<c:url value='/product'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','사업명','담당자명','담당자 부서','담당자 전화번호','주소','제품','OS종류','SE','영업사원'],
+					colNames:['Key','고객사명','사업명','제품','JAVA','WebServer','Database','LogServer','ScvEA','ScvCA','Auth/PKI','SE명','영업담당자'],
 					colModel:[
-						{name:'customerKeyNum', index:'customerKeyNum', align:'center', width: 35, hidden:true },
+						{name:'productKeyNum', index:'productKeyNum', align:'center', width: 35, hidden:true },
 						{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 						{name:'businessName', index:'businessName', align:'center', width: 200},
-						{name:'customerManagerName', index:'customerManagerName', align:'center', width: 60},
-						{name:'customerDept', index:'customerDept', align:'center', width: 80},
-						{name:'customerPhoneNumber', index:'customerPhoneNumber',align:'center', width: 90},
-						{name:'customerFullAddress', index:'customerFullAddress',align:'center', width: 346},
-						{name:'packageName', index:'packageName', align:'center', width: 250},
-						{name:'osType', index:'osType', align:'center', width: 180},
-						{name:'employeeSeName', index:'employeeSeName', align:'center', width: 60},
-						{name:'employeeSalesName', index:'employeeSalesName', align:'center', width: 60},
+						{name:'productCheck', index:'productCheck', align:'center', width: 150},
+						{name:'javaVer', index:'javaVer', align:'center', width: 200},
+						{name:'webServerVer', index:'webServerVer',align:'center', width: 200},
+						{name:'databaseVer', index:'databaseVer',align:'center', width: 200},
+						{name:'logServerVer', index:'logServerVer', align:'center', width: 250},
+						{name:'scvEaVer', index:'scvEaVer', align:'center', width: 250},
+						{name:'scvCaVer', index:'scvCaVer', align:'center', width: 250},
+						{name:'authPkiVer', index:'authPkiVer', align:'center', width: 250},
+						{name:'employeeSeName', index:'employeeSeName', align:'center', width: 100},
+						{name:'employeeSalesName', index:'employeeSalesName', align:'center', width: 100},
 					],
 					jsonReader : {
-			        	id: 'customerKeyNum',
+			        	id: 'productKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
@@ -50,7 +52,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','customerList');
+				loadColumns('#list','productList');
 			});
 			
 			$(window).on('resize.list', function () {
@@ -73,8 +75,8 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">고객사 정보</h5>
-									            <p class="m-b-0">Customer Information</p>
+									            <h5 class="m-b-10">제품 버전 정보</h5>
+									            <p class="m-b-0">Product Version Information</p>
 									        </div>
 									    </div>
 									    <div class="col-md-4">
@@ -82,7 +84,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">고객사 정보</a>
+									            <li class="breadcrumb-item"><a href="#!">제품 버전 정보</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -111,10 +113,6 @@
 															</c:forEach>
 														</select>
 													</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">담당자</label>
-		                      							<input type="text" id="customerManagerName" name="customerManagerName" class="form-control">
-		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">SE명</label>
 		                      							<input type="text" id="employeeSeName" name="employeeSeName" class="form-control">
@@ -150,7 +148,7 @@
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																	</sec:authorize>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'customerList');">컬럼 선택</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'productList');">컬럼 선택</button>
 																</td>
 															</tr>
 															<tr>
@@ -183,10 +181,10 @@
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/customer/insertView'/>",
+			    url: "<c:url value='/product/insertView'/>",
 			    async: false,
 			    success: function (data) {
-			        $.modal(data, 'ls'); //modal창 호출
+			        $.modal(data, 'll'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
@@ -214,7 +212,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.customerKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.productKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 		
 		/* =========== Enter 검색 ========= */
@@ -261,7 +259,7 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
-						url: "<c:url value='/customer/delete'/>",
+						url: "<c:url value='/product/delete'/>",
 						type: "POST",
 						data: {chkList: chkList},
 						dataType: "text",
@@ -293,20 +291,18 @@
 		
 		/* =========== 고객사 수정 Modal ========= */
 		function updateView(data) {
-			<sec:authorize access="hasRole('ADMIN')">
-				$.ajax({
-		            type: 'POST',
-		            url: "<c:url value='/customer/updateView'/>",
-		            data: {"customerKeyNum" : data},
-		            async: false,
-		            success: function (data) {
-		                $.modal(data, 'l'); //modal창 호출
-		            },
-		            error: function(e) {
-		                // TODO 에러 화면
-		            }
-		        });
-			</sec:authorize>
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/product/updateView'/>",
+			    data: {"productKeyNum" : data},
+			    async: false,
+			    success: function (data) {
+			        $.modal(data, 'll'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});
 		}
 	</script>
 </html>

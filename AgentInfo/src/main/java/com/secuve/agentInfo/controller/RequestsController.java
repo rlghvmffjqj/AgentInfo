@@ -114,7 +114,6 @@ public class RequestsController {
 		requests.setRequestsModifier(principal.getName());
 		requests.setRequestsModifiedDate(requestsService.nowDate());
 
-		Map<String, String> map = new HashMap<String, String>();
 		return requestsService.updateRequests(requests, principal);
 	}
 	

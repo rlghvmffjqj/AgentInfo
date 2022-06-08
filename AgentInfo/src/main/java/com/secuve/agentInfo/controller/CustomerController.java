@@ -36,7 +36,7 @@ public class CustomerController {
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
 		
-		return "customer/CustomerList";
+		return "/customer/CustomerList";
 	}
 	
 	/**

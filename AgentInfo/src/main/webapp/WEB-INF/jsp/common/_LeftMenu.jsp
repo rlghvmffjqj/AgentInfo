@@ -62,6 +62,8 @@
 			$('.releaseNotes').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'customer') {
 			$('.customer').addClass('active');
+		} else if($.cookie('name') == 'product') {
+			$('.product').addClass('active');
 		} else if($.cookie('name') == 'requests') {
 			$('.requests').addClass('active');
 		} else if($.cookie('name') == 'requestsWrite') {
@@ -111,6 +113,15 @@
 		            </a>
 		        </li>
 		    </ul> --%>
+		    <ul class="pcoded-item pcoded-left-item">
+		        <li class="product">
+		            <a href="<c:url value='/product/list'/>" class="waves-effect waves-dark">
+		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
+		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">제품 버전 정보</span>
+		                <span class="pcoded-mcaret"></span>
+		            </a>
+		        </li>
+		    </ul>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">
