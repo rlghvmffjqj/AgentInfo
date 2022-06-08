@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <div class="modal-body" style="width: 100%; height: 725px;">
@@ -115,7 +116,9 @@
 			<button class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
+			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+				<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>
+			</sec:authorize>	
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>

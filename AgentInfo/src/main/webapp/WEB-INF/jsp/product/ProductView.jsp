@@ -243,7 +243,9 @@
 			<button class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
+			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+				<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>
+			</sec:authorize>	
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
