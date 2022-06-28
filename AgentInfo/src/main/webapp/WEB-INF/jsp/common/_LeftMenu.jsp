@@ -68,6 +68,8 @@
 			$('.requests').addClass('active');
 		} else if($.cookie('name') == 'requestsWrite') {
 			$('.requestsWrite').addClass('active');
+		} else if($.cookie('name') == 'customerInfo') {
+			$('.customerInfo').addClass('active');
 		}
 	});
 </script>
@@ -118,6 +120,15 @@
 		            <a href="<c:url value='/product/list'/>" class="waves-effect waves-dark">
 		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
 		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">제품 버전 정보</span>
+		                <span class="pcoded-mcaret"></span>
+		            </a>
+		        </li>
+		    </ul> --%>
+		    <%-- <ul class="pcoded-item pcoded-left-item">
+		        <li class="customerInfo">
+		            <a href="<c:url value='/customerInfo/search'/>" class="waves-effect waves-dark">
+		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
+		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보</span>
 		                <span class="pcoded-mcaret"></span>
 		            </a>
 		        </li>

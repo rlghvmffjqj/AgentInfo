@@ -17,12 +17,13 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
+					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 					colModel:[
 						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 						/* {name:'packagesKeyNumOrigin', index:'packagesKeyNumOrigin', align:'center', width: 50, hidden:true }, */
 						{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 						{name:'businessName', index:'businessName', align:'center', width: 180},
+						{name:'networkClassification', index:'networkClassification', align:'center', width: 70},
 						{name:'requestDate', index:'requestDate', align:'center', width: 70},
 						{name:'deliveryData', index:'deliveryData',align:'center', width: 70},
 						{name:'state', index:'state',align:'center', width: 50, formatter: stateFormatter, sortable:false},
@@ -128,6 +129,10 @@
 														</c:forEach>
 													</select>
 												</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">망 구분</label>
+	                      							<input type="text" id="networkClassification" name="networkClassification" class="form-control">
+	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">요청일자</label>
 													<input class="form-control" type="date" id="requestDate" name="requestDate"> 

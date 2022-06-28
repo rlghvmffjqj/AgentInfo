@@ -15,6 +15,7 @@ public class Packages {
 	private int packagesKeyNumOrigin;			// 정렬을 위한 키 값
 	private String customerName = "";			// 고객사명
 	private String businessName = "";			// 사업명
+	private String networkClassification = "";	// 망 구분
 	private String requestDate = "";			// 요청일자
 	private String deliveryData = "";			// 전달일자
 	private String state = "";					// 상태
@@ -35,6 +36,7 @@ public class Packages {
 	// Modal에서 사용
 	private String customerNameView;			// View 고객사명
 	private String businessNameView;			// View 사업명
+	private String networkClassificationView;		// View 망 구분
 	private String requestDateView;				// View 요청일자
 	private String deliveryDataView;			// View 전달일자
 	private String stateView;					// View 상태
@@ -73,6 +75,7 @@ public class Packages {
 	// 검색 시 ','를 기준으로 배열로 사용
 	private String[] customerNameArr;
 	private String[] businessNameArr;	
+	private String[] networkClassificationArr;
 	private String[] stateArr;
 	private String[] existingNewArr;
 	private String[] managementServerArr;

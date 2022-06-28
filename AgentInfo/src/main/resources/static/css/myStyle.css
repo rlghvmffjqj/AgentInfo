@@ -125,6 +125,12 @@ p {
 	max-width: 480px;
 }
 
+.modal-se {
+	top: 25%;
+	width: 1000px;
+	max-width: 1500px;
+}
+
 .modal-sm {
 	max-width:350px;
 	top: 40%;
@@ -496,6 +502,10 @@ p {
 	margin: 50px;
 }
 
+.margin20 {
+	margin: 20px;
+}
+
 .alignCenter {
 	text-align: center;
 }
@@ -525,7 +535,69 @@ p {
 	margin-left: 22px;
 }
 
-.checkBoxView{
+.checkBoxView {
 	width: 30%;
     float: left;
+}
+
+.searchbox {
+	background: white;
+    height: 150px;
+    width: 4%;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.searchinput {
+	font-size: 30px;
+    margin-top: 25px;
+}
+
+.fontsize25 {
+	font-size: 25px !important;
+}
+
+.search > .btn-light {
+	border: none !important;
+    border-bottom: black 1px solid !important;
+    margin-top: 40px;
+    font-size: 25px !important;
+    height: 50px !important;
+}
+
+.btn-customer {
+	float: left;
+    width: 50%;
+    background: beige;
+    height: 45px;
+    border: 1px solid blanchedalmond;
+    font-family: monospace;
+}
+
+.btn-customer:hover {
+	background-image: none;
+    background-color: cornsilk;;
+}
+
+.btn-product {
+	float: left;
+    width: 50%;
+    background: antiquewhite;
+    height: 45px;
+    border: 1px solid blanchedalmond;
+    font-family: monospace;
+}
+
+.btn-product:hover {
+	background-image: none;
+    background-color: bisque;;
+}
+
+.displayFlex {
+	display: flex;
+}
+
+.marginLeft55 {
+	margin-left: 55px;
 }

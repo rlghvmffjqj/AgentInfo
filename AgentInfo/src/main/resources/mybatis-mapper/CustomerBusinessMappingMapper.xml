@@ -12,4 +12,12 @@
 	<select id="getBusinessCount" resultType="_int">
 		SELECT COUNT(*) FROM customerBusinessMapping WHERE customerName = #{customerName} AND businessName = #{businessName}
 	</select>
+	
+	<select id="getCustomerBusinessList" resultMap="customerBusinessMapping" parameterType="string">
+		SELECT * FROM customerBusinessMapping 
+		<if test="customerName != null and customerName != ''">
+			WHERE customerName = #{customerName}
+		</if>
+		ORDER BY 1;
+	</select>
 </mapper>

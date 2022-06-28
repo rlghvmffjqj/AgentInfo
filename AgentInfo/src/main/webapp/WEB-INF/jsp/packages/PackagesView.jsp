@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 550px;">
+<div class="modal-body" style="width: 100%; height: 600px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}">
 		<input type="hidden" id="packagesKeyNumOrigin" name=packagesKeyNumOrigin class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">  
@@ -74,6 +74,10 @@
 			         </div>
 		 		</c:when>
 			 </c:choose>
+			 <div class="pading5Width450">
+	         	<label class="labelFontSize">망 구분</label>
+	         	<input type="text" id="networkClassificationView" name="networkClassificationView" class="form-control viewForm" value="${packages.networkClassification}">
+	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청일자</label>
 	         	<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${packages.requestDate}">

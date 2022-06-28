@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="customerInfo">
+	<resultMap type="com.secuve.agentInfo.vo.CustomerInfo" id="customerInfo"></resultMap>
+	
+	<insert id="insertCustomerInfo">
+		INSERT INTO customerInfo(customerName, businessName, customerManagerName, customerPhoneNumber, customerZipCode, customerAddress, customerFullAddress, customerDept, employeeSeName, employeeSalesName, productCheck, tosmsVer, tosrfVer, portalVer, javaVer, webServerVer, databaseVer, logServerVer, scvEaVer, scvCaVer, authPkiVer, customerInfoRegistrant, customerInfoRegistrationDate)
+		VALUES(#{customerName}, #{businessName}, #{customerManagerName}, #{customerPhoneNumber}, #{customerZipCode}, #{customerAddress}, #{customerFullAddress}, #{customerDept}, #{employeeSeName}, #{employeeSalesName}, #{productCheck}, #{tosmsVer}, #{tosrfVer}, #{portalVer}, #{javaVer}, #{webServerVer}, #{databaseVer}, #{logServerVer}, #{scvEaVer}, #{scvCaVer}, #{authPkiVer}, #{customerInfoRegistrant}, #{customerInfoRegistrationDate});
+	</insert>
+	
+	<select id="getCustomerInfoOne" resultMap="customerInfo">
+		SELECT * FROM customerInfo WHERE customerName = #{customerName} AND businessName = #{businessName};
+	</select>
+</mapper>

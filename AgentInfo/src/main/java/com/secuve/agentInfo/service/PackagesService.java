@@ -1118,6 +1118,7 @@ public class PackagesService {
 	public Packages packagesSearch(Packages search) {
 		search.setCustomerNameArr(search.getCustomerName().split(","));
 		search.setBusinessNameArr(search.getBusinessName().split(","));
+		search.setNetworkClassificationArr(search.getNetworkClassification().split(","));;
 		search.setStateArr(search.getState().split(","));
 		search.setExistingNewArr(search.getExistingNew().split(","));
 		search.setManagementServerArr(search.getManagementServer().split(","));

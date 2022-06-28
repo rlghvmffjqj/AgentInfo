@@ -13,7 +13,6 @@
 				<td style="width: 100px;">
 					<select class="form-control selectpicker" id="stateView" name="stateView" data-size="5" data-actions-box="true">
 						<option value='적용' class="backGreen">적용</option>
-						<option value="대기" class="backYellow">대기</option>
 						<option value="배포완료" class="backRed">배포완료</option>
 					</select>
 				</td>
