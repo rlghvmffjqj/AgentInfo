@@ -75,6 +75,7 @@ p {
     border-color: blue;
     color: blue;
     background: white;
+    margin: 1px;
 }
 
 .btn-outline-info-nomal {
@@ -99,6 +100,7 @@ p {
     border-color: red;
     color: red;
     background: white;
+    margin: 1px;
 }
 
 .btn-outline-info-del:hover {
@@ -170,10 +172,6 @@ p {
 .modal-notice {
 	top: 20%;
     max-width: 600px;
-}
-
-.btn-outline-info-add{
-	margin: 1px;
 }
 
 .border1 {
@@ -306,6 +304,11 @@ p {
 	float: left;
     width: 50%;
     border-right: solid 1px;
+}
+
+.leftDivNonBord {
+	float: left;
+    width: 50%;
 }
 
 .rightDiv {
@@ -570,27 +573,42 @@ p {
 	float: left;
     width: 50%;
     background: beige;
-    height: 45px;
-    border: 1px solid blanchedalmond;
+    height: 70px;
+    border: 1px solid #b8860b57;
     font-family: monospace;
+    margin-right: 0px;
+    font-size: 15px;
 }
 
 .btn-customer:hover {
 	background-image: none;
-    background-color: cornsilk;;
+	font-weight: bold;
+    background-color: cornsilk;
+}
+
+.btn-customer:focus {
+	font-weight: bold;
+	font-size: 16px;
 }
 
 .btn-product {
 	float: left;
     width: 50%;
     background: antiquewhite;
-    height: 45px;
-    border: 1px solid blanchedalmond;
+    height: 70px;
+    border: 1px solid #b8860b57;
     font-family: monospace;
+    margin-right: 0px;
+    font-size: 15px;
 }
 
+.btn-product:focus {
+	font-weight: bold;
+	font-size: 16px;
+}
 .btn-product:hover {
 	background-image: none;
+	font-weight: bold;
     background-color: bisque;;
 }
 

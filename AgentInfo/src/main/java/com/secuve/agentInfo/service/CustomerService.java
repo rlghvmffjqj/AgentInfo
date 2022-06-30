@@ -48,7 +48,7 @@ public class CustomerService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
 		return parameter(sucess);
@@ -98,7 +98,7 @@ public class CustomerService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
 		return parameter(sucess);

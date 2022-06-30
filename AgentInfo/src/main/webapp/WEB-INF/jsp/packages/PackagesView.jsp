@@ -4,8 +4,8 @@
 
 <div class="modal-body" style="width: 100%; height: 600px;">
 	<form id="modalForm" name="form" method ="post">
-		<input type="hidden" id="packagesKeyNum" name=packagesKeyNum class="form-control viewForm" value="${packages.packagesKeyNum}">
-		<input type="hidden" id="packagesKeyNumOrigin" name=packagesKeyNumOrigin class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">  
+		<input type="hidden" id="packagesKeyNum" name="packagesKeyNum" class="form-control viewForm" value="${packages.packagesKeyNum}">
+		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">  
 		<div class="leftDiv">
 			 <c:choose>
 				<c:when test="${viewType eq 'insert'}">

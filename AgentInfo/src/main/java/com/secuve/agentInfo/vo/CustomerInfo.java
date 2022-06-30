@@ -14,6 +14,7 @@ public class CustomerInfo {
 	private int customerInfoKeyNum;
 	private String customerName;				// 고객사 명
 	private String businessName;				// 사업명
+	private String networkClassification;		// 망 구분
 	private String customerManagerName;			// 고객사 담당자
 	private String customerPhoneNumber;			// 고객사 전화번호
 	private String customerZipCode;				// 고객사 우편번호

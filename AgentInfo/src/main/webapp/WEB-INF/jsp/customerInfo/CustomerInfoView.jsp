@@ -10,10 +10,11 @@
 		<span>제품</span>
 	</button>
 </div>
-<div class="modal-body" style="width: 100%; height: 390px; margin-top: 30px;">
+<div class="modal-body" style="width: 100%; height: 390px;">
 	<form id="modalForm" name="form" method ="post">
+		<input type="hidden" id="customerInfoKeyNum" name="customerInfoKeyNum" class="form-control viewForm" value="${customerInfo.customerInfoKeyNum}">
 		<div id="customer">
-			<div class="leftDiv">
+			<div class="leftDivNonBord">
 				<c:choose>
 					<c:when test="${viewType eq 'insert'}">
 						<div class="pading5Width450">
@@ -22,7 +23,7 @@
 						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 						  	</div>
 						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="customerNameSelf">
+						  	<div id="customerNameViewSelf">
 							  	<select class="form-control selectpicker selectForm" id="customerName" name="customerName" data-live-search="true" data-size="5">
 							  		<option value=""></option>
 									<c:forEach var="item" items="${customerName}">
@@ -38,27 +39,26 @@
 						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
 						  	</div>
 						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="businessNameSelf">
+						  	<div id="businessNameViewSelf">
 							  	<select class="form-control selectpicker selectForm" id="businessName" name="businessName" data-live-search="true" data-size="5">
 							  		<option value=""></option>
 								</select>
 							</div>
-							<span class="colorRed" id="OverlapBusinessName" style="display: none; line-height: initial;">동일한 사업명이 존재합니다. 등록된 사업을 수정하여 사용 바랍니다.</span>
 						 </div>
 					</c:when>
 					<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 						<div class="pading5Width450">
 							<div>
 						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-						  		<!-- <a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a> -->
+						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 						  	</div>
 						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="customerNameSelf">
+						  	<div id="customerNameViewSelf">
 					         	<select class="form-control selectpicker selectForm" id="customerName" name="customerName" data-live-search="true" data-size="5">
 					         		<c:if test="${customerInfo.customerName ne ''}"><option value=""></option></c:if>
 					         		<c:if test="${customerInfo.customerName eq ''}"><option value=""></option></c:if>
 					         		<c:forEach var="item" items="${customerName}">
-										<option value="${item}" <c:if test="${item eq customerInfo.customerName}">selected</c:if>><c:out value="${item}"/></option>
+										<option value="${item}" <c:if test="${item eq customerNameView}">selected</c:if>><c:out value="${item}"/></option>
 									</c:forEach>
 								</select>
 							</div>
@@ -67,21 +67,26 @@
 					        <div class="pading5Width450">
 							<div>
 						  		<label class="labelFontSize">사업명</label>
-						  		<!-- <a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a> -->
+						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
 						  	</div>
 						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="businessNameSelf">
+						  	<div id="businessNameViewSelf">
 					         	<select class="form-control selectpicker selectForm" id="businessName" name="businessName" data-live-search="true" data-size="5">
 					         		<c:if test="${customerInfo.businessName ne ''}"><option value=""></option></c:if>
 					         		<c:if test="${customerInfo.businessName eq ''}"><option value=""></option></c:if>
 					         		<c:forEach var="item" items="${businessName}">
-										<option value="${item}" <c:if test="${item eq customerInfo.businessName}">selected</c:if>><c:out value="${item}"/></option>
+										<option value="${item}" <c:if test="${item eq businessNameView}">selected</c:if>><c:out value="${item}"/></option>
 									</c:forEach>
 								</select>
 							</div>
 					        </div>
 					</c:when>
 				</c:choose>
+				<div class="pading5Width450">
+			    	<label class="labelFontSize">망 구분</label>
+			    	<input type="text" id="networkClassification" name="networkClassification" class="form-control viewForm" value="${networkClassificationView}">
+			    </div>
+			    <span class="colorRed" id="Overlap" style="display: none; line-height: initial;">동일한 사업명 및 망 구분이 존재합니다. 등록된 고객정보를 수정하여 사용 바랍니다.</span>
 				<div class="pading5Width450">
 			    	<label class="labelFontSize">고객사 담당자 이름</label>
 			    	<input type="text" id="customerManagerName" name="customerManagerName" class="form-control viewForm" value="${customerInfo.customerManagerName}">
@@ -114,7 +119,7 @@
 			</div>
 		</div>
 		<div id="product" style="display:none">
-			<div class="leftDiv">
+			<div class="leftDivNonBord">
 				<div class="marginLeft22 displayFlex">
 					<div class="form-check checkBox">
 						<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
@@ -284,11 +289,11 @@
 					$('#NotCustomerName').hide();
 				}
 	        	
-	        	if(result.result == "OverlapBusinessName") { // 사업명이 중복될 경우
+	        	if(result.result == "Overlap") { // 사업명이 중복될 경우
 	        		$('.colorRed').hide();
-					$('#OverlapBusinessName').show();
+					$('#Overlap').show();
 				} else {
-					$('#OverlapBusinessName').hide();
+					$('#Overlap').hide();
 				} 
 	        	
 				if(result.result == "OK") {
@@ -319,7 +324,7 @@
 	$('#updateBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
-			url: "<c:url value='/customer/update'/>",
+			url: "<c:url value='/customerInfo/update'/>",
             type: 'post',
             data: postData,
             async: false,
@@ -347,6 +352,13 @@
 				} else {
 					$('#NotCustomerName').hide();
 				}
+				
+				if(result.result == "Overlap") { // 사업명이 중복될 경우
+	        		$('.colorRed').hide();
+					$('#Overlap').show();
+				} else {
+					$('#Overlap').hide();
+				} 
 			},
 			error: function(error) {
 				console.log(error);
@@ -381,24 +393,24 @@
 	function selfInput(data) {
 		if (data == "customerNameChange") {
 			if($('#customerNameChange').text() == "직접입력") {
-				$('#customerNameSelf').hide();
+				$('#customerNameViewSelf').hide();
 				$('#customerNameSelf').attr('type','text');
-				$('#customerName').val('');	
+				$('#customerNameView').val('');	
 				$("#customerNameChange").text("선택입력");
 			} else if($('#customerNameChange').text() == "선택입력") {
-				$('#customerNameSelf').show();
+				$('#customerNameViewSelf').show();
 				$('#customerNameSelf').attr('type','hidden');
 				$('#customerNameSelf').val('');	
 				$("#customerNameChange").text("직접입력");
 			}
 		} else if (data == "businessNameChange") {
 			if($('#businessNameChange').text() == "직접입력") {
-				$('#businessNameSelf').hide();
+				$('#businessNameViewSelf').hide();
 				$('#businessNameSelf').attr('type','text');
-				$('#businessName').val('');	
+				$('#businessNameView').val('');	
 				$("#businessNameChange").text("선택입력");
 			} else if($('#businessNameChange').text() == "선택입력") {
-				$('#businessNameSelf').show();
+				$('#businessNameViewSelf').show();
 				$('#businessNameSelf').attr('type','hidden');
 				$('#businessNameSelf').val('');	
 				$("#businessNameChange").text("직접입력");

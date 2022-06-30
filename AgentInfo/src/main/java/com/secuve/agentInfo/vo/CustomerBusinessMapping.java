@@ -13,4 +13,5 @@ import lombok.ToString;
 public class CustomerBusinessMapping {
 	private String customerName = "";			// 고객사명
 	private String businessName = "";			// 사업명
+	private String networkClassification = "";	// 망 구분
 }

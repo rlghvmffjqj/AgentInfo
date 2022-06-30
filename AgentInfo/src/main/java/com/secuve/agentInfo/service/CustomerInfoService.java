@@ -2,7 +2,9 @@ package com.secuve.agentInfo.service;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,10 @@ public class CustomerInfoService {
 			return "NotCustomerName";
 		}
 		selfInput(customerInfo);
+		customerInfo.setCustomerInfoKeyNum(CustomerInfoKeyNum());
+		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > 0) {
+			return "Overlap";
+		}
 		int sucess = customerInfoDao.insertCustomerInfo(customerInfo);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
@@ -38,6 +44,16 @@ public class CustomerInfoService {
 			categoryCheck(customerInfo, principal);
 		}
 		return parameter(sucess);
+	}
+	
+	public int CustomerInfoKeyNum() {
+		int customerInfoKeyNum = 0;
+		try {
+			customerInfoKeyNum = customerInfoDao.getCustomerInfoKeyNum();
+		} catch (Exception e) {
+			return customerInfoKeyNum;
+		}
+		return ++customerInfoKeyNum;
 	}
 	
 	public CustomerInfo selfInput(CustomerInfo customerInfo) {
@@ -63,8 +79,52 @@ public class CustomerInfoService {
 		}
 	}
 
-	public CustomerInfo getCustomerInfoOne(String customerName, String businessName) {
-		return customerInfoDao.getCustomerInfoOne(customerName, businessName);
+	public CustomerInfo getCustomerInfoOne(int customerInfoKeyNum) {
+		return customerInfoDao.getCustomerInfoOne(customerInfoKeyNum);
+	}
+
+	public String updateCustomerInfo(CustomerInfo customerInfo, Principal principal) {
+		if (customerInfo.getCustomerNameSelf().length() > 0) {
+			customerInfo.setCustomerName(customerInfo.getCustomerNameSelf());
+		}
+		if (customerInfo.getCustomerName().equals("") || customerInfo.getCustomerName() == "") { // 고객사명 값이 비어있을 경우
+			return "NotCustomerName";
+		}
+		selfInput(customerInfo);
+		int sucess = 0;
+		
+		int division = customerInfoDao.getCustomerInfoDivision(customerInfo.getCustomerInfoKeyNum(), customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification());
+		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > division) {
+			return "Overlap";
+		}
+		sucess = customerInfoDao.updateCustomerInfo(customerInfo);
+		
+		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > 1) {
+			return "Overlap";
+		} 
+		
+		
+		// 카테고리 추가 & 고객사 비즈니스 매핑
+		if (sucess > 0) {
+			customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
+			categoryCheck(customerInfo, principal);
+		}
+		return parameter(sucess);
+	}
+
+	public List<CustomerInfo> getCustomerInfoList(String customerName) {
+		return customerInfoDao.getCustomerInfoList(customerName);
+	}
+
+	public String deleteCustomerInfo(ArrayList<CustomerInfo> chkList) {
+		for (CustomerInfo customerInfo : chkList) {
+			CustomerInfo customerInfoSub = customerInfoDao.getCustomerInfoOne(customerInfo.getCustomerInfoKeyNum());
+			int sucess = customerInfoDao.deleteCustomerInfo(customerInfo.getCustomerInfoKeyNum());
+
+			if (sucess <= 0)
+				return "FALSE";
+		}
+		return "OK";
 	}
 
 }

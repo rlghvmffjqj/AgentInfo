@@ -25,9 +25,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.secuve.agentInfo.dao.CustomerInfoDao;
 import com.secuve.agentInfo.dao.PackagesDao;
 import com.secuve.agentInfo.dao.TrashDao;
 import com.secuve.agentInfo.dao.UIDLogDao;
+import com.secuve.agentInfo.vo.CustomerInfo;
 import com.secuve.agentInfo.vo.Packages;
 import com.secuve.agentInfo.vo.Trash;
 import com.secuve.agentInfo.vo.UIDLog;
@@ -41,6 +43,8 @@ public class PackagesService {
 	@Autowired UIDLogDao uidLogDao;
 	@Autowired TrashDao trashDao;
 	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
+	@Autowired CustomerInfoDao customerInfoDao;
+	@Autowired CustomerInfoService customerInfoService;
 
 	/**
 	 * 패키지 리스트 조회
@@ -102,8 +106,8 @@ public class PackagesService {
 		}
 		selfInput(packages);
 		packages.setState("배포완료");
-		packages.setPackagesKeyNum(packagesKeyNum());
-		packages.setPackagesKeyNumOrigin(packagesKeyNum());
+		packages.setPackagesKeyNum(PackagesKeyNum());
+		packages.setPackagesKeyNumOrigin(PackagesKeyNum());
 		int sucess = packagesDao.insertPackages(packages);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
@@ -121,7 +125,7 @@ public class PackagesService {
 	 * 패키지 키값 증가
 	 * @return
 	 */
-	public int packagesKeyNum() {
+	public int PackagesKeyNum() {
 		int packagesKeyNum = 0;
 		try {
 			packagesKeyNum = packagesDao.getPackagesKeyNum();
@@ -146,7 +150,7 @@ public class PackagesService {
 		}
 		packagesDao.plusPackagesKeyNumOrigin(packages.getPackagesKeyNumOrigin()); // 복사 대상 윗 데이터 +1
 		packages.setPackagesKeyNumOrigin(packages.getPackagesKeyNumOrigin() + 1); // 빈 공간 값 저장
-		packages.setPackagesKeyNum(packagesKeyNum());
+		packages.setPackagesKeyNum(PackagesKeyNum());
 		selfInput(packages);
 		int sucess = packagesDao.insertPackages(packages);
 
@@ -383,8 +387,8 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(packagesKeyNum());
-			packages.setPackagesKeyNumOrigin(packagesKeyNum());
+			packages.setPackagesKeyNum(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			packages.setPackagesRegistrationDate(nowDate());
@@ -566,8 +570,8 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(packagesKeyNum());
-			packages.setPackagesKeyNumOrigin(packagesKeyNum());
+			packages.setPackagesKeyNum(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			// 저장 시간(현재 시간)
@@ -760,8 +764,8 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(packagesKeyNum());
-			packages.setPackagesKeyNumOrigin(packagesKeyNum());
+			packages.setPackagesKeyNum(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			// 저장 시간(현재 시간)
@@ -983,8 +987,8 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(packagesKeyNum());
-			packages.setPackagesKeyNumOrigin(packagesKeyNum());
+			packages.setPackagesKeyNum(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			packages.setPackagesRegistrationDate(nowDate());
@@ -1339,5 +1343,51 @@ public class PackagesService {
 			}
 		}
 		return "OK";
+	}
+
+	public void updateProduct(int[] chkList) {
+		for (int packagesKeyNum : chkList) {
+			CustomerInfo customerInfo = new CustomerInfo();
+			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
+			customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
+			if(customerInfo == null) {
+				CustomerInfo customerInfoSub = new CustomerInfo();
+				customerInfoSub.setCustomerInfoKeyNum(customerInfoService.CustomerInfoKeyNum());
+				customerInfoSub.setCustomerName(packages.getCustomerName());
+				customerInfoSub.setBusinessName(packages.getBusinessName());
+				customerInfoSub.setNetworkClassification(packages.getNetworkClassification());
+				customerInfoDao.insertCustomerInfo(customerInfoSub);
+				customerInfo = customerInfoSub;
+			}
+			
+			if(packages.getManagementServer().equals("관리서버")) {
+				customerInfoDao.updateTOSMS(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				updateProductCheck(packages, customerInfo.getProductCheck(), "tosms");
+			} else if(packages.getManagementServer().equals("TOSRF")) {
+				customerInfoDao.updateTOSRF(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				updateProductCheck(packages, customerInfo.getProductCheck(), "tosrf");
+			} else if(packages.getManagementServer().equals("Portal")) {
+				customerInfoDao.updatePORTAL(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				updateProductCheck(packages, customerInfo.getProductCheck(), "portal");
+			} else if(packages.getManagementServer().equals("LogServer")) {
+				customerInfoDao.updateLogServer(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+			} else if(packages.getManagementServer().equals("ScvEA")) {
+				customerInfoDao.updateScvEA(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+			} else if(packages.getManagementServer().equals("ScvCA")) {
+				customerInfoDao.updateScvCA(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+			} else if(packages.getManagementServer().equals("Authclient")) {
+				customerInfoDao.updateAuthclient(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+			}
+		}
+	}
+	
+	public void updateProductCheck(Packages packages, String productCheck, String product) {
+		if(productCheck == "" || productCheck == null) {
+			customerInfoDao.updateProductCheck(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), product);
+		} else {
+			if(!productCheck.contains(product)) {
+				customerInfoDao.updateProductCheck(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), productCheck+","+product);
+			}
+		}
 	}
 }

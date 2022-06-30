@@ -25,16 +25,22 @@
 				   columns: [
 				  	{                      
 				    	header: '고객사명',     
-				      	name: 'customerName', 
+				      	name: 'customerName',
+				      	align: 'center',
 				      	formatter: function(rowData) {
-				      		var customerName = rowData.row.customerName;
-				      		var businessName = rowData.row.businessName;
-							return '<a style="color:#0000FE" onclick="updateView('+"'"+customerName+"','"+businessName+"'"+');">' + rowData.value + '</a>';
+				      		var customerInfoKeyNum = rowData.row.customerInfoKeyNum;
+							return '<a style="color:#0000FE" onclick="updateView('+"'"+customerInfoKeyNum+"'"+');">' + rowData.value + '</a>';
 			            },
 				    },    
 				    {                      
 				    	header: '사업명',     
 				      	name: 'businessName', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: '망 구분',     
+				      	name: 'networkClassification', 
+				      	align: 'center',
 				    },  
 				   ],
 				   columnOptions: {
@@ -83,8 +89,8 @@
 	                                		<div class="searchbox">
 		                                		<form class="form-material margin20">
 				                                    <div class="form-group form-primary">
-				                                        <select class="form-control selectpicker search" id="customerName" name="customerName" data-live-search="true" data-size="5" data-actions-box="true">
-				                                        	<option value=""></option>
+				                                        <select class="form-control selectpicker search" id="customerNameSearch" name="customerName" data-live-search="true" data-size="5" data-actions-box="true">
+				                                        	<option value="">All</option>
 															<c:forEach var="item" items="${customerName}">
 																<option value="${item}"><c:out value="${item}"/></option>
 															</c:forEach>
@@ -98,12 +104,12 @@
 	                     				 <!-- table Start -->
 										<div class="card">
                                             <div class="card-header">
-                                                <h5>사업명 확인하여 선택 바랍니다.</h5>
+                                                <h5>신규 등록 전 고객사가 존재하는지 확인 후 등록 바랍니다.</h5>
                                                 <sec:authorize access="hasAnyRole('ENGINEER','ADMIN')">
+                                                	<button class="btn btn-outline-info-nomal myBtn" id="BtnRefresh" style="float:right">새로고침</button>
+                                                	<button class="btn btn-outline-info-del myBtn" id="BtnDelect" style="float:right">삭제</button>
                                                 	<button class="btn btn-outline-info-add myBtn" id="BtnInsert" style="float:right">신규 등록</button>
                                                 </sec:authorize>
-                                                <span class="colorRed">리스트 삭제 및 고객사명, 사업명 수정은 데이터 무결성 문제로 현재 지원하지 않습니다. 안정화 후 추가 예정입니다. 필요 시 관리자 요청 바랍니다.</span>
-                                                <span class="colorRed">엔지니어 분들께서는 사업명이 없는 고객사의 경우 신규 등록하여 사업명을 추가 바랍니다.</span>
                                             </div>
                                             <div class="card-block table-border-style">
                                                 <div class="table-responsive">
@@ -127,7 +133,7 @@
 	<script>
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
-			var customerName = $('#customerName').val();
+			var customerName = $('#customerNameSearch').val();
 			$.ajax({
 				url : "<c:url value='/customerInfo'/>",
 				method : 'POST',
@@ -154,13 +160,12 @@
 		});
 		
 		/* =========== 고객사 정보 Modal ========= */
-		function updateView(customerName, businessName) {
+		function updateView(customerInfoKeyNum) {
 			$.ajax({
 	            type: 'POST',
 	            url: "<c:url value='/customerInfo/updateView'/>",
 	            data: {
-	            	"customerName" : customerName,
-	            	"businessName" : businessName,
+	            	"customerInfoKeyNum" : customerInfoKeyNum,
 	            	},
 	            success: function (data) {
 	                $.modal(data, 'se'); //modal창 호출
@@ -184,6 +189,63 @@
 			        // TODO 에러 화면
 			    }
 			});			
+		});
+		
+		/* =========== 고객사정보 삭제 ========= */
+		$('#BtnDelect').click(function() {
+			var chkList = grid.getCheckedRows();
+			if(chkList == "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 고객사 정보를 삭제하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: '예'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/customerInfo/delete'/>",
+						type: "POST",
+						contentType: 'application/json',
+						data: JSON.stringify(chkList),
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '삭제 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							tableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
+		});
+		
+		/* =========== 테이블 새로고침 ========= */
+		$('#BtnRefresh').click(function() {
+			tableRefresh();
 		});
 	</script>
 </html>

@@ -14,6 +14,7 @@ public class CustomPackage {
 	private int customPackageKeyNum;			// Key
 	private String customerName;				// 고객사
 	private String businessName;				// 사업명
+	private String networkClassification;		// 망 구분
 	private String managementServer;			// 패키지 종류
 	private String agentVer;					// Version
 	private String osType;
@@ -26,6 +27,7 @@ public class CustomPackage {
 	
 	private String customerNameView;				// View 고객사
 	private String businessNameView;				// View 사업명
+	private String networkClassificationView;		// View 망 구분
 	private String managementServerView;			// View 패키지 종류
 	private String agentVerView;					// View Version
 	private String osTypeView;

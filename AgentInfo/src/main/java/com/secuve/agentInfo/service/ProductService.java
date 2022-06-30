@@ -50,7 +50,7 @@ public class ProductService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(product.getCustomerNameView(), product.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(product.getCustomerNameView(), product.getBusinessNameView());
 			categoryCheck(product, principal);
 		}
 		return parameter(sucess);
@@ -99,7 +99,7 @@ public class ProductService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(product.getCustomerNameView(), product.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(product.getCustomerNameView(), product.getBusinessNameView());
 			categoryCheck(product, principal);
 		}
 		return parameter(sucess);
