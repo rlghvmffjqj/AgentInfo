@@ -1310,6 +1310,7 @@ public class PackagesService {
 		trash.setTrashKeyNum(++trashKeyNum);
 		trash.setTrashCustomerName(packages.getCustomerName());
 		trash.setTrashBusinessName(packages.getBusinessName());
+		trash.setTrashNetworkClassification(packages.getNetworkClassification());
 		trash.setTrashRequestDate(packages.getRequestDate());
 		trash.setTrashDeliveryData(packages.getDeliveryData());
 		trash.setTrashExistingNew(packages.getExistingNew());

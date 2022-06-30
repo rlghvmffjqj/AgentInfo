@@ -14,6 +14,7 @@ public class Trash {
 	private int trashKeyNum;
 	private String trashCustomerName;
 	private String trashBusinessName;
+	private String trashNetworkClassification;
 	private String trashRequestDate;
 	private String trashDeliveryData;
 	private String trashExistingNew;
