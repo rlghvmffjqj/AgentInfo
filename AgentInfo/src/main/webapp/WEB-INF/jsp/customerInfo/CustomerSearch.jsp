@@ -17,7 +17,7 @@
 				/* =========== Grid Start ========= */
 				 grid = new tui.Grid({
 				   el: document.getElementById('grid'),
-				   scrollX: false,
+				   scrollX: true,
 				   scrollY: true,
 				   rowHeaders: ['checkbox'],
 				   selectionUnit: 'row',
@@ -40,6 +40,61 @@
 				    {                      
 				    	header: '망 구분',     
 				      	name: 'networkClassification', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'OS타입',     
+				      	name: 'osType', 
+				      	align: 'center',
+				    }, 
+				    {                      
+				    	header: 'TOSMS',     
+				      	name: 'tosmsVer', 
+				      	align: 'center',
+				    }, 
+				    {                      
+				    	header: 'TOSRF',     
+				      	name: 'tosrfVer', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'PORTAL',     
+				      	name: 'portalVer', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'LogServer',     
+				      	name: 'logServerVer', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'ScvEA',     
+				      	name: 'scvEaVer', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'ScvCA',     
+				      	name: 'scvCaVer', 
+				      	align: 'center',
+				    },
+				    {                      
+				    	header: 'Auth/PKI',     
+				      	name: 'authPkiVer', 
+				      	align: 'center',
+				    },
+				    {                      
+				    	header: 'JAVA',     
+				      	name: 'javaVer', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'WebServer',     
+				      	name: 'webServerVer', 
+				      	align: 'center',
+				    },  
+				    {                      
+				    	header: 'Database',     
+				      	name: 'databaseVer', 
 				      	align: 'center',
 				    },  
 				   ],

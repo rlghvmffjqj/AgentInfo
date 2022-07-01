@@ -450,7 +450,7 @@ public class PackagesController {
 		Map<String, String> map = new HashMap<String, String>();
 		String result = packagesService.stateChange(chkList, statusComment, stateView, principal);
 		if(stateView.equals("적용")) {
-			packagesService.updateProduct(chkList);
+			packagesService.updateProduct(chkList, principal);
 		}
 		map.put("result", result);
 		return map;

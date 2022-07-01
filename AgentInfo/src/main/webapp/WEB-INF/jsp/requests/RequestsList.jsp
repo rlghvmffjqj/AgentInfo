@@ -24,7 +24,7 @@
 						{name:'employeeId', index:'employeeId', align:'center', width: 150, formatter: linkFormatter},
 						{name:'employeeName', index:'employeeName', align:'center', width: 150},
 						{name:'requestsTitle', index:'requestsTitle', align:'center', width: 300},
-						{name:'requestsDetail', index:'requestsDetail', align:'center', width: 600},
+						{name:'requestsDetail', index:'requestsDetail', align:'left', width: 600},
 						{name:'requestsState', index:'requestsState',align:'center', width: 60, formatter: stateFormatter},
 						{name:'requestsDate', index:'requestsDate',align:'center', width: 150},
 					],

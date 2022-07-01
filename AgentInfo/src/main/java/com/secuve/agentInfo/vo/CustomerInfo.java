@@ -31,6 +31,7 @@ public class CustomerInfo {
 	private String javaVer;						// java 버전
 	private String webServerVer;				// 웹 서버 버전
 	private String databaseVer;					// DB 버전
+	private String osType;
 	private String logServerVer;				// 로그 서버 버전
 	private String scvEaVer;					// ScvEA 버전
 	private String scvCaVer;					// ScvCA 버전	

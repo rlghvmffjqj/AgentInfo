@@ -20,7 +20,7 @@
 						<div class="pading5Width450">
 						 	<div>
 						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+						  		<!-- <a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a> -->
 						  	</div>
 						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 						  	<div id="customerNameViewSelf">
@@ -36,7 +36,7 @@
 						 <div class="pading5Width450">
 						 	<div>
 						  		<label class="labelFontSize">사업명</label>
-						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+						  		<!-- <a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a> -->
 						  	</div>
 						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 						  	<div id="businessNameViewSelf">
@@ -48,73 +48,122 @@
 					</c:when>
 					<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 						<div class="pading5Width450">
-							<div>
-						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
-						  	</div>
-						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="customerNameViewSelf">
-					         	<select class="form-control selectpicker selectForm" id="customerName" name="customerName" data-live-search="true" data-size="5">
-					         		<c:if test="${customerInfo.customerName ne ''}"><option value=""></option></c:if>
-					         		<c:if test="${customerInfo.customerName eq ''}"><option value=""></option></c:if>
-					         		<c:forEach var="item" items="${customerName}">
-										<option value="${item}" <c:if test="${item eq customerNameView}">selected</c:if>><c:out value="${item}"/></option>
-									</c:forEach>
-								</select>
-							</div>
-							<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
-					        </div>
-					        <div class="pading5Width450">
-							<div>
-						  		<label class="labelFontSize">사업명</label>
-						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
-						  	</div>
-						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="businessNameViewSelf">
-					         	<select class="form-control selectpicker selectForm" id="businessName" name="businessName" data-live-search="true" data-size="5">
-					         		<c:if test="${customerInfo.businessName ne ''}"><option value=""></option></c:if>
-					         		<c:if test="${customerInfo.businessName eq ''}"><option value=""></option></c:if>
-					         		<c:forEach var="item" items="${businessName}">
-										<option value="${item}" <c:if test="${item eq businessNameView}">selected</c:if>><c:out value="${item}"/></option>
-									</c:forEach>
-								</select>
-							</div>
-					        </div>
+							<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+								<div>
+							  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+							  		<!-- <a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a> -->
+							  	</div>
+							  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+							  	<div id="customerNameViewSelf">
+						         	<select class="form-control selectpicker selectForm" id="customerName" name="customerName" data-live-search="true" data-size="5">
+						         		<c:if test="${customerInfo.customerName ne ''}"><option value=""></option></c:if>
+						         		<c:if test="${customerInfo.customerName eq ''}"><option value=""></option></c:if>
+						         		<c:forEach var="item" items="${customerName}">
+											<option value="${item}" <c:if test="${item eq customerNameView}">selected</c:if>><c:out value="${item}"/></option>
+										</c:forEach>
+									</select>
+								</div>
+								<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+					    	</sec:authorize>
+					    	<sec:authorize access="hasRole('MEMBER')">
+					    		<label class="labelFontSize">고객사명</label>
+					    		<input type="text" id="customerName" name="customerName" class="form-control viewForm" value="${customerInfo.customerName}" readonly>
+					    	</sec:authorize>
+						</div>
+					    <div class="pading5Width450">
+					    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+					    		<div>
+							  		<label class="labelFontSize">사업명</label>
+							  		<!-- <a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a> -->
+							  	</div>
+							  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+							  	<div id="businessNameViewSelf">
+							     	<select class="form-control selectpicker selectForm" id="businessName" name="businessName" data-live-search="true" data-size="5">
+							     		<c:if test="${customerInfo.businessName ne ''}"><option value=""></option></c:if>
+							     		<c:if test="${customerInfo.businessName eq ''}"><option value=""></option></c:if>
+							     		<c:forEach var="item" items="${businessName}">
+											<option value="${item}" <c:if test="${item eq businessNameView}">selected</c:if>><c:out value="${item}"/></option>
+										</c:forEach>
+									</select>
+								</div>
+					    	</sec:authorize>
+					    	<sec:authorize access="hasRole('MEMBER')">
+					    		<input type="text" id="businessName" name="businessName" class="form-control viewForm" value="${customerInfo.businessName}" readonly>
+					    	</sec:authorize>
+					    </div>
 					</c:when>
 				</c:choose>
 				<div class="pading5Width450">
 			    	<label class="labelFontSize">망 구분</label>
-			    	<input type="text" id="networkClassification" name="networkClassification" class="form-control viewForm" value="${networkClassificationView}">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="networkClassification" name="networkClassification" class="form-control viewForm" value="${networkClassificationView}">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="networkClassification" name="networkClassification" class="form-control viewForm" value="${networkClassificationView}" readonly>
+			    	</sec:authorize>
 			    </div>
 			    <span class="colorRed" id="Overlap" style="display: none; line-height: initial;">동일한 사업명 및 망 구분이 존재합니다. 등록된 고객정보를 수정하여 사용 바랍니다.</span>
 				<div class="pading5Width450">
 			    	<label class="labelFontSize">고객사 담당자 이름</label>
-			    	<input type="text" id="customerManagerName" name="customerManagerName" class="form-control viewForm" value="${customerInfo.customerManagerName}">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="customerManagerName" name="customerManagerName" class="form-control viewForm" value="${customerInfo.customerManagerName}">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="customerManagerName" name="customerManagerName" class="form-control viewForm" value="${customerInfo.customerManagerName}" readonly>
+			    	</sec:authorize>
 			    </div>
 			    <div class="pading5Width450">
 			    	<label class="labelFontSize">고객사 담당자 부서</label>
-			    	<input type="text" id="customerDept" name="customerDept" class="form-control viewForm" value="${customerInfo.customerDept}">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="customerDept" name="customerDept" class="form-control viewForm" value="${customerInfo.customerDept}">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="customerDept" name="customerDept" class="form-control viewForm" value="${customerInfo.customerDept}" readonly>
+			    	</sec:authorize>
 			    </div>
 			</div>
 			<div class="rightDiv">
 			    <div class="pading5Width450">
 			    	<label class="labelFontSize">고객사 담당자 전화번호</label>
-			    	<input type="text" id="customerPhoneNumber" name="customerPhoneNumber" class="form-control viewForm" value="${customerInfo.customerPhoneNumber}">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="customerPhoneNumber" name="customerPhoneNumber" class="form-control viewForm" value="${customerInfo.customerPhoneNumber}">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="customerPhoneNumber" name="customerPhoneNumber" class="form-control viewForm" value="${customerInfo.customerPhoneNumber}" readonly>
+			    	</sec:authorize>
 			    </div>
 			    <div class="pading5Width450">
 			    	<label class="labelFontSize width100">고객사 주소</label>
-			    	<input type="text" id="customerZipCode" name="customerZipCode" class="form-control viewForm zipCodeForm" value="${customerInfo.customerZipCode}" placeholder="우편번호" readonly>
-			    	<input type="text" id="customerAddress" name="customerAddress" class="form-control viewForm addressFom" value="${customerInfo.customerAddress}" placeholder="주소" readonly>
-			    	<button class="btn btn-primary addressButton" type="button" id="btnAddress">주소 찾기</button>
-			    	<input type="text" id="customerFullAddress" name="customerFullAddress" class="form-control viewForm" value="${customerInfo.customerFullAddress}" placeholder="상세주소">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="customerZipCode" name="customerZipCode" class="form-control viewForm zipCodeForm" value="${customerInfo.customerZipCode}" placeholder="우편번호" readonly>
+			    		<input type="text" id="customerAddress" name="customerAddress" class="form-control viewForm addressFom" value="${customerInfo.customerAddress}" placeholder="주소" readonly>
+			    		<button class="btn btn-primary addressButton" type="button" id="btnAddress">주소 찾기</button>
+			    		<input type="text" id="customerFullAddress" name="customerFullAddress" class="form-control viewForm" value="${customerInfo.customerFullAddress}" placeholder="상세주소">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="customerZipCode" name="customerZipCode" class="form-control viewForm zipCodeForm" value="${customerInfo.customerZipCode}" placeholder="우편번호" readonly>
+			    		<input type="text" id="customerAddress" name="customerAddress" class="form-control viewForm addressFom" style="width:365px" value="${customerInfo.customerAddress}" placeholder="주소" readonly>
+			    		<input type="text" id="customerFullAddress" name="customerFullAddress" class="form-control viewForm" value="${customerInfo.customerFullAddress}" placeholder="상세주소" readonly>
+			    	</sec:authorize>
+			    	
 			    </div>
 			    <div class="pading5Width450">
 			    	<label class="labelFontSize">엔지니어 이름</label>
-			    	<input type="text" id="employeeSeName" name="employeeSeName" class="form-control viewForm" value="${customerInfo.employeeSeName}">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="employeeSeName" name="employeeSeName" class="form-control viewForm" value="${customerInfo.employeeSeName}">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="employeeSeName" name="employeeSeName" class="form-control viewForm" value="${customerInfo.employeeSeName}" readonly>
+			    	</sec:authorize>
 			    </div>
 			    <div class="pading5Width450">
 			    	<label class="labelFontSize">영업사원 이름</label>
-			    	<input type="text" id="employeeSalesName" name="employeeSalesName" class="form-control viewForm" value="${customerInfo.employeeSalesName}">
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="employeeSalesName" name="employeeSalesName" class="form-control viewForm" value="${customerInfo.employeeSalesName}">
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('MEMBER')">
+			    		<input type="text" id="employeeSalesName" name="employeeSalesName" class="form-control viewForm" value="${customerInfo.employeeSalesName}" readonly>
+			    	</sec:authorize>
 			    </div>
 			</div>
 		</div>
@@ -183,6 +232,15 @@
 							<input type="text" id="portalVer" name="portalVer" class="form-control viewForm marginBottom1" value="${customerInfo.portalVer}" readonly>
 						</sec:authorize>
 				    </div>
+			    </div>
+			    <div class="pading5Width450">
+			    	<label class="labelFontSize">OS타입</label>
+			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+			    		<input type="text" id="osType" name="osType" class="form-control viewForm" value="${customerInfo.osType}">
+			    	</sec:authorize>
+					<sec:authorize access="hasRole('MEMBER')">			    
+				    	<input type="text" id="osType" name="osType" class="form-control viewForm" value="${customerInfo.osType}" readonly>
+				    </sec:authorize>
 			    </div>
 			    <div class="pading5Width450">
 			    	<label class="labelFontSize">JAVA</label>

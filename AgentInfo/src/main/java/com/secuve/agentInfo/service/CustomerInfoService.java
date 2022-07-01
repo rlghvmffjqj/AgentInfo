@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.CustomerInfoDao;
+import com.secuve.agentInfo.dao.CustomerUidLogDao;
 import com.secuve.agentInfo.vo.CustomerInfo;
+import com.secuve.agentInfo.vo.CustomerUidLog;
 
 @Service
 public class CustomerInfoService {
 	@Autowired CustomerInfoDao customerInfoDao;
 	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 	@Autowired CategoryService categoryService;
+	@Autowired CustomerUidLogDao customerUidLogDao;
 
 	public String nowDate() {
 		Date now = new Date();
@@ -42,10 +45,48 @@ public class CustomerInfoService {
 		if (sucess > 0) {
 			customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
+			customerUidLog(customerInfo, principal, "INSERT");
 		}
 		return parameter(sucess);
 	}
 	
+	public void customerUidLog(CustomerInfo customerInfo, Principal principal, String event) {
+		int customerUidLogKeyNum = 0;
+		
+		CustomerUidLog customerUidLog = new CustomerUidLog();
+		try {
+			customerUidLogKeyNum = customerUidLogDao.customerUidLogKeyNum();
+		} catch (Exception e) {
+		}
+		
+		customerUidLog.setCustomerUidLogKeyNum(++customerUidLogKeyNum);
+		customerUidLog.setCustomerUidLogCustomerName(customerInfo.getCustomerName());
+		customerUidLog.setCustomerUidLogBusinessName(customerInfo.getBusinessName());
+		customerUidLog.setCustomerUidLogNetworkClassification(customerInfo.getNetworkClassification());
+		customerUidLog.setCustomerUidLogCustomerManagerName(customerInfo.getCustomerManagerName());
+		customerUidLog.setCustomerUidLogCustomerPhoneNumber(customerInfo.getCustomerPhoneNumber());
+		customerUidLog.setCustomerUidLogCustomerFullAddress(customerInfo.getCustomerFullAddress());
+		customerUidLog.setCustomerUidLogCustomerDept(customerInfo.getCustomerDept());
+		customerUidLog.setCustomerUidLogEmployeeSeName(customerInfo.getEmployeeSeName());
+		customerUidLog.setCustomerUidLogEmployeeSalesName(customerInfo.getEmployeeSalesName());
+		customerUidLog.setCustomerUidLogTosmsVer(customerInfo.getTosmsVer());
+		customerUidLog.setCustomerUidLogTosrfVer(customerInfo.getTosrfVer());
+		customerUidLog.setCustomerUidLogPortalVer(customerInfo.getPortalVer());
+		customerUidLog.setCustomerUidLogJavaVer(customerInfo.getJavaVer());
+		customerUidLog.setCustomerUidLogWebServerVer(customerInfo.getWebServerVer());
+		customerUidLog.setCustomerUidLogDatabaseVer(customerInfo.getDatabaseVer());
+		customerUidLog.setCustomerUidLogLogServerVer(customerInfo.getLogServerVer());
+		customerUidLog.setCustomerUidLogScvEaVer(customerInfo.getScvEaVer());
+		customerUidLog.setCustomerUidLogScvCaVer(customerInfo.getScvCaVer());
+		customerUidLog.setCustomerUidLogAuthPkiVer(customerInfo.getAuthPkiVer());
+		customerUidLog.setCustomerUidEvent(event);
+		customerUidLog.setCustomerUidUser(principal.getName());
+		customerUidLog.setCustomerUidTime(nowDate());
+		customerUidLog.setCustomerUidLogOsType(customerInfo.getOsType());
+		customerUidLogDao.insertCustomerUidLog(customerUidLog);
+		
+	}
+
 	public int CustomerInfoKeyNum() {
 		int customerInfoKeyNum = 0;
 		try {
@@ -108,6 +149,7 @@ public class CustomerInfoService {
 		if (sucess > 0) {
 			customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
+			customerUidLog(customerInfo, principal, "UPDATE");
 		}
 		return parameter(sucess);
 	}
@@ -116,11 +158,15 @@ public class CustomerInfoService {
 		return customerInfoDao.getCustomerInfoList(customerName);
 	}
 
-	public String deleteCustomerInfo(ArrayList<CustomerInfo> chkList) {
+	public String deleteCustomerInfo(ArrayList<CustomerInfo> chkList, Principal principal) {
 		for (CustomerInfo customerInfo : chkList) {
 			CustomerInfo customerInfoSub = customerInfoDao.getCustomerInfoOne(customerInfo.getCustomerInfoKeyNum());
 			int sucess = customerInfoDao.deleteCustomerInfo(customerInfo.getCustomerInfoKeyNum());
 
+			if(sucess > 0) {
+				customerUidLog(customerInfoSub, principal, "DELETE");
+			}
+			
 			if (sucess <= 0)
 				return "FALSE";
 		}

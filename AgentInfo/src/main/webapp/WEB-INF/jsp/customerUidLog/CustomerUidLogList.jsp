@@ -7,35 +7,51 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','packageLog');
+		    	$.cookie('name','customerLog');
 		    });
 	    </script>
 		<script>
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/uidLog'/>",
+					url: "<c:url value='/customerUidLog'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사 명','패키지 상세버전','패키지 명','패키지Key','이벤트','사용자','시간'],
+					colNames:['Key','고객사명','사업명','망 구분','담당자 이름','담당자 부서','담당자 전화번호','고객사 주소','엔지니어 이름','영업사원 이름','TOSMS','TOSRF','PORTAL','OS타입','JAVA','WebServer','Database','LogServer','ScvEA','ScvCA','Auth/PKI','이벤트','사용자','시간'],
 					colModel:[
-						{name:'uidKeyNum', index:'uidKeyNum', align:'center', width: 50, hidden:true},
-						{name:'uidCustomerName', index:'uidCustomerName',align:'center', width: 280},
-						{name:'uidOsDetailVersion', index:'uidOsDetailVersion',align:'center', width: 350},
-						{name:'uidPackageName', index:'uidPackageName', align:'center', width: 650},
-						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 60},
-						{name:'uidEvent', index:'uidEvent', align:'center', width: 100},
-						{name:'uidUser', index:'uidUser', align:'center', width: 100},
-						{name:'uidTime', index:'uidTime', align:'center', width: 200},
+						{name:'customerUidLogKeyNum', index:'customerUidLogKeyNum', align:'center', width: 50, hidden:true},
+						{name:'customerUidLogCustomerName', index:'customerUidLogCustomerName',align:'center', width: 280},
+						{name:'customerUidLogBusinessName', index:'customerUidLogBusinessName',align:'center', width: 180},
+						{name:'customerUidLogNetworkClassification', index:'customerUidLogNetworkClassification', align:'center', width: 70},
+						{name:'customerUidLogCustomerManagerName', index:'customerUidLogCustomerManagerName', align:'center', width: 80},
+						{name:'customerUidLogCustomerDept', index:'customerUidLogCustomerDept', align:'center', width: 100},
+						{name:'customerUidLogCustomerPhoneNumber', index:'customerUidLogCustomerPhoneNumber', align:'center', width: 100},
+						{name:'customerUidLogCustomerFullAddress', index:'customerUidLogCustomerFullAddress', align:'center', width: 200},
+						{name:'customerUidLogEmployeeSeName', index:'customerUidLogEmployeeSeName', align:'center', width: 80},
+						{name:'customerUidLogEmployeeSalesName', index:'customerUidLogEmployeeSalesName', width: 180, align:'center', width: 80},
+						{name:'customerUidLogTosmsVer', index:'customerUidLogTosmsVer', align:'center', width: 230},
+						{name:'customerUidLogTosrfVer', index:'customerUidLogTosrfVer', align:'center', width: 230},
+						{name:'customerUidLogPortalVer', index:'customerUidLogPortalVer', align:'center', width: 230},
+						{name:'customerUidLogOsType', index:'customerUidLogOsType', align:'center', width: 100},
+						{name:'customerUidLogJavaVer', index:'customerUidLogJavaVer', align:'center', width: 230},
+						{name:'customerUidLogWebServerVer', index:'customerUidLogWebServerVer', align:'center', width: 230},
+						{name:'customerUidLogDatabaseVer', index:'customerUidLogDatabaseVer', align:'center', width: 230},
+						{name:'customerUidLogLogServerVer', index:'customerUidLogLogServerVer', align:'center', width: 230},
+						{name:'customerUidLogScvEaVer', index:'customerUidLogScvEaVer', align:'center', width: 230},
+						{name:'customerUidLogScvCaVer', index:'customerUidLogScvCaVer', align:'center', width: 230},
+						{name:'customerUidLogAuthPkiVer', index:'customerUidLogAuthPkiVer', align:'center', width: 230},
+						{name:'customerUidEvent', index:'customerUidEvent', align:'center', width: 110},
+						{name:'customerUidUser', index:'customerUidUser', align:'center', width: 100},
+						{name:'customerUidTime', index:'customerUidTime', align:'center', width: 200},
 					],
 					jsonReader : {
-			        	id: 'uidKeyNum',
+			        	id: 'customerUidLogKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'uidKeyNum', 		// 기본 정렬 
+			        sortname: 'customerUidLogKeyNum', 		// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -47,7 +63,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','uidLogList');
+				loadColumns('#list','customerUidLogList');
 	 		});
 			
 			$(window).on('resize.list', function () {
@@ -71,8 +87,8 @@
 	                              <div class="row align-items-center">
 	                                  <div class="col-md-8">
 	                                      <div class="page-header-title" >
-	                                          <h5 class="m-b-10">패키지 배포 내용 로그</h5>
-	                                          <p class="m-b-0">Log Information</p>
+	                                          <h5 class="m-b-10">고객사 정보 로그</h5>
+	                                          <p class="m-b-0">Customer Log Information</p>
 	                                      </div>
 	                                  </div>
 	                                  <div class="col-md-4">
@@ -95,43 +111,41 @@
 		                      					<form id="form" name="form" method ="post"> 
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">고객사명</label>
-														<select class="form-control selectpicker" id="uidCustomerNameMulti" name="uidCustomerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<select class="form-control selectpicker" id="customerUidLogCustomerNameMulti" name="customerUidLogCustomerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<c:forEach var="item" items="${customerName}">
 																<option value="${item}"><c:out value="${item}"/></option>
 															</c:forEach>
 														</select>
 													</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">패키지 상세버전</label>
-		                      							<input type="text" id="uidOsDetailVersion" name="uidOsDetailVersion" class="form-control">
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">패키지명</label>
-		                      							<input type="text" id="uidPackageName" name="uidPackageName" class="form-control">
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">패키지 Key</label>
-		                      							<input type="text" id="packagesKeyNum" name="packagesKeyNum" class="form-control">
-		                      						</div>
+													<div class="col-lg-2">
+		                      							<label class="labelFontSize">사업명</label>
+														<select class="form-control selectpicker" id="customerUidLogBusinessNameMulti" name="customerUidLogBusinessNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${businessName}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+		                      							<label class="labelFontSize">망 구분</label>
+														<input type="text" id="customerUidLogNetworkClassification" name="customerUidLogNetworkClassification" class="form-control">
+													</div>
 		                      						
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">이벤트</label>
-														<select class="form-control selectpicker" id="uidEventMulti" name="uidEventMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<select class="form-control selectpicker" id="customerUidEventMulti" name="customerUidEventMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<option value="INSERT">INSERT</option>
 															<option value="UPDATE">UPDATE</option>
 															<option value="DELETE">DELETE</option>
-															<option value="배포완료">배포완료</option>
-															<option value="적용">적용</option>
-															<option value="대기">대기</option>
 														</select>
 													</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">사용자</label>
-		                      							<input type="text" id="uidUser" name="uidUser" class="form-control">
+		                      							<input type="text" id="customerUidUser" name="customerUidUser" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-12 text-right">
-		                      							<input type="hidden" id="uidCustomerName" name="uidCustomerName" class="form-control">
-		                      							<input type="hidden" id="uidEvent" name="uidEvent" class="form-control">
+		                      							<input type="hidden" id="customerUidLogCustomerName" name="customerUidLogCustomerName" class="form-control">
+		                      							<input type="hidden" id="customerUidLogBusinessName" name="customerUidLogBusinessName" class="form-control">
+		                      							<input type="hidden" id="customerUidEvent" name="customerUidEvent" class="form-control">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
 																<i class="fa fa-search"></i>&nbsp;<span>검색</span>
@@ -150,7 +164,7 @@
 														<table style="width:100%">
 														<tbody><tr>
 															<td style="font-weight:bold;">로그 관리 :
-																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'uidLogList');">컬럼 선택</button>
+																<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'customerUidLogList');">컬럼 선택</button>
 															</td>
 														</tr>
 														<tr>
@@ -186,8 +200,9 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
-			$('#uidCustomerName').val($('#uidCustomerNameMulti').val().join());
-			$('#uidEvent').val($('#uidEventMulti').val().join());
+			$('#customerUidLogCustomerName').val($('#customerUidLogCustomerNameMulti').val().join());
+			$('#customerUidLogBusinessName').val($('#customerUidLogBusinessNameMulti').val().join());
+			$('#customerUidEvent').val($('#customerUidEventMulti').val().join());
 			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();

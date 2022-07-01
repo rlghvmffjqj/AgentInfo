@@ -70,6 +70,14 @@
 			$('.requestsWrite').addClass('active');
 		} else if($.cookie('name') == 'customerInfo') {
 			$('.customerInfo').addClass('active');
+		} else if($.cookie('name') == 'packageLog') {
+			$('.packageLog').addClass('active');
+			$('.log').addClass('active');
+			$('.log').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'customerLog') {
+			$('.customerLog').addClass('active');
+			$('.log').addClass('active');
+			$('.log').addClass('pcoded-trigger');
 		}
 	});
 </script>
@@ -163,7 +171,32 @@
 		    </sec:authorize>
 			<sec:authorize access="hasRole('ADMIN')">
 		 		<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
-			        <ul class="pcoded-item pcoded-left-item">
+			    <ul class="pcoded-item pcoded-left-item">
+			    	<li class="log pcoded-hasmenu">
+						<a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
+			                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+			                <span class="pcoded-mtext" data-i18n="nav.form-components.main">로그 정보</span>
+			                <span class="pcoded-mcaret"></span>
+			            </a>
+			            <ul class="pcoded-submenu" style="display: block;">
+					        <li class="packageLog">
+					            <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용 로그</span>
+					                <span class="pcoded-mcaret"></span>
+					            </a>
+					        </li>
+					        <li class="customerLog">
+					            <a href="<c:url value='/customerUidLog/list'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보 로그</span>
+					                <span class="pcoded-mcaret"></span>
+					            </a>
+					        </li>
+						</ul>
+					</li>
+			    </ul>
+			        <%-- <ul class="pcoded-item pcoded-left-item">
 			            <li class="log">
 			                <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
 			                    <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
@@ -171,7 +204,7 @@
 			                    <span class="pcoded-mcaret"></span>
 			                </a>
 			            </li>
-			        </ul>
+			        </ul> --%>
 		        	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
 		        	<ul class="pcoded-item pcoded-left-item">
 			            <li class="employee">

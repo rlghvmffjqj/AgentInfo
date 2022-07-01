@@ -91,7 +91,7 @@ public class CustomerInfoController {
 	@ResponseBody
 	@PostMapping(value = "/customerInfo/delete")
 	public String CustomerInfoDelete(@RequestBody ArrayList<CustomerInfo> chkList, Principal principal) {
-		return customerInfoService.deleteCustomerInfo(chkList);
+		return customerInfoService.deleteCustomerInfo(chkList, principal);
 	}
 	
 }
