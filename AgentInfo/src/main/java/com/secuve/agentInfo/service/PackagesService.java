@@ -1368,36 +1368,35 @@ public class PackagesService {
 				customerInfoDao.insertCustomerInfo(customerInfoSub);
 				customerInfo = customerInfoSub;
 			}
-			
 			if(packages.getManagementServer().equals("관리서버")) {
-				customerInfoDao.updateTOSMS(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updateTOSMS(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				updateProductCheck(packages, customerInfo.getProductCheck(), "tosms");
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(TOSMS)");
 			} else if(packages.getManagementServer().equals("TOSRF")) {
-				customerInfoDao.updateTOSRF(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updateTOSRF(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				updateProductCheck(packages, customerInfo.getProductCheck(), "tosrf");
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(TOSRF)");
 			} else if(packages.getManagementServer().equals("Portal")) {
-				customerInfoDao.updatePORTAL(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updatePORTAL(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				updateProductCheck(packages, customerInfo.getProductCheck(), "portal");
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(PORTAL)");
 			} else if(packages.getManagementServer().equals("LogServer")) {
-				customerInfoDao.updateLogServer(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updateLogServer(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(LogServer)");
 			} else if(packages.getManagementServer().equals("ScvEA")) {
-				customerInfoDao.updateScvEA(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updateScvEA(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(ScvEA)");
 			} else if(packages.getManagementServer().equals("ScvCA")) {
-				customerInfoDao.updateScvCA(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updateScvCA(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(ScvCA)");
 			} else if(packages.getManagementServer().equals("Authclient")) {
-				customerInfoDao.updateAuthclient(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName());
+				customerInfoDao.updateAuthclient(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification(), packages.getPackageName(), packages.getOsType());
 				customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 				customerInfoService.customerUidLog(customerInfo, principal, "UPDATE(Auth/PKI )");
 			}

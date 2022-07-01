@@ -22,66 +22,73 @@ public class CustomerInfoDao {
 		return sqlSession.selectOne("customerInfo.getCustomerInfoOne", customerInfoKeyNum);
 	}
 
-	public void updateTOSMS(String customerName, String businessName, String networkClassification, String packageName) {
+	public void updateTOSMS(String customerName, String businessName, String networkClassification, String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updateTOSMS", parameters);
 	}
 
-	public void updateTOSRF(String customerName, String businessName, String networkClassification,	String packageName) {
+	public void updateTOSRF(String customerName, String businessName, String networkClassification,	String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updateTOSRF", parameters);
 	}
 
-	public void updatePORTAL(String customerName, String businessName, String networkClassification, String packageName) {
+	public void updatePORTAL(String customerName, String businessName, String networkClassification, String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updatePORTAL", parameters);
 	}
 
-	public void updateLogServer(String customerName, String businessName, String networkClassification,	String packageName) {
+	public void updateLogServer(String customerName, String businessName, String networkClassification,	String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updateLogServer", parameters);
 	}
 
-	public void updateScvEA(String customerName, String businessName, String networkClassification,	String packageName) {
+	public void updateScvEA(String customerName, String businessName, String networkClassification,	String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updateScvEA", parameters);
 	}
 
-	public void updateScvCA(String customerName, String businessName, String networkClassification,	String packageName) {
+	public void updateScvCA(String customerName, String businessName, String networkClassification,	String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updateScvCA", parameters);
 	}
 
-	public void updateAuthclient(String customerName, String businessName, String networkClassification, String packageName) {
+	public void updateAuthclient(String customerName, String businessName, String networkClassification, String packageName, String osType) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerName", customerName);
 		parameters.put("businessName", businessName);
 		parameters.put("networkClassification", networkClassification);
 		parameters.put("packageName", packageName);
+		parameters.put("osType", osType);
 		sqlSession.update("customerInfo.updateAuthclient", parameters);
 	}
 

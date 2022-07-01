@@ -40,36 +40,57 @@
 	
 	<update id="updateTOSMS">
 		UPDATE customerInfo SET tosmsVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
 	<update id="updateTOSRF">
 		UPDATE customerInfo SET tosrfVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
 	<update id="updatePORTAL">
 		UPDATE customerInfo SET portalVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
 	<update id="updateLogServer">
 		UPDATE customerInfo SET logServerVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
 	<update id="updateScvEA">
 		UPDATE customerInfo SET scvEaVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
 	<update id="updateScvCA">
 		UPDATE customerInfo SET scvCaVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
 	<update id="updateAuthclient">
 		UPDATE customerInfo SET authPkiVer = #{packageName}
+		<if test="osType != null and osType != ''">
+			, osType = #{osType}
+		</if>
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
 	
