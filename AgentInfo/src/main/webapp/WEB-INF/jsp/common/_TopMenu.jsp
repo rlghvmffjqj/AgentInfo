@@ -100,6 +100,9 @@ function toggle(element) {
 
 /* =========== 쿠키값 으로 고객사 표시, 숨김 ========= */
 $(function() {
+	<sec:authorize access="hasAnyRole('ENGINEER','MEMBER')">
+		$.removeCookie('customerSwitch', { path: '/' });
+	</sec:authorize>
 	var cookieSwitch = $.cookie('customerSwitch');
 	if(cookieSwitch == 'on') {
 		$("#customerSwitch").prop("checked",true);
