@@ -578,11 +578,13 @@ p {
     font-family: monospace;
     margin-right: 0px;
     font-size: 15px;
+    z-index: 0;
 }
 
 .btn-customer:hover {
 	background-image: none;
 	font-weight: bold;
+	box-shadow: 8px 7px 10px lavender;
 }
 
 .btn-customer:focus {
@@ -608,6 +610,7 @@ p {
 .btn-product:hover {
 	background-image: none;
 	font-weight: bold;
+	box-shadow: 8px 7px 10px lavender;
 }
 
 .displayFlex {
