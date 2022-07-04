@@ -2,14 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
-<div style="display: flex;">
-	<button class="btn btn-customer btnm" type="button" id="btnCustomer">
-		<span>고객사</span>
-	</button>
-	<button class="btn btn-product btnm" type="button" id="btnProduct">
-		<span>제품</span>
-	</button>
-</div>
+
 <div class="modal-body" style="width: 100%; height: 390px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="customerInfoKeyNum" name="customerInfoKeyNum" class="form-control viewForm" value="${customerInfo.customerInfoKeyNum}">

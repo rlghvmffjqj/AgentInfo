@@ -31,71 +31,85 @@
 				      		var customerInfoKeyNum = rowData.row.customerInfoKeyNum;
 							return '<a style="color:#0000FE" onclick="updateView('+"'"+customerInfoKeyNum+"'"+');">' + rowData.value + '</a>';
 			            },
+			            width: 170,
 				    },    
 				    {                      
 				    	header: '사업명',     
 				      	name: 'businessName', 
 				      	align: 'center',
+				      	width: 150,
 				    },  
 				    {                      
 				    	header: '망 구분',     
 				      	name: 'networkClassification', 
 				      	align: 'center',
+				      	width: 80,
 				    },  
 				    {                      
 				    	header: 'OS타입',     
 				      	name: 'osType', 
 				      	align: 'center',
+				      	width: 80,
 				    }, 
 				    {                      
 				    	header: 'TOSMS',     
 				      	name: 'tosmsVer', 
 				      	align: 'center',
+				      	width: 260,
 				    }, 
 				    {                      
 				    	header: 'TOSRF',     
 				      	name: 'tosrfVer', 
 				      	align: 'center',
+				      	width: 260,
 				    },  
 				    {                      
 				    	header: 'PORTAL',     
 				      	name: 'portalVer', 
 				      	align: 'center',
+				      	width: 260,
 				    },  
 				    {                      
 				    	header: 'LogServer',     
 				      	name: 'logServerVer', 
 				      	align: 'center',
+				      	width: 260,
 				    },  
 				    {                      
 				    	header: 'ScvEA',     
 				      	name: 'scvEaVer', 
 				      	align: 'center',
+				      	width: 260,
 				    },  
 				    {                      
 				    	header: 'ScvCA',     
 				      	name: 'scvCaVer', 
 				      	align: 'center',
+				      	width: 260,
 				    },
 				    {                      
 				    	header: 'Auth/PKI',     
 				      	name: 'authPkiVer', 
 				      	align: 'center',
+				      	width: 260,
 				    },
 				    {                      
 				    	header: 'JAVA',     
 				      	name: 'javaVer', 
 				      	align: 'center',
+				      	width: 150,
 				    },  
 				    {                      
 				    	header: 'WebServer',     
 				      	name: 'webServerVer', 
 				      	align: 'center',
+				      	width: 150,
 				    },  
 				    {                      
 				    	header: 'Database',     
 				      	name: 'databaseVer', 
 				      	align: 'center',
+				      	width: 150,
 				    },  
 				   ],
 				   columnOptions: {

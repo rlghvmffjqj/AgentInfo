@@ -226,6 +226,7 @@
   white-space: nowrap;
   padding: 0;
   overflow: hidden;
+  border-right-width: 1px !important;
 }
 .tui-grid-cell .tui-grid-cell-content {
   padding: 12px 12px 11px;
@@ -302,8 +303,8 @@
   float: left;
   position: absolute;
   bottom: 1px;
-  left: -99px;
-  width: 0.5px !important;
+  margin-left: 3px;
+  width: 1px !important;
   background: lightgray;
   /* opacity: 0; */
   filter: alpha(opacity=0);

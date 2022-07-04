@@ -572,9 +572,9 @@ p {
 .btn-customer {
 	float: left;
     width: 50%;
-    background: beige;
+    background: white;
     height: 70px;
-    border: 1px solid #b8860b57;
+    border-radius: 0px;
     font-family: monospace;
     margin-right: 0px;
     font-size: 15px;
@@ -583,7 +583,6 @@ p {
 .btn-customer:hover {
 	background-image: none;
 	font-weight: bold;
-    background-color: cornsilk;
 }
 
 .btn-customer:focus {
@@ -594,11 +593,11 @@ p {
 .btn-product {
 	float: left;
     width: 50%;
-    background: antiquewhite;
+    background: burlywood;
     height: 70px;
-    border: 1px solid #b8860b57;
     font-family: monospace;
     margin-right: 0px;
+    border-radius: 0px;
     font-size: 15px;
 }
 
@@ -609,7 +608,6 @@ p {
 .btn-product:hover {
 	background-image: none;
 	font-weight: bold;
-    background-color: bisque;;
 }
 
 .displayFlex {
@@ -632,4 +630,8 @@ p {
 
 .headLabel {
 	color: brown !important;
+}
+
+.modal-content {
+	border: 0px !important;
 }

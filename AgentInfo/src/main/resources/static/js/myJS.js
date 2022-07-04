@@ -18,7 +18,19 @@ $.modal = function (modalContent, size) {
     
     if(size=='r') html += ' modal-r';
     html += '" role="document">';
+    
+    if(size=='se') {
+	    html += '<div style="display: flex; width: 30%; margin-bottom: -3px;">';
+		html += 	'<button class="btn btn-customer btnm" type="button" id="btnCustomer">';
+		html += 		'<span>고객사</span>';
+		html += 	'</button>';
+		html += 	'<button class="btn btn-product btnm" type="button" id="btnProduct">';
+		html += 		'<span>제품</span>';
+		html += 	'</button>';
+		html += '</div>';
+	} 
     html += '		<div class="modal-content">';
+    
     html += modalContent;
     html += '		</div>';
     html += '	</div>';
