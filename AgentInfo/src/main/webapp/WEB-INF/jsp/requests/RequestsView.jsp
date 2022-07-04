@@ -3,6 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
+<div class="noticeStyle">
 <div class="modal-body" style="width: 100%; height: 590px;">
 	<div class="card-block margin10">
 		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">
@@ -10,33 +11,33 @@
 			<div class="form-group form-default form-static-label">
 			    <input type="text" id="requestsDate" name="requestsDate" class="form-control" required="" value="${requests.requestsDate}" disabled>
 			    <span class="form-bar"></span>
-			    <label class="float-label">날짜</label>
+			    <label class="float-label headLabel">날짜</label>
 			</div>
 			<div class="form-group form-default form-static-label">
 			    <input type="text" id="employeeId" name="employeeId" class="form-control" required="" value="${requests.employeeId}" disabled>
 			    <span class="form-bar"></span>
-			    <label class="float-label">사용자ID</label>
+			    <label class="float-label headLabel">사용자ID</label>
 			</div>
 			<div class="form-group form-default form-static-label">
 			    <input type="text" id="employeeName" name="employeeName" class="form-control" required="" value="${requests.employeeName}" disabled>
 			    <span class="form-bar"></span>
-			    <label class="float-label">사원명</label>
+			    <label class="float-label headLabel">사원명</label>
 			</div>
 			<div class="form-group form-default form-static-label">
 			    <input type="text" id="requestsTitle" name="requestsTitle" class="form-control" required="" value="${requests.requestsTitle}" disabled>
 			    <span class="form-bar"></span>
-			    <label class="float-label">제목</label>
+			    <label class="float-label headLabel">제목</label>
 			</div>
 			<div class="form-group form-default form-static-label">
 			    <textarea id="requestsDetail" name="requestsDetail" class="form-control view" required="" style="height:190px !important" disabled>${requests.requestsDetail}</textarea>
 			    <span class="form-bar"></span>
-			    <label class="float-label">내용</label>
+			    <label class="float-label headLabel">내용</label>
 			</div>
 			<sec:authorize access="hasAnyRole('MEMBER','ENGINEER')">
 				<div class="form-group form-default form-static-label">
 				    <input type="text" id="requestsState" name="requestsState" class="form-control" required="" value="${requests.requestsState}" disabled>
 				    <span class="form-bar"></span>
-				    <label class="float-label">상태</label>
+				    <label class="float-label headLabel">상태</label>
 				</div>
 			</sec:authorize>
 			
@@ -48,7 +49,7 @@
 				     <option value="대기" <c:if test="${'대기' eq requests.requestsState}">selected</c:if>>대기</option>
 				    </select>
 				    <span class="form-bar"></span>
-				    <label class="float-label">상태</label>
+				    <label class="float-label headLabel">상태</label>
 				</div>
 			</sec:authorize>
 		 </form>
@@ -59,6 +60,7 @@
 		<button class="btn btn-default btn-outline-info-add" id="updateBtn">상태 변경</button>
 	</sec:authorize>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+</div>
 </div>
 
 <script>
