@@ -89,17 +89,19 @@ function toggle(element) {
     if(element.checked) {
     	$('.customerLog').show();
     	$('.customerInfoSwitch').show();
-    	$.cookie('switch','true');
+    	$.cookie('customerSwitch','on',{path:'/'});
     } else {
     	$('.customerLog').hide();
     	$('.customerInfoSwitch').hide();
-    	$.cookie('switch','false');
+    	$.cookie('customerSwitch','off',{path:'/'});
     }
+    /* location.reload(); */
 }
 
 /* =========== 쿠키값 으로 고객사 표시, 숨김 ========= */
 $(function() {
-	if($.cookie('switch') == "true") {
+	var cookieSwitch = $.cookie('customerSwitch');
+	if(cookieSwitch == 'on') {
 		$("#customerSwitch").prop("checked",true);
 		customerSwitch(true);
 	} else {
