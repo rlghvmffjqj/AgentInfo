@@ -132,7 +132,7 @@
 		            </a>
 		        </li>
 		    </ul> --%>
-		    <ul class="pcoded-item pcoded-left-item">
+		    <ul class="pcoded-item pcoded-left-item customerInfoSwitch" style="display: none;">
 		        <li class="customerInfo">
 		            <a href="<c:url value='/customerInfo/search'/>" class="waves-effect waves-dark">
 		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
@@ -186,7 +186,7 @@
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
-					        <li class="customerLog">
+					        <li class="customerLog" style="display: none;">
 					            <a href="<c:url value='/customerUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보 로그</span>

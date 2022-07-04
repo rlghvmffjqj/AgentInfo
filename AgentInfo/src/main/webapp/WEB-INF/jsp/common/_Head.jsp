@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.mCustomScrollbar.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/myStyle.css'/>">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/toggle.css'/>">
 
 <!-- jqGrid UI -->
 <link href="<c:url value='/jquery-ui-1.13.1.custom/jquery-ui.min.css'/>" rel="stylesheet" type="text/css" />

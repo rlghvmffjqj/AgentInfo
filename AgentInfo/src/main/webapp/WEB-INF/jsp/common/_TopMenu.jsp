@@ -34,6 +34,14 @@
                         <i class="ti-fullscreen"></i>
                     </a>
                 </li>
+                <sec:authorize access="hasRole('ADMIN')">
+	                <li style="height:55px">
+	                	<label class="switch" style="margin-top: 12px;">
+					        <input type="checkbox" id="customerSwitch" onclick="toggle(this)">
+					        <span class="slider round"></span>
+					    </label>
+	                </li>
+                </sec:authorize>
             </ul>
             <ul class="nav-right">
                 <li class="user-profile header-notification">
@@ -61,6 +69,7 @@
 </nav>
 
 <script>
+/* =========== 프로필 조회 ========= */
 function profileView() {	
 	$.ajax({
 	    type: 'POST',
@@ -74,4 +83,39 @@ function profileView() {
 	    }
 	});
  }
+ 
+/* =========== 고객사 표시, 숨김(쿠키) ========= */
+function toggle(element) {
+    if(element.checked) {
+    	$('.customerLog').show();
+    	$('.customerInfoSwitch').show();
+    	$.cookie('switch','true');
+    } else {
+    	$('.customerLog').hide();
+    	$('.customerInfoSwitch').hide();
+    	$.cookie('switch','false');
+    }
+}
+
+/* =========== 쿠키값 으로 고객사 표시, 숨김 ========= */
+$(function() {
+	if($.cookie('switch') == "true") {
+		$("#customerSwitch").prop("checked",true);
+		customerSwitch(true);
+	} else {
+		$("#customerSwitch").prop("checked",false);
+		customerSwitch(false);
+	}
+});
+
+/* =========== 고객사 표시, 숨김 ========= */
+function customerSwitch(result) {
+	if(result) {
+		$('.customerLog').show();
+		$('.customerInfoSwitch').show();
+	} else {
+		$('.customerLog').hide();
+		$('.customerInfoSwitch').hide();
+	}
+}
 </script>
