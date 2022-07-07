@@ -38,6 +38,10 @@ public class UIDLogService {
 	public UIDLog UIDLogSearch(UIDLog search) {
 		search.setUidCustomerNameArr(search.getUidCustomerName().split(","));
 		search.setUidEventArr(search.getUidEvent().split(","));
+		if(search.getUidDateStart() != "" && search.getUidDateEnd() != "") {
+			search.setUidDateStart(search.getUidDateStart() + " 00:00:00");
+			search.setUidDateEnd(search.getUidDateEnd() + " 24:59:59");
+		}
 		
 		return search;
 	}
