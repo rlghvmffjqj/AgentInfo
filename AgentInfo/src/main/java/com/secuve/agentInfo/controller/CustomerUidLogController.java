@@ -22,6 +22,11 @@ public class CustomerUidLogController {
 	@Autowired CustomerUidLogService customerUidLogService;
 	@Autowired CategoryService categoryService;
 	
+	/**
+	 * 고객사 정보 로그 페이지 이동
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/customerUidLog/list")
 	public String CustomerUidLogList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -32,6 +37,11 @@ public class CustomerUidLogController {
 		return "customerUidLog/CustomerUidLogList";
 	}
 	
+	/**
+	 * 고객사 정보 로그 데이터 조회
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customerUidLog")
 	public Map<String, Object> CustomerUidLog(@ModelAttribute("search") CustomerUidLog search) {

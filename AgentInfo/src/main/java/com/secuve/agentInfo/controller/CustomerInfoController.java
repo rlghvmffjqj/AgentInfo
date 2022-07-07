@@ -23,6 +23,11 @@ public class CustomerInfoController {
 	@Autowired CustomerInfoService customerInfoService;
 	@Autowired CategoryService categoryService;
 	
+	/**
+	 * 고객사 정보 페이지 이동
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/customerInfo/search")
 	public String CustomerInfoSearch(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -30,6 +35,11 @@ public class CustomerInfoController {
 		return "/customerInfo/CustomerSearch";
 	}
 	
+	/**
+	 * 고객사 정보 데이터 조회
+	 * @param customerName
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customerInfo")
 	public Map<String, Object> CustomerInfo(String customerName) {
@@ -39,6 +49,12 @@ public class CustomerInfoController {
 		return map;
 	}
 	
+	/**
+	 * 고객사 정보 수정 모달
+	 * @param model
+	 * @param customerInfoKeyNum
+	 * @return
+	 */
 	@PostMapping(value = "/customerInfo/updateView")
 	public String UpdateCustomerInfoView(Model model, int customerInfoKeyNum) {
 		CustomerInfo customerInfo = customerInfoService.getCustomerInfoOne(customerInfoKeyNum);
@@ -55,6 +71,12 @@ public class CustomerInfoController {
 		return "/customerInfo/CustomerInfoView";
 	}
 	
+	/**
+	 * 고객사 정보 추가 모달
+	 * @param model
+	 * @param customrInfo
+	 * @return
+	 */
 	@PostMapping(value = "/customerInfo/insertView")
 	public String InsertCustomerInfoView(Model model, CustomerInfo customrInfo) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -64,6 +86,12 @@ public class CustomerInfoController {
 		return "/customerInfo/CustomerInfoView";
 	}
 	
+	/**
+	 * 고객사 정보 추가
+	 * @param customerInfo
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customerInfo/insert")
 	public Map<String, String> InsertCustomerInfo(CustomerInfo customerInfo, Principal principal) {
@@ -76,6 +104,12 @@ public class CustomerInfoController {
 		return map;
 	}
 	
+	/**
+	 * 고객사 정보 수정
+	 * @param customerInfo
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customerInfo/update")
 	public Map<String, String> UpdateCustomerInfo(CustomerInfo customerInfo, Principal principal) {
@@ -88,6 +122,12 @@ public class CustomerInfoController {
 		return map;
 	}
 	
+	/**
+	 * 고객사 정보 삭제
+	 * @param chkList
+	 * @param principal
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/customerInfo/delete")
 	public String CustomerInfoDelete(@RequestBody ArrayList<CustomerInfo> chkList, Principal principal) {
