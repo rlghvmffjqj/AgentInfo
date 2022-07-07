@@ -277,13 +277,13 @@ public class PackagesController {
 
 		List list = packagesService.listAll(packages);
 
-		if (packages.getDeliveryDataStart() != "" && packages.getDeliveryDataEnd() != "") {
-			filename = packages.getDeliveryDataStart() + " - " + packages.getDeliveryDataEnd() + ".csv";
+		if (packages.getDeliveryDateStart() != "" && packages.getDeliveryDateEnd() != "") {
+			filename = packages.getDeliveryDateStart() + " - " + packages.getDeliveryDateEnd() + ".csv";
 		}
 
 		try {
-			if (packages.getDeliveryDataStart() != "" && packages.getDeliveryDataEnd() == ""
-					|| packages.getDeliveryDataStart() == "" && packages.getDeliveryDataEnd() != "") {
+			if (packages.getDeliveryDateStart() != "" && packages.getDeliveryDateEnd() == ""
+					|| packages.getDeliveryDateStart() == "" && packages.getDeliveryDateEnd() != "") {
 				filename = "전달일자 범위 오류.csv";
 				list = new ArrayList<Object>();
 			}

@@ -108,9 +108,41 @@
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">전달일자</label>
 	                      							<div>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDataStart" name="deliveryDataStart">
+														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDateStart" name="deliveryDateStart">
 														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDataEnd" name="deliveryDataEnd">
+														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDateEnd" name="deliveryDateEnd">
+													</div>
+													<div style="padding-left: 50px; float: left;">
+														<div class="form-check radioDate">
+														  <input class="form-check-input" type="radio" name="packageDate" id="toDay" value="0">
+														  <label class="form-check-label" for="toDay">
+														    당일
+														  </label>
+														</div>
+														<div class="form-check radioDate">
+														  <input class="form-check-input" type="radio" name="packageDate" id="oneWeek" value="7">
+														  <label class="form-check-label" for="oneWeek">
+														    1주일
+														  </label>
+														</div>
+														<div class="form-check radioDate">
+														  <input class="form-check-input" type="radio" name="packageDate" id="oneMonth" value="30">
+														  <label class="form-check-label" for="oneMonth">
+														    1개월
+														  </label>
+														</div>
+														<div class="form-check radioDate">
+														  <input class="form-check-input" type="radio" name="packageDate" id="threeMonth" value="90">
+														  <label class="form-check-label" for="threeMonth">
+														    3개월
+														  </label>
+														</div>
+														<div class="form-check radioDate">
+														  <input class="form-check-input" type="radio" name="packageDate" id="dateFull" value="full" checked>
+														  <label class="form-check-label" for="threeMonth">
+														    전체
+														  </label>
+														</div>
 													</div>
 	                      						</div>
 	                      						<div class="col-lg-2">
@@ -325,21 +357,21 @@
 		
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
-			var deliveryDataStart = $("#deliveryDataStart").val();
-			var deliveryDataEnd = $("#deliveryDataEnd").val();
-			if(deliveryDataStart > deliveryDataEnd) {
+			var deliveryDateStart = $("#deliveryDateStart").val();
+			var deliveryDateEnd = $("#deliveryDateEnd").val();
+			if(deliveryDateStart > deliveryDateEnd) {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
 					text: '전달일자 시작일이 종료일자 보다 큽니다.',    
 				});
-			} else if(deliveryDataStart == "" && deliveryDataEnd != "") {
+			} else if(deliveryDateStart == "" && deliveryDateEnd != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
 						text: '전달일자 시작일을 입력해주세요.',    
 					});
-			} else if(deliveryDataEnd == "" && deliveryDataStart != "") {
+			} else if(deliveryDateEnd == "" && deliveryDateStart != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
@@ -412,6 +444,7 @@
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
 			$("input[type='date']").val("");
+			$("#dateFull").prop("checked",true);
 	        
 	        $('.selectpicker').val('');
 	        $('.filter-option-inner-inner').text('');
@@ -543,6 +576,29 @@
 		        });
 			}
 		}
-	
+		
+		/* =========== 전달일자 업데이트 ========= */
+		function changeDate(term) {
+			const dateTo = new Date();
+ 	        const dateFrom = new Date(Date.parse(dateTo) - term * 1000 * 60 * 60 * 24);
+ 	        
+	        if(term == "full") {
+	        	$("#deliveryDateStart").val("");
+	        	$("#deliveryDateEnd").val("");
+	        } else {
+	        	$("#deliveryDateStart").val($.datepicker.formatDate("yy-mm-dd", dateFrom));
+	        	$("#deliveryDateEnd").val($.datepicker.formatDate("yy-mm-dd", dateTo));
+	        }
+	    }
+		
+		/* =========== 전달일자 라이오 버튼 클릭 ========= */
+		$(function() {
+			$('input[name="packageDate"]').click(function() {
+	            const value = $(this).val();
+	            if (value !== undefined) {
+	            	changeDate(value);
+	            }
+	        });
+		});
 	</script>
 </html>

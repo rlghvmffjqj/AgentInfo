@@ -73,5 +73,10 @@
 				AND customerUidUser LIKE CONCAT('%',#{customerUidUser},'%')
 			</if>
 		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="customerUidDateStart != null and customerUidDateStart != ''">
+				AND customerUidTime BETWEEN #{customerUidDateStart} AND #{customerUidDateEnd}
+			</if>
+		</trim>
 	</sql>
 </mapper>

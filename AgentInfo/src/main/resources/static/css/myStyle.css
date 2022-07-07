@@ -638,3 +638,12 @@ p {
 .modal-content {
 	border: 0px !important;
 }
+
+.radioDate {
+	float: left;
+    width: 100px;
+}
+
+.form-check-label {
+	padding-left: 0.25rem;
+}

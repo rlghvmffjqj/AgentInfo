@@ -20,6 +20,10 @@ public class CustomerUidLogService {
 		search.setCustomerUidLogCustomerNameArr(search.getCustomerUidLogCustomerName().split(","));
 		search.setCustomerUidLogBusinessNameArr(search.getCustomerUidLogBusinessName().split(","));
 		search.setCustomerUidEventArr(search.getCustomerUidEvent().split(","));
+		if(search.getCustomerUidDateStart() != "" && search.getCustomerUidDateEnd() != "") {
+			search.setCustomerUidDateStart(search.getCustomerUidDateStart() + " 00:00:00");
+			search.setCustomerUidDateEnd(search.getCustomerUidDateEnd() + " 24:59:59");
+		}
 		
 		return search;
 	}

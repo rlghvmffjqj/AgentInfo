@@ -245,8 +245,8 @@
 			<if test="requestDate != null and requestDate != ''">
 				AND requestDate = #{requestDate}
 			</if>
-			<if test="deliveryDataStart != null and deliveryDataStart != ''">
-				AND deliveryData BETWEEN #{deliveryDataStart} AND #{deliveryDataEnd}
+			<if test="deliveryDateStart != null and deliveryDateStart != ''">
+				AND deliveryData BETWEEN #{deliveryDateStart} AND #{deliveryDateEnd}
 			</if>
 		</trim>
 	</sql>

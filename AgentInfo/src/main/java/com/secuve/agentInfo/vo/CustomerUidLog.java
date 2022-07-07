@@ -48,6 +48,9 @@ public class CustomerUidLog {
 	private String[] customerUidLogBusinessNameArr;
 	private String[] customerUidEventArr;
 	
+	private String customerUidDateStart;
+	private String customerUidDateEnd;
+	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="uidKeyNum";			// 정렬할 기준 데이터

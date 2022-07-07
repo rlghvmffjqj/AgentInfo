@@ -108,7 +108,47 @@
 	                                <div class="page-wrapper">
 	                                	<div class="ibox">
 		                                	<div class="searchbos">
-		                      					<form id="form" name="form" method ="post"> 
+		                      					<form id="form" name="form" method ="post">
+		                      						<div style="padding-left:15px; width:100%; float: left;">
+		                      							<label class="labelFontSize">시간</label>
+		                      							<div>
+															<input class="form-control" style="width: 18.3%; float: left;" type="date" id="customerUidDateStart" name="customerUidDateStart">
+															<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
+															<input class="form-control" style="width: 18.3%; float: left;" type="date" id="customerUidDateEnd" name="customerUidDateEnd">
+														</div>
+														<div style="padding-left: 50px; float: left;">
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="customerUidDate" id="toDay" value="0">
+															  <label class="form-check-label" for="toDay">
+															    당일
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="customerUidDate" id="oneWeek" value="7">
+															  <label class="form-check-label" for="oneWeek">
+															    1주일
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="customerUidDate" id="oneMonth" value="30">
+															  <label class="form-check-label" for="oneMonth">
+															    1개월
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="customerUidDate" id="threeMonth" value="90">
+															  <label class="form-check-label" for="threeMonth">
+															    3개월
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="customerUidDate" id="dateFull" value="full" checked>
+															  <label class="form-check-label" for="threeMonth">
+															    전체
+															  </label>
+															</div>
+														</div>
+		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">고객사명</label>
 														<select class="form-control selectpicker" id="customerUidLogCustomerNameMulti" name="customerUidLogCustomerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
@@ -221,6 +261,7 @@
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
 			$("input[type='date']").val("");
+			$("#dateFull").prop("checked",true);
 	        
 	        $('.selectpicker').val('');
 	        $('.filter-option-inner-inner').text('');
@@ -230,6 +271,30 @@
 		/* =========== Select Box 선택 ========= */
 		$("select").change(function() {
 			tableRefresh();
+		});
+		
+		/* =========== 시간 업데이트 ========= */
+		function changeDate(term) {
+			const dateTo = new Date();
+ 	        const dateFrom = new Date(Date.parse(dateTo) - term * 1000 * 60 * 60 * 24);
+ 	        
+	        if(term == "full") {
+	        	$("#customerUidDateStart").val("");
+	        	$("#customerUidDateEnd").val("");
+	        } else {
+	        	$("#customerUidDateStart").val($.datepicker.formatDate("yy-mm-dd", dateFrom));
+	        	$("#customerUidDateEnd").val($.datepicker.formatDate("yy-mm-dd", dateTo));
+	        }
+	    }
+		
+		/* =========== 시간 라디오 버튼 클릭 ========= */
+		$(function() {
+			$('input[name="customerUidDate"]').click(function() {
+	            const value = $(this).val();
+	            if (value !== undefined) {
+	            	changeDate(value);
+	            }
+	        });
 		});
 	</script>
 </html>

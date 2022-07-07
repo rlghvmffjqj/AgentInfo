@@ -89,8 +89,8 @@ public class Packages {
 	private String[] requestProductCategoryArr;
 	private String[] deliveryMethodArr;
 	
-	private String deliveryDataStart;			// 전달일자  시작일
-	private String deliveryDataEnd;				// 전달일자  종료일
+	private String deliveryDateStart;			// 전달일자  시작일
+	private String deliveryDateEnd;				// 전달일자  종료일
 	
 	private String packagesRegistrant;			// 데이터 추가 사용자
 	private String packagesRegistrationDate;	// 데이터 추가 날짜

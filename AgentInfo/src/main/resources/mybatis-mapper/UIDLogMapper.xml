@@ -74,5 +74,10 @@
 				AND packagesKeyNum LIKE CONCAT('%',#{packagesKeyNum},'%')
 			</if>
 		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidDateStart != null and uidDateStart != ''">
+				AND uidTime BETWEEN #{uidDateStart} AND #{uidDateEnd}
+			</if>
+		</trim>
 	</sql>
 </mapper>
