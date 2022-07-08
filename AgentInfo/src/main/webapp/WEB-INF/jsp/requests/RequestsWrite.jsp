@@ -54,12 +54,12 @@
 												<div class="card-block">
 													<form class="form-material" id="form">
 														<div class="form-group form-default">
-															<input type="text" class="form-control" id="requestsTitle" name="requestsTitle" maxlength="50" required="">
+															<input type="text" class="form-control" id="requestsTitle" name="requestsTitle" maxlength="50" required>
 															<span class="form-bar"></span>
 															<label class="float-label">제목 추가</label>
 														</div>
 														<div class="form-group form-default">
-															<textarea class="form-control" id="requestsDetail" name="requestsDetail" required=""></textarea>
+															<textarea class="form-control" id="requestsDetail" name="requestsDetail" required></textarea>
 															<span class="form-bar"></span>
 															<label class="float-label">여기에 메시지를 입력 주세요.</label>
 														</div>
@@ -82,7 +82,27 @@
 	<script>
 		$('#sendBtn').click(function() {
 			var formData = $("#form").serializeObject();
-			console.log(formData);
+			var requestsTitle = $("#requestsTitle").val();
+			var requestsDetail = $("#requestsDetail").val();
+			console.log(requestsTitle);
+			console.log(requestsDetail);
+			if(requestsTitle == "") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '제목을 입력해주세요.',
+				});
+				$("#requestsTitle").focus();
+				return false;
+			} else if(requestsDetail == "") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '내용을 입력해주세요.',
+				});
+				$("#requestsDetail").focus();
+				return false;
+			}
 			$.ajax({
 			    type: 'post',
 			    url: "<c:url value='/requestsWrite/write'/>",
