@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<title>AgentInfo</title>
+<title>Secuve PKG 1.0</title>
 
 <meta charset="utf-8">
 <meta name="_csrf" th:content="${_csrf.token}"/>

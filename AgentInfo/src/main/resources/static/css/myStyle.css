@@ -647,3 +647,10 @@ p {
 .form-check-label {
 	padding-left: 0.25rem;
 }
+
+.lodingGif {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	background: #ffffff;
+}

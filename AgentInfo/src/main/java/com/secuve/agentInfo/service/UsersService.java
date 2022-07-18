@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import com.secuve.agentInfo.core.Role;
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.UsersJpaDao;
+import com.secuve.agentInfo.vo.LoginSession;
 import com.secuve.agentInfo.vo.Users;
 
 @Service
@@ -29,6 +30,12 @@ public class UsersService implements UserDetailsService{
 	@Autowired UsersJpaDao usersJpaDao;
 	@Autowired HttpSession session;
 	@Autowired EmployeeDao employeeDao;
+	@Autowired HttpServletRequest request;
+	
+	boolean enabled = true;
+    boolean accountNonExpired = true;
+    boolean credentialsNonExpired = true;
+    boolean accountNonLocked = true;
 	
 	@Override
 	public UserDetails loadUserByUsername(String usersId) throws UsernameNotFoundException {
@@ -47,7 +54,20 @@ public class UsersService implements UserDetailsService{
 			authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 			session.setAttribute("usersId", "users");
 		}
-		return new User(usersEntity.getUsersId(), usersEntity.getUsersPw(), authorities);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
+		String loginId = usersEntity.getUsersId();
+		String loginIp = request.getRemoteAddr();
+		String loginTime = df.format(new Date());
+		
+		// 접속 세션 목록 저장을 위해 추가
+		LoginSession loingSession = new LoginSession(
+				usersEntity.getUsersId(),
+				usersEntity.getUsersPw(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
+				authorities, loginId, loginIp, loginTime
+		);
+		return loingSession;
+		// return new User(usersEntity.getUsersId(), usersEntity.getUsersPw(), authorities);  // 기존 코드
 	}
 	
 	@Transactional

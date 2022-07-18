@@ -95,6 +95,20 @@ public class UsersController {
 	}
 	
 	/**
+	 * 중복 접속 방지
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/duplicateLogin")
+	public String DuplicateLogin(Model model) {
+		String loc = "/login";
+		String msg = "다른 사용자가 현재 접속 계정으로 로그인하였습니다.";
+
+		model.addAttribute("loc", loc).addAttribute("msg", msg);
+		return "common/msg";
+	}
+	
+	/**
 	 * 프로필 Modal
 	 * @param model
 	 * @param principal
