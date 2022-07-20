@@ -78,6 +78,10 @@
 			$('.customerLog').addClass('active');
 			$('.log').addClass('active');
 			$('.log').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'employeeLog') {
+			$('.employeeLog').addClass('active');
+			$('.log').addClass('active');
+			$('.log').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'loginSession') {
 			$('.loginSession').addClass('active');
 		}
@@ -192,6 +196,13 @@
 					            <a href="<c:url value='/customerUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보 로그</span>
+					                <span class="pcoded-mcaret"></span>
+					            </a>
+					        </li>
+					        <li class="employeeLog" style="display: none;">
+					            <a href="<c:url value='/employeeUidLog/list'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 접속 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>

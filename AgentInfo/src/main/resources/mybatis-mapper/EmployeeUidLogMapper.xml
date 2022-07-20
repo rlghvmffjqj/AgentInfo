@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="employeeUidLog">
+	<resultMap type="com.secuve.agentInfo.vo.EmployeeUidLog" id="employeeUidLog"></resultMap>
+
+	<select id="getEmployeeId" resultType="string">
+		SELECT DISTINCT employeeUidLogEmployeeId FROM employeeUidLog;
+	</select>
+	
+	<select id="getEmployeeUidLog" resultMap="employeeUidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM employeeUidLog
+					<include refid="sqlEmployeeUidLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getEmployeeUidLogCount" resultType="_int">
+		SELECT COUNT(*) FROM employeeUidLog
+			<include refid="sqlEmployeeUidLog" />
+	</select>
+	
+	<select id="employeeUidLogKeyNum" resultType="_int">
+		SELECT MAX(employeeUidLogKeyNum) FROM employeeUidLog;
+	</select>
+	
+	<insert id="insertEmployeeUidLog">
+		INSERT INTO employeeUidLog(employeeUidLogKeyNum, employeeUidLogEmployeeId, employeeUidLogEmployeeName, employeeUidLogDepartmentName, employeeUidLogEmployeeType, employeeUidLogEmployeeRank, employeeUidLogLoginTime)
+		VALUES (#{employeeUidLogKeyNum}, #{employeeUidLogEmployeeId}, #{employeeUidLogEmployeeName}, #{employeeUidLogDepartmentName}, #{employeeUidLogEmployeeType}, #{employeeUidLogEmployeeRank}, #{employeeUidLogLoginTime});
+	</insert>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlEmployeeUidLog">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="employeeUidLogEmployeeId != null and employeeUidLogEmployeeId != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="employeeUidLogEmployeeIdArr" item="arr">
+						OR employeeUidLogEmployeeId LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="employeeUidLogEmployeeName != null and employeeUidLogEmployeeName != ''">
+				AND employeeUidLogEmployeeName LIKE CONCAT('%',#{employeeUidLogEmployeeName},'%')
+			</if>
+		</trim>
+	</sql>
+</mapper>

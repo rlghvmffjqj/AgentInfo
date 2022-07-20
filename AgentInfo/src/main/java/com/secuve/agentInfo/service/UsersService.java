@@ -31,6 +31,7 @@ public class UsersService implements UserDetailsService{
 	@Autowired HttpSession session;
 	@Autowired EmployeeDao employeeDao;
 	@Autowired HttpServletRequest request;
+	@Autowired EmployeeUidLogService employeeUidLogService;
 	
 	boolean enabled = true;
     boolean accountNonExpired = true;
@@ -66,6 +67,8 @@ public class UsersService implements UserDetailsService{
 				usersEntity.getUsersPw(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
 				authorities, loginId, loginIp, loginTime
 		);
+		employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId());
+		
 		return loingSession;
 		// return new User(usersEntity.getUsersId(), usersEntity.getUsersPw(), authorities);  // 기존 코드
 	}
