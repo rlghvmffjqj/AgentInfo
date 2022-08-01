@@ -88,12 +88,10 @@ function profileView() {
 function toggle(element) {
     if(element.checked) {
     	$('.customerLog').show();
-    	$('.employeeLog').show();
     	$('.customerInfoSwitch').show();
     	$.cookie('customerSwitch','on',{path:'/'});
     } else {
     	$('.customerLog').hide();
-    	$('.employeeLog').hide();
     	$('.customerInfoSwitch').hide();
     	$.cookie('customerSwitch','off',{path:'/'});
     }
@@ -119,11 +117,9 @@ $(function() {
 function customerSwitch(result) {
 	if(result) {
 		$('.customerLog').show();
-		$('.employeeLog').show();
 		$('.customerInfoSwitch').show();
 	} else {
 		$('.customerLog').hide();
-		$('.employeeLog').hide();
 		$('.customerInfoSwitch').hide();
 	}
 }

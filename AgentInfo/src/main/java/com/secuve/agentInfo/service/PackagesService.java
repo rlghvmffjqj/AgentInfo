@@ -1413,4 +1413,8 @@ public class PackagesService {
 			}
 		}
 	}
+
+	public List<Packages> getPackagesAll() {
+		return packagesDao.getPackagesAll();
+	}
 }

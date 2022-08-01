@@ -45,6 +45,7 @@ public class UsersService implements UserDetailsService{
 		
 		List<GrantedAuthority> authorities =new ArrayList<>();
 		
+		// 권한 세션 저장
 		if (usersEntity.getUsersRole().equals("ADMIN")) {
 			authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
 			session.setAttribute("usersId", "admin");
@@ -67,6 +68,7 @@ public class UsersService implements UserDetailsService{
 				usersEntity.getUsersPw(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
 				authorities, loginId, loginIp, loginTime
 		);
+		// 로그인시 사용자 접속 로그 추가
 		employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId());
 		
 		return loingSession;

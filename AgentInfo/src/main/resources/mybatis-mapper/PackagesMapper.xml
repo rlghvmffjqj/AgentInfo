@@ -50,6 +50,10 @@
 			<include refid="sqlPackages" />
 	</select>
 	
+	<select id="getPackagesAll" resultMap="packages">
+		SELECT * FROM packages
+	</select>
+	
 	<update id="plusPackagesKeyNum">
 		UPDATE packages SET packagesKeyNumOrigin = packagesKeyNumOrigin + 1 WHERE packagesKeyNumOrigin > #{packagesKeyNumOrigin};
 	</update>

@@ -86,4 +86,8 @@ public class PackagesDao {
 		
 		return sqlSession.update("packages.stateChange", parameters);
 	}
+
+	public List<Packages> getPackagesAll() {
+		return sqlSession.selectList("packages.getPackagesAll");
+	}
 }

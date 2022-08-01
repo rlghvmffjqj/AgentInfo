@@ -84,6 +84,8 @@
 			$('.log').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'loginSession') {
 			$('.loginSession').addClass('active');
+		} else if($.cookie('name') == 'schedule') {
+			$('.schedule').addClass('active');
 		}
 	});
 </script>
@@ -199,7 +201,7 @@
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
-					        <li class="employeeLog" style="display: none;">
+					        <li class="employeeLog">
 					            <a href="<c:url value='/employeeUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 접속 로그</span>
@@ -338,6 +340,15 @@
 				            <a href="<c:url value='/loginSession/list'/>" class="waves-effect waves-dark">
 				                <span class="pcoded-micon"><i class="ti-target"></i><b>FC</b></span>
 				                <span class="pcoded-mtext" data-i18n="nav.form-components.main">접속 세션 목록</span>
+				                <span class="pcoded-mcaret"></span>
+				            </a>
+				        </li>
+				    </ul>
+				    <ul class="pcoded-item pcoded-left-item">
+				        <li class="schedule">
+				            <a href="<c:url value='/schedule/list'/>" class="waves-effect waves-dark">
+				                <span class="pcoded-micon"><i class="ti-notepad"></i><b>FC</b></span>
+				                <span class="pcoded-mtext" data-i18n="nav.form-components.main">스케쥴 목록</span>
 				                <span class="pcoded-mcaret"></span>
 				            </a>
 				        </li>

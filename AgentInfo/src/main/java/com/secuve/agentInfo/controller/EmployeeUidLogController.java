@@ -20,6 +20,11 @@ import com.secuve.agentInfo.vo.EmployeeUidLog;
 public class EmployeeUidLogController {
 	@Autowired EmployeeUidLogService employeeUidLogService;
 
+	/**
+	 * 사용자 접속 로그 페이지 호출
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/employeeUidLog/list")
 	public String EmployeeUidLogList(Model model) {
 		List<String> employeeId = employeeUidLogService.getEmployeeId();
@@ -28,6 +33,11 @@ public class EmployeeUidLogController {
 		return "employeeUidLog/EmployeeUidLogList";
 	}
 	
+	/**
+	 * 사용자 접속 로그 데이터 출력
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping(value = "/employeeUidLog")
 	public Map<String, Object> EmployeeUidLog(@ModelAttribute("search") EmployeeUidLog search) {

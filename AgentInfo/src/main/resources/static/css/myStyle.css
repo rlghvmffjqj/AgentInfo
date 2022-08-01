@@ -411,6 +411,10 @@ p {
 	height: 60px;
 }
 
+.height36 {
+	height: 36px;
+}
+
 .modelHeadFont {
 	margin: 5px;
     font-weight: bold;

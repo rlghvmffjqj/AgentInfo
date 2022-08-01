@@ -7,9 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @MapperScan(basePackageClasses = AgentInfoApplication.class)
 @SpringBootApplication
+@EnableScheduling
 public class AgentInfoApplication extends SpringBootServletInitializer {
 	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	
