@@ -2,6 +2,7 @@ package com.secuve.agentInfo.schedule;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -84,8 +85,12 @@ public class EmployeeSchedule extends QuartzJobBean {
 
 		FileOutputStream fileoutputstream;
 		try {
-			//fileoutputstream = new FileOutputStream("C:/AgentInfo/EmployeeBackUP/employee-"+nowDate+".csv");
-			fileoutputstream = new FileOutputStream("D:/EmployeeBackUp/employee-"+nowDate+".csv");
+			String localIp = InetAddress.getLocalHost().getHostAddress();
+			if(localIp.equals("172.16.50.80")) {
+				fileoutputstream = new FileOutputStream("D:/EmployeeBackUp/employee-"+nowDate+".csv");
+			} else {
+				fileoutputstream = new FileOutputStream("C:/AgentInfo/EmployeeBackUP/employee-"+nowDate+".csv");
+			}
 			
 			//파일을 쓴다
 			workbook.write(fileoutputstream);

@@ -28,36 +28,29 @@ public class ScheduleJobService{
 	
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
+	
+	TriggerKey triggerKey;
+	JobKey jobKey;
 
 	public List<ScheduleJob> getScheduleJobList(ScheduleJob search) {
 		Scheduler scheduler = schedulerFactory.getScheduler();
-		Trigger packagesTrigger = null;
-		Trigger employeeTrigger = null;
+		Trigger trigger = null;
 		List<ScheduleJob> scheduleJobList = scheduleJobDao.getScheduleJobList(search);
 		getTriggerKey();
 		try {
-			packagesTrigger = scheduler.getTrigger(packagesTriggerKey);
-			employeeTrigger = scheduler.getTrigger(employeeTriggerKey);
 			for (ScheduleJob scheduleJob : scheduleJobList) {
-				if(scheduleJob.getScheduleName().equals("packages") && scheduleJob.getScheduleState().equals("사용")) {
+				unityTriggerKey(scheduleJob.getScheduleName());
+				trigger =  scheduler.getTrigger(triggerKey);
+				if(scheduleJob.getScheduleState().equals("사용")) {
 					try {
-						scheduleJob.setScheduleStartTime(fromatterDate(packagesTrigger.getStartTime()));
-						scheduleJob.setScheduleNextTime(fromatterDate(packagesTrigger.getNextFireTime()));
-						scheduleJob.setScheduleLastTime(fromatterDate(packagesTrigger.getPreviousFireTime()));
-						scheduleJob.setScheduleResult(scheduler.getTriggerState(packagesTriggerKey).toString());
+						scheduleJob.setScheduleStartTime(fromatterDate(trigger.getStartTime()));
+						scheduleJob.setScheduleNextTime(fromatterDate(trigger.getNextFireTime()));
+						scheduleJob.setScheduleLastTime(fromatterDate(trigger.getPreviousFireTime()));
+						scheduleJob.setScheduleResult(scheduler.getTriggerState(triggerKey).toString());
 					} catch (Exception e) {
 						scheduleJob.setScheduleResult("Wait");
 					}
-				} else if(scheduleJob.getScheduleName().equals("employee") && scheduleJob.getScheduleState().equals("사용")) {
-					try {
-						scheduleJob.setScheduleStartTime(fromatterDate(employeeTrigger.getStartTime()));
-						scheduleJob.setScheduleNextTime(fromatterDate(employeeTrigger.getNextFireTime()));
-						scheduleJob.setScheduleLastTime(fromatterDate(employeeTrigger.getPreviousFireTime()));
-						scheduleJob.setScheduleResult(scheduler.getTriggerState(employeeTriggerKey).toString());
-					} catch (Exception e) {
-						scheduleJob.setScheduleResult("Wait");
-					}
-				}
+				} 
 			}
 		} catch (SchedulerException e) {
 			e.printStackTrace();
@@ -79,11 +72,8 @@ public class ScheduleJobService{
 		try {
 			for (int scheduleKeyNum : chkList) {
 				ScheduleJob scheduleJob = scheduleJobDao.getScheduleOneKeyNum(scheduleKeyNum);
-				if(scheduleJob.getScheduleName() == "packages" || scheduleJob.getScheduleName().equals("packages")) {
-					scheduler.resumeJob(packagesJobKey);
-				} else if(scheduleJob.getScheduleName() == "employee" || scheduleJob.getScheduleName().equals("employee")) {
-					scheduler.resumeJob(employeeJobKey);
-				}
+				unityJobKey(scheduleJob.getScheduleName());
+				scheduler.resumeJob(jobKey);
 				scheduleJobDao.setScheduleStateUse(scheduleJob.getScheduleName());
 			}
 		} catch (SchedulerException e) {
@@ -98,17 +88,75 @@ public class ScheduleJobService{
 		try {
 			for (int scheduleKeyNum : chkList) {
 				ScheduleJob scheduleJob = scheduleJobDao.getScheduleOneKeyNum(scheduleKeyNum);
-				if(scheduleJob.getScheduleName() == "packages" || scheduleJob.getScheduleName().equals("packages")) {
-					scheduler.pauseJob(packagesJobKey);
-				} else if(scheduleJob.getScheduleName() == "employee" || scheduleJob.getScheduleName().equals("employee")) {
-					scheduler.pauseJob(employeeJobKey);
-				}
+				unityJobKey(scheduleJob.getScheduleName());
+				scheduler.pauseJob(jobKey);
 				scheduleJobDao.setScheduleStateNotUse(scheduleJob.getScheduleName());
 			}
 		} catch (SchedulerException e) {
 			return "FALSE";
 		}
 		return "OK";
+	}
+	
+	private String fromatterDate(Date date) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return formatter.format(date);
+	}
+
+	public String scheduleRun(String scheduleName) {
+		getScheduleKey();
+		unityJobKey(scheduleName);
+		Scheduler scheduler = schedulerFactory.getScheduler();
+		try {
+			scheduler.triggerJob(jobKey);
+		} catch (SchedulerException e) {
+			return "FALSE";
+		}
+		return "OK";
+	}
+
+	public String updateSchedule(String scheduleName, String scheduleState, String scheduleCron) throws Exception {
+		Scheduler scheduler = schedulerFactory.getScheduler();
+		getTriggerKey();
+		getScheduleKey();
+		CronTriggerImpl trigger = new CronTriggerImpl();
+		try {
+			unityJobKey(scheduleName);
+			unityTriggerKey(scheduleName);
+			if(scheduleState.equals("사용")) {
+				scheduler.resumeJob(jobKey);
+			} else {
+				scheduler.pauseJob(jobKey);
+			}
+			Trigger oldTrigger = scheduler.getTrigger(triggerKey);
+			trigger.setName(scheduleName);
+			trigger.setGroup("DEFAULT");
+			trigger.setCronExpression(scheduleCron);
+			trigger.setJobName(scheduleName);
+			trigger.setDescription(oldTrigger.getDescription());
+			scheduler.rescheduleJob(triggerKey, trigger);
+			
+			scheduleJobDao.updateScheduleJob(scheduleName, scheduleState, scheduleCron);
+		} catch (SchedulerException e) {
+			return "FALSE";
+		}
+		return "OK";
+	}
+	
+	public void unityJobKey(String scheduleName) {
+		if(scheduleName.equals("PACKAGES") || scheduleName.equals("packages")) {
+			jobKey = packagesJobKey;
+		} else if(scheduleName.equals("EMPLOYEE") || scheduleName.equals("employee")) {
+			jobKey = employeeJobKey;
+		}
+	}
+	
+	public void unityTriggerKey(String scheduleName) {
+		if(scheduleName.equals("PACKAGES") || scheduleName.equals("packages")) {
+			triggerKey = packagesTriggerKey;
+		} else if(scheduleName.equals("EMPLOYEE") || scheduleName.equals("employee")) {
+			triggerKey = employeeTriggerKey;
+		}
 	}
 	
 	public void getScheduleKey() {
@@ -128,11 +176,6 @@ public class ScheduleJobService{
 		}
 	}
 	
-	private String fromatterDate(Date date) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return formatter.format(date);
-	}
-
 	public void getTriggerKey() {
 		Scheduler scheduler = schedulerFactory.getScheduler();
 		Set<TriggerKey> jobkey;
@@ -148,56 +191,6 @@ public class ScheduleJobService{
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String scheduleRun(String scheduleName) {
-		getScheduleKey();
-		Scheduler scheduler = schedulerFactory.getScheduler();
-		try {
-			if(scheduleName.equals("EMPLOYEE")) {
-				scheduler.triggerJob(employeeJobKey);
-			} else if(scheduleName.equals("PACKAGES")) {
-				scheduler.triggerJob(packagesJobKey);
-			}
-		} catch (SchedulerException e) {
-			return "FALSE";
-		}
-		return "OK";
-	}
-
-	public String updateSchedule(String scheduleName, String scheduleState, String scheduleCron) throws Exception {
-		Scheduler scheduler = schedulerFactory.getScheduler();
-		getTriggerKey();
-		getScheduleKey();
-		CronTriggerImpl trigger = new CronTriggerImpl();
-		TriggerKey triggerKey = null;
-		JobKey jobKey = null;
-		try {
-			if(scheduleName.equals("packages")) {
-				triggerKey = packagesTriggerKey;
-				jobKey = packagesJobKey;
-			} else if(scheduleName.equals("employee")) {
-				triggerKey = employeeTriggerKey;
-				jobKey = employeeJobKey;
-			}
-			if(scheduleState.equals("사용")) {
-				scheduler.resumeJob(jobKey);
-			} else {
-				scheduler.pauseJob(jobKey);
-			}
-			Trigger oldTrigger = scheduler.getTrigger(triggerKey);
-			trigger.setName(scheduleName);
-			trigger.setGroup("DEFAULT");
-			trigger.setCronExpression(scheduleCron);
-			trigger.setJobName(scheduleName);
-			trigger.setDescription(oldTrigger.getDescription());
-			scheduler.rescheduleJob(triggerKey, trigger);
-			
-			scheduleJobDao.updateScheduleJob(scheduleName, scheduleState, scheduleCron);
-		} catch (SchedulerException e) {
-			return "FALSE";
-		}
-		return "OK";
 	}
 	
 }
