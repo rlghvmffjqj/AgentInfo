@@ -96,6 +96,10 @@
 		SELECT usersRole FROM users WHERE usersId = #{usersId};
 	</select> 
 	
+	<select id="getEmployeeAll" resultMap="employee">
+		SELECT * FROM employee;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

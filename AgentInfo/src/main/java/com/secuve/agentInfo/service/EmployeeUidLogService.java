@@ -41,6 +41,7 @@ public class EmployeeUidLogService {
 		
 		try {
 			employeeUidLogKeyNum = employeeUidLogDao.employeeUidLogKeyNum();
+			employeeUidLogKeyNum++;
 		} catch (Exception e) {
 		}
 		

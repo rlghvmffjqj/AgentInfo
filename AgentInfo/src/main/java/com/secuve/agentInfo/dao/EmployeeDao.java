@@ -108,4 +108,8 @@ public class EmployeeDao {
 	public String getUsersRole(String usersId) {
 		return sqlSession.selectOne("employee.getUsersRole", usersId);
 	}
+
+	public List<Employee> getEmployeeAll() {
+		return sqlSession.selectList("employee.getEmployeeAll");
+	}
 }

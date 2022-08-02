@@ -3,12 +3,10 @@ package com.secuve.agentInfo.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -144,5 +142,9 @@ public class EmployeeService {
 
 	public String getUsersRole(String usersId) {
 		return employeeDao.getUsersRole(usersId);
+	}
+
+	public List<Employee> getEmployeeAll() {
+		return employeeDao.getEmployeeAll();
 	}
 }

@@ -23,6 +23,6 @@ public class EmployeeUidLog {
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
-	private String sidx="employeeUidLogKeyNum";			// 정렬할 기준 데이터
+	private String sidx="employeeUidLogLoginTime";			// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
 }

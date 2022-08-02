@@ -17,50 +17,17 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import com.secuve.agentInfo.service.PackagesService;
-import com.secuve.agentInfo.service.ScheduleJobService;
 import com.secuve.agentInfo.vo.Packages;
 
 @Component
 public class PackagesSchedule extends QuartzJobBean {
-    @Autowired ScheduleJobService scheduleJobService;
     @Autowired PackagesService packagesService;
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("스케쥴 동작 1");
-		
-		/*//임의의 VO가 되주는 MAP 객체
-		Map<String,Object>map=null;
-		//가상 DB조회후 목록을 담을 LIST객체
-		ArrayList<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-		ArrayList<String> columnList=new ArrayList<String>();
-
-		//DB조회후 데이터를 담았다는 가상의 데이터
-		for(int i=0;i<10;i++){
-		    map=new HashMap<String,Object>();
-		    map.put("seq", i+1);
-		    map.put("title", "제목이다"+i);
-		    map.put("content", "내용입니다"+i);
-		    list.add(map);
-		}
-
-		//MAP의 KEY값을 담기위함 
-		if(list !=null &&list.size() >0){
-		    //LIST의 첫번째 데이터의 KEY값만 알면 되므로 
-		    Map<String,Object> m=list.get(0);
-		    //MAP의 KEY값을 columnList객체에 ADD 
-		    for(String k : m.keySet()){
-		        columnList.add(k);
-		    }
-		}*/
-
 		List<Packages> list = packagesService.getPackagesAll();
-		// ArrayList<String> columnList=new ArrayList<String>();
-		// columnList.add("컬럼1");
-		// columnList.add("컬럼2");
 		
 		String[] columnList = {"고객사 명", "사업명", "망 구분", "요청일자", "전달일자", "상태", "패키지 종류", "일반/커스텀", "Agent ver", "패키지명", "담당자", "OS종류", "패키지 상세버전", "Agent OS", "기존/신규", "요청 제품구분", "전달 방법", "비고", "상태 변경 의견"};
-		//String[] columnList = {"고객사 명", "사업명", "망 구분"};
 		
 		//1차로 workbook을 생성 
 		HSSFWorkbook workbook=new HSSFWorkbook();
@@ -133,8 +100,8 @@ public class PackagesSchedule extends QuartzJobBean {
 
 		FileOutputStream fileoutputstream;
 		try {
-			//fileoutputstream = new FileOutputStream("C:/AgentInfo/packagesBackUP/packages-"+nowDate+".csv");
-			fileoutputstream = new FileOutputStream("D:/PackagesBackUp/packages-"+nowDate+".csv");
+			fileoutputstream = new FileOutputStream("C:/AgentInfo/packagesBackUP/packages-"+nowDate+".csv");
+			//fileoutputstream = new FileOutputStream("D:/PackagesBackUp/packages-"+nowDate+".csv");
 			
 			//파일을 쓴다
 			workbook.write(fileoutputstream);
@@ -145,10 +112,6 @@ public class PackagesSchedule extends QuartzJobBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
-
-		System.out.println("엑셀파일생성성공");
 	}
 	
 }
