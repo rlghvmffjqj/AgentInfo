@@ -25,7 +25,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/employee/**").hasAnyRole("ADMIN")
 			.antMatchers("/department/**").hasAnyRole("ADMIN")
 			.antMatchers("/category/**").hasAnyRole("ADMIN")
-			.antMatchers("/uidLog/**").hasAnyRole("ADMIN")
+			.antMatchers("/packageUidLog/**").hasAnyRole("ADMIN")
 			.antMatchers("/customerUidLog/**").hasAnyRole("ADMIN")
 			.antMatchers("/packages/**").hasAnyRole("ADMIN","MEMBER","ENGINEER")
 			.antMatchers("/customer/**").hasAnyRole("ADMIN","MEMBER","ENGINEER")
@@ -41,6 +41,8 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/loginSession/**").hasAnyRole("ADMIN")
 			.antMatchers("/employeeUidLog/**").hasAnyRole("ADMIN")
 			.antMatchers("/schedule/**").hasAnyRole("ADMIN")
+			.antMatchers("/license/**").hasAnyRole("ADMIN")
+			.antMatchers("/licenseUidLog/**").hasAnyRole("ADMIN")
 			.antMatchers("/").hasAnyRole("MEMBER","ADMIN","ENGINEER");
 		
 		// 로그인 설정

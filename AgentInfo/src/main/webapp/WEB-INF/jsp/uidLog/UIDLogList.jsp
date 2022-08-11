@@ -14,7 +14,7 @@
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/uidLog'/>",
+					url: "<c:url value='/packageUidLog'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
@@ -153,7 +153,6 @@
 		                      							<label class="labelFontSize">패키지 Key</label>
 		                      							<input type="text" id="packagesKeyNum" name="packagesKeyNum" class="form-control">
 		                      						</div>
-		                      						
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">이벤트</label>
 														<select class="form-control selectpicker" id="uidEventMulti" name="uidEventMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>

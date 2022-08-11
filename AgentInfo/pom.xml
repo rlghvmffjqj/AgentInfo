@@ -18,6 +18,7 @@
 		<java.version>1.8</java.version>
 	</properties>
 	
+	<!-- Tomcat 라이브러리 -->
 	<dependencies>
 		<dependency>
 		   <groupId>org.springframework.boot</groupId>
@@ -51,6 +52,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<!-- WebSocket 라이브러리 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
+		<!-- WebClient 라이브러리 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 		
 		<!-- Mybatis Spring 연동모듈은 마이바티스와 스프링을 편하고 간단하게 연동 -->

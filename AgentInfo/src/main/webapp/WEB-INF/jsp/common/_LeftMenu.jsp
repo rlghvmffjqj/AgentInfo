@@ -74,6 +74,10 @@
 			$('.packageLog').addClass('active');
 			$('.log').addClass('active');
 			$('.log').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'licenseLog') {
+			$('.licenseLog').addClass('active');
+			$('.log').addClass('active');
+			$('.log').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'customerLog') {
 			$('.customerLog').addClass('active');
 			$('.log').addClass('active');
@@ -86,6 +90,8 @@
 			$('.loginSession').addClass('active');
 		} else if($.cookie('name') == 'schedule') {
 			$('.schedule').addClass('active');
+		} else if($.cookie('name') == 'license') {
+			$('.license').addClass('active');
 		}
 	});
 </script>
@@ -118,6 +124,15 @@
 		            <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
 		                <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
 		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
+		                <span class="pcoded-mcaret"></span>
+		            </a>
+		        </li>
+		    </ul>
+		    <ul class="pcoded-item pcoded-left-item">
+		        <li class="license">
+		            <a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
+		                <span class="pcoded-micon"><i class="ti-key"></i><b>FC</b></span>
+		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 발급</span>
 		                <span class="pcoded-mcaret"></span>
 		            </a>
 		        </li>
@@ -181,16 +196,23 @@
 		 		<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
 			    <ul class="pcoded-item pcoded-left-item">
 			    	<li class="log pcoded-hasmenu">
-						<a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
+						<a href="<c:url value='/packageUidLog/list'/>" class="waves-effect waves-dark">
 			                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 			                <span class="pcoded-mtext" data-i18n="nav.form-components.main">로그 정보</span>
 			                <span class="pcoded-mcaret"></span>
 			            </a>
 			            <ul class="pcoded-submenu" style="display: block;">
 					        <li class="packageLog">
-					            <a href="<c:url value='/uidLog/list'/>" class="waves-effect waves-dark">
+					            <a href="<c:url value='/packageUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용 로그</span>
+					                <span class="pcoded-mcaret"></span>
+					            </a>
+					        </li>
+					        <li class="licenseLog">
+					            <a href="<c:url value='/licenseUidLog/list'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 배포 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>

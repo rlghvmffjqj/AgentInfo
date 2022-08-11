@@ -29,9 +29,6 @@ public class ScheduleJobService{
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
 	
-	TriggerKey triggerKey;
-	JobKey jobKey;
-
 	public List<ScheduleJob> getScheduleJobList(ScheduleJob search) {
 		Scheduler scheduler = schedulerFactory.getScheduler();
 		Trigger trigger = null;
@@ -39,7 +36,7 @@ public class ScheduleJobService{
 		getTriggerKey();
 		try {
 			for (ScheduleJob scheduleJob : scheduleJobList) {
-				unityTriggerKey(scheduleJob.getScheduleName());
+				TriggerKey triggerKey = unityTriggerKey(scheduleJob.getScheduleName());
 				trigger =  scheduler.getTrigger(triggerKey);
 				if(scheduleJob.getScheduleState().equals("사용")) {
 					try {
@@ -72,7 +69,7 @@ public class ScheduleJobService{
 		try {
 			for (int scheduleKeyNum : chkList) {
 				ScheduleJob scheduleJob = scheduleJobDao.getScheduleOneKeyNum(scheduleKeyNum);
-				unityJobKey(scheduleJob.getScheduleName());
+				JobKey  jobKey = unityJobKey(scheduleJob.getScheduleName());
 				scheduler.resumeJob(jobKey);
 				scheduleJobDao.setScheduleStateUse(scheduleJob.getScheduleName());
 			}
@@ -88,7 +85,7 @@ public class ScheduleJobService{
 		try {
 			for (int scheduleKeyNum : chkList) {
 				ScheduleJob scheduleJob = scheduleJobDao.getScheduleOneKeyNum(scheduleKeyNum);
-				unityJobKey(scheduleJob.getScheduleName());
+				JobKey jobKey = unityJobKey(scheduleJob.getScheduleName());
 				scheduler.pauseJob(jobKey);
 				scheduleJobDao.setScheduleStateNotUse(scheduleJob.getScheduleName());
 			}
@@ -105,7 +102,7 @@ public class ScheduleJobService{
 
 	public String scheduleRun(String scheduleName) {
 		getScheduleKey();
-		unityJobKey(scheduleName);
+		JobKey jobKey = unityJobKey(scheduleName);
 		Scheduler scheduler = schedulerFactory.getScheduler();
 		try {
 			scheduler.triggerJob(jobKey);
@@ -121,8 +118,8 @@ public class ScheduleJobService{
 		getScheduleKey();
 		CronTriggerImpl trigger = new CronTriggerImpl();
 		try {
-			unityJobKey(scheduleName);
-			unityTriggerKey(scheduleName);
+			JobKey jobKey = unityJobKey(scheduleName);
+			TriggerKey triggerKey = unityTriggerKey(scheduleName);
 			if(scheduleState.equals("사용")) {
 				scheduler.resumeJob(jobKey);
 			} else {
@@ -143,20 +140,24 @@ public class ScheduleJobService{
 		return "OK";
 	}
 	
-	public void unityJobKey(String scheduleName) {
+	public JobKey unityJobKey(String scheduleName) {
+		JobKey jobKey = null;
 		if(scheduleName.equals("PACKAGES") || scheduleName.equals("packages")) {
 			jobKey = packagesJobKey;
 		} else if(scheduleName.equals("EMPLOYEE") || scheduleName.equals("employee")) {
 			jobKey = employeeJobKey;
 		}
+		return jobKey;
 	}
 	
-	public void unityTriggerKey(String scheduleName) {
+	public TriggerKey unityTriggerKey(String scheduleName) {
+		TriggerKey triggerKey = null;
 		if(scheduleName.equals("PACKAGES") || scheduleName.equals("packages")) {
 			triggerKey = packagesTriggerKey;
 		} else if(scheduleName.equals("EMPLOYEE") || scheduleName.equals("employee")) {
 			triggerKey = employeeTriggerKey;
 		}
+		return triggerKey;
 	}
 	
 	public void getScheduleKey() {

@@ -138,6 +138,11 @@ p {
 	top: 40%;
 }
 
+.modal-ssl {
+	max-width:450px;
+	top: 40%;
+}
+
 .modal-sr {
 	max-width:500px;
 	top: 40%;

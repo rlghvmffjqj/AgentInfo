@@ -26,7 +26,7 @@ public class UIDLogController {
 	 * 로그 리스트 페이지 이동
 	 * @return
 	 */
-	@GetMapping(value = "/uidLog/list")
+	@GetMapping(value = "/packageUidLog/list")
 	public String UIDLogList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		
@@ -40,7 +40,7 @@ public class UIDLogController {
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping(value = "/uidLog")
+	@PostMapping(value = "/packageUidLog")
 	public Map<String, Object> UIDLog(@ModelAttribute("search") UIDLog search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<UIDLog> list = new ArrayList<>(uidLogService.getUIDLogList(search));
