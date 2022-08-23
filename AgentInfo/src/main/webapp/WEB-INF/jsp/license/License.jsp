@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이센스 발급 번호'],
+					colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','커널비트','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이센스 발급 Key',/* '라이센스 발급 번호' */],
 					colModel:[
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 35, hidden:true },
 						{name:'customerName', index:'customerName', align:'center', width: 200},
@@ -28,12 +28,14 @@
 						{name:'osType', index:'osType',align:'center', width: 80},
 						{name:'osVersion', index:'osVersion', align:'center', width: 150},
 						{name:'kernelVersion', index:'kernelVersion', align:'center', width: 70},
+						{name:'kernelBit', index:'kernelBit', align:'center', width: 70},
 						{name:'tosVersion', index:'tosVersion', align:'center', width: 150},
 						{name:'period', index:'period', align:'center', width: 70},
 						{name:'macUmlHostId', index:'macUmlHostId', align:'center', width: 200},
 						{name:'releaseType', index:'releaseType', align:'center', width: 100},
 						{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 100},
-						{name:'licenseNum', index:'licenseNum', align:'center', width: 150, formatter: licenseNumFormatter, sortable:false},
+						{name:'licenseIssueKey', index:'licenseIssueKey', align:'center', width: 200},
+						//{name:'licenseNum', index:'licenseNum', align:'center', width: 150, formatter: licenseNumFormatter, sortable:false},
 					],
 					jsonReader : {
 			        	id: 'licenseKeyNum',
@@ -190,9 +192,18 @@
 															</c:forEach>
 														</select>
 													</div>
+													
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">커널버전</label>
-														<select class="form-control selectpicker" id="kernelVersion" name="kernelVersion" data-live-search="true" data-size="5" data-actions-box="true">
+														<select class="form-control selectpicker" id="kernelVersionMulti" name="kernelVersionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${kernelVersion}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+		                      							<label class="labelFontSize">커널비트</label>
+														<select class="form-control selectpicker" id="kernelBit" name="kernelBit" data-live-search="true" data-size="5" data-actions-box="true">
 															<option value=""></option>
 															<option value="64">64</option>
 															<option value="32">32</option>
@@ -241,6 +252,7 @@
 			                      						<input type="hidden" id="partners" name="partners" class="form-control">
 			                      						<input type="hidden" id="osType" name="osType" class="form-control">
 			                      						<input type="hidden" id="osVersion" name="osVersion" class="form-control">
+			                      						<input type="hidden" id="kernelVersion" name="kernelVersion" class="form-control">
 			                      						<input type="hidden" id="tosVersion" name="tosVersion" class="form-control">
 			                      						<input type="hidden" id="macUmlHostId" name="macUmlHostId" class="form-control">
 			                      						<input type="hidden" id="releaseType" name="releaseType" class="form-control">
@@ -268,6 +280,7 @@
 																	<sec:authorize access="hasRole('ADMIN')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -303,6 +316,9 @@
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/license/issuedView'/>",
+			    data: {
+		    		"viewType" : "issued"
+		    	},
 			    async: false,
 			    success: function (data) {
 			    	$.modal(data, 'll'); //modal창 호출
@@ -420,6 +436,7 @@
 			$('#partners').val($('#partnersMulti').val().join());
 			$('#osType').val($('#osTypeMulti').val().join());
 			$('#osVersion').val($('#osVersionMulti').val().join());
+			$('#kernelVersion').val($('#kernelVersionMulti').val().join());
 			$('#tosVersion').val($('#tosVersionMulti').val().join());
 			$('#macUmlHostId').val($('#macUmlHostIdMulti').val().join());
 			$('#releaseType').val($('#releaseTypeMulti').val().join());
@@ -507,6 +524,32 @@
 	            	changeDate(value);
 	            }
 	        });
+		});
+		
+		/* =========== TXT 저장 ========= */
+		$('#BtnTxt').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+				url: "<c:url value='/license/txtTitle'/>",
+				type: "POST",
+				data: {chkList: chkList},
+				traditional: true,
+				async: false,
+				success: function(data) {
+					$.modal(data, 'ssl'); //modal창 호출
+				},
+				error: function(error) {
+					console.log(error);
+				}
+				});
+			}
 		});
 	</script>
 </html>

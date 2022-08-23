@@ -20,21 +20,67 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-default btn-outline-info-add" id="BtnLicenseSave" onClick="BtnLicenseSave()">등록</button>
+	<button class="btn btn-default btn-outline-info-nomal" onClick="BtnCancel()">닫기</button>
 </div>
 <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${licenseKeyNum}">
-<input type="hidden" id="licenseUidLogKeyNum" name="licenseUidLogKeyNum" value="${licenseUidLogKeyNum}">
 
 <script>
 	/* =========== autofocus 미작동시 추가 ========= */
 	$(document).on('shown.bs.modal', function (e) {
 	    $(this).find('[autofocus]').focus();
 	});
+	
+	//function BtnCancel() {
+	//	var licenseKeyNum = $('#licenseKeyNum').val();
+	//	
+	//	$.ajax({
+	//		url: "<c:url value='/license/licensCancel'/>",
+	//		type: "POST",
+	//		data: {
+	//				"licenseKeyNum": licenseKeyNum,
+	//			},
+	//		async: false,
+	//		success: function() {
+	//			$('#modal').modal("hide"); // 모달 닫기
+	//			$('#modal').on('hidden.bs.modal', function () {
+	//				tableRefresh();
+	//			});
+	//		},
+	//		error: function(e) {
+	//	    	console.log(e);
+	//	    }
+	//	});
+	//}
+	
+	/* =========== 닫기 버튼 ========= */
+	function BtnCancel() {
+		var licenseKeyNum = $('#licenseKeyNum').val();
+		var viewType = "back";
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/license/issuedView'/>",
+		    data: {
+		    		"licenseKeyNum" : licenseKeyNum,
+		    		"viewType" : viewType
+		    		
+		    	},
+		    async: false,
+		    success: function (data) {
+		    	$('#modal').modal("hide"); // 모달 닫기
+		    	setTimeout(function() {
+			    	$.modal(data, 'll'); //modal창 호출
+		    	},300)
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});
+	}
 
 	/* =========== 라이센스 발급 키 저장 ========= */
 	function BtnLicenseSave() {
 		var licenseIssueKey = $('#licenseIssueKey').val();
 		var licenseKeyNum = $('#licenseKeyNum').val();
-		var licenseUidLogKeyNum = $('#licenseUidLogKeyNum').val(); 
 		
 		if(licenseIssueKey != "") {
 			$.ajax({
@@ -43,7 +89,6 @@
 				data: {
 						"licenseIssueKey": licenseIssueKey,
 						"licenseKeyNum": licenseKeyNum,
-						"licenseUidLogKeyNum": licenseUidLogKeyNum,
 					},
 				dataType: "json",
 				async: false,

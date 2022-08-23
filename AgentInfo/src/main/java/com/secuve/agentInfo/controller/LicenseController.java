@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
 
+import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.LicenseService;
 import com.secuve.agentInfo.vo.License;
 
@@ -33,6 +37,7 @@ public class LicenseController {
 		List<String> requester = licenseService.getSelectInput("requester");
 		List<String> partners = licenseService.getSelectInput("partners");
 		List<String> osVersion = licenseService.getSelectInput("osVersion");
+		List<String> kernelVersion = licenseService.getSelectInput("kernelVersion");
 		List<String> tosVersion = licenseService.getSelectInput("tosVersion");
 		List<String> macUmlHostId = licenseService.getSelectInput("macUmlHostId");
 		
@@ -41,6 +46,7 @@ public class LicenseController {
 		model.addAttribute("requester", requester);
 		model.addAttribute("partners", partners);
 		model.addAttribute("osVersion", osVersion);
+		model.addAttribute("kernelVersion", kernelVersion);
 		model.addAttribute("tosVersion", tosVersion);
 		model.addAttribute("macUmlHostId", macUmlHostId);
 		
@@ -82,7 +88,9 @@ public class LicenseController {
 	 * @return
 	 */
 	@PostMapping(value = "/license/issuedView")
-	public String InsertLicenseView() {
+	public String InsertLicenseView(String licenseKeyNum, String viewType, Model model) {
+		License license = licenseService.insertLicenseView(licenseKeyNum);
+		model.addAttribute("license", license).addAttribute("viewType", viewType);
 		return "/license/LicenseView";
 	}
 	
@@ -112,13 +120,12 @@ public class LicenseController {
 	 * @return
 	 */
 	@PostMapping(value = "/license/windowIssued")
-	public String WindowIssuedLicense(License license, Principal principal, Model model) {
+	public String WindowIssuedLicense(License license, Principal principal, Model model, HttpServletRequest request) {
 		license.setLicenseRegistrant(principal.getName());
 		license.setLicenseRegistrationDate(licenseService.nowDate());
 
-		int licenseKeyNum = licenseService.windowIssuedLicense(license, principal);
-		int licenseUidLogKeyNum = licenseService.licenseUidLog(license, principal, licenseKeyNum);
-		model.addAttribute("licenseKeyNum", licenseKeyNum).addAttribute("licenseUidLogKeyNum", licenseUidLogKeyNum);
+		int licenseKeyNum = licenseService.windowIssuedLicense(license, principal, request);
+		model.addAttribute("licenseKeyNum", licenseKeyNum);
 		return "/license/LicenseWindowView";
 	}
 	
@@ -143,10 +150,63 @@ public class LicenseController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/license/saveLicenseKey")
-	public Map<String,String> SaveLicenseKey(String licenseIssueKey, int licenseKeyNum, int licenseUidLogKeyNum) {
+	public Map<String,String> SaveLicenseKey(String licenseIssueKey, int licenseKeyNum, Principal principal) {
 		Map<String,String> map = new HashMap<String,String>();
-		String result = licenseService.saveLicenseKey(licenseIssueKey, licenseKeyNum, licenseUidLogKeyNum);
+		String result = licenseService.saveLicenseKey(licenseIssueKey, licenseKeyNum, principal);
 		map.put("result", result);
 		return map;
+	}
+	
+	/**
+	 * 닫기 버튼 클릭
+	 * @param licenseKeyNum
+	 */
+	@ResponseBody
+	@PostMapping(value = "/license/licensCancel")
+	public void LicensCancel(int licenseKeyNum) {
+		licenseService.licensCancel(licenseKeyNum);
+	}
+	
+	/**
+	 * 텍스트 제목
+	 * @param chkList
+	 * @param model
+	 * @return
+	 */
+	@PostMapping(value = "/license/txtTitle")
+	public String TxtTitle(@RequestParam int[] chkList, Model model) {
+		model.addAttribute("chkList", chkList);
+		return "/license/TxtTitle";
+	}
+	
+	/**
+	 * 텍스트 저장
+	 * @param chkList
+	 * @param fileName
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value = "/license/txtSave")
+	public String TxtSave(@RequestParam int[] chkList, String fileName, Model model) {
+		return licenseService.txtSave(chkList, fileName);
+	}
+	
+	/**
+	 * 파일 다운로드
+	 * @param fileName
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping(value = "/license/fileDownload")
+	public View FileDownload(@RequestParam String fileName, Model model) throws Exception {
+		String filePath = "C:\\AgentInfo\\license";
+		fileName += ".txt";
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);  		 // 출력할 파일 이름
+	
+		return new FileDownloadView();
 	}
 }

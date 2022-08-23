@@ -30,7 +30,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/existingNew")
-	public String ExistingNew( Model model) {
+	public String ExistingNew(Model model) {
 		model.addAttribute("category", "existingNew");
 		
 		return "category/CategoryList";
@@ -42,7 +42,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/managementServer")
-	public String managementServer( Model model) {
+	public String managementServer(Model model) {
 		model.addAttribute("category", "managementServer");
 		
 		return "category/CategoryList";
@@ -54,7 +54,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/generalCustom")
-	public String generalCustom( Model model) {
+	public String generalCustom(Model model) {
 		model.addAttribute("category", "generalCustom");
 		
 		return "category/CategoryList";
@@ -66,7 +66,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/osType")
-	public String osType( Model model) {
+	public String osType(Model model) {
 		model.addAttribute("category", "osType");
 		
 		return "category/CategoryList";
@@ -78,7 +78,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/requestProductCategory")
-	public String requestProductCategory( Model model) {
+	public String requestProductCategory(Model model) {
 		model.addAttribute("category", "requestProductCategory");
 		
 		return "category/CategoryList";
@@ -90,7 +90,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/deliveryMethod")
-	public String deliveryMethod( Model model) {
+	public String deliveryMethod(Model model) {
 		model.addAttribute("category", "deliveryMethod");
 		
 		return "category/CategoryList";
@@ -102,7 +102,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/agentVer")
-	public String agentVer( Model model) {
+	public String agentVer(Model model) {
 		model.addAttribute("category", "agentVer");
 		
 		return "category/CategoryList";
@@ -114,7 +114,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/agentOS")
-	public String agentOS( Model model) {
+	public String agentOS(Model model) {
 		model.addAttribute("category", "agentOS");
 		
 		return "category/CategoryList";
@@ -126,7 +126,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/customerName")
-	public String customerName( Model model) {
+	public String customerName(Model model) {
 		model.addAttribute("category", "customerName");
 		
 		return "category/CategoryList";
@@ -152,7 +152,7 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/businessName")
-	public String businessName( Model model) {
+	public String businessName(Model model) {
 		model.addAttribute("category", "businessName");
 		
 		return "category/CategoryList";

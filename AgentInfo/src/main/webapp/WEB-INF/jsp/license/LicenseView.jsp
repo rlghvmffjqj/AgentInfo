@@ -5,116 +5,158 @@
 <div class="modal-body" style="width: 100%; height: 650px;">
 	<form id="modalForm" name="form" method ="post">
 		<div style="width: 100%;height: 30px; text-align: center;">
-			<div class="form-check radioDate">
-			<input class="form-check-input" type="radio" name="licenseType" id="Linux" value="Linux" checked>
-			  <label class="form-check-label" for="Linux">
-			    Linux
-			  </label>
-			</div>
-			<div class="form-check radioDate">
-			  <input class="form-check-input" type="radio" name="licenseType" id="Window" value="Window">
-			  <label class="form-check-label" for="Window">
-			    Window
-			  </label>
-			</div>
+			<c:choose>
+				<c:when test="${viewType eq 'issued'}">
+					<div class="form-check radioDate">
+					<input class="form-check-input" type="radio" name="licenseType" id="Linux" value="Linux" checked>
+					  <label class="form-check-label" for="Linux">
+					    Linux
+					  </label>
+					</div>
+					<div class="form-check radioDate">
+					  <input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows">
+					  <label class="form-check-label" for="Window">
+					    Windows
+					  </label>
+					</div>
+				</c:when>
+				<c:when test="${viewType eq 'back'}">
+					<div class="form-check radioDate">
+					<input class="form-check-input" type="radio" name="licenseType" id="Linux" value="Linux" <c:if test="${'Linux' eq license.licenseType}">checked</c:if>>
+					  <label class="form-check-label" for="Linux">
+					    Linux
+					  </label>
+					</div>
+					<div class="form-check radioDate">
+					  <input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows" <c:if test="${'Windows' eq license.licenseType}">checked</c:if>>
+					  <label class="form-check-label" for="Window">
+					    Windows
+					  </label>
+					</div>
+				</c:when>
+			</c:choose>
 		</div>
 		<div class="leftDiv">
 			 <div class="pading5Width450">
 	         	<label class="labelFontSize">업체명</label><label class="colorRed">*</label>
 	         	<span class="colorRed licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">업체명을 입력해주세요.</span>
-	         	<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm">
+	         	<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${license.customerName}">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">사업명 / 설치 사유</label>
-	         	<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm">
+	         	<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm" value="${license.businessName}">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">발급일자</label>
-	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm">
+	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
-	         	<input type="text" id="requesterView" name="requesterView" class="form-control viewForm">
+	         	<input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">협력사</label>
-	         	<input type="text" id="partnersView" name="partnersView" class="form-control viewForm">
+	         	<input type="text" id="partnersView" name="partnersView" class="form-control viewForm" value="${license.partners}">
 	         </div>
 	         <div style="height: 10px; border-bottom: darkgray 1px dashed;"></div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">기간</label><label class="colorRed">*</label>
+	         	<a href="#" class="selfInput" id="periodChange" onclick="selfInput('periodChange');">직접입력</a>
 	         	<span class="colorRed licenseShow" id="NotPeriod" style="display: none; line-height: initial; float: right;">기간을 입력해주세요.</span>
-	         	<input type="text" id="periodView" name="periodView" class="form-control viewForm">
+	         	<input type="hidden" id="periodSelf" name="periodSelf" class="form-control viewForm" placeholder="사용기한 입력(년)" value="0">
+	         	<div id="periodViewSelf">
+		         	<select class="form-control selectpicker selectForm" id="periodView" name="periodView" data-live-search="true" data-size="5" data-actions-box="true">
+						<option value="무제한" <c:if test="${'무제한' eq license.period}">selected</c:if>>무제한</option>
+						<option value="1년" <c:if test="${'1년' eq license.period}">selected</c:if>>1년</option>
+						<option value="5년" <c:if test="${'5년' eq license.period}">selected</c:if>>5년</option>
+						<option value="10년" <c:if test="${'10년' eq license.period}">selected</c:if>>10년</option>
+					</select>
+				</div>
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">MAC / UML / HostId</label><label class="colorRed">*</label>
 	         	<span class="colorRed licenseShow" id="NotMacUmlHostId" style="display: none; line-height: initial; float: right;">정보를 입력해주세요.</span>
-	         	<input type="text" id="macUmlHostIdView" name="macUmlHostIdView" class="form-control viewForm">
+	         	<input type="text" id="macUmlHostIdView" name="macUmlHostIdView" class="form-control viewForm" value="${license.macUmlHostId}">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">릴리즈 타입</label>
 				<select class="form-control selectpicker" id="releaseTypeView" name="releaseTypeView" data-live-search="true" data-size="5" data-actions-box="true">
-					<option value="Normal">Normal</option>
-					<option value="Test">Test</option>
-					<option value="Disable">Disable</option>
+					<option value="Normal" <c:if test="${'Normal' eq license.releaseType}">selected</c:if>>Normal</option>
+					<option value="Test" <c:if test="${'Test' eq license.releaseType}">selected</c:if>>Test</option>
+					<option value="Disable" <c:if test="${'Disable' eq license.releaseType}">selected</c:if>>Disable</option>
 				</select>
 			</div>
 			<div class="pading5Width450">
 		    	<label class="labelFontSize">전달 방법</label>
 		    	<select class="form-control selectpicker" id="deliveryMethodView" name="deliveryMethodView" data-live-search="true" data-size="5" data-actions-box="true">
-					<option value="메일">메일</option>
-					<option value="대용량 메일">대용량 메일</option>
-					<option value="CD">CD</option>
-					<option value="점프호스트">점프호스트</option>
+					<option value="메일" <c:if test="${'메일' eq license.deliveryMethod}">selected</c:if>>메일</option>
+					<option value="대용량 메일" <c:if test="${'대용량 메일' eq license.deliveryMethod}">selected</c:if>>대용량 메일</option>
+					<option value="CD" <c:if test="${'CD' eq license.deliveryMethod}">selected</c:if>>CD</option>
+					<option value="점프호스트" <c:if test="${'점프호스트' eq license.deliveryMethod}">selected</c:if>>점프호스트</option>
 				</select>
 		    </div>
 	    </div>
         <div class="rightDiv">
-        	<div class="pading5Width450">
-	        	<label class="labelFontSize">OS</label><label class="colorRed">*</label>
-	        	<span class="colorRed licenseShow" id="NotOsType" style="display: none; line-height: initial; float: right;">OS종류를 선택해주세요.</span>
+		    <div class="pading5Width450">
+				<label class="labelFontSize">OS</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotOsType" style="display: none; line-height: initial; float: right;">OS종류를 선택해주세요.</span>
 				<select class="form-control selectpicker" id="osTypeView" name="osTypeView" data-live-search="true" data-size="5" data-actions-box="true">
-					<option value="Linux">Linux</option>
-					<option value="Windows">Windows</option>
-					<option value="AIX">AIX</option>
-					<option value="HP-UX">HP-UX</option>
-					<option value="MAC">MAC</option>
-					<option value="Solaris">Solaris</option>
+					<option value="Linux" <c:if test="${'Linux' eq license.osType}">selected</c:if>>Linux</option>
+					<option value="Windows" <c:if test="${'Windows' eq license.osType}">selected</c:if>>Windows</option>
+					<option value="AIX" <c:if test="${'AIX' eq license.osType}">selected</c:if>>AIX</option>
+					<option value="HP-UX" <c:if test="${'HP-UX' eq license.osType}">selected</c:if>>HP-UX</option>
+					<option value="MAC" <c:if test="${'MAC' eq license.osType}">selected</c:if>>MAC</option>
+					<option value="Solaris" <c:if test="${'Solaris' eq license.osType}">selected</c:if>>Solaris</option>
 				</select>
 			</div>
 			<div class="pading5Width450">
-	         	<label class="labelFontSize">OS 버전</label><label class="colorRed">*</label>
-	         	<span class="colorRed licenseShow" id="NotOsVersion" style="display: none; line-height: initial; float: right;">OS 버전을 입력해주세요.</span>
-	         	<input type="text" id="osVersionView" name="osVersionView" class="form-control viewForm">
+	         	<label class="labelFontSize">OS 버전</label>
+	         	<input type="text" id="osVersionView" name="osVersionView" class="form-control viewForm" value="${license.osVersion}">
 	        </div>
 	        <div class="pading5Width450">
 	        	<label class="labelFontSize">커널버전</label><label class="colorRed">*</label>
-	        	<span class="colorRed licenseShow" id="NotKernelVersion" style="display: none; line-height: initial; float: right;">커널 버전을 선택해주세요.</span>
-				<select class="form-control selectpicker" id="kernelVersionView" name="kernelVersionView" data-live-search="true" data-size="5" data-actions-box="true">
-					<option value="64">64</option>
-					<option value="32">32</option>
+	        	<span class="colorRed licenseShow" id="NotKernelVersionView" style="display: none; line-height: initial; float: right;">커널버전을 입력해주세요.</span>
+	        	<input type="text" id="osVersionView" name="kernelVersionView" class="form-control viewForm" value="${license.kernelVersion}">
+			</div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">커널비트</label><label class="colorRed">*</label>
+				<select class="form-control selectpicker" id="kernelBitView" name="kernelBitView" data-live-search="true" data-size="5" data-actions-box="true">
+					<option value="64" <c:if test="${'64' eq license.kernelBit}">selected</c:if>>64</option>
+					<option value="32" <c:if test="${'32' eq license.kernelBit}">selected</c:if>>32</option>
 				</select>
 			</div>
 			<div class="pading5Width450">
 	         	<label class="labelFontSize">TOS 버전</label>
-	         	<input type="text" id="tosVersionView" name="tosVersionView" class="form-control viewForm">
+	         	<input type="text" id="tosVersionView" name="tosVersionView" class="form-control viewForm" value="${license.tosVersion}">
 	        </div>
         </div>
+        <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
+        <input type="hidden" id="viewType" name="viewType" value="${viewType}">
 	</form>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-default btn-outline-info-add" id="insertBtn">발급</button>
-    <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+	<c:choose>
+		<c:when test="${viewType eq 'issued'}">
+    		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+    	</c:when>
+    	<c:when test="${viewType eq 'back'}">
+    		<button class="btn btn-default btn-outline-info-nomal" onClick="BtnCancel()">닫기</button>
+    	</c:when>
+    </c:choose>
 </div>
 
 <script>
+	if($('#viewType').val() == "issued") {
+		document.getElementById('issueDateView').valueAsDate = new Date();
+	}
+
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
 	/* =========== 라이센스 발급 ========= */
 	$('#insertBtn').click(function() {
 		var customerName = $('#customerNameView').val();
 		var osType = $('#osTypeView').val();
-		var osVersion = $('#osVersionView').val();
 		var kernelVersion = $('#kernelVersionView').val();
 		var period = $('#periodView').val();
 		var macUmlHostId = $('#macUmlHostIdView').val();
@@ -124,65 +166,111 @@
 		$('.licenseShow').hide();
 		if(customerName == "") {
 			$('#NotCustomerName').show();
-		} else if(osType == ""){
+		} else if(osType == "") {
 			$('#NotOsType').show();
-		} else if(osVersion == ""){
-			$('#NotOsVersion').show();
-		} else if(kernelVersion == ""){
-			$('#NotKernelVersion').show();
-		} else if(period == ""){
+		} else if(kernelVersion == "") {
+			$('#NotKernelVersionView').show();			
+		} else if(period == "") {
 			$('#NotPeriod').show();
-		} else if(macUmlHostId == ""){
+		} else if(macUmlHostId == "") {
 			$('#NotMacUmlHostId').show();
 		} else { 
-			var postData = $('#modalForm').serializeObject();
-			console.log(licenseType);
-			if(licenseType == 'Linux') {
-				$.ajax({
-					url: "<c:url value='/license/linuxIssued'/>",
-			        type: 'post',
-			        data: postData,
-			        async: false,
-			        success: function(result) {
-						if(result.result == "FALSE") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '라이센스 발급에 실패하였습니다.',
-							});
-						} else {
-							Swal.fire({
-								icon: 'success',
-								title: '라이센스 발급!',
-								text: result.result,
-							});
-							$('#modal').modal("hide"); // 모달 닫기
-			        		$('#modal').on('hidden.bs.modal', function () {
-			        			tableRefresh();
-			        		});
-						}
-					},
-					error: function(error) {
-						console.log(error);
-					}
-			    });
+			if($("#periodChange").text() == "선택입력" && $('#periodSelf').val() <= 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '직접 입력의 경우 0이상의 값을 입력 바랍니다.',    
+				});
 			} else {
-				$.ajax({
-				    type: 'POST',
-				    url: "<c:url value='/license/windowIssued'/>",
-				    data: postData,
-				    async: false,
-				    success: function (data) {
-				    	$('#modal').modal("hide"); // 모달 닫기
-				    	setTimeout(function() {
-				        	$.modal(data, 'ssl'); //modal창 호출
-				    	},300)
-				    },
-				    error: function(e) {
-				        // TODO 에러 화면
-				    }
-				});		
+				var postData = $('#modalForm').serializeObject();
+				if(licenseType == 'Linux') {
+					$.ajax({
+						url: "<c:url value='/license/linuxIssued'/>",
+				        type: 'post',
+				        data: postData,
+				        async: false,
+				        success: function(result) {
+							if(result.result == "FALSE") {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '라이센스 발급에 실패하였습니다.',
+								});
+							} else {
+								Swal.fire({
+									icon: 'success',
+									title: '라이센스 발급!',
+									text: result.result,
+								});
+								$('#modal').modal("hide"); // 모달 닫기
+				        		$('#modal').on('hidden.bs.modal', function () {
+				        			tableRefresh();
+				        		});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+				    });
+				} else {
+					$.ajax({
+					    type: 'POST',
+					    url: "<c:url value='/license/windowIssued'/>",
+					    data: postData,
+					    async: false,
+					    success: function (data) {
+					    	$('#modal').modal("hide"); // 모달 닫기
+					    	setTimeout(function() {
+					        	$.modal(data, 'ssl'); //modal창 호출
+					    	},300)
+					    },
+					    error: function(e) {
+					        // TODO 에러 화면
+					    }
+					});		
+				}	
 			}
 		}
 	});
+	
+	/* =========== 직접입력 <--> 선택입력 변경 ========= */
+	function selfInput(data) {
+		if(data == "periodChange") {
+			if($("#periodChange").text() == "직접입력") {
+				$('#periodViewSelf').hide();
+				$('#periodSelf').attr('type','number');
+				$('#periodSelf').val('1');
+				$('#periodView').val('');
+				$("#periodChange").text("선택입력");
+			} else if($("#periodChange").text() == "선택입력") {
+				$('#periodViewSelf').show();
+				$('#periodSelf').attr('type','hidden');
+				$('#periodSelf').val('0');
+				$("#periodChange").text("직접입력");
+			}
+		}
+	}
+	
+	/* =========== 닫기 후 닫기 ========= */
+	function BtnCancel() {
+		var licenseKeyNum = $('#licenseKeyNum').val();
+		
+		$.ajax({
+			url: "<c:url value='/license/licensCancel'/>",
+			type: "POST",
+			data: {
+					"licenseKeyNum": licenseKeyNum,
+				},
+			async: false,
+			success: function() {
+				$('#modal').modal("hide"); // 모달 닫기
+				$('#modal').on('hidden.bs.modal', function () {
+					tableRefresh();
+				});
+			},
+			error: function(e) {
+		    	console.log(e);
+		    }
+		});
+	}
 </script>

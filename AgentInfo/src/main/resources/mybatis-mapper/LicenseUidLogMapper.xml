@@ -28,8 +28,8 @@
 	</select>
 	
 	<insert id="insertLicenseUidLog">
-		INSERT INTO licenseUidLog(licenseUidLogKeyNum,licenseUidLogCustomerName,licenseUidLogBusinessName,licenseUidLogIssueDate,licenseUidLogRequester,licenseUidLogPartners,licenseUidLogOsType,licenseUidLogOsVersion,licenseUidLogKernelVersion,licenseUidLogTosVersion,licenseUidLogPeriod,licenseUidLogMacUmlHostId,licenseUidLogReleaseType,licenseUidLogDeliveryMethod,licenseUidLogIssueKey,licenseUidLogEvent,licenseUidUser,licenseUidTime,licenseUidLogRegistrant,licenseUidLogRegistrationDate) 
-		VALUES(#{licenseUidLogKeyNum},#{licenseUidLogCustomerName},#{licenseUidLogBusinessName},#{licenseUidLogIssueDate},#{licenseUidLogRequester},#{licenseUidLogPartners},#{licenseUidLogOsType},#{licenseUidLogOsVersion},#{licenseUidLogKernelVersion},#{licenseUidLogTosVersion},#{licenseUidLogPeriod},#{licenseUidLogMacUmlHostId},#{licenseUidLogReleaseType},#{licenseUidLogDeliveryMethod},#{licenseUidLogIssueKey},#{licenseUidLogEvent},#{licenseUidUser},#{licenseUidTime},#{licenseUidLogRegistrant},#{licenseUidLogRegistrationDate});
+		INSERT INTO licenseUidLog(licenseUidLogKeyNum,licenseUidLogCustomerName,licenseUidLogBusinessName,licenseUidLogIssueDate,licenseUidLogRequester,licenseUidLogPartners,licenseUidLogOsType,licenseUidLogOsVersion,licenseUidLogKernelVersion,licenseUidLogKernelBit,licenseUidLogTosVersion,licenseUidLogPeriod,licenseUidLogMacUmlHostId,licenseUidLogReleaseType,licenseUidLogDeliveryMethod,licenseUidLogIssueKey,licenseUidLogEvent,licenseUidUser,licenseUidTime,licenseUidLogRegistrant,licenseUidLogRegistrationDate) 
+		VALUES(#{licenseUidLogKeyNum},#{licenseUidLogCustomerName},#{licenseUidLogBusinessName},#{licenseUidLogIssueDate},#{licenseUidLogRequester},#{licenseUidLogPartners},#{licenseUidLogOsType},#{licenseUidLogOsVersion},#{licenseUidLogKernelVersion},#{licenseUidLogKernelBit},#{licenseUidLogTosVersion},#{licenseUidLogPeriod},#{licenseUidLogMacUmlHostId},#{licenseUidLogReleaseType},#{licenseUidLogDeliveryMethod},#{licenseUidLogIssueKey},#{licenseUidLogEvent},#{licenseUidUser},#{licenseUidTime},#{licenseUidLogRegistrant},#{licenseUidLogRegistrationDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -39,10 +39,6 @@
 	<select id="getLicenseIssueKey" parameterType="_int" resultType="string">
 		SELECT licenseUidLogIssueKey FROM licenseUidLog WHERE licenseUidLogKeyNum = #{licenseUidLogKeyNum};
 	</select>
-	
-	<update id="saveUidLogLicenseKey">
-		UPDATE licenseUidLog SET licenseUidLogIssueKey = #{licenseIssueKey} WHERE licenseUidLogKeyNum = #{licenseUidLogKeyNum};
-	</update>
 	
 	<!-- ==================================================================================== -->
 	
@@ -102,6 +98,18 @@
 				</trim>
 				)
 			</if>
+			<if test="licenseUidLogKernelVersion != null and licenseUidLogKernelVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogKernelVersionArr" item="arr">
+						OR licenseUidLogKernelVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogKernelBit != null and licenseUidLogKernelBit != ''">
+				AND licenseUidLogKernelBit = #{licenseUidLogKernelBit}
+			</if>
 			<if test="licenseUidLogTosVersion != null and licenseUidLogTosVersion != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
@@ -137,9 +145,6 @@
 					</foreach>
 				</trim>
 				)
-			</if>
-			<if test="licenseUidLogKernelVersion != null and licenseUidLogKernelVersion != ''">
-				AND licenseUidLogKernelVersion = #{licenseUidLogKernelVersion}
 			</if>
 			<if test="licenseUidLogPeriod != null and licenseUidLogPeriod != ''">
 				AND licenseUidLogPeriod LIKE CONCAT('%',#{licenseUidLogPeriod},'%')

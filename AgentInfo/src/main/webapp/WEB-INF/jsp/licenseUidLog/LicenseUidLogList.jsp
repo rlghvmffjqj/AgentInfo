@@ -18,7 +18,7 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이센스 발급 번호','이벤트','사용자','시간'],
+				colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','커널비트','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이센스 발급 Key'/*, '라이센스 발급 번호' */,'이벤트','사용자','시간'],
 				colModel:[
 					{name:'licenseUidLogKeyNum', index:'licenseUidLogKeyNum', align:'center', width: 35, hidden:true },
 					{name:'licenseUidLogCustomerName', index:'licenseUidLogCustomerName', align:'center', width: 200},
@@ -29,12 +29,14 @@
 					{name:'licenseUidLogOsType', index:'licenseUidLogOsType',align:'center', width: 80},
 					{name:'licenseUidLogOsVersion', index:'licenseUidLogOsVersion', align:'center', width: 150},
 					{name:'licenseUidLogKernelVersion', index:'licenseUidLogKernelVersion', align:'center', width: 70},
+					{name:'licenseUidLogKernelBit', index:'licenseUidLogKernelBit', align:'center', width: 70},
 					{name:'licenseUidLogTosVersion', index:'licenseUidLogTosVersion', align:'center', width: 150},
 					{name:'licenseUidLogPeriod', index:'licenseUidLogPeriod', align:'center', width: 70},
 					{name:'licenseUidLogMacUmlHostId', index:'licenseUidLogMacUmlHostId', align:'center', width: 200},
 					{name:'licenseUidLogReleaseType', index:'licenseUidLogReleaseType', align:'center', width: 100},
 					{name:'licenseUidLogDeliveryMethod', index:'licenseUidLogDeliveryMethod', align:'center', width: 100},
-					{name:'licenseUidLogIssueKey', index:'licenseUidLogIssueKey', align:'center', width: 150, formatter: licenseUidLogNumFormatter, sortable:false},
+					{name:'licenseUidLogIssueKey', index:'licenseUidLogIssueKey', align:'center', width: 200},
+					/* {name:'licenseUidLogIssueKey', index:'licenseUidLogIssueKey', align:'center', width: 150, formatter: licenseUidLogNumFormatter, sortable:false}, */
 					{name:'licenseUidLogEvent', index:'licenseUidLogEvent',align:'center', width: 80},
 					{name:'licenseUidUser', index:'licenseUidUser',align:'center', width: 80},
 					{name:'licenseUidTime', index:'licenseUidTime',align:'center', width: 150},
@@ -197,7 +199,15 @@
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">커널버전</label>
-														<select class="form-control selectpicker" id="licenseUidLogKernelVersion" name="licenseUidLogKernelVersion" data-live-search="true" data-size="5" data-actions-box="true">
+														<select class="form-control selectpicker" id="kernelVersionMulti" name="kernelVersionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${licenseUidLogKernelVersion}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+		                      							<label class="labelFontSize">커널비트</label>
+														<select class="form-control selectpicker" id="licenseUidLogKernelBit" name="licenseUidLogKernelBit" data-live-search="true" data-size="5" data-actions-box="true">
 															<option value=""></option>
 															<option value="64">64</option>
 															<option value="32">32</option>
@@ -257,6 +267,7 @@
 			                      						<input type="hidden" id="licenseUidLogPartners" name="licenseUidLogPartners" class="form-control">
 			                      						<input type="hidden" id="licenseUidLogOsType" name="licenseUidLogOsType" class="form-control">
 			                      						<input type="hidden" id="licenseUidLogOsVersion" name="licenseUidLogOsVersion" class="form-control">
+			                      						<input type="hidden" id="licenseUidLogKernelVersion" name="licenseUidLogKernelVersion" class="form-control">
 			                      						<input type="hidden" id="licenseUidLogTosVersion" name="licenseUidLogTosVersion" class="form-control">
 			                      						<input type="hidden" id="licenseUidLogMacUmlHostId" name="licenseUidLogMacUmlHostId" class="form-control">
 			                      						<input type="hidden" id="licenseUidLogReleaseType" name="licenseUidLogReleaseType" class="form-control">
@@ -323,6 +334,7 @@
 			$('#licenseUidLogPartners').val($('#partnersMulti').val().join());
 			$('#licenseUidLogOsType').val($('#osTypeMulti').val().join());
 			$('#licenseUidLogOsVersion').val($('#osVersionMulti').val().join());
+			$('#licenseUidLogKernelVersion').val($('#kernelVersionMulti').val().join());
 			$('#licenseUidLogTosVersion').val($('#tosVersionMulti').val().join());
 			$('#licenseUidLogMacUmlHostId').val($('#macUmlHostIdMulti').val().join());
 			$('#licenseUidLogReleaseType').val($('#releaseTypeMulti').val().join());

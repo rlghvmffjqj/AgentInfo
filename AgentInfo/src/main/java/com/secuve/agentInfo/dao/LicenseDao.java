@@ -53,4 +53,8 @@ public class LicenseDao {
 		return sqlSession.update("license.saveLicenseKey", parameters);
 	}
 
+	public void licensCancel(int licenseKeyNum) {
+		sqlSession.delete("license.delLicense", licenseKeyNum);
+	}
+
 }

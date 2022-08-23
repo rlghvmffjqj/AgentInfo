@@ -50,4 +50,8 @@ public class LicenseUidLogDao {
 		sqlSession.update("licenseUidLog.saveUidLogLicenseKey", parameters);
 		
 	}
+
+	public void licensUidLogCancel(int licenseUidLogKeyNum) {
+		sqlSession.delete("licenseUidLog.licensUidLogCancel", licenseUidLogKeyNum);
+	}
 }

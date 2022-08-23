@@ -154,7 +154,7 @@ p {
 }
 
 .modal-ll {
-	top: 25%;
+	top: 22%;
 	width: 1000px;
 	max-width: 1500px;
 }
@@ -530,6 +530,10 @@ p {
 
 .displayNone {
 	display: none;
+}
+
+.width300 {
+	width: 300px !important;
 }
 
 .outLine {

@@ -84,46 +84,62 @@
 	                            <div class="main-body">
 	                                <div class="page-wrapper">
 	                                	<div class="ibox">
-	                                		<form id="form" name="form" method ="post"> 
-	                                			<input class="form-control" type="hidden" id="categoryName" name="categoryName" value="${category}">  
-	                                		</form>
-			                           	 	<table style="width:99%;">
-												<tbody>
-													<tr>
-														<td style="padding:0px 0px 0px 0px;" class="box">
-															<table style="width:100%">
-																<tbody>
-																	<tr>
-																		<td style="font-weight:bold;">카테고리 관리 :
-																			<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																			<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		</td>
-																	</tr>
-																	<tr>
-																		<td class="border1" colspan="2">
-																			<!------- Grid ------->
-																			<div class="jqGrid_wrapper">
-																				<table id="list"></table>
-																				<div id="pager"></div>
-																			</div>
-																			<!------- Grid ------->
-																		</td>
-																	</tr>
-																</tbody>
-															</table>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-	                                	</div>
-	                            	</div>
-	                        	</div>
-	                    	</div>
-	                	</div>
-	            	</div>
-	        	</div>
-	    	</div>
-		</div>
+	                                		<div class="searchbos">
+		                                		<form id="form" name="form" method ="post" onSubmit="return false;">
+		                      						<div class="col-lg-2">
+		                      							<label class="labelFontSize">이름</label>
+														<input type="text" id="categoryValue" name="categoryValue" class="form-control">
+													</div>
+		                      						<div class="col-lg-12 text-right">
+														<p class="search-btn">
+															<button class="btn btn-primary btnm" type="button" id="btnSearch">
+																<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+															</button>
+															<button class="btn btn-default btnm" type="button" id="btnReset">
+																<span>초기화</span>
+															</button>
+														</p>
+													</div>
+												<input class="form-control" type="hidden" id="categoryName" name="categoryName" value="${category}">
+												</form>
+			                     			</div>
+		    	                 		</div>
+			                           	<table style="width:99%;">
+											<tbody>
+												<tr>
+													<td style="padding:0px 0px 0px 0px;" class="box">
+														<table style="width:100%">
+															<tbody>
+																<tr>
+																	<td style="font-weight:bold;">카테고리 관리 :
+																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
+																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																	</td>
+																</tr>
+																<tr>
+																	<td class="border1" colspan="2">
+																		<!------- Grid ------->
+																		<div class="jqGrid_wrapper">
+																			<table id="list"></table>
+																			<div id="pager"></div>
+																		</div>
+																		<!------- Grid ------->
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</body>
 
 	<script>
@@ -225,5 +241,28 @@
 	            }
 	        });
 		}
+		
+		/* =========== 검색 초기화 ========= */
+		$('#btnReset').click(function() {
+			$("input[type='text']").val("");
+			$("input[type='date']").val("");
+	        
+	        $('.selectpicker').val('');
+	        $('.filter-option-inner-inner').text('');
+			
+			tableRefresh();
+		});
+		
+		/* =========== 검색 ========= */
+		$('#btnSearch').click(function() {
+			tableRefresh();	
+		});
+		
+		/* =========== Enter 검색 ========= */
+		$("input[type=text]").keypress(function(event) {
+			if (window.event.keyCode == 13) {
+				tableRefresh();
+			}
+		});
 	</script>
 </html>

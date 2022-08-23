@@ -31,6 +31,7 @@ public class LicenseUidLogService {
 		search.setLicenseUidLogPartnersArr(search.getLicenseUidLogPartners().split(","));
 		search.setLicenseUidLogOsTypeArr(search.getLicenseUidLogOsType().split(","));
 		search.setLicenseUidLogOsVersionArr(search.getLicenseUidLogOsVersion().split(","));
+		search.setLicenseUidLogKernelVersionArr(search.getLicenseUidLogKernelVersion().split(","));
 		search.setLicenseUidLogTosVersionArr(search.getLicenseUidLogTosVersion().split(","));
 		search.setLicenseUidLogMacUmlHostIdArr(search.getLicenseUidLogMacUmlHostId().split(","));
 		search.setLicenseUidLogReleaseTypeArr(search.getLicenseUidLogReleaseType().split(","));
@@ -40,7 +41,7 @@ public class LicenseUidLogService {
 		return search;
 	}
 
-	public int insertLicenseUidLog(License license, Principal principal, String event) {
+	public int insertLicenseUidLog(License license, Principal principal, String event, String type) {
 		int licenseUidLogKeyNum = 0;
 		LicenseUidLog licenseUidLog = new LicenseUidLog();
 		
@@ -58,7 +59,7 @@ public class LicenseUidLogService {
 		licenseUidLog.setLicenseUidTime(nowDate());
 		licenseUidLog.setLicenseUidLogRegistrant(principal.getName());
 		licenseUidLog.setLicenseUidLogRegistrationDate(nowDate());
-		if(event == "INSERT" || event.equals("INSERT")) {
+		if(event == "INSERT" && type == "LINUX") {
 			licenseUidLog.setLicenseUidLogCustomerName(license.getCustomerNameView());
 			licenseUidLog.setLicenseUidLogBusinessName(license.getBusinessNameView());
 			licenseUidLog.setLicenseUidLogIssueDate(license.getIssueDateView());
@@ -67,12 +68,13 @@ public class LicenseUidLogService {
 			licenseUidLog.setLicenseUidLogOsType(license.getOsTypeView());
 			licenseUidLog.setLicenseUidLogOsVersion(license.getOsVersionView());
 			licenseUidLog.setLicenseUidLogKernelVersion(license.getKernelVersionView());
+			licenseUidLog.setLicenseUidLogKernelBit(license.getKernelBitView());
 			licenseUidLog.setLicenseUidLogTosVersion(license.getTosVersionView());
 			licenseUidLog.setLicenseUidLogPeriod(license.getPeriodView());
 			licenseUidLog.setLicenseUidLogMacUmlHostId(license.getMacUmlHostIdView());
 			licenseUidLog.setLicenseUidLogReleaseType(license.getReleaseTypeView());
 			licenseUidLog.setLicenseUidLogDeliveryMethod(license.getDeliveryMethodView());
-		} else if(event == "DELETE" || event.equals("DELETE")) {
+		} else if((event == "DELETE" && type == "ALL") || (event == "INSERT" && type == "WINDOWS")) {
 			licenseUidLog.setLicenseUidLogCustomerName(license.getCustomerName());
 			licenseUidLog.setLicenseUidLogBusinessName(license.getBusinessName());
 			licenseUidLog.setLicenseUidLogIssueDate(license.getIssueDate());
@@ -81,6 +83,7 @@ public class LicenseUidLogService {
 			licenseUidLog.setLicenseUidLogOsType(license.getOsType());
 			licenseUidLog.setLicenseUidLogOsVersion(license.getOsVersion());
 			licenseUidLog.setLicenseUidLogKernelVersion(license.getKernelVersion());
+			licenseUidLog.setLicenseUidLogKernelBit(license.getKernelBit());
 			licenseUidLog.setLicenseUidLogTosVersion(license.getTosVersion());
 			licenseUidLog.setLicenseUidLogPeriod(license.getPeriod());
 			licenseUidLog.setLicenseUidLogMacUmlHostId(license.getMacUmlHostId());
@@ -115,9 +118,4 @@ public class LicenseUidLogService {
 		return result;
 	}
 
-	public void saveUidLogLicenseKey(String licenseIssueKey, int licenseUidLogKeyNum) {
-		licenseUidLogDao.saveUidLogLicenseKey(licenseIssueKey, licenseUidLogKeyNum);
-		
-	}
-	
 }

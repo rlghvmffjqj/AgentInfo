@@ -21,6 +21,9 @@
 				SELECT *
 				FROM category
 				WHERE categoryName = #{categoryName}
+				<if test="categoryValue != null and categoryValue != ''">
+					AND categoryValue LIKE CONCAT('%',#{categoryValue},'%')
+				</if>
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
@@ -28,6 +31,9 @@
 	
 	<select id="getCategoryListCount" resultType="_int">
 		SELECT COUNT(*) FROM category WHERE categoryName = #{categoryName}
+			<if test="categoryValue != null and categoryValue != ''">
+				AND categoryValue LIKE CONCAT('%',#{categoryValue},'%')
+			</if>
 	</select>
 	
 	<delete id="delCategory" parameterType="_int">

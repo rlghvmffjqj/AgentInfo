@@ -32,6 +32,7 @@ public class LicenseUidLogController {
 		List<String> licenseUidLogRequester = licenseUidLogService.getSelectInput("licenseUidLogRequester");
 		List<String> licenseUidLogPartners = licenseUidLogService.getSelectInput("licenseUidLogPartners");
 		List<String> licenseUidLogOsVersion = licenseUidLogService.getSelectInput("licenseUidLogOsVersion");
+		List<String> licenseUidLogKernelVersion = licenseUidLogService.getSelectInput("licenseUidLogKernelVersion");
 		List<String> licenseUidLogTosVersion = licenseUidLogService.getSelectInput("licenseUidLogTosVersion");
 		List<String> licenseUidLogPeriod = licenseUidLogService.getSelectInput("licenseUidLogPeriod");
 		List<String> licenseUidLogMacUmlHostId = licenseUidLogService.getSelectInput("licenseUidLogMacUmlHostId");
@@ -41,6 +42,7 @@ public class LicenseUidLogController {
 		model.addAttribute("licenseUidLogRequester", licenseUidLogRequester);
 		model.addAttribute("licenseUidLogPartners", licenseUidLogPartners);
 		model.addAttribute("licenseUidLogOsVersion", licenseUidLogOsVersion);
+		model.addAttribute("licenseUidLogKernelVersion", licenseUidLogKernelVersion);
 		model.addAttribute("licenseUidLogTosVersion", licenseUidLogTosVersion);
 		model.addAttribute("licenseUidLogPeriod", licenseUidLogPeriod);
 		model.addAttribute("licenseUidLogMacUmlHostId", licenseUidLogMacUmlHostId);

@@ -36,8 +36,8 @@
 	</select>
 	
 	<insert id="issuedLicense">
-		INSERT INTO license(licenseKeyNum,customerName,businessName,issueDate,requester,partners,osType,osVersion,kernelVersion,tosVersion,period,macUmlHostId,releaseType,deliveryMethod,licenseIssueKey,licenseRegistrant,licenseRegistrationDate) 
-		VALUES(#{licenseKeyNum},#{customerNameView},#{businessNameView},#{issueDateView},#{requesterView},#{partnersView},#{osTypeView},#{osVersionView},#{kernelVersionView},#{tosVersionView},#{periodView},#{macUmlHostIdView},#{releaseTypeView},#{deliveryMethodView},#{licenseIssueKey},#{licenseRegistrant},#{licenseRegistrationDate});
+		INSERT INTO license(licenseKeyNum,licenseType,customerName,businessName,issueDate,requester,partners,osType,osVersion,kernelVersion,kernelBit,tosVersion,period,macUmlHostId,releaseType,deliveryMethod,licenseIssueKey,licenseIssueCommand,licenseRegistrant,licenseRegistrationDate) 
+		VALUES(#{licenseKeyNum},#{licenseType},#{customerNameView},#{businessNameView},#{issueDateView},#{requesterView},#{partnersView},#{osTypeView},#{osVersionView},#{kernelVersionView},#{kernelBitView},#{tosVersionView},#{periodView},#{macUmlHostIdView},#{releaseTypeView},#{deliveryMethodView},#{licenseIssueKey},#{licenseIssueCommand},#{licenseRegistrant},#{licenseRegistrationDate});
 	</insert>
 	
 	<select id="getLicenseOne" parameterType="_int" resultMap="license">
@@ -147,7 +147,16 @@
 				)
 			</if>
 			<if test="kernelVersion != null and kernelVersion != ''">
-				AND kernelVersion = #{kernelVersion}
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="kernelVersionArr" item="arr">
+						OR kernelVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="kernelBit != null and kernelBit != ''">
+				AND kernelBit = #{kernelBit}
 			</if>
 			<if test="period != null and period != ''">
 				AND period LIKE CONCAT('%',#{period},'%')

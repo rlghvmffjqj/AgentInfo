@@ -1,11 +1,19 @@
 package com.secuve.agentInfo.service;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,11 +26,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.secuve.agentInfo.AgentInfoApplication;
 import com.secuve.agentInfo.dao.LicenseDao;
 import com.secuve.agentInfo.vo.License;
 
+
 @Service
 public class LicenseService {
+	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	@Autowired LicenseDao licenseDao;
 	@Autowired LicenseUidLogService licenseUidLogService;
 
@@ -45,6 +56,7 @@ public class LicenseService {
 		search.setPartnersArr(search.getPartners().split(","));
 		search.setOsTypeArr(search.getOsType().split(","));
 		search.setOsVersionArr(search.getOsVersion().split(","));
+		search.setKernelVersionArr(search.getKernelVersion().split(","));
 		search.setTosVersionArr(search.getTosVersion().split(","));
 		search.setMacUmlHostIdArr(search.getMacUmlHostId().split(","));
 		search.setReleaseTypeArr(search.getReleaseType().split(","));
@@ -58,9 +70,11 @@ public class LicenseService {
 		try {
 			result = licenseDao.getLicenseIssueKey(licenseKeyNum);
 			if(result == "" || result.equals("")) {
+				LOGGER.debug("라이센스 KEY NULL ERROR");
 				return "FALSE";
 			}
 		} catch (Exception e) {
+			LOGGER.debug("라이센스 KEY SELECT ERROR");
 			return "FALSE";
 		}
 		return result;
@@ -75,7 +89,9 @@ public class LicenseService {
 	public String linuxIssuedLicense(License license, Principal principal) {
 		String resault = null;
 		String answer = "";
-		resault = LinuxLicenseIssued(license.getOsTypeView()+" "+license.getOsVersionView()+" "+license.getKernelVersionView(), license.getPeriodView()+" "+license.getMacUmlHostIdView());
+		String firstStr = license.getOsTypeView().toUpperCase()+" "+license.getOsVersionView()+" "+license.getKernelVersionView();
+		String lastStr = period(license.getPeriodView(), Integer.parseInt(license.getPeriodSelf()))+" "+license.getMacUmlHostIdView();
+		resault = LinuxLicenseIssued(firstStr, lastStr);
 		// 대괄호 외 대괄호 제거
 		for(int i=1; i<resault.length()-1; i++) {
 			answer += resault.charAt(i);
@@ -84,24 +100,57 @@ public class LicenseService {
 		try {
 			answer = answer.substring(32);
 		} catch (Exception e) {
+			LOGGER.debug("리눅스 라이센스 2.0 발급 결과값 CUTTING ERROR");
 			return "FALSE";
 		}
 		
 		if(!answer.equals("FALSE")) {
+			license.setLicenseIssueCommand("./gen_serial "+firstStr+" "+'"'+"Secuve TOS"+'"'+" 2.0i "+lastStr);
 			license.setLicenseKeyNum(LicenseKeyNum());
 			license.setLicenseIssueKey(answer);
+			license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodSelf())));
 			int sucess = licenseDao.issuedLicense(license);
 		
 			// 로그 기록
 			if (sucess > 0) {
-				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT");
+				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "LINUX");
 			} else {
+				LOGGER.debug("리눅스 라이센스 2.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
 		} else {
+			LOGGER.debug("리눅스 라이센스 2.0 발급 ERROR");
 			return "FALSE";
 		}
 		return answer;
+	}
+	
+	public String periodSelf(String period, int periodNum) {
+		if(periodNum > 0) { 
+			return periodNum + "년";
+		}
+		return period;
+	}
+	
+	public String period(String period, int periodNum) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		if(periodNum <= 0) { 
+			if(period.equals("무제한")) {
+				return "00000000";
+	 		} else if(period.equals("1년")) {
+	 			cal.add(Calendar.YEAR, 1);
+			} else if(period.equals("5년")) {
+				cal.add(Calendar.YEAR, 5);
+			} else if(period.equals("10년")) {
+				cal.add(Calendar.YEAR, 10);
+			} 
+		} else {
+			cal.add(Calendar.YEAR, periodNum);
+		}
+		cal.add(Calendar.DATE, -1);
+		return formatter.format(cal.getTime());
 	}
 	
 	public String LinuxLicenseIssued(String firstStr, String lastStr) {
@@ -134,34 +183,63 @@ public class LicenseService {
 			e.printStackTrace();
 		}
         
-        System.out.println(jsonInString);
         return jsonInString;
 	}
 	
-	public int windowIssuedLicense(License license, Principal principal) {
-		Runtime rt = Runtime.getRuntime();
-		
-		String file = "C:\\vnc-viewer.exe";
-		Process pro;
-		try {
-			pro = rt.exec(file);
-			pro.waitFor();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public int windowIssuedLicense(License license, Principal principal, HttpServletRequest request) {
+		// 닫기 버튼으로 뒤로 이동한 경우 중첩 추가를 막기위해 삭제 후 추가한다.
+		if(license.getViewType() == "back" || license.getViewType().equals("back")) {
+			licenseDao.licensCancel(license.getLicenseKeyNum());
 		}
+		
 		license.setLicenseKeyNum(LicenseKeyNum());
 		license.setLicenseIssueKey("none");
+		license.setPeriod(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodSelf())));
 		int sucess = licenseDao.issuedLicense(license);
 		// 로그 기록
 		if (sucess > 0) {
+			WindowsLicenseIssued(request);
 			return license.getLicenseKeyNum();
 		} else {
 			return 0;
 		}
 	}
 	
+	public void WindowsLicenseIssued(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");
+	    if (ip == null) ip = request.getRemoteAddr();
+	    
+		String url = "http://"+ip+":8080/windowsLicenseIssued";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        // 결과 전달할 경우 사용
+        //String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        //ObjectMapper mapper = new ObjectMapper();
+        //try {
+		//	jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		//} catch (JsonProcessingException e) {
+		//	// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
+        
+	}
+	
 	public int LicenseKeyNum() {
-		int licenseKeyNum = 0;
+		int licenseKeyNum = 1;
 		try {
 			licenseKeyNum = licenseDao.getLicenseKeyNum();
 		} catch (Exception e) {
@@ -177,30 +255,67 @@ public class LicenseService {
 
 			// 로그 기록
 			if (sucess > 0) {
-				licenseUidLogService.insertLicenseUidLog(license, principal, "DELETE");
-			}
-
-			if (sucess <= 0)
+				licenseUidLogService.insertLicenseUidLog(license, principal, "DELETE", "ALL");
+			} else if (sucess <= 0) {
+				LOGGER.debug("라이센스 DELETE ERROR");
 				return "FALSE";
+			}
 		}
 		return "OK";
 	}
 
-	public String saveLicenseKey(String licenseIssueKey, int licenseKeyNum, int licenseUidLogKeyNum) {
+	public String saveLicenseKey(String licenseIssueKey, int licenseKeyNum, Principal principal) {
 		int sucess = licenseDao.saveLicenseKey(licenseIssueKey, licenseKeyNum);
 		if(sucess <= 0) {
+			LOGGER.debug("라이센스 INSERT ERROR");
 			return "FALSE";
 		} 
-		licenseUidLogService.saveUidLogLicenseKey(licenseIssueKey, licenseUidLogKeyNum);
+		License license = licenseDao.getLicenseOne(licenseKeyNum);
+		licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "WINDOWS");
 		return "OK";
 	}
 
-	public int licenseUidLog(License license, Principal principal, int licenseKeyNum) {
-		if(licenseKeyNum > 0) {
-			int licenseUidLogKeyNum = licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT");
-			return licenseUidLogKeyNum;
+	public void licensCancel(int licenseKeyNum) {
+		licenseDao.licensCancel(licenseKeyNum);
+	}
+
+	public License insertLicenseView(String licenseKeyNum) {
+		License license = new License();
+		if(licenseKeyNum != null) {
+			license = licenseDao.getLicenseOne(Integer.parseInt(licenseKeyNum));
 		}
-		return 0;
+		return license;
+	}
+
+	public String txtSave(int[] chkList, String fileName) {
+		try {
+		    OutputStream output = new FileOutputStream("C:/AgentInfo/license/"+fileName+".txt");
+		    String str = contents(chkList);
+		    byte[] by=str.getBytes();
+		    output.write(by);
+		} catch (Exception e) {
+	            e.getStackTrace();
+	            return "FALSE";
+		}
+		return "OK";
+	}
+	
+	public String contents(int[] chkList) {
+		License license = new License();
+		String contents = "";
+		for (int licenseKeyNum : chkList) {
+			license = licenseDao.getLicenseOne(licenseKeyNum);
+			if(license.getLicenseType().equals("Linux")) {
+				contents += license.getOsType() + "\n";
+				contents += license.getLicenseIssueCommand() + "\n";
+				contents += license.getLicenseIssueKey() + "\n\n";
+			} else {
+				contents += license.getOsType() + "\n";
+				contents += "MAC : " + license.getMacUmlHostId() + "\n";
+				contents += "License : " + license.getLicenseIssueKey() + "\n\n";
+			}
+		}
+		return contents;
 	}
 	
 }

@@ -21,12 +21,17 @@ public class License {
 	private String osType;				// OS종류
 	private String osVersion;			// OS버전
 	private String kernelVersion;		// 커널버전
+	private String kernelBit;		// 커널비트
 	private String tosVersion;			// TOS버전
 	private String period;				// 기간
 	private String macUmlHostId;		// MAC / UML / HostId 정보
 	private String releaseType;			// 릴리즈타입
 	private String deliveryMethod;		// 전달 방법
 	private String licenseIssueKey;		// 라이센스 발급 키
+	private String licenseIssueCommand; // 리눅스 라이센스 발급 명령어
+	
+	private String periodSelf;
+	private String viewType;
 	
 	private String licenseRegistrant;
 	private String licenseRegistrationDate;
@@ -44,6 +49,7 @@ public class License {
 	private String osTypeView;
 	private String osVersionView;
 	private String kernelVersionView;
+	private String kernelBitView;
 	private String tosVersionView;
 	private String periodView;
 	private String macUmlHostIdView;
@@ -56,6 +62,7 @@ public class License {
 	private String[] partnersArr;
 	private String[] osTypeArr;
 	private String[] osVersionArr;
+	private String[] kernelVersionArr;
 	private String[] tosVersionArr;
 	private String[] macUmlHostIdArr;
 	private String[] releaseTypeArr;
