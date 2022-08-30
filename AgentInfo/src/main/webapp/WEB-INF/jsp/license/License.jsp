@@ -43,7 +43,8 @@
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'licenseKeyNum',	// 기본 정렬 
+			        rowList:[25,50,100],
+			        sortname: 'licenseKeyNumOrigin',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -246,6 +247,10 @@
 															<option value="점프호스트">점프호스트</option>
 														</select>
 			                      					</div>
+			                      					<div class="col-lg-2">
+		                      							<label class="labelFontSize">라이센스 발급 Key</label>
+		                      							<input type="text" id="licenseIssueKey" name="licenseIssueKey" class="form-control">
+		                      						</div>
 			                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
 			                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
 			                      						<input type="hidden" id="requester" name="requester" class="form-control">
@@ -280,7 +285,9 @@
 																	<sec:authorize access="hasRole('ADMIN')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -551,5 +558,61 @@
 				});
 			}
 		});
+		
+		/* =========== 경로 설정 ========= */
+		$('#BtnRoute').click(function() {
+			$.ajax({
+				url: "<c:url value='/license/setting'/>",
+				type: "POST",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					$.modal(data, 'ssl'); //modal창 호출
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+		
+		/* =========== 데이터 복사 Modal ========= */
+		$('#BtnCopy').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			var licenseKeyNum = chkList[0];
+			if(chkList.length == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else if(chkList.length == 1) {
+				$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/license/copyView'/>",
+		            data: {"licenseKeyNum" : licenseKeyNum},
+		            async: false,
+		            success: function (data) {
+		                $.modal(data, 'll'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+ 		        });
+			} else {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '복사를 원하는 데이터 한 행만 체크 해주세요.',    
+				}); 
+			}
+		});
+		
+			$("#list").click(function () {
+				console.log("하");
+	            // 현재 클릭된 Row(<tr>)
+	            var checkbox = $(this).find('td:first-child :checkbox');
+	            checkbox.attr('checked', !checkbox.is(':checked'));
+	        });
+
 	</script>
 </html>

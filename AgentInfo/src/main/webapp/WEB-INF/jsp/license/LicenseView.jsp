@@ -8,30 +8,42 @@
 			<c:choose>
 				<c:when test="${viewType eq 'issued'}">
 					<div class="form-check radioDate">
-					<input class="form-check-input" type="radio" name="licenseType" id="Linux" value="Linux" checked>
-					  <label class="form-check-label" for="Linux">
-					    Linux
-					  </label>
+						<input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows" checked>
+						<label class="form-check-label" for="Window">
+							Windows
+						</label>
 					</div>
 					<div class="form-check radioDate">
-					  <input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows">
-					  <label class="form-check-label" for="Window">
-					    Windows
-					  </label>
+						<input class="form-check-input" type="radio" name="licenseType" id="Linux20" value="Linux20" >
+						<label class="form-check-label" for="Linux20">
+							Linux 2.0
+						</label>
+					</div>
+					<div class="form-check radioDate">
+						<input class="form-check-input" type="radio" name="licenseType" id="Linux50" value="Linux50" >
+						<label class="form-check-label" for="Linux50">
+							Linux 5.0
+						</label>
 					</div>
 				</c:when>
-				<c:when test="${viewType eq 'back'}">
+				<c:when test="${viewType eq 'back' || viewType eq 'copy'}">
 					<div class="form-check radioDate">
-					<input class="form-check-input" type="radio" name="licenseType" id="Linux" value="Linux" <c:if test="${'Linux' eq license.licenseType}">checked</c:if>>
-					  <label class="form-check-label" for="Linux">
-					    Linux
-					  </label>
+						<input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows" <c:if test="${'Windows' eq license.licenseType}">checked</c:if>>
+						<label class="form-check-label" for="Window">
+							Windows
+						</label>
 					</div>
 					<div class="form-check radioDate">
-					  <input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows" <c:if test="${'Windows' eq license.licenseType}">checked</c:if>>
-					  <label class="form-check-label" for="Window">
-					    Windows
-					  </label>
+						<input class="form-check-input" type="radio" name="licenseType" id="Linux20" value="Linux20" <c:if test="${'Linux20' eq license.licenseType}">checked</c:if>>
+						<label class="form-check-label" for="Linux20">
+							Linux 2.0
+						</label>
+					</div>
+					<div class="form-check radioDate">
+						<input class="form-check-input" type="radio" name="licenseType" id="Linux50" value="Linux50" <c:if test="${'Linux50' eq license.licenseType}">checked</c:if>>
+						<label class="form-check-label" for="Linux50">
+							Linux 5.0
+						</label>
 					</div>
 				</c:when>
 			</c:choose>
@@ -63,8 +75,21 @@
 	         	<label class="labelFontSize">기간</label><label class="colorRed">*</label>
 	         	<a href="#" class="selfInput" id="periodChange" onclick="selfInput('periodChange');">직접입력</a>
 	         	<span class="colorRed licenseShow" id="NotPeriod" style="display: none; line-height: initial; float: right;">기간을 입력해주세요.</span>
-	         	<input type="hidden" id="periodSelf" name="periodSelf" class="form-control viewForm" placeholder="사용기한 입력(년)" value="0">
-	         	<div id="periodViewSelf">
+	         	<div id="periodViewSelf" style="display:none; width: 100%">
+	         		<div style="width: 33%; float: left;">
+		         		<span>년</span>
+		         		<input type="number" id="periodYearSelf" name="periodYearSelf" class="form-control viewForm selfPeriod"  value="0">
+		         	</div>
+		         	<div style="width: 33%; float: left;">
+		         		<span>월</span>
+		         		<input type="number" id="periodMonthSelf" name="periodMonthSelf" class="form-control viewForm selfPeriod" value="0">
+		         	</div>
+		         	<div style="width: 34%; float: left;">
+		         		<span>일</span>
+		         		<input type="number" id="periodDaySelf" name="periodDaySelf" class="form-control viewForm selfPeriod" style="width: 100%;"  value="0">
+		         	</div>
+	         	</div>
+	         	<div id="periodViewSelect">
 		         	<select class="form-control selectpicker selectForm" id="periodView" name="periodView" data-live-search="true" data-size="5" data-actions-box="true">
 						<option value="무제한" <c:if test="${'무제한' eq license.period}">selected</c:if>>무제한</option>
 						<option value="1년" <c:if test="${'1년' eq license.period}">selected</c:if>>1년</option>
@@ -131,16 +156,27 @@
 	        </div>
         </div>
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
+        <input type="hidden" id="licenseKeyNumOrigin" name="licenseKeyNumOrigin" class="form-control viewForm" value="${license.licenseKeyNumOrigin}">
+        <input type="hidden" id="btnType" name="btnType">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
 	</form>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default btn-outline-info-add" id="insertBtn">발급</button>
 	<c:choose>
 		<c:when test="${viewType eq 'issued'}">
-    		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('issued')">발급</button>
+			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+		</c:when>
+		<c:when test="${viewType eq 'copy'}">
+			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">복사</button>
+			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+		</c:when>
+    	<c:when test="${viewType eq 'issuedback'}">
+    		<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('issued')">발급</button>
+    		<button class="btn btn-default btn-outline-info-nomal" onClick="BtnCancel()">닫기</button>
     	</c:when>
-    	<c:when test="${viewType eq 'back'}">
+    	<c:when test="${viewType eq 'copyback'}">
+    		<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">복사</button>
     		<button class="btn btn-default btn-outline-info-nomal" onClick="BtnCancel()">닫기</button>
     	</c:when>
     </c:choose>
@@ -154,7 +190,8 @@
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
 	/* =========== 라이센스 발급 ========= */
-	$('#insertBtn').click(function() {
+	function BtnInsert(btnType) {
+		$('#btnType').val(btnType);
 		var customerName = $('#customerNameView').val();
 		var osType = $('#osTypeView').val();
 		var kernelVersion = $('#kernelVersionView').val();
@@ -175,17 +212,17 @@
 		} else if(macUmlHostId == "") {
 			$('#NotMacUmlHostId').show();
 		} else { 
-			if($("#periodChange").text() == "선택입력" && $('#periodSelf').val() <= 0) {
+			if($("#periodChange").text() == "선택입력" && $('#periodYearSelf').val() <= 0 && $('#periodMonthSelf').val() <= 0 && $('#periodDaySelf').val() <= 0) {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
-					text: '직접 입력의 경우 0이상의 값을 입력 바랍니다.',    
+					text: '직접 입력의 경우 1일 이상의 값을 입력 바랍니다.',    
 				});
 			} else {
 				var postData = $('#modalForm').serializeObject();
-				if(licenseType == 'Linux') {
+				if(licenseType == 'Linux20') {
 					$.ajax({
-						url: "<c:url value='/license/linuxIssued'/>",
+						url: "<c:url value='/license/linuxIssued20'/>",
 				        type: 'post',
 				        data: postData,
 				        async: false,
@@ -212,6 +249,35 @@
 							console.log(error);
 						}
 				    });
+				} else if(licenseType == 'Linux50') {
+					$.ajax({
+						url: "<c:url value='/license/linuxIssued50'/>",
+					    type: 'post',
+					    data: postData,
+					    async: false,
+					    success: function(result) {
+							if(result.result == "FALSE") {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '라이센스 발급에 실패하였습니다.',
+								});
+							} else {
+								Swal.fire({
+									icon: 'success',
+									title: '라이센스 발급!',
+									text: result.result,
+								});
+								$('#modal').modal("hide"); // 모달 닫기
+					    		$('#modal').on('hidden.bs.modal', function () {
+					    			tableRefresh();
+					    		});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
 				} else {
 					$.ajax({
 					    type: 'POST',
@@ -231,21 +297,25 @@
 				}	
 			}
 		}
-	});
+	};
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
 	function selfInput(data) {
 		if(data == "periodChange") {
 			if($("#periodChange").text() == "직접입력") {
-				$('#periodViewSelf').hide();
-				$('#periodSelf').attr('type','number');
-				$('#periodSelf').val('1');
+				$('#periodViewSelf').show();
+				$('#periodViewSelect').hide();
+				$('#periodYearSelf').val('0');
+				$('#periodMonthSelf').val('0');
+				$('#periodDaySelf').val('0');
 				$('#periodView').val('');
 				$("#periodChange").text("선택입력");
 			} else if($("#periodChange").text() == "선택입력") {
-				$('#periodViewSelf').show();
-				$('#periodSelf').attr('type','hidden');
-				$('#periodSelf').val('0');
+				$('#periodViewSelf').hide();
+				$('#periodViewSelect').show();
+				$('#periodYearSelf').val('0');
+				$('#periodMonthSelf').val('0');
+				$('#periodDaySelf').val('0');
 				$("#periodChange").text("직접입력");
 			}
 		}
@@ -273,4 +343,5 @@
 		    }
 		});
 	}
+	
 </script>

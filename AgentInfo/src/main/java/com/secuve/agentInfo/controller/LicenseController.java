@@ -20,6 +20,7 @@ import org.springframework.web.servlet.View;
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.LicenseService;
 import com.secuve.agentInfo.vo.License;
+import com.secuve.agentInfo.vo.LicenseSetting;
 
 @Controller
 public class LicenseController {
@@ -95,19 +96,37 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 리눅스 라이 센스 발급
+	 * 리눅스 라이센스 2.0 발급
 	 * @param license
 	 * @param principal
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping(value = "/license/linuxIssued")
-	public Map<String, String> LinuxIssuedLicense(License license, Principal principal) {
+	@PostMapping(value = "/license/linuxIssued20")
+	public Map<String, String> LinuxIssuedLicense20(License license, Principal principal) {
 		license.setLicenseRegistrant(principal.getName());
 		license.setLicenseRegistrationDate(licenseService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = licenseService.linuxIssuedLicense(license, principal);
+		String result = licenseService.linuxIssuedLicense20(license, principal);
+		map.put("result", result);
+		return map;
+	}
+	
+	/**
+	 * 리눅스 라이센스 5.0 발급
+	 * @param license
+	 * @param principal
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value = "/license/linuxIssued50")
+	public Map<String, String> LinuxIssuedLicense50(License license, Principal principal) {
+		license.setLicenseRegistrant(principal.getName());
+		license.setLicenseRegistrationDate(licenseService.nowDate());
+
+		Map<String, String> map = new HashMap<String, String>();
+		String result = licenseService.linuxIssuedLicense50(license, principal);
 		map.put("result", result);
 		return map;
 	}
@@ -125,7 +144,7 @@ public class LicenseController {
 		license.setLicenseRegistrationDate(licenseService.nowDate());
 
 		int licenseKeyNum = licenseService.windowIssuedLicense(license, principal, request);
-		model.addAttribute("licenseKeyNum", licenseKeyNum);
+		model.addAttribute("licenseKeyNum", licenseKeyNum).addAttribute("viewType", license.getViewType());
 		return "/license/LicenseWindowView";
 	}
 	
@@ -168,7 +187,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 텍스트 제목
+	 * 텍스트 제목 Modal
 	 * @param chkList
 	 * @param model
 	 * @return
@@ -177,6 +196,19 @@ public class LicenseController {
 	public String TxtTitle(@RequestParam int[] chkList, Model model) {
 		model.addAttribute("chkList", chkList);
 		return "/license/TxtTitle";
+	}
+	
+	/**
+	 * 라이센스 발급 세팅 Modal
+	 * @param model
+	 * @return
+	 */
+	@PostMapping(value = "/license/setting")
+	public String LicenseSetting(Principal principal, Model model) {
+		String employeeId = principal.getName();
+		LicenseSetting licenseSetting = licenseService.getlicenseSetting(employeeId);
+		model.addAttribute("licenseSetting", licenseSetting);
+		return "/license/LicenseSetting";
 	}
 	
 	/**
@@ -190,6 +222,13 @@ public class LicenseController {
 	@PostMapping(value = "/license/txtSave")
 	public String TxtSave(@RequestParam int[] chkList, String fileName, Model model) {
 		return licenseService.txtSave(chkList, fileName);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license/routeChange")
+	public String RouteChange(LicenseSetting licenseSetting, Principal principal, Model model) {
+		licenseSetting.setEmployeeId(principal.getName());
+		return licenseService.RouteChange(licenseSetting);
 	}
 	
 	/**
@@ -209,4 +248,13 @@ public class LicenseController {
 	
 		return new FileDownloadView();
 	}
+	
+	@PostMapping(value = "/license/copyView")
+	public String CopyLicenseView(Model model, int licenseKeyNum) {
+		License license = licenseService.getLicenseOne(licenseKeyNum);
+		
+		model.addAttribute("viewType", "copy").addAttribute("license", license);
+		return "/license/LicenseView";
+	}
+	
 }

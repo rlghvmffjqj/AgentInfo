@@ -149,6 +149,9 @@
 			<if test="licenseUidLogPeriod != null and licenseUidLogPeriod != ''">
 				AND licenseUidLogPeriod LIKE CONCAT('%',#{licenseUidLogPeriod},'%')
 			</if>
+			<if test="licenseUidLogIssueKey != null and licenseUidLogIssueKey != ''">
+				AND licenseUidLogIssueKey LIKE CONCAT('%',#{licenseUidLogIssueKey},'%')
+			</if>
 			<if test="licenseUidLogIssueDateStart != null and licenseUidLogIssueDateStart != ''">
 				AND licenseUidLogIssueDate BETWEEN #{licenseUidLogIssueDateStart} AND #{licenseUidLogIssueDateEnd}
 			</if>

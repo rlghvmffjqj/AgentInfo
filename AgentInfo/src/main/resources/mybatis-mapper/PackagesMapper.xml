@@ -71,6 +71,10 @@
 		GROUP BY osType;
 	</select>
 	
+	<select id="getPackagesKeyNumOrigin" resultType="_int">
+		SELECT MAX(packagesKeyNumOrigin) FROM packages;
+	</select>
+	
 	<select id="getChartRequestProductCategory" resultMap="packages">
 		SELECT 
 			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 5.0%' AND managementServer = 'Agent') AS 'chartColumn1',

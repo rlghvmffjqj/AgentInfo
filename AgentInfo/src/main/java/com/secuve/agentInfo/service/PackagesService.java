@@ -107,7 +107,7 @@ public class PackagesService {
 		selfInput(packages);
 		packages.setState("배포완료");
 		packages.setPackagesKeyNum(PackagesKeyNum());
-		packages.setPackagesKeyNumOrigin(PackagesKeyNum());
+		packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 		int sucess = packagesDao.insertPackages(packages);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
@@ -133,6 +133,16 @@ public class PackagesService {
 			return packagesKeyNum;
 		}
 		return ++packagesKeyNum;
+	}
+	
+	public int PackagesKeyNumOrigin() {
+		int packagesKeyNumOrigin = 0;
+		try {
+			packagesKeyNumOrigin = packagesDao.getPackagesKeyNumOrigin();
+		} catch (Exception e) {
+			return packagesKeyNumOrigin;
+		}
+		return ++packagesKeyNumOrigin;
 	}
 
 	/**
@@ -388,7 +398,7 @@ public class PackagesService {
 
 			// 키값 저장
 			packages.setPackagesKeyNum(PackagesKeyNum());
-			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			packages.setPackagesRegistrationDate(nowDate());
@@ -571,7 +581,7 @@ public class PackagesService {
 
 			// 키값 저장
 			packages.setPackagesKeyNum(PackagesKeyNum());
-			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			// 저장 시간(현재 시간)
@@ -765,7 +775,7 @@ public class PackagesService {
 
 			// 키값 저장
 			packages.setPackagesKeyNum(PackagesKeyNum());
-			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			// 저장 시간(현재 시간)
@@ -996,7 +1006,7 @@ public class PackagesService {
 
 			// 키값 저장
 			packages.setPackagesKeyNum(PackagesKeyNum());
-			packages.setPackagesKeyNumOrigin(PackagesKeyNum());
+			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
 			packages.setPackagesRegistrationDate(nowDate());

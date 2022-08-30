@@ -12,6 +12,7 @@ import lombok.ToString;
 @Component
 public class License {
 	private int licenseKeyNum;			// 라이센스 기본 키
+	private int licenseKeyNumOrigin;			// 라이센스 정렬 사용
 	private String licenseType;			// 라이센스 타입
 	private String customerName;		// 업체명
 	private String businessName;		// 사업명
@@ -30,8 +31,11 @@ public class License {
 	private String licenseIssueKey;		// 라이센스 발급 키
 	private String licenseIssueCommand; // 리눅스 라이센스 발급 명령어
 	
-	private String periodSelf;
+	private String periodYearSelf;
+	private String periodMonthSelf;
+	private String periodDaySelf;
 	private String viewType;
+	private String btnType;
 	
 	private String licenseRegistrant;
 	private String licenseRegistrationDate;
@@ -70,6 +74,6 @@ public class License {
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
-	private String sidx="licenseKeyNum";		// 정렬할 기준 데이터
+	private String sidx="licenseKeyNumOrigin";		// 정렬할 기준 데이터
 	private String sord;
 }

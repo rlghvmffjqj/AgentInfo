@@ -10,7 +10,7 @@
 		<tbody>
 			<tr>
 				<td style="font-weight: bolder;">Windows 라이센스 발급 키 : </td>
-				<td><input type="text" id="licenseIssueKey" autofocus></td>
+				<td><input type="text" id="licenseIssueKeyView" autofocus></td>
 			</tr>
 			<tr>
 				<td colspan='2'><span class="colorRed" id="NotLicenseIssuedKey" style="display: none; line-height: initial;">라이센스 발급 키 값을 반드시 입력 바랍니다.</span></td>
@@ -55,7 +55,10 @@
 	/* =========== 닫기 버튼 ========= */
 	function BtnCancel() {
 		var licenseKeyNum = $('#licenseKeyNum').val();
-		var viewType = "back";
+		var viewType = "${viewType}";
+		if(!viewType.includes("back")) {
+			viewType = viewType + "back";
+		}
 		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/license/issuedView'/>",
@@ -79,7 +82,7 @@
 
 	/* =========== 라이센스 발급 키 저장 ========= */
 	function BtnLicenseSave() {
-		var licenseIssueKey = $('#licenseIssueKey').val();
+		var licenseIssueKey = $('#licenseIssueKeyView').val();
 		var licenseKeyNum = $('#licenseKeyNum').val();
 		
 		if(licenseIssueKey != "") {

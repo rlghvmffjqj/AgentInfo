@@ -316,6 +316,15 @@ p {
     width: 50%;
 }
 
+.selfPeriod {
+	width: 95%;
+	margin-bottom: 5px;
+}
+
+.floatLeft {
+	float: left;
+}
+
 .rightDiv {
 	float: left;
     margin-left: 30px;
@@ -534,6 +543,14 @@ p {
 
 .width300 {
 	width: 300px !important;
+}
+
+.width380 {
+	width: 380px !important;
+}
+
+.height15 {
+	height: 15px;
 }
 
 .outLine {

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.secuve.agentInfo.vo.License;
+import com.secuve.agentInfo.vo.LicenseSetting;
 
 @Repository
 public class LicenseDao {
@@ -55,6 +56,34 @@ public class LicenseDao {
 
 	public void licensCancel(int licenseKeyNum) {
 		sqlSession.delete("license.delLicense", licenseKeyNum);
+	}
+
+	public LicenseSetting getlicenseSetting(String employeeId) {
+		return sqlSession.selectOne("license.getlicenseSetting", employeeId);
+	}
+
+	public int RouteChange(LicenseSetting licenseSetting) {
+		return sqlSession.update("license.RouteChange", licenseSetting);
+	}
+
+	public String getRoute(String column) {
+		return sqlSession.selectOne("license.getRoute", column);
+	}
+
+	public void plusLicenseKeyNumOrigin(int licenseKeyNumOrigin) {
+		sqlSession.update("license.plusLicenseKeyNumOrigin", licenseKeyNumOrigin);
+	}
+
+	public int getLicenseKeyNumOrigin() {
+		return sqlSession.selectOne("license.getLicenseKeyNumOrigin");
+	}
+
+	public int RouteInsert(LicenseSetting licenseSetting) {
+		return sqlSession.update("license.RouteInsert", licenseSetting);
+	}
+
+	public int getSettingCount(String employeeId) {
+		return sqlSession.selectOne("license.getSettingCount", employeeId);
 	}
 
 }

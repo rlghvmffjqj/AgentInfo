@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.AgentInfoApplication;
 import com.secuve.agentInfo.dao.LicenseDao;
 import com.secuve.agentInfo.vo.License;
+import com.secuve.agentInfo.vo.LicenseSetting;
 
 
 @Service
@@ -86,12 +87,13 @@ public class LicenseService {
 		return formatter.format(now);
 	}
 
-	public String linuxIssuedLicense(License license, Principal principal) {
+	public String linuxIssuedLicense20(License license, Principal principal) {
 		String resault = null;
 		String answer = "";
 		String firstStr = license.getOsTypeView().toUpperCase()+" "+license.getOsVersionView()+" "+license.getKernelVersionView();
-		String lastStr = period(license.getPeriodView(), Integer.parseInt(license.getPeriodSelf()))+" "+license.getMacUmlHostIdView();
-		resault = LinuxLicenseIssued(firstStr, lastStr);
+		String lastStr = period(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf()))+" "+license.getMacUmlHostIdView();
+		String route = licenseDao.getRoute("linuxLicense20Route");
+		resault = LinuxLicenseIssued20(route, firstStr, lastStr);
 		// 대괄호 외 대괄호 제거
 		for(int i=1; i<resault.length()-1; i++) {
 			answer += resault.charAt(i);
@@ -106,9 +108,9 @@ public class LicenseService {
 		
 		if(!answer.equals("FALSE")) {
 			license.setLicenseIssueCommand("./gen_serial "+firstStr+" "+'"'+"Secuve TOS"+'"'+" 2.0i "+lastStr);
-			license.setLicenseKeyNum(LicenseKeyNum());
+			license = BtnTypeKeyManagement(license);
 			license.setLicenseIssueKey(answer);
-			license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodSelf())));
+			license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
 			int sucess = licenseDao.issuedLicense(license);
 		
 			// 로그 기록
@@ -125,18 +127,109 @@ public class LicenseService {
 		return answer;
 	}
 	
-	public String periodSelf(String period, int periodNum) {
-		if(periodNum > 0) { 
-			return periodNum + "년";
+	public License BtnTypeKeyManagement(License license) {
+		if(license.getBtnType().equals("issued")) {
+			license.setLicenseKeyNum(LicenseKeyNum());
+			license.setLicenseKeyNumOrigin(LicenseKeyNumOrigin());
+		} else {
+			licenseDao.plusLicenseKeyNumOrigin(license.getLicenseKeyNumOrigin()); // 복사 대상 윗 데이터 +1
+			license.setLicenseKeyNumOrigin(license.getLicenseKeyNumOrigin() + 1); // 빈 공간 값 저장
+			license.setLicenseKeyNum(LicenseKeyNum());
+		}
+		return license;
+	}
+	
+	public String linuxIssuedLicense50(License license, Principal principal) {
+		String resault = null;
+		String answer = "";
+		String route = licenseDao.getRoute("linuxLicense50Route");
+		resault = LinuxLicenseIssued50(route);
+		// 대괄호 외 대괄호 제거
+		for(int i=1; i<resault.length()-1; i++) {
+			answer += resault.charAt(i);
+		}
+		// 라이센스 발급 후 메시지에서 불필요 내용 제거
+		try {
+			answer = answer.substring(32);
+		} catch (Exception e) {
+			LOGGER.debug("리눅스 라이센스 5.0 발급 결과값 CUTTING ERROR");
+			return "FALSE";
+		}
+		
+		if(!answer.equals("FALSE")) {
+			license.setLicenseIssueCommand("");
+			license = BtnTypeKeyManagement(license);
+			license.setLicenseIssueKey(answer);
+			license.setLicenseIssueKey("LINUX5.0");
+			license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
+			int sucess = licenseDao.issuedLicense(license);
+		
+			// 로그 기록
+			if (sucess > 0) {
+				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "LINUX");
+			} else {
+				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
+				return "FALSE";
+			}
+		} else {
+			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
+			return "FALSE";
+		}
+		return answer;
+	}
+	
+	public String LinuxLicenseIssued50(String route) {
+		String url = "http://172.16.50.182:8080/linuxLicenseIssued50";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("route", route)
+        		.build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        System.out.println(jsonInString);
+        return jsonInString;
+	}
+	
+	public String periodSelf(String period, int periodYear, int periodMonth, int periodDay) {
+		if(period == null) period = "";
+		if(periodYear > 0) { 
+			period = periodYear + "년";
+		}
+		if(periodMonth > 0) {
+			period += periodMonth + "월";
+		}
+		if(periodDay > 0) {
+			period += periodDay + "일";
 		}
 		return period;
 	}
 	
-	public String period(String period, int periodNum) {
+	public String period(String period, int periodYear, int periodMonth, int periodDay) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-		if(periodNum <= 0) { 
+		if(periodYear <= 0 && periodMonth <= 0 && periodDay <= 0) { 
 			if(period.equals("무제한")) {
 				return "00000000";
 	 		} else if(period.equals("1년")) {
@@ -147,14 +240,16 @@ public class LicenseService {
 				cal.add(Calendar.YEAR, 10);
 			} 
 		} else {
-			cal.add(Calendar.YEAR, periodNum);
+			cal.add(Calendar.YEAR, periodYear);
+			cal.add(Calendar.MONTH, periodMonth);
+			cal.add(Calendar.DATE, periodDay+1);
 		}
 		cal.add(Calendar.DATE, -1);
 		return formatter.format(cal.getTime());
 	}
 	
-	public String LinuxLicenseIssued(String firstStr, String lastStr) {
-		String url = "http://172.16.50.182:8080/linuxLicenseIssued";
+	public String LinuxLicenseIssued20(String route, String firstStr, String lastStr) {
+		String url = "http://172.16.50.182:8080/linuxLicenseIssued20";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
@@ -164,6 +259,7 @@ public class LicenseService {
         HttpEntity<?> entity = new HttpEntity<>(header);
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("route", route)
         		.queryParam("firstStr", firstStr)
         		.queryParam("lastStr", lastStr)
         		.build();
@@ -188,24 +284,25 @@ public class LicenseService {
 	
 	public int windowIssuedLicense(License license, Principal principal, HttpServletRequest request) {
 		// 닫기 버튼으로 뒤로 이동한 경우 중첩 추가를 막기위해 삭제 후 추가한다.
-		if(license.getViewType() == "back" || license.getViewType().equals("back")) {
+		if(license.getViewType() == "issuedback" || license.getViewType().equals("issuedback") || license.getViewType() == "copyback" || license.getViewType().equals("copyback")) {
 			licenseDao.licensCancel(license.getLicenseKeyNum());
 		}
 		
-		license.setLicenseKeyNum(LicenseKeyNum());
+		license = BtnTypeKeyManagement(license);
 		license.setLicenseIssueKey("none");
-		license.setPeriod(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodSelf())));
+		license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
 		int sucess = licenseDao.issuedLicense(license);
+		String route = licenseDao.getRoute("windowsLicenseRoute");
 		// 로그 기록
 		if (sucess > 0) {
-			WindowsLicenseIssued(request);
+			WindowsLicenseIssued(request, route);
 			return license.getLicenseKeyNum();
 		} else {
 			return 0;
 		}
 	}
 	
-	public void WindowsLicenseIssued(HttpServletRequest request) {
+	public void WindowsLicenseIssued(HttpServletRequest request, String route) {
 		String ip = request.getHeader("X-Forwarded-For");
 	    if (ip == null) ip = request.getRemoteAddr();
 	    
@@ -219,7 +316,9 @@ public class LicenseService {
         HttpHeaders header = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(header);
         
-        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("route", route)
+        		.build();
 
         ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
 
@@ -246,6 +345,16 @@ public class LicenseService {
 			return licenseKeyNum;
 		}
 		return ++licenseKeyNum;
+	}
+	
+	public int LicenseKeyNumOrigin() {
+		int licenseKeyNumOrigin = 1;
+		try {
+			licenseKeyNumOrigin = licenseDao.getLicenseKeyNumOrigin();
+		} catch (Exception e) {
+			return licenseKeyNumOrigin;
+		}
+		return ++licenseKeyNumOrigin;
 	}
 
 	public String delLicense(int[] chkList, Principal principal) {
@@ -305,10 +414,12 @@ public class LicenseService {
 		String contents = "";
 		for (int licenseKeyNum : chkList) {
 			license = licenseDao.getLicenseOne(licenseKeyNum);
-			if(license.getLicenseType().equals("Linux")) {
+			if(license.getLicenseType().equals("Linux20")) {
 				contents += license.getOsType() + "\n";
 				contents += license.getLicenseIssueCommand() + "\n";
 				contents += license.getLicenseIssueKey() + "\n\n";
+			} else if(license.getLicenseType().equals("Linux50")) {
+				
 			} else {
 				contents += license.getOsType() + "\n";
 				contents += "MAC : " + license.getMacUmlHostId() + "\n";
@@ -317,5 +428,27 @@ public class LicenseService {
 		}
 		return contents;
 	}
-	
+
+	public LicenseSetting getlicenseSetting(String employeeId) {
+		return licenseDao.getlicenseSetting(employeeId);
+	}
+
+	public String RouteChange(LicenseSetting licenseSetting) {
+		int count = 0;
+		if(licenseDao.getSettingCount(licenseSetting.getEmployeeId()) > 0) {
+			count = licenseDao.RouteChange(licenseSetting);
+		} else {
+			count = licenseDao.RouteInsert(licenseSetting);
+		}
+		
+		if(count > 0) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+
+	public License getLicenseOne(int licenseKeyNum) {
+		return licenseDao.getLicenseOne(licenseKeyNum);
+	}
+
 }

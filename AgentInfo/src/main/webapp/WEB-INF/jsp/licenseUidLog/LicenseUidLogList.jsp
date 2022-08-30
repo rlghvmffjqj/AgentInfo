@@ -251,6 +251,10 @@
 														</select>
 			                      					</div>
 			                      					<div class="col-lg-2">
+		                      							<label class="labelFontSize">라이센스 발급 Key</label>
+		                      							<input type="text" id="licenseUidLogIssueKey" name="licenseUidLogIssueKey" class="form-control">
+		                      						</div>
+			                      					<div class="col-lg-2">
 		                      							<label class="labelFontSize">이벤트</label>
 														<select class="form-control selectpicker" id="licenseUidLogEventMulti" name="licenseUidLogEventMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<option value="INSERT">INSERT</option>
