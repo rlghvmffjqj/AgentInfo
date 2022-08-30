@@ -597,7 +597,7 @@
 		            error: function(e) {
 		                // TODO 에러 화면
 		            }
- 		        });
+		        });
 			} else {
 				Swal.fire({               
 					icon: 'error',          
@@ -606,13 +606,5 @@
 				}); 
 			}
 		});
-		
-			$("#list").click(function () {
-				console.log("하");
-	            // 현재 클릭된 Row(<tr>)
-	            var checkbox = $(this).find('td:first-child :checkbox');
-	            checkbox.attr('checked', !checkbox.is(':checked'));
-	        });
-
 	</script>
 </html>
