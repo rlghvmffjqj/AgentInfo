@@ -461,7 +461,7 @@ public class LicenseService {
 
 	public String getRoute(String column, String employeeId) {
 		String route = licenseDao.getRoute(column, employeeId);
-		if(route == "" || route == null) {
+		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
 		return "OK";
