@@ -80,11 +80,11 @@
 	</update>
 	
 	<select id="getRoute" parameterType="string" resultType="string">
-		SELECT ${column} FROM licenseSetting;
+		SELECT ${column} FROM licenseSetting WHERE employeeId = #{employeeId};
 	</select>
 	
 	<select id="getSettingCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM licensesetting WHERE employeeid = #{employeeid};
+		SELECT COUNT(*) FROM licenseSetting WHERE employeeId = #{employeeId};
 	</select>
 	
 	<!-- ==================================================================================== -->

@@ -92,7 +92,10 @@ public class LicenseService {
 		String answer = "";
 		String firstStr = license.getOsTypeView().toUpperCase()+" "+license.getOsVersionView()+" "+license.getKernelVersionView();
 		String lastStr = period(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf()))+" "+license.getMacUmlHostIdView();
-		String route = licenseDao.getRoute("linuxLicense20Route");
+		String route = licenseDao.getRoute("linuxLicense20Route", principal.getName());
+		if(route == null || route.equals("") || route == "") {
+			return "NotRoute";
+		}
 		resault = LinuxLicenseIssued20(route, firstStr, lastStr);
 		// 대괄호 외 대괄호 제거
 		for(int i=1; i<resault.length()-1; i++) {
@@ -142,7 +145,10 @@ public class LicenseService {
 	public String linuxIssuedLicense50(License license, Principal principal) {
 		String resault = null;
 		String answer = "";
-		String route = licenseDao.getRoute("linuxLicense50Route");
+		String route = licenseDao.getRoute("linuxLicense50Route", principal.getName());
+		if(route == null || route.equals("") || route == "") {
+			return "NotRoute";
+		}
 		resault = LinuxLicenseIssued50(route);
 		// 대괄호 외 대괄호 제거
 		for(int i=1; i<resault.length()-1; i++) {
@@ -292,7 +298,7 @@ public class LicenseService {
 		license.setLicenseIssueKey("none");
 		license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
 		int sucess = licenseDao.issuedLicense(license);
-		String route = licenseDao.getRoute("windowsLicenseRoute");
+		String route = licenseDao.getRoute("windowsLicenseRoute", principal.getName());
 		// 로그 기록
 		if (sucess > 0) {
 			WindowsLicenseIssued(request, route);
@@ -301,6 +307,8 @@ public class LicenseService {
 			return 0;
 		}
 	}
+	
+	
 	
 	public void WindowsLicenseIssued(HttpServletRequest request, String route) {
 		String ip = request.getHeader("X-Forwarded-For");
@@ -449,6 +457,14 @@ public class LicenseService {
 
 	public License getLicenseOne(int licenseKeyNum) {
 		return licenseDao.getLicenseOne(licenseKeyNum);
+	}
+
+	public String getRoute(String column, String employeeId) {
+		String route = licenseDao.getRoute(column, employeeId);
+		if(route == "" || route == null) {
+			return "NotRoute";
+		}
+		return "OK";
 	}
 
 }

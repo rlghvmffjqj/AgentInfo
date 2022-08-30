@@ -66,8 +66,11 @@ public class LicenseDao {
 		return sqlSession.update("license.RouteChange", licenseSetting);
 	}
 
-	public String getRoute(String column) {
-		return sqlSession.selectOne("license.getRoute", column);
+	public String getRoute(String column, String employeeId) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("column", column);
+		parameters.put("employeeId", employeeId);
+		return sqlSession.selectOne("license.getRoute", parameters);
 	}
 
 	public void plusLicenseKeyNumOrigin(int licenseKeyNumOrigin) {

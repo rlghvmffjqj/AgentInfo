@@ -26,7 +26,7 @@
 						</label>
 					</div>
 				</c:when>
-				<c:when test="${viewType eq 'back' || viewType eq 'copy'}">
+				<c:when test="${viewType eq 'issuedback' || viewType eq 'copyback' || viewType eq 'copy'}">
 					<div class="form-check radioDate">
 						<input class="form-check-input" type="radio" name="licenseType" id="Windows" value="Windows" <c:if test="${'Windows' eq license.licenseType}">checked</c:if>>
 						<label class="form-check-label" for="Window">
@@ -168,7 +168,7 @@
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
 		<c:when test="${viewType eq 'copy'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">복사</button>
+			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">발급</button>
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
     	<c:when test="${viewType eq 'issuedback'}">
@@ -176,7 +176,7 @@
     		<button class="btn btn-default btn-outline-info-nomal" onClick="BtnCancel()">닫기</button>
     	</c:when>
     	<c:when test="${viewType eq 'copyback'}">
-    		<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">복사</button>
+    		<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">발급</button>
     		<button class="btn btn-default btn-outline-info-nomal" onClick="BtnCancel()">닫기</button>
     	</c:when>
     </c:choose>
@@ -233,7 +233,13 @@
 									title: '실패!',
 									text: '라이센스 발급에 실패하였습니다.',
 								});
-							} else {
+							} else if(result.result == "NotRoute") {
+								Swal.fire({
+									icon: 'error',
+									title: '경로 설정!',
+									text: '경로 설정 후 라이센스 발급 바랍니다.',
+								});
+				        	} else {
 								Swal.fire({
 									icon: 'success',
 									title: '라이센스 발급!',
@@ -262,6 +268,12 @@
 									title: '실패!',
 									text: '라이센스 발급에 실패하였습니다.',
 								});
+							} else if(result.result == "NotRoute") {
+								Swal.fire({
+									icon: 'error',
+									title: '경로 설정!',
+									text: '경로 설정 후 라이센스 발급 바랍니다.',
+								});
 							} else {
 								Swal.fire({
 									icon: 'success',
@@ -280,20 +292,38 @@
 					});
 				} else {
 					$.ajax({
-					    type: 'POST',
-					    url: "<c:url value='/license/windowIssued'/>",
-					    data: postData,
+						url: "<c:url value='/license/routeCheck'/>",
+					    type: 'post',
 					    async: false,
-					    success: function (data) {
-					    	$('#modal').modal("hide"); // 모달 닫기
-					    	setTimeout(function() {
-					        	$.modal(data, 'ssl'); //modal창 호출
-					    	},300)
+					    success: function(result) {
+					    	if(result.result == "OK") {
+					    		$.ajax({
+								    type: 'POST',
+								    url: "<c:url value='/license/windowIssued'/>",
+								    data: postData,
+								    async: false,
+								    success: function (data) {
+								    	$('#modal').modal("hide"); // 모달 닫기
+								    	setTimeout(function() {
+								        	$.modal(data, 'ssl'); //modal창 호출
+								    	},300)
+								    },
+								    error: function(e) {
+								        // TODO 에러 화면
+								    }
+								});
+					    	} else {
+					    		Swal.fire({
+									icon: 'error',
+									title: '경로 설정!',
+									text: '경로 설정 후 라이센스 발급 바랍니다.',
+								});
+					    	}
 					    },
-					    error: function(e) {
-					        // TODO 에러 화면
-					    }
-					});		
+						error: function(error) {
+							console.log(error);
+						}
+					});
 				}	
 			}
 		}

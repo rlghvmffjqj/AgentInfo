@@ -257,4 +257,13 @@ public class LicenseController {
 		return "/license/LicenseView";
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/license/routeCheck")
+	public Map<String, String> RouteCheck(Principal principal) {
+		String result = licenseService.getRoute("windowsLicenseRoute", principal.getName());
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("result", result);
+		return map;
+	}
+	
 }
