@@ -287,6 +287,7 @@
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnTest">TEST</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
@@ -606,5 +607,32 @@
 				}); 
 			}
 		});
+	</script>
+	<script>
+		/* jqgrid 테이블 드래그 체크박스 선택 (부족하고 불편한 점이 있어 계속 수정할것) */
+		$("#list").on('click','tr', function () {
+			var checkbox = $(this).find('td:first-child :checkbox')[0].id.substring(9);
+			$("#list").jqGrid('setSelection', checkbox, true);
+		});
+		
+		$("#list").on('mousedown','tr', function () {
+			var checkbox = $(this).find('td:first-child :checkbox')[0].id.substring(9);
+			$("#list").jqGrid('setSelection', checkbox, true);
+			var move = true;
+			
+			$("#list").on('mouseover','tr', function () {
+				if(move) {
+					var checkbox = $(this).find('td:first-child :checkbox')[0].id.substring(9);
+					$("#list").jqGrid('setSelection', checkbox, true);
+				}
+			});
+			$("#list").on('mouseup', 'tr', function () {
+				move = false;				
+			});
+			$("body").on('mouseup', function () {
+				move = false;				
+			});
+		});
+		
 	</script>
 </html>

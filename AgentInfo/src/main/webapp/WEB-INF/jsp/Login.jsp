@@ -17,19 +17,6 @@
 			if($('#checkbox').is(':checked') == true) {
 				$('#usersId').val($.cookie('usersId'));
 			}
-			
-			/* =========== 로그인 버튼 클릭 ========= */
-			$('#btn').on("click", function(e) {
-				/* =========== CheckBox true 일경우 쿠키 저장 (기간 1일) ========= */
-				if($('#checkbox').is(':checked') == true) {
-					$.cookie('usersId',$('#usersId').val(),{ expires: 1 });
-				}
-				
-				/* =========== CheckBox false일 경우 쿠키 삭제 ========= */
-				if($('#checkbox').is(':checked') == false) {
-					$.removeCookie('usersId');
-				}
-			});
 		});
 	</script>
  </head>
@@ -135,6 +122,16 @@
                 // TODO 에러 화면
             }
         });
+		
+		/* =========== CheckBox true 일경우 쿠키 저장 (기간 1일) ========= */
+		if($('#checkbox').is(':checked') == true) {
+			$.cookie('usersId',$('#usersId').val(),{ expires: 1 });
+		}
+		
+		/* =========== CheckBox false일 경우 쿠키 삭제 ========= */
+		if($('#checkbox').is(':checked') == false) {
+			$.removeCookie('usersId');
+		}
 	}
 
 	/* =========== 패스워드 변경 ========= */
