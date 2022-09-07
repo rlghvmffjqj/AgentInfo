@@ -41,8 +41,8 @@
 	</select>
 	
 	<insert id="issuedLicense">
-		INSERT INTO license(licenseKeyNum,licenseKeyNumOrigin,licenseType,customerName,businessName,issueDate,requester,partners,osType,osVersion,kernelVersion,kernelBit,tosVersion,period,macUmlHostId,releaseType,deliveryMethod,licenseIssueKey,licenseIssueCommand,licenseRegistrant,licenseRegistrationDate) 
-		VALUES(#{licenseKeyNum},#{licenseKeyNumOrigin},#{licenseType},#{customerNameView},#{businessNameView},#{issueDateView},#{requesterView},#{partnersView},#{osTypeView},#{osVersionView},#{kernelVersionView},#{kernelBitView},#{tosVersionView},#{periodView},#{macUmlHostIdView},#{releaseTypeView},#{deliveryMethodView},#{licenseIssueKey},#{licenseIssueCommand},#{licenseRegistrant},#{licenseRegistrationDate});
+		INSERT INTO license(licenseKeyNum,licenseKeyNumOrigin,licenseType,customerName,businessName,issueDate,requester,partners,osType,osVersion,kernelVersion,kernelBit,tosVersion,period,macUmlHostId,releaseType,deliveryMethod,licenseIssueKey,licenseIssueAnswer,licenseIssueCommand,licenseRegistrant,licenseRegistrationDate) 
+		VALUES(#{licenseKeyNum},#{licenseKeyNumOrigin},#{licenseType},#{customerNameView},#{businessNameView},#{issueDateView},#{requesterView},#{partnersView},#{osTypeView},#{osVersionView},#{kernelVersionView},#{kernelBitView},#{tosVersionView},#{periodView},#{macUmlHostIdView},#{releaseTypeView},#{deliveryMethodView},#{licenseIssueKey},#{licenseIssueAnswer},#{licenseIssueCommand},#{licenseRegistrant},#{licenseRegistrationDate});
 	</insert>
 	
 	<select id="getLicenseOne" parameterType="_int" resultMap="license">

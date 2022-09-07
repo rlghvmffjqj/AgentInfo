@@ -239,6 +239,12 @@
 									title: '경로 설정!',
 									text: '경로 설정 후 라이센스 발급 바랍니다.',
 								});
+				        	} else if(result.result == "NOTCONNECT") {
+				        		Swal.fire({
+									icon: 'error',
+									title: '연결 실패!',
+									text: '서버 연결에 실패하였습니다.',
+								});
 				        	} else {
 								Swal.fire({
 									icon: 'success',
@@ -274,6 +280,12 @@
 									title: '경로 설정!',
 									text: '경로 설정 후 라이센스 발급 바랍니다.',
 								});
+							} else if(result.result == "NOTCONNECT") {
+					        		Swal.fire({
+										icon: 'error',
+										title: '연결 실패!',
+										text: '서버 연결에 실패하였습니다.',
+									});
 							} else {
 								Swal.fire({
 									icon: 'success',

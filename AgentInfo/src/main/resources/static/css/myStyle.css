@@ -614,7 +614,7 @@ p {
 .btn-customer:hover {
 	background-image: none;
 	font-weight: bold;
-	box-shadow: 8px 7px 10px lavender;
+	box-shadow: 0px 0px 30px lavender;
 }
 
 .btn-customer:focus {
@@ -640,7 +640,7 @@ p {
 .btn-product:hover {
 	background-image: none;
 	font-weight: bold;
-	box-shadow: 8px 7px 10px lavender;
+	box-shadow: 0px 0px 30px lavender;
 }
 
 .displayFlex {
@@ -656,7 +656,7 @@ p {
 }
 
 .noticeStyle {
-	outline: 20px solid antiquewhite;
+	outline: 20px double antiquewhite;
     border: 0px;
     border-radius: 10px;
 }

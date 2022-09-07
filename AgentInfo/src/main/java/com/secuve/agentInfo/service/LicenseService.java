@@ -96,11 +96,16 @@ public class LicenseService {
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
-		resault = LinuxLicenseIssued20(route, firstStr, lastStr);
+		try {
+			resault = LinuxLicenseIssued20(route, firstStr, lastStr);
+		} catch (Exception e) {
+			return "NOTCONNECT";
+		}
 		// 대괄호 외 대괄호 제거
 		for(int i=1; i<resault.length()-1; i++) {
 			answer += resault.charAt(i);
 		}
+		license.setLicenseIssueAnswer(answer);
 		// 라이센스 발급 후 메시지에서 불필요 내용 제거
 		try {
 			answer = answer.substring(32);
@@ -149,11 +154,16 @@ public class LicenseService {
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
-		resault = LinuxLicenseIssued50(route);
+		try {
+			resault = LinuxLicenseIssued50(route);
+		} catch (Exception e) {
+			return "NOTCONNECT";
+		}
 		// 대괄호 외 대괄호 제거
 		for(int i=1; i<resault.length()-1; i++) {
 			answer += resault.charAt(i);
 		}
+		license.setLicenseIssueAnswer(answer);
 		// 라이센스 발급 후 메시지에서 불필요 내용 제거
 		try {
 			answer = answer.substring(32);
