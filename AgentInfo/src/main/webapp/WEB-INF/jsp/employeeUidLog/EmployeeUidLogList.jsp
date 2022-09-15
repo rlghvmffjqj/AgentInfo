@@ -70,7 +70,7 @@
 	                              <div class="row align-items-center">
 	                                  <div class="col-md-8">
 	                                      <div class="page-header-title" >
-	                                          <h5 class="m-b-10">사용자 접속 로그</h5>
+	                                          <h5 class="m-b-10">사용자 접속 정보 로그</h5>
 	                                          <p class="m-b-0">Customer Log Information</p>
 	                                      </div>
 	                                  </div>

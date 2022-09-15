@@ -83,7 +83,7 @@
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
 							                <h5 class="m-b-10">패키지 배포 내용</h5>
-							                <p class="m-b-0">Package distribution content</p>
+							                <p class="m-b-0">Package deployment content</p>
 							            </div>
 							        </div>
 							        <div class="col-md-4">

@@ -28,11 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.secuve.agentInfo.dao.CustomerInfoDao;
 import com.secuve.agentInfo.dao.PackagesDao;
 import com.secuve.agentInfo.dao.TrashDao;
-import com.secuve.agentInfo.dao.UIDLogDao;
+import com.secuve.agentInfo.dao.PackageUidLogDao;
 import com.secuve.agentInfo.vo.CustomerInfo;
 import com.secuve.agentInfo.vo.Packages;
 import com.secuve.agentInfo.vo.Trash;
-import com.secuve.agentInfo.vo.UIDLog;
+import com.secuve.agentInfo.vo.PackageUidLog;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
@@ -40,7 +40,7 @@ public class PackagesService {
 	@Autowired PackagesDao packagesDao;
 	@Autowired CategoryService categoryService;
 	@Autowired Packages packages;
-	@Autowired UIDLogDao uidLogDao;
+	@Autowired PackageUidLogDao packageUidLogDao;
 	@Autowired TrashDao trashDao;
 	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 	@Autowired CustomerInfoDao customerInfoDao;
@@ -80,7 +80,7 @@ public class PackagesService {
 
 			// uid 로그 기록
 			if (sucess > 0) {
-				uidLog(packages, principal, "DELETE");
+				packageUidLog(packages, principal, "DELETE");
 				trash(packages, principal);
 			}
 
@@ -114,7 +114,7 @@ public class PackagesService {
 		if (sucess > 0) {
 			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
-			uidLog(packages, principal, "INSERT");
+			packageUidLog(packages, principal, "INSERT");
 		}
 		if (sucess <= 0)
 			return "FALSE";
@@ -168,7 +168,7 @@ public class PackagesService {
 		if (sucess > 0) {
 			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
-			uidLog(packages, principal, "INSERT");
+			packageUidLog(packages, principal, "INSERT");
 		}
 		if (sucess <= 0)
 			return "FALSE";
@@ -206,7 +206,7 @@ public class PackagesService {
 		if (sucess > 0) {
 			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
-			uidLog(packages, principal, "UPDATE");
+			packageUidLog(packages, principal, "UPDATE");
 		}
 		if (sucess <= 0)
 			return "FALSE";
@@ -406,7 +406,7 @@ public class PackagesService {
 			// 패키지 데이터 저장
 			packagesDao.insertPackages(packages);
 			// uid 로그 기록
-			uidLog(packages, principal, "INSERT");
+			packageUidLog(packages, principal, "INSERT");
 		}
 		return "OK";
 	}
@@ -590,7 +590,7 @@ public class PackagesService {
 			// 패키지 데이터 저장
 			packagesDao.insertPackages(packages);
 			// uid 로그 기록
-			uidLog(packages, principal, "INSERT");
+			packageUidLog(packages, principal, "INSERT");
 		}
 		return "OK";
 	}
@@ -783,7 +783,7 @@ public class PackagesService {
 
 			packagesDao.insertPackages(packages);
 			// uid 로그 기록
-			uidLog(packages, principal, "INSERT");
+			packageUidLog(packages, principal, "INSERT");
 		}
 		return "OK";
 	}
@@ -1015,7 +1015,7 @@ public class PackagesService {
 			// 고객사 사업명 매핑
 			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			// uid 로그 기록
-			uidLog(packages, principal, "INSERT");
+			packageUidLog(packages, principal, "INSERT");
 		}
 		return "OK";
 	}
@@ -1027,30 +1027,30 @@ public class PackagesService {
 	 * @param principal
 	 * @param event
 	 */
-	public void uidLog(Packages packages, Principal principal, String event) {
-		int uidLogKeyNum = 0;
+	public void packageUidLog(Packages packages, Principal principal, String event) {
+		int packageUidLogKeyNum = 0;
 
-		UIDLog uidLog = new UIDLog();
+		PackageUidLog packageUidLog = new PackageUidLog();
 		try {
-			uidLogKeyNum = uidLogDao.uidLogKeyNum();
+			packageUidLogKeyNum = packageUidLogDao.uidLogKeyNum();
 		} catch (Exception e) {
 		}
 
-		uidLog.setUidKeyNum(++uidLogKeyNum);
+		packageUidLog.setUidKeyNum(++packageUidLogKeyNum);
 		if(event == "DELETE" || event.equals("적용") || event.equals("대기") || event.equals("배포완료")) {
-			uidLog.setUidCustomerName(packages.getCustomerName());
-			uidLog.setUidOsDetailVersion(packages.getOsDetailVersion());
-			uidLog.setUidPackageName(packages.getPackageName());
+			packageUidLog.setUidCustomerName(packages.getCustomerName());
+			packageUidLog.setUidOsDetailVersion(packages.getOsDetailVersion());
+			packageUidLog.setUidPackageName(packages.getPackageName());
 		} else {
-			uidLog.setUidCustomerName(packages.getCustomerNameView());
-			uidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
-			uidLog.setUidPackageName(packages.getPackageNameView());
+			packageUidLog.setUidCustomerName(packages.getCustomerNameView());
+			packageUidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
+			packageUidLog.setUidPackageName(packages.getPackageNameView());
 		}
-		uidLog.setPackagesKeyNum(Integer.toString(packages.getPackagesKeyNum()));
-		uidLog.setUidEvent(event);
-		uidLog.setUidUser(principal.getName());
-		uidLog.setUidTime(nowDate());
-		uidLogDao.insertUIDLog(uidLog);
+		packageUidLog.setPackagesKeyNum(Integer.toString(packages.getPackagesKeyNum()));
+		packageUidLog.setUidEvent(event);
+		packageUidLog.setUidUser(principal.getName());
+		packageUidLog.setUidTime(nowDate());
+		packageUidLogDao.insertPackageUidLog(packageUidLog);
 	}
 
 	/**
@@ -1356,7 +1356,7 @@ public class PackagesService {
 
 			// uid 로그 기록
 			if (sucess > 0) {
-				uidLog(packages, principal, stateView);
+				packageUidLog(packages, principal, stateView);
 			} else {
 				return "FALSE";
 			}

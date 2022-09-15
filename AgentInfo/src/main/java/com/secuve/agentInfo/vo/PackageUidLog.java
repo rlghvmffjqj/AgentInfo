@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Component
-public class UIDLog {
+public class PackageUidLog {
 	private int uidKeyNum;						// Key
 	private String uidCustomerName = "";		// 고객사명
 	private String uidOsDetailVersion;			// OS 버전

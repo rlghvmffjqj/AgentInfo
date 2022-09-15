@@ -8,22 +8,22 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.secuve.agentInfo.dao.UIDLogDao;
-import com.secuve.agentInfo.vo.UIDLog;
+import com.secuve.agentInfo.dao.PackageUidLogDao;
+import com.secuve.agentInfo.vo.PackageUidLog;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
-public class UIDLogService {
+public class PackageUidLogService {
 	
-	@Autowired UIDLogDao uidLogDao;
+	@Autowired PackageUidLogDao uidLogDao;
 
 	/**
 	 * 로그 리스트 조회
 	 * @param search
 	 * @return
 	 */
-	public List<UIDLog> getUIDLogList(UIDLog search) {
-		return uidLogDao.getUIDLogList(UIDLogSearch(search));
+	public List<PackageUidLog> getPackageUidLogList(PackageUidLog search) {
+		return uidLogDao.getPackageUidLogList(PackageUidLogSearch(search));
 	}
 
 	/**
@@ -31,11 +31,11 @@ public class UIDLogService {
 	 * @param search
 	 * @return
 	 */
-	public int getUIDLogListCount(UIDLog search) {
-		return uidLogDao.getUIDLogListCount(UIDLogSearch(search));
+	public int getPackageUidLogListCount(PackageUidLog search) {
+		return uidLogDao.getPackageUidLogListCount(PackageUidLogSearch(search));
 	}
 	
-	public UIDLog UIDLogSearch(UIDLog search) {
+	public PackageUidLog PackageUidLogSearch(PackageUidLog search) {
 		search.setUidCustomerNameArr(search.getUidCustomerName().split(","));
 		search.setUidEventArr(search.getUidEvent().split(","));
 		if(search.getUidDateStart() != "" && search.getUidDateEnd() != "") {

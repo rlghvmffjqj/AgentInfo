@@ -273,7 +273,7 @@ public class PackagesController {
 
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String filename = "Package All Data - " + formatter.format(now) + ".csv";
+		String filename = "Package Deployment Data - " + formatter.format(now) + ".csv";
 
 		List list = packagesService.listAll(packages);
 

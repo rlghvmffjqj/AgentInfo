@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="uidLog">
-	<resultMap type="com.secuve.agentInfo.vo.UIDLog" id="uidLog"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.PackageUidLog" id="uidLog"></resultMap>
 	
-	<select id="getUIDLog" resultMap="uidLog" parameterType="string">
+	<select id="getPackageUidLog" resultMap="uidLog" parameterType="string">
 		SELECT *
     	FROM
     	(
@@ -11,29 +11,29 @@
     		FROM (
 				SELECT *
 				FROM uidLog
-					<include refid="sqlUIDLog" />
+					<include refid="sqlPackageUidLog" />
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
-	<select id="getUIDLogCount" resultType="_int">
+	<select id="getPackageUidLogCount" resultType="_int">
 		SELECT COUNT(*) FROM uidLog
-			<include refid="sqlUIDLog" />
+			<include refid="sqlPackageUidLog" />
 	</select>
 	
 	<select id="uidLogKeyNum" resultType="_int">
 		SELECT MAX(uidKeyNum) FROM uidLog;
 	</select>
 	
-	<insert id="insertUIDLog">
+	<insert id="insertPackageUidLog">
 		INSERT INTO uidLog(uidKeyNum, uidCustomerName, uidOsDetailVersion, uidPackageName, packagesKeyNum, uidEvent, uidUser, uidTime)
 		VALUES (#{uidKeyNum}, #{uidCustomerName}, #{uidOsDetailVersion}, #{uidPackageName}, #{packagesKeyNum}, #{uidEvent}, #{uidUser}, #{uidTime});
 	</insert>
 	
 	<!-- ==================================================================================== -->
 	
-	<sql id="sqlUIDLog">
+	<sql id="sqlPackageUidLog">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="uidCustomerName != null and uidCustomerName != ''">
 				AND (

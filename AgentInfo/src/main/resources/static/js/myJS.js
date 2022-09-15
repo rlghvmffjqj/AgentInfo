@@ -18,6 +18,7 @@ $.modal = function (modalContent, size) {
     if(size=='notice')  html += ' modal-notice';
     
     if(size=='r') html += ' modal-r';
+    if(size=='rs') html += ' modal-rs';
     html += '" role="document">';
     
     if(size=='se') {

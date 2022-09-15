@@ -169,6 +169,11 @@ p {
 	max-width: 960px;
 }
 
+.modal-rs {
+	top: 45%;
+	max-width: 300px;
+}
+
 .modal-requests {
 	top: 20%;
     max-width: 800px;
@@ -454,10 +459,37 @@ p {
 	border-radius: 20px;
 }
 
+.backGreen:hover {
+	background: green;
+	color: white;
+	border-radius: 10px;
+	 opacity:0.6;
+}
+
 .backYellow {
-	background: #B8860B;
+	background: burlywood;
     color: white;
     border-radius: 20px;
+}
+
+.backYellow:hover {
+	background: burlywood;
+    color: white;
+    border-radius: 10px;
+    opacity:0.6;
+}
+
+.backbrown {
+	background: #D8D800;
+    color: white;
+    border-radius: 20px;
+}
+
+.backbrown:hover {
+	background: #D8D800;
+    color: white;
+    border-radius: 10px;
+    opacity:0.6;
 }
 
 .marginBottom1 {
@@ -468,6 +500,13 @@ p {
 	background: Red;
 	color: white;
 	border-radius: 20px;
+}
+
+.backRed:hover {
+	background: Red;
+	color: white;
+	border-radius: 10px;
+	opacity:0.6;
 }
 
 .summerNoteSize {

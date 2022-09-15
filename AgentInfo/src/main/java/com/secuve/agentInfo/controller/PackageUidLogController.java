@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CategoryService;
-import com.secuve.agentInfo.service.UIDLogService;
-import com.secuve.agentInfo.vo.UIDLog;
+import com.secuve.agentInfo.service.PackageUidLogService;
+import com.secuve.agentInfo.vo.PackageUidLog;
 
 @Controller
-public class UIDLogController {
-	@Autowired UIDLogService uidLogService;
+public class PackageUidLogController {
+	@Autowired PackageUidLogService packageUidLogService;
 	@Autowired CategoryService categoryService;
 	
 	/**
@@ -27,11 +27,11 @@ public class UIDLogController {
 	 * @return
 	 */
 	@GetMapping(value = "/packageUidLog/list")
-	public String UIDLogList(Model model) {
+	public String PackageUidLogList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		
 		model.addAttribute("customerName", customerName);
-		return "uidLog/UIDLogList";
+		return "packageUidLog/PackageUidLogList";
 	}
 	
 	/**
@@ -41,11 +41,11 @@ public class UIDLogController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packageUidLog")
-	public Map<String, Object> UIDLog(@ModelAttribute("search") UIDLog search) {
+	public Map<String, Object> PackageUidLog(@ModelAttribute("search") PackageUidLog search) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<UIDLog> list = new ArrayList<>(uidLogService.getUIDLogList(search));
+		ArrayList<PackageUidLog> list = new ArrayList<>(packageUidLogService.getPackageUidLogList(search));
 		
-		int totalCount = uidLogService.getUIDLogListCount(search);
+		int totalCount = packageUidLogService.getPackageUidLogListCount(search);
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float)totalCount/search.getRows()));
 		map.put("records", totalCount);

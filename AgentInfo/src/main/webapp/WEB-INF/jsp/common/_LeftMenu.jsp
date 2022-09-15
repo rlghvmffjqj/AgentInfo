@@ -86,12 +86,28 @@
 			$('.employeeLog').addClass('active');
 			$('.log').addClass('active');
 			$('.log').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'serverListLog') {
+			$('.serverListLog').addClass('active');
+			$('.log').addClass('active');
+			$('.log').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'loginSession') {
 			$('.loginSession').addClass('active');
 		} else if($.cookie('name') == 'schedule') {
 			$('.schedule').addClass('active');
 		} else if($.cookie('name') == 'license') {
 			$('.license').addClass('active');
+		} else if($.cookie('name') == 'externalEquipment') {
+			$('.externalEquipment').addClass('active');
+			$('.serverList').addClass('active');
+			$('.serverList').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'internalEquipment') {
+			$('.internalEquipment').addClass('active');
+			$('.serverList').addClass('active');
+			$('.serverList').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'hyperV') {
+			$('.hyperV').addClass('active');
+			$('.serverList').addClass('active');
+			$('.serverList').addClass('pcoded-trigger');
 		}
 	});
 </script>
@@ -164,6 +180,38 @@
 		            </a>
 		        </li>
 		    </ul>
+		    <ul class="pcoded-item pcoded-left-item">
+				<li class="serverList pcoded-hasmenu">
+					<a href="<c:url value='/serverList/list'/>?serverListType=externalEquipment" class="waves-effect waves-dark">
+			            <span class="pcoded-micon"><i class="ti-file"></i><b>FC</b></span>
+			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">서버 목록</span>
+			            <span class="pcoded-mcaret"></span>
+			        </a>
+			        <ul class="pcoded-submenu" style="display: block;">
+			         	<li class="externalEquipment">
+							<a href="<c:url value='/serverList/list'/>?serverListType=externalEquipment" class="waves-effect waves-dark">
+								<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								<span class="pcoded-mtext">외부망 장비</span>
+								<span class="pcoded-mcaret"></span>
+							</a>
+				     	</li>
+					    <li class="internalEquipment">
+					           <a href="<c:url value='/serverList/list'/>?serverListType=internalEquipment" class="waves-effect waves-dark">
+					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					             <span class="pcoded-mtext">내부망 장비</span>
+					             <span class="pcoded-mcaret"></span>
+					           </a>
+					    </li>
+					    <li class="hyperV">
+					           <a href="<c:url value='/serverList/list'/>?serverListType=hyperV" class="waves-effect waves-dark">
+					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					             <span class="pcoded-mtext">Hyper-V</span>
+					             <span class="pcoded-mcaret"></span>
+					           </a>
+					    </li>
+				  	</ul>
+			    </li>
+		    </ul>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">
@@ -212,7 +260,7 @@
 					        <li class="licenseLog">
 					            <a href="<c:url value='/licenseUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
-					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 배포 로그</span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 발급 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
@@ -223,10 +271,17 @@
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
+					        <li class="serverListLog">
+					            <a href="<c:url value='/severListUidLog/list'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">서버 목록 로그</span>
+					                <span class="pcoded-mcaret"></span>
+					            </a>
+					        </li>
 					        <li class="employeeLog">
 					            <a href="<c:url value='/employeeUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
-					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 접속 로그</span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 접속 정보 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
