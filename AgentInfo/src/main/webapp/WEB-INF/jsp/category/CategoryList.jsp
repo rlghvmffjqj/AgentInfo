@@ -88,8 +88,14 @@
 		                                		<form id="form" name="form" method ="post" onSubmit="return false;">
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">이름</label>
-														<input type="text" id="categoryValue" name="categoryValue" class="form-control">
+														<!-- <input type="text" id="categoryValue" name="categoryValue" class="form-control"> -->
+														<select class="form-control selectpicker" id="categoryValueMulti" name="categoryValueMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${categoryValue}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
 													</div>
+													<input type="hidden" id="categoryValue" name="categoryValue" class="form-control">
 		                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -162,6 +168,8 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
+			$('#categoryValue').val($('#categoryValueMulti').val().join());
+			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();
 			jqGrid.setGridParam({ postData: $("#form").serializeObject() });
@@ -263,6 +271,11 @@
 			if (window.event.keyCode == 13) {
 				tableRefresh();
 			}
+		});
+		
+		/* =========== Select Box 선택 ========= */
+		$("select").change(function() {
+			tableRefresh();
 		});
 	</script>
 </html>

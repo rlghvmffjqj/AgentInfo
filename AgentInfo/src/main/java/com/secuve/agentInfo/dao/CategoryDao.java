@@ -60,4 +60,8 @@ public class CategoryDao {
 	public int getCategory(Category category) {
 		return sqlSession.selectOne("category.getCategoryManagementServer", category);
 	}
+
+	public List<String> getSelectInput(String selectInput) {
+		return sqlSession.selectList("category.getSelectInput", selectInput);
+	}
 }

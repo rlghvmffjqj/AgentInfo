@@ -22,7 +22,13 @@
 				FROM category
 				WHERE categoryName = #{categoryName}
 				<if test="categoryValue != null and categoryValue != ''">
-					AND categoryValue LIKE CONCAT('%',#{categoryValue},'%')
+					AND(
+						<trim prefix="" prefixOverrides="OR">
+							<foreach collection="categoryValueArr" item="arr">
+								OR categoryValue LIKE CONCAT('%',#{arr},'%')
+							</foreach>
+						</trim>
+					)
 				</if>
 			) a
 		) b
@@ -64,5 +70,9 @@
 	
 	<select id="getCategoryManagementServer" resultType="_int">
 		SELECT COUNT(*) FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValue};
+	</select>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT categoryValue FROM category WHERE categoryValue != '' AND categoryName = #{selectInput};
 	</select>
 </mapper>

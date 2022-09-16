@@ -31,8 +31,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/existingNew")
 	public String ExistingNew(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("existingNew");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "existingNew");
-		
 		return "category/CategoryList";
 	}
 	
@@ -43,8 +44,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/managementServer")
 	public String managementServer(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("managementServer");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "managementServer");
-		
 		return "category/CategoryList";
 	}
 	
@@ -55,8 +57,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/generalCustom")
 	public String generalCustom(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("generalCustom");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "generalCustom");
-		
 		return "category/CategoryList";
 	}
 	
@@ -67,8 +70,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/osType")
 	public String osType(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("osType");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "osType");
-		
 		return "category/CategoryList";
 	}
 	
@@ -79,8 +83,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/requestProductCategory")
 	public String requestProductCategory(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("requestProductCategory");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "requestProductCategory");
-		
 		return "category/CategoryList";
 	}
 	
@@ -91,8 +96,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/deliveryMethod")
 	public String deliveryMethod(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("deliveryMethod");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "deliveryMethod");
-		
 		return "category/CategoryList";
 	}
 	
@@ -103,8 +109,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/agentVer")
 	public String agentVer(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("agentVer");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "agentVer");
-		
 		return "category/CategoryList";
 	}
 	
@@ -115,8 +122,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/agentOS")
 	public String agentOS(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("agentOS");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "agentOS");
-		
 		return "category/CategoryList";
 	}
 	
@@ -127,8 +135,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/customerName")
 	public String customerName(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("customerName");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "customerName");
-		
 		return "category/CategoryList";
 	}
 	
@@ -153,8 +162,9 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/businessName")
 	public String businessName(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("businessName");
+		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "businessName");
-		
 		return "category/CategoryList";
 	}
 	

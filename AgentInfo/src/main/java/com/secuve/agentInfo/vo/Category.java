@@ -15,6 +15,8 @@ public class Category {
 	private String categoryName;				// 키
 	private String categoryValue;				// 값
 	
+	private String[] categoryValueArr;
+	
 	private String categoryRegistrant;			// 데이터 추가 사용자
 	private String categoryRegistrationDate;	// 데이터 추가 날짜
 	private String categoryModifier;			// 데이터 수정 사용자

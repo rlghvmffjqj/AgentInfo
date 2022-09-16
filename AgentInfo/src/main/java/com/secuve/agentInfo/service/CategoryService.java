@@ -27,7 +27,12 @@ public class CategoryService {
 	}
 
 	public List<Category> getCategoryList(Category search) {
-		return categoryDao.getCategoryList(search);
+		return categoryDao.getCategoryList(categroySearch(search));
+	}
+	
+	public Category categroySearch(Category search) {
+		search.setCategoryValueArr(search.getCategoryValue().split(","));
+		return search;
 	}
 
 	public int getCategoryListCount(Category search) {
@@ -100,5 +105,9 @@ public class CategoryService {
     	category.setCategoryRegistrant(categoryRegistrant);
     	category.setCategoryRegistrationDate(categoryRegistrationDate);
     	categoryDao.insertCategory(category);
+	}
+
+	public List<String> getSelectInput(String selectInput) {
+		return categoryDao.getSelectInput(selectInput);
 	}
 }
