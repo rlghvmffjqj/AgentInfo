@@ -57,6 +57,10 @@
 		SELECT COUNT(*) FROM serverList WHERE serverListIp = #{serverListIpView};
 	</select>
 	
+	<select id="getServerListAll" resultMap="serverList">
+		SELECT * FROM serverList ORDER BY serverListType;;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlServerList">

@@ -61,4 +61,8 @@ public class ServerListDao {
 		return sqlSession.selectOne("serverList.getServerListIp", serverListIpView);
 	}
 
+	public List<ServerList> getServerListAll() {
+		return sqlSession.selectList("serverList.getServerListAll");
+	}
+
 }

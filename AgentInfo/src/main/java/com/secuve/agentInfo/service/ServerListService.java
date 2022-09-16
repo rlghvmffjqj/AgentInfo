@@ -104,4 +104,8 @@ public class ServerListService {
 		return "OK";
 	}
 
+	public List<ServerList> getServerListAll() {
+		return serverListDao.getServerListAll();
+	}
+
 }

@@ -144,15 +144,17 @@
 		            </a>
 		        </li>
 		    </ul>
-		    <ul class="pcoded-item pcoded-left-item">
-		        <li class="license">
-		            <a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
-		                <span class="pcoded-micon"><i class="ti-key"></i><b>FC</b></span>
-		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 발급</span>
-		                <span class="pcoded-mcaret"></span>
-		            </a>
-		        </li>
-		    </ul>
+		    <sec:authorize access="hasRole('ADMIN')">
+			    <ul class="pcoded-item pcoded-left-item">
+			        <li class="license">
+			            <a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
+			                <span class="pcoded-micon"><i class="ti-key"></i><b>FC</b></span>
+			                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 발급</span>
+			                <span class="pcoded-mcaret"></span>
+			            </a>
+			        </li>
+			    </ul>
+		    </sec:authorize>
 		    <%-- <ul class="pcoded-item pcoded-left-item">
 		        <li class="customer">
 		            <a href="<c:url value='/customer/list'/>" class="waves-effect waves-dark">
@@ -180,38 +182,40 @@
 		            </a>
 		        </li>
 		    </ul>
-		    <ul class="pcoded-item pcoded-left-item">
-				<li class="serverList pcoded-hasmenu">
-					<a href="<c:url value='/serverList/list'/>?serverListType=externalEquipment" class="waves-effect waves-dark">
-			            <span class="pcoded-micon"><i class="ti-file"></i><b>FC</b></span>
-			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">서버 목록</span>
-			            <span class="pcoded-mcaret"></span>
-			        </a>
-			        <ul class="pcoded-submenu" style="display: block;">
-			         	<li class="externalEquipment">
-							<a href="<c:url value='/serverList/list'/>?serverListType=externalEquipment" class="waves-effect waves-dark">
-								<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-								<span class="pcoded-mtext">외부망 장비</span>
-								<span class="pcoded-mcaret"></span>
-							</a>
-				     	</li>
-					    <li class="internalEquipment">
-					           <a href="<c:url value='/serverList/list'/>?serverListType=internalEquipment" class="waves-effect waves-dark">
-					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					             <span class="pcoded-mtext">내부망 장비</span>
-					             <span class="pcoded-mcaret"></span>
-					           </a>
-					    </li>
-					    <li class="hyperV">
-					           <a href="<c:url value='/serverList/list'/>?serverListType=hyperV" class="waves-effect waves-dark">
-					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					             <span class="pcoded-mtext">Hyper-V</span>
-					             <span class="pcoded-mcaret"></span>
-					           </a>
-					    </li>
-				  	</ul>
-			    </li>
-		    </ul>
+		    <sec:authorize access="hasRole('ADMIN')">
+			    <ul class="pcoded-item pcoded-left-item">
+					<li class="serverList pcoded-hasmenu">
+						<a href="<c:url value='/serverList/list'/>?serverListType=externalEquipment" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">서버 목록</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				        <ul class="pcoded-submenu" style="display: block;">
+				         	<li class="externalEquipment">
+								<a href="<c:url value='/serverList/list'/>?serverListType=externalEquipment" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">외부망 장비</span>
+									<span class="pcoded-mcaret"></span>
+								</a>
+					     	</li>
+						    <li class="internalEquipment">
+						           <a href="<c:url value='/serverList/list'/>?serverListType=internalEquipment" class="waves-effect waves-dark">
+						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						             <span class="pcoded-mtext">내부망 장비</span>
+						             <span class="pcoded-mcaret"></span>
+						           </a>
+						    </li>
+						    <li class="hyperV">
+						           <a href="<c:url value='/serverList/list'/>?serverListType=hyperV" class="waves-effect waves-dark">
+						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						             <span class="pcoded-mtext">Hyper-V</span>
+						             <span class="pcoded-mcaret"></span>
+						           </a>
+						    </li>
+					  	</ul>
+				    </li>
+			    </ul>
+		    </sec:authorize>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">

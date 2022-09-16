@@ -25,9 +25,11 @@ public class ScheduleJobService{
 	
 	JobKey packagesJobKey;
 	JobKey employeeJobKey;
+	JobKey serverListJobKey;
 	
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
+	TriggerKey serverListTriggerKey;
 	
 	public List<ScheduleJob> getScheduleJobList(ScheduleJob search) {
 		Scheduler scheduler = schedulerFactory.getScheduler();
@@ -146,6 +148,8 @@ public class ScheduleJobService{
 			jobKey = packagesJobKey;
 		} else if(scheduleName.equals("EMPLOYEE") || scheduleName.equals("employee")) {
 			jobKey = employeeJobKey;
+		} else if(scheduleName.equals("SERVERLIST") || scheduleName.equals("serverList")) {
+			jobKey = serverListJobKey;
 		}
 		return jobKey;
 	}
@@ -156,6 +160,8 @@ public class ScheduleJobService{
 			triggerKey = packagesTriggerKey;
 		} else if(scheduleName.equals("EMPLOYEE") || scheduleName.equals("employee")) {
 			triggerKey = employeeTriggerKey;
+		} else if(scheduleName.equals("SERVERLIST") || scheduleName.equals("serverList")) {
+			triggerKey = serverListTriggerKey;
 		}
 		return triggerKey;
 	}
@@ -170,6 +176,8 @@ public class ScheduleJobService{
 	       			packagesJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.employee")) {
 	       			employeeJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.serverList")) {
+	       			serverListJobKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {
@@ -187,6 +195,8 @@ public class ScheduleJobService{
 	       			packagesTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.employee")) {
 	       			employeeTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.serverList")) {
+	       			serverListTriggerKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {

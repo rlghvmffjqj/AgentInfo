@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.secuve.agentInfo.schedule.EmployeeSchedule;
 import com.secuve.agentInfo.schedule.PackagesSchedule;
+import com.secuve.agentInfo.schedule.ServerListSchedule;
 import com.secuve.agentInfo.service.ScheduleJobService;
 import com.secuve.agentInfo.vo.ScheduleJob;
 
@@ -28,11 +29,13 @@ public class ScheduleJobSetting {
 	@Autowired ScheduleJobService scheduleJobService;
 	@Autowired PackagesSchedule packagesSchedule;
 	@Autowired EmployeeSchedule employeeSchedule;
+	@Autowired ServerListSchedule serverListSchedule;
 
     @PostConstruct
     public void start() throws SchedulerException {
     	JobDataMap map1 = new JobDataMap(Collections.singletonMap("num", 1));
         JobDataMap map2 = new JobDataMap(Collections.singletonMap("num", 2));
+        JobDataMap map3 = new JobDataMap(Collections.singletonMap("num", 3));
 
         ScheduleJob packagesSchedule = scheduleJobService.getScheduleOne("packages");
         JobDetail packages = jobDetail(packagesSchedule.getScheduleName(), "DEFAULT", PackagesSchedule.class, map1);
@@ -42,6 +45,10 @@ public class ScheduleJobSetting {
         JobDetail employee = jobDetail(employeeSchedule.getScheduleName(), "DEFAULT", EmployeeSchedule.class, map2);
        	scheduler.scheduleJob(employee, trigger(employeeSchedule.getScheduleName(), "DEFAULT", employeeSchedule.getScheduleCron()));
        	
+       	ScheduleJob serverListSchedule = scheduleJobService.getScheduleOne("serverList");
+        JobDetail serverList = jobDetail(serverListSchedule.getScheduleName(), "DEFAULT", ServerListSchedule.class, map3);
+       	scheduler.scheduleJob(serverList, trigger(serverListSchedule.getScheduleName(), "DEFAULT", serverListSchedule.getScheduleCron()));
+       	
        	Set<JobKey> jobkey = scheduler.getJobKeys(null);
        	for(JobKey key: jobkey) {
        		if(key.toString().equals("DEFAULT.packages")) {
@@ -50,6 +57,10 @@ public class ScheduleJobSetting {
 	            }
        		} else if(key.toString().equals("DEFAULT.employee")) {
 	            if(employeeSchedule.getScheduleState() == "사용안함" || employeeSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.serverList")) {
+	            if(serverListSchedule.getScheduleState() == "사용안함" || serverListSchedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
        		}
