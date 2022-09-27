@@ -23,6 +23,7 @@
 	
 	/* =========== 검사주기 시간이 초과할 경우 실행 ========= */
 	function sessionTimeoutCheck() {
+		var expiration = setTimeout("sessionExpiration()", 10*60*1000);;
 		$.ajax({
 			url: "<c:url value='/employee/loginSession'/>",
             type: 'post',
@@ -33,17 +34,26 @@
 					Swal.fire({
 						icon: 'info',
 						title: '세션 만료!',
-						text: '세션이 만료되어 자동 로그아웃 됩니다.',
+						text: '기한연장 하시겠습니까?(10분)',
+						confirmButtonColor: '#D8D800',
+						confirmButtonText: '연장',
 					}).then((result) => {
-						location.href="<c:url value='/logout' />";
+						setTimerSessionTimeoutCheck();
+						clearTimeout(expiration);
 					});
 				} else {
 					setTimerSessionTimeoutCheck();
+					clearTimeout(expiration);
 				}
+				
 			},
 			error: function(error) {
 				console.log(error);
 			}
         });
+	}
+	
+	function sessionExpiration() {
+		location.href="<c:url value='/logout' />";
 	}
 </script>

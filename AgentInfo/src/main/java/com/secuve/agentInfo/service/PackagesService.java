@@ -126,7 +126,7 @@ public class PackagesService {
 	 * @return
 	 */
 	public int PackagesKeyNum() {
-		int packagesKeyNum = 0;
+		int packagesKeyNum = 1;
 		try {
 			packagesKeyNum = packagesDao.getPackagesKeyNum();
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class PackagesService {
 	}
 	
 	public int PackagesKeyNumOrigin() {
-		int packagesKeyNumOrigin = 0;
+		int packagesKeyNumOrigin = 1;
 		try {
 			packagesKeyNumOrigin = packagesDao.getPackagesKeyNumOrigin();
 		} catch (Exception e) {

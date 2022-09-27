@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="issue">
+	<resultMap type="com.secuve.agentInfo.vo.Issue" id="issue"></resultMap>
+	
+	<select id="getIssueList" resultMap="issue" parameterType="string">
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas
+				FROM issue
+					<include refid="sqlIssue" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getIssueListCount" resultType="_int">
+		SELECT COUNT(DISTINCT issueKeyNum) FROM issue
+			<include refid="sqlIssue" />
+	</select>
+	
+	<select id="getIssueKeyNum" resultType="_int">
+		SELECT MAX(issueKeyNum) FROM issue;
+	</select>
+	
+	<insert id="insertIssue">
+		INSERT INTO issue(issueKeyNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,issueDivision,issueOs,issueAward,issueMiddle,issueUnder1,issueUnder2,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{issueDivision},#{issueOs},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+	</insert>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM issue WHERE ${selectInput} != '';
+	</select>
+	
+	<select id="getIssueOne" resultMap="issue" parameterType="_int">
+		SELECT * FROM issue WHERE issueKeyNum = #{issueKeyNum};
+	</select>
+	
+	<select id="getIssueOneTitle" resultMap="issue" parameterType="_int">
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas
+    	FROM issue
+   		WHERE issueKeyNum = #{issueKeyNum};
+	</select>
+	
+	<delete id="delIssue" parameterType="_int">
+		DELETE FROM issue WHERE issueKeyNum = #{issueKeyNum};
+	</delete>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlIssue">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="issueCustomer != null and issueCustomer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueCustomerArr" item="arr">
+						OR issueCustomer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issueTitle != null and issueTitle != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueTitleArr" item="arr">
+						OR issueTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issueTosms != null and issueTosms != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueTosmsArr" item="arr">
+						OR issueTosms LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issueTosrf != null and issueTosrf != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueTosrfArr" item="arr">
+						OR issueTosrf LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issuePortal != null and issuePortal != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issuePortalArr" item="arr">
+						OR issuePortal LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issueJava != null and issueJava != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueJavaArr" item="arr">
+						OR issueJava LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issueWas != null and issueWas != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueWasArr" item="arr">
+						OR issueWas LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="issueDateStart != null and issueDateStart != ''">
+				AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

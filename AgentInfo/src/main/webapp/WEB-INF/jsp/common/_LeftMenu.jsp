@@ -108,6 +108,10 @@
 			$('.hyperV').addClass('active');
 			$('.serverList').addClass('active');
 			$('.serverList').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'issueWrite') {
+			$('.issueWrite').addClass('active');
+		} else if($.cookie('name') == 'issueList') {
+			$('.issueList').addClass('active');
 		}
 	});
 </script>
@@ -176,7 +180,7 @@
 		    <ul class="pcoded-item pcoded-left-item customerInfoSwitch" style="display: none;">
 		        <li class="customerInfo">
 		            <a href="<c:url value='/customerInfo/search'/>" class="waves-effect waves-dark">
-		                <span class="pcoded-micon"><i class="ti-server"></i><b>FC</b></span>
+		                <span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
 		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 정보</span>
 		                <span class="pcoded-mcaret"></span>
 		            </a>
@@ -216,6 +220,25 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
+		   	<ul class="pcoded-item pcoded-left-item">
+			        <li class="issueList">
+			            <a href="<c:url value='/issue/issueList'/>" class="waves-effect waves-dark">
+			                <span class="pcoded-micon"><i class="ti-receipt"></i><b>FC</b></span>
+			                <span class="pcoded-mtext" data-i18n="nav.form-components.main">이슈 목록</span>
+			                <span class="pcoded-mcaret"></span>
+			            </a>
+			        </li>
+			    </ul>
+		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Issue</div>
+		    <ul class="pcoded-item pcoded-left-item">
+			    <li class="issueWrite">
+			        <a href="<c:url value='/issue/issueWrite'/>" class="waves-effect waves-dark">
+			            <span class="pcoded-micon"><i class="ti-pencil-alt"></i><b>FC</b></span>
+			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">이슈 작성</span>
+			            <span class="pcoded-mcaret"></span>
+			        </a>
+			    </li>
+		    </ul>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">

@@ -57,6 +57,18 @@
 	height: 55px;
 }
 
+.col-lg-3 {
+	float: left;
+	max-width: 33%;
+	height: 55px;
+}
+
+.col-lg-4 {
+	float: left;
+	max-width: 19.8%;
+	height: 55px;
+}
+
 p {
     margin: 5px 0 5px;
 }
@@ -196,6 +208,12 @@ p {
 .labelFontSize {
 	font-size: 12px;
 	font-weight: bold;
+}
+
+.labelFontSize15 {
+	font-size: 15px;
+	font-weight: bold;
+	margin-right: 10px;
 }
 
 .colorRed {
@@ -568,6 +586,12 @@ p {
 
 .alignCenter {
 	text-align: center;
+}
+
+.plusBtn {
+	text-align: center;
+	margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .cnt {
