@@ -6,6 +6,7 @@
 <script>
 	/* =========== config.yml에 등록한 세션 유효 시간(분) ========= */
 	var loginSession = ${sessionTimeOut};
+	var sessionTime;
 	
 	$(function() {
 		/* =========== 세션 검사주기 체크 ========= */
@@ -15,15 +16,18 @@
 	/* =========== 세션 검사 주기 ========= */
 	function setTimerSessionTimeoutCheck()
 	{
+		console.log("방문");
 		// 검사주기 범위 [1~60]분, 0 이면 세션타임아웃 사용안함.
 		if ( loginSession > 0 && loginSession <= 60 ) {
-			setTimeout("sessionTimeoutCheck()", 10*60*1000); // 10분에 한번씩 체크
+			clearTimeout(sessionTime);
+			sessionTime = setTimeout("sessionTimeoutCheck()", 10*60*1000); // 10분에 한번씩 체크
+			
 		}
 	}
 	
 	/* =========== 검사주기 시간이 초과할 경우 실행 ========= */
 	function sessionTimeoutCheck() {
-		var expiration = setTimeout("sessionExpiration()", 10*60*1000);;
+		var expiration = setTimeout("sessionExpiration()", 10*60*1000);
 		$.ajax({
 			url: "<c:url value='/employee/loginSession'/>",
             type: 'post',

@@ -102,6 +102,8 @@
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnSolution">해결</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnUnresolved">미해결</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnHold">보류</button>
+		                                			<a href="<c:url value='/issue/pdfDownload'/>" class="waves-effect waves-dark">PDF Downlod</a>
+		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnTest">테스트</button>
 		                                		</div> 
 		                                		<div style='text-align:right;'>
 					                              	Total:<label class="labelFontSize15" id="total">1</label>해결:<label class="labelFontSize15" id="solution">0</label>미해결:<label class="labelFontSize15" id="unresolved">0</label>보류<label class="labelFontSize15" id="hold">0</label>
@@ -154,6 +156,12 @@
 						                                					<td><input class="form-control" type="text" id="issueUnder1List" name="issueUnder1List" placeholder='소항목1' value="${list.issueUnder1}"></td>
 						                                					<td class="alignCenter">소항목2</td>
 						                                					<td><input class="form-control" type="text" id="issueUnder2List" name="issueUnder2List" placeholder='소항목2' value="${list.issueUnder2}"></td>
+						                                				</tr>
+						                                				<tr>
+						                                					<td class="alignCenter">소항목3</td>
+						                                					<td><input class="form-control" type="text" id="issueUnder3List" name="issueUnder3List" placeholder='소항목3' value="${list.issueUnder3}"></td>
+						                                					<td class="alignCenter">소항목4</td>
+						                                					<td><input class="form-control" type="text" id="issueUnder4List" name="issueUnder4List" placeholder='소항목4' value="${list.issueUnder4}"></td>
 						                                				</tr>
 						                                				<tr>
 						                                					<td class="alignCenter">결함번호</td>
@@ -330,6 +338,12 @@
 			rowItem += "<td><input class='form-control' type='text' id='issueUnder2List' name='issueUnder2List' placeholder='소항목2'></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr>";
+			rowItem += "<td class='alignCenter'>소항목3</td>";
+			rowItem += "<td><input class='form-control' type='text' id='issueUnder3List' name='issueUnder3List' placeholder='소항목3'></td>";
+			rowItem += "<td class='alignCenter'>소항목4</td>";
+			rowItem += "<td><input class='form-control' type='text' id='issueUnder4List' name='issueUnder4List' placeholder='소항목4'></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr>";
 			rowItem += "<td class='alignCenter'>결함번호</td>";
 			rowItem += "<td><input class='form-control' type='text' id='issueFlawNumList' name='issueFlawNumList' placeholder='결함번호'></td>";
 			rowItem += "<td class='alignCenter'>영향도</td>";
@@ -465,6 +479,10 @@
 			//var jsonData = postData.concat(data);
 			
 			var issueCustomer = $('#issueCustomer').val();
+			postData.push({name : "total", value : $('#total').text()});
+			postData.push({name : "solution", value : $('#solution').text()});
+			postData.push({name : "unresolved", value : $('#unresolved').text()});
+			postData.push({name : "hold", value : $('#hold').text()});
 			if(issueCustomer == "") {
 				$('#NotIssueCustomer').show();
 				Swal.fire({
@@ -518,6 +536,10 @@
 		/* =========== 업데이트 버튼 ========= */
 		$('#btnUpdate').click(function() {
 			var postData = $('#form').serializeArray();
+			postData.push({name : "total", value : $('#total').text()});
+			postData.push({name : "solution", value : $('#solution').text()});
+			postData.push({name : "unresolved", value : $('#unresolved').text()});
+			postData.push({name : "hold", value : $('#hold').text()});
 			var issueCustomer = $('#issueCustomer').val();
 			if(issueCustomer == "") {
 				$('#NotIssueCustomer').show();
@@ -569,6 +591,10 @@
 		/* =========== 복사 버튼 ========= */
 		$('#btnCopy').click(function() {
 			var postData = $('#form').serializeArray();
+			postData.push({name : "total", value : $('#total').text()});
+			postData.push({name : "solution", value : $('#solution').text()});
+			postData.push({name : "unresolved", value : $('#unresolved').text()});
+			postData.push({name : "hold", value : $('#hold').text()});
 			var issueCustomer = $('#issueCustomer').val();
 			if(issueCustomer == "") {
 				$('#NotIssueCustomer').show();
@@ -641,6 +667,16 @@
 		    	return false;
 		    }
 		}
+		
+		$('#BtnTest').click(function() {
+			var frmData = document.form;
+			var url = "<c:url value='/issue/pdfView'/>";
+			window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+			frmData.action = url; 
+			frmData.method="post";
+			frmData.target="form";
+			frmData.submit();
+		});
 		
 	</script>
 </html>

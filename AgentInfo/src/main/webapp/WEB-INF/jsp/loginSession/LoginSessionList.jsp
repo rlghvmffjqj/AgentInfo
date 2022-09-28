@@ -128,6 +128,7 @@
 	<script>
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();
 			jqGrid.trigger('reloadGrid');

@@ -20,7 +20,8 @@ public class IssueDao {
 
 	public int insertIssue(int issueKeyNum, String issueCustomer, String issueTitle, String issueDate,
 			String issueTosms, String issueTosrf, String issuePortal, String issueJava,
-			String issueWas, String issueDivision, String issueOs, String issueAward, String issueMiddle, String issueUnder1, String issueUnder2,
+			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, 
+			String issueAward, String issueMiddle, String issueUnder1, String issueUnder2, String issueUnder3, String issueUnder4,
 			String issueFlawNum, String issueEffect, String issueTextResult, String issueApplyYn, String issueConfirm, String issueObstacle,
 			String issueNote, String issueRegistrant, String issueRegistrationDate, String issueModifier, String issueModifiedDate) {
 		
@@ -34,12 +35,18 @@ public class IssueDao {
 		parameters.put("issuePortal", issuePortal);
 		parameters.put("issueJava", issueJava);
 		parameters.put("issueWas", issueWas);
+		parameters.put("total", total);
+		parameters.put("solution", solution);
+		parameters.put("unresolved", unresolved);
+		parameters.put("hold", hold);
 		parameters.put("issueDivision", issueDivision);
 		parameters.put("issueOs", issueOs);
 		parameters.put("issueAward", issueAward);
 		parameters.put("issueMiddle", issueMiddle);
 		parameters.put("issueUnder1", issueUnder1);
 		parameters.put("issueUnder2", issueUnder2);
+		parameters.put("issueUnder3", issueUnder3);
+		parameters.put("issueUnder4", issueUnder4);
 		parameters.put("issueFlawNum", issueFlawNum);
 		parameters.put("issueEffect", issueEffect);
 		parameters.put("issueTextResult", issueTextResult);

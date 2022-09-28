@@ -240,6 +240,7 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#customerUidLogCustomerName').val($('#customerUidLogCustomerNameMulti').val().join());
 			$('#customerUidLogBusinessName').val($('#customerUidLogBusinessNameMulti').val().join());
 			$('#customerUidEvent').val($('#customerUidEventMulti').val().join());

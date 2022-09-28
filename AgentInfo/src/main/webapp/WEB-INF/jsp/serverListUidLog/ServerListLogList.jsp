@@ -290,6 +290,7 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#serverListUidLogDivision').val($('#serverListUidLogDivisionMulti').val().join());
 			$('#serverListUidLogIp').val($('#serverListUidLogIpMulti').val().join());
 			$('#serverListUidLogState').val($('#serverListUidLogStateMulti').val().join());

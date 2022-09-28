@@ -28,6 +28,8 @@ public class Issue {
 	private String issueMiddle;					// 중항목
 	private String issueUnder1;					// 소항목1
 	private String issueUnder2;					// 소항목2
+	private String issueUnder3;					// 소항목3
+	private String issueUnder4;					// 소항목4
 	private String issueFlawNum;				// 결함번호
 	private String issueEffect;					// 영향도
 	private String issueTextResult;				// 테스트 결과
@@ -36,14 +38,19 @@ public class Issue {
 	private String issueObstacle;				// 장애내용
 	private String issueNote;					// 비고
 		
-	private String issueRegistrant = "";			// 추가자
+	private String issueRegistrant = "";		// 추가자
 	private String issueRegistrationDate = "";	// 추가 시간
 	private String issueModifier = "";			// 수정자
 	private String issueModifiedDate = "";		// 수정 시간
 	
+	private String total;						// 전체
+	private String solution;					// 해결
+	private String unresolved;					// 미해결
+	private String hold;						// 보류
+	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
-	private String sidx="issueKeyNum";		// 정렬할 기준 데이터
+	private String sidx="issueKeyNum";			// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
 	
 	private String[] issueCustomerArr;
@@ -60,6 +67,8 @@ public class Issue {
 	private List<String> issueMiddleList;			// 중항목
 	private List<String> issueUnder1List;			// 소항목1
 	private List<String> issueUnder2List;			// 소항목2
+	private List<String> issueUnder3List;			// 소항목3
+	private List<String> issueUnder4List;			// 소항목4
 	private List<String> issueFlawNumList;			// 결함번호
 	private List<String> issueEffectList;			// 영향도
 	private List<String> issueTextResultList;		// 테스트 결과

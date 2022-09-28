@@ -210,6 +210,7 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			<sec:authorize access="hasRole('ADMIN')">
 				$('#employeeId').val($('#employeeIdMulti').val().join());
 				$('#employeeName').val($('#employeeNameMulti').val().join());
