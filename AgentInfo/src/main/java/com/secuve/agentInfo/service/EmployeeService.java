@@ -36,6 +36,8 @@ public class EmployeeService {
 				employee.setUsersRole("관리자");
 			} else if(employee.getUsersRole().equals("ENGINEER")) {
 				employee.setUsersRole("엔지니어");
+			} else if(employee.getUsersRole().equals("QA")) {
+				employee.setUsersRole("QA");
 			} else {
 				employee.setUsersRole("일반 사용자");
 			}

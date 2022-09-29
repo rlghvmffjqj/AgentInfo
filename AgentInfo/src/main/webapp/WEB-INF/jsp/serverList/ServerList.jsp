@@ -267,7 +267,7 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">서버 관리 :
-																	<sec:authorize access="hasAnyRole('ADMIN')">
+																	<sec:authorize access="hasAnyRole('ADMIN','QA')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnState" onClick="btnState()">상태 변경</button>
