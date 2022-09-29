@@ -16,7 +16,6 @@
 	/* =========== 세션 검사 주기 ========= */
 	function setTimerSessionTimeoutCheck()
 	{
-		console.log("방문");
 		// 검사주기 범위 [1~60]분, 0 이면 세션타임아웃 사용안함.
 		if ( loginSession > 0 && loginSession <= 60 ) {
 			clearTimeout(sessionTime);

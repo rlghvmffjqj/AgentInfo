@@ -9,8 +9,6 @@
 		<meta charset="UTF-8">
 		<title>PDF View</title>
 
-		<%-- <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap/css/bootstrap.min.css'/>"> --%>
-
 		<script type="text/javascript" src="<c:url value='/js/jquery-3.3.1.slim.min.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/jquery/jquery.min.js'/>"></script>
 		<style>
@@ -30,7 +28,7 @@
 			
 			.col-lg-4 {
 				float: left;
-				max-width: 19.8%;
+				max-width: 29%;
 				height: 55px;
 				position: relative;
 			    width: 100%;
@@ -41,7 +39,7 @@
 			
 			.col-lg-3 {
 				float: left;
-				max-width: 20%;
+				max-width: 29%;
 				height: 55px;
 				position: relative;
 			    width: 100%;
@@ -111,26 +109,34 @@
 				font-size: 12px;
 			    margin-block-start: 0px !important;
 			    margin-block-end: 0px !important;
-			    margin: 0px 0 -5px;
+			    margin: 0px 0px 0px;
 			}
 			.obstacleText {
 				background:white; 
 				outline: 1px solid lightgray; 
 				border-radius: 5px;
     			min-height: 20px;
-    			width:500px !important;
+    			width:100% !important;
     			height:100%;
     			overflow:hidden;
     			margin:0 auto;
 			}
 			img {
-				width: 100% !important;
-				height: 100% !important;
+				max-width: 620px !important;
+				max-height: 100% !important;
 				object-fit:cover;
+			}
+			.title {
+				margin-top: 50px;
+				margin-bottom: 50px;
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
+		<div class="title">
+			<h1>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</h1>
+		</div>
 		<div style="background: #EFF5F7;">
 		    <div>
 			    <div class="searchbos" style="margin-bottom:20px">
@@ -170,75 +176,88 @@
 			    <div style='text-align:right;'>
 			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 			    </div>
-			    <div class="searchbos">
-			    	<div class="plus">
-			    		<c:forEach var="list" items="${issue}">
-			       			<div class="issue">
-				       			<div style="margin-bottom: 5px;">
-				       				<div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}"></div>
-				       			</div>
-					       		<table style="width:100%">
-					       			<tbody>
-					       				<tr>
-					       					<td class="alignCenter">OS</td>
-					       					<td><input class="form-control" type="text" id="issueOsList" name="issueOsList" value="${list.issueOs}"></td>
-					       					<td class="alignCenter"></td>
-					       					<td></td>
-					       				</tr>
-					       				<tr>
-					       					<td class="alignCenter">대항목</td>
-					       					<td><input class="form-control" type="text" id="issueAwardList" name="issueAwardList" value="${list.issueAward}"></td>
-					       					<td class="alignCenter">중학목</td>
-					       					<td><input class="form-control" type="text" id="issueMiddleList" name="issueMiddleList" value="${list.issueMiddle}"></td>
-					       				</tr>
-					       				<tr>
-					       					<td class="alignCenter">소항목1</td>
-					       					<td><input class="form-control" type="text" id="issueUnder1List" name="issueUnder1List" value="${list.issueUnder1}"></td>
-					       					<td class="alignCenter">소항목2</td>
-					       					<td><input class="form-control" type="text" id="issueUnder2List" name="issueUnder2List" value="${list.issueUnder2}"></td>
-					       				</tr>
-					       				<tr>
-					       					<td class="alignCenter">소항목3</td>
-					       					<td><input class="form-control" type="text" id="issueUnder3List" name="issueUnder3List" value="${list.issueUnder3}"></td>
-					       					<td class="alignCenter">소항목4</td>
-					   						<td><input class="form-control" type="text" id="issueUnder4List" name="issueUnder4List" value="${list.issueUnder4}"></td>
-						   				</tr>
-						   				<tr>
-						   					<td class="alignCenter">결함번호</td>
-						   					<td><input class="form-control" type="text" id="issueFlawNumList" name="issueFlawNumList" value="${list.issueFlawNum}"></td>
-						   					<td class="alignCenter">영향도</td>
-						   					<td><input class="form-control" type="text" id="issueEffectList" name="issueEffectList" value="${list.issueEffect}"></td>
-					   					</tr>
-					   					<tr>
-					   						<td class="alignCenter">테스트 결과</td>
-					   						<td><input class="form-control" type="text" id="issueTextResultList" name="issueTextResultList" value="${list.issueTextResult}"></td>
-						   					<td class="alignCenter">적용여부</td>
-						   					<td><input class="form-control" type="text" id="issueApplyYnList" name="issueApplyYnList" value="${list.issueApplyYn}"></td>
-				         				</tr>
-				         				<tr>
-											<td class="alignCenter">확인내용</td>
-				         					<td colspan='3'><input class="form-control" type="text" id="issueConfirmList" name="issueConfirmList" value="${list.issueConfirm}"></td>
-				         				</tr>
-										<tr>
-											<td class="alignCenter">장애내용</td>
-				         					<td colspan='3'>
-				         						<%-- <textarea class="summerNoteSize" rows="5" id="issueObstacleList" name="issueObstacleList" onkeydown="resize(this)" onkeyup="resize(this)">${list.issueObstacle}</textarea> --%>
-				         						<div class="obstacleText" style="width:100%">${list.issueObstacle}</div>
-				         					</td>
-				         				</tr>
-				         				<tr>
-											<td class="alignCenter">비고</td>
-				         					<td colspan='3'>
-				         						<textarea class="form-control" id="issueNoteList" name="issueNoteList">${list.issueNote}</textarea>
-				         					</td>
-				         				</tr>
-				         			</tbody>
-				         		</table>
-			    			</div>
-			    			<div style="height:30px;"></div>
-			 			</c:forEach>
-			 		</div>
+			    <div style="height:25px; background: white;"></div>
+			    <div style="float: left; background: white; width: 100%;">
+				    <ol>
+				    	<c:forEach var="list" items="${issue}">
+				    		<li>${list.issueDivision}
+				    			<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
+				    				-
+								</c:forEach>
+							</li>
+				    	</c:forEach>
+				    </ol>
 			    </div>
+			   
+			    <% int num = 1; %>
+			    <c:forEach var="list" items="${issue}">
+					<div class="searchbos">
+				    	<div class="issue">
+							<div style="margin-bottom: 5px;">
+								<span style="float:left; margint-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}"></div>
+							</div>
+					   		<table style="width:100%">
+					   			<tbody>
+					   				<tr>
+					   					<td class="alignCenter">OS</td>
+					   					<td><input class="form-control" type="text" id="issueOsList" name="issueOsList" value="${list.issueOs}"></td>
+					   					<td class="alignCenter"></td>
+					   					<td></td>
+					   				</tr>
+					   				<tr>
+					   					<td class="alignCenter">대항목</td>
+					   					<td><input class="form-control" type="text" id="issueAwardList" name="issueAwardList" value="${list.issueAward}"></td>
+					   					<td class="alignCenter">중학목</td>
+					   					<td><input class="form-control" type="text" id="issueMiddleList" name="issueMiddleList" value="${list.issueMiddle}"></td>
+					   				</tr>
+					   				<tr>
+					   					<td class="alignCenter">소항목1</td>
+					   					<td><input class="form-control" type="text" id="issueUnder1List" name="issueUnder1List" value="${list.issueUnder1}"></td>
+					   					<td class="alignCenter">소항목2</td>
+					   					<td><input class="form-control" type="text" id="issueUnder2List" name="issueUnder2List" value="${list.issueUnder2}"></td>
+					   				</tr>
+					   				<tr>
+					   					<td class="alignCenter">소항목3</td>
+					   					<td><input class="form-control" type="text" id="issueUnder3List" name="issueUnder3List" value="${list.issueUnder3}"></td>
+					   					<td class="alignCenter">소항목4</td>
+										<td><input class="form-control" type="text" id="issueUnder4List" name="issueUnder4List" value="${list.issueUnder4}"></td>
+					   				</tr>
+					   				<tr>
+					   					<td class="alignCenter">결함번호</td>
+					   					<td><input class="form-control" type="text" id="issueFlawNumList" name="issueFlawNumList" value="${list.issueFlawNum}"></td>
+					   					<td class="alignCenter">영향도</td>
+					   					<td><input class="form-control" type="text" id="issueEffectList" name="issueEffectList" value="${list.issueEffect}"></td>
+									</tr>
+									<tr>
+										<td class="alignCenter">테스트 결과</td>
+										<td><input class="form-control" type="text" id="issueTextResultList" name="issueTextResultList" value="${list.issueTextResult}"></td>
+					   					<td class="alignCenter">적용여부</td>
+					   					<td><input class="form-control" type="text" id="issueApplyYnList" name="issueApplyYnList" value="${list.issueApplyYn}"></td>
+					 				</tr>
+					 				<tr>
+										<td class="alignCenter">확인내용</td>
+					 					<td colspan='3'><input class="form-control" type="text" id="issueConfirmList" name="issueConfirmList" value="${list.issueConfirm}"></td>
+					 				</tr>
+									<tr>
+										<td class="alignCenter">장애내용</td>
+					 					<td colspan='3'>
+					 						<%-- <textarea class="summerNoteSize" rows="5" id="issueObstacleList" name="issueObstacleList" onkeydown="resize(this)" onkeyup="resize(this)">${list.issueObstacle}</textarea> --%>
+					 						<div class="obstacleText" style="width:100%">${list.issueObstacle}</div>
+					 					</td>
+					 				</tr>
+					 				<tr>
+										<td class="alignCenter">비고</td>
+					 					<td colspan='3'>
+					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList">${list.issueNote}</textarea>
+					 					</td>
+					 				</tr>
+					 			</tbody>
+					 		</table>
+				    	</div>
+				    </div>
+				    <div style="width: 100%; height:30px;"></div>
+				    <% num++; %>
+			 	</c:forEach>
 			</div>
 		</div>
 	</body>
@@ -251,18 +270,30 @@
 			}
 			
 			var jsp = document.documentElement.innerHTML;
+			var issueCustomer = $('#issueCustomer').val();
+			var issueTitle = $('#issueTitle').val();
+			var issueDate = $('#issueDate').val();
 			$.ajax({
 				url: "<c:url value='/issue/pdf'/>",
 				type: "POST",
-				data: {"jsp": jsp},
+				data: {
+						"jsp": jsp,
+						"issueCustomer":issueCustomer,
+						"issueTitle":issueTitle,
+						"issueDate":issueDate,
+					},
 				dataType: "text",
 				traditional: true,
 				async: false,
 				success: function(data) {
-					if(data == "OK")
-						alert("성공");
-					else
-						alert("실패");
+					if(data == "OK") {
+						var fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
+						opener.call(fileName);
+						window.close();
+					} else {
+						alert("PDF Download Error!");
+						window.close();
+					}
 				},
 				error: function(error) {
 					console.log(error);

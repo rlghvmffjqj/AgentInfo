@@ -131,68 +131,68 @@ p {
 .modal {
     position: fixed;
     width: 100%;
-    margin-top: -150px; /* half of height */
+    /* margin-top: -150px; */ /* half of height */
 }
 
 .modal-lg {
-	top: 14.5%;
+	top: 2.5%;
 	max-width: 480px;
 }
 
 .modal-se {
-	top: 25%;
+	top: 13%;
 	width: 1000px;
 	max-width: 1500px;
 }
 
 .modal-sm {
 	max-width:350px;
-	top: 40%;
+	top: 28%;
 }
 
 .modal-ssl {
 	max-width:450px;
-	top: 40%;
+	top: 18%;
 }
 
 .modal-sr {
 	max-width:500px;
-	top: 40%;
+	top: 18%;
 }
 
 .modal-sl {
 	max-width:350px;
-	top: 25%;
+	top: 13%;
 }
 
 .modal-ll {
-	top: 22%;
+	top: 10%;
 	width: 1000px;
 	max-width: 1500px;
 }
 
 .modal-ls {
-	top: 18%;
+	top: 6%;
 	max-width: 485px;
 }
 
 .modal-r {
-	top: 25%;
+	top: 13%;
 	max-width: 960px;
 }
 
 .modal-rs {
-	top: 45%;
+	top: 33%;
 	max-width: 300px;
 }
 
 .modal-requests {
-	top: 20%;
+	top: 8%;
     max-width: 800px;
 }
 
 .modal-notice {
-	top: 20%;
+	top: 8%;
     max-width: 600px;
 }
 

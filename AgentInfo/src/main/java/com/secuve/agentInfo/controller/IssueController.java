@@ -1,11 +1,14 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
 
+import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
+
 @Controller
 public class IssueController {
 	@Autowired IssueService issueService;
@@ -236,23 +242,50 @@ public class IssueController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issue/pdf")
-	public String PDF(String jsp, Principal principal) {
+	public String PDF(String jsp, String issueCustomer, String issueTitle, String issueDate, Principal principal, Model model) {
 		StringBuilder html = new StringBuilder();
 		String body = jsp;
 		
 		html.append(body);
+		String filePath = "C:\\AgentInfo\\IssueDownload";
+		String fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
 
 		String BODY = body.toString();
 
 		// html to pdf
 		try {
-			issueService.makepdf(BODY, "C:\\AgentInfo\\font\\test2.pdf");
+			issueService.makepdf(BODY, filePath + "\\" + fileName);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "FALSE";
 		}
-		return "OK";
+		return "OK"; 
 	}
 	
+	@GetMapping(value = "/issue/fileDownload")
+	public View FileDownload(@RequestParam String fileName, Model model) throws Exception {
+		String filePath = "C:\\AgentInfo\\IssueDownload";
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);  		 // 출력할 파일 이름
 	
+		return new FileDownloadView();
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/fileDelete")
+	public String FileDelete(String fileName, Principal principal, Model model) {
+		//파일 경로 지정
+		String path = "C:\\AgentInfo\\IssueDownload";
+				
+		//현재 게시판에 존재하는 파일객체를 만듬
+		File file = new File(path + "\\" + fileName);
+			
+		if(file.exists()) { // 파일이 존재하면
+			file.delete(); // 파일 삭제
+			return "OK"; 
+		}
+		return "NotFile";
+	}
 }

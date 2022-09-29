@@ -102,11 +102,10 @@
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnSolution">해결</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnUnresolved">미해결</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnHold">보류</button>
-		                                			<a href="<c:url value='/issue/pdfDownload'/>" class="waves-effect waves-dark">PDF Downlod</a>
-		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnTest">테스트</button>
+		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf">PDF Download</button>
 		                                		</div> 
 		                                		<div style='text-align:right;'>
-					                              	Total:<label class="labelFontSize15" id="total">1</label>해결:<label class="labelFontSize15" id="solution">0</label>미해결:<label class="labelFontSize15" id="unresolved">0</label>보류<label class="labelFontSize15" id="hold">0</label>
+					                              	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 					                            </div>
 		                                		<div class="searchbos">
 			                                		<div class="plus">
@@ -668,7 +667,8 @@
 		    }
 		}
 		
-		$('#BtnTest').click(function() {
+		/* =========== PDF 서버 PC 다운로드  ========= */
+		$('#BtnPdf').click(function() {
 			var frmData = document.form;
 			var url = "<c:url value='/issue/pdfView'/>";
 			window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
@@ -677,6 +677,45 @@
 			frmData.target="form";
 			frmData.submit();
 		});
+		
+		/* =========== PDF 로컬 PC 다운로드 ========= */
+		window.call = function (fileName) {
+			window.location ="<c:url value='/issue/fileDownload?fileName="+fileName+"'/>";
+			setTimeout(function() {
+				fileDelete(fileName);
+			},300);
+		};
+		
+		function fileDelete(fileName) {
+			$.ajax({
+				url: "<c:url value='/issue/fileDelete'/>",
+				type: "POST",
+				data: {
+						"fileName": fileName,
+					},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: 'PDF다운로드 완료되었습니다.'
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: 'PDF파일이 존재하지 않습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			  });
+		}
 		
 	</script>
 </html>
