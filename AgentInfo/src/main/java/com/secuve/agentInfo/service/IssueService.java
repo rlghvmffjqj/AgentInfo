@@ -76,6 +76,7 @@ public class IssueService {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");
+			map.put("issueKeyNum", issue.getIssueKeyNum());
 		}
 		return map;
 	}

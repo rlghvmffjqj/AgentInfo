@@ -220,7 +220,7 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
-		    <sec:authorize access="hasRole('QA')">
+		    <sec:authorize access="hasAnyRole('ADMIN','QA')">
 			   	<ul class="pcoded-item pcoded-left-item">
 				        <li class="issueList">
 				            <a href="<c:url value='/issue/issueList'/>" class="waves-effect waves-dark">

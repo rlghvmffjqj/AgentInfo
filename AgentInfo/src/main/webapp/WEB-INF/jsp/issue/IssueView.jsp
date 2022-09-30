@@ -258,6 +258,7 @@
 		                                		</div>
 		                                		<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
 		                                		<input class="form-control" type="hidden" id="issueObstacleList" name="issueObstacleList" value=""><!-- 단일 이미지 첨부일 경우 배열이 여러개로 분리되어 복합으로 전달하기 위해 추가  -->
+		                                		<input class="form-control" type="hidden" id="issueBtnType" name="issueBtnType" value="${viewType}">
 	                                		</form>
 		    	                 		</div>
 	                                </div>
@@ -515,6 +516,7 @@
 								} else {
 									$('#save').hide();
 									$('#update').show();
+									$('#issueBtnType').val("update");
 								}
 							})
 						} else {
@@ -612,6 +614,7 @@
 			        success: function(result) {
 			        	if(result.result == "OK") {
 			        		if(result.result == "OK") {
+			        			$('#issueKeyNum').val(result.issueKeyNum);
 				        		Swal.fire({
 									  title: '저장 완료!',
 									  text: "이슈 목록으로 이동하시겠습니까?",
@@ -627,6 +630,7 @@
 									} else {
 										$('#copy').hide();
 										$('#update').show();
+										$('#issueBtnType').val("update");
 									}
 								})
 							} else {
@@ -661,7 +665,12 @@
 		document.onkeydown = function(e) {
 		    if (e.which == 17)  isCtrl = true;
 		    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
-		    	$('#btnUpdate').click();
+		    	var btnType = $('#issueBtnType').val();
+		    	if(btnType == "copy") {
+		    		$('#btnCopy').click();
+		    	} else {
+		    		$('#btnUpdate').click();
+		    	}
 		    	isCtrl = false;
 		    	return false;
 		    }
@@ -686,6 +695,7 @@
 			},300);
 		};
 		
+		/* =========== PDF 로컬 PC 삭제 ========= */
 		function fileDelete(fileName) {
 			$.ajax({
 				url: "<c:url value='/issue/fileDelete'/>",

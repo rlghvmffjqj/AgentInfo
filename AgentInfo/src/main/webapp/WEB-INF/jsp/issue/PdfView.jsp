@@ -137,8 +137,11 @@
 		<div class="title">
 			<h1>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</h1>
 		</div>
-		<div style="background: #EFF5F7;">
+		<div style="background: #FFFFFF;">
 		    <div>
+		    	<div style='text-align:right;'>
+			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
+			    </div>
 			    <div class="searchbos" style="margin-bottom:20px">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
@@ -173,11 +176,9 @@
 			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" value="${issueTitle.issueWas}">
 			    	</div>
 			    </div>
-			    <div style='text-align:right;'>
-			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
-			    </div>
+			    
 			    <div style="height:25px; background: white;"></div>
-			    <div style="float: left; background: white; width: 100%;">
+			    <div style="background: white; width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
 				    		<li>${list.issueDivision}

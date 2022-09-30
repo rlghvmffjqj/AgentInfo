@@ -215,7 +215,7 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">이슈 관리 :
-																	<sec:authorize access="hasRole('ADMIN')">
+																	<sec:authorize access="hasAnyRole('ADMIN','QA')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>

@@ -17,7 +17,7 @@
 				<td><span class="colorRed fontSize10" id="NotPassword" style="display: none">기존암호가 일치하지 않습니다.</span></td>
 			</tr>
 			<tr>
-				<td colspan='2'><span class="topBotton5">----------------------------------------------------------------------------</span></td>
+				<td colspan='2'><div style="width:100%; outline: rosybrown 0.1px solid; margin-top: 10px; margin-bottom: 15px;"></div></td>
 			</tr>
 			<tr>
 				<td>새암호 : </td>
