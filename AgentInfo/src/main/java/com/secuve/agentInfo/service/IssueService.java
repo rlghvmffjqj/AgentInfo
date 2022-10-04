@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -188,5 +191,53 @@ public class IssueService {
 	public Map copyIssue(Issue issue, Principal principal) {
 		issue.setIssueKeyNum(0);
 		return insertIssue(issue, principal);
+	}
+
+	public String mergeIssue(int[] chkList) {
+		int total = 0;
+		int solution = 0;
+		int unresolved = 0;
+		int hold = 0;
+		boolean check = false;
+		int resault = 1;
+		List<Issue> issue = new ArrayList<Issue>(); 
+		for (int issueKeyNum : chkList) {
+			issue.add(issueDao.getIssueOneMerge(issueKeyNum));
+		}
+		
+		for(int i=0; i<chkList.length; i++) {
+			issue.get(i).setIssueKeyNum(0);
+			total += Integer.parseInt(issue.get(i).getTotal());
+			solution += Integer.parseInt(issue.get(i).getSolution());
+			unresolved += Integer.parseInt(issue.get(i).getUnresolved());
+			hold += Integer.parseInt(issue.get(i).getHold());
+			
+			issue.get(i).setTotal("");
+			issue.get(i).setSolution("");
+			issue.get(i).setUnresolved("");
+			issue.get(i).setHold("");
+		}
+		
+		if(chkList.length == 2) {
+			check = Objects.equals(issue.get(0).toString(), issue.get(1).toString());
+		} else if(chkList.length == 3) {
+			check = Objects.equals(issue.get(0).toString(), issue.get(1).toString());
+			if(check == true) {
+				check = Objects.equals(issue.get(1).toString(), issue.get(2).toString());
+			}
+		} 
+		if(check == false) {
+			return "NotMatch";
+		}
+		
+		int newKeyNum =  IssueKeyNum(0);
+		for (int issueKeyNum : chkList) {
+			resault *= issueDao.setIssueKeyNum(issueKeyNum, newKeyNum, total, solution, unresolved, hold);
+		}
+		
+		if(resault >= 1) {
+			return "OK";
+		}
+		return "FALSE";
 	}
 }

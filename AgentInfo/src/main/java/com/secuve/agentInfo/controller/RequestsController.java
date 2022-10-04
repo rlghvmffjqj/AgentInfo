@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,8 +97,13 @@ public class RequestsController {
 	 * @return
 	 */
 	@PostMapping(value ="/requests/updateView")
-	public String UpdateRequestsView(Model model, int requestsKeyNum) {
+	public String UpdateRequestsView(Model model, Principal principal, Authentication auth, int requestsKeyNum) {
 		Requests requests = requestsService.getRequestsOne(requestsKeyNum);
+		if(!auth.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+			if(!principal.getName().equals(requests.getEmployeeId())) {
+				return "";
+			}
+		}
 		model.addAttribute("requests", requests);
 		return "/requests/RequestsView";
 	}

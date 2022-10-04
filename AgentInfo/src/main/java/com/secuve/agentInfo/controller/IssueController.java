@@ -192,4 +192,10 @@ public class IssueController {
 		}
 		return "NotFile";
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/merge")
+	public String IssueMerge(@RequestParam int[] chkList) {
+		return issueService.mergeIssue(chkList);
+	}
 }

@@ -98,11 +98,17 @@
 		                                			</div>
 		                                		</div>
 		                                		<div style='text-align:left; float:left; margin-bottom:5px;'>
+		                                			<span style="font-weight:bold;">보기 :</span> 
 		                                			<button type="button" class="btn btn-outline-info-add myBtn" id="BtnTotal">전체</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnSolution">해결</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnUnresolved">미해결</button>
 		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnHold">보류</button>
-		                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf">PDF Download</button>
+		                                			<div id="downloadBtn" style="margin-top: 5px;">
+			                                			<span style="font-weight:bold;">다운 :</span> 
+			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf">PDF Download</button>
+			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPpt">PPT Download</button>
+			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnWord">Word Download</button>
+			                                		</div>
 		                                		</div> 
 		                                		<div style='text-align:right;'>
 					                              	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
@@ -279,6 +285,9 @@
 		$(function() {
 			summernote();
 			issueCount();
+			if("${viewType}" == "insert") {
+				$('#downloadBtn').hide();
+			}
 		});
 		
 		/* =========== SummerNote 설정 ========= */
@@ -398,8 +407,15 @@
 			});
 		};
 		
-		/* =========== Select 박스 변경시 적용 여부 Count 변경 ========= */
+		/* =========== Select 박스 변경시 ========= */
+		$("select").change(function() {
+			issueCount();
+		});
+		
+		
+		/* ===========Count 변경 ========= */
 		function issueCount() {
+			$('#total').text($('.issue').length);
 			var list = new Array();
 			$('select[name=issueApplyYnList]').each(function(index, item) {
 				list.push($(item).val());
@@ -474,10 +490,6 @@
 		/* =========== 저장 버튼 ========= */
 		$('#btnSave').click(function() {
 			var postData = $('#form').serializeArray();
-			//var markup = document.documentElement.innerHTML;
-			//var data =[{name: 'htmlCode', value: markup}];
-			//var jsonData = postData.concat(data);
-			
 			var issueCustomer = $('#issueCustomer').val();
 			postData.push({name : "total", value : $('#total').text()});
 			postData.push({name : "solution", value : $('#solution').text()});
@@ -516,6 +528,7 @@
 								} else {
 									$('#save').hide();
 									$('#update').show();
+									$('#downloadBtn').show();
 									$('#issueBtnType').val("update");
 								}
 							})
@@ -572,6 +585,7 @@
 									location.href="<c:url value='/issue/issueList'/>";
 								} else {
 									$('#issueKeyNum').val(result.issueKeyNum);
+									$('#downloadBtn').show();
 								}
 							})
 						} else {
@@ -675,6 +689,9 @@
 		    	return false;
 		    }
 		}
+		document.onkeyup = function(e) {
+			if (e.which == 17)  isCtrl = false;
+		}
 		
 		/* =========== PDF 서버 PC 다운로드  ========= */
 		$('#BtnPdf').click(function() {
@@ -685,6 +702,24 @@
 			frmData.method="post";
 			frmData.target="form";
 			frmData.submit();
+		});
+		
+		/* =========== PPT 다운로드 ========= */
+		$('#BtnPpt').click(function() {
+			Swal.fire({
+				icon: 'info',
+				title: '준비!',
+				text: 'PPT 다운로드 준비중 입니다.'
+			});
+		});
+		
+		/* =========== Word 다운로드 ========= */
+		$('#BtnWord').click(function() {
+			Swal.fire({
+				icon: 'info',
+				title: '준비!',
+				text: 'Word 다운로드 준비중 입니다.'
+			});
 		});
 		
 		/* =========== PDF 로컬 PC 다운로드 ========= */

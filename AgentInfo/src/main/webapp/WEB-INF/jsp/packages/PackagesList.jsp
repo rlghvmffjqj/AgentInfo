@@ -358,13 +358,8 @@
 		$('#btnSearch').click(function() {
 			var deliveryDateStart = $("#deliveryDateStart").val();
 			var deliveryDateEnd = $("#deliveryDateEnd").val();
-			if(deliveryDateStart > deliveryDateEnd) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '전달일자 시작일이 종료일자 보다 큽니다.',    
-				});
-			} else if(deliveryDateStart == "" && deliveryDateEnd != "") {
+			
+			if(deliveryDateStart == "" && deliveryDateEnd != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
@@ -376,6 +371,12 @@
 						title: '실패!',           
 						text: '전달일자 종료일을 입력해주세요.',    
 					});
+			} else if(deliveryDateStart > deliveryDateEnd) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '전달일자 시작일이 종료일자 보다 큽니다.',    
+				}); 
 			} else {
 				tableRefresh();	
 			}

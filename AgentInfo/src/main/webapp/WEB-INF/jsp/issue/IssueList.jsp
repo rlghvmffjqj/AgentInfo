@@ -219,6 +219,7 @@
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'issueKeyNum');">컬럼 선택</button>
 																</td>
@@ -252,6 +253,52 @@
 		/* =========== 이슈 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
 			location.href="<c:url value='/issue/issueWrite'/>";		
+		});
+		
+		/* =========== 이슈 병합 ========= */
+		$('#BtnMerge').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length > 1 && chkList.length < 4) {
+				$.ajax({
+					url: "<c:url value='/issue/merge'/>",
+					type: "POST",
+					data: {chkList: chkList},
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK")
+							Swal.fire(
+							  '성공!',
+							  '병합 완료하였습니다.',
+							  'success'
+							)
+						else if(data == "NotMatch")
+							Swal.fire(
+							  '불일치!',
+							  '고객사, Title, 전달일자, TOSMS, TOSRF, PORTAL, JAVA, WAS 정보가 일치해야합니다.',
+							  'error'
+							)
+						else
+							Swal.fire(
+							  '실패!',
+							  '별합 실패하였습니다.',
+							  'error'
+							)
+						tableRefresh();
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
+				tableRefresh();
+			} else {
+				Swal.fire({               
+					icon: 'error',          
+					title: '제한!',           
+					text: '병합 가능한 갯수는 3개 이내로 제한합니다.',    
+				});
+			}
 		});
 		
 		/* =========== 검색 ========= */

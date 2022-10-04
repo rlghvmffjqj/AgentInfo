@@ -46,9 +46,20 @@
    		WHERE issueKeyNum = #{issueKeyNum};
 	</select>
 	
+	<select id="getIssueOneMerge" resultMap="issue" parameterType="_int">
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
+    	FROM issue
+   		WHERE issueKeyNum = #{issueKeyNum};
+	</select>
+	
 	<delete id="delIssue" parameterType="_int">
 		DELETE FROM issue WHERE issueKeyNum = #{issueKeyNum};
 	</delete>
+	
+	<update id="setIssueKeyNum">
+		UPDATE issue SET issueKeyNum = #{issueMergeKeyNum}, total = #{total}, solution = #{solution}, unresolved = #{unresolved}, hold = #{hold} 
+		WHERE issueKeyNum = #{issueKeyNum};
+	</update>
 	
 	<!-- ==================================================================================== -->
 	

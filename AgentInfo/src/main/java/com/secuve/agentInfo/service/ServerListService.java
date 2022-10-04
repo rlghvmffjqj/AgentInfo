@@ -89,6 +89,10 @@ public class ServerListService {
 
 	public String updateServerList(ServerList serverList) {
 		int count = serverListDao.getServerListIp(serverList.getServerListIpView());
+		String ip = serverListDao.getServerListOne(serverList.getServerListKeyNum()).getServerListIp();
+		if(ip.equals(serverList.getServerListIpView())) {
+			count = 0;
+		}
 		if(count >= 1)
 			return "IpOverlap";
 		

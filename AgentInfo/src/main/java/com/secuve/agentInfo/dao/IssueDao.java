@@ -86,5 +86,20 @@ public class IssueDao {
 		return sqlSession.delete("issue.delIssue", issueKeyNum);
 	}
 
+	public Issue getIssueOneMerge(int issueKeyNum) {
+		return sqlSession.selectOne("issue.getIssueOneMerge", issueKeyNum);
+	}
+
+	public int setIssueKeyNum(int issueKeyNum, int issueMergeKeyNum, int total, int solution, int unresolved, int hold) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("issueKeyNum", issueKeyNum);
+		parameters.put("issueMergeKeyNum", issueMergeKeyNum);
+		parameters.put("total", String.valueOf(total));
+		parameters.put("solution", String.valueOf(solution));
+		parameters.put("unresolved", String.valueOf(unresolved));
+		parameters.put("hold", String.valueOf(hold));
+		return sqlSession.update("issue.setIssueKeyNum", parameters);
+	}
+
 }
 
