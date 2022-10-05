@@ -115,7 +115,7 @@
 					                            </div>
 		                                		<div class="searchbos">
 			                                		<div class="plus">
-			                                			<div><div id="blank"></div></div>
+			                                			<div><div><div id="blank"></div></div></div>
 			                                			<c:forEach var="list" items="${issue}">
 					                                		<div class="issue">
 					                                			
@@ -326,6 +326,7 @@
 		/* =========== 마이너스 버튼 ========= */
 		function btnMinus(obj) {
 			var table = $(obj).parent().parent().parent();
+			console.log(table);
 			table.remove();
 			issueCount();
 			$('#total').text($('.issue').length);
@@ -337,6 +338,7 @@
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
+			console.log(obj);
 			var table = $(obj).parent().parent().parent();
 			
 			var rowItem = "<div class='issue'>";
@@ -420,8 +422,8 @@
 			rowItem += "<td colspan='3'><textarea class='form-control' id='issueNoteList' name='issueNoteList' onkeydown='resize(this)' onkeyup='resize(this)' placeholder='비고'>${list.issueNote}</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "</tbody>";
-			rowItem += "<div style='float: left; margin-left: 22.7%;'><button type='button' class='arrowBtn' style='background: peachpuff;' onclick='btnUp(this)'>ᐱ</button> <button type='button' class='arrowBtn' style='background: burlywood;' onclick='btnDown(this)'>ᐯ</button></div>";
 			rowItem += "</table>";
+			rowItem += "<div class='positioningBtn'><button type='button' class='arrowBtn' style='background: peachpuff;' onclick='btnUp(this)'>ᐱ</button> <button type='button' class='arrowBtn' style='background: burlywood;' onclick='btnDown(this)'>ᐯ</button></div>";
 			rowItem += "</div>";
 			
 			table.after(rowItem); // 동적으로 row를 추가한다.
