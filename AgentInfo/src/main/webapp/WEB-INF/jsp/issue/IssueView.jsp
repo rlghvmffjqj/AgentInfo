@@ -121,8 +121,8 @@
 					                                			
 					                                			<div style="margin-bottom: 5px;">
 					                                				<div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" placeholder='구분' value="${list.issueDivision}"></div>
-					                                				<div style='float: left; margin-left: 22.7%;'><button type="button" class="arrowBtn" style="background: peachpuff;" onclick="btnUp(this)">ᐱ</button> <button type="button" class="arrowBtn" style="background: burlywood;" onclick="btnDown(this)">ᐯ</button></div>
-					                                				<div style='text-align:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>
+					                                				<div style='text-align:right; float:right;'> <a onclick='btnPlus(this)' id="btnPlus"><img  src="/AgentInfo/images/pluse.png" style="width:30px"></a></div>
+					                                				<div style='text-align:right; float:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>
 					                                			</div>
 						                                		<table style="width:100%">
 						                                			<tbody>
@@ -250,7 +250,7 @@
 						                                				</tr>
 						                                			</tbody>
 						                                		</table>
-					                                			<div class="plusBtn"><a onclick='btnPlus(this)' id="btnPlus"><img  src="/AgentInfo/images/pluse.png" style="width:40px"></a></div>
+						                                		<div class="positioningBtn"><button type="button" class="arrowBtn" style="background: peachpuff;" onclick="btnUp(this)">ᐱ</button> <button type="button" class="arrowBtn" style="background: burlywood;" onclick="btnDown(this)">ᐯ</button></div>
 					                                		</div>
 				                                		</c:forEach>
 				                                	</div>
@@ -313,13 +313,13 @@
 		
 		/* =========== 위로 이동 ========= */
 		function btnUp(obj) {
-			var table = $(obj).parent().parent().parent();
+			var table = $(obj).parent().parent();
 			table.prev().before(table);
 		}
 		
 		/* =========== 아래로 이동 ========= */
 		function btnDown(obj) {
-			var table = $(obj).parent().parent().parent();
+			var table = $(obj).parent().parent();
 			table.next().after(table);
 		}
 		
@@ -337,12 +337,13 @@
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
-			var table = $(obj).parent().parent();
+			var table = $(obj).parent().parent().parent();
 			
 			var rowItem = "<div class='issue'>";
 			rowItem += "<div style='margin-bottom: 5px;'>";
 			rowItem += "<div style='text-align:left; float:left'><input class='form-control' type='text' style='width:400px' id='issueDivisionList' name='issueDivisionList' placeholder='구분'></div>";
-			rowItem += "<div style='text-align:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>";
+			rowItem += "<div style='text-align:right; float:right;'><a onclick='btnPlus(this)' id='btnPlus'><img  src='/AgentInfo/images/pluse.png' style='width:30px'></a></div>";
+			rowItem += "<div style='text-align:right; float:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>";
 			rowItem += "</div>";
 			rowItem += "<table style='width:100%'>";
 			rowItem += "<tbody>";
@@ -419,8 +420,8 @@
 			rowItem += "<td colspan='3'><textarea class='form-control' id='issueNoteList' name='issueNoteList' onkeydown='resize(this)' onkeyup='resize(this)' placeholder='비고'>${list.issueNote}</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "</tbody>";
+			rowItem += "<div style='float: left; margin-left: 22.7%;'><button type='button' class='arrowBtn' style='background: peachpuff;' onclick='btnUp(this)'>ᐱ</button> <button type='button' class='arrowBtn' style='background: burlywood;' onclick='btnDown(this)'>ᐯ</button></div>";
 			rowItem += "</table>";
-			rowItem += "<div class='plusBtn'><a onclick='btnPlus(this)' id='btnPlus'><img  src='/AgentInfo/images/pluse.png' style='width:40px'></a></div>";
 			rowItem += "</div>";
 			
 			table.after(rowItem); // 동적으로 row를 추가한다.

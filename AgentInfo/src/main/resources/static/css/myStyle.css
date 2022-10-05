@@ -588,10 +588,12 @@ p {
 	text-align: center;
 }
 
-.plusBtn {
+.positioningBtn {
 	text-align: center;
-	margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 30px;
+	margin-bottom: 10px;
+	height: 50px;
+	border-bottom: 3px indianred dashed;
 }
 
 .cnt {
@@ -753,4 +755,8 @@ p {
 	height: 30px;
 	border-radius: 15px;
 	border: 0px;
+}
+
+.arrowBtn:hover {
+	opacity:0.6;
 }
