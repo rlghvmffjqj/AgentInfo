@@ -20,7 +20,7 @@ public class IssueDao {
 
 	public int insertIssue(int issueKeyNum, String issueCustomer, String issueTitle, String issueDate,
 			String issueTosms, String issueTosrf, String issuePortal, String issueJava,
-			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, 
+			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, String issueWriter,
 			String issueAward, String issueMiddle, String issueUnder1, String issueUnder2, String issueUnder3, String issueUnder4,
 			String issueFlawNum, String issueEffect, String issueTextResult, String issueApplyYn, String issueConfirm, String issueObstacle,
 			String issueNote, String issueRegistrant, String issueRegistrationDate, String issueModifier, String issueModifiedDate) {
@@ -41,6 +41,7 @@ public class IssueDao {
 		parameters.put("hold", hold);
 		parameters.put("issueDivision", issueDivision);
 		parameters.put("issueOs", issueOs);
+		parameters.put("issueWriter", issueWriter);
 		parameters.put("issueAward", issueAward);
 		parameters.put("issueMiddle", issueMiddle);
 		parameters.put("issueUnder1", issueUnder1);

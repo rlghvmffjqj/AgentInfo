@@ -28,8 +28,8 @@
 	</select>
 	
 	<insert id="insertIssue">
-		INSERT INTO issue(issueKeyNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueDivision,issueOs,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},#{issueDivision},#{issueOs},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		INSERT INTO issue(issueKeyNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">

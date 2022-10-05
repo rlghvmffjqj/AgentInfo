@@ -121,6 +121,7 @@
 					                                			
 					                                			<div style="margin-bottom: 5px;">
 					                                				<div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" placeholder='구분' value="${list.issueDivision}"></div>
+					                                				<div style='float: left; margin-left: 22.7%;'><button type="button" class="arrowBtn" style="background: peachpuff;" onclick="btnUp(this)">ᐱ</button> <button type="button" class="arrowBtn" style="background: burlywood;" onclick="btnDown(this)">ᐯ</button></div>
 					                                				<div style='text-align:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>
 					                                			</div>
 						                                		<table style="width:100%">
@@ -136,6 +137,15 @@
 																						<option value="HP-UX">HP-UX</option>
 																						<option value="Solaris">Solaris</option>
 																					</select></td>
+																					<td class="alignCenter">작성자</td>
+								                                					<td>
+								                                						<input  class="form-control" type="text" id="issueWriterList" name="issueWriterList" value=
+																		                    <c:if test="${issueWriter eq 'admin'}">관리자</c:if>
+																		                    <c:if test="${issueWriter eq 'khkim'}">김기호</c:if>
+																		                    <c:if test="${issueWriter eq 'bspark'}">박범수</c:if>
+																		                    <c:if test="${issueWriter eq 'DWSun'}">선두원</c:if>
+																		            	readonly>
+																	                </td>
 																				</c:when>
 																				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 																					<td><select class="form-control selectpicker selectForm" id="issueOsList" name="issueOsList" data-live-search="true" data-size="5">
@@ -145,10 +155,13 @@
 																				    	<option value="HP-UX" <c:if test="${list.issueOs eq 'HP-UX'}">selected</c:if>>HP-UX</option>
 																				    	<option value="Solaris" <c:if test="${list.issueOs eq 'Solaris'}">selected</c:if>>Solaris</option>
 																				    </select></td>
+																				    <td class="alignCenter">작성자</td>
+								                                					<td>
+								                                						<input  class="form-control" type="text" id="issueWriterList" name="issueWriterList" value="${list.issueWriter}" readonly>
+																	                </td>
 																				</c:when>
 																			</c:choose>
-						                                					<td class="alignCenter"></td>
-						                                					<td></td>
+						                                					
 						                                				</tr>
 						                                				<tr>
 						                                					<td class="alignCenter">대항목</td>
@@ -298,6 +311,18 @@
 			});
 		}
 		
+		/* =========== 위로 이동 ========= */
+		function btnUp(obj) {
+			var table = $(obj).parent().parent().parent();
+			table.prev().before(table);
+		}
+		
+		/* =========== 아래로 이동 ========= */
+		function btnDown(obj) {
+			var table = $(obj).parent().parent().parent();
+			table.next().after(table);
+		}
+		
 		/* =========== 마이너스 버튼 ========= */
 		function btnMinus(obj) {
 			var table = $(obj).parent().parent().parent();
@@ -309,7 +334,6 @@
 				btnPlus($(this).attr('blank'));
 			}
 		}
-		
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
@@ -331,8 +355,15 @@
 			rowItem += "<option value='HP-UX'>HP-UX</option>";
 			rowItem += "<option value='Solaris'>Solaris</option>";
 			rowItem += "</select></td>";
-			rowItem += "<td class='alignCenter'></td>";
-			rowItem += "<td></td>";
+			rowItem += "<td class='alignCenter'>작성자</td>";
+			rowItem += "<td>";
+			rowItem += "<input  class='form-control' type='text' id='issueWriterList' name='issueWriterList' value=";
+			if('${issueWriter}' == 'admin') rowItem += "관리자";
+			if('${issueWriter}' == 'khkim') rowItem += "김기호";
+			if('${issueWriter}' == 'bspark') rowItem += "박범수";
+			if('${issueWriter}' == 'DWSun') rowItem += "선두원";
+			rowItem += " readonly>"
+			rowItem += "</td>";
 			rowItem += "</tr>";
 			rowItem += "<tr>";
 			rowItem += "<td class='alignCenter'>대항목</td>";

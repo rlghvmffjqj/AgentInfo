@@ -63,7 +63,7 @@ public class IssueController {
 	}
 	
 	@GetMapping(value = "/issue/issueWrite")
-	public String ExistingNew(Model model) {
+	public String ExistingNew(Model model, Principal principal) {
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		Issue issue = new Issue();
 		issue.setIssueKeyNum(0);
@@ -71,6 +71,7 @@ public class IssueController {
 		model.addAttribute("issue",issueList);
 		model.addAttribute("issueTitle", issue);
 		model.addAttribute("viewType", "insert");
+		model.addAttribute("issueWriter", principal.getName());
 		return "issue/IssueView";
 	}
 	
@@ -111,24 +112,26 @@ public class IssueController {
 	}
 	
 	@GetMapping(value = "/issue/updateView")
-	public String UpdateView(Model model, int issueKeyNum) {
+	public String UpdateView(Model model, Principal principal, int issueKeyNum) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
 		
 		model.addAttribute("viewType", "update");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
+		model.addAttribute("issueWriter", principal.getName());
 		return "issue/IssueView";
 	}
 	
 	@GetMapping(value = "/issue/copyView")
-	public String CopyView(Model model, int issueKeyNum) {
+	public String CopyView(Model model, Principal principal, int issueKeyNum) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
 		
 		model.addAttribute("viewType", "copy");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
+		model.addAttribute("issueWriter", principal.getName());
 		return "issue/IssueView";
 	}
 	

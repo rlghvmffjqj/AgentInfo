@@ -24,6 +24,7 @@ public class Issue {
 	private String issueWas;					// WAS
 	private String issueDivision;				// 제목
 	private String issueOs;						// OS
+	private String issueWriter;					// 작성자
 	private String issueAward;					// 대항목
 	private String issueMiddle;					// 중항목
 	private String issueUnder1;					// 소항목1
@@ -63,6 +64,7 @@ public class Issue {
 	
 	private List<String> issueDivisionList;			// 제목
 	private List<String> issueOsList;				// OS
+	private List<String> issueWriterList;			// 작성자
 	private List<String> issueAwardList;			// 대항목
 	private List<String> issueMiddleList;			// 중항목
 	private List<String> issueUnder1List;			// 소항목1
