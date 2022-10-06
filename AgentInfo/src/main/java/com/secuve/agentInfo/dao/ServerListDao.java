@@ -65,4 +65,9 @@ public class ServerListDao {
 		return sqlSession.selectList("serverList.getServerListAll");
 	}
 
+	public List<ServerList> getServerListSearchAll(ServerList serverListSearch) {
+		return sqlSession.selectList("serverList.getServerListSearchAll", serverListSearch);
+	}
+
+
 }

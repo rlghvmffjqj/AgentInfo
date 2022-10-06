@@ -116,4 +116,8 @@ public class ServerListService {
 		return serverListDao.getServerListAll();
 	}
 
+	public List<ServerList> getServerListSearchAll(ServerList serverList) {
+		return serverListDao.getServerListSearchAll(serverListSearch(serverList));
+	}
+
 }

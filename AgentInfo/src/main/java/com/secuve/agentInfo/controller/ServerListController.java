@@ -138,9 +138,9 @@ public class ServerListController {
 		} else {
 			type = "Hyper-V - ";
 		}
-		String filename = type + formatter.format(now) + ".csv";
+		String filename = type + formatter.format(now) + ".xls";
 
-		List list = serverListService.getServerList(serverList);
+		List list = serverListService.getServerListSearchAll(serverList);
 
 		try {
 			Util.exportExcelFile(response, filename, list, columns, headers);

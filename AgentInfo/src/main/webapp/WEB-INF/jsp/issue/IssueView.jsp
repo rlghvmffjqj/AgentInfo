@@ -118,9 +118,8 @@
 			                                			<div><div><div id="blank"></div></div></div>
 			                                			<c:forEach var="list" items="${issue}">
 					                                		<div class="issue">
-					                                			
-					                                			<div style="margin-bottom: 5px;">
-					                                				<div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" placeholder='구분' value="${list.issueDivision}"></div>
+					                                			<div>
+					                                				<div style='text-align:left; float:left; margin-bottom: 5px;'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" placeholder='구분' value="${list.issueDivision}"></div>
 					                                				<div style='text-align:right; float:right;'> <a onclick='btnPlus(this)' id="btnPlus"><img  src="/AgentInfo/images/pluse.png" style="width:30px"></a></div>
 					                                				<div style='text-align:right; float:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>
 					                                			</div>
@@ -161,7 +160,6 @@
 																	                </td>
 																				</c:when>
 																			</c:choose>
-						                                					
 						                                				</tr>
 						                                				<tr>
 						                                					<td class="alignCenter">대항목</td>
@@ -749,6 +747,16 @@
 		
 		/* =========== Word 다운로드 ========= */
 		$('#BtnWord').click(function() {
+			var sourceHTML = document.documentElement.innerHTML;
+	
+			var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+			var fileDownload = document.createElement("a");
+			document.body.appendChild(fileDownload);
+			fileDownload.href = source;
+			fileDownload.download = 'hi098123file.hwp';
+			fileDownload.click();
+			document.body.removeChild(fileDownload);
+		
 			Swal.fire({
 				icon: 'info',
 				title: '준비!',

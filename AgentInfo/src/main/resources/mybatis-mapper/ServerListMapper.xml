@@ -22,6 +22,12 @@
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
+	<select id="getServerListSearchAll" resultMap="serverList" parameterType="string">
+		SELECT *
+    	FROM serverList
+			<include refid="sqlServerList" />
+	</select>
+	
 	<select id="getServerListCount" resultType="_int">
 		SELECT COUNT(*) FROM serverList
 			<include refid="sqlServerList" />
