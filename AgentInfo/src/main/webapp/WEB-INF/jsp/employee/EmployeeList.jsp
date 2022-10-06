@@ -233,6 +233,8 @@
 				    	},
 				    async: false,
 				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 				        $.modal(data, 'l'); //modal창 호출
 				    },
 				    error: function(e) {
@@ -343,6 +345,8 @@
 	            data: {"employeeId" : data},
 	            async: false,
 	            success: function (data) {
+	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 	                $.modal(data, 'l'); //modal창 호출
 	            },
 	            error: function(e) {
@@ -468,6 +472,8 @@
 			    data: {"departmentFullPath" : path},
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 's'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -575,6 +581,8 @@
 			    data: {"departmentFullPath" : path},
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 's'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -600,6 +608,8 @@
 					traditional: true,
 				    async: false,
 				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 				        $.modal(data, 'sl'); //modal창 호출
 				    },
 				    error: function(e) {

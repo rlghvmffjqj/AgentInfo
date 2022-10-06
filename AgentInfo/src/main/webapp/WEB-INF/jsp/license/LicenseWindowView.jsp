@@ -71,6 +71,8 @@
 		    success: function (data) {
 		    	$('#modal').modal("hide"); // 모달 닫기
 		    	setTimeout(function() {
+		    		if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			    	$.modal(data, 'll'); //modal창 호출
 		    	},300)
 		    },

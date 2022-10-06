@@ -141,6 +141,8 @@
             url: "<c:url value='/users/pwdChangeView'/>",
             async: false,
             success: function (data) {
+            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+					location.reload();
                 $.modal(data, 'sr'); //modal창 호출
             },
             error: function(e) {

@@ -238,6 +238,8 @@
 	            	"customerInfoKeyNum" : customerInfoKeyNum,
 	            	},
 	            success: function (data) {
+	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 	                $.modal(data, 'se'); //modal창 호출
 	            },
 	            error: function(e) {
@@ -253,6 +255,8 @@
 			    url: "<c:url value='/customerInfo/insertView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'se'); //modal창 호출
 			    },
 			    error: function(e) {

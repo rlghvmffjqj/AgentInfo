@@ -199,6 +199,8 @@
 			    url: "<c:url value='/customPackage/insertView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'sl'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -288,6 +290,8 @@
 		            data: {"customPackageKeyNum" : data},
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'sl'); //modal창 호출
 		            },
 		            error: function(e) {

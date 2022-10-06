@@ -184,6 +184,8 @@
 			    url: "<c:url value='/product/insertView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'll'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -298,6 +300,8 @@
 			    data: {"productKeyNum" : data},
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'll'); //modal창 호출
 			    },
 			    error: function(e) {

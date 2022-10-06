@@ -216,6 +216,8 @@
 			    url: "<c:url value='/schedule/insertView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'ls'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -332,6 +334,8 @@
 		        data: {"scheduleName" : scheduleName},
 		        async: false,
 		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 		            $.modal(data, 's'); //modal창 호출
 		        },
 		        error: function(e) {

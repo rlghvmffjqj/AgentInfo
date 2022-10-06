@@ -186,6 +186,8 @@
 			    url: "<c:url value='/customer/insertView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'ls'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -301,6 +303,8 @@
 		            data: {"customerKeyNum" : data},
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'l'); //modal창 호출
 		            },
 		            error: function(e) {

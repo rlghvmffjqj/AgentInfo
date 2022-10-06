@@ -76,6 +76,8 @@ function profileView() {
 	    url: "<c:url value='/users/profileView'/>",
 	    async: false,
 	    success: function (data) {
+	    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+				location.reload();
 	        $.modal(data, 'l'); //modal창 호출
 	    },
 	    error: function(e) {

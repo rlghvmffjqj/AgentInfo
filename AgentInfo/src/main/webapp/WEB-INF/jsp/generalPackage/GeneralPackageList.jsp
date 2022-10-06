@@ -177,6 +177,8 @@
 			    url: "<c:url value='/generalPackage/insertView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'sl'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -264,6 +266,8 @@
 		            data: {"generalPackageKeyNum" : data},
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'sl'); //modal창 호출
 		            },
 		            error: function(e) {

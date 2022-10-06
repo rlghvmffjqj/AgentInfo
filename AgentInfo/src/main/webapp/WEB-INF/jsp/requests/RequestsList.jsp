@@ -195,6 +195,8 @@
 			    data: {"requestsKeyNum" : data},
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'requests'); //modal창 호출
 			    },
 			    error: function(e) {

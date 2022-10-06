@@ -23,6 +23,14 @@ import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
 
+import kr.dogfoot.hwplib.object.HWPFile;
+import kr.dogfoot.hwplib.object.bodytext.Section;
+import kr.dogfoot.hwplib.object.bodytext.paragraph.Paragraph;
+import kr.dogfoot.hwplib.writer.HWPWriter;
+import kr.dogfoot.hwplib.tool.blankfilemaker.BlankFileMaker;
+
+
+
 @Controller
 public class IssueController {
 	@Autowired IssueService issueService;
@@ -200,5 +208,23 @@ public class IssueController {
 	@PostMapping(value = "/issue/merge")
 	public String IssueMerge(@RequestParam int[] chkList) {
 		return issueService.mergeIssue(chkList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/hwpDownload")
+	public String HwpDownload(String jsp, Principal principal, Model model) {
+		try
+		{
+			HWPFile hwpFile = BlankFileMaker.make( );
+
+			Section s = hwpFile.getBodyText( ).getSectionList( ).get( 0 );
+			Paragraph firstParagraph = s.getParagraph( 0 );
+			firstParagraph.getText( ).addString("<html><body><div style='background:red'>테스트</div></body></html>");
+			HWPWriter.toFile(hwpFile, "C:/AgentInfo/test.hwp" );
+		}
+		catch( Exception e )
+		{}
+
+		return "NotFile";
 	}
 }

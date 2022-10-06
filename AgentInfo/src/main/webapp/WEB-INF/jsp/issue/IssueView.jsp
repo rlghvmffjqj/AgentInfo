@@ -747,21 +747,41 @@
 		
 		/* =========== Word 다운로드 ========= */
 		$('#BtnWord').click(function() {
-			var sourceHTML = document.documentElement.innerHTML;
-	
-			var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-			var fileDownload = document.createElement("a");
-			document.body.appendChild(fileDownload);
-			fileDownload.href = source;
-			fileDownload.download = 'hi098123file.hwp';
-			fileDownload.click();
-			document.body.removeChild(fileDownload);
+			var jsp = document.documentElement.innerHTML;
+			$.ajax({
+				url: "<c:url value='/issue/hwpDownload'/>",
+				type: "POST",
+				data: {
+						"jsp": jsp,
+					},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: 'PDF다운로드 완료되었습니다.'
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: 'PDF파일이 존재하지 않습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			  });
 		
-			Swal.fire({
-				icon: 'info',
-				title: '준비!',
-				text: 'Word 다운로드 준비중 입니다.'
-			});
+			//Swal.fire({
+			//	icon: 'info',
+			//	title: '준비!',
+			//	text: 'Word 다운로드 준비중 입니다.'
+			//});
 		});
 		
 		/* =========== PDF 로컬 PC 다운로드 ========= */

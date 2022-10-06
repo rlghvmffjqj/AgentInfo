@@ -331,6 +331,8 @@
 			    url: "<c:url value='/packages/importView'/>",
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 's'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -346,10 +348,12 @@
 			    url: "<c:url value='/packages/insertView'/>",
 			    async: false,
 			    success: function (data) {
-			        $.modal(data, 'll'); //modal창 호출
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'll'); //modal창 호출
 			    },
 			    error: function(e) {
-			        // TODO 에러 화면
+			        alert(e);
 			    }
 			});			
 		});
@@ -521,6 +525,8 @@
 		            data: {"packagesKeyNum" : packagesKeyNum},
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'll'); //modal창 호출
 		            },
 		            error: function(e) {
@@ -545,6 +551,8 @@
 		            data: {"packagesKeyNum" : data},
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'll'); //modal창 호출
 		            },
 		            error: function(e) {
@@ -569,6 +577,8 @@
 		            url: "<c:url value='/packages/stateView'/>",
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'r'); //modal창 호출
 		            },
 		            error: function(e) {

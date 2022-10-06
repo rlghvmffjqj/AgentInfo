@@ -310,6 +310,8 @@
 			    data: {"serverListType": "${serverListType}"},
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 'll'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -453,6 +455,8 @@
 		        data: {"serverListKeyNum" : data},
 		        async: false,
 		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 		            $.modal(data, 'll'); //modal창 호출
 		        },
 		        error: function(e) {
@@ -476,6 +480,8 @@
 		            url: "<c:url value='/serverList/stateView'/>",
 		            async: false,
 		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
 		                $.modal(data, 'rs'); //modal창 호출
 		            },
 		            error: function(e) {

@@ -158,6 +158,8 @@
 			    data: formData,
 			    async: false,
 			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 			        $.modal(data, 's'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -243,6 +245,8 @@
 	            data: {"categoryKeyNum" : data},
 	            async: false,
 	            success: function (data) {
+	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
 	                $.modal(data, 's'); //modal창 호출
 	            },
 	            error: function(e) {
