@@ -149,7 +149,18 @@ public class IssueController {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
 		
-		model.addAttribute("viewType", "update");
+		model.addAttribute("viewType", "download");
+		model.addAttribute("issueTitle", issueTitle);
+		model.addAttribute("issue",issue);
+		return "issue/PdfView";
+	}
+	
+	@RequestMapping(value = "/issue/pdfViewHistory", method = RequestMethod.POST)
+	public String PdfViewHistory(Model model, int issueKeyNum) {
+		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
+		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
+		
+		model.addAttribute("viewType", "history");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
 		return "issue/PdfView";
@@ -163,6 +174,29 @@ public class IssueController {
 		
 		html.append(body);
 		String filePath = "C:\\AgentInfo\\IssueDownload";
+		String fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
+
+		String BODY = body.toString();
+
+		// html to pdf
+		try {
+			issueService.makepdf(BODY, filePath + "\\" + fileName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "FALSE";
+		}
+		return "OK"; 
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/pdfHistory")
+	public String PDFHistory(String jsp, String issueCustomer, String issueTitle, String issueDate, Principal principal, Model model) {
+		StringBuilder html = new StringBuilder();
+		String body = jsp;
+		
+		html.append(body);
+		String filePath = "C:\\AgentInfo\\IssueHistoryDownload";
 		String fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
 
 		String BODY = body.toString();

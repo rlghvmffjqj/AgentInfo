@@ -760,3 +760,34 @@ p {
 .arrowBtn:hover {
 	opacity:0.6;
 }
+
+.cssCheck + label {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 2px solid #bcbcbc;
+	cursor: pointer;
+	position: absolute;
+}
+
+/*체크했을 때*/
+input:checked+labl::before{
+	background-image:url("체크 상태의 이미지.png");
+}    
+
+/*체크박스 선택한 상태일 때 테두리 생김*/
+input:focus+.labl::before{
+    outline:2px solid #000;
+}
+
+.cssCheck:checked + label {
+	background-color: #666666;
+}
+
+.cssCheck {
+	display: none;
+}
+
+.margin22 {
+	margin-left: 22px;
+}

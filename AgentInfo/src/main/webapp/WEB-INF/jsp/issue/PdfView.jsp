@@ -269,37 +269,75 @@
 				obj[i].style.height = '1px';
 				obj[i].style.height = (17+obj[i].scrollHeight)+"px";
 			}
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = ('0' + (today.getMonth() + 1)).slice(-2);
+			var day = ('0' + today.getDate()).slice(-2);
+			var hours = ('0' + today.getHours()).slice(-2); 
+			var minutes = ('0' + today.getMinutes()).slice(-2);
+			var seconds = ('0' + today.getSeconds()).slice(-2); 
+			var now = year + '-' + month  + '-' + day + " " + hours + '：' + minutes  + '：' + seconds;
 			
 			var jsp = document.documentElement.innerHTML;
 			var issueCustomer = $('#issueCustomer').val();
 			var issueTitle = $('#issueTitle').val();
-			var issueDate = $('#issueDate').val();
-			$.ajax({
-				url: "<c:url value='/issue/pdf'/>",
-				type: "POST",
-				data: {
-						"jsp": jsp,
-						"issueCustomer":issueCustomer,
-						"issueTitle":issueTitle,
-						"issueDate":issueDate,
+			if("${viewType}" == "download") {
+				var issueDate = $('#issueDate').val();
+				$.ajax({
+					url: "<c:url value='/issue/pdf'/>",
+					type: "POST",
+					data: {
+							"jsp": jsp,
+							"issueCustomer":issueCustomer,
+							"issueTitle":issueTitle,
+							"issueDate":issueDate,
+						},
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK") {
+							var fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
+							opener.pdfDown(fileName);
+							window.close();
+						} else {
+							alert("PDF Download Error!");
+							window.close();
+						}
 					},
-				dataType: "text",
-				traditional: true,
-				async: false,
-				success: function(data) {
-					if(data == "OK") {
-						var fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
-						opener.call(fileName);
-						window.close();
-					} else {
-						alert("PDF Download Error!");
-						window.close();
+					error: function(error) {
+						console.log(error);
 					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			  });
+				});
+			} else if("${viewType}" == "history") {
+				var issueDate = now;
+				$.ajax({
+					url: "<c:url value='/issue/pdfHistory'/>",
+					type: "POST",
+					data: {
+							"jsp": jsp,
+							"issueCustomer":issueCustomer,
+							"issueTitle":issueTitle,
+							"issueDate":issueDate,
+						},
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK") {
+							var fileName = issueCustomer + "_" + issueTitle + "_" + issueDate + ".pdf";
+							opener.pdfDownHistory(now);
+							window.close();
+						} else {
+							alert("PDF Download Error!");
+							window.close();
+						}
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
+			}
 		});
 	</script>
 </html>

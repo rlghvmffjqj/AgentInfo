@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="issueHistory">
+	<resultMap type="com.secuve.agentInfo.vo.IssueHistory" id="issueHistory"></resultMap>
+	
+	<select id="getIssueHistory" resultMap="issueHistory" parameterType="int">
+		SELECT *
+    	FROM issueHistory
+		WHERE issueKeyNum = #{issueKeyNum};
+	</select>
+	
+	<select id="getIssueHistoryCount" resultType="_int" parameterType="int">
+		SELECT COUNT(*) FROM issueHistory
+		WHERE issueKeyNum = #{issueKeyNum};
+	</select>
+	
+	<insert id="insertIssueHistory">
+		INSERT INTO issueHistory(issueHistoryKeyNum,issueKeyNum,issueHistoryCustomer,issueHistoryTitle,issueHistoryDate,issueHistoryTosms,issueHistoryTosrf,issueHistoryPortal,issueHistoryJava,issueHistoryWas,issueHistoryTotal,issueHistoryPdf,issueHistoryRegistrant,issueHistoryRegistrationDate)
+		VALUES (#{issueHistoryKeyNum},#{issueKeyNum},#{issueHistoryCustomer},#{issueHistoryTitle},#{issueHistoryDate},#{issueHistoryTosms},#{issueHistoryTosrf},#{issueHistoryPortal},#{issueHistoryJava},#{issueHistoryWas},#{issueHistoryTotal},#{issueHistoryPdf},#{issueHistoryRegistrant},#{issueHistoryRegistrationDate});
+	</insert>
+	
+	<select id="getIssueHistoryKeyNum" resultType="_int">
+		SELECT MAX(issueHistoryKeyNum) FROM issueHistory;
+	</select>
+	
+	<delete id="deleteIssueHistory" parameterType="string">
+		DELETE FROM issueHistory WHERE issueHistoryPdf = #{issueHistoryPdf};
+	</delete>
+	
+</mapper>
