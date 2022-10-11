@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.service;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,4 +78,27 @@ public class IssueHistoryService {
 		return map;
 	}
 
+	public void issueDeleteHistory(int issueKeyNum) {
+		List<String> fileNameList = issueHistoryDao.getIssueHistoryPdfFileName(issueKeyNum);
+		for (String fileName : fileNameList) {
+			ileDelete(fileName);
+		}
+		issueHistoryDao.issueDeleteHistory(issueKeyNum);
+	}
+	
+	public void ileDelete(String fileName) {
+		//파일 경로 지정
+		String path = "C:\\AgentInfo\\IssueHistoryDownload";
+				
+		//현재 게시판에 존재하는 파일객체를 만듬
+		File file = new File(path + "\\" + fileName);
+			
+		if(file.exists()) { // 파일이 존재하면
+			file.delete(); // 파일 삭제
+		}
+	}
+
+	public void setIssueKeyNumUpdate(int issueKeyNum, int newKeyNum) {
+		issueHistoryDao.setIssueKeyNumUpdate(issueKeyNum, newKeyNum);
+	}
 }

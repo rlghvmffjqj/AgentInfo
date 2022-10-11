@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +34,7 @@ import com.secuve.agentInfo.vo.Issue;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class IssueService {
 	@Autowired IssueDao issueDao;
+	@Autowired IssueHistoryService issueHistoryService;
 	
 	public void makepdf(String BODY, String dest) throws IOException {
 		//한국어를 표시하기 위해 폰트 적용 
@@ -175,7 +174,10 @@ public class IssueService {
 
 			if (sucess <= 0)
 				return "FALSE";
+			
+			issueHistoryService.issueDeleteHistory(issueKeyNum);
 		}
+		
 		return "OK";
 	}
 
@@ -235,6 +237,7 @@ public class IssueService {
 		int newKeyNum =  IssueKeyNum(0);
 		for (int issueKeyNum : chkList) {
 			resault *= issueDao.setIssueKeyNum(issueKeyNum, newKeyNum, total, solution, unresolved, hold);
+			issueHistoryService.setIssueKeyNumUpdate(issueKeyNum, newKeyNum);
 		}
 		
 		if(resault >= 1) {

@@ -123,35 +123,35 @@
 	                                		<form id="form" name="form" method ="post">
 		                                		<div class="searchbos" style="margin-bottom:20px">
 		                                			<div class="col-lg-3">
-		                                				<label class="labelFontSize">고객사</label><label class="colorRed">*</label><span class="colorRed" id="NotIssueCustomer" style="display: none; line-height: initial;">고객사 필수 입력 바랍니다.</span>
+		                                				<label class="labelFontSize marginBottom2">고객사</label><label class="colorRed">*</label><span class="colorRed" id="NotIssueCustomer" style="display: none; line-height: initial;">고객사 필수 입력 바랍니다.</span>
 		                                				<input class="form-control" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사명' value="${issueTitle.issueCustomer}">
 		                                			</div>
 		                                			<div class="col-lg-3">
-		                                				<label class="labelFontSize">Title</label>
+		                                				<label class="labelFontSize marginBottom2">Title</label>
 		                                				<input class="form-control" type="text" id="issueTitle" name="issueTitle" placeholder='Title' value="${issueTitle.issueTitle}">
 		                                			</div>
 		                                			<div class="col-lg-3">
-		                                				<label class="labelFontSize">전달일자</label>
+		                                				<label class="labelFontSize marginBottom2">전달일자</label>
 		                                				<input class="form-control" type="date" id="issueDate" name="issueDate" value="${issueTitle.issueDate}">
 		                                			</div>
 		                                			<div class="col-lg-4">
-		                                				<label class="labelFontSize">TOSMS</label>
+		                                				<label class="labelFontSize marginBottom2">TOSMS</label>
 		                                				<input class="form-control" type="text" id="issueTosms" name="issueTosms" placeholder='TOSMS' value="${issueTitle.issueTosms}">
 		                                			</div>
 		                                			<div class="col-lg-4">
-		                                				<label class="labelFontSize">TOSRF</label>
+		                                				<label class="labelFontSize marginBottom2">TOSRF</label>
 		                                				<input class="form-control" type="text" id="issueTosrf" name="issueTosrf" placeholder='TOSRF' value="${issueTitle.issueTosrf}">
 		                                			</div>
 		                                			<div class="col-lg-4">
-		                                				<label class="labelFontSize">PORTAL</label>
+		                                				<label class="labelFontSize marginBottom2">PORTAL</label>
 		                                				<input class="form-control" type="text" id="issuePortal" name="issuePortal" placeholder='PORTAL' value="${issueTitle.issuePortal}">
 		                                			</div>
 		                                			<div class="col-lg-4">
-		                                				<label class="labelFontSize">JAVA</label>
+		                                				<label class="labelFontSize marginBottom2">JAVA</label>
 		                                				<input class="form-control" type="text" id="issueJava" name="issueJava" placeholder='JAVA' value="${issueTitle.issueJava}">
 		                                			</div>
 		                                			<div class="col-lg-4">
-		                                				<label class="labelFontSize">WAS</label>
+		                                				<label class="labelFontSize marginBottom2">WAS</label>
 		                                				<input class="form-control" type="text" id="issueWas" name="issueWas" placeholder='WAS' value="${issueTitle.issueWas}">
 		                                			</div>
 		                                		</div>
@@ -164,20 +164,20 @@
 		                                			<span style="font-weight:bold;">보기 :</span> 
 		                                			
 		                                			<input class="cssCheck" type="checkbox" id="ChkTotal">
-    												<label for="ChkTotal"></label><span class="margin22">전체</span>
+    												<label for="ChkTotal"></label><span class="margin17">전체</span>
 		                                			<input class="cssCheck" type="checkbox" id="ChkSolution">
-    												<label for="ChkSolution"></label><span class="margin22">해결</span>
+    												<label for="ChkSolution"></label><span class="margin17">해결</span>
     												<input class="cssCheck" type="checkbox" id="ChkUnresolved">
-    												<label for="ChkUnresolved"></label><span class="margin22">미해결</span>
+    												<label for="ChkUnresolved"></label><span class="margin17">미해결</span>
     												<input class="cssCheck" type="checkbox" id="ChkHold">
-    												<label for="ChkHold"></label><span class="margin22">보류</span>
+    												<label for="ChkHold"></label><span class="margin17">보류</span>
     												
 		                                			<div id="downloadBtn" style="margin-top: 10px;">
 			                                			<span style="font-weight:bold;">다운 :</span> 
-			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf">PDF Download</button>
+			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf" style="font-size:11px">PDF Download</button>
 			                                			<!-- <button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPpt">PPT Download</button> -->
 			                                			<!-- <button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnWord">Word Download</button> -->
-			                                			<button type="button" class="btn btn-outline-info-del myBtn" id="BtnHistoryInsert">히스토리 추가</button>
+			                                			<button type="button" class="btn btn-outline-info-del myBtn" id="BtnHistoryInsert" style="font-size:11px">히스토리 추가</button>
 			                                		</div>
 		                                		</div> 
 		                                		<div style='text-align:right;'>
@@ -917,7 +917,7 @@
 		/* =========== 이슈 히스토리 제거 포멧털 ========= */
 		function minusFormatter(value, options, row) {
 			var issueHistoryPdf = row.issueHistoryPdf.toUpperCase();
-			return '<a onclick="issueHistoryMinus(' + "'" + issueHistoryPdf + "'"  + ')"><img  src="/AgentInfo/images/minus2.png" style="width:30px"></a>';
+			return '<a onclick="issueHistoryMinus(' + "'" + issueHistoryPdf + "'"  + ')"><img  src="/AgentInfo/images/minus2.png" style="width:20px"></a>';
 		}
 		
 		/* =========== 이슈 히스토리 제거 ========= */

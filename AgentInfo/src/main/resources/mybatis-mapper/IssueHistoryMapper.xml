@@ -28,4 +28,16 @@
 		DELETE FROM issueHistory WHERE issueHistoryPdf = #{issueHistoryPdf};
 	</delete>
 	
+	<delete id="issueDeleteHistory" parameterType="_int">
+		DELETE FROM issueHistory WHERE issueKeyNum = #{issueKeyNum};
+	</delete>
+	
+	<select id="getIssueHistoryPdfFileName" parameterType="_int" resultType="string">
+		SELECT issueHistoryPdf FROM issueHistory WHERE issueKeyNum = #{issueKeyNum};
+	</select>
+	
+	<update id="setIssueKeyNumUpdate">
+		UPDATE issueHistory SET issueKeyNum = #{newKeyNum} WHERE issueKeyNum = #{issueKeyNum};
+	</update>
+	
 </mapper>
