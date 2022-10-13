@@ -341,7 +341,6 @@
 			                                			<div id="update" style="display: none;">
 			                                				<button type="button" class="btn btn-default btn-outline-info-add" id="btnUpdate">SAVE</button>
 			                                			</div>
-			                                			<button type="button" class="btn btn-default btn-outline-info-add" id="btnTest">TEST</button>
 			                                		</div>
 		                                		</div>
 		                                		<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
@@ -660,12 +659,6 @@
 					}
 			    });
 			}
-		});
-		
-		$('#btnTest').click(function() {
-			alert("클릭");
-			var check = document.getElementsByName("chkSelectBox");
-			console.log(check);
 		});
 		
 		/* =========== 업데이트 버튼 ========= */
