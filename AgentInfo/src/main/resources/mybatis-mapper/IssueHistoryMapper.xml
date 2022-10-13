@@ -7,7 +7,8 @@
 	<select id="getIssueHistory" resultMap="issueHistory" parameterType="int">
 		SELECT *
     	FROM issueHistory
-		WHERE issueKeyNum = #{issueKeyNum};
+		WHERE issueKeyNum = #{issueKeyNum}
+		ORDER BY issueHistoryDate DESC;
 	</select>
 	
 	<select id="getIssueHistoryCount" resultType="_int" parameterType="int">

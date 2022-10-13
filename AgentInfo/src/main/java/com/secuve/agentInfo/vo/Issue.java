@@ -49,6 +49,8 @@ public class Issue {
 	private String unresolved;					// 미해결
 	private String hold;						// 보류
 	
+	private String[] chkSelectBox;
+	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="issueKeyNum";			// 정렬할 기준 데이터

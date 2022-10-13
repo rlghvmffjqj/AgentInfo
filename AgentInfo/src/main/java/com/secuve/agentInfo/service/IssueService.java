@@ -245,4 +245,8 @@ public class IssueService {
 		}
 		return "FALSE";
 	}
+
+	public List<Issue> getIssuePDFOne(int issueKeyNum, String[] chkSelectBox) {
+		return issueDao.getIssuePDFOne(issueKeyNum, chkSelectBox);
+	}
 }

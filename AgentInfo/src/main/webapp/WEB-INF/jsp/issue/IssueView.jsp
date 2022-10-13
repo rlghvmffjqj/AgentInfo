@@ -165,11 +165,11 @@
 		                                			
 		                                			<input class="cssCheck" type="checkbox" id="ChkTotal">
     												<label for="ChkTotal"></label><span class="margin17">전체</span>
-		                                			<input class="cssCheck" type="checkbox" id="ChkSolution">
+		                                			<input class="cssCheck" type="checkbox" id="ChkSolution" name="chkSelectBox" value="해결">
     												<label for="ChkSolution"></label><span class="margin17">해결</span>
-    												<input class="cssCheck" type="checkbox" id="ChkUnresolved">
+    												<input class="cssCheck" type="checkbox" id="ChkUnresolved" name="chkSelectBox" value="미해결">
     												<label for="ChkUnresolved"></label><span class="margin17">미해결</span>
-    												<input class="cssCheck" type="checkbox" id="ChkHold">
+    												<input class="cssCheck" type="checkbox" id="ChkHold" name="chkSelectBox" value="보류">
     												<label for="ChkHold"></label><span class="margin17">보류</span>
     												
 		                                			<div id="downloadBtn" style="margin-top: 10px;">
@@ -310,11 +310,11 @@
 						                                				</tr>
 																		<tr>
 																			<td class="alignCenter">장애내용</td>
-						                                					<td colspan='3'><textarea class="summerNoteSize" rows="5" id="issueObstacleList" name="issueObstacleList" onkeydown="resize(this)" onkeyup="resize(this)">${list.issueObstacle}</textarea></td>
+						                                					<td colspan='3' style="max-width: 890px;"><textarea class="summerNoteSize" rows="5" id="issueObstacleList" name="issueObstacleList" onkeydown="resize(this)" onkeyup="resize(this)">${list.issueObstacle}</textarea></td>
 						                                				</tr>
 						                                				<tr>
 																			<td class="alignCenter">비고</td>
-						                                					<td colspan='3'><textarea class="form-control" id="issueNoteList" name="issueNoteList" onkeydown="resize(this)" onkeyup="resize(this)" placeholder='비고'>${list.issueNote}</textarea></td>
+						                                					<td colspan='3'><textarea class="form-control" id="issueNoteList" name="issueNoteList" cols="30" onkeydown="resize(this)" onkeyup="resize(this)" placeholder='비고'>${list.issueNote}</textarea></td>
 						                                				</tr>
 						                                			</tbody>
 						                                		</table>
@@ -341,6 +341,7 @@
 			                                			<div id="update" style="display: none;">
 			                                				<button type="button" class="btn btn-default btn-outline-info-add" id="btnUpdate">SAVE</button>
 			                                			</div>
+			                                			<button type="button" class="btn btn-default btn-outline-info-add" id="btnTest">TEST</button>
 			                                		</div>
 		                                		</div>
 		                                		<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
@@ -482,7 +483,7 @@
 			rowItem += "</tr>";
 			rowItem += "<tr>";
 			rowItem += "<td class='alignCenter'>장애내용</td>";
-			rowItem += "<td colspan='3'><textarea class='summerNoteSize' id='issueObstacleList' name='issueObstacleList' onkeydown='resize(this)' onkeyup='resize(this)'></textarea></td>";
+			rowItem += "<td colspan='3' style='max-width: 890px;'><textarea class='summerNoteSize' id='issueObstacleList' name='issueObstacleList' onkeydown='resize(this)' onkeyup='resize(this)'></textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr>";
 			rowItem += "<td class='alignCenter'>비고</td>";
@@ -661,6 +662,12 @@
 			}
 		});
 		
+		$('#btnTest').click(function() {
+			alert("클릭");
+			var check = document.getElementsByName("chkSelectBox");
+			console.log(check);
+		});
+		
 		/* =========== 업데이트 버튼 ========= */
 		$('#btnUpdate').click(function() {
 			var postData = $('#form').serializeArray();
@@ -809,13 +816,22 @@
 		
 		/* =========== PDF 서버 PC 다운로드  ========= */
 		$('#BtnPdf').click(function() {
-			var frmData = document.form;
-			var url = "<c:url value='/issue/pdfView'/>";
-			window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
-			frmData.action = url; 
-			frmData.method="post";
-			frmData.target="form";
-			frmData.submit();
+			var btnType = $('#issueBtnType').val();
+			var resault;
+	    	if(btnType == "copy") {
+	    		resault = automaticCopy();
+	    	} else {
+	    		resault = automaticUpdate();
+	    	}
+	    	if(resault == "OK") {
+				var frmData = document.form;
+				var url = "<c:url value='/issue/pdfView'/>";
+				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+				frmData.action = url; 
+				frmData.method="post";
+				frmData.target="form";
+				frmData.submit();
+	    	}
 		});
 		
 		/* =========== PPT 다운로드 ========= */

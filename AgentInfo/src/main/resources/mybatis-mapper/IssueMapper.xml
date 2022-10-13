@@ -61,6 +61,17 @@
 		WHERE issueKeyNum = #{issueKeyNum};
 	</update>
 	
+	<select id="getIssuePDFOne" resultMap="issue" parameterType="_int">
+		SELECT * FROM issue WHERE issueKeyNum = #{issueKeyNum}
+		AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="chkSelectBox" item="arr">
+					OR issueApplyYn = #{arr}
+				</foreach>
+			</trim>
+		)
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIssue">

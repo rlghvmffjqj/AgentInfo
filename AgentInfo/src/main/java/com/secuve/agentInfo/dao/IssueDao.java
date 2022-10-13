@@ -102,5 +102,12 @@ public class IssueDao {
 		return sqlSession.update("issue.setIssueKeyNum", parameters);
 	}
 
+	public List<Issue> getIssuePDFOne(int issueKeyNum, String[] chkSelectBox) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("issueKeyNum", issueKeyNum);
+		parameters.put("chkSelectBox", chkSelectBox);
+		return sqlSession.selectList("issue.getIssuePDFOne", parameters);
+	}
+
 }
 

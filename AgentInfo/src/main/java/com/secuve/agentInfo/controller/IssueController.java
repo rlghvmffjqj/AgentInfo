@@ -145,9 +145,9 @@ public class IssueController {
 	
 	
 	@RequestMapping(value = "/issue/pdfView", method = RequestMethod.POST)
-	public String PdfView(Model model, int issueKeyNum) {
+	public String PdfView(Model model, int issueKeyNum, String[] chkSelectBox) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
-		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
+		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssuePDFOne(issueKeyNum, chkSelectBox));
 		
 		model.addAttribute("viewType", "download");
 		model.addAttribute("issueTitle", issueTitle);
