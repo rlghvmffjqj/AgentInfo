@@ -375,7 +375,21 @@
 		function summernote() {
 			$('.summerNoteSize').summernote({
 				minHeight:250,
-				placeholder:"장애내용"
+				placeholder:"장애내용",
+				callbacks: {
+					onKeyup: function(e) {
+						var pCount = e.currentTarget.childElementCount;
+						if(pCount > 41) {
+						    if (e.which != 8 && e.which != 46 && e.which != 37 && e.which != 38 && e.which != 39 && e.which != 40) {  
+								Swal.fire({
+									icon: 'error',
+									title: '범위 초과!',
+									text: '입력 범위를 초과하였습니다.',
+								});
+						    }
+						}
+				    }
+				}
 			});
 		}
 		
@@ -394,7 +408,6 @@
 		/* =========== 마이너스 버튼 ========= */
 		function btnMinus(obj) {
 			var table = $(obj).parent().parent().parent();
-			console.log(table);
 			table.remove();
 			issueCount();
 			$('#total').text($('.issue').length);

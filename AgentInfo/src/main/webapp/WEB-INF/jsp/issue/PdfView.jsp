@@ -301,7 +301,7 @@
 							opener.pdfDown(fileName);
 							window.close();
 						} else {
-							alert("PDF Download Error!");
+							alert("PDF Download Error!\n관리자에게 문의 바랍니다.");
 							window.close();
 						}
 					},
@@ -329,7 +329,7 @@
 							opener.pdfDownHistory(now);
 							window.close();
 						} else {
-							alert("PDF Download Error!");
+							alert("PDF Download Error!\n관리자에게 문의 바랍니다.");
 							window.close();
 						}
 					},

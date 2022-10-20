@@ -181,7 +181,7 @@ public class IssueController {
 		// html to pdf
 		try {
 			issueService.makepdf(BODY, filePath + "\\" + fileName);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "FALSE";
@@ -204,7 +204,7 @@ public class IssueController {
 		// html to pdf
 		try {
 			issueService.makepdf(BODY, filePath + "\\" + fileName);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "FALSE";

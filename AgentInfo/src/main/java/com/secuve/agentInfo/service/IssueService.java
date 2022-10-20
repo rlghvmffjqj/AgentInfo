@@ -36,7 +36,7 @@ public class IssueService {
 	@Autowired IssueDao issueDao;
 	@Autowired IssueHistoryService issueHistoryService;
 	
-	public void makepdf(String BODY, String dest) throws IOException {
+	public void makepdf(String BODY, String dest) throws Exception {
 		//한국어를 표시하기 위해 폰트 적용 
 	    String FONT = "C:\\AgentInfo\\font\\NanumBarunGothic.ttf";
 	    //ConverterProperties : htmlconverter의 property를 지정하는 메소드인듯
@@ -51,7 +51,7 @@ public class IssueService {
 	    PdfDocument pdf = new PdfDocument(new PdfWriter(dest));
 	    Document document = new Document(pdf);
 	    	//setMargins 매개변수순서 : 상, 우, 하, 좌
-	        document.setMargins(50, 20, 50, 20);
+	        document.setMargins(0, 0, 0, 0);
 	        for (IElement element : elements) {
 	            document.add((IBlockElement) element);
 	        }
