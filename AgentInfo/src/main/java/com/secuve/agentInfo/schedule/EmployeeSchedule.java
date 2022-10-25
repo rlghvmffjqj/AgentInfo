@@ -86,10 +86,10 @@ public class EmployeeSchedule extends QuartzJobBean {
 		FileOutputStream fileoutputstream;
 		try {
 			String localIp = InetAddress.getLocalHost().getHostAddress();
-			if(localIp.equals("172.16.50.80")) {
-				fileoutputstream = new FileOutputStream("D:/EmployeeBackUp/employee-"+nowDate+".csv");
-			} else {
+			if(localIp.equals("172.16.100.90")) {
 				fileoutputstream = new FileOutputStream("C:/AgentInfo/EmployeeBackUP/employee-"+nowDate+".csv");
+			} else {
+				fileoutputstream = new FileOutputStream("D:/EmployeeBackUp/employee-"+nowDate+".csv");
 			}
 			
 			//파일을 쓴다

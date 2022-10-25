@@ -72,10 +72,10 @@ public class ServerListSchedule  extends QuartzJobBean {
 		FileOutputStream fileoutputstream;
 		try {
 			String localIp = InetAddress.getLocalHost().getHostAddress();
-			if(localIp.equals("172.16.50.80")) {
-				fileoutputstream = new FileOutputStream("D:/ServerListBackUp/serverList-"+nowDate+".csv");
-			} else {
+			if(localIp.equals("172.16.100.90")) {
 				fileoutputstream = new FileOutputStream("C:/AgentInfo/ServerListBackUP/serverList-"+nowDate+".csv");
+			} else {
+				fileoutputstream = new FileOutputStream("D:/ServerListBackUp/serverList-"+nowDate+".csv");
 			}
 			
 			//파일을 쓴다

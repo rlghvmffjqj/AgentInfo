@@ -47,6 +47,8 @@ public class IssueHistoryService {
 		issueHistory.setIssueHistoryWas(issue.getIssueWas());
 		issueHistory.setIssueHistoryTotal("전체:"+issue.getTotal()+"(해결:"+issue.getSolution()+",미해결:"+issue.getUnresolved()+",보류:"+issue.getHold()+")");
 		issueHistory.setIssueHistoryPdf(issue.getIssueCustomer()+"_"+issue.getIssueTitle()+"_"+issueHistoryDate+".pdf");
+		issueHistory.setIssueHistoryRegistrant(issue.getIssueRegistrant());
+		issueHistory.setIssueHistoryRegistrationDate(issue.getIssueRegistrationDate());
 		
 		int sucess = issueHistoryDao.insertIssueHistory(issueHistory);
 		if (sucess <= 0) {

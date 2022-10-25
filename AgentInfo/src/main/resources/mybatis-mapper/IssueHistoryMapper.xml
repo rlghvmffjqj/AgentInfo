@@ -8,7 +8,7 @@
 		SELECT *
     	FROM issueHistory
 		WHERE issueKeyNum = #{issueKeyNum}
-		ORDER BY issueHistoryDate DESC;
+		ORDER BY issueHistoryRegistrationDate DESC;
 	</select>
 	
 	<select id="getIssueHistoryCount" resultType="_int" parameterType="int">
