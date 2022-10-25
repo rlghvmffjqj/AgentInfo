@@ -328,8 +328,8 @@
 		    	},
 			    async: false,
 			    success: function (data) {
-			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
+			    	//if(data.indexOf("<!DOCTYPE html>") != -1) 
+					//	location.reload();
 			    	$.modal(data, 'll'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -552,8 +552,8 @@
 				traditional: true,
 				async: false,
 				success: function(data) {
-					if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
+					//if(data.indexOf("<!DOCTYPE html>") != -1) 
+					//	location.reload();
 					$.modal(data, 'ssl'); //modal창 호출
 				},
 				error: function(error) {
@@ -571,8 +571,8 @@
 				traditional: true,
 				async: false,
 				success: function(data) {
-					if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
+					//if(data.indexOf("<!DOCTYPE html>") != -1) 
+					//	location.reload();
 					$.modal(data, 'ssl'); //modal창 호출
 				},
 				error: function(error) {
@@ -598,8 +598,8 @@
 		            data: {"licenseKeyNum" : licenseKeyNum},
 		            async: false,
 		            success: function (data) {
-		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
+		            	//if(data.indexOf("<!DOCTYPE html>") != -1) 
+						//	location.reload();
 		                $.modal(data, 'll'); //modal창 호출
 		            },
 		            error: function(e) {

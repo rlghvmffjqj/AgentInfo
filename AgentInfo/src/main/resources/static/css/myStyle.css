@@ -799,3 +799,7 @@ input:focus+.labl::before{
 #cb_list {
 	margin-top: 5px;
 }
+
+.note-editable > p > img {
+	border: solid 1px black !important;
+}

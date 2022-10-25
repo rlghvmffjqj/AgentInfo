@@ -105,13 +105,15 @@
 			.titleInput {
 				width: 95%;
 			}
+			
 			p {
-				font-size: 12px;
+				font-size: 10px;
 			    margin-block-start: 0px !important;
 			    margin-block-end: 0px !important;
 			    margin: 0px 0px 0px;
 			}
 			.obstacleText {
+				font-size: 11px;
 				background:white; 
 				outline: 1px solid lightgray; 
 				border-radius: 5px;
@@ -121,10 +123,18 @@
     			overflow:hidden;
     			margin:0 auto;
 			}
+			
+			b {
+				font-weight: bold;
+				font-family: monospace;
+				font-size: 12px;
+			}
+			
 			img {
 				max-width: 620px !important;
 				max-height: 100% !important;
 				object-fit:cover;
+				border: solid 1px black !important;
 			}
 			.title {
 				margin-top: 50px;
