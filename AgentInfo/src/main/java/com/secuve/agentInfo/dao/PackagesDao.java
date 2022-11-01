@@ -70,8 +70,8 @@ public class PackagesDao {
 		return sqlSession.selectOne("packages.getTopAgentVer", osType);
 	}
 
-	public List<Packages> getDeliveryData() {
-		return sqlSession.selectList("packages.getDeliveryData");
+	public List<Packages> getDeliveryData(String deliveryDataYear) {
+		return sqlSession.selectList("packages.getDeliveryData", deliveryDataYear);
 	}
 
 	public List<Packages> getCustomerName() {

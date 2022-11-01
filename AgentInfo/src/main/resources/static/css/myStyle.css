@@ -171,6 +171,12 @@ p {
 	max-width: 1500px;
 }
 
+.modal-full {
+	top: 5%;
+	width: 1500px;
+	max-width: 1500px;
+}
+
 .modal-ls {
 	top: 6%;
 	max-width: 485px;
@@ -802,4 +808,12 @@ input:focus+.labl::before{
 
 .note-editable > p > img {
 	border: solid 1px black !important;
+}
+
+.chartYear {
+	width: 62px !important;
+    padding: 2px !important;
+    float: right !important;
+    font-size: 11px !important;
+    height: 25px !important;
 }

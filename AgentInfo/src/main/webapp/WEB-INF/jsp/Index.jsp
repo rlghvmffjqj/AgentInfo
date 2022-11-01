@@ -116,8 +116,10 @@
 												</div>
 											</div>
 											<div class="secondCahrt">
-                                            	<div class="margin-1" style="position: relative; height:29.3vh; width:51vw;">
+                                            	<div class="margin-1" style="position: relative; height:25.5vh; width:51vw;">
 													<!--차트가 그려질 부분-->
+													<select class="form-control selectForm chartYear" id="deliveryDataYear" name="deliveryDataYear" size="1">
+													</select>
 													<canvas class="deliveryData"></canvas>
 												</div>
 											</div>
@@ -150,6 +152,13 @@
     
 </body>
 <script>
+	$(function() {
+		var date = new Date();
+		for(var y = 2014; y <= date.getFullYear(); y++) {
+			$('#deliveryDataYear').append("<option value='"+y+"' selected>"+y+"년"+"</option>");
+		}
+	});
+	
 	/* =========== 패키지 배포 현황(~현재) ========= */
 	var managementServer;
 	$.ajax({
@@ -488,6 +497,32 @@
 	          },
 	    }
 	 });
+	 
+	  /* =========== 월별 배포 현황 (금년) - 년도 변경 ========= */
+	 $("#deliveryDataYear").change(function() {
+		var deliveryDataYear = $('#deliveryDataYear').val();
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/packages/chart/deliveryData'/>",
+		    async: false,
+		    data:{"deliveryDataYear" : deliveryDataYear},
+		    success: function (data) {
+		    	deliveryData = data;
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});	
+		var dataset = mixedChart.datasets;
+		for(var i=0; i<dataset.length; i++){
+			//데이터 갯수 만큼 반복
+			var data = dataset[i].data;
+			for(var j=0 ; j < data.length ; j++){
+				data[j] = deliveryData[j];
+			}
+		}
+		transparent.update();
+	});
 </script>
 <script>
 	var customerName;
@@ -581,8 +616,6 @@
 			}
 		</sec:authorize>
 	});
-	
-
 </script>
 
 </html>

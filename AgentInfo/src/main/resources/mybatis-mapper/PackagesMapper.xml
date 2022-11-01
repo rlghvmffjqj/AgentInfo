@@ -99,7 +99,12 @@
 	<select id="getDeliveryData" resultMap="packages">
 		SELECT DATE_FORMAT(deliveryData,'%m') AS 'chartName', COUNT(*) AS 'chartCount'
 		FROM packages
-		WHERE	deliveryData BETWEEN CONCAT(YEAR(NOW()),'-01-01') AND CONCAT(YEAR(NOW()),'-12-31')
+		<if test="individualNoteTitle != null and individualNoteTitle != ''">
+			WHERE	deliveryData BETWEEN CONCAT(#{deliveryDataYear},'-01-01') AND CONCAT(#{deliveryDataYear},'-12-31')
+		</if>
+		<if test="individualNoteTitle == null or individualNoteTitle == ''">
+			WHERE	deliveryData BETWEEN CONCAT(YEAR(NOW()),'-01-01') AND CONCAT(YEAR(NOW()),'-12-31')
+		</if>
 		GROUP BY chartName;
 	</select>
 	

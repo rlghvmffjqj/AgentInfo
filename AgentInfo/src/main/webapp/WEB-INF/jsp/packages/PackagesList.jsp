@@ -276,8 +276,9 @@
 												</form>
 		                     				</div>
 	                     				 </div>
-			                           	 	<table style="width:99%;">
-												<tbody><tr>
+			                           	 <table style="width:99%;">
+											<tbody>
+												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<table style="width:100%">
 														<tbody>

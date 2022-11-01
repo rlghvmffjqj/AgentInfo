@@ -14,6 +14,7 @@ $.modal = function (modalContent, size) {
     if(size=='sl')  html += ' modal-sl';
     if(size=='se')  html += ' modal-se';
     if(size=='ssl') html += ' modal-ssl';
+    if(size=='full') html += ' modal-full';
     if(size=='requests')  html += ' modal-requests';
     if(size=='notice')  html += ' modal-notice';
     

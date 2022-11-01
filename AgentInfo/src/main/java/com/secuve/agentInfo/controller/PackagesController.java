@@ -407,9 +407,9 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/deliveryData")
-	public List<Integer> chartDeliveryData() {
+	public List<Integer> chartDeliveryData(String deliveryDataYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getDeliveryData();
+		list = packagesService.getDeliveryData(deliveryDataYear);
 		return list;
 	}
 

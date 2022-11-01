@@ -1264,11 +1264,12 @@ public class PackagesService {
 
 	/**
 	 * 월별 배포 현황(금년) 차트
+	 * @param deliveryDataYear 
 	 * @return
 	 */
-	public List<Integer> getDeliveryData() {
+	public List<Integer> getDeliveryData(String deliveryDataYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		List<Packages> packagesList = packagesDao.getDeliveryData();
+		List<Packages> packagesList = packagesDao.getDeliveryData(deliveryDataYear);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		String str = null;
 		for(Packages packages: packagesList) {

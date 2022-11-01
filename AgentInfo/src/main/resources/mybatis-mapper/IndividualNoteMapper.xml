@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="individualNote">
+	<resultMap type="com.secuve.agentInfo.vo.IndividualNote" id="individualNote"></resultMap>
+	
+	<select id="getIndividualNote" resultMap="individualNote">
+		SELECT *
+		FROM individualNote
+	</select>
+	
+	<select id="getIndividualNoteKeyNum" resultType="_int">
+		SELECT MAX(individualNoteKeyNum) FROM individualnote;
+	</select>
+	
+	<insert id="insertIndividualNote">
+		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteRegistrant,individualNoteRegistrationDate) 
+		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteRegistrant},#{individualNoteRegistrationDate});
+	</insert>
+	
+	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
+		SELECT *
+		FROM individualNote
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="individualNoteTitle != null and individualNoteTitle != ''">
+				AND individualNoteTitle LIKE  CONCAT('%',#{individualNoteTitle},'%')
+			</if>
+		</trim>
+	</select>
+</mapper>
