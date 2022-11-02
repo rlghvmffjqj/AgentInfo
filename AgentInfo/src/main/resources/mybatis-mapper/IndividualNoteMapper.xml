@@ -14,8 +14,8 @@
 	</select>
 	
 	<insert id="insertIndividualNote">
-		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteRegistrant,individualNoteRegistrationDate) 
-		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteRegistrant},#{individualNoteRegistrationDate});
+		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
 	</insert>
 	
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
@@ -26,5 +26,9 @@
 				AND individualNoteTitle LIKE  CONCAT('%',#{individualNoteTitle},'%')
 			</if>
 		</trim>
+	</select>
+	
+	<select id="getIndividualNoteOne" parameterType="_int" resultMap="individualNote">
+		SELECT * FROM individualNote WHERE individualNoteKeyNum = #{individualNoteKeyNum};
 	</select>
 </mapper>

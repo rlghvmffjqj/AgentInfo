@@ -16,6 +16,8 @@ public class IndividualNote {
 	private String individualNoteContents;
 	private String individualNoteRegistrant;
 	private String individualNoteRegistrationDate;
+	private String individualNoteModifier;
+	private String individualNoteModifiedDate;
 	
 	private String individualNoteTitleView;
 	private String individualNoteContentsView;

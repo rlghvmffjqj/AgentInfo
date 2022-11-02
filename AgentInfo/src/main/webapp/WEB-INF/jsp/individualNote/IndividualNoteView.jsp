@@ -9,15 +9,16 @@
 		 		<label class="labelFontSize">Note Title</label>
 		 	</div>
 		 	<div>
-		 		<input class="form-control" type="text" id="individualNoteTitleView" name="individualNoteTitleView" placeholder='노트 제목'>
+		 		<input class="form-control" type="text" id="individualNoteTitleView" name="individualNoteTitleView" placeholder='노트 제목' value="${individualNote.individualNoteTitle}">
 		 	</div>
 		 	<div>
 		 		<label class="labelFontSize">Note Contents</label>
 		 	</div>
 		 	<div>
-		 		<textarea class="summerNoteSize" rows="5" id="individualNoteContentsView" name="individualNoteContentsView" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+		 		<textarea class="summerNoteSize" rows="5" id="individualNoteContentsView" name="individualNoteContentsView" onkeydown="resize(this)" onkeyup="resize(this)">${individualNote.individualNoteContents}</textarea>
 		 	</div>
 		</div>
+		<input type="hidden" id="individualNote" name="individualNote"  value="${individualNote.individualNoteKeyNum}">
 	</form>
 </div>
 <div class="modal-footer">

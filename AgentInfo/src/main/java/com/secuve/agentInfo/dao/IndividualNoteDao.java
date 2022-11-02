@@ -32,4 +32,8 @@ public class IndividualNoteDao {
 		return sqlSession.selectList("individualNote.getIndividualNoteSearch", parameters);
 	}
 
+	public IndividualNote getIndividualNoteOne(int individualNoteKeyNum) {
+		return sqlSession.selectOne("individualNote.getIndividualNoteOne", individualNoteKeyNum);
+	}
+
 }

@@ -39,6 +39,8 @@ public class IndividualNoteController {
 	public Map<String, String> InsertIndividualNote(IndividualNote individualNote, Principal principal) {
 		individualNote.setIndividualNoteRegistrant(principal.getName());
 		individualNote.setIndividualNoteRegistrationDate(individualNoteService.nowDate());
+		individualNote.setIndividualNoteModifier(principal.getName());
+		individualNote.setIndividualNoteModifiedDate(individualNoteService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
 		String result = individualNoteService.insertIndividualNote(individualNote);
@@ -51,5 +53,13 @@ public class IndividualNoteController {
 	public ArrayList<IndividualNote> IndividualNoteReset(ModelAndView mav, String individualNoteTitle) {
 		ArrayList<IndividualNote> list = new ArrayList<>(individualNoteService.getIndividualNoteSearch(individualNoteTitle));
 		return list;
+	}
+	
+	@PostMapping(value = "/individualNote/updateView")
+	public String UpdateIndividualNoteView(Model model, String individualNoteKeyNum) {
+		IndividualNote individualNote = individualNoteService.getIndividualNoteOne(individualNoteKeyNum);
+		model.addAttribute("individualNote", individualNote);
+		model.addAttribute("viewType", "update");
+		return "/individualNote/IndividualNoteView";
 	}
 }

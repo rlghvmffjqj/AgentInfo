@@ -25,7 +25,11 @@ public class IndividualNoteService {
 	}
 
 	public String insertIndividualNote(IndividualNote individualNote) {
-		int individualNoteKeyNum =  individualNoteDao.individualNoteKeyNum();
+		int individualNoteKeyNum = 0;
+		try {
+			individualNoteKeyNum =  individualNoteDao.individualNoteKeyNum();
+		} catch (Exception e) {
+		}
 		individualNote.setIndividualNoteKeyNum(++individualNoteKeyNum);
 		int sucess = individualNoteDao.insertIndividualNote(individualNote);
 		if (sucess <= 0)
@@ -35,6 +39,10 @@ public class IndividualNoteService {
 	
 	public List<IndividualNote> getIndividualNoteSearch(String individualNoteTitle) {
 		return individualNoteDao.getIndividualNoteSearch(individualNoteTitle);
+	}
+
+	public IndividualNote getIndividualNoteOne(String individualNoteKeyNum) {
+		return individualNoteDao.getIndividualNoteOne(Integer.parseInt(individualNoteKeyNum));
 	}
 	
 }

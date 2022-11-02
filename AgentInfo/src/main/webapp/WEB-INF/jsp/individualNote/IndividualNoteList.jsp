@@ -57,6 +57,7 @@
 											<form id="form" name="form" method ="post">
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">제목</label>
+	                      							<input hidden="hidden" />
 													<input type="text" id="individualNoteTitle" name="individualNoteTitle" class="form-control">
 												</div>
 		                      					<div class="col-lg-12 text-right">
@@ -123,10 +124,9 @@
 				{keynum: "${item.individualNoteKeyNum}", title: "${item.individualNoteTitle}", contents: '${item.individualNoteContents}'},
 			</c:forEach>
 		];
-		console.log(items);
 		
 		items.forEach(n => {
-			n.content = '<a onClick="grid.removeWidget(this.parentNode.parentNode)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><input type="hidden" value=' + n.title +'>' + n.contents;
+			n.content = '<a onClick="grid.removeWidget(this.parentNode.parentNode)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
 			grid.addWidget(n); 
 		});
 		
@@ -165,7 +165,7 @@
 			    		dataList.push({keynum: data[i].individualNoteKeyNum, title: data[i].individualNoteTitle, contents: data[i].individualNoteContents});
 			    	};
 			    	dataList.forEach(n => {
-						n.content = '<a onClick="grid.removeWidget(this.parentNode.parentNode)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><input type="hidden" value=' + n.title +'>' + n.contents;
+			    		n.content = '<a onClick="grid.removeWidget(this.parentNode.parentNode)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
 						grid.addWidget(n); 
 					});
 			    },
@@ -173,12 +173,37 @@
 			        alert(e);
 			    }
 			});
+			$('.grid-stack-item-content').trigger("dblclick");
 		}
 		
 		$('#btnSearch').click(function() {
 			var individualNoteTitle = $('#individualNoteTitle').val();
 			stackRefresh(individualNoteTitle);
 		});
+		
+		/* =========== Enter 검색 ========= */
+		$("input[type=text]").keypress(function(event) {
+			if (window.event.keyCode == 13) {
+				$('#btnSearch').trigger("click");
+			}
+		});
+		
+		$(".grid-stack-item-content").on('dblclick', (e) => {
+			var individualNoteKeyNum = e.currentTarget.childNodes[3].defaultValue;
+			console.log(individualNoteKeyNum);
+			$.ajax({
+			    type: 'POST',
+			    data: {'individualNoteKeyNum': individualNoteKeyNum},
+			    url: "<c:url value='/individualNote/updateView'/>",
+			    async: false,
+			    success: function (data) {
+			    	$.modal(data, 'full'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		})
 		
 	</script>
 </html>

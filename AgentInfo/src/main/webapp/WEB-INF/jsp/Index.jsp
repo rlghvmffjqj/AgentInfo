@@ -461,6 +461,7 @@
 	const mydata = deliveryData;
 	const mydataHalf = deliveryData;
 	var ctx = document.getElementsByClassName("deliveryData");
+	var date = new Date();
 	
 	var mixedChart = {
 	  type: 'bar',
@@ -489,7 +490,7 @@
 	    	plugins: {
 	            title: {
 	              display: true,
-	              text: '월별 배포 현황 (금년)'
+	              text: '월별 배포 현황 ('+date.getFullYear()+'년)'
 	            },
 	            legend: {
 		            display: false
@@ -521,6 +522,7 @@
 				data[j] = deliveryData[j];
 			}
 		}
+		transparent.options.plugins.title.text = '월별 배포 현황 ('+deliveryDataYear+'년)';
 		transparent.update();
 	});
 </script>
