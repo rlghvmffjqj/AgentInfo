@@ -11,23 +11,32 @@
 	</select>
 	
 	<select id="getIndividualNoteKeyNum" resultType="_int">
-		SELECT MAX(individualNoteKeyNum) FROM individualnote;
+		SELECT MAX(individualNoteKeyNum) FROM individualNote;
 	</select>
 	
 	<insert id="insertIndividualNote">
-		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
-		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
+		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
 	</insert>
 	
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
 		SELECT *
 		FROM individualNote
 		WHERE individualNoteRegistrant=#{individualNoteRegistrant}
-		<if test="count != 0">
+		<if test="individualNoteTitleCount != 0">
 			AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="individualNoteTitle" item="arr">
 						OR individualNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="individualNoteHashTagCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteHashTag" item="arr">
+						OR individualNoteHashTag LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 			)
@@ -39,7 +48,7 @@
 	</select>
 	
 	<update id="updateIndividualNote">
-		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
+		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteHashTag=#{individualNoteHashTagView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
 		WHERE individualNoteKeyNum=#{individualNoteKeyNum};
 	</update>
 	
@@ -53,5 +62,9 @@
 	
 	<select id="getIndividualNoteTitle" resultType="string" parameterType="string">
 		SELECT individualNoteTitle FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant};
+	</select>
+	
+	<select id="getIndividualNoteHashTag" resultType="string" parameterType="string">
+		SELECT individualNoteHashTag FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteHashTag IS NOT NULL;
 	</select>
 </mapper>

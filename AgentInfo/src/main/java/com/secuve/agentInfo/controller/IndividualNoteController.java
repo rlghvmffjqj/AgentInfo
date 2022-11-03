@@ -26,7 +26,8 @@ public class IndividualNoteController {
 	public ModelAndView IndividualNoteList(ModelAndView mav, Principal principal) {
 		ArrayList<IndividualNote> list = new ArrayList<>(individualNoteService.getIndividualNote(principal.getName()));
 		List<String> individualNoteTitle = individualNoteService.getIndividualNoteTitle(principal.getName());
-		mav.addObject("list", list).addObject("individualNoteTitle", individualNoteTitle).setViewName("individualNote/IndividualNoteList");
+		List<String> individualNoteHashTag = individualNoteService.getIndividualNoteHashTag(principal.getName());
+		mav.addObject("list", list).addObject("individualNoteTitle", individualNoteTitle).addObject("individualNoteHashTag",individualNoteHashTag).setViewName("individualNote/IndividualNoteList");
 		return mav;
 	}
 	
@@ -52,8 +53,8 @@ public class IndividualNoteController {
 	
 	@ResponseBody
 	@PostMapping(value = "/individualNote/search")
-	public ArrayList<IndividualNote> IndividualNoteReset(ModelAndView mav, Principal principal, String[] individualNoteTitle) {
-		ArrayList<IndividualNote> list = new ArrayList<>(individualNoteService.getIndividualNoteSearch(individualNoteTitle, principal.getName()));
+	public ArrayList<IndividualNote> IndividualNoteReset(ModelAndView mav, Principal principal, String[] individualNoteTitle, String[] individualNoteHashTag) {
+		ArrayList<IndividualNote> list = new ArrayList<>(individualNoteService.getIndividualNoteSearch(individualNoteTitle, individualNoteHashTag, principal.getName()));
 		return list;
 	}
 	

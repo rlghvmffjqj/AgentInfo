@@ -14,6 +14,7 @@ public class IndividualNote {
 	private int individualNoteKeyNum;
 	private String individualNoteTitle;
 	private String individualNoteContents;
+	private String individualNoteHashTag;
 	private String individualNoteRegistrant;
 	private String individualNoteRegistrationDate;
 	private String individualNoteModifier;
@@ -21,4 +22,5 @@ public class IndividualNote {
 	
 	private String individualNoteTitleView;
 	private String individualNoteContentsView;
+	private String individualNoteHashTagView;
 }

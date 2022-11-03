@@ -2,6 +2,7 @@ package com.secuve.agentInfo.service;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class IndividualNoteService {
 		return "OK";
 	}
 	
-	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String individualNoteRegistrant) {
-		return individualNoteDao.getIndividualNoteSearch(individualNoteTitle, individualNoteRegistrant);
+	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant) {
+		return individualNoteDao.getIndividualNoteSearch(individualNoteTitle, individualNoteHashTag, individualNoteRegistrant);
 	}
 
 	public IndividualNote getIndividualNoteOne(String individualNoteKeyNum, String individualNoteRegistrant) {
@@ -99,6 +100,20 @@ public class IndividualNoteService {
 
 	public List<String> getIndividualNoteTitle(String individualNoteRegistrant) {
 		return individualNoteDao.getIndividualNoteTitle(individualNoteRegistrant);
+	}
+
+	public List<String> getIndividualNoteHashTag(String individualNoteRegistrant) {
+		List<String> individualNoteHashTag = new ArrayList<String>();
+		String[] str;
+		List<String> list = new ArrayList<String>();
+		individualNoteHashTag = individualNoteDao.getIndividualNoteHashTag(individualNoteRegistrant);
+		for(int i=0; i<individualNoteHashTag.size(); i++) {
+			str = individualNoteHashTag.get(i).split(" ");
+			for(int j=0; j<str.length; j++) {
+				list.add(str[j]);
+			}
+		}
+		return list;
 	}
 	
 }

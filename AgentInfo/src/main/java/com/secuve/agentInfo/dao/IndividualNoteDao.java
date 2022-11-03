@@ -26,11 +26,13 @@ public class IndividualNoteDao {
 		return sqlSession.selectOne("individualNote.getIndividualNoteKeyNum");
 	}
 
-	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String individualNoteRegistrant) {
+	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("individualNoteTitle", individualNoteTitle);
+		parameters.put("individualNoteHashTag", individualNoteHashTag);
 		parameters.put("individualNoteRegistrant", individualNoteRegistrant);
-		parameters.put("count", individualNoteTitle.length);
+		parameters.put("individualNoteTitleCount", individualNoteTitle.length);
+		parameters.put("individualNoteHashTagCount", individualNoteHashTag.length);
 		return sqlSession.selectList("individualNote.getIndividualNoteSearch", parameters);
 	}
 
@@ -55,6 +57,10 @@ public class IndividualNoteDao {
 
 	public List<String> getIndividualNoteTitle(String individualNoteRegistrant) {
 		return sqlSession.selectList("individualNote.getIndividualNoteTitle", individualNoteRegistrant);
+	}
+
+	public List<String> getIndividualNoteHashTag(String individualNoteRegistrant) {
+		return sqlSession.selectList("individualNote.getIndividualNoteHashTag", individualNoteRegistrant);
 	}
 
 }

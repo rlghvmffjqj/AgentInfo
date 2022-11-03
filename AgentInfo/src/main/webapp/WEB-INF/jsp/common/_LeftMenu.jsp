@@ -303,13 +303,13 @@
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
-					        <li class="serverListLog">
+					        <%-- <li class="serverListLog">
 					            <a href="<c:url value='/severListUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">서버 목록 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
-					        </li>
+					        </li> --%>
 					        <li class="employeeLog">
 					            <a href="<c:url value='/employeeUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>

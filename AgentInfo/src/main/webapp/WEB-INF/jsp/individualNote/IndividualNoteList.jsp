@@ -65,6 +65,16 @@
 														</c:forEach>
 													</select>
 												</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">해시 태그</label>
+	                      							<input hidden="hidden" />
+													<input type="hidden" id="individualNoteHashTag" name="individualNoteHashTag" class="form-control">
+													<select class="form-control selectpicker" id="individualNoteHashTagMulti" name="individualNoteHashTagMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${individualNoteHashTag}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -113,7 +123,7 @@
 	<script type="text/javascript">
 		/* =========== 로딩시 실행 ========= */
 		var grid = GridStack.init({
-		  float: true,
+		  float: false,
 		  disableOneColumnMode: true, 
 		  cellHeight: 100 
 		});
@@ -155,6 +165,7 @@
 		/* =========== 새로고침 ========= */
 		function stackRefresh(individualNoteTitle) {
 			$('#individualNoteTitle').val($('#individualNoteTitleMulti').val().join());
+			$('#individualNoteHashTag').val($('#individualNoteHashTagMulti').val().join());
 			var postDate = $("#form").serializeObject();
 			grid.removeAll();
 			$.ajax({
