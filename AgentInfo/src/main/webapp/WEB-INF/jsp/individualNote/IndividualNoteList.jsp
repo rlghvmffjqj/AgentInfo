@@ -58,7 +58,12 @@
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">제목</label>
 	                      							<input hidden="hidden" />
-													<input type="text" id="individualNoteTitle" name="individualNoteTitle" class="form-control">
+													<input type="hidden" id="individualNoteTitle" name="individualNoteTitle" class="form-control">
+													<select class="form-control selectpicker" id="individualNoteTitleMulti" name="individualNoteTitleMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${individualNoteTitle}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
 												</div>
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
@@ -82,7 +87,7 @@
 															<tr>
 																<td style="font-weight:bold;">노트 관리 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert" onclick="addWidget()">추가</button>
-																	<button class="btn btn-outline-info-del myBtn" id="BtnSave">저장</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnSave" onclick="BtnSave()">저장</button>
 																</td>
 															</tr>
 															<tr>
@@ -106,17 +111,11 @@
 	</body>
 
 	<script type="text/javascript">
-		let grid = GridStack.init({
+		/* =========== 로딩시 실행 ========= */
+		var grid = GridStack.init({
 		  float: true,
 		  disableOneColumnMode: true, 
 		  cellHeight: 100 
-		});
-		let text = document.querySelector('#column-text');
-		let layout = 'moveScale';
-		
-		grid.on('added removed change', function(e, items) {
-		  let str = '';
-		  items.forEach(function(item) { str += ' (x,y)=' + item.x + ',' + item.y; });
 		});
 		
 		var items = [
@@ -126,10 +125,11 @@
 		];
 		
 		items.forEach(n => {
-			n.content = '<a onClick="grid.removeWidget(this.parentNode.parentNode)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
+			n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
 			grid.addWidget(n); 
 		});
 		
+		/* =========== 노트 추가 View ========= */
 		function addWidget() {
 			$.ajax({
 			    type: 'POST',
@@ -144,38 +144,56 @@
 			});	
 		};
 		
+		/* =========== 초기화 ========= */
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
-	        $('.selectpicker').val('');
+			$('.selectpicker').val('');
+			$('.filter-option-inner-inner').text('');
 			stackRefresh();
 		});
 		
+		/* =========== 새로고침 ========= */
 		function stackRefresh(individualNoteTitle) {
+			$('#individualNoteTitle').val($('#individualNoteTitleMulti').val().join());
+			var postDate = $("#form").serializeObject();
 			grid.removeAll();
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/individualNote/search'/>",
-			    data: {
-			    	"individualNoteTitle" : individualNoteTitle
-			    },
+			    data: postDate,
 			    async: false,
 			    success: function (data) {
-			    	var dataList = [];
+			    	var items = [];
 			    	for(var i=0; i<data.length; i++) {
-			    		dataList.push({keynum: data[i].individualNoteKeyNum, title: data[i].individualNoteTitle, contents: data[i].individualNoteContents});
+			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents});
 			    	};
-			    	dataList.forEach(n => {
-			    		n.content = '<a onClick="grid.removeWidget(this.parentNode.parentNode)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
-						grid.addWidget(n); 
+			    	items.forEach(n => {
+			    		n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
+						grid.addWidget(n);
 					});
 			    },
 			    error: function(e) {
 			        alert(e);
 			    }
 			});
-			$('.grid-stack-item-content').trigger("dblclick");
+			$(".grid-stack-item-content").on('dblclick', (e) => {
+				var individualNoteKeyNum = e.currentTarget.childNodes[3].defaultValue;
+				$.ajax({
+				    type: 'POST',
+				    data: {'individualNoteKeyNum': individualNoteKeyNum},
+				    url: "<c:url value='/individualNote/updateView'/>",
+				    async: false,
+				    success: function (data) {
+				    	$.modal(data, 'full'); //modal창 호출
+				    },
+				    error: function(e) {
+				        alert(e);
+				    }
+				});	
+			});
 		}
 		
+		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
 			var individualNoteTitle = $('#individualNoteTitle').val();
 			stackRefresh(individualNoteTitle);
@@ -188,9 +206,9 @@
 			}
 		});
 		
+		/* =========== 노트 수정 View ========= */
 		$(".grid-stack-item-content").on('dblclick', (e) => {
 			var individualNoteKeyNum = e.currentTarget.childNodes[3].defaultValue;
-			console.log(individualNoteKeyNum);
 			$.ajax({
 			    type: 'POST',
 			    data: {'individualNoteKeyNum': individualNoteKeyNum},
@@ -203,7 +221,93 @@
 			        alert(e);
 			    }
 			});	
-		})
+		});
 		
+		/* =========== 노트 삭제 ========= */
+		function individualNoteDelete(individualNoteKeyNum) {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "선택한 노트를 제거하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: '예'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+					url: "<c:url value='/individualNote/delete'/>",
+					data: {'individualNoteKeyNum': individualNoteKeyNum},
+					type: "POST",
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK")
+							Swal.fire(
+							  '성공!',
+							  '삭제 완료하였습니다.',
+							  'success'
+							)
+						else
+							Swal.fire(
+							  '실패!',
+							  '삭제 실패하였습니다.',
+							  'error'
+							)
+						$('#btnSearch').trigger("click");
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				  });
+			  	}
+			})
+		}
+		
+		/* =========== 노트 정렬 저장 ========= */
+		function BtnSave(content = true, full = true) {
+			options = grid.save(content, full);
+			var individualNoteTitle = [];
+			var individualNoteContents = [];
+			for(var num = 0; num<options.children.length; num++) {
+				individualNoteTitle.push(options.children[num].title);
+				individualNoteContents.push(options.children[num].contents);
+			}
+			$.ajax({
+				url: "<c:url value='/individualNote/save'/>",
+		        type: 'post',
+		        data: {
+		        	'individualNoteTitle': individualNoteTitle,
+		        	'individualNoteContents': individualNoteContents
+		        },
+		        async: false,
+		        success: function(result) {
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						});
+		        		$('#btnReset').trigger("click");
+						//stackRefresh();
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+		    });
+		}
+		
+		/* =========== Select Box 선택 ========= */
+		$("select").change(function() {
+			stackRefresh();
+		});
 	</script>
 </html>

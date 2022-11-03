@@ -817,3 +817,8 @@ input:focus+.labl::before{
     font-size: 11px !important;
     height: 25px !important;
 }
+
+.buttonA {
+	border: 0;
+    background: white;
+}

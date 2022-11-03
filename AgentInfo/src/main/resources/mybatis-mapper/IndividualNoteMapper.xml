@@ -4,9 +4,10 @@
 <mapper namespace="individualNote">
 	<resultMap type="com.secuve.agentInfo.vo.IndividualNote" id="individualNote"></resultMap>
 	
-	<select id="getIndividualNote" resultMap="individualNote">
+	<select id="getIndividualNote" resultMap="individualNote" parameterType="string">
 		SELECT *
 		FROM individualNote
+		WHERE individualNoteRegistrant=#{individualNoteRegistrant};
 	</select>
 	
 	<select id="getIndividualNoteKeyNum" resultType="_int">
@@ -21,14 +22,36 @@
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
 		SELECT *
 		FROM individualNote
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="individualNoteTitle != null and individualNoteTitle != ''">
-				AND individualNoteTitle LIKE  CONCAT('%',#{individualNoteTitle},'%')
-			</if>
-		</trim>
+		WHERE individualNoteRegistrant=#{individualNoteRegistrant}
+		<if test="count != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteTitle" item="arr">
+						OR individualNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
 	</select>
 	
-	<select id="getIndividualNoteOne" parameterType="_int" resultMap="individualNote">
-		SELECT * FROM individualNote WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	<select id="getIndividualNoteOne" resultMap="individualNote">
+		SELECT * FROM individualNote WHERE individualNoteKeyNum = #{individualNoteKeyNum} AND individualNoteRegistrant=#{individualNoteRegistrant};
+	</select>
+	
+	<update id="updateIndividualNote">
+		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
+		WHERE individualNoteKeyNum=#{individualNoteKeyNum};
+	</update>
+	
+	<delete id="delIndividualNote" parameterType="_int">
+		DELETE FROM individualNote WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</delete>
+	
+	<delete id="delAllIndividualNote" parameterType="string">
+		DELETE FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant};
+	</delete>
+	
+	<select id="getIndividualNoteTitle" resultType="string" parameterType="string">
+		SELECT individualNoteTitle FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant};
 	</select>
 </mapper>

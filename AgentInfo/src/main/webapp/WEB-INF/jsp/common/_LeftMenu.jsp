@@ -463,7 +463,7 @@
 				        </li>
 				    </ul>
 			    </sec:authorize>
-			    <%-- <div class="pcoded-navigation-label" data-i18n="nav.category.forms">private</div>
+			    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">private</div>
 			    <ul class="pcoded-item pcoded-left-item">
 			        <li class="individualNote">
 			            <a href="<c:url value='/individualNote/list'/>" class="waves-effect waves-dark">
@@ -472,7 +472,7 @@
 			                <span class="pcoded-mcaret"></span>
 			            </a>
 			        </li>
-			    </ul> --%>
+			    </ul>
 			</div>
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
  </nav>
