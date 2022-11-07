@@ -53,8 +53,13 @@ public class IndividualNoteController {
 	
 	@ResponseBody
 	@PostMapping(value = "/individualNote/search")
-	public ArrayList<IndividualNote> IndividualNoteReset(ModelAndView mav, Principal principal, String[] individualNoteTitle, String[] individualNoteHashTag) {
-		ArrayList<IndividualNote> list = new ArrayList<>(individualNoteService.getIndividualNoteSearch(individualNoteTitle, individualNoteHashTag, principal.getName()));
+	public ArrayList<IndividualNote> IndividualNoteReset(ModelAndView mav, Principal principal, String[] individualNoteTitle, String[] individualNoteHashTag, IndividualNote individualNote) {
+		ArrayList<IndividualNote> list = new ArrayList<IndividualNote>();
+		if(individualNote.getIndividualNoteTreeFullPath() == "/" || individualNote.getIndividualNoteTreeFullPath().equals("/")) {
+			list = new ArrayList<>(individualNoteService.getIndividualNoteSearchAll(individualNoteTitle, individualNoteHashTag, principal.getName()));
+		} else {
+			list = new ArrayList<>(individualNoteService.getIndividualNoteSearch(individualNoteTitle, individualNoteHashTag, principal.getName(), individualNote));
+		}
 		return list;
 	}
 	
@@ -86,9 +91,9 @@ public class IndividualNoteController {
 	
 	@ResponseBody
 	@PostMapping(value = "/individualNote/save")
-	public String SaveIndividualNote(@RequestParam(value="individualNoteTitle[]") List<String> individualNoteTitle, @RequestParam(value="individualNoteContents[]") List<String> individualNoteContents, Principal principal) {
-		individualNoteService.delAllIndividualNote(principal.getName());
-		return individualNoteService.saveIndividualNote(individualNoteTitle, individualNoteContents, principal.getName());
+	public String SaveIndividualNote(@RequestParam(value="individualNoteTitle[]") List<String> individualNoteTitle, @RequestParam(value="individualNoteContents[]") List<String> individualNoteContents,  @RequestParam(value="individualNoteHashTag[]") List<String> individualNoteHashTag, Principal principal, String individualNoteTreeName, String individualNoteTreeFullPath) {
+		individualNoteService.delAllIndividualNote(principal.getName(), individualNoteTreeName, individualNoteTreeFullPath);
+		return individualNoteService.saveIndividualNote(individualNoteTitle, individualNoteContents, individualNoteHashTag, principal.getName(), individualNoteTreeName, individualNoteTreeFullPath);
 	}
 	
 }

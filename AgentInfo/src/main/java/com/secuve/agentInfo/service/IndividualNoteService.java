@@ -8,11 +8,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.IndividualNoteDao;
 import com.secuve.agentInfo.vo.IndividualNote;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class IndividualNoteService {
 	@Autowired IndividualNoteDao individualNoteDao;
 
@@ -32,6 +36,7 @@ public class IndividualNoteService {
 		} else if(individualNote.getIndividualNoteContentsView() == null || individualNote.getIndividualNoteContentsView() == "") {
 			return "NotContent";
 		}
+		individualNote.setIndividualNoteTreeParentPath(individualNote.getIndividualNoteTreeFullPath().replace("/"+individualNote.getIndividualNoteTreeName(), ""));
 		int individualNoteKeyNum = 0;
 		try {
 			individualNoteKeyNum =  individualNoteDao.individualNoteKeyNum();
@@ -44,8 +49,8 @@ public class IndividualNoteService {
 		return "OK";
 	}
 	
-	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant) {
-		return individualNoteDao.getIndividualNoteSearch(individualNoteTitle, individualNoteHashTag, individualNoteRegistrant);
+	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant, IndividualNote individualNote) {
+		return individualNoteDao.getIndividualNoteSearch(individualNoteTitle, individualNoteHashTag, individualNoteRegistrant, individualNote);
 	}
 
 	public IndividualNote getIndividualNoteOne(String individualNoteKeyNum, String individualNoteRegistrant) {
@@ -71,11 +76,11 @@ public class IndividualNoteService {
 		return "OK";
 	}
 
-	public void delAllIndividualNote(String individualNoteRegistrant) {
-		individualNoteDao.delAllIndividualNote(individualNoteRegistrant);
+	public void delAllIndividualNote(String individualNoteRegistrant, String individualNoteTreeName, String individualNoteTreeFullPath) {
+		individualNoteDao.delAllIndividualNote(individualNoteRegistrant, individualNoteTreeName, individualNoteTreeFullPath);
 	}
 
-	public String saveIndividualNote(List<String> individualNoteTitle, List<String> individualNoteContents, String individualNoteRegistrant) {
+	public String saveIndividualNote(List<String> individualNoteTitle, List<String> individualNoteContents, List<String> individualNoteHashTag, String individualNoteRegistrant, String individualNoteTreeName, String individualNoteTreeFullPath) {
 		IndividualNote individualNote = new IndividualNote();
 		individualNote.setIndividualNoteRegistrant(individualNoteRegistrant);
 		individualNote.setIndividualNoteRegistrationDate(nowDate());
@@ -91,6 +96,10 @@ public class IndividualNoteService {
 			individualNote.setIndividualNoteKeyNum(++individualNoteKeyNum);
 			individualNote.setIndividualNoteTitleView(individualNoteTitle.get(i));
 			individualNote.setIndividualNoteContentsView(individualNoteContents.get(i));
+			individualNote.setIndividualNoteHashTagView(individualNoteHashTag.get(i));
+			individualNote.setIndividualNoteTreeName(individualNoteTreeName);
+			individualNote.setIndividualNoteTreeFullPath(individualNoteTreeFullPath);
+			individualNote.setIndividualNoteTreeParentPath(individualNoteTreeFullPath.replace("/"+individualNoteTreeName, ""));
 			sucess *= individualNoteDao.insertIndividualNote(individualNote);
 		}
 		if (sucess <= 0)
@@ -110,10 +119,15 @@ public class IndividualNoteService {
 		for(int i=0; i<individualNoteHashTag.size(); i++) {
 			str = individualNoteHashTag.get(i).split(" ");
 			for(int j=0; j<str.length; j++) {
-				list.add(str[j]);
+				if(!list.contains(str[j]))
+					list.add(str[j]);
 			}
 		}
 		return list;
+	}
+
+	public List<IndividualNote>  getIndividualNoteSearchAll(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant) {
+		return individualNoteDao.getIndividualNoteSearchAll(individualNoteTitle, individualNoteHashTag, individualNoteRegistrant);
 	}
 	
 }

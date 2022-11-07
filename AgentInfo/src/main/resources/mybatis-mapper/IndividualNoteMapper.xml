@@ -15,14 +15,16 @@
 	</select>
 	
 	<insert id="insertIndividualNote">
-		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
-		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
+		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
 	</insert>
 	
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
 		SELECT *
 		FROM individualNote
 		WHERE individualNoteRegistrant=#{individualNoteRegistrant}
+		AND individualNoteTreeFullPath=#{individualNoteTreeFullPath}
+		AND individualNoteTreeName=#{individualNoteTreeName}
 		<if test="individualNoteTitleCount != 0">
 			AND (
 				<trim prefix="" prefixOverrides="OR">
@@ -57,14 +59,42 @@
 	</delete>
 	
 	<delete id="delAllIndividualNote" parameterType="string">
-		DELETE FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant};
+		DELETE FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteTreeName = #{individualNoteTreeName} AND individualNoteTreeFullPath = #{individualNoteTreeFullPath};
 	</delete>
 	
 	<select id="getIndividualNoteTitle" resultType="string" parameterType="string">
-		SELECT individualNoteTitle FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant};
+		SELECT DISTINCT individualNoteTitle FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteTitle != '';
 	</select>
 	
 	<select id="getIndividualNoteHashTag" resultType="string" parameterType="string">
-		SELECT individualNoteHashTag FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteHashTag IS NOT NULL;
+		SELECT DISTINCT individualNoteHashTag FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteHashTag IS NOT NULL AND individualNoteHashTag != '';
+	</select>
+	
+	<update id="updateTree">
+		UPDATE individualNote SET individualNoteTreeFullPath = #{individualNoteTreeFullPath}, individualNoteTreeParentPath = #{individualNoteTreeParentPath}, individualNoteTreeName = #{individualNoteTreeName}, individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate} WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath};
+	</update>
+	
+	<select id="getIndividualNoteSearchAll" parameterType="string" resultMap="individualNote">
+		SELECT *
+		FROM individualNote
+		WHERE individualNoteRegistrant=#{individualNoteRegistrant}
+		<if test="individualNoteTitleCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteTitle" item="arr">
+						OR individualNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="individualNoteHashTagCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteHashTag" item="arr">
+						OR individualNoteHashTag LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
 	</select>
 </mapper>

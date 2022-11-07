@@ -45,6 +45,8 @@
 
 <div class="modal-body" style="width: 100%; height: 800px;">
 	<form id="modalForm" name="form" method ="post">
+		<input type="hidden" id="individualNoteTreeFullPath" name="individualNoteTreeFullPath" class="form-control" value="${individualNote.individualNoteTreeFullPath}">
+		<input type="hidden" id="individualNoteTreeName" name="individualNoteTreeName" class="form-control" value="${individualNote.individualNoteTreeName}">
 		<div style="margin:10px">
 			<div style="text-align: right;">
 				<button class="buttonA" type="button" id="close">─</button>

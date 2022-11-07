@@ -15,6 +15,9 @@ public class IndividualNote {
 	private String individualNoteTitle;
 	private String individualNoteContents;
 	private String individualNoteHashTag;
+	private String individualNoteTreeName;				// 부서 이름
+	private String individualNoteTreeFullPath;			// 부서 풀 경로
+	private String individualNoteTreeParentPath;		// 부서 부모 경로
 	private String individualNoteRegistrant;
 	private String individualNoteRegistrationDate;
 	private String individualNoteModifier;

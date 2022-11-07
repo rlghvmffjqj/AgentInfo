@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="<c:url value='/gridstack/gridstack-h5.js'/>"></script>
 		
 		<style type="text/css">
-		  .grid-stack { background: white; }
+		  .grid-stack { background: white; min-height: 724px; }
 		  .grid-stack-item-content { background-color: #FFFF6D; }
 		</style>
 	</head>
@@ -55,6 +55,8 @@
                                 	<div class="ibox">
 	                                	<div class="searchbos">
 											<form id="form" name="form" method ="post">
+												<input type="hidden" id="individualNoteTreeName" name="individualNoteTreeName" class="form-control">
+		                      					<input type="hidden" id="individualNoteTreeFullPath" name="individualNoteTreeFullPath" class="form-control">
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">제목</label>
 	                      							<input hidden="hidden" />
@@ -88,11 +90,34 @@
 											</form>
 		                     			</div>
 		                     		</div>
-		                     			<table style="width:99%;">
+		                     			<table style="width:100%;">
 											<tbody>
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
-														<table style="width:100%">
+														<table class="individualNoteTreeTable" style="width:15%;float:left">
+														<tbody>
+															<tr>
+																<td style="font-weight:bold;">
+																	부서관리 :
+																	<button class="btn btn-outline-info-add myBtn" id="BtnDepartmentInsert" onClick="btnDepartmentInsert()">추가</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDepartmentUpdate" onClick="btnDepartmentUpdate()">수정</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnDepartmentDelect" onClick="btnDepartmentDelect()">삭제</button>
+																</td>
+															</tr>
+															<tr>
+																<td valign="top">
+																	<div class="border1" style="overflow:scroll; height:728px;">
+																		<div class="margin10">
+																			<!----------------------- dynatree ----------------------->
+																			<div id="tree" style="width: 100px;"></div>
+																			<!----------------------- dynatree ----------------------->
+																		</div>
+																	</div>
+					 											</td>
+															</tr>
+														</tbody>
+													</table>
+													<table style="width:84%; float:right">
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">노트 관리 :
@@ -125,12 +150,14 @@
 		var grid = GridStack.init({
 		  float: false,
 		  disableOneColumnMode: true, 
-		  cellHeight: 100 
+		  autoPosition: true,
+		  acceptWidgets: true,
+		  cellHeight: 100
 		});
 		
 		var items = [
 			<c:forEach items="${list}" var="item">
-				{keynum: "${item.individualNoteKeyNum}", title: "${item.individualNoteTitle}", contents: '${item.individualNoteContents}'},
+				{keynum: "${item.individualNoteKeyNum}", title: "${item.individualNoteTitle}", contents: '${item.individualNoteContents}', hashTag: '${item.individualNoteHashTag}'},
 			</c:forEach>
 		];
 		
@@ -141,17 +168,37 @@
 		
 		/* =========== 노트 추가 View ========= */
 		function addWidget() {
-			$.ajax({
-			    type: 'POST',
-			    url: "<c:url value='/individualNote/insertView'/>",
-			    async: false,
-			    success: function (data) {
-			    	$.modal(data, 'full'); //modal창 호출
-			    },
-			    error: function(e) {
-			        alert(e);
-			    }
-			});	
+			var individualNoteTreeName = $("#individualNoteTreeName").val();
+			var individualNoteTreeFullPath = $("#individualNoteTreeFullPath").val();
+			if(individualNoteTreeName == "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '부서를 선택해주세요.',    
+				}); 
+			} else if(individualNoteTreeFullPath == "/") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '루트 경로에 추가 불가능 합니다.',    
+				}); 
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/individualNote/insertView'/>",
+				    data: {
+			    		"individualNoteTreeName" : individualNoteTreeName,
+			    		"individualNoteTreeFullPath" : individualNoteTreeFullPath
+			    	},
+				    async: false,
+				    success: function (data) {
+				    	$.modal(data, 'full'); //modal창 호출
+				    },
+				    error: function(e) {
+				        alert(e);
+				    }
+				});
+			}
 		};
 		
 		/* =========== 초기화 ========= */
@@ -176,7 +223,7 @@
 			    success: function (data) {
 			    	var items = [];
 			    	for(var i=0; i<data.length; i++) {
-			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents});
+			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents, 'hashTag': data[i].individualNoteHashTag});
 			    	};
 			    	items.forEach(n => {
 			    		n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
@@ -278,47 +325,357 @@
 		
 		/* =========== 노트 정렬 저장 ========= */
 		function BtnSave(content = true, full = true) {
-			options = grid.save(content, full);
-			var individualNoteTitle = [];
-			var individualNoteContents = [];
-			for(var num = 0; num<options.children.length; num++) {
-				individualNoteTitle.push(options.children[num].title);
-				individualNoteContents.push(options.children[num].contents);
-			}
-			$.ajax({
-				url: "<c:url value='/individualNote/save'/>",
-		        type: 'post',
-		        data: {
-		        	'individualNoteTitle': individualNoteTitle,
-		        	'individualNoteContents': individualNoteContents
-		        },
-		        async: false,
-		        success: function(result) {
-					if(result == "OK") {
-						Swal.fire({
-							icon: 'success',
-							title: '성공!',
-							text: '작업을 완료했습니다.',
-						});
-		        		$('#btnReset').trigger("click");
-						//stackRefresh();
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '작업을 실패하였습니다.',
-						});
-					}
-				},
-				error: function(error) {
-					console.log(error);
+			var individualNoteTreeName = $("#individualNoteTreeName").val();
+			var individualNoteTreeFullPath = $("#individualNoteTreeFullPath").val();
+			if(individualNoteTreeName == "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '부서를 선택해주세요.',    
+				}); 
+			} else if(individualNoteTreeFullPath == "/") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '루트 경로에 저장 불가능합니다.',    
+				}); 
+			} else {
+				options = grid.save(content, full);
+				var individualNoteTitle = [];
+				var individualNoteContents = [];
+				var individualNoteHashTag = [];
+				for(var num = 0; num<options.children.length; num++) {
+					individualNoteTitle.push(options.children[num].title);
+					individualNoteContents.push(options.children[num].contents);
+					individualNoteHashTag.push(options.children[num].hashTag);
 				}
-		    });
+				console.log(individualNoteTitle.length);
+				if(individualNoteTitle.length < 2) {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '노트 갯수가 두 개 이상일 경우 저장이 가능합니다.',
+					});
+				} else {
+					$.ajax({
+						url: "<c:url value='/individualNote/save'/>",
+				        type: 'post',
+				        data: {
+				        	'individualNoteTitle': individualNoteTitle,
+				        	'individualNoteContents': individualNoteContents,
+				        	'individualNoteHashTag': individualNoteHashTag,
+				        	'individualNoteTreeName': individualNoteTreeName,
+				        	'individualNoteTreeFullPath': individualNoteTreeFullPath
+				        },
+				        async: false,
+				        success: function(result) {
+							if(result == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '성공!',
+									text: '작업을 완료했습니다.',
+								});
+				        		$('#btnReset').trigger("click");
+								//stackRefresh();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '작업을 실패하였습니다.',
+								});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+				    });
+				}
+			}
 		}
 		
 		/* =========== Select Box 선택 ========= */
 		$("select").change(function() {
 			stackRefresh();
 		});
+	</script>
+	
+	<script>
+		/* =========== Tree 시작 ========= */
+		$(document).ready(function() {
+			createTree();
+		});
+	
+		/* =========== 트리 컨트롤러 생성 ========= */
+		function createTree()
+		{
+			$("#tree").dynatree({
+				onActivate: function(node) {
+					var path = node.data.key;
+					reqChildNode(node, path);
+				},
+				onQueryExpand: function(flag, node) {
+					if(flag) {
+						$('#tree').dynatree('getTree').activateKey(node.data.key);
+					}
+				}
+			});
+		
+			var root = $("#tree").dynatree("getRoot");
+			var rootNode = root.addChild({
+				title : '/',
+				tooltip : '/',
+				key : '/',
+				children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
+				isFolder : true
+			});
+		
+			reqRootNode();
+		}
+		
+		/* =========== 트리 루트노드 데이터 요청 ========= */
+		function reqRootNode()
+		{
+			var rootNode = $("#tree").dynatree("getTree").selectKey('/');
+			reqChildNode(rootNode, '/');
+		}
+		
+		/* =========== 트리 하위노드 데이터 요청 ========= */
+		function reqChildNode(node, path)
+		{
+			$.ajax({
+				url: "<c:url value='/individualNoteTree/list'/>",
+				type: "POST",
+				data: {"parentPath" : path},
+				dataType: "json",
+				async: false,
+				success: function(data)
+				{
+					var tree = $("#tree").dynatree("getTree");
+					node.removeChildren();
+	
+					if(data != null && data.length > 0)
+					{
+						/* ===================== */
+						tree.enableUpdate(false);
+						/* ===================== */
+	
+						for(var i = 0; i < data.length; i++)
+						{
+							var childNode = node.addChild({
+								title : data[i].individualNoteTreeName,
+								tooltip : data[i].individualNoteTreeName,
+								key : data[i].individualNoteTreeFullPath,
+								children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
+								isFolder : true
+							});
+						}
+						
+						/* ===================== */
+						tree.enableUpdate(true);
+						/* ===================== */
+	
+						node.expand(true);
+					}
+					else
+					{
+						node.expand(false); // for IE7
+					}
+	
+					//if (path != '/') reqMember(path);
+					reqMember(path);
+				},
+				error: function(e) {
+		        	console.log(e);
+		        }
+			});
+		}
+		
+		/* =========== 디렉토리에 해당하는 사용자 목록 요청 ========= */
+		function reqMember(path)
+		{	
+			var node = $("#tree").dynatree("getActiveNode");
+			var path = node.data.key; // 선택 부서 풀 경로
+			var title = node.data.title; // 선택 부서
+			$("#individualNoteTreeName").val(title); //부서경로
+			$("#individualNoteTreeFullPath").val(path); // 부서 풀 경로
+	
+			$('#btnSearch').trigger("click");
+		}
+		
+		/* =========== 부서 추가 ========= */
+		function btnDepartmentInsert() {
+			var path = getCurrentPath();
+	
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/individualNoteTree/insertView'/>",
+			    data: {"individualNoteTreeFullPath" : path},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 's'); //modal창 호출
+			    },
+			    error: function(e) {
+			    	console.log(e);
+			    }
+			});
+		}
+		
+		/* =========== DepartmentFullPath 경로 가져오기 ========= */
+		function getCurrentPath() {
+			var node = $("#tree").dynatree("getActiveNode");
+			if (node != null )
+				return node.data.key;
+			else
+				return '/';
+		}
+		
+		/* =========== 현재 디렉토리 다시 불러오기 ========= */
+		function reloadView()
+		{
+			var node = $("#tree").dynatree("getActiveNode");
+			if ( node != null ) {
+				$('#tree').dynatree('getTree').reactivate(true);
+			} else {
+				reqRootNode();
+			}
+		}
+		
+		/* =========== 부서 삭제 ========= */
+		function btnDepartmentDelect() {
+			var node = $("#tree").dynatree("getActiveNode");
+			var individualNoteTreeFullPath = node.data.key;
+			var individualNoteTreeFullPath = $("#individualNoteTreeFullPath").val();
+			
+			if(individualNoteTreeFullPath == "/") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '루트 경로는 삭제 불가능합니다.',
+				});
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 폴더를 삭제하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: '예'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+						$.ajax({
+							url: "<c:url value='/individualNoteTree/delete'/>",
+							type: "POST",
+							data: {"individualNoteTreeFullPath" : individualNoteTreeFullPath},
+							dataType: "json",
+							async: false,
+							success: function(data) {
+								console.log("확인"+data.result);
+								if(data.result == "OK"){
+									Swal.fire({
+										icon: 'success',
+										title: '성공!',
+										text: '작업을 완료했습니다.',
+									});
+									reloadParent();
+								} else if(data.result == "SubDepartment") {
+									Swal.fire({
+										icon: 'error',
+										title: '실패!',
+										text: '하위부서가 존재합니다.',
+									});
+								}
+							},
+							error: function(e) {
+						    	console.log(e);
+						    }
+						});
+				  }
+				});
+			}
+		}
+		
+		/* =========== 상위 디렉토리 다시 불러오기 (현재 디렉토리 삭제, 이름변경, 추가 등) ========= */
+		function reloadParent()
+		{
+			var path = getParentPath();
+			if ( path != '/' ) {
+				$("#tree").dynatree("getTree").activateKey(path);
+			} else {
+				reqRootNode();
+			}
+		}
+		
+		/* =========== 부모 부서 위치 ========= */
+		function getParentPath() {
+			var path = getCurrentPath();
+	
+			var pos = path.lastIndexOf('/');
+			if ( pos > 0 ) {
+				return path.substring(0, pos);
+			} else {
+				return '/';
+			}
+		}
+		
+		
+		/* =========== 부서 수정 ========= */
+		function btnDepartmentUpdate() {
+			var path = getCurrentPath();
+			var individualNoteTreeFullPath = $("#individualNoteTreeFullPath").val();
+			
+			if(individualNoteTreeFullPath == "/") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '루트 경로는 수정 불가능합니다.',
+				});
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/individualNoteTree/updateView'/>",
+				    data: {"individualNoteTreeFullPath" : path},
+				    async: false,
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 's'); //modal창 호출
+				    },
+				    error: function(e) {
+				    	console.log(e);
+				    }
+				});
+			}
+		}
+		
+		/* =========== 부서 이동 ========= */
+		function individualNoteTreeMove() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+				    url: "<c:url value='/individualNoteTree/individualNoteTreeMoveView'/>",
+				    type: "POST",
+					dataType: "text",
+					traditional: true,
+				    async: false,
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'sl'); //modal창 호출
+				    },
+				    error: function(e) {
+				    	console.log(e);
+				    }
+				});
+			}
+		}
 	</script>
 </html>

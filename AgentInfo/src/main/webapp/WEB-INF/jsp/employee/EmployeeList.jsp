@@ -508,7 +508,7 @@
 			var departmentFullPath = node.data.key;
 			Swal.fire({
 				  title: '삭제!',
-				  text: "선택한 사원을 삭제하시겠습니까?",
+				  text: "선택한 부서를 삭제하시겠습니까?",
 				  icon: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#7066e0',
