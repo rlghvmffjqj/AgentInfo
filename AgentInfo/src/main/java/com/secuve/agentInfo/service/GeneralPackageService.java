@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -107,9 +108,15 @@ public class GeneralPackageService {
 	public GeneralPackage getGeneralPackageOne(int generalPackageKeyNum) {
 		return generalPackageDao.getGeneralPackageOne(generalPackageKeyNum);
 	}
-
+	
+	/**
+	 * 파일 저장 경로(application.properties)
+	 */
+	@Value("${spring.servlet.multipart.location}")
+	String filePath;
+	
 	public void fileDownload(GeneralPackage generalPackage, MultipartFile releaseNotesView) throws IllegalStateException, IOException {
-		File newFileName = new File(generalPackage.getReleaseNotes());
+		File newFileName = new File(filePath + File.separator + "releaseNotes",generalPackage.getReleaseNotes());
 		releaseNotesView.transferTo(newFileName);
 	}
 	

@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,10 +9,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.IndividualNoteDao;
 import com.secuve.agentInfo.vo.IndividualNote;
@@ -30,7 +34,7 @@ public class IndividualNoteService {
 		return formatter.format(now);
 	}
 
-	public String insertIndividualNote(IndividualNote individualNote) {
+	public String insertIndividualNote(IndividualNote individualNote, List<MultipartFile> fileInput) throws IllegalStateException, IOException {
 		if(individualNote.getIndividualNoteTitleView() == null || individualNote.getIndividualNoteTitleView() == "") {
 			return "NotTitle";
 		} else if(individualNote.getIndividualNoteContentsView() == null || individualNote.getIndividualNoteContentsView() == "") {
@@ -46,7 +50,23 @@ public class IndividualNoteService {
 		int sucess = individualNoteDao.insertIndividualNote(individualNote);
 		if (sucess <= 0)
 			return "FALSE";
+		String fileName[] = individualNote.getIndividualNoteFileName().split(", ");
+		for(int num=0; num<fileName.length; num++) {
+			individualNote.setIndividualNoteFileName(fileName[num]);
+			fileDownload(individualNote, fileInput.get(num));
+		}
 		return "OK";
+	}
+	
+	/**
+	 * 파일 저장 경로(application.properties)
+	 */
+	@Value("${spring.servlet.multipart.location}")
+	String filePath;
+	
+	public void fileDownload(IndividualNote individualNote, MultipartFile fileInput) throws IllegalStateException, IOException {
+		File newFileName = new File(filePath + File.separator + "individualNote",individualNote.getIndividualNoteRegistrant()+"_"+individualNote.getIndividualNoteFileName());
+		fileInput.transferTo(newFileName);
 	}
 	
 	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant, IndividualNote individualNote) {
@@ -57,7 +77,7 @@ public class IndividualNoteService {
 		return individualNoteDao.getIndividualNoteOne(Integer.parseInt(individualNoteKeyNum), individualNoteRegistrant);
 	}
 
-	public String updateIndividualNote(IndividualNote individualNote, Principal principal) {
+	public String updateIndividualNote(IndividualNote individualNote, Principal principal, List<MultipartFile> fileInput) throws IllegalStateException, IOException {
 		if(individualNote.getIndividualNoteTitleView() == null || individualNote.getIndividualNoteTitleView() == "") {
 			return "NotTitle";
 		} else if(individualNote.getIndividualNoteContentsView() == null || individualNote.getIndividualNoteContentsView() == "") {
@@ -66,6 +86,12 @@ public class IndividualNoteService {
 		int sucess = individualNoteDao.updateIndividualNote(individualNote);
 		if (sucess <= 0)
 			return "FALSE";
+		String fileName[] = individualNote.getIndividualNoteFileName().split(", ");
+		individualNote.setIndividualNoteRegistrant(principal.getName());
+		for(int num=0; num<fileName.length; num++) {
+			individualNote.setIndividualNoteFileName(fileName[num]);
+			fileDownload(individualNote, fileInput.get(num));
+		}
 		return "OK";
 	}
 
@@ -128,6 +154,15 @@ public class IndividualNoteService {
 
 	public List<IndividualNote>  getIndividualNoteSearchAll(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant) {
 		return individualNoteDao.getIndividualNoteSearchAll(individualNoteTitle, individualNoteHashTag, individualNoteRegistrant);
+	}
+
+	public List<String> getIndividualNoteFileName(String individualNoteFileName) {
+		ArrayList<String> list = new ArrayList<String>();
+		String filesName[] = individualNoteFileName.split(", ");
+		for (String fileName : filesName) {
+			list.add(fileName);
+		}
+		return list;
 	}
 	
 }

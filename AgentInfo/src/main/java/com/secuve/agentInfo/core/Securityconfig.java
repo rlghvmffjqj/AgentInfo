@@ -46,6 +46,8 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/serverList/**").hasAnyRole("ADMIN","QA")
 			.antMatchers("/serverListUidLog/**").hasAnyRole("ADMIN","QA")
 			.antMatchers("/issue/**").hasAnyRole("ADMIN","QA")
+			.antMatchers("/individualNote/**").hasAnyRole("ADMIN","MEMBER","ENGINEER","QA")
+			.antMatchers("/individualNoteTree/**").hasAnyRole("ADMIN","MEMBER","ENGINEER","QA")
 			.antMatchers("/").hasAnyRole("MEMBER","ADMIN","ENGINEER","QA");
 		
 		// 로그인 설정

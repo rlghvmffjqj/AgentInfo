@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * 사용자 권한
- * @author JiEx
+ * @author rlghv
  *
  */
 @AllArgsConstructor

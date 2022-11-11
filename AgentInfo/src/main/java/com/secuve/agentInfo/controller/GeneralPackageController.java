@@ -178,6 +178,7 @@ public class GeneralPackageController {
 	 */
 	@GetMapping(value = "/generalPackage/fileDownload")
 	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) throws Exception {
+		String filePath = this.filePath + File.separator + "releaseNotes";
 		String files = fileName;
 		String changeFileName =  fileName + "-" + principal.getName() + "-" + generalPackageService.nowDate()  + ".zip"; 
 		
@@ -223,6 +224,7 @@ public class GeneralPackageController {
 	 */
 	@GetMapping(value = "/generalPackage/batchDownload")
 	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
+		String filePath = this.filePath + File.separator + "releaseNotes";
 		String files[] = generalPackageService.BatchDownload(chkList);
 		String changeFileName =  "GeneralPackage-" + principal.getName() + "-" + generalPackageService.nowDate() + ".zip"; 
 		
@@ -268,6 +270,7 @@ public class GeneralPackageController {
 	@ResponseBody
 	@PostMapping(value = "/generalPackage/existenceConfirmation")
 	public String ExistenceConfirmation(MultipartFile releaseNotesView) {
+		String filePath = this.filePath + File.separator + "releaseNotes";
 		
 		// Create a file object
 		File file = new File(filePath + File.separator + releaseNotesView.getOriginalFilename());

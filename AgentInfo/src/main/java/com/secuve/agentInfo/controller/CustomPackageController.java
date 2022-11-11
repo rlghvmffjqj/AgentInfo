@@ -188,7 +188,7 @@ public class CustomPackageController {
 	@ResponseBody
 	@PostMapping(value = "/customPackage/existenceConfirmation")
 	public String ExistenceConfirmation(MultipartFile releaseNotesView) {
-		
+		String filePath = this.filePath + File.separator + "releaseNotes";
 		// Create a file object
 		File file = new File(filePath + File.separator + releaseNotesView.getOriginalFilename());
 		
@@ -209,6 +209,7 @@ public class CustomPackageController {
 	 */
 	@GetMapping(value = "/customPackage/fileDownload")
 	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) {
+		String filePath = this.filePath + File.separator + "releaseNotes";
 		String files = fileName;
 		String changeFileName =  fileName + "-" + principal.getName() + "-" + customPackageService.nowDate() + ".zip";  // 바뀌는 파일 명
 		
@@ -253,6 +254,7 @@ public class CustomPackageController {
 	 */
 	@GetMapping(value = "/customPackage/batchDownload")
 	public View BatchDownload(@RequestParam int chkList[], Principal principal, Model model) {
+		String filePath = this.filePath + File.separator + "releaseNotes";
 		
 		String files[] = customPackageService.BatchDownload(chkList);
 		String changeFileName =  "CustomPackage-" + principal.getName() + "-" + customPackageService.nowDate() +".zip"; 	// 바뀌는 파일 명

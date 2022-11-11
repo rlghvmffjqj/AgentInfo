@@ -15,8 +15,8 @@
 	</select>
 	
 	<insert id="insertIndividualNote">
-		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
-		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
+		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteFileName,individualNoteHashTag,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteFileNameView},#{individualNoteHashTagView},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
 	</insert>
 	
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
@@ -50,7 +50,7 @@
 	</select>
 	
 	<update id="updateIndividualNote">
-		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteHashTag=#{individualNoteHashTagView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
+		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteFileName=#{individualNoteFileNameView},individualNoteHashTag=#{individualNoteHashTagView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
 		WHERE individualNoteKeyNum=#{individualNoteKeyNum};
 	</update>
 	

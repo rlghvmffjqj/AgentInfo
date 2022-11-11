@@ -98,7 +98,7 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">
-																	부서관리 :
+																	폴더관리 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnDepartmentInsert" onClick="btnDepartmentInsert()">추가</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDepartmentUpdate" onClick="btnDepartmentUpdate()">수정</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDepartmentDelect" onClick="btnDepartmentDelect()">삭제</button>
@@ -174,7 +174,7 @@
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
-					text: '부서를 선택해주세요.',    
+					text: '폴더를 선택해주세요.',    
 				}); 
 			} else if(individualNoteTreeFullPath == "/") {
 				Swal.fire({               
@@ -331,7 +331,7 @@
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
-					text: '부서를 선택해주세요.',    
+					text: '폴더를 선택해주세요.',    
 				}); 
 			} else if(individualNoteTreeFullPath == "/") {
 				Swal.fire({               
@@ -494,15 +494,15 @@
 		function reqMember(path)
 		{	
 			var node = $("#tree").dynatree("getActiveNode");
-			var path = node.data.key; // 선택 부서 풀 경로
-			var title = node.data.title; // 선택 부서
-			$("#individualNoteTreeName").val(title); //부서경로
-			$("#individualNoteTreeFullPath").val(path); // 부서 풀 경로
+			var path = node.data.key; // 선택 폴더 풀 경로
+			var title = node.data.title; // 선택 폴더
+			$("#individualNoteTreeName").val(title); //폴더경로
+			$("#individualNoteTreeFullPath").val(path); // 폴더 풀 경로
 	
 			$('#btnSearch').trigger("click");
 		}
 		
-		/* =========== 부서 추가 ========= */
+		/* =========== 폴더 추가 ========= */
 		function btnDepartmentInsert() {
 			var path = getCurrentPath();
 	
@@ -542,7 +542,7 @@
 			}
 		}
 		
-		/* =========== 부서 삭제 ========= */
+		/* =========== 폴더 삭제 ========= */
 		function btnDepartmentDelect() {
 			var node = $("#tree").dynatree("getActiveNode");
 			var individualNoteTreeFullPath = node.data.key;
@@ -584,7 +584,7 @@
 									Swal.fire({
 										icon: 'error',
 										title: '실패!',
-										text: '하위부서가 존재합니다.',
+										text: '하위폴더가 존재합니다.',
 									});
 								}
 							},
@@ -608,7 +608,7 @@
 			}
 		}
 		
-		/* =========== 부모 부서 위치 ========= */
+		/* =========== 부모 폴더 위치 ========= */
 		function getParentPath() {
 			var path = getCurrentPath();
 	
@@ -621,7 +621,7 @@
 		}
 		
 		
-		/* =========== 부서 수정 ========= */
+		/* =========== 폴더 수정 ========= */
 		function btnDepartmentUpdate() {
 			var path = getCurrentPath();
 			var individualNoteTreeFullPath = $("#individualNoteTreeFullPath").val();
@@ -650,7 +650,7 @@
 			}
 		}
 		
-		/* =========== 부서 이동 ========= */
+		/* =========== 폴더 이동 ========= */
 		function individualNoteTreeMove() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList == 0) {
