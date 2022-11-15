@@ -45,16 +45,15 @@ public class IndividualNoteController {
 	
 	@ResponseBody
 	@PostMapping(value = "/individualNote/insert")
-	public Map<String, String> InsertIndividualNote(IndividualNote individualNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
+	public Map InsertIndividualNote(IndividualNote individualNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
 		individualNote.setIndividualNoteRegistrant(principal.getName());
 		individualNote.setIndividualNoteRegistrationDate(individualNoteService.nowDate());
 		individualNote.setIndividualNoteModifier(principal.getName());
 		individualNote.setIndividualNoteModifiedDate(individualNoteService.nowDate());
-
-		Map<String, String> map = new HashMap<String, String>();
-		String result = individualNoteService.insertIndividualNote(individualNote, fileInput);
-		map.put("result", result);
-		return map;
+		
+		Map result = individualNoteService.insertIndividualNote(individualNote, fileInput);
+		result.put("fileName", individualNoteService.getIndividualNoteFileName(individualNote.getIndividualNoteKeyNum()));
+		return result;
 	}
 	
 	@ResponseBody
@@ -72,7 +71,7 @@ public class IndividualNoteController {
 	@PostMapping(value = "/individualNote/updateView")
 	public String UpdateIndividualNoteView(Model model, Principal principal, String individualNoteKeyNum) {
 		IndividualNote individualNote = individualNoteService.getIndividualNoteOne(individualNoteKeyNum, principal.getName());
-		List<String> individualNoteFileName = individualNoteService.getIndividualNoteFileName(individualNote.getIndividualNoteFileName());
+		List<String> individualNoteFileName = individualNoteService.getIndividualNoteFileName(individualNote.getIndividualNoteKeyNum());
 		model.addAttribute("individualNote", individualNote);
 		model.addAttribute("viewType", "update");
 		model.addAttribute("individualNoteFileName",individualNoteFileName);
@@ -84,13 +83,11 @@ public class IndividualNoteController {
 	public Map UpdateIndividualNote(IndividualNote individualNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
 		individualNote.setIndividualNoteModifier(principal.getName());
 		individualNote.setIndividualNoteModifiedDate(individualNoteService.nowDate());
-		String individualNoteFileName = individualNote.getIndividualNoteFileName();
 
 		Map map = new HashMap();
 		String result = individualNoteService.updateIndividualNote(individualNote, principal, fileInput);
-		List<String> fileName = individualNoteService.getIndividualNoteFileName(individualNoteFileName);
 		map.put("result", result);
-		map.put("fileName", fileName);
+		map.put("fileName", individualNoteService.getIndividualNoteFileNameStr(individualNote.getIndividualNoteFileName()));
 		return map;
 	}
 	
@@ -102,9 +99,8 @@ public class IndividualNoteController {
 	
 	@ResponseBody
 	@PostMapping(value = "/individualNote/save")
-	public String SaveIndividualNote(@RequestParam(value="individualNoteTitle[]") List<String> individualNoteTitle, @RequestParam(value="individualNoteContents[]") List<String> individualNoteContents,  @RequestParam(value="individualNoteHashTag[]") List<String> individualNoteHashTag, Principal principal, String individualNoteTreeName, String individualNoteTreeFullPath) {
-		individualNoteService.delAllIndividualNote(principal.getName(), individualNoteTreeName, individualNoteTreeFullPath);
-		return individualNoteService.saveIndividualNote(individualNoteTitle, individualNoteContents, individualNoteHashTag, principal.getName(), individualNoteTreeName, individualNoteTreeFullPath);
+	public String SaveIndividualNote(@RequestParam(value="individualNoteKeyNum[]") List<Integer> individualNoteKeyNum) {
+		return individualNoteService.saveIndividualNote(individualNoteKeyNum);
 	}
 	
 	/**
@@ -114,13 +110,20 @@ public class IndividualNoteController {
 	String filePath;
 	
 	@GetMapping(value = "/individualNote/fileDownload")
-	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) {
+	public View FileDownload(@RequestParam String fileName, @RequestParam String individualNoteKeyNum,  Principal principal, Model model) {
 		String filePath = this.filePath + File.separator + "individualNote";
 		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
-		model.addAttribute("filePhysicalName", "/"+principal.getName()+"_"+fileName);     // 파일 이름    
+		model.addAttribute("filePhysicalName", "/"+individualNoteKeyNum+"_"+fileName);     // 파일 이름    
 		model.addAttribute("fileLogicalName", fileName);          // 출력할 파일 이름
 	
 		return new FileDownloadView();
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/individualNote/fileDelete")
+	public String FileDelete(String individualNoteFileName, int individualNoteKeyNum, Principal principal, Model model) {
+		individualNoteService.deleteIndividualNoteFile(individualNoteKeyNum, individualNoteFileName);
+		return individualNoteService.fileDelete(individualNoteKeyNum, individualNoteFileName);
 	}
 	
 }

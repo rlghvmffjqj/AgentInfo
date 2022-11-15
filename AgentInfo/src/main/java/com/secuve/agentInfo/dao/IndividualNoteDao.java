@@ -91,4 +91,39 @@ public class IndividualNoteDao {
 		return sqlSession.selectList("individualNote.getIndividualNoteSearchAll",parameters);
 	}
 
+	public int individualNoteSort() {
+		return sqlSession.selectOne("individualNote.getIndividualNoteSort");
+	}
+
+	public int saveIndividualNote(int individualNoteKeyNum, int individualNoteSort) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("individualNoteKeyNum", individualNoteKeyNum);
+		parameters.put("individualNoteSort", individualNoteSort);
+		return sqlSession.update("individualNote.saveIndividualNote",parameters);
+	}
+
+	public void insertIndividualNoteFile(IndividualNote individualNote, String individualNoteFileName) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("individualNoteKeyNum", individualNote.getIndividualNoteKeyNum());
+		parameters.put("individualNoteFileRegistrant", individualNote.getIndividualNoteRegistrant());
+		parameters.put("individualNoteFileRegistrationDate", individualNote.getIndividualNoteRegistrationDate());
+		parameters.put("individualNoteFileName", individualNoteFileName);
+		sqlSession.insert("individualNote.insertIndividualNoteFile",parameters);
+	}
+
+	public List<String> getIndividualNoteFileName(int individualNoteKeyNum) {
+		return sqlSession.selectList("individualNote.getIndividualNoteFileName",individualNoteKeyNum);
+	}
+
+	public void deleteIndividualNoteFile(int individualNoteKeyNum, String individualNoteFileName) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("individualNoteKeyNum", individualNoteKeyNum);
+		parameters.put("individualNoteFileName", individualNoteFileName);
+		sqlSession.delete("individualNote.deleteIndividualNoteFile",parameters);
+	}
+
+	public void deleteIndividualNoteFileKeyNum(int individualNoteKeyNum) {
+		sqlSession.delete("individualNote.deleteIndividualNoteFileKeyNum",individualNoteKeyNum);
+	}
+
 }

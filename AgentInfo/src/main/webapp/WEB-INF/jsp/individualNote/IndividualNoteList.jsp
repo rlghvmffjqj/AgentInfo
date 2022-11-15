@@ -341,16 +341,11 @@
 				}); 
 			} else {
 				options = grid.save(content, full);
-				var individualNoteTitle = [];
-				var individualNoteContents = [];
-				var individualNoteHashTag = [];
+				var individualNoteKeyNum = [];
 				for(var num = 0; num<options.children.length; num++) {
-					individualNoteTitle.push(options.children[num].title);
-					individualNoteContents.push(options.children[num].contents);
-					individualNoteHashTag.push(options.children[num].hashTag);
+					individualNoteKeyNum.push(options.children[num].keynum);
 				}
-				console.log(individualNoteTitle.length);
-				if(individualNoteTitle.length < 2) {
+				if(individualNoteKeyNum.length < 2) {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
@@ -361,11 +356,7 @@
 						url: "<c:url value='/individualNote/save'/>",
 				        type: 'post',
 				        data: {
-				        	'individualNoteTitle': individualNoteTitle,
-				        	'individualNoteContents': individualNoteContents,
-				        	'individualNoteHashTag': individualNoteHashTag,
-				        	'individualNoteTreeName': individualNoteTreeName,
-				        	'individualNoteTreeFullPath': individualNoteTreeFullPath
+				        	'individualNoteKeyNum': individualNoteKeyNum
 				        },
 				        async: false,
 				        success: function(result) {

@@ -51,7 +51,6 @@
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data">
 		<input type="hidden" id="individualNoteTreeFullPath" name="individualNoteTreeFullPath" class="form-control" value="${individualNote.individualNoteTreeFullPath}">
 		<input type="hidden" id="individualNoteTreeName" name="individualNoteTreeName" class="form-control" value="${individualNote.individualNoteTreeName}">
-		<input type="text" id="individualNoteFileNameView" name="individualNoteFileNameView" class="form-control" value="${individualNote.individualNoteFileName}">
 		<div style="margin:10px">
 			<div style="text-align: right;">
 				<button class="buttonA" type="button" id="close">─</button>
@@ -80,7 +79,7 @@
 				</div>
 				<div id="fileDownloadLink" style="height: 15px;">
 					<c:forEach var="file" items="${individualNoteFileName}">
-						<div style="float: left; margin-right: 15px;"><a href="#" style="font-size: 12px;" onclick='fileDownload("${file}")'>${file}</a><a href="#" onclick="linkDelete(this.parentNode)" style="font-size: 12px; color: red;">  x</a></div>
+						<div style="float: left; margin-right: 15px;"><a href="#" style="font-size: 12px;" onclick='fileDownload("${file}")'>${file}</a><a href="#" onclick="linkDelete(this.parentNode,'${file}')" style="font-size: 12px; color: red;">  x</a></div>
 					</c:forEach>
 				</div>
 		 		<textarea class="summerNoteSize" rows="5" id="individualNoteContentsView" name="individualNoteContentsView" onkeydown="resize(this)" onkeyup="resize(this)">${individualNote.individualNoteContents}</textarea>
@@ -93,6 +92,7 @@
 		 	</div>
 		</div>
 		<input type="hidden" id="individualNoteKeyNum" name="individualNoteKeyNum"  value="${individualNote.individualNoteKeyNum}">
+		<input type="hidden" id="viewType" name="viewType" value="${viewType}">
 	</form>
 </div>
 
@@ -100,22 +100,17 @@
 	$(function() {
 		var ordFilename;
 		$("#fileInput").on('change', function(){  // 값이 변경되면
+			$("#individualNoteFileName").val("");
 			var fileInput = document.getElementById("fileInput");
 			var files = fileInput.files;
 			var file;
 			for (var i = 0; i < files.length; i++) {
 			    file = files[i];
 			    ordFilename = $("#individualNoteFileName").val();
-			    ordFilenameView = $("#individualNoteFileNameView").val();
 			    if(ordFilename != '') {
 			    	$("#individualNoteFileName").val(ordFilename + ", " + file.name);
 			    } else {
 			    	$("#individualNoteFileName").val(file.name);
-			    }
-			    if(ordFilenameView != '') {
-			    	$("#individualNoteFileNameView").val(ordFilenameView + ", " + file.name);
-			    } else {
-			    	$("#individualNoteFileNameView").val(file.name);
 			    }
 			}
 			
@@ -149,7 +144,9 @@
 	
 	/* =========== 저장 ========= */
 	$('#save').click(function() {
-		if("${viewType}"=="insert") {
+		var viewType = $("#viewType").val();
+		if(viewType == "insert") {
+			$("#viewType").val("update");
 			Swal.fire({
 				title: '입력 사항을 저장하시겠습니까?',
 				showDenyButton: true,
@@ -172,6 +169,7 @@
 				        contentType: false,
 				        success: function(result) {
 							if(result.result == "OK") {
+								$('#individualNoteKeyNum').val(result.individualNoteKeyNum);
 								Swal.fire({
 									icon: 'success',
 									title: '성공!',
@@ -192,6 +190,12 @@
 									icon: 'error',
 									title: '내용 입력 바랍',
 									text: '내용 필수 입력 사항입니다.',
+								});
+							} else if(result.result == "Existence") {
+								Swal.fire({
+									icon: 'error',
+									title: '파일명 중복',
+									text: '동일한 파일명이 존재합니다.',
 								});
 							} else {
 								Swal.fire({
@@ -253,6 +257,12 @@
 									title: '내용 입력 바랍',
 									text: '내용 필수 입력 사항입니다.',
 								});
+							} else if(result.result == "Existence") {
+								Swal.fire({
+									icon: 'error',
+									title: '파일명 중복',
+									text: '동일한 파일명이 존재합니다.',
+								});
 							} else {
 								Swal.fire({
 									icon: 'error',
@@ -281,7 +291,9 @@
 	    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
 	    	//var postData = $('#modalForm').serializeObject();
 	    	var postData = new FormData($('#modalForm')[0]);
-	    	if("${viewType}"=="insert") {
+	    	var viewType = $("#viewType").val();
+	    	if(viewType == "insert") {
+	    		$("#viewType").val("update");
 	    		$.ajax({
 					url: "<c:url value='/individualNote/insert'/>",
 			        type: 'post',
@@ -291,10 +303,16 @@
 			        async: false,
 			        success: function(result) {
 						if(result.result == "OK") {
+							$('#individualNoteKeyNum').val(result.individualNoteKeyNum);
 							Swal.fire({
 								icon: 'success',
 								title: '성공!',
 								text: '작업을 완료했습니다.',
+							});
+							result.fileName.forEach(function(fileName) {
+								var rowItem = "<div style='float: left; margin-right: 15px;'><a href='#' style='font-size: 12px;' onclick='fileDownload("+'"'+fileName+'"'+")'>"+fileName+"</a><a href='#' onclick='linkDelete(this.parentNode,"+'"'+fileName+'"'+")' style='font-size: 12px; color: red;'>  x</a></div>";
+								
+								 $('#fileDownloadLink').append(rowItem);
 							});
 						} else if(result.result == "NotTitle") {
 							Swal.fire({
@@ -307,6 +325,12 @@
 								icon: 'error',
 								title: '내용 입력 바랍',
 								text: '내용 필수 입력 사항입니다.',
+							});
+						} else if(result.result == "Existence") {
+							Swal.fire({
+								icon: 'error',
+								title: '파일명 중복',
+								text: '동일한 파일명이 존재합니다.',
 							});
 						} else {
 							Swal.fire({
@@ -335,12 +359,9 @@
 								title: '성공!',
 								text: '작업을 완료했습니다.',
 							});
-							var fileDownloadLink = $('#fileDownloadLink');
-							console.log(fileDownloadLink);
 							result.fileName.forEach(function(fileName) {
-								console.log(fileName);
-								var rowItem = "<div style='float: left; margin-right: 15px;'><a href='#' style='font-size: 12px;' onclick='fileDownload('${file}')'>${file}</a><a href='#' onclick='linkDelete(this.parentNode)' style='font-size: 12px; color: red;'>  x</a></div>";
-								fileDownloadLink.after(rowItem);
+								var rowItem = "<div style='float: left; margin-right: 15px;'><a href='#' style='font-size: 12px;' onclick='fileDownload("+'"'+fileName+'"'+")'>"+fileName+"</a><a href='#' onclick='linkDelete(this.parentNode,"+'"'+fileName+'"'+")' style='font-size: 12px; color: red;'>  x</a></div>";
+								 $('#fileDownloadLink').append(rowItem);
 							});
 						} else if(result.result == "NotTitle") {
 							Swal.fire({
@@ -353,6 +374,12 @@
 								icon: 'error',
 								title: '내용 입력 바랍',
 								text: '내용 필수 입력 사항입니다.',
+							});
+						} else if(result.result == "Existence") {
+							Swal.fire({
+								icon: 'error',
+								title: '파일명 중복',
+								text: '동일한 파일명이 존재합니다.',
 							});
 						} else {
 							Swal.fire({
@@ -375,11 +402,53 @@
 		if (e.which == 17)  isCtrl = false;
 	}
 	
-	function linkDelete(parentNode) {
-		parentNode.remove();
+	function linkDelete(parentNode,individualNoteFileName) {
+		var individualNoteKeyNum = $('#individualNoteKeyNum').val();
+		console.log(individualNoteKeyNum);
+		Swal.fire({
+			  title: '삭제!',
+			  text: "선택한 첨부파일을 삭제하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#7066e0',
+			  cancelButtonColor: '#FF99AB',
+			  confirmButtonText: '예'
+		}).then((result) => {
+			$.ajax({
+				url: "<c:url value='/individualNote/fileDelete'/>",
+				type: "POST",
+				data: {
+						"individualNoteFileName": individualNoteFileName,
+						"individualNoteKeyNum": individualNoteKeyNum
+					},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						parentNode.remove();
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '정상적으로 삭제 되었습니다.'
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '첨부파일이 존재 하지 않습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			  });
+		});
 	}
 	
 	function fileDownload(fileName) {
-		window.location ="<c:url value='/individualNote/fileDownload?fileName="+fileName+"'/>";
+		window.location ="<c:url value='/individualNote/fileDownload?fileName="+fileName+"&individualNoteKeyNum=${individualNote.individualNoteKeyNum}'/>";
 	}
+	
 </script>

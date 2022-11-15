@@ -14,9 +14,13 @@
 		SELECT MAX(individualNoteKeyNum) FROM individualNote;
 	</select>
 	
+	<select id="getIndividualNoteSort" resultType="_int">
+		SELECT MAX(individualNoteSort) FROM individualNote;
+	</select>
+	
 	<insert id="insertIndividualNote">
-		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteFileName,individualNoteHashTag,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
-		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteFileNameView},#{individualNoteHashTagView},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
+		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteSort,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteSort},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
 	</insert>
 	
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
@@ -43,6 +47,7 @@
 				</trim>
 			)
 		</if>
+		ORDER BY individualNoteSort ASC;
 	</select>
 	
 	<select id="getIndividualNoteOne" resultMap="individualNote">
@@ -50,7 +55,7 @@
 	</select>
 	
 	<update id="updateIndividualNote">
-		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteFileName=#{individualNoteFileNameView},individualNoteHashTag=#{individualNoteHashTagView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
+		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteHashTag=#{individualNoteHashTagView},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
 		WHERE individualNoteKeyNum=#{individualNoteKeyNum};
 	</update>
 	
@@ -97,4 +102,25 @@
 			)
 		</if>
 	</select>
+	
+	<update id="saveIndividualNote">
+		UPDATE individualNote SET individualNoteSort = #{individualNoteSort} WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</update>
+	
+	<insert id="insertIndividualNoteFile">
+		INSERT INTO individualNoteFile(individualNoteKeyNum,individualNoteFileName,individualNoteFileRegistrant,individualNoteFileRegistrationDate) 
+		VALUES(#{individualNoteKeyNum},#{individualNoteFileName},#{individualNoteFileRegistrant},#{individualNoteFileRegistrationDate});
+	</insert>
+	
+	<select id="getIndividualNoteFileName" parameterType="_int" resultType="string">
+		SELECT individualNoteFileName FROM individualNoteFile WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</select>
+	
+	<delete id="deleteIndividualNoteFile">
+		DELETE FROM individualNoteFile WHERE individualNoteKeyNum = #{individualNoteKeyNum} AND individualNoteFileName = #{individualNoteFileName};
+	</delete>
+	
+	<delete id="deleteIndividualNoteFileKeyNum" parameterType="_int">
+		DELETE FROM individualNoteFile WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</delete>
 </mapper>

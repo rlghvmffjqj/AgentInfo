@@ -505,6 +505,7 @@
 			rowItem += "</table>";
 			rowItem += "<div class='positioningBtn'><button type='button' class='arrowBtn' style='background: peachpuff;' onclick='btnUp(this)'>ᐱ</button> <button type='button' class='arrowBtn' style='background: burlywood;' onclick='btnDown(this)'>ᐯ</button></div>";
 			rowItem += "</div>";
+			console.log(table);
 			
 			table.after(rowItem); // 동적으로 row를 추가한다.
 			$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
