@@ -15,7 +15,7 @@
 		
 		<style type="text/css">
 		  .grid-stack { background: white; min-height: 724px; }
-		  .grid-stack-item-content { background-color: #FFFF6D; }
+		  .grid-stack-item-content { background-color: #FFFF6D; box-shadow: 1px 1px 1px grey; padding-left: 5px;}
 		</style>
 	</head>
 	<body>
@@ -162,7 +162,7 @@
 		];
 		
 		items.forEach(n => {
-			n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
+			n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
 			grid.addWidget(n); 
 		});
 		
@@ -226,7 +226,7 @@
 			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents, 'hashTag': data[i].individualNoteHashTag});
 			    	};
 			    	items.forEach(n => {
-			    		n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
+			    		n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
 						grid.addWidget(n);
 					});
 			    },

@@ -41,6 +41,9 @@
 	.note-editable {
 		background-color: #FFFF88;
 	}
+	.modal-body {
+		padding: 5px;
+	}
 	
 	a {
 		color: cadetblue
@@ -77,9 +80,17 @@
 						</span>
 					</div>
 				</div>
-				<div id="fileDownloadLink" style="height: 15px;">
+				<div class="fileDownloadLink" id="fileDownloadLink">
 					<c:forEach var="file" items="${individualNoteFileName}">
-						<div style="float: left; margin-right: 15px;"><a href="#" style="font-size: 12px;" onclick='fileDownload("${file}")'>${file}</a><a href="#" onclick="linkDelete(this.parentNode,'${file}')" style="font-size: 12px; color: red;">  x</a></div>
+						<div class="attachmentsDiv">
+							<a href="#" class="attachmentsA" onclick='fileDownload("${file}")'>
+								<span><img class="attachmentsImg" src="/AgentInfo/images/mail.png" alt="Theme-Logo"></span>
+								<div class="attachmentsTxt" title="${file}">${file}</div>
+							</a>
+							<button class="attachmentsBtn" type="button" onclick="linkDelete(this.parentNode,'${file}')">
+								<span><img class="attachmentsClose" src="/AgentInfo/images/close.png"></span>
+							</button>
+						</div>
 					</c:forEach>
 				</div>
 		 		<textarea class="summerNoteSize" rows="5" id="individualNoteContentsView" name="individualNoteContentsView" onkeydown="resize(this)" onkeyup="resize(this)">${individualNote.individualNoteContents}</textarea>
@@ -113,21 +124,12 @@
 			    	$("#individualNoteFileName").val(file.name);
 			    }
 			}
-			
-			//if(window.FileReader){  // modern browser
-			//	var filename = $(this)[0].files[0].name;
-			//} else {  // old IE
-	 		//	var filename = $(this).val().split('/').pop().split('\\').pop();  // 파일명만 추출
-			//}
-            //
-	 		//// 추출한 파일명 삽입
-			//$("#individualNoteFileName").val(filename);
 		});
 		
 		/* =========== 섬머노트 ========= */
 		$('.summerNoteSize').summernote({
-			minHeight:520,
-			maxHeight:520,
+			minHeight:495,
+			maxHeight:495,
 			placeholder:"노트 내용"
 		});
 		$('.note-insert').hide();
@@ -158,7 +160,6 @@
 				icon: 'question',
 			}).then((result) => {
 				if (result.isConfirmed) {
-					//var postData = $('#modalForm').serializeObject();
 					var postData = new FormData($('#modalForm')[0]);
 					$.ajax({
 						url: "<c:url value='/individualNote/insert'/>",
@@ -225,7 +226,6 @@
 				icon: 'question',
 			}).then((result) => {
 				if (result.isConfirmed) {
-					//var postData = $('#modalForm').serializeObject();
 					var postData = new FormData($('#modalForm')[0]);
 					$.ajax({
 						url: "<c:url value='/individualNote/update'/>",
@@ -289,7 +289,6 @@
 	document.onkeydown = function(e) {
 	    if (e.which == 17)  isCtrl = true;
 	    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
-	    	//var postData = $('#modalForm').serializeObject();
 	    	var postData = new FormData($('#modalForm')[0]);
 	    	var viewType = $("#viewType").val();
 	    	if(viewType == "insert") {
@@ -310,9 +309,17 @@
 								text: '작업을 완료했습니다.',
 							});
 							result.fileName.forEach(function(fileName) {
-								var rowItem = "<div style='float: left; margin-right: 15px;'><a href='#' style='font-size: 12px;' onclick='fileDownload("+'"'+fileName+'"'+")'>"+fileName+"</a><a href='#' onclick='linkDelete(this.parentNode,"+'"'+fileName+'"'+")' style='font-size: 12px; color: red;'>  x</a></div>";
-								
-								 $('#fileDownloadLink').append(rowItem);
+								var rowItem = "<div class='attachmentsDiv'>";
+								rowItem += "<a href='#' class='attachmentsA' onclick='fileDownload("+'"'+fileName+'"'+")'>";
+								rowItem += "<span><img class='attachmentsImg' src='/AgentInfo/images/mail.png' alt='Theme-Logo'></span>";
+								rowItem += "<div class='attachmentsTxt' title="+fileName+">"+fileName+"</div>";
+								rowItem += "</a>";
+								rowItem += "<button class='attachmentsBtn' type='button' onclick='linkDelete(this.parentNode,"+'"'+fileName+'"'+")'>";
+								rowItem += "<span><img class='attachmentsClose' src='/AgentInfo/images/close.png'></span>";
+								rowItem += "</button>";
+								rowItem += "</div>";
+							 	$('#fileDownloadLink').append(rowItem);
+								$("#individualNoteFileName").val("");
 							});
 						} else if(result.result == "NotTitle") {
 							Swal.fire({
@@ -360,8 +367,17 @@
 								text: '작업을 완료했습니다.',
 							});
 							result.fileName.forEach(function(fileName) {
-								var rowItem = "<div style='float: left; margin-right: 15px;'><a href='#' style='font-size: 12px;' onclick='fileDownload("+'"'+fileName+'"'+")'>"+fileName+"</a><a href='#' onclick='linkDelete(this.parentNode,"+'"'+fileName+'"'+")' style='font-size: 12px; color: red;'>  x</a></div>";
-								 $('#fileDownloadLink').append(rowItem);
+								var rowItem = "<div class='attachmentsDiv'>";
+								rowItem += "<a href='#' class='attachmentsA' onclick='fileDownload("+'"'+fileName+'"'+")'>";
+								rowItem += "<span><img class='attachmentsImg' src='/AgentInfo/images/mail.png' alt='Theme-Logo'></span>";
+								rowItem += "<div class='attachmentsTxt' title="+fileName+">"+fileName+"</div>";
+								rowItem += "</a>";
+								rowItem += "<button class='attachmentsBtn' type='button' onclick='linkDelete(this.parentNode,"+'"'+fileName+'"'+")'>";
+								rowItem += "<span><img class='attachmentsClose' src='/AgentInfo/images/close.png'></span>";
+								rowItem += "</button>";
+								rowItem += "</div>";
+								$('#fileDownloadLink').append(rowItem);
+								$("#individualNoteFileName").val("");
 							});
 						} else if(result.result == "NotTitle") {
 							Swal.fire({
@@ -404,7 +420,6 @@
 	
 	function linkDelete(parentNode,individualNoteFileName) {
 		var individualNoteKeyNum = $('#individualNoteKeyNum').val();
-		console.log(individualNoteKeyNum);
 		Swal.fire({
 			  title: '삭제!',
 			  text: "선택한 첨부파일을 삭제하시겠습니까?",
@@ -414,41 +429,45 @@
 			  cancelButtonColor: '#FF99AB',
 			  confirmButtonText: '예'
 		}).then((result) => {
-			$.ajax({
-				url: "<c:url value='/individualNote/fileDelete'/>",
-				type: "POST",
-				data: {
-						"individualNoteFileName": individualNoteFileName,
-						"individualNoteKeyNum": individualNoteKeyNum
+			if (result.isConfirmed) {
+				$.ajax({
+					url: "<c:url value='/individualNote/fileDelete'/>",
+					type: "POST",
+					data: {
+							"individualNoteFileName": individualNoteFileName,
+							"individualNoteKeyNum": individualNoteKeyNum
+						},
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK") {
+							console.log(parentNode);
+							parentNode.remove();
+							Swal.fire({
+								icon: 'success',
+								title: '성공!',
+								text: '정상적으로 삭제 되었습니다.'
+							});
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '첨부파일이 존재 하지 않습니다.',
+							});
+						}
 					},
-				dataType: "text",
-				traditional: true,
-				async: false,
-				success: function(data) {
-					if(data == "OK") {
-						parentNode.remove();
-						Swal.fire({
-							icon: 'success',
-							title: '성공!',
-							text: '정상적으로 삭제 되었습니다.'
-						});
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '첨부파일이 존재 하지 않습니다.',
-						});
+					error: function(error) {
+						console.log(error);
 					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			  });
+				});
+			}
 		});
 	}
 	
 	function fileDownload(fileName) {
-		window.location ="<c:url value='/individualNote/fileDownload?fileName="+fileName+"&individualNoteKeyNum=${individualNote.individualNoteKeyNum}'/>";
+		var individualNoteKeyNum = $('#individualNoteKeyNum').val();
+		window.location ="<c:url value='/individualNote/fileDownload?fileName="+fileName+"&individualNoteKeyNum="+individualNoteKeyNum+"'/>";
 	}
 	
 </script>

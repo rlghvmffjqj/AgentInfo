@@ -822,3 +822,54 @@ input:focus+.labl::before{
 	border: 0;
     background: white;
 }
+
+.attachmentsA {
+	width: 200px;
+    background: khaki;
+    height: 36px;
+    float: left;
+}
+
+.attachmentsTxt {
+	color: black;
+    font-size: 12px;
+    width: 151px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: inherit;
+    line-height: 36px;
+}
+
+.attachmentsImg {
+	margin: 8px;
+    float: left;
+    width: 28px;
+}
+
+.attachmentsClose {
+	width: 10px;
+}
+
+.attachmentsBtn {
+    border: 0;
+    float: right;
+    height: 100%;
+    background: darkgoldenrod;
+}
+
+.attachmentsDiv {
+    width: 222px;
+    height: 36px;
+    float: left;
+    margin-right: 10px;
+}
+
+.fileDownloadLink {
+	height: auto;
+    width: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+    display: -webkit-box;
+}
