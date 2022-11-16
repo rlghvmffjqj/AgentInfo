@@ -64,8 +64,9 @@ public class IndividualNoteTreeController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/individualNoteTree/delete")
-	public Map<String,String> DeleteIndividualNoteTree(IndividualNoteTree individualNoteTree) {
+	public Map<String,String> DeleteIndividualNoteTree(Principal principal, IndividualNoteTree individualNoteTree) {
 		Map<String,String> map = new HashMap<String,String>();
+		individualNoteTree.setIndividualNoteTreeRegistrant(principal.getName());
 		String result = individualNoteTreeService.deleteIndividualNoteTree(individualNoteTree);
 		map.put("result", result);
 		return map;
@@ -92,6 +93,7 @@ public class IndividualNoteTreeController {
 	@PostMapping(value = "/individualNoteTree/update")
 	public Map<String,String> updateEmployee(Principal principal, IndividualNoteTree individualNoteTree) {
 		Map<String,String> map = new HashMap<String,String>();
+		individualNoteTree.setIndividualNoteTreeRegistrant(principal.getName());
 		individualNoteTree.setIndividualNoteTreeModifier(principal.getName());
 		individualNoteTree.setIndividualNoteTreeModifiedDate(individualNoteTreeService.nowDate());
 		String result = individualNoteTreeService.updateIndividualNoteTree(individualNoteTree);

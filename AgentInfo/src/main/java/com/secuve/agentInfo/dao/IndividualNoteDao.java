@@ -70,7 +70,7 @@ public class IndividualNoteDao {
 	}
 
 	public void updateTree(String ordIndividualNoteTreeFullPath, String individualNoteTreeFullPath,
-		String individualNoteTreeParentPath, String individualNoteTreeName, String individualNoteTreeModifier, String individualNoteTreeModifiedDate) {
+		String individualNoteTreeParentPath, String individualNoteTreeName, String individualNoteTreeModifier, String individualNoteTreeModifiedDate, String individualNoteTreeRegistrant) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ordIndividualNoteTreeFullPath", ordIndividualNoteTreeFullPath);
 		parameters.put("individualNoteTreeFullPath", individualNoteTreeFullPath);
@@ -78,6 +78,7 @@ public class IndividualNoteDao {
 		parameters.put("individualNoteTreeName", individualNoteTreeName);
 		parameters.put("individualNoteTreeModifier", individualNoteTreeModifier);
 		parameters.put("individualNoteTreeModifiedDate", individualNoteTreeModifiedDate);
+		parameters.put("individualNoteTreeRegistrant", individualNoteTreeRegistrant);
 		sqlSession.update("individualNote.updateTree", parameters);	
 	}
 

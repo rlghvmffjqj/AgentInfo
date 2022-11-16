@@ -18,20 +18,20 @@
 	</insert>
 	
 	<select id="getIndividualNoteTreeFullPath" parameterType="string" resultMap="individualNoteTree">
-		SELECT * FROM individualNoteTree WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath};
+		SELECT * FROM individualNoteTree WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
 	</select>
 	
 	<select id="getIndividualNoteTreeParentPath" parameterType="string" resultMap="individualNoteTree">
-		SELECT * FROM individualNoteTree WHERE individualNoteTreeParentPath = #{individualNoteTreeParentPath};
+		SELECT * FROM individualNoteTree WHERE individualNoteTreeParentPath = #{individualNoteTreeParentPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
 	</select>
 	
 	<delete id="deleteIndividualNoteTree">
-		DELETE FROM individualNoteTree WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath};
+		DELETE FROM individualNoteTree WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
 	</delete>
 	
 	<update id="updateTree">
 		UPDATE individualNoteTree SET individualNoteTreeFullPath = #{individualNoteTreeFullPath}, individualNoteTreeParentPath = #{individualNoteTreeParentPath}, individualNoteTreeName = #{individualNoteTreeName}, individualNoteTreeModifier = #{individualNoteTreeModifier}, individualNoteTreeModifiedDate = #{individualNoteTreeModifiedDate}
-		WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath};
+		WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
 	</update>
 	
 	<select id="getIndividualNoteTreeFullPathList" resultMap="individualNoteTree" parameterType="string">

@@ -33,7 +33,7 @@ public class IndividualNoteTreeService {
 		} else {
 			individualNoteTree.setIndividualNoteTreeFullPath(individualNoteTree.getIndividualNoteTreeParentPath() + "/"+individualNoteTree.getIndividualNoteTreeName());
 		}
-		IndividualNoteTree overlap = individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getIndividualNoteTreeFullPath());
+		IndividualNoteTree overlap = individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getIndividualNoteTreeFullPath(), individualNoteTree.getIndividualNoteTreeRegistrant());
 		if(individualNoteTree.getIndividualNoteTreeName() == "" || individualNoteTree.getIndividualNoteTreeName() == null) {
 			return "Empty";
 		}
@@ -47,7 +47,7 @@ public class IndividualNoteTreeService {
 
 	public String deleteIndividualNoteTree(IndividualNoteTree individualNoteTree) {
 		int sucess = 0;
-		List<IndividualNoteTree> subIndividualNoteTree = individualNoteTreeDao.getIndividualNoteTreeParentPath(individualNoteTree.getIndividualNoteTreeFullPath());
+		List<IndividualNoteTree> subIndividualNoteTree = individualNoteTreeDao.getIndividualNoteTreeParentPath(individualNoteTree);
 		if(subIndividualNoteTree.size() == 0) {
 			sucess = individualNoteTreeDao.deleteIndividualNoteTree(individualNoteTree);
 		} else {
@@ -60,14 +60,14 @@ public class IndividualNoteTreeService {
 		if(individualNoteTree.getNewIndividualNoteTreeName() == "" || individualNoteTree.getNewIndividualNoteTreeName() == null) {
 			return "Empty";
 		}
-		IndividualNoteTree ordIndividualNoteTree = (IndividualNoteTree) individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getIndividualNoteTreeFullPath());
+		IndividualNoteTree ordIndividualNoteTree = (IndividualNoteTree) individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getIndividualNoteTreeFullPath(), individualNoteTree.getIndividualNoteTreeRegistrant());
 		if(ordIndividualNoteTree.getIndividualNoteTreeParentPath().equals("/")) {
 			individualNoteTree.setNewIndividualNoteTreeFullPath("/"+individualNoteTree.getNewIndividualNoteTreeName());
 		} else {
 			individualNoteTree.setNewIndividualNoteTreeFullPath(ordIndividualNoteTree.getIndividualNoteTreeParentPath()+"/"+individualNoteTree.getNewIndividualNoteTreeName());
 		}
 		
-		IndividualNoteTree overlap = individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getNewIndividualNoteTreeFullPath());
+		IndividualNoteTree overlap = individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getNewIndividualNoteTreeFullPath(), individualNoteTree.getIndividualNoteTreeRegistrant());
 		if(overlap == null) {
 			ArrayList<IndividualNoteTree> individualNoteTreeFullPathList = new ArrayList<>(individualNoteTreeDao.getIndividualNoteTreeFullPathList(ordIndividualNoteTree.getIndividualNoteTreeFullPath()));
 			for (IndividualNoteTree newIndividualNoteTree : individualNoteTreeFullPathList) {
@@ -76,10 +76,10 @@ public class IndividualNoteTreeService {
 				ordIndividualNoteTree = parseFullPath(newIndividualNoteTreeFullPath, ordIndividualNoteTree);
 				
 				// 부서 테이블 변경
-				individualNoteTreeDao.updateTree(ordIndividualNoteTreeFullPath, ordIndividualNoteTree.getIndividualNoteTreeFullPath(), ordIndividualNoteTree.getIndividualNoteTreeParentPath(), ordIndividualNoteTree.getIndividualNoteTreeName(), individualNoteTree.getIndividualNoteTreeModifier(), individualNoteTree.getIndividualNoteTreeModifiedDate());
+				individualNoteTreeDao.updateTree(ordIndividualNoteTreeFullPath, ordIndividualNoteTree.getIndividualNoteTreeFullPath(), ordIndividualNoteTree.getIndividualNoteTreeParentPath(), ordIndividualNoteTree.getIndividualNoteTreeName(), individualNoteTree.getIndividualNoteTreeModifier(), individualNoteTree.getIndividualNoteTreeModifiedDate(), individualNoteTree.getIndividualNoteTreeRegistrant());
 
 				// 해당 부서의 사원정보 모두 변경
-				individualNoteDao.updateTree(ordIndividualNoteTreeFullPath, ordIndividualNoteTree.getIndividualNoteTreeFullPath(), ordIndividualNoteTree.getIndividualNoteTreeParentPath(), ordIndividualNoteTree.getIndividualNoteTreeName(), individualNoteTree.getIndividualNoteTreeModifier(), individualNoteTree.getIndividualNoteTreeModifiedDate());
+				individualNoteDao.updateTree(ordIndividualNoteTreeFullPath, ordIndividualNoteTree.getIndividualNoteTreeFullPath(), ordIndividualNoteTree.getIndividualNoteTreeParentPath(), ordIndividualNoteTree.getIndividualNoteTreeName(), individualNoteTree.getIndividualNoteTreeModifier(), individualNoteTree.getIndividualNoteTreeModifiedDate(), individualNoteTree.getIndividualNoteTreeRegistrant());
 			}
 			
 		} else {

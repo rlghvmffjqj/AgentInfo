@@ -76,7 +76,8 @@
 	</select>
 	
 	<update id="updateTree">
-		UPDATE individualNote SET individualNoteTreeFullPath = #{individualNoteTreeFullPath}, individualNoteTreeParentPath = #{individualNoteTreeParentPath}, individualNoteTreeName = #{individualNoteTreeName}, individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate} WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath};
+		UPDATE individualNote SET individualNoteTreeFullPath = #{individualNoteTreeFullPath}, individualNoteTreeParentPath = #{individualNoteTreeParentPath}, individualNoteTreeName = #{individualNoteTreeName}, individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate} 
+		WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath} AND individualNoteRegistrant = #{individualNoteTreeRegistrant};
 	</update>
 	
 	<select id="getIndividualNoteSearchAll" parameterType="string" resultMap="individualNote">

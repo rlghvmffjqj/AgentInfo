@@ -25,12 +25,15 @@ public class IndividualNoteTreeDao {
 		return sqlSession.insert("individualNoteTree.insertIndividualNoteTree", individualNoteTree);
 	}
 
-	public IndividualNoteTree getIndividualNoteTreeFullPath(String individualNoteTreeFullPath) {
-		return sqlSession.selectOne("individualNoteTree.getIndividualNoteTreeFullPath",individualNoteTreeFullPath);
+	public IndividualNoteTree getIndividualNoteTreeFullPath(String individualNoteTreeFullPath, String individualNoteTreeRegistrant) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("individualNoteTreeFullPath", individualNoteTreeFullPath);
+		parameters.put("individualNoteTreeRegistrant", individualNoteTreeRegistrant);
+		return sqlSession.selectOne("individualNoteTree.getIndividualNoteTreeFullPath",parameters);
 	}
 
-	public List<IndividualNoteTree> getIndividualNoteTreeParentPath(String individualNoteTreeFullPath) {
-		return sqlSession.selectList("individualNoteTree.getIndividualNoteTreeParentPath",individualNoteTreeFullPath);
+	public List<IndividualNoteTree> getIndividualNoteTreeParentPath(IndividualNoteTree individualNoteTree) {
+		return sqlSession.selectList("individualNoteTree.getIndividualNoteTreeParentPath",individualNoteTree);
 	}
 
 	public int deleteIndividualNoteTree(IndividualNoteTree individualNoteTree) {
@@ -44,7 +47,7 @@ public class IndividualNoteTreeDao {
 		return sqlSession.selectList("individualNoteTree.getIndividualNoteTreeFullPathList", parameters);
 	}
 
-	public int updateTree(String ordIndividualNoteTreeFullPath, String individualNoteTreeFullPath, String individualNoteTreeParentPath, String individualNoteTreeName, String individualNoteTreeModifier, String individualNoteTreeModifiedDate) {
+	public int updateTree(String ordIndividualNoteTreeFullPath, String individualNoteTreeFullPath, String individualNoteTreeParentPath, String individualNoteTreeName, String individualNoteTreeModifier, String individualNoteTreeModifiedDate, String individualNoteTreeRegistrant) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ordIndividualNoteTreeFullPath", ordIndividualNoteTreeFullPath);
 		parameters.put("individualNoteTreeFullPath", individualNoteTreeFullPath);
@@ -52,6 +55,7 @@ public class IndividualNoteTreeDao {
 		parameters.put("individualNoteTreeName", individualNoteTreeName);
 		parameters.put("individualNoteTreeModifier", individualNoteTreeModifier);
 		parameters.put("individualNoteTreeModifiedDate", individualNoteTreeModifiedDate);
+		parameters.put("individualNoteTreeRegistrant", individualNoteTreeRegistrant);
 		return sqlSession.insert("individualNoteTree.updateTree", parameters);
 	}
 }
