@@ -818,11 +818,6 @@ input:focus+.labl::before{
     height: 25px !important;
 }
 
-.buttonA {
-	border: 0;
-    background: white;
-}
-
 .attachmentsA {
 	width: 200px;
     background: khaki;

@@ -15,7 +15,19 @@
 		
 		<style type="text/css">
 		  .grid-stack { background: white; min-height: 724px; }
-		  .grid-stack-item-content { background-color: #FFFF6D; box-shadow: 1px 1px 1px grey; padding-left: 5px;}
+		  .grid-stack-item-content { background-color: #FFFF6D; box-shadow: 1px 1px 1px grey;}
+		  .grid-stack-item-content {
+		    overflow: auto;
+		  }
+		  .grid-stack-item-content::-webkit-scrollbar {
+		    width: 10px;
+		  }
+		  .grid-stack-item-content::-webkit-scrollbar-thumb {
+		    background-color: #2f3542;
+		  }
+		  .grid-stack-item-content::-webkit-scrollbar-track {
+		    background-color: lightgrey;
+		  }
 		</style>
 	</head>
 	<body>
@@ -162,7 +174,7 @@
 		];
 		
 		items.forEach(n => {
-			n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
+			n.content = '<div style="background-color:'+ n.backgroundColor + '; widht:100%; height:100%; padding-left: 5px;"><a href="#" onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px; padding-right: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents + '</div>';
 			grid.addWidget(n); 
 		});
 		
@@ -223,10 +235,10 @@
 			    success: function (data) {
 			    	var items = [];
 			    	for(var i=0; i<data.length; i++) {
-			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents, 'hashTag': data[i].individualNoteHashTag});
+			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents, 'hashTag': data[i].individualNoteHashTag, 'backgroundColor': data[i].individualNoteColor});
 			    	};
 			    	items.forEach(n => {
-			    		n.content = '<a onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents;
+			    		n.content = '<div style="background-color:'+ n.backgroundColor + '; widht:100%; height:100%; padding-left: 5px;"><a href="#" onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px; padding-right: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents + '</div>';
 						grid.addWidget(n);
 					});
 			    },
@@ -235,7 +247,7 @@
 			    }
 			});
 			$(".grid-stack-item-content").on('dblclick', (e) => {
-				var individualNoteKeyNum = e.currentTarget.childNodes[3].defaultValue;
+				var individualNoteKeyNum = e.currentTarget.childNodes[0].childNodes[3].defaultValue;
 				$.ajax({
 				    type: 'POST',
 				    data: {'individualNoteKeyNum': individualNoteKeyNum},
@@ -266,7 +278,7 @@
 		
 		/* =========== 노트 수정 View ========= */
 		$(".grid-stack-item-content").on('dblclick', (e) => {
-			var individualNoteKeyNum = e.currentTarget.childNodes[3].defaultValue;
+			var individualNoteKeyNum = e.currentTarget.childNodes[0].childNodes[3].defaultValue;
 			$.ajax({
 			    type: 'POST',
 			    data: {'individualNoteKeyNum': individualNoteKeyNum},
@@ -563,7 +575,6 @@
 							dataType: "json",
 							async: false,
 							success: function(data) {
-								console.log("확인"+data.result);
 								if(data.result == "OK"){
 									Swal.fire({
 										icon: 'success',

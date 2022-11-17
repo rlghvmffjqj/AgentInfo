@@ -88,6 +88,7 @@ public class IndividualNoteController {
 		String result = individualNoteService.updateIndividualNote(individualNote, principal, fileInput);
 		map.put("result", result);
 		map.put("fileName", individualNoteService.getIndividualNoteFileNameStr(individualNote.getIndividualNoteFileName()));
+		map.put("individualNoteModifiedDate", individualNote.getIndividualNoteModifiedDate());
 		return map;
 	}
 	

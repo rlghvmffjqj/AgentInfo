@@ -6,9 +6,6 @@
 	.modal-body {
 		background-color: #FFFF88;
 	}	
-	.buttonA {
-		background-color: #FFFF88;
-	}
 	#individualNoteTitleView {
 		background-color: #FFFF88;
 		border: 0;
@@ -48,6 +45,22 @@
 	a {
 		color: cadetblue
 	}
+	.moveBtn {
+	    position: absolute;
+	    left: 1400px;
+	    bottom: 772px;
+	    font-weight: bold;
+	    color: #555;
+	    transition: all 0.1s 0.1s;
+	    font-size: 15px;
+	    opacity: 0;
+	}
+	
+	#setting:hover .moveBtn {
+	    left: 1360px;
+	    opacity: 1;
+	}
+	
 </style>
 
 <div class="modal-body" style="width: 100%; height: 800px;">
@@ -55,9 +68,16 @@
 		<input type="hidden" id="individualNoteTreeFullPath" name="individualNoteTreeFullPath" class="form-control" value="${individualNote.individualNoteTreeFullPath}">
 		<input type="hidden" id="individualNoteTreeName" name="individualNoteTreeName" class="form-control" value="${individualNote.individualNoteTreeName}">
 		<div style="margin:10px">
-			<div style="text-align: right;">
-				<button class="buttonA" type="button" id="close">─</button>
-				<button class="buttonA" type="button" style="font-size: 15px;" id="save">X</button>
+			<div style="text-align: right; margin-top: -10px;">
+				<a href="#" id="setting">
+					<div class="moveBtn">
+						<input type="color" id="individualNoteColor" name="individualNoteColor" value="${individualNote.individualNoteColor}" style="border:0; background-color: black; width: 30px; height: 17px;">
+						<span ><img src="/AgentInfo/images/return.png" id="return" style="width: 17px;" alt="Theme-Logo"></span>
+						<span ><img src="/AgentInfo/images/minus2.png" id="close" style="width: 15px; height: 17px;" alt="Theme-Logo"></span>
+						<span ><img src="/AgentInfo/images/close2.png" id="save" style="width: 15px;" alt="Theme-Logo"></span>
+					</div>
+					<span><img src="/AgentInfo/images/setting.png"  style="width: 25px;" alt="Theme-Logo"></span>
+				</a>
 			</div>
 			<div>
 		 		<label class="labelFontSize">Note Title</label>
@@ -99,10 +119,11 @@
 		 		<label class="labelFontSize">Hash Tag</label>
 		 	</div>
 		 	<div>
-		 		<input class="form-control" type="text" id="individualNoteHashTagView" name="individualNoteHashTagView" placeholder='해시 태그' value="${individualNote.individualNoteHashTag}">
+		 		<input class="form-control" type="text" style="width:85%; float: left;" id="individualNoteHashTagView" name="individualNoteHashTagView" placeholder='해시 태그' value="${individualNote.individualNoteHashTag}">
+		 		<span style="float: right; font-size: 11px;" id="individualNoteModifiedDate">마지막 수정일 : ${individualNote.individualNoteModifiedDate}</span>
 		 	</div>
 		</div>
-		<input type="hidden" id="individualNoteKeyNum" name="individualNoteKeyNum"  value="${individualNote.individualNoteKeyNum}">
+		<input type="hidden" id="individualNoteKeyNum" name="individualNoteKeyNum" value="${individualNote.individualNoteKeyNum}">
 		<input type="hidden" id="viewType" name="viewType" value="${viewType}">
 	</form>
 </div>
@@ -126,6 +147,19 @@
 			}
 		});
 		
+		/* =========== 색상 변경식 적용 ========= */
+		$("#individualNoteColor").on('change', function(){  // 값이 변경되면
+			var backgroundColor = $("#individualNoteColor").val();
+			$(".modal-body").css("background-color",backgroundColor);
+			$(".note-editable").css("background-color",backgroundColor);
+			$(".note-toolbar").css("background-color",backgroundColor);
+			$(".note-btn").css("background-color",backgroundColor);
+			$("#individualNoteTitleView").css("background-color",backgroundColor);
+			$("#individualNoteHashTagView").css("background-color",backgroundColor);
+			$("#close").css("background-color",backgroundColor);
+			$("#save").css("background-color",backgroundColor);
+		});
+		
 		/* =========== 섬머노트 ========= */
 		$('.summerNoteSize').summernote({
 			minHeight:495,
@@ -134,7 +168,22 @@
 		});
 		$('.note-insert').hide();
 		$('.note-view').hide();
+		
+		/* =========== 설정한 배경 색상 적용하기 ========= */
+		if("${viewType}" == 'update') {
+			$(".modal-body").css("background-color","${individualNote.individualNoteColor}");
+			$(".note-editable").css("background-color","${individualNote.individualNoteColor}");
+			$(".note-toolbar").css("background-color","${individualNote.individualNoteColor}");
+			$(".note-btn").css("background-color","${individualNote.individualNoteColor}");
+			$("#individualNoteTitleView").css("background-color","${individualNote.individualNoteColor}");
+			$("#individualNoteHashTagView").css("background-color","${individualNote.individualNoteColor}");
+			$("#close").css("background-color","${individualNote.individualNoteColor}");
+			$("#save").css("background-color","${individualNote.individualNoteColor}");
+		} else if("${viewType}" == 'insert') {
+			$("#individualNoteColor").val("#FFFF88");
+		}
 	});
+	
 	
 	/* =========== 닫기 ========= */
 	$('#close').click(function() {
@@ -142,6 +191,19 @@
 		$('#modal').on('hidden.bs.modal', function () {
 			stackRefresh();
 		});
+	})
+	
+	/* =========== 배경 되돌리기 ========= */
+	$('#return').click(function() {
+		$(".modal-body").css("background-color","#FFFF88");
+		$(".note-editable").css("background-color","#FFFF88");
+		$(".note-toolbar").css("background-color","#FFFF88");
+		$(".note-btn").css("background-color","#FFFF88");
+		$("#individualNoteTitleView").css("background-color","#FFFF88");
+		$("#individualNoteHashTagView").css("background-color","#FFFF88");
+		$("#close").css("background-color","#FFFF88");
+		$("#save").css("background-color","#FFFF88");
+		$("#individualNoteColor").val("#FFFF88");
 	})
 	
 	/* =========== 저장 ========= */
@@ -170,6 +232,7 @@
 				        contentType: false,
 				        success: function(result) {
 							if(result.result == "OK") {
+								$('#individualNoteModifiedDate').text('마지막 수정일 : ' + result.individualNoteModifiedDate);
 								$('#individualNoteKeyNum').val(result.individualNoteKeyNum);
 								Swal.fire({
 									icon: 'success',
@@ -236,6 +299,7 @@
 				        contentType: false,
 				        success: function(result) {
 							if(result.result == "OK") {
+								$('#individualNoteModifiedDate').text('마지막 수정일 : ' + result.individualNoteModifiedDate);
 								Swal.fire({
 									icon: 'success',
 									title: '성공!',
@@ -302,6 +366,7 @@
 			        async: false,
 			        success: function(result) {
 						if(result.result == "OK") {
+							$('#individualNoteModifiedDate').text('마지막 수정일 : ' + result.individualNoteModifiedDate);
 							$('#individualNoteKeyNum').val(result.individualNoteKeyNum);
 							Swal.fire({
 								icon: 'success',
@@ -361,6 +426,7 @@
 			        contentType: false,
 			        success: function(result) {
 						if(result.result == "OK") {
+							$('#individualNoteModifiedDate').text('마지막 수정일 : ' + result.individualNoteModifiedDate);
 							Swal.fire({
 								icon: 'success',
 								title: '성공!',
@@ -442,7 +508,6 @@
 					async: false,
 					success: function(data) {
 						if(data == "OK") {
-							console.log(parentNode);
 							parentNode.remove();
 							Swal.fire({
 								icon: 'success',

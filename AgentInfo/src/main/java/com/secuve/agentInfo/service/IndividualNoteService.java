@@ -67,6 +67,7 @@ public class IndividualNoteService {
 		}
 		map.put("result", "OK");
 		map.put("individualNoteKeyNum", individualNote.getIndividualNoteKeyNum());
+		map.put("individualNoteModifiedDate", individualNote.getIndividualNoteRegistrationDate());
 		return map;
 	}
 	
