@@ -174,7 +174,7 @@
 		];
 		
 		items.forEach(n => {
-			n.content = '<div style="background-color:'+ n.backgroundColor + '; padding-bottom: 1px; height:auto; padding-left: 5px;"><a href="#" onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px; padding-right: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents + '</div>';
+			n.content = "<div style='background-color:"+ n.backgroundColor + "; padding-bottom: 1px; height:auto; padding-left: 5px;'><a href='#' onClick='individualNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
 			grid.addWidget(n); 
 		});
 		
@@ -238,7 +238,7 @@
 			    		items.push({'keynum': data[i].individualNoteKeyNum, 'title': data[i].individualNoteTitle, 'contents': data[i].individualNoteContents, 'hashTag': data[i].individualNoteHashTag, 'backgroundColor': data[i].individualNoteColor});
 			    	};
 			    	items.forEach(n => {
-			    		n.content = '<div style="background-color:'+ n.backgroundColor + '; padding-bottom: 1px; height:auto; padding-left: 5px;"><a href="#" onClick="individualNoteDelete(this.parentNode.childNodes[3].value)" style="float: right; margin: 5px; font-size: 8px; padding-right: 5px;">X</a><br><br><input type="hidden" value=' + n.keynum + '><laber style="font-weight: bold;color: mediumvioletred;">' + n.title +'</laber>' + n.contents + '</div>';
+			    		n.content = "<div style='background-color:"+ n.backgroundColor + "; padding-bottom: 1px; height:auto; padding-left: 5px;'><a href='#' onClick='individualNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
 						grid.addWidget(n);
 					});
 			    },

@@ -50,6 +50,7 @@ public class IndividualNoteController {
 		individualNote.setIndividualNoteRegistrationDate(individualNoteService.nowDate());
 		individualNote.setIndividualNoteModifier(principal.getName());
 		individualNote.setIndividualNoteModifiedDate(individualNoteService.nowDate());
+		individualNote.setIndividualNoteContentsView(individualNote.getIndividualNoteContentsView().replace("'", "&#39;"));
 		
 		Map result = individualNoteService.insertIndividualNote(individualNote, fileInput);
 		result.put("fileName", individualNoteService.getIndividualNoteFileName(individualNote.getIndividualNoteKeyNum()));
@@ -83,6 +84,7 @@ public class IndividualNoteController {
 	public Map UpdateIndividualNote(IndividualNote individualNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
 		individualNote.setIndividualNoteModifier(principal.getName());
 		individualNote.setIndividualNoteModifiedDate(individualNoteService.nowDate());
+		individualNote.setIndividualNoteContentsView(individualNote.getIndividualNoteContentsView().replace("'", "&#39;"));
 
 		Map map = new HashMap();
 		String result = individualNoteService.updateIndividualNote(individualNote, principal, fileInput);
