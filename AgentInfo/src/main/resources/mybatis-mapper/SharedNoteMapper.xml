@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="sharedNote">
+	<resultMap type="com.secuve.agentInfo.vo.SharedNote" id="sharedNote"></resultMap>
+	
+	<select id="getSharedNote" resultMap="sharedNote" parameterType="string">
+		SELECT *
+		FROM sharedNote
+	</select>
+	
+	<select id="getSharedNoteKeyNum" resultType="_int">
+		SELECT MAX(sharedNoteKeyNum) FROM sharedNote;
+	</select>
+	
+	<select id="getSharedNoteSort" resultType="_int">
+		SELECT MAX(sharedNoteSort) FROM sharedNote;
+	</select>
+	
+	<insert id="insertSharedNote">
+		INSERT INTO sharedNote(sharedNoteKeyNum,sharedNoteTitle,sharedNoteContents,sharedNoteHashTag,sharedNoteSort,sharedNoteColor,sharedNoteTreeName,sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteRegistrant,sharedNoteRegistrationDate,sharedNoteModifier,sharedNoteModifiedDate) 
+		VALUE(#{sharedNoteKeyNum},#{sharedNoteTitleView},#{sharedNoteContentsView},#{sharedNoteHashTagView},#{sharedNoteSort},#{sharedNoteColor},#{sharedNoteTreeName},#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteRegistrant},#{sharedNoteRegistrationDate},#{sharedNoteModifier},#{sharedNoteModifiedDate});
+	</insert>
+	
+	<select id="getSharedNoteSearch" parameterType="string" resultMap="sharedNote">
+		SELECT *
+		FROM sharedNote
+		WHERE sharedNoteTreeFullPath=#{sharedNoteTreeFullPath}
+		AND sharedNoteTreeName=#{sharedNoteTreeName}
+		<if test="sharedNoteTitleCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="sharedNoteTitle" item="arr">
+						OR sharedNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="sharedNoteHashTagCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="sharedNoteHashTag" item="arr">
+						OR sharedNoteHashTag LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		ORDER BY sharedNoteSort ASC;
+	</select>
+	
+	<select id="getSharedNoteOne" resultMap="sharedNote">
+		SELECT * FROM sharedNote WHERE sharedNoteKeyNum = #{sharedNoteKeyNum};
+	</select>
+	
+	<update id="updateSharedNote">
+		UPDATE sharedNote SET sharedNoteTitle=#{sharedNoteTitleView},sharedNoteContents=#{sharedNoteContentsView},sharedNoteHashTag=#{sharedNoteHashTagView},sharedNoteColor=#{sharedNoteColor},sharedNoteModifier=#{sharedNoteModifier},sharedNoteModifiedDate=#{sharedNoteModifiedDate}
+		WHERE sharedNoteKeyNum=#{sharedNoteKeyNum};
+	</update>
+	
+	<delete id="delSharedNote" parameterType="_int">
+		DELETE FROM sharedNote WHERE sharedNoteKeyNum = #{sharedNoteKeyNum};
+	</delete>
+	
+	<delete id="delAllSharedNote" parameterType="string">
+		DELETE FROM sharedNote WHERE sharedNoteTreeName = #{sharedNoteTreeName} AND sharedNoteTreeFullPath = #{sharedNoteTreeFullPath};
+	</delete>
+	
+	<select id="getSharedNoteTitle" resultType="string" parameterType="string">
+		SELECT DISTINCT sharedNoteTitle FROM sharedNote WHERE sharedNoteTitle != '';
+	</select>
+	
+	<select id="getSharedNoteHashTag" resultType="string" parameterType="string">
+		SELECT DISTINCT sharedNoteHashTag FROM sharedNote WHERE sharedNoteHashTag IS NOT NULL AND sharedNoteHashTag != '';
+	</select>
+	
+	<update id="updateTree">
+		UPDATE sharedNote SET sharedNoteTreeFullPath = #{sharedNoteTreeFullPath}, sharedNoteTreeParentPath = #{sharedNoteTreeParentPath}, sharedNoteTreeName = #{sharedNoteTreeName}, sharedNoteModifier=#{sharedNoteModifier},sharedNoteModifiedDate=#{sharedNoteModifiedDate} 
+		WHERE sharedNoteTreeFullPath = #{ordSharedNoteTreeFullPath};
+	</update>
+	
+	<select id="getSharedNoteSearchAll" parameterType="string" resultMap="sharedNote">
+		SELECT *
+		FROM sharedNote
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="sharedNoteTitleCount != 0">
+				AND (
+					<trim prefix="" prefixOverrides="OR">
+						<foreach collection="sharedNoteTitle" item="arr">
+							OR sharedNoteTitle LIKE CONCAT('%',#{arr},'%')
+						</foreach>
+					</trim>
+				)
+			</if>
+			<if test="sharedNoteHashTagCount != 0">
+				AND (
+					<trim prefix="" prefixOverrides="OR">
+						<foreach collection="sharedNoteHashTag" item="arr">
+							OR sharedNoteHashTag LIKE CONCAT('%',#{arr},'%')
+						</foreach>
+					</trim>
+				)
+			</if>
+		</trim>
+	</select>
+	
+	<update id="saveSharedNote">
+		UPDATE sharedNote SET sharedNoteSort = #{sharedNoteSort} WHERE sharedNoteKeyNum = #{sharedNoteKeyNum};
+	</update>
+	
+	<insert id="insertSharedNoteFile">
+		INSERT INTO sharedNoteFile(sharedNoteKeyNum,sharedNoteFileName,sharedNoteFileRegistrant,sharedNoteFileRegistrationDate) 
+		VALUES(#{sharedNoteKeyNum},#{sharedNoteFileName},#{sharedNoteFileRegistrant},#{sharedNoteFileRegistrationDate});
+	</insert>
+	
+	<select id="getSharedNoteFileName" parameterType="_int" resultType="string">
+		SELECT sharedNoteFileName FROM sharedNoteFile WHERE sharedNoteKeyNum = #{sharedNoteKeyNum};
+	</select>
+	
+	<delete id="deleteSharedNoteFile">
+		DELETE FROM sharedNoteFile WHERE sharedNoteKeyNum = #{sharedNoteKeyNum} AND sharedNoteFileName = #{sharedNoteFileName};
+	</delete>
+	
+	<delete id="deleteSharedNoteFileKeyNum" parameterType="_int">
+		DELETE FROM sharedNoteFile WHERE sharedNoteKeyNum = #{sharedNoteKeyNum};
+	</delete>
+</mapper>

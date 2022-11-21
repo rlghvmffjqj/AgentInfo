@@ -18,18 +18,18 @@
 			<c:choose>
 				<c:when test="${viewType eq 'insert'}">
 					<tr class="hight60">
-						<td>폴더 경로 :</td><td><span id="individualNoteTreeParentsView">${individualNoteTreeFullPath}</span></td>
+						<td>폴더 경로 :</td><td><span id="sharedNoteTreeParentsView">${sharedNoteTreeFullPath}</span></td>
 					</tr>
 					<tr>
-						<td style="width: 70px;">폴더명 : </td><td><input type="text" id="individualNoteTreeNameView" autofocus></td>
+						<td style="width: 70px;">폴더명 : </td><td><input type="text" id="sharedNoteTreeNameView" autofocus></td>
 					</tr>
 				</c:when>
 				<c:when test="${viewType eq 'update'}">
 					<tr class="hight60">
-						<td>폴더 경로 :</td><td><span id="individualNoteTreeNameChangeView">${individualNoteTreeFullPath}</span></td>	
+						<td>폴더 경로 :</td><td><span id="sharedNoteTreeNameChangeView">${sharedNoteTreeFullPath}</span></td>	
 					</tr>
 					<tr>
-						<td style="width: 70px;">폴더명 변경 : </td><td><input type="text" id="individualNoteTreeNameView" autofocus></td>											
+						<td style="width: 70px;">폴더명 변경 : </td><td><input type="text" id="sharedNoteTreeNameView" autofocus></td>											
 					</tr>
 				</c:when>
 			</c:choose>
@@ -39,10 +39,10 @@
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'insert'}">
-			<button class="btn btn-default btn-outline-info-add" id="BtnIndividualNoteTreeViewInsert" onClick="BtnIndividualNoteTreeViewInsert()">추가</button>
+			<button class="btn btn-default btn-outline-info-add" id="BtnSharedNoteTreeViewInsert" onClick="BtnSharedNoteTreeViewInsert()">추가</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" id="BtnIndividualNoteTreeViewUpdate" onClick="BtnIndividualNoteTreeViewUpdate()">수정</button>	
+			<button class="btn btn-default btn-outline-info-add" id="BtnSharedNoteTreeViewUpdate" onClick="BtnSharedNoteTreeViewUpdate()">수정</button>	
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
@@ -55,16 +55,16 @@
 	});
 
 	/* =========== 트리 추가 ========= */
-	function BtnIndividualNoteTreeViewInsert() {
-		var individualNoteTreeParentPath = getCurrentPath();
-		var individualNoteTreeName = $('#individualNoteTreeNameView').val();
-		$("#individualNoteTreeFullPath").val(individualNoteTreeParentPath);
+	function BtnSharedNoteTreeViewInsert() {
+		var sharedNoteTreeParentPath = getCurrentPath();
+		var sharedNoteTreeName = $('#sharedNoteTreeNameView').val();
+		$("#sharedNoteTreeFullPath").val(sharedNoteTreeParentPath);
 		$.ajax({
-			url: "<c:url value='/individualNoteTree/insert'/>",
+			url: "<c:url value='/sharedNoteTree/insert'/>",
 			type: "POST",
 			data: {
-					"individualNoteTreeParentPath": individualNoteTreeParentPath,
-					"individualNoteTreeName" : individualNoteTreeName
+					"sharedNoteTreeParentPath": sharedNoteTreeParentPath,
+					"sharedNoteTreeName" : sharedNoteTreeName
 				},
 			dataType: "json",
 			async: false,
@@ -106,16 +106,16 @@
 	}
 	
 	/* =========== 트리 수정 ========= */
-	function BtnIndividualNoteTreeViewUpdate() {
+	function BtnSharedNoteTreeViewUpdate() {
 		var node = $("#tree").dynatree("getActiveNode");
 		var path = node.data.key; // 선택 폴더 풀 경로
 		var title = node.data.title; // 선택 폴더
-		var newIndividualNoteTreeName = $('#individualNoteTreeNameView').val();
+		var newSharedNoteTreeName = $('#sharedNoteTreeNameView').val();
 		
 		$.ajax({
-			url: "<c:url value='/individualNoteTree/update'/>",
+			url: "<c:url value='/sharedNoteTree/update'/>",
 			type: "POST",
-			data: {"individualNoteTreeFullPath": path, "newIndividualNoteTreeName": newIndividualNoteTreeName},
+			data: {"sharedNoteTreeFullPath": path, "newSharedNoteTreeName": newSharedNoteTreeName},
 			dataType: "json",
 			async: false,
 			success: function(data) {
@@ -156,12 +156,12 @@
 	}
 	
 	/* =========== Enter Key ========= */
-	$("#individualNoteTreeNameView").keypress(function(event) {
+	$("#sharedNoteTreeNameView").keypress(function(event) {
 		if (window.event.keyCode == 13) {
 			if("${viewType}" == "insert") {
-				BtnIndividualNoteTreeViewInsert();
+				BtnSharedNoteTreeViewInsert();
 			} else if("${viewType}" == "update") {
-				BtnIndividualNoteTreeViewUpdate();
+				BtnSharedNoteTreeViewUpdate();
 			}
 		}
 	});
