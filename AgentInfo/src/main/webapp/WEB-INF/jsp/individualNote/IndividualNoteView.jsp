@@ -270,6 +270,11 @@
 							} 
 				        },
 						error: function(error) {
+							Swal.fire({
+								icon: 'error',
+								title: '에러 발생!',
+								text: '파일 최대 크기는 50MB로 제한 되어있습니다.',
+							});
 							console.log(error);
 						}
 				    });
@@ -336,6 +341,11 @@
 							}
 						},
 						error: function(error) {
+							Swal.fire({
+								icon: 'error',
+								title: '에러 발생!',
+								text: '파일 최대 크기는 50MB로 제한 되어있습니다.',
+							})
 							console.log(error);
 						}
 				    });
@@ -413,6 +423,11 @@
 						} 
 			        },
 					error: function(error) {
+						Swal.fire({
+							icon: 'error',
+							title: '에러 발생!',
+							text: '파일 최대 크기는 50MB로 제한 되어있습니다.',
+						})
 						console.log(error);
 					}
 			    });
@@ -472,6 +487,11 @@
 						}
 					},
 					error: function(error) {
+						Swal.fire({
+							icon: 'error',
+							title: '에러 발생!',
+							text: '파일 최대 크기는 50MB로 제한 되어있습니다.',
+						})
 						console.log(error);
 					}
 			    });
