@@ -868,3 +868,37 @@ input:focus+.labl::before{
     overflow-x: auto;
     display: -webkit-box;
 }
+
+.bg-green {
+	background-color: #11c15b !important;
+	border: 1px #11c15b !important;
+	color: white;
+}
+
+.bg-red {
+	background-color: #ff5252 !important;
+	border: 1px #ff5252 !important;
+	color: white;
+}
+
+.bg-yellow {
+	background-color: #ffe100 !important;
+	border: 1px #ffe100 !important;
+	color: white;
+}
+
+.bg-purple {
+	background-color: #9261c6 !important;
+	border: 1px #9261c6 !important;
+	color: white;
+}
+
+.bg-blue {
+	background-color: #64b0f2 !important;
+	border: 1px #64b0f2 !important;
+	color: white;
+}
+
+.fc-day-grid-event {
+	color: rgb(255,255,255) !important;
+}

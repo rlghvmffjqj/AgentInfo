@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="calendar">
+	<resultMap type="com.secuve.agentInfo.vo.Calendar" id="calendar"></resultMap>
+	
+	<select id="getCalendarList" resultMap="calendar">
+		SELECT * FROM calendarList;
+	</select>
+	
+	<insert id="insertCalendarList">
+		INSERT INTO calendarList(calendarListContents, calendarListColor, calendarListRegistrant, calendarListRegistrationDate)
+		VALUES(#{calendarListContents}, #{calendarListColor}, #{calendarListRegistrant}, #{calendarListRegistrationDate});
+	</insert>
+	
+	<select id="overlapCalendarList" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM calendarList WHERE calendarListContents = #{calendarListContents};
+	</select>
+	
+	<insert id="insertCalendar">
+	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarContents, calendarColor, calendarRegistrant, calendarRegistrationDate) 
+	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarContents}, #{calendarColor}, #{calendarRegistrant}, #{calendarRegistrationDate});
+	 	
+	 	<selectKey keyProperty="calendarKeyNum" order="AFTER" resultType="_int">
+	 		SELECT lastval(SEQ_Calendar);
+	 	</selectKey>
+	</insert>
+	
+	<select id="getCalendar" resultMap="calendar">
+		SELECT * FROM calendar;
+	</select>
+	
+	<update id="updateCalendar">
+		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
+		WHERE calendarKeyNum = #{calendarKeyNum};
+	</update>
+	
+	<delete id="deleteCalendar" parameterType="_int">
+		DELETE FROM calendar WHERE calendarKeyNum = #{calendarKeyNum};
+	</delete>
+	
+</mapper>
