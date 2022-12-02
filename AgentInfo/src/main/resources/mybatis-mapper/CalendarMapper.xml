@@ -18,8 +18,8 @@
 	</select>
 	
 	<insert id="insertCalendar">
-	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarContents, calendarColor, calendarRegistrant, calendarRegistrationDate) 
-	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarContents}, #{calendarColor}, #{calendarRegistrant}, #{calendarRegistrationDate});
+	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarContents, calendarColor, calendarAllDay, calendarRegistrant, calendarRegistrationDate) 
+	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarContents}, #{calendarColor}, ${calendarAllDay}, #{calendarRegistrant}, #{calendarRegistrationDate});
 	 	
 	 	<selectKey keyProperty="calendarKeyNum" order="AFTER" resultType="_int">
 	 		SELECT lastval(SEQ_Calendar);
@@ -31,7 +31,7 @@
 	</select>
 	
 	<update id="updateCalendar">
-		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
+		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarAllDay = ${calendarAllDay}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
 		WHERE calendarKeyNum = #{calendarKeyNum};
 	</update>
 	

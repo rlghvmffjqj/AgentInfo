@@ -18,6 +18,7 @@ public class Calendar {
 	private String calendarEnd;
 	private String calendarContents;
 	private String calendarColor;
+	private boolean calendarAllDay;
 	private String calendarRegistrant;
 	private String calendarRegistrationDate;
 	private String calendarModifier;

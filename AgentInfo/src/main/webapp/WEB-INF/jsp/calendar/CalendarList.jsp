@@ -192,7 +192,7 @@
 			if(list[i].calendarEnd != null){
 				obj.end = list[i].calendarEnd;
 			}
-			obj.allDay = false;
+			obj.allDay = list[i].calendarAllDay;
 			obj.backgroundColor = list[i].calendarColor;
 			obj.borderColor = list[i].calendarColor
 			dataList.push(obj);
@@ -216,9 +216,6 @@
 			}
 			ini_events($('#external-events div.fc-event'));
 			
-			var date = new Date();
-			var d = date.getDate(), m = date.getMonth(), y = date.getFullYear();
-
 			$('#calendar').fullCalendar({
 				header: {
 				  left: 'prev,next today',
@@ -251,7 +248,8 @@
 						data : {
 							'calendarStartDate' : copiedEventObject.start._d.getTime(),
 							'calendarContents' : copiedEventObject.title,
-							'calendarColor' : copiedEventObject.backgroundColor
+							'calendarColor' : copiedEventObject.backgroundColor,
+							'calendarAllDay' : copiedEventObject.start._ambigTime
 						},
 						async: false,
 						success : function(result) {
@@ -285,7 +283,8 @@
 								data : {
 									'calendarKeyNum' : event._id,
 									'calendarStartDate' : event.start._d.getTime(),
-									'calendarEndDate' : event.end._d.getTime()
+									'calendarEndDate' : event.end._d.getTime(),
+									'calendarAllDay' : event.allDay
 								},
 								async: false,
 								success : function(result){
@@ -300,6 +299,7 @@
 									console.log(error);
 								}
 							});
+							$('#calendar').fullCalendar('render');
 						} else {
 							revertFunc();
 						}
@@ -325,7 +325,8 @@
 								data : {
 									'calendarKeyNum' : event._id,
 									'calendarStartDate' : event.start._d.getTime(),
-									'calendarEndDate' : (event.end != null) ? event.end._d.getTime() : event.start._d.getTime()
+									'calendarEndDate' : (event.end != null) ? event.end._d.getTime() : event.start._d.getTime(),
+									'calendarAllDay' : event.allDay									
 								},
 								async: false,
 								success : function(result){
@@ -340,6 +341,7 @@
 									console.log(error);
 								}
 							});
+							$('#calendar').fullCalendar('render');
 						} else {
 							revertFunc();
 						}
@@ -384,6 +386,7 @@
 									}
 								});
 							}
+							$('#calendar').fullCalendar('render');
 						});
 					}
 				},
