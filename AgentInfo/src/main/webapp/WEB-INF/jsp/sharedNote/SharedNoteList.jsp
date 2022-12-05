@@ -167,16 +167,16 @@
 		  cellHeight: 100
 		});
 		
-		var items = [
-			<c:forEach items="${list}" var="item">
-				{keynum: "${item.sharedNoteKeyNum}", title: "${item.sharedNoteTitle}", contents: '${item.sharedNoteContents}', hashTag: '${item.sharedNoteHashTag}'},
-			</c:forEach>
-		];
-		
-		items.forEach(n => {
-			n.content = "<div style='background-color:"+ n.backgroundColor + "; padding-bottom: 1px; height:100%; padding-left: 5px;'><a href='#' onClick='sharedNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
-			grid.addWidget(n); 
-		});
+		//var items = [
+		//	<c:forEach items="${list}" var="item">
+		//		{keynum: "${item.sharedNoteKeyNum}", title: "${item.sharedNoteTitle}", contents: '${item.sharedNoteContents}', hashTag: '${item.sharedNoteHashTag}'},
+		//	</c:forEach>
+		//];
+		//
+		//items.forEach(n => {
+		//	n.content = "<div style='background-color:"+ n.backgroundColor + "; padding-bottom: 1px; height:100%; padding-left: 5px;'><a href='#' onClick='sharedNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
+		//	grid.addWidget(n); 
+		//});
 		
 		/* =========== 노트 추가 View ========= */
 		function addWidget() {
@@ -238,8 +238,9 @@
 			    		items.push({'keynum': data[i].sharedNoteKeyNum, 'title': data[i].sharedNoteTitle, 'contents': data[i].sharedNoteContents, 'hashTag': data[i].sharedNoteHashTag, 'backgroundColor': data[i].sharedNoteColor});
 			    	};
 			    	items.forEach(n => {
-			    		n.content = "<div style='background-color:"+ n.backgroundColor + "; padding-bottom: 1px; height:100%; padding-left: 5px;'><a href='#' onClick='sharedNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
+			    		n.content = "<div id='addNote"+ n.keynum + "' style='padding-bottom: 1px; height:100%; padding-left: 5px;'><a href='#' onClick='sharedNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
 						grid.addWidget(n);
+						document.getElementById('addNote'+n.keynum).parentNode.style.background =  n.backgroundColor;
 					});
 			    },
 			    error: function(e) {
