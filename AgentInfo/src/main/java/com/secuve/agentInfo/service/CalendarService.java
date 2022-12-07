@@ -78,4 +78,9 @@ public class CalendarService {
 		return calendarDao.getCalendarOne(calendarKeyNum);
 	}
 
+	public String SaveCalendar(Calendar calendar) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

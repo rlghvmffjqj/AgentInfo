@@ -37,24 +37,25 @@
 <div class="modal-body" style="width: 100%; height: 700px;">
 	<div style="padding: 5px;">
 		<form class="form-material" id="modalForm" name="form" method ="post">
+			<input type="hidden" id="calendarKeyNum" name="calendarKeyNum" class="form-control viewForm" value="${calendar.calendarKeyNum}">
 			<div class="form-group form-default" style="float: left; width: 93%; margin-top: 10px;">
 				<input type="text" class="form-control" id="calendarContents" name="calendarContents" maxlength="50" value="${calendar.calendarContents}" required>
 				<span class="form-bar"></span>
 				<label class="float-label">제목</label>
 			</div>
-			<input class="calendarColor" type="color" value="${calendar.calendarColor}">
+			<input class="calendarColor" type="color" id="calendarColor" name="calendarColor" value="${calendar.calendarColor}">
 			<div style="margin-top: 35px;">
 				<img class="img-fluid" src="/AgentInfo/images/24H.png" style="width:30px; float:left;">
 				<h4 style="float:left; width: 76%; margin: 8px; font-weight: bold;">하루 종일</h4>
 				<label class="switch" style="margin-top: 2px; float: right;">
-				    <input type="checkbox" id="calendarAllDay" onclick="" <c:if test="${calendar.calendarAllDay}">checked</c:if>>
+				    <input type="checkbox" id="calendarAllDay" name="calendarAllDay" onclick="" <c:if test="${calendar.calendarAllDay}">checked</c:if>>
 				    <span class="slider round"></span>
 				</label>
 			</div>
 			<div style="margin-top:20px;">
-				<input type='text' class="form-control" id='startTime' style="width:205px; float:left; font-size: 1.375rem;; margin-top: 25px;" value="${calendar.calendarStart}"/>
+				<input type='text' class="form-control" id='calendarStart' name="calendarStart" style="width:205px; float:left; font-size: 1.375rem; margin-top: 25px;" value="${calendar.calendarStart}"/>
 				<img class="img-fluid" src="/AgentInfo/images/right.png" style="width: 25px; margin-top: 30px; float:left;">
-				<input type='text' class="form-control" id='endTime' style="width:210px; float:left; font-size: 1.375rem;; margin-top: 25px; margin-left: 15px;" value="${calendar.calendarEnd}" />
+				<input type='text' class="form-control" id='calendarEnd' name="calendarEnd" style="width:210px; float:left; font-size: 1.375rem;; margin-top: 25px; margin-left: 15px;" value="${calendar.calendarEnd}" />
 			</div>
 			<div style="margin-top: 165px;">
 				<img class="img-fluid" src="/AgentInfo/images/phone.png" style="width:40px; float:left;">
@@ -72,7 +73,7 @@
 				<img class="img-fluid" src="/AgentInfo/images/map.png" style="float:left; width: 40px; margin-left: -5px; margin-bottom: 3px;">
 				<a href="#" id="addresBtn"><img class="img-fluid" src="/AgentInfo/images/search.png" style="float:right; width: 22px; padding-top: 10px;"></a>
 				<div class="form-group form-default" style="float: right; width: 85%; height: 30px; margin-top: -4px;">
-					<input type="text" class="form-control" id="calendarAddres" name="calendarAddres" maxlength="50" value="${calendar.calendarAddress}" required>
+					<input type="text" class="form-control" id="calendarAddress" name="calendarAddress" maxlength="50" value="${calendar.calendarAddress}" required>
 					<span class="form-bar"></span>
 					<label class="float-label">주소</label>
 				</div>
@@ -91,8 +92,8 @@
 
 <script>
 	$(function () {
-		$('#startTime').datetimepicker();
-		$('#endTime').datetimepicker();
+		$('#calendarStart').datetimepicker();
+		$('#calendarEnd').datetimepicker();
 	});
 	
 	$('#calendarClose').click(function() {
@@ -102,7 +103,7 @@
 	$('#calendarSave').click(function() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
-			url: "<c:url value='/calendar/update'/>",
+			url: "<c:url value='/calendar/save'/>",
 	        type: 'post',
 	        data: postData,
 	        async: false,
@@ -228,18 +229,18 @@
 	        searchCoordinateToAddress(e.coord);
 	    });
 
-	    $('#calendarAddres').on('keydown', function(e) {
+	    $('#calendarAddress').on('keydown', function(e) {
 	        var keyCode = e.which;
 
 	        if (keyCode === 13) { // Enter Key
-	            searchAddressToCoordinate($('#calendarAddres').val());
+	            searchAddressToCoordinate($('#calendarAddress').val());
 	        }
 	    });
 
 	    $('#addresBtn').on('click', function(e) {
 	        e.preventDefault();
 
-	        searchAddressToCoordinate($('#calendarAddres').val());
+	        searchAddressToCoordinate($('#calendarAddress').val());
 	    });
 
 	    searchAddressToCoordinate('서울 구로구 디지털로26길 111 제이앤케이디지털타워');
@@ -254,12 +255,12 @@
 	$('#addresBtn').on('click', function(e) {
         e.preventDefault();
 
-        searchAddressToCoordinate($('#calendarAddres').val());
+        searchAddressToCoordinate($('#calendarAddress').val());
     });
 	
-	$("#calendarAddres").keypress(function(event) {
+	$("#calendarAddress").keypress(function(event) {
 		if (window.event.keyCode == 13) {
-			searchAddressToCoordinate($('#calendarAddres').val());
+			searchAddressToCoordinate($('#calendarAddress').val());
 		}
 	});
 

@@ -47,7 +47,7 @@ public class CalendarController {
 	@ResponseBody
 	@PostMapping(value = "/calendar/insert")
 	public Map<String, Integer> InsertCalendar(Calendar calendar, Principal principal) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		calendar.setCalendarRegistrant(principal.getName());
 		calendar.setCalendarRegistrationDate(calendarService.nowDate());
 		calendar.setCalendarStart(formatter.format(calendar.getCalendarStartDate()));
@@ -61,7 +61,7 @@ public class CalendarController {
 	@ResponseBody
 	@PostMapping(value = "/calendar/move")
 	public Map<String, String> MoveCalendar(Calendar calendar, Principal principal) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		calendar.setCalendarModifier(principal.getName());
 		calendar.setCalendarModifiedDate(calendarService.nowDate());
 		calendar.setCalendarStart(formatter.format(calendar.getCalendarStartDate()));
@@ -92,13 +92,13 @@ public class CalendarController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/calendar/update")
-	public Map<String, String> UpdateCalendar(Calendar calendar, Principal principal) {
+	@PostMapping(value = "/calendar/save")
+	public Map<String, String> SaveCalendar(Calendar calendar, Principal principal) {
 		calendar.setCalendarRegistrant(principal.getName());
 		calendar.setCalendarRegistrationDate(calendarService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = calendarService.UpdatePackages(calendar, principal);
+		String result = calendarService.SaveCalendar(calendar);
 		map.put("result", result);
 		return map;
 	}
