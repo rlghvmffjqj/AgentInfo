@@ -47,5 +47,9 @@ public class CalendarDao {
 		return sqlSession.delete("calendar.deleteCalendar",calendarKeyNum);
 	}
 
+	public Calendar getCalendarOne(int calendarKeyNum) {
+		return sqlSession.selectOne("calendar.getCalendarOne",calendarKeyNum);
+	}
+
 
 }

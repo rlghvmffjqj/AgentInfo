@@ -39,4 +39,8 @@
 		DELETE FROM calendar WHERE calendarKeyNum = #{calendarKeyNum};
 	</delete>
 	
+	<select id="getCalendarOne" parameterType="_int" resultMap="calendar">
+		SELECT * FROM calendar WHERE calendarKeyNum = #{calendarKeyNum};
+	</select>
+	
 </mapper>

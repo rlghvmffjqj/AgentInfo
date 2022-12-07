@@ -192,6 +192,11 @@ p {
 	max-width: 300px;
 }
 
+.modal-calendar {
+	top: 5%;
+	max-width: 500px;
+}
+
 .modal-requests {
 	top: 8%;
     max-width: 800px;
@@ -901,4 +906,12 @@ input:focus+.labl::before{
 
 .fc-day-grid-event {
 	color: rgb(255,255,255) !important;
+}
+
+.calendarModalFooter {
+	width: 50%;
+    margin: 0 !important;
+    border: 0;
+    background: burlywood;
+    height: 70px;
 }

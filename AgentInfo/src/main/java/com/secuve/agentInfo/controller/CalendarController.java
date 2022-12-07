@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.secuve.agentInfo.service.CalendarService;
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.vo.Calendar;
 
 @Controller
 public class CalendarController {
 	@Autowired CalendarService calendarService;
+	@Autowired EmployeeService employeeService;
 	
 	@GetMapping(value = "/calendar/list")
 	public String CustomerList(Model model, Principal principal) {
@@ -76,6 +78,27 @@ public class CalendarController {
 	public Map<String, String> DeleteCalendar(Calendar calendar, Principal principal) {
 		Map<String, String> map = new HashMap<String, String>();
 		String result = calendarService.DeleteCalendar(calendar.getCalendarKeyNum());
+		map.put("result", result);
+		return map;
+	}
+	
+	@PostMapping(value = "/calendar/view")
+	public String CalendarView(Model model, int calendarKeyNum, Principal principal) {
+		Calendar calendar = calendarService.getCalendarOne(calendarKeyNum);
+		String employeePhone = employeeService.getEmployeeOne(principal.getName()).getEmployeePhone();
+		model.addAttribute("calendar", calendar);
+		model.addAttribute("employeePhone", employeePhone);
+		return "/calendar/CalendarView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/calendar/update")
+	public Map<String, String> UpdateCalendar(Calendar calendar, Principal principal) {
+		calendar.setCalendarRegistrant(principal.getName());
+		calendar.setCalendarRegistrationDate(calendarService.nowDate());
+
+		Map<String, String> map = new HashMap<String, String>();
+		String result = calendarService.UpdatePackages(calendar, principal);
 		map.put("result", result);
 		return map;
 	}

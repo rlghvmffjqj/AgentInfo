@@ -7,6 +7,12 @@
 		<script src="https://cdn.jsdelivr.net/npm/moment@2/min/moment.min.js"></script>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/locale-all.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
+		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
+		
+		<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=8yvu58b01c&submodules=geocoder"></script>
 	
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
@@ -62,6 +68,10 @@
 			#calendar {
 			  max-width: 85%;
     		  margin-left: 230px;
+			}
+			
+			.fc-time-grid-event .fc-content {
+				color: white;
 			}
 	    	
 	    </style>
@@ -222,15 +232,15 @@
 				  center: 'title',
 				  right: 'month,agendaWeek,agendaDay,listMonth'
 				},
+				locale : 'ko', // 한국어설정
 				events : dataList,
 				timeFormat: 'H:mm',
-				locale : 'ko', // 한국어설정
 				navLinks: true,
-				dayMaxEvents: true,		      
+				//dayMaxEvents: true,
 				eventLimit : true, // 달력에 표시될 일정 개수 제한
 				selectable : true, // 마우스로 클릭한 위치확인용(추가용으로는 쓰지않음)
 				editable: true,
-				droppable: true,
+				droppable: true, // 외부 UI 드래그 가능 여부
 				loading: function(bool) {
 					$('#loading').toggle(bool);
 				},
@@ -394,9 +404,23 @@
 					console.log(calEvent);
 					console.log(jsEvent);
 					console.log(view);
+					$.ajax({
+					    type: 'POST',
+					    url: "<c:url value='/calendar/view'/>",
+					    data: {"calendarKeyNum":calEvent._id},
+					    async: false,
+					    success: function (data) {
+							if(data.indexOf("<!DOCTYPE html>") != -1) 
+								location.reload();
+					    	$.modal(data, 'calendar'); //modal창 호출
+					    },
+					    error: function(e) {
+					        alert(e);
+					    }
+					});		
 				}
 			});
-		    
+			
 			var currColor = 'darkgoldenrod';
 			var colorChooser = $('#color-chooser-btn');
 			$('#color-chooser > li > a').click(function(e) {

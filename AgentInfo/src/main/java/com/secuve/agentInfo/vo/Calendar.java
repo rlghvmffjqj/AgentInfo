@@ -19,6 +19,8 @@ public class Calendar {
 	private String calendarContents;
 	private String calendarColor;
 	private boolean calendarAllDay;
+	private String calendarAlarm;
+	private String calendarAddress;
 	private String calendarRegistrant;
 	private String calendarRegistrationDate;
 	private String calendarModifier;

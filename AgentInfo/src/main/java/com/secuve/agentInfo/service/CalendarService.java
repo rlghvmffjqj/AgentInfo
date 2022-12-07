@@ -74,4 +74,8 @@ public class CalendarService {
 		return parameter(sucess);
 	}
 
+	public Calendar getCalendarOne(int calendarKeyNum) {
+		return calendarDao.getCalendarOne(calendarKeyNum);
+	}
+
 }
