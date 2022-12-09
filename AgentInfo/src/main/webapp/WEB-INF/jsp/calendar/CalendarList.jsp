@@ -73,6 +73,10 @@
 			.fc-time-grid-event .fc-content {
 				color: white;
 			}
+			
+			.fc-time-grid-container {
+				height: 100% !important;
+			}
 	    	
 	    </style>
 	</head>
@@ -207,7 +211,7 @@
 			obj.borderColor = list[i].calendarColor
 			dataList.push(obj);
 		}
-	
+		
 		$(function() {
 			function ini_events(ele) {
 				ele.each(function () {
@@ -249,9 +253,10 @@
 					var copiedEventObject = $.extend({}, originalEventObject);
 					copiedEventObject.start = date;
 					copiedEventObject.allDay = allDay;
-					copiedEventObject.backgroundColor = $(this).css("background-color");
-					copiedEventObject.borderColor = $(this).css("border-color");
-					copiedEventObject.color = $(this).css("color");
+					copiedEventObject.backgroundColor = rgbToHex($(this).css("background-color"));
+					copiedEventObject.borderColor = rgbToHex($(this).css("border-color"));
+					copiedEventObject.color = rgbToHex($(this).css("color"));
+
 					$.ajax({
 						url: "<c:url value='/calendar/insert'/>",
 						type: 'post',
@@ -287,6 +292,8 @@
 						confirmButtonText: '예'
 					}).then((result) => {
 						if (result.isConfirmed) {
+							event.start._d.setHours(event.start._d.getHours() -9);
+							event.end._d.setHours(event.end._d.getHours() -9);
 							$.ajax({
 								type: 'post',
 								url: "<c:url value='/calendar/move'/>",
@@ -401,9 +408,6 @@
 					}
 				},
 				eventClick: function(calEvent, jsEvent, view) {
-					console.log(calEvent);
-					console.log(jsEvent);
-					console.log(view);
 					$.ajax({
 					    type: 'POST',
 					    url: "<c:url value='/calendar/view'/>",
@@ -417,7 +421,7 @@
 					    error: function(e) {
 					        alert(e);
 					    }
-					});		
+					});	
 				}
 			});
 			
@@ -487,5 +491,27 @@
 			    });
 			});
 		});
+		
+		function rgbToHex ( rgbType ){ 
+		    /* 
+		    ** 컬러값과 쉼표만 남기고 삭제하기. 
+		    ** 쉼표(,)를 기준으로 분리해서, 배열에 담기. 
+		    */ 
+		    var rgb = rgbType.replace( /[^%,.\d]/g, "" ).split( "," ); 
+		    
+		    rgb.forEach(function (str, x, arr){ 
+		    
+		        /* 컬러값이 "%"일 경우, 변환하기. */ 
+		        if ( str.indexOf( "%" ) > -1 ) str = Math.round( parseFloat(str) * 2.55 ); 
+		        
+		        /* 16진수 문자로 변환하기. */ 
+		        str = parseInt( str, 10 ).toString( 16 ); 
+		        if ( str.length === 1 ) str = "0" + str; 
+		        
+		        arr[ x ] = str; 
+		    }); 
+		    
+		    return "#" + rgb.join( "" ); 
+		} 
 	</script>
 </html>

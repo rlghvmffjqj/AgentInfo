@@ -14,8 +14,8 @@ import com.secuve.agentInfo.vo.Calendar;
 public class CalendarDao {
 	@Autowired SqlSessionTemplate sqlSession;
 
-	public List<Calendar> getCalendarList() {
-		return sqlSession.selectList("calendar.getCalendarList");
+	public List<Calendar> getCalendarList(String calendarListRegistrant) {
+		return sqlSession.selectList("calendar.getCalendarList", calendarListRegistrant);
 	}
 
 	public int InsertCalendarList(String calendarListContents, String calendarListColor, String calendarListRegistrant, String calendarListRegistrationDate) {
@@ -27,28 +27,41 @@ public class CalendarDao {
 		return sqlSession.insert("calendar.insertCalendarList", parameters);
 	}
 
-	public int overlapCalendarList(String calendarListContents) {
-		return sqlSession.selectOne("calendar.overlapCalendarList", calendarListContents);
+	public int overlapCalendarList(String calendarListContents, String calendarListRegistrant) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("calendarListContents", calendarListContents);
+		parameters.put("calendarListRegistrant", calendarListRegistrant);
+		return sqlSession.selectOne("calendar.overlapCalendarList", parameters);
 	}
 
 	public int InsertCalendar(Calendar calendar) {
 		return sqlSession.insert("calendar.insertCalendar", calendar);
 	}
 
-	public List<Calendar> getCalendar() {
-		return sqlSession.selectList("calendar.getCalendar");
+	public List<Calendar> getCalendar(String calendarRegistrant) {
+		return sqlSession.selectList("calendar.getCalendar", calendarRegistrant);
 	}
 
 	public int updateCalendar(Calendar calendar) {
 		return sqlSession.update("calendar.updateCalendar",calendar);
 	}
 
-	public int deleteCalendar(int calendarKeyNum) {
-		return sqlSession.delete("calendar.deleteCalendar",calendarKeyNum);
+	public int deleteCalendar(int calendarKeyNum, String calendarRegistrant) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("calendarKeyNum", calendarKeyNum);
+		parameters.put("calendarRegistrant", calendarRegistrant);
+		return sqlSession.delete("calendar.deleteCalendar",parameters);
 	}
 
-	public Calendar getCalendarOne(int calendarKeyNum) {
-		return sqlSession.selectOne("calendar.getCalendarOne",calendarKeyNum);
+	public Calendar getCalendarOne(int calendarKeyNum, String calendarRegistrant) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("calendarKeyNum", calendarKeyNum);
+		parameters.put("calendarRegistrant", calendarRegistrant);
+		return sqlSession.selectOne("calendar.getCalendarOne",parameters);
+	}
+
+	public int saveCalendar(Calendar calendar) {
+		return sqlSession.update("calendar.saveCalendar",calendar);
 	}
 
 

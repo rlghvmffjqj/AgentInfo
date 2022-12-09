@@ -46,7 +46,7 @@
 			<input class="calendarColor" type="color" id="calendarColor" name="calendarColor" value="${calendar.calendarColor}">
 			<div style="margin-top: 35px;">
 				<img class="img-fluid" src="/AgentInfo/images/24H.png" style="width:30px; float:left;">
-				<h4 style="float:left; width: 76%; margin: 8px; font-weight: bold;">하루 종일</h4>
+				<h4 style="float:left; width: 76%; margin: 5px; font-weight: bold; margin-left: 12px;">하루 종일</h4>
 				<label class="switch" style="margin-top: 2px; float: right;">
 				    <input type="checkbox" id="calendarAllDay" name="calendarAllDay" onclick="" <c:if test="${calendar.calendarAllDay}">checked</c:if>>
 				    <span class="slider round"></span>
@@ -55,10 +55,10 @@
 			<div style="margin-top:20px;">
 				<input type='text' class="form-control" id='calendarStart' name="calendarStart" style="width:205px; float:left; font-size: 1.375rem; margin-top: 25px;" value="${calendar.calendarStart}"/>
 				<img class="img-fluid" src="/AgentInfo/images/right.png" style="width: 25px; margin-top: 30px; float:left;">
-				<input type='text' class="form-control" id='calendarEnd' name="calendarEnd" style="width:210px; float:left; font-size: 1.375rem;; margin-top: 25px; margin-left: 15px;" value="${calendar.calendarEnd}" />
+				<input type='text' class="form-control" id='calendarEnd' name="calendarEnd" style="width:210px; float:left; font-size: 1.375rem;; margin-top: 20px; margin-left: 15px;" value="${calendar.calendarEnd}" />
 			</div>
 			<div style="margin-top: 165px;">
-				<img class="img-fluid" src="/AgentInfo/images/phone.png" style="width:40px; float:left;">
+				<img class="img-fluid" src="/AgentInfo/images/phone.png" style="width:35px; float:left;">
 				<div class="form-group form-default" style="float: right; width: 90%;">
 					<input type="text" class="form-control" id="employeePhone" name="employeePhone" maxlength="50" value="${employeePhone}" required>
 					<span class="form-bar"></span>
@@ -66,11 +66,15 @@
 				</div>
 			</div>
 			<div style="margin-top: 240px;">
-				<img class="img-fluid" src="/AgentInfo/images/watch.png" style="float:left; width: 34px; margin-left: 3px;">
-				<h4><input type="time" id="calendarAlarm" name="calendarAlarm" style="border: 0; margin: 6px; margin-left: 10px; font-weight: bold;"></h4>
+				<img class="img-fluid" src="/AgentInfo/images/watch.png" style="float:left; width: 30px; margin-left: 3px;">
+				<h4 style="float:left; width: 76%;"><input type="time" id="calendarAlarm" name="calendarAlarm" style="border: 0; margin: 4px; margin-left: 11px; font-weight: bold;" value="${calendar.calendarAlarm}"></h4>
+				<label class="switch" style="margin-top: 2px; float: right;">
+				    <input type="checkbox" id="calendarAlarmYn" name="calendarAlarmYn" onclick="" <c:if test="${calendar.calendarAlarmYn}">checked</c:if>>
+				    <span class="slider round"></span>
+				</label>
 			</div>
-			<div style="margin-top: 30px;">
-				<img class="img-fluid" src="/AgentInfo/images/map.png" style="float:left; width: 40px; margin-left: -5px; margin-bottom: 3px;">
+			<div style="margin-top: 310px;">
+				<img class="img-fluid" src="/AgentInfo/images/map.png" style="float:left; width: 35px; margin-bottom: 3px;">
 				<a href="#" id="addresBtn"><img class="img-fluid" src="/AgentInfo/images/search.png" style="float:right; width: 22px; padding-top: 10px;"></a>
 				<div class="form-group form-default" style="float: right; width: 85%; height: 30px; margin-top: -4px;">
 					<input type="text" class="form-control" id="calendarAddress" name="calendarAddress" maxlength="50" value="${calendar.calendarAddress}" required>
@@ -78,7 +82,7 @@
 					<label class="float-label">주소</label>
 				</div>
 			</div>
-			<div style="margin-top: 100px">
+			<div style="margin-top: 370px">
 				<div id="map" style="width:100%;height:240px; border: 1px solid darkgoldenrod;"></div>
 			</div>
 	
@@ -94,6 +98,38 @@
 	$(function () {
 		$('#calendarStart').datetimepicker();
 		$('#calendarEnd').datetimepicker();
+	});
+	
+	$("#calendarStart").change(function() {
+		var start = $('#calendarStart').val();
+		var end = $('#calendarEnd').val();
+		if(start > end) {
+			Swal.fire({
+				icon: 'error',
+				title: '기간!',
+				text: '시작기간이 종료기간 보다 큼니다.',
+			});
+		} else if(start == end) {
+			$("#calendarAllDay").prop("checked", true);
+		} else if(start != end) {
+			$("#calendarAllDay").prop("checked", false);
+		}
+	});
+	
+	$("#calendarEnd").change(function() {
+		var start = $('#calendarStart').val();
+		var end = $('#calendarEnd').val();
+		if(start > end) {
+			Swal.fire({
+				icon: 'error',
+				title: '기간!',
+				text: '시작기간이 종료기간 보다 큼니다.',
+			});
+		} else if(start == end) {
+			$("#calendarAllDay").prop("checked", true);
+		} else if(start != end) {
+			$("#calendarAllDay").prop("checked", false);
+		}
 	});
 	
 	$('#calendarClose').click(function() {
@@ -113,11 +149,21 @@
 						icon: 'success',
 						title: '성공!',
 						text: '작업을 완료했습니다.',
+					}).then((result) => {
+						console.log(result);
+						if(result.isConfirmed == true) {
+							$('#modal').modal("hide"); // 모달 닫기
+			        		$('#modal').on('hidden.bs.modal', function () {
+			        			location.reload();
+			        		});
+						}
 					});
-					$('#modal').modal("hide"); // 모달 닫기
-	        		$('#modal').on('hidden.bs.modal', function () {
-	        			tableRefresh();
-	        		});
+				} else if(result.result == "DateOver") {
+					Swal.fire({
+						icon: 'error',
+						title: '기간!',
+						text: '시작기간이 종료기간 보다 큼니다.',
+					});
 				} else {
 					Swal.fire({
 						icon: 'error',

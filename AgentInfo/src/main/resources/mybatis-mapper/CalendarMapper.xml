@@ -4,8 +4,8 @@
 <mapper namespace="calendar">
 	<resultMap type="com.secuve.agentInfo.vo.Calendar" id="calendar"></resultMap>
 	
-	<select id="getCalendarList" resultMap="calendar">
-		SELECT * FROM calendarList;
+	<select id="getCalendarList" resultMap="calendar" parameterType="string">
+		SELECT * FROM calendarList WHERE calendarListRegistrant = #{calendarListRegistrant};
 	</select>
 	
 	<insert id="insertCalendarList">
@@ -13,13 +13,13 @@
 		VALUES(#{calendarListContents}, #{calendarListColor}, #{calendarListRegistrant}, #{calendarListRegistrationDate});
 	</insert>
 	
-	<select id="overlapCalendarList" parameterType="string" resultType="int">
-		SELECT COUNT(*) FROM calendarList WHERE calendarListContents = #{calendarListContents};
+	<select id="overlapCalendarList" resultType="int">
+		SELECT COUNT(*) FROM calendarList WHERE calendarListContents = #{calendarListContents} AND calendarListRegistrant = #{calendarListRegistrant};
 	</select>
 	
 	<insert id="insertCalendar">
-	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarContents, calendarColor, calendarAllDay, calendarRegistrant, calendarRegistrationDate) 
-	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarContents}, #{calendarColor}, ${calendarAllDay}, #{calendarRegistrant}, #{calendarRegistrationDate});
+	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarEnd, calendarContents, calendarColor, calendarAllDay, calendarRegistrant, calendarRegistrationDate) 
+	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarEnd}, #{calendarContents}, #{calendarColor}, ${calendarAllDay}, #{calendarRegistrant}, #{calendarRegistrationDate});
 	 	
 	 	<selectKey keyProperty="calendarKeyNum" order="AFTER" resultType="_int">
 	 		SELECT lastval(SEQ_Calendar);
@@ -27,20 +27,25 @@
 	</insert>
 	
 	<select id="getCalendar" resultMap="calendar">
-		SELECT * FROM calendar;
+		SELECT * FROM calendar WHERE calendarRegistrant = #{calendarRegistrant};
 	</select>
 	
 	<update id="updateCalendar">
 		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarAllDay = ${calendarAllDay}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
-		WHERE calendarKeyNum = #{calendarKeyNum};
+		WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
 	</update>
 	
 	<delete id="deleteCalendar" parameterType="_int">
-		DELETE FROM calendar WHERE calendarKeyNum = #{calendarKeyNum};
+		DELETE FROM calendar WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
 	</delete>
 	
-	<select id="getCalendarOne" parameterType="_int" resultMap="calendar">
-		SELECT * FROM calendar WHERE calendarKeyNum = #{calendarKeyNum};
+	<select id="getCalendarOne" resultMap="calendar">
+		SELECT * FROM calendar WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
 	</select>
+	
+	<update id="saveCalendar">
+		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarContents = #{calendarContents}, calendarColor = #{calendarColor}, calendarAllDay = ${calendarAllDay}, calendarAlarm = #{calendarAlarm}, calendarAlarmYn = ${calendarAlarmYn}, calendarAddress = #{calendarAddress}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
+		WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
+	</update>
 	
 </mapper>

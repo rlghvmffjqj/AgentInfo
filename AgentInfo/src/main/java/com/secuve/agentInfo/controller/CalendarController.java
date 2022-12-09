@@ -25,8 +25,8 @@ public class CalendarController {
 	
 	@GetMapping(value = "/calendar/list")
 	public String CustomerList(Model model, Principal principal) {
-		ArrayList<Calendar> calendarList = new ArrayList<>(calendarService.getCalendarList(principal));
-		ArrayList<Calendar> calendar = new ArrayList<>(calendarService.getCalendar());
+		ArrayList<Calendar> calendarList = new ArrayList<>(calendarService.getCalendarList(principal.getName()));
+		ArrayList<Calendar> calendar = new ArrayList<>(calendarService.getCalendar(principal.getName()));
 		model.addAttribute("calendarList", calendarList);
 		model.addAttribute("calendar", new Gson().toJson(calendar));
 		return "/calendar/CalendarList";
@@ -62,6 +62,7 @@ public class CalendarController {
 	@PostMapping(value = "/calendar/move")
 	public Map<String, String> MoveCalendar(Calendar calendar, Principal principal) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		calendar.setCalendarRegistrant(principal.getName());
 		calendar.setCalendarModifier(principal.getName());
 		calendar.setCalendarModifiedDate(calendarService.nowDate());
 		calendar.setCalendarStart(formatter.format(calendar.getCalendarStartDate()));
@@ -77,14 +78,14 @@ public class CalendarController {
 	@PostMapping(value = "/calendar/delete")
 	public Map<String, String> DeleteCalendar(Calendar calendar, Principal principal) {
 		Map<String, String> map = new HashMap<String, String>();
-		String result = calendarService.DeleteCalendar(calendar.getCalendarKeyNum());
+		String result = calendarService.DeleteCalendar(calendar.getCalendarKeyNum(), principal.getName());
 		map.put("result", result);
 		return map;
 	}
 	
 	@PostMapping(value = "/calendar/view")
 	public String CalendarView(Model model, int calendarKeyNum, Principal principal) {
-		Calendar calendar = calendarService.getCalendarOne(calendarKeyNum);
+		Calendar calendar = calendarService.getCalendarOne(calendarKeyNum, principal.getName());
 		String employeePhone = employeeService.getEmployeeOne(principal.getName()).getEmployeePhone();
 		model.addAttribute("calendar", calendar);
 		model.addAttribute("employeePhone", employeePhone);
@@ -95,7 +96,8 @@ public class CalendarController {
 	@PostMapping(value = "/calendar/save")
 	public Map<String, String> SaveCalendar(Calendar calendar, Principal principal) {
 		calendar.setCalendarRegistrant(principal.getName());
-		calendar.setCalendarRegistrationDate(calendarService.nowDate());
+		calendar.setCalendarModifier(principal.getName());
+		calendar.setCalendarModifiedDate(calendarService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
 		String result = calendarService.SaveCalendar(calendar);

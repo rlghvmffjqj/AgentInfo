@@ -15,16 +15,16 @@ import com.secuve.agentInfo.vo.Calendar;
 public class CalendarService {
 	@Autowired CalendarDao calendarDao;
 
-	public List<Calendar> getCalendarList(Principal principal) {
-		List<Calendar> calendarList = calendarDao.getCalendarList();
+	public List<Calendar> getCalendarList(String calendarListRegistrant) {
+		List<Calendar> calendarList = calendarDao.getCalendarList(calendarListRegistrant);
 		if(calendarList.size() == 0) {
 			String nowDate = nowDate();
-			calendarDao.InsertCalendarList("회의", "#11c15b", principal.getName(), nowDate);
-			calendarDao.InsertCalendarList("외근", "#ff5252", principal.getName(), nowDate);
-			calendarDao.InsertCalendarList("연차", "#ffe100", principal.getName(), nowDate);
-			calendarDao.InsertCalendarList("반차", "#9261c6", principal.getName(), nowDate);
-			calendarDao.InsertCalendarList("휴가", "#64b0f2", principal.getName(), nowDate);
-			calendarList = calendarDao.getCalendarList();
+			calendarDao.InsertCalendarList("회의", "#11c15b", calendarListRegistrant, nowDate);
+			calendarDao.InsertCalendarList("외근", "#ff5252", calendarListRegistrant, nowDate);
+			calendarDao.InsertCalendarList("연차", "#ffe100", calendarListRegistrant, nowDate);
+			calendarDao.InsertCalendarList("반차", "#9261c6", calendarListRegistrant, nowDate);
+			calendarDao.InsertCalendarList("휴가", "#64b0f2", calendarListRegistrant, nowDate);
+			calendarList = calendarDao.getCalendarList(calendarListRegistrant);
 		}
 		return calendarList;
 	}
@@ -36,7 +36,7 @@ public class CalendarService {
 	}
 
 	public String InsertCalendarList(Calendar calendar, Principal principal) {
-		int overlap = calendarDao.overlapCalendarList(calendar.getCalendarListContents());
+		int overlap = calendarDao.overlapCalendarList(calendar.getCalendarListContents(), principal.getName());
 		if(overlap >= 1) {
 			return "overlap";
 		}
@@ -51,6 +51,10 @@ public class CalendarService {
 	}
 
 	public int InsertCalendar(Calendar calendar) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		Date start = new Date(calendar.getCalendarStart());
+		calendar.setCalendarStart(formatter.format(start));
+		calendar.setCalendarEnd(calendar.getCalendarStart());
 		int result = calendarDao.InsertCalendar(calendar);
 		if(result > 0) {
 			result = calendar.getCalendarKeyNum();
@@ -60,27 +64,47 @@ public class CalendarService {
 		return result; 
 	}
 
-	public List<Calendar> getCalendar() {
-		return calendarDao.getCalendar();
+	public List<Calendar> getCalendar(String calendarRegistrant) {
+		return calendarDao.getCalendar(calendarRegistrant);
 	}
 
 	public String UpdateCalendar(Calendar calendar) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		Date start = new Date(calendar.getCalendarStart());
+		Date end = new Date(calendar.getCalendarEnd());
+		calendar.setCalendarStart(formatter.format(start));
+		calendar.setCalendarEnd(formatter.format(end));
+		
 		int sucess = calendarDao.updateCalendar(calendar);
 		return parameter(sucess);
 	}
 
-	public String DeleteCalendar(int calendarKeyNum) {
-		int sucess = calendarDao.deleteCalendar(calendarKeyNum);
+	public String DeleteCalendar(int calendarKeyNum, String calendarRegistrant) {
+		int sucess = calendarDao.deleteCalendar(calendarKeyNum, calendarRegistrant);
 		return parameter(sucess);
 	}
 
-	public Calendar getCalendarOne(int calendarKeyNum) {
-		return calendarDao.getCalendarOne(calendarKeyNum);
+	public Calendar getCalendarOne(int calendarKeyNum, String calendarRegistrant) {
+		Calendar calendar = calendarDao.getCalendarOne(calendarKeyNum, calendarRegistrant);
+		if(calendar.getCalendarAlarm() == null) {
+			calendar.setCalendarAlarm("09:00");
+		}
+		return calendar;
 	}
 
 	public String SaveCalendar(Calendar calendar) {
-		// TODO Auto-generated method stub
-		return null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		Date start = new Date(calendar.getCalendarStart());
+		Date end = new Date(calendar.getCalendarEnd());
+		calendar.setCalendarStart(formatter.format(start));
+		calendar.setCalendarEnd(formatter.format(end));
+		int compare = start.compareTo(end);
+		if(compare > 0) {
+			return "DateOver";
+		}	
+		
+		int sucess = calendarDao.saveCalendar(calendar);
+		return parameter(sucess);
 	}
 
 }

@@ -20,6 +20,7 @@ public class Calendar {
 	private String calendarColor;
 	private boolean calendarAllDay;
 	private String calendarAlarm;
+	private boolean calendarAlarmYn;
 	private String calendarAddress;
 	private String calendarRegistrant;
 	private String calendarRegistrationDate;
