@@ -521,6 +521,19 @@ p {
     opacity:0.6;
 }
 
+.backblue {
+	background: #1A0DAB;
+    color: white;
+    border-radius: 20px;
+}
+
+.backblue:hover {
+	background: #1A0DAB;
+    color: white;
+    border-radius: 10px;
+    opacity:0.6;
+}
+
 .marginBottom1 {
 	margin-bottom: 1px !important;
 }

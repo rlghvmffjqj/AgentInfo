@@ -16,6 +16,7 @@
 						<option value='접속불가' class="backRed">접속불가</option>
 						<option value='업데이트' class="backYellow">업데이트</option>
 						<option value='외부반출' class="backbrown">외부반출</option>
+						<option value='장비대여' class="backblue">장비대여</option>
 					</select>
 				</td>
 				<td>
