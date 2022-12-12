@@ -30,6 +30,7 @@
 			    	<option value="접속불가" <c:if test="${serverList.serverListState eq '접속불가'}">selected</c:if>>접속불가</option>
 			    	<option value="업데이트" <c:if test="${serverList.serverListState eq '업데이트'}">selected</c:if>>업데이트</option>
 			    	<option value="외부반출" <c:if test="${serverList.serverListState eq '외부반출'}">selected</c:if>>외부반출</option>
+			    	<option value="장비대여" <c:if test="${serverList.serverListState eq '장비대여'}">selected</c:if>>장비대여</option>
 				</select>
 	        </div>
 	        <div class="pading5Width450">

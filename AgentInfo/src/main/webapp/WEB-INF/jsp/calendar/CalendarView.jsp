@@ -251,7 +251,7 @@
 	        }
 
 	        if (item.jibunAddress) {
-	            htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+	            //htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
 	        }
 
 	        if (item.englishAddress) {
@@ -385,4 +385,7 @@
 	}
 
 	naver.maps.onJSContentLoaded = initGeocoder;
+	
+	// 위치 맞추기 위해 추가
+	document.getElementById('map').firstChild.style.left = "170px";
 </script>

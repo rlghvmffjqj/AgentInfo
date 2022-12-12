@@ -133,6 +133,7 @@
 															<option value="접속불가">접속불가</option>
 															<option value="업데이트">업데이트</option>
 															<option value="외부반출">외부반출</option>
+															<option value="장비대여">장비대여</option>
 														</select>
 													</div>
 													<div class="col-lg-2">
@@ -363,6 +364,8 @@
 				return '<div><img src="/AgentInfo/images/serverListOut.png" style="width:50px;"></div';
 			} else if(state == "업데이트") {
 				return '<div><img src="/AgentInfo/images/serverListUpdate.png" style="width:50px;"></div';
+			} else if(state == "장비대여") {
+				return '<div><img src="/AgentInfo/images/serverListRental.png" style="width:50px;"></div';
 			}
 			return '<div></div>';
 		}
