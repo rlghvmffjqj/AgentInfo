@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.CalendarDao;
 import com.secuve.agentInfo.vo.Calendar;
+import com.secuve.agentInfo.vo.Message;
 
 @Service
 public class CalendarService {
 	@Autowired CalendarDao calendarDao;
+	@Autowired SmsService smsService;
 
 	public List<Calendar> getCalendarList(String calendarListRegistrant) {
 		List<Calendar> calendarList = calendarDao.getCalendarList(calendarListRegistrant);
@@ -51,6 +53,7 @@ public class CalendarService {
 	}
 
 	public int InsertCalendar(Calendar calendar) {
+		calendar.setCalendarPhone(calendar.getCalendarPhone().replace("-", ""));
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 		Date start = new Date(calendar.getCalendarStart());
 		calendar.setCalendarStart(formatter.format(start));
@@ -86,9 +89,6 @@ public class CalendarService {
 
 	public Calendar getCalendarOne(int calendarKeyNum, String calendarRegistrant) {
 		Calendar calendar = calendarDao.getCalendarOne(calendarKeyNum, calendarRegistrant);
-		if(calendar.getCalendarAlarm() == null) {
-			calendar.setCalendarAlarm("09:00");
-		}
 		return calendar;
 	}
 
@@ -105,6 +105,23 @@ public class CalendarService {
 		
 		int sucess = calendarDao.saveCalendar(calendar);
 		return parameter(sucess);
+	}
+
+	public void calendarScheduler() {
+		Date now = new Date();
+		SimpleDateFormat calendarStart = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat calendarAlarm = new SimpleDateFormat("HH:mm");
+		List<Calendar> list = calendarDao.alarmCalendar(calendarStart.format(now), calendarAlarm.format(now));
+		Message message = new Message();
+		for (Calendar calendar : list) {
+			message.setTo(calendar.getCalendarPhone());
+			message.setContent(calendar.getCalendarContents());
+			try {
+				smsService.sendSms(message);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

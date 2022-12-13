@@ -21,6 +21,7 @@ public class Calendar {
 	private boolean calendarAllDay;
 	private String calendarAlarm;
 	private boolean calendarAlarmYn;
+	private String calendarPhone;
 	private String calendarAddress;
 	private String calendarRegistrant;
 	private String calendarRegistrationDate;

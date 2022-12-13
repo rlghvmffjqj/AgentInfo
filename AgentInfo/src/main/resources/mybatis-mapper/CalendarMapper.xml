@@ -18,8 +18,8 @@
 	</select>
 	
 	<insert id="insertCalendar">
-	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarEnd, calendarContents, calendarColor, calendarAllDay, calendarRegistrant, calendarRegistrationDate) 
-	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarEnd}, #{calendarContents}, #{calendarColor}, ${calendarAllDay}, #{calendarRegistrant}, #{calendarRegistrationDate});
+	 	INSERT INTO calendar(calendarKeyNum, calendarStart, calendarEnd, calendarContents, calendarColor, calendarAllDay, calendarAlarm, calendarPhone, calendarRegistrant, calendarRegistrationDate) 
+	 	VALUES(nextval(SEQ_Calendar), #{calendarStart}, #{calendarEnd}, #{calendarContents}, #{calendarColor}, ${calendarAllDay}, #{calendarAlarm}, #{calendarPhone}, #{calendarRegistrant}, #{calendarRegistrationDate});
 	 	
 	 	<selectKey keyProperty="calendarKeyNum" order="AFTER" resultType="_int">
 	 		SELECT lastval(SEQ_Calendar);
@@ -35,7 +35,7 @@
 		WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
 	</update>
 	
-	<delete id="deleteCalendar" parameterType="_int">
+	<delete id="deleteCalendar">
 		DELETE FROM calendar WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
 	</delete>
 	
@@ -47,5 +47,11 @@
 		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarContents = #{calendarContents}, calendarColor = #{calendarColor}, calendarAllDay = ${calendarAllDay}, calendarAlarm = #{calendarAlarm}, calendarAlarmYn = ${calendarAlarmYn}, calendarAddress = #{calendarAddress}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
 		WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
 	</update>
+	
+	<select id="alarmCalendar" resultMap="calendar">
+		SELECT * FROM calendar
+		WHERE calendarstart LIKE CONCAT(#{calendarStart},'%')
+		AND calendarAlarm = #{calendarAlarm};
+	</select>
 	
 </mapper>

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +53,9 @@ public class CalendarController {
 		calendar.setCalendarRegistrant(principal.getName());
 		calendar.setCalendarRegistrationDate(calendarService.nowDate());
 		calendar.setCalendarStart(formatter.format(calendar.getCalendarStartDate()));
+		calendar.setCalendarAlarm("09:00");
+		String employeePhone = employeeService.getEmployeeOne(principal.getName()).getEmployeePhone();
+		calendar.setCalendarPhone(employeePhone);
 
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		int result = calendarService.InsertCalendar(calendar);
@@ -103,6 +108,14 @@ public class CalendarController {
 		String result = calendarService.SaveCalendar(calendar);
 		map.put("result", result);
 		return map;
+	}
+	
+	@Async
+	@Scheduled(cron="0 * * * * ?")
+	public void cronScheduler() {
+		System.out.println("나는 시스템 시간을 기준으로 1분 마다 주기적으로 실행될거야");
+		calendarService.calendarScheduler();
+	  
 	}
 	
 }

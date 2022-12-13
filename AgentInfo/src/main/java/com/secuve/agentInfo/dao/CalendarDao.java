@@ -64,5 +64,12 @@ public class CalendarDao {
 		return sqlSession.update("calendar.saveCalendar",calendar);
 	}
 
+	public List<Calendar> alarmCalendar(String calendarStart, String calendarAlarm) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("calendarStart", calendarStart);
+		parameters.put("calendarAlarm", calendarAlarm);
+		return sqlSession.selectList("calendar.alarmCalendar", parameters);
+	}
+
 
 }

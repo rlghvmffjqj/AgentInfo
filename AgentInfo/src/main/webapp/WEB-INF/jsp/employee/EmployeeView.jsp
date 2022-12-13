@@ -191,7 +191,6 @@
 			$('#Inconsistency').show();	
 		} else {
 			var postData = $('#modalForm').serializeObject();
-			console.log(postData);
 			$.ajax({
 				url: "<c:url value='/employee/insert'/>",
 	            type: 'post',
