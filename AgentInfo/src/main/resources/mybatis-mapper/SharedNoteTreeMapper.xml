@@ -8,16 +8,18 @@
 		SELECT *
 		FROM sharedNoteTree
 		WHERE sharedNoteTreeParentPath = #{parentPath}
+		AND sharedNoteTreeDepartment = #{sharedNoteTreeDepartment}
 		ORDER BY sharedNoteTreeFullPath ASC
 	</select>
 	
 	<insert id="insertSharedNoteTree">
-		INSERT INTO sharedNoteTree(sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteTreeName,sharedNoteTreeRegistrant,sharedNoteTreeRegistrationDate) 
-		VALUES(#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteTreeName},#{sharedNoteTreeRegistrant},#{sharedNoteTreeRegistrationDate});
+		INSERT INTO sharedNoteTree(sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteTreeName,sharedNoteTreeDepartment,sharedNoteTreeRegistrant,sharedNoteTreeRegistrationDate) 
+		VALUES(#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteTreeName},#{sharedNoteTreeDepartment},#{sharedNoteTreeRegistrant},#{sharedNoteTreeRegistrationDate});
 	</insert>
 	
 	<select id="getSharedNoteTreeFullPath" parameterType="string" resultMap="sharedNoteTree">
-		SELECT * FROM sharedNoteTree WHERE sharedNoteTreeFullPath = #{sharedNoteTreeFullPath};
+		SELECT * FROM sharedNoteTree WHERE sharedNoteTreeFullPath = #{sharedNoteTreeFullPath}
+		AND sharedNoteTreeDepartment = #{sharedNoteTreeDepartment};
 	</select>
 	
 	<select id="getSharedNoteTreeParentPath" parameterType="string" resultMap="sharedNoteTree">

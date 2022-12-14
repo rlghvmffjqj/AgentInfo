@@ -112,4 +112,8 @@ public class EmployeeDao {
 	public List<Employee> getEmployeeAll() {
 		return sqlSession.selectList("employee.getEmployeeAll");
 	}
+
+	public String getEmployeeDepartment(String employeeId) {
+		return sqlSession.selectOne("employee.getEmployeeDepartment", employeeId);
+	}
 }

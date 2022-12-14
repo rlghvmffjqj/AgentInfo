@@ -21,8 +21,8 @@ public class SharedNoteTreeService {
 	@Autowired SharedNoteTreeDao sharedNoteTreeDao;
 	@Autowired SharedNoteDao sharedNoteDao;
 
-	public List<SharedNoteTree> getSharedNoteTreeList(String parentPath, String sharedNoteTreeRegistrant) {
-		List<SharedNoteTree> sharedNoteTreeList = sharedNoteTreeDao.getSharedNoteTreeList(parentPath, sharedNoteTreeRegistrant);
+	public List<SharedNoteTree> getSharedNoteTreeList(String parentPath, String sharedNoteTreeDepartment) {
+		List<SharedNoteTree> sharedNoteTreeList = sharedNoteTreeDao.getSharedNoteTreeList(parentPath, sharedNoteTreeDepartment);
 		return sharedNoteTreeList;
 	}
 
@@ -33,7 +33,7 @@ public class SharedNoteTreeService {
 		} else {
 			sharedNoteTree.setSharedNoteTreeFullPath(sharedNoteTree.getSharedNoteTreeParentPath() + "/"+sharedNoteTree.getSharedNoteTreeName());
 		}
-		SharedNoteTree overlap = sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant());
+		SharedNoteTree overlap = sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant(), sharedNoteTree.getSharedNoteTreeDepartment());
 		if(sharedNoteTree.getSharedNoteTreeName() == "" || sharedNoteTree.getSharedNoteTreeName() == null) {
 			return "Empty";
 		}
@@ -60,14 +60,14 @@ public class SharedNoteTreeService {
 		if(sharedNoteTree.getNewSharedNoteTreeName() == "" || sharedNoteTree.getNewSharedNoteTreeName() == null) {
 			return "Empty";
 		}
-		SharedNoteTree ordSharedNoteTree = (SharedNoteTree) sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant());
+		SharedNoteTree ordSharedNoteTree = (SharedNoteTree) sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant(), sharedNoteTree.getSharedNoteTreeDepartment());
 		if(ordSharedNoteTree.getSharedNoteTreeParentPath().equals("/")) {
 			sharedNoteTree.setNewSharedNoteTreeFullPath("/"+sharedNoteTree.getNewSharedNoteTreeName());
 		} else {
 			sharedNoteTree.setNewSharedNoteTreeFullPath(ordSharedNoteTree.getSharedNoteTreeParentPath()+"/"+sharedNoteTree.getNewSharedNoteTreeName());
 		}
 		
-		SharedNoteTree overlap = sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getNewSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant());
+		SharedNoteTree overlap = sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getNewSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant(), sharedNoteTree.getSharedNoteTreeDepartment());
 		if(overlap == null) {
 			ArrayList<SharedNoteTree> sharedNoteTreeFullPathList = new ArrayList<>(sharedNoteTreeDao.getSharedNoteTreeFullPathList(ordSharedNoteTree.getSharedNoteTreeFullPath()));
 			for (SharedNoteTree newSharedNoteTree : sharedNoteTreeFullPathList) {

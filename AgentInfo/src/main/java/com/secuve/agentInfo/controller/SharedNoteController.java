@@ -21,18 +21,21 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.SharedNoteService;
 import com.secuve.agentInfo.vo.SharedNote;
 
 @Controller
 public class SharedNoteController {
 	@Autowired SharedNoteService sharedNoteService;
+	@Autowired EmployeeService employeeService;
 	
 	@GetMapping(value = "/sharedNote/list")
 	public ModelAndView SharedNoteList(ModelAndView mav, Principal principal) {
-		ArrayList<SharedNote> list = new ArrayList<>(sharedNoteService.getSharedNote(principal.getName()));
-		List<String> sharedNoteTitle = sharedNoteService.getSharedNoteTitle(principal.getName());
-		List<String> sharedNoteHashTag = sharedNoteService.getSharedNoteHashTag(principal.getName());
+		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
+		ArrayList<SharedNote> list = new ArrayList<>(sharedNoteService.getSharedNote(departmentName));
+		List<String> sharedNoteTitle = sharedNoteService.getSharedNoteTitle(departmentName);
+		List<String> sharedNoteHashTag = sharedNoteService.getSharedNoteHashTag(departmentName);
 		mav.addObject("list", list).addObject("sharedNoteTitle", sharedNoteTitle).addObject("sharedNoteHashTag",sharedNoteHashTag).setViewName("sharedNote/SharedNoteList");
 		return mav;
 	}
@@ -46,11 +49,13 @@ public class SharedNoteController {
 	@ResponseBody
 	@PostMapping(value = "/sharedNote/insert")
 	public Map InsertSharedNote(SharedNote sharedNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
+		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
 		sharedNote.setSharedNoteRegistrant(principal.getName());
 		sharedNote.setSharedNoteRegistrationDate(sharedNoteService.nowDate());
 		sharedNote.setSharedNoteModifier(principal.getName());
 		sharedNote.setSharedNoteModifiedDate(sharedNoteService.nowDate());
 		sharedNote.setSharedNoteContentsView(sharedNote.getSharedNoteContentsView().replace("'", "&#39;"));
+		sharedNote.setSharedNoteDepartment(departmentName);
 		
 		Map result = sharedNoteService.insertSharedNote(sharedNote, fileInput);
 		result.put("fileName", sharedNoteService.getSharedNoteFileName(sharedNote.getSharedNoteKeyNum()));
@@ -60,11 +65,12 @@ public class SharedNoteController {
 	@ResponseBody
 	@PostMapping(value = "/sharedNote/search")
 	public ArrayList<SharedNote> SharedNoteReset(ModelAndView mav, Principal principal, String[] sharedNoteTitle, String[] sharedNoteHashTag, SharedNote sharedNote) {
+		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
 		ArrayList<SharedNote> list = new ArrayList<SharedNote>();
 		if(sharedNote.getSharedNoteTreeFullPath() == "/" || sharedNote.getSharedNoteTreeFullPath().equals("/")) {
-			list = new ArrayList<>(sharedNoteService.getSharedNoteSearchAll(sharedNoteTitle, sharedNoteHashTag, principal.getName()));
+			list = new ArrayList<>(sharedNoteService.getSharedNoteSearchAll(sharedNoteTitle, sharedNoteHashTag, departmentName));
 		} else {
-			list = new ArrayList<>(sharedNoteService.getSharedNoteSearch(sharedNoteTitle, sharedNoteHashTag, principal.getName(), sharedNote));
+			list = new ArrayList<>(sharedNoteService.getSharedNoteSearch(sharedNoteTitle, sharedNoteHashTag, departmentName, sharedNote));
 		}
 		return list;
 	}

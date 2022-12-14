@@ -7,12 +7,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.CalendarDao;
 import com.secuve.agentInfo.vo.Calendar;
 import com.secuve.agentInfo.vo.Message;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class CalendarService {
 	@Autowired CalendarDao calendarDao;
 	@Autowired SmsService smsService;
@@ -117,7 +121,7 @@ public class CalendarService {
 			message.setTo(calendar.getCalendarPhone());
 			message.setContent(calendar.getCalendarContents());
 			try {
-				smsService.sendSms(message);
+				//smsService.sendSms(message); // 문자 전송 기능 활성화 할 경우 월 50건 이상 사용 시 요금 발생
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

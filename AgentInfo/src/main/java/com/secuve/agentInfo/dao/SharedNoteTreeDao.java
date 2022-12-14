@@ -14,10 +14,10 @@ import com.secuve.agentInfo.vo.SharedNoteTree;
 public class SharedNoteTreeDao {
 	@Autowired SqlSessionTemplate sqlSession;
 	
-	public List<SharedNoteTree> getSharedNoteTreeList(String parentPath, String sharedNoteTreeRegistrant) {
+	public List<SharedNoteTree> getSharedNoteTreeList(String parentPath, String sharedNoteTreeDepartment) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("parentPath", parentPath);
-		parameters.put("sharedNoteTreeRegistrant", sharedNoteTreeRegistrant);
+		parameters.put("sharedNoteTreeDepartment", sharedNoteTreeDepartment);
 		return sqlSession.selectList("sharedNoteTree.getSharedNoteTreeList", parameters);
 	}
 
@@ -25,10 +25,11 @@ public class SharedNoteTreeDao {
 		return sqlSession.insert("sharedNoteTree.insertSharedNoteTree", sharedNoteTree);
 	}
 
-	public SharedNoteTree getSharedNoteTreeFullPath(String sharedNoteTreeFullPath, String sharedNoteTreeRegistrant) {
+	public SharedNoteTree getSharedNoteTreeFullPath(String sharedNoteTreeFullPath, String sharedNoteTreeRegistrant, String sharedNoteTreeDepartment) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("sharedNoteTreeFullPath", sharedNoteTreeFullPath);
 		parameters.put("sharedNoteTreeRegistrant", sharedNoteTreeRegistrant);
+		parameters.put("sharedNoteTreeDepartment", sharedNoteTreeDepartment);
 		return sqlSession.selectOne("sharedNoteTree.getSharedNoteTreeFullPath",parameters);
 	}
 

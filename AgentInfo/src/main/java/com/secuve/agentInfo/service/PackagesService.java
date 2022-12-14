@@ -1161,10 +1161,10 @@ public class PackagesService {
 	 * 패키지 배포 현황 차트
 	 * @return
 	 */
-	public List<Integer> getChartManagementServer() {
+	public List<Integer> getChartManagementServer(String managementServerYear) {
 		int count = 0;
 		List<Integer> list = new ArrayList<Integer>();
-		List<Packages> packagesList = packagesDao.getChartManagementServer();
+		List<Packages> packagesList = packagesDao.getChartManagementServer(managementServerYear);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for(Packages packages: packagesList) {
 			map.put(packages.getChartName(), packages.getChartCount());
@@ -1185,9 +1185,9 @@ public class PackagesService {
 	 * OS종류 별 Agent배포 현황 차트
 	 * @return
 	 */
-	public List<Integer> getOsType() {
+	public List<Integer> getOsType(String osTypeYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		List<Packages> packagesList = packagesDao.getOsType();
+		List<Packages> packagesList = packagesDao.getOsType(osTypeYear);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for(Packages packages: packagesList) {
 			map.put(packages.getChartName(), packages.getChartCount());
@@ -1205,9 +1205,9 @@ public class PackagesService {
 	 * Agent 종류별 배포현황 차트
 	 * @return
 	 */
-	public List<Integer> getChartRequestProductCategory() {
+	public List<Integer> getChartRequestProductCategory(String requestProductCategoryYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		Packages packages = packagesDao.getChartRequestProductCategory();
+		Packages packages = packagesDao.getChartRequestProductCategory(requestProductCategoryYear);
 		
 		list.add(packages.getChartColumn1());
 		list.add(packages.getChartColumn2());
@@ -1294,12 +1294,12 @@ public class PackagesService {
 	 * 고객사별 패키지 배포 수량 TOP 7
 	 * @return
 	 */
-	public Map<String, List> getCustomerName() {
+	public Map<String, List> getCustomerName(String customerNameYear) {
 		Map<String, List> map = new HashMap();
 		List<String> name = new ArrayList<String>();
 		List<Integer> count = new ArrayList<Integer>();
 		
-		List<Packages> packagesList = packagesDao.getCustomerName();
+		List<Packages> packagesList = packagesDao.getCustomerName(customerNameYear);
 		
 		for(Packages packages: packagesList) {
 			name.add(packages.getChartName());

@@ -50,16 +50,16 @@ public class PackagesDao {
 		sqlSession.update("packages.plusPackagesKeyNum", packagesKeyNumOrigin);
 	}
 
-	public List<Packages> getChartManagementServer() {
-		return sqlSession.selectList("packages.getChartManagementServer");
+	public List<Packages> getChartManagementServer(String managementServerYear) {
+		return sqlSession.selectList("packages.getChartManagementServer", managementServerYear);
 	}
 
-	public List<Packages> getOsType() {
-		return sqlSession.selectList("packages.getOsType");
+	public List<Packages> getOsType(String osTypeYear) {
+		return sqlSession.selectList("packages.getOsType", osTypeYear);
 	}
 
-	public Packages getChartRequestProductCategory() {
-		return sqlSession.selectOne("packages.getChartRequestProductCategory");
+	public Packages getChartRequestProductCategory(String requestProductCategoryYear) {
+		return sqlSession.selectOne("packages.getChartRequestProductCategory", requestProductCategoryYear);
 	}
 
 	public Packages getAgentVer(String topAgentVer) {
@@ -74,8 +74,8 @@ public class PackagesDao {
 		return sqlSession.selectList("packages.getDeliveryData", deliveryDataYear);
 	}
 
-	public List<Packages> getCustomerName() {
-		return sqlSession.selectList("packages.getCustomerName");
+	public List<Packages> getCustomerName(String customerNameYear) {
+		return sqlSession.selectList("packages.getCustomerName", customerNameYear);
 	}
 
 	public int stateChange(int packagesKeyNum, String statusComment, String stateView) {

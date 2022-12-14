@@ -355,9 +355,9 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/managementServer")
-	public List<Integer> chartManagementServer() {
+	public List<Integer> chartManagementServer(String managementServerYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getChartManagementServer();
+		list = packagesService.getChartManagementServer(managementServerYear);
 		return list;
 	}
 
@@ -368,9 +368,9 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/osType")
-	public List<Integer> chartOsType() {
+	public List<Integer> chartOsType(String osTypeYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getOsType();
+		list = packagesService.getOsType(osTypeYear);
 		return list;
 	}
 
@@ -381,9 +381,9 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/requestProductCategory")
-	public List<Integer> chartRequestProductCategory() {
+	public List<Integer> chartRequestProductCategory(String requestProductCategoryYear) {
 		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getChartRequestProductCategory();
+		list = packagesService.getChartRequestProductCategory(requestProductCategoryYear);
 		return list;
 	}
 
@@ -420,9 +420,9 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/customerName")
-	public Map<String, List> chartCustomerName() {
+	public Map<String, List> chartCustomerName(String customerNameYear) {
 		Map<String, List> map = new HashMap<String, List>();
-		map = packagesService.getCustomerName();
+		map = packagesService.getCustomerName(customerNameYear);
 		return map;
 	}
 	

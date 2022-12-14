@@ -14,8 +14,8 @@ import com.secuve.agentInfo.vo.SharedNote;
 public class SharedNoteDao {
 	@Autowired SqlSessionTemplate sqlSession;
 
-	public List<SharedNote> getSharedNote(String sharedNoteRegistrant) {
-		return sqlSession.selectList("sharedNote.getSharedNote", sharedNoteRegistrant);
+	public List<SharedNote> getSharedNote(String sharedNoteDepartment) {
+		return sqlSession.selectList("sharedNote.getSharedNote", sharedNoteDepartment);
 	}
 
 	public int insertSharedNote(SharedNote sharedNote) {
@@ -26,11 +26,11 @@ public class SharedNoteDao {
 		return sqlSession.selectOne("sharedNote.getSharedNoteKeyNum");
 	}
 
-	public List<SharedNote> getSharedNoteSearch(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteRegistrant, SharedNote sharedNote) {
+	public List<SharedNote> getSharedNoteSearch(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteDepartment, SharedNote sharedNote) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("sharedNoteTitle", sharedNoteTitle);
 		parameters.put("sharedNoteHashTag", sharedNoteHashTag);
-		parameters.put("sharedNoteRegistrant", sharedNoteRegistrant);
+		parameters.put("sharedNoteDepartment", sharedNoteDepartment);
 		parameters.put("sharedNoteTitleCount", sharedNoteTitle.length);
 		parameters.put("sharedNoteHashTagCount", sharedNoteHashTag.length);
 		parameters.put("sharedNoteTreeFullPath", sharedNote.getSharedNoteTreeFullPath());
@@ -61,12 +61,12 @@ public class SharedNoteDao {
 		sqlSession.delete("sharedNote.delAllSharedNote", parameters);
 	}
 
-	public List<String> getSharedNoteTitle(String sharedNoteRegistrant) {
-		return sqlSession.selectList("sharedNote.getSharedNoteTitle", sharedNoteRegistrant);
+	public List<String> getSharedNoteTitle(String sharedNoteDepartment) {
+		return sqlSession.selectList("sharedNote.getSharedNoteTitle", sharedNoteDepartment);
 	}
 
-	public List<String> getSharedNoteHashTag(String sharedNoteRegistrant) {
-		return sqlSession.selectList("sharedNote.getSharedNoteHashTag", sharedNoteRegistrant);
+	public List<String> getSharedNoteHashTag(String sharedNoteDepartment) {
+		return sqlSession.selectList("sharedNote.getSharedNoteHashTag", sharedNoteDepartment);
 	}
 
 	public void updateTree(String ordSharedNoteTreeFullPath, String sharedNoteTreeFullPath,
@@ -82,11 +82,11 @@ public class SharedNoteDao {
 		sqlSession.update("sharedNote.updateTree", parameters);	
 	}
 
-	public List<SharedNote> getSharedNoteSearchAll(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteRegistrant) {
+	public List<SharedNote> getSharedNoteSearchAll(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteDepartment) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("sharedNoteTitle", sharedNoteTitle);
 		parameters.put("sharedNoteHashTag", sharedNoteHashTag);
-		parameters.put("sharedNoteRegistrant", sharedNoteRegistrant);
+		parameters.put("sharedNoteDepartment", sharedNoteDepartment);
 		parameters.put("sharedNoteTitleCount", sharedNoteTitle.length);
 		parameters.put("sharedNoteHashTagCount", sharedNoteHashTag.length);
 		return sqlSession.selectList("sharedNote.getSharedNoteSearchAll",parameters);

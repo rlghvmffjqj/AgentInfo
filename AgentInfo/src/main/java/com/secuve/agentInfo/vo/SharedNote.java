@@ -20,6 +20,7 @@ public class SharedNote {
 	private String sharedNoteTreeName;				// 부서 이름
 	private String sharedNoteTreeFullPath;			// 부서 풀 경로
 	private String sharedNoteTreeParentPath;		// 부서 부모 경로
+	private String sharedNoteDepartment;
 	private String sharedNoteRegistrant;
 	private String sharedNoteRegistrationDate;
 	private String sharedNoteModifier;

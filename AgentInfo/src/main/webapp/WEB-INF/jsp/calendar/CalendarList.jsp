@@ -95,8 +95,8 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">달력</h5>
-									            <p class="m-b-0">Calendar</p>
+									            <h5 class="m-b-10">일정 관리</h5>
+									            <p class="m-b-0">Schedule Management</p>
 									        </div>
 									    </div>
 									    <div class="col-md-4">
@@ -104,7 +104,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">달력</a>
+									            <li class="breadcrumb-item"><a href="#!">일정 관리</a>
 									            </li>
 									        </ul>
 									    </div>

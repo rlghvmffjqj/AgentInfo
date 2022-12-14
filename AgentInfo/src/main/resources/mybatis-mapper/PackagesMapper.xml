@@ -61,6 +61,9 @@
 	<select id="getChartManagementServer" resultMap="packages">
 		SELECT DISTINCT(managementServer) AS 'chartName', COUNT(*) AS 'chartCount'
 		FROM packages
+		<if test="managementServerYear != '전체' and managementServerYear != null">
+			WHERE deliveryData BETWEEN CONCAT(#{managementServerYear},'-01-01') AND CONCAT(#{managementServerYear},'-12-31')
+		</if>
 		GROUP BY managementServer;
 	</select>
 	
@@ -68,6 +71,9 @@
 		SELECT DISTINCT(osType) AS 'chartName', COUNT(*) AS 'chartCount'
 		FROM packages
 		WHERE managementServer = 'Agent'
+		<if test="osTypeYear != '전체' and osTypeYear != null">
+			AND deliveryData BETWEEN CONCAT(#{osTypeYear},'-01-01') AND CONCAT(#{osTypeYear},'-12-31')
+		</if>
 		GROUP BY osType;
 	</select>
 	
@@ -77,11 +83,31 @@
 	
 	<select id="getChartRequestProductCategory" resultMap="packages">
 		SELECT 
-			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 5.0%' AND managementServer = 'Agent') AS 'chartColumn1',
-			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 3.0%' AND managementServer = 'Agent') AS 'chartColumn2',
-			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.60%' AND managementServer = 'Agent') AS 'chartColumn3',
-			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.70%' AND managementServer = 'Agent') AS 'chartColumn4',
-			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%iGRIFFIN 5.0%' AND managementServer = 'Agent') AS 'chartColumn5'
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 5.0%' AND managementServer = 'Agent'
+			<if test="requestProductCategoryYear != '전체' and requestProductCategoryYear != null">
+				AND deliveryData BETWEEN CONCAT(#{requestProductCategoryYear},'-01-01') AND CONCAT(#{requestProductCategoryYear},'-12-31')
+			</if>
+			) AS 'chartColumn1',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 3.0%' AND managementServer = 'Agent'
+			<if test="requestProductCategoryYear != '전체' and requestProductCategoryYear != null">
+				AND deliveryData BETWEEN CONCAT(#{requestProductCategoryYear},'-01-01') AND CONCAT(#{requestProductCategoryYear},'-12-31')
+			</if>
+			) AS 'chartColumn2',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.60%' AND managementServer = 'Agent'
+			<if test="requestProductCategoryYear != '전체' and requestProductCategoryYear != null">
+				AND deliveryData BETWEEN CONCAT(#{requestProductCategoryYear},'-01-01') AND CONCAT(#{requestProductCategoryYear},'-12-31')
+			</if>
+			) AS 'chartColumn3',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%TOS 2.0.70%' AND managementServer = 'Agent'
+			<if test="requestProductCategoryYear != '전체' and requestProductCategoryYear != null">
+				AND deliveryData BETWEEN CONCAT(#{requestProductCategoryYear},'-01-01') AND CONCAT(#{requestProductCategoryYear},'-12-31')
+			</if>
+			) AS 'chartColumn4',
+			(SELECT COUNT(*) FROM packages WHERE requestProductCategory LIKE '%iGRIFFIN 5.0%' AND managementServer = 'Agent'
+			<if test="requestProductCategoryYear != '전체' and requestProductCategoryYear != null">
+				AND deliveryData BETWEEN CONCAT(#{requestProductCategoryYear},'-01-01') AND CONCAT(#{requestProductCategoryYear},'-12-31')
+			</if>
+			) AS 'chartColumn5'
 		FROM DUAL;
 	</select>
 	
@@ -99,17 +125,21 @@
 	<select id="getDeliveryData" resultMap="packages">
 		SELECT DATE_FORMAT(deliveryData,'%m') AS 'chartName', COUNT(*) AS 'chartCount'
 		FROM packages
-		<if test="individualNoteTitle != null and individualNoteTitle != ''">
-			WHERE	deliveryData BETWEEN CONCAT(#{deliveryDataYear},'-01-01') AND CONCAT(#{deliveryDataYear},'-12-31')
+		<if test="deliveryDataYear != null and deliveryDataYear != ''">
+			WHERE deliveryData BETWEEN CONCAT(#{deliveryDataYear},'-01-01') AND CONCAT(#{deliveryDataYear},'-12-31')
 		</if>
-		<if test="individualNoteTitle == null or individualNoteTitle == ''">
-			WHERE	deliveryData BETWEEN CONCAT(YEAR(NOW()),'-01-01') AND CONCAT(YEAR(NOW()),'-12-31')
+		<if test="deliveryDataYear == null or deliveryDataYear == ''">
+			WHERE deliveryData BETWEEN CONCAT(YEAR(NOW()),'-01-01') AND CONCAT(YEAR(NOW()),'-12-31')
 		</if>
 		GROUP BY chartName;
 	</select>
 	
 	<select id="getCustomerName" resultMap="packages">
-		SELECT customerName AS 'chartName', COUNT(*) AS 'chartCount' FROM packages GROUP BY customerName ORDER BY COUNT(*) DESC LIMIT 7;
+		SELECT customerName AS 'chartName', COUNT(*) AS 'chartCount' FROM packages 
+		<if test="customerNameYear != '전체' and customerNameYear != null">
+			WHERE deliveryData BETWEEN CONCAT(#{customerNameYear},'-01-01') AND CONCAT(#{customerNameYear},'-12-31')
+		</if>
+		GROUP BY customerName ORDER BY COUNT(*) DESC LIMIT 7;
 	</select>
 	
 	<update id="stateChange">

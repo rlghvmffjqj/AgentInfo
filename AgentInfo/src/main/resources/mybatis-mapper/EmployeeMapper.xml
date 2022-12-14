@@ -100,6 +100,10 @@
 		SELECT * FROM employee;
 	</select>
 	
+	<select id="getEmployeeDepartment" parameterType="string" resultType="string">
+		SELECT departmentName FROM employee WHERE employeeId = #{employeeId};
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

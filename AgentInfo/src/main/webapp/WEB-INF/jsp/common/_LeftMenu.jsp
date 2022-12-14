@@ -500,7 +500,7 @@
 				    <li class="calendar">
 				        <a href="<c:url value='/calendar/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">개인 달력</span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">개인 일정</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				    </li>

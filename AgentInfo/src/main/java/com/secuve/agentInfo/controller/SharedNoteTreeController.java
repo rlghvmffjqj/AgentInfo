@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.SharedNoteTreeService;
 import com.secuve.agentInfo.vo.SharedNoteTree;
 
 @Controller
 public class SharedNoteTreeController {
 	@Autowired SharedNoteTreeService sharedNoteTreeService;
+	@Autowired EmployeeService employeeService;
 	
 	/**
 	 * 트리 정보 가져오기
@@ -26,7 +28,8 @@ public class SharedNoteTreeController {
 	@ResponseBody
 	@PostMapping(value = "/sharedNoteTree/list")
 	public Object SharedNoteTreeList(@RequestParam String parentPath, Principal principal) {
-		return sharedNoteTreeService.getSharedNoteTreeList(parentPath, principal.getName());
+		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
+		return sharedNoteTreeService.getSharedNoteTreeList(parentPath, departmentName);
 	}
 	
 	/**
@@ -52,6 +55,7 @@ public class SharedNoteTreeController {
 		Map<String,String> map = new HashMap<String,String>();
 		sharedNoteTree.setSharedNoteTreeRegistrant(principal.getName());
 		sharedNoteTree.setSharedNoteTreeRegistrationDate(sharedNoteTreeService.nowDate());
+		sharedNoteTree.setSharedNoteTreeDepartment(employeeService.getEmployeeDepartment(principal.getName()));
 		String result = sharedNoteTreeService.insertSharedNoteTree(sharedNoteTree);
 		map.put("result", result);
 		return map;
@@ -96,6 +100,7 @@ public class SharedNoteTreeController {
 		sharedNoteTree.setSharedNoteTreeRegistrant(principal.getName());
 		sharedNoteTree.setSharedNoteTreeModifier(principal.getName());
 		sharedNoteTree.setSharedNoteTreeModifiedDate(sharedNoteTreeService.nowDate());
+		sharedNoteTree.setSharedNoteTreeDepartment(employeeService.getEmployeeDepartment(principal.getName()));
 		String result = sharedNoteTreeService.updateSharedNoteTree(sharedNoteTree);
 		map.put("result", result);
 		return map;

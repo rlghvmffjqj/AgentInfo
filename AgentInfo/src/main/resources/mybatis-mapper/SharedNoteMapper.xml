@@ -7,6 +7,7 @@
 	<select id="getSharedNote" resultMap="sharedNote" parameterType="string">
 		SELECT *
 		FROM sharedNote
+		WHERE sharedNoteDepartment = #{sharedNoteDepartment};
 	</select>
 	
 	<select id="getSharedNoteKeyNum" resultType="_int">
@@ -18,8 +19,8 @@
 	</select>
 	
 	<insert id="insertSharedNote">
-		INSERT INTO sharedNote(sharedNoteKeyNum,sharedNoteTitle,sharedNoteContents,sharedNoteHashTag,sharedNoteSort,sharedNoteColor,sharedNoteTreeName,sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteRegistrant,sharedNoteRegistrationDate,sharedNoteModifier,sharedNoteModifiedDate) 
-		VALUE(#{sharedNoteKeyNum},#{sharedNoteTitleView},#{sharedNoteContentsView},#{sharedNoteHashTagView},#{sharedNoteSort},#{sharedNoteColor},#{sharedNoteTreeName},#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteRegistrant},#{sharedNoteRegistrationDate},#{sharedNoteModifier},#{sharedNoteModifiedDate});
+		INSERT INTO sharedNote(sharedNoteKeyNum,sharedNoteTitle,sharedNoteContents,sharedNoteHashTag,sharedNoteSort,sharedNoteColor,sharedNoteTreeName,sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteDepartment,sharedNoteRegistrant,sharedNoteRegistrationDate,sharedNoteModifier,sharedNoteModifiedDate) 
+		VALUE(#{sharedNoteKeyNum},#{sharedNoteTitleView},#{sharedNoteContentsView},#{sharedNoteHashTagView},#{sharedNoteSort},#{sharedNoteColor},#{sharedNoteTreeName},#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteDepartment},#{sharedNoteRegistrant},#{sharedNoteRegistrationDate},#{sharedNoteModifier},#{sharedNoteModifiedDate});
 	</insert>
 	
 	<select id="getSharedNoteSearch" parameterType="string" resultMap="sharedNote">
@@ -27,6 +28,7 @@
 		FROM sharedNote
 		WHERE sharedNoteTreeFullPath=#{sharedNoteTreeFullPath}
 		AND sharedNoteTreeName=#{sharedNoteTreeName}
+		AND sharedNoteDepartment=#{sharedNoteDepartment}
 		<if test="sharedNoteTitleCount != 0">
 			AND (
 				<trim prefix="" prefixOverrides="OR">
@@ -66,11 +68,11 @@
 	</delete>
 	
 	<select id="getSharedNoteTitle" resultType="string" parameterType="string">
-		SELECT DISTINCT sharedNoteTitle FROM sharedNote WHERE sharedNoteTitle != '';
+		SELECT DISTINCT sharedNoteTitle FROM sharedNote WHERE sharedNoteTitle != '' AND sharedNoteDepartment = #{sharedNoteDepartment};
 	</select>
 	
 	<select id="getSharedNoteHashTag" resultType="string" parameterType="string">
-		SELECT DISTINCT sharedNoteHashTag FROM sharedNote WHERE sharedNoteHashTag IS NOT NULL AND sharedNoteHashTag != '';
+		SELECT DISTINCT sharedNoteHashTag FROM sharedNote WHERE sharedNoteHashTag IS NOT NULL AND sharedNoteHashTag != '' AND sharedNoteDepartment = #{sharedNoteDepartment};
 	</select>
 	
 	<update id="updateTree">
@@ -81,6 +83,7 @@
 	<select id="getSharedNoteSearchAll" parameterType="string" resultMap="sharedNote">
 		SELECT *
 		FROM sharedNote
+		WHERE sharedNoteDepartment = #{sharedNoteDepartment}
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="sharedNoteTitleCount != 0">
 				AND (

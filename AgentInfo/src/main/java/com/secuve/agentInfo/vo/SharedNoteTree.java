@@ -14,6 +14,7 @@ public class SharedNoteTree {
 	private String sharedNoteTreeFullPath;
 	private String sharedNoteTreeParentPath;
 	private String sharedNoteTreeName;
+	private String sharedNoteTreeDepartment;
 	private String sharedNoteTreeRegistrant;
 	private String sharedNoteTreeRegistrationDate;
 	private String sharedNoteTreeModifier;

@@ -113,7 +113,6 @@ public class CalendarController {
 	@Async
 	@Scheduled(cron="0 * * * * ?")
 	public void cronScheduler() {
-		System.out.println("나는 시스템 시간을 기준으로 1분 마다 주기적으로 실행될거야");
 		calendarService.calendarScheduler();
 	  
 	}

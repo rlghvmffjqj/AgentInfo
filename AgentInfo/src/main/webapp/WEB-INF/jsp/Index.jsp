@@ -92,25 +92,28 @@
                                     <div class="page-body">
                                         <div class="row">
                                             <div class="firstCahrt">
-                                            	<div class="margin-1" style="position: relative; height:37vh; width:19vw;">
+                                            	<div class="margin-1" style="position: relative; height:34vh; width:19vw;">
 													<!--차트가 그려질 부분-->
+													<select class="form-control selectForm chartYear" id="managementServerYear" name="managementServerYear" size="1"></select>
 													<canvas id="managementServer"></canvas>
 												</div>
 											</div>
 											<div class="firstCahrt">
-                                            	<div class="margin-1" style="position: relative; height:37vh; width:19vw;">
+                                            	<div class="margin-1" style="position: relative; height:34vh; width:19vw;">
 													<!--차트가 그려질 부분-->
+													<select class="form-control selectForm chartYear" id="osTypeYear" name="osTypeYear" size="1"></select>
 													<canvas id="osType"></canvas>
 												</div>
 											</div>
 											<div class="firstCahrt">
-                                            	<div class="margin-1" style="position: relative; height:37vh; width:19vw;">
+                                            	<div class="margin-1" style="position: relative; height:34vh; width:19vw;">
 													<!--차트가 그려질 부분-->
+													<select class="form-control selectForm chartYear" id="requestProductCategoryYear" name="requestProductCategoryYear" size="1"></select>
 													<canvas id="requestProductCategory"></canvas>
 												</div>
 											</div>
 											<div class="firstCahrt">
-                                            	<div class="margin-1" style="position: relative; height:37vh; width:19vw;">
+                                            	<div class="margin-1" style="position: relative; height:34vh; width:19vw;">
 													<!--차트가 그려질 부분-->
 													<canvas id="agentVer"></canvas>
 												</div>
@@ -118,15 +121,15 @@
 											<div class="secondCahrt">
                                             	<div class="margin-1" style="position: relative; height:25.5vh; width:51vw;">
 													<!--차트가 그려질 부분-->
-													<select class="form-control selectForm chartYear" id="deliveryDataYear" name="deliveryDataYear" size="1">
-													</select>
+													<select class="form-control selectForm chartYear" id="deliveryDataYear" name="deliveryDataYear" size="1"></select>
 													<canvas class="deliveryData"></canvas>
 												</div>
 											</div>
 											
 											<div class="middleCahrt">
-                                            	<div class="margin-1" style="position: relative; height:30vh; width:28vw;">
+                                            	<div class="margin-1" style="position: relative; height:27vh; width:28vw;">
 												<!--차트가 그려질 부분-->
+												<select class="form-control selectForm chartYear" id="customerNameYear" name="customerNameYear" size="1"></select>
 												<canvas id=customerName></canvas>
 												</div>
 											</div>
@@ -154,9 +157,18 @@
 <script>
 	$(function() {
 		var date = new Date();
-		for(var y = 2014; y <= date.getFullYear(); y++) {
-			$('#deliveryDataYear').append("<option value='"+y+"' selected>"+y+"년"+"</option>");
+		$('#managementServerYear').append("<option value='전체' selected>전체</option>");
+		$('#osTypeYear').append("<option value='전체' selected>전체</option>");
+		$('#requestProductCategoryYear').append("<option value='전체' selected>전체</option>");
+		$('#customerNameYear').append("<option value='전체' selected>전체</option>");
+		for(var y = date.getFullYear(); y >= 2014; y--) {
+			$('#deliveryDataYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
+			$('#managementServerYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
+			$('#osTypeYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
+			$('#requestProductCategoryYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
+			$('#customerNameYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
 		}
+		$('#deliveryDataYear option:eq(0)').prop("selected", true);
 	});
 	
 	/* =========== 패키지 배포 현황(~현재) ========= */
@@ -174,7 +186,7 @@
 	});	
 	
 	var ctx = document.getElementById('managementServer').getContext('2d');
-	var managementServer = new Chart(ctx, {
+	var managementServerChart = new Chart(ctx, {
 	    type: 'bar',
 	    data: {
 	        labels: ['관리서버', 'Agent', 'Portal', 'TOSRF', '기타'],
@@ -221,6 +233,36 @@
 	        }
 	    }
 	});
+	
+	$("#managementServerYear").change(function() {
+		var managementServerYear = $('#managementServerYear').val();
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/packages/chart/managementServer'/>",
+		    async: false,
+		    data:{"managementServerYear" : managementServerYear},
+		    success: function (data) {
+		    	managementServer = data;
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});	
+		var dataset = managementServerChart.data.datasets;
+		for(var i=0; i<dataset.length; i++){
+			//데이터 갯수 만큼 반복
+			var data = dataset[i].data;
+			for(var j=0 ; j < data.length ; j++){
+				data[j] = managementServer[j];
+			}
+		}
+		if(managementServerYear == "전체") {
+			managementServerChart.options.plugins.title.text = '패키지 배포 현황(~현재)';
+		} else {
+			managementServerChart.options.plugins.title.text = '패키지 배포 현황('+managementServerYear+'년)';
+		}
+		managementServerChart.update();
+	});
 </script>
 <script>
 	var osType;
@@ -238,7 +280,7 @@
 
 	/* =========== OS종류 별 Agent 배포현황(~현재) ========= */
 	var ctx = document.getElementById('osType').getContext('2d');
-	var osType = new Chart(ctx, {
+	var osTypeChart = new Chart(ctx, {
 		plugins: [ChartDataLabels],
 	    type: 'doughnut',
 	    data: {
@@ -299,6 +341,36 @@
 	        }
 	    }
 	});
+	
+	$("#osTypeYear").change(function() {
+		var osTypeYear = $('#osTypeYear').val();
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/packages/chart/osType'/>",
+		    async: false,
+		    data:{"osTypeYear" : osTypeYear},
+		    success: function (data) {
+		    	osType = data;
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});	
+		var dataset = osTypeChart.data.datasets;
+		for(var i=0; i<dataset.length; i++){
+			//데이터 갯수 만큼 반복
+			var data = dataset[i].data;
+			for(var j=0 ; j < data.length ; j++){
+				data[j] = osType[j];
+			}
+		}
+		if(osTypeYear == "전체") {
+			osTypeChart.options.plugins.title.text = 'OS종류 별 Agent 배포현황(~현재)';
+		} else {
+			osTypeChart.options.plugins.title.text = 'OS종류 별 Agent 배포현황('+osTypeYear+'년)';
+		}
+		osTypeChart.update();
+	});
 </script>
 <script>
 	var osType;
@@ -316,7 +388,7 @@
 	
 	/* =========== Agent 종류별 배포현황(~현재) ========= */
 	var ctx = document.getElementById('requestProductCategory').getContext('2d');
-	var requestProductCategory = new Chart(ctx, {
+	var requestProductCategoryChart = new Chart(ctx, {
 		plugins: [ChartDataLabels],
 	    type: 'doughnut',
 	    data: {
@@ -377,6 +449,36 @@
 		         }
 	   	 	}
 	    }
+	});
+	
+	$("#requestProductCategoryYear").change(function() {
+		var requestProductCategoryYear = $('#requestProductCategoryYear').val();
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/packages/chart/requestProductCategory'/>",
+		    async: false,
+		    data:{"requestProductCategoryYear" : requestProductCategoryYear},
+		    success: function (data) {
+		    	requestProductCategory = data;
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});	
+		var dataset = requestProductCategoryChart.data.datasets;
+		for(var i=0; i<dataset.length; i++){
+			//데이터 갯수 만큼 반복
+			var data = dataset[i].data;
+			for(var j=0 ; j < data.length ; j++){
+				data[j] = requestProductCategory[j];
+			}
+		}
+		if(requestProductCategoryYear == "전체") {
+			requestProductCategoryChart.options.plugins.title.text = 'Agent 종류별 배포현황(~현재)';
+		} else {
+			requestProductCategoryChart.options.plugins.title.text = 'Agent 종류별 배포현황('+requestProductCategoryYear+'년)';
+		}
+		requestProductCategoryChart.update();
 	});
 </script>
 <script>
@@ -481,7 +583,7 @@
 	    }
 	  ]
 	  };
-	  var transparent = new Chart(ctx, {
+	  var deliveryDataChart = new Chart(ctx, {
 	    type: 'bar',
 	    data: mixedChart,
 	    options: {
@@ -522,8 +624,8 @@
 				data[j] = deliveryData[j];
 			}
 		}
-		transparent.options.plugins.title.text = '월별 배포 현황 ('+deliveryDataYear+'년)';
-		transparent.update();
+		deliveryDataChart.options.plugins.title.text = '월별 배포 현황 ('+deliveryDataYear+'년)';
+		deliveryDataChart.update();
 	});
 </script>
 <script>
@@ -543,7 +645,7 @@
 	});	
 	/* =========== 고객사별 패키지 배포 수량 TOP 7 (~현재) ========= */
 	var ctx = document.getElementById('customerName').getContext('2d');
-	var customerName = new Chart(ctx, {
+	var customerNameChart = new Chart(ctx, {
 		plugins: [ChartDataLabels],
 	    type: 'bar',
 	    data: {
@@ -596,6 +698,38 @@
 	            }
 	        }
 	    }
+	});
+	
+	$("#customerNameYear").change(function() {
+		var customerNameYear = $('#customerNameYear').val();
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/packages/chart/customerName'/>",
+		    async: false,
+		    data:{"customerNameYear" : customerNameYear},
+		    success: function (data) {
+		    	customerName = data.name;
+		    	customerCount = data.count;
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});	
+		var dataset = customerNameChart.data.datasets;
+		for(var i=0; i<dataset.length; i++){
+			//데이터 갯수 만큼 반복
+			var data = dataset[i].data;
+			for(var j=0 ; j < data.length ; j++){
+				data[j] = customerCount[j];
+			}
+		}
+		if(customerNameYear == "전체") {
+			customerNameChart.options.plugins.title.text = '고객사별 패키지 배포 수량 TOP 7 (~현재)';
+		} else {
+			customerNameChart.options.plugins.title.text = '고객사별 패키지 배포 수량 TOP 7 ('+customerNameYear+'년)';
+		}
+		customerNameChart.data.labels = customerName;
+		customerNameChart.update();
 	});
 	
 	/* =========== 공지사항 Modal ========= */

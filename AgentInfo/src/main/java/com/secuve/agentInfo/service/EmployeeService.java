@@ -149,4 +149,8 @@ public class EmployeeService {
 	public List<Employee> getEmployeeAll() {
 		return employeeDao.getEmployeeAll();
 	}
+
+	public String getEmployeeDepartment(String employeeId) {
+		return employeeDao.getEmployeeDepartment(employeeId);
+	}
 }

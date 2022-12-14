@@ -26,8 +26,8 @@ import com.secuve.agentInfo.vo.SharedNote;
 public class SharedNoteService {
 	@Autowired SharedNoteDao sharedNoteDao;
 
-	public List<SharedNote> getSharedNote(String sharedNoteRegistrant) {
-		return sharedNoteDao.getSharedNote(sharedNoteRegistrant);
+	public List<SharedNote> getSharedNote(String sharedNoteDepartment) {
+		return sharedNoteDao.getSharedNote(sharedNoteDepartment);
 	}
 
 	public String nowDate() {
@@ -82,8 +82,8 @@ public class SharedNoteService {
 		fileInput.transferTo(newFileName);
 	}
 	
-	public List<SharedNote> getSharedNoteSearch(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteRegistrant, SharedNote sharedNote) {
-		return sharedNoteDao.getSharedNoteSearch(sharedNoteTitle, sharedNoteHashTag, sharedNoteRegistrant, sharedNote);
+	public List<SharedNote> getSharedNoteSearch(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteDepartment, SharedNote sharedNote) {
+		return sharedNoteDao.getSharedNoteSearch(sharedNoteTitle, sharedNoteHashTag, sharedNoteDepartment, sharedNote);
 	}
 
 	public SharedNote getSharedNoteOne(String sharedNoteKeyNum, String sharedNoteRegistrant) {
@@ -148,15 +148,15 @@ public class SharedNoteService {
 		return "OK";
 	}
 
-	public List<String> getSharedNoteTitle(String sharedNoteRegistrant) {
-		return sharedNoteDao.getSharedNoteTitle(sharedNoteRegistrant);
+	public List<String> getSharedNoteTitle(String sharedNoteDepartment) {
+		return sharedNoteDao.getSharedNoteTitle(sharedNoteDepartment);
 	}
 
-	public List<String> getSharedNoteHashTag(String sharedNoteRegistrant) {
+	public List<String> getSharedNoteHashTag(String sharedNoteDepartment) {
 		List<String> sharedNoteHashTag = new ArrayList<String>();
 		String[] str;
 		List<String> list = new ArrayList<String>();
-		sharedNoteHashTag = sharedNoteDao.getSharedNoteHashTag(sharedNoteRegistrant);
+		sharedNoteHashTag = sharedNoteDao.getSharedNoteHashTag(sharedNoteDepartment);
 		for(int i=0; i<sharedNoteHashTag.size(); i++) {
 			str = sharedNoteHashTag.get(i).split(" ");
 			for(int j=0; j<str.length; j++) {
@@ -167,8 +167,8 @@ public class SharedNoteService {
 		return list;
 	}
 
-	public List<SharedNote>  getSharedNoteSearchAll(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteRegistrant) {
-		return sharedNoteDao.getSharedNoteSearchAll(sharedNoteTitle, sharedNoteHashTag, sharedNoteRegistrant);
+	public List<SharedNote>  getSharedNoteSearchAll(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteDepartment) {
+		return sharedNoteDao.getSharedNoteSearchAll(sharedNoteTitle, sharedNoteHashTag, sharedNoteDepartment);
 	}
 
 	public List<String> getSharedNoteFileName(int sharedNoteKeyNum) {
