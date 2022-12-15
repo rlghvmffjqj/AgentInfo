@@ -104,6 +104,10 @@
 		SELECT departmentName FROM employee WHERE employeeId = #{employeeId};
 	</select>
 	
+	<select id="getDepartmentEmail" resultMap="employee">
+		SELECT * FROM employee WHERE departmentName = #{departmentName};
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

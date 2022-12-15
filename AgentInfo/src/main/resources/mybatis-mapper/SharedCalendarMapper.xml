@@ -51,7 +51,8 @@
 	<select id="alarmSharedCalendar" resultMap="sharedCalendar">
 		SELECT * FROM sharedCalendar
 		WHERE sharedCalendarstart LIKE CONCAT(#{sharedCalendarStart},'%')
-		AND sharedCalendarAlarm = #{sharedCalendarAlarm};
+		AND sharedCalendarAlarm = #{sharedCalendarAlarm}
+		AND sharedCalendarAlarmYn = 1;
 	</select>
 	
 </mapper>

@@ -72,5 +72,4 @@ public class SharedCalendarDao {
 		return sqlSession.selectList("sharedCalendar.alarmSharedCalendar", parameters);
 	}
 
-
 }

@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.core.MailService;
 import com.secuve.agentInfo.core.SmsService;
+import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.SharedCalendarDao;
+import com.secuve.agentInfo.vo.Employee;
 import com.secuve.agentInfo.vo.SharedCalendar;
 
 @Service
@@ -21,6 +23,7 @@ public class SharedCalendarService {
 	@Autowired SharedCalendarDao sharedCalendarDao;
 	@Autowired SmsService smsService;
 	@Autowired MailService mailService;
+	@Autowired EmployeeDao employeeDao;
 
 	public List<SharedCalendar> getSharedCalendarList(String sharedCalendarListRegistrant, String sharedCalendarListDepartment) {
 		List<SharedCalendar> sharedCalendarList = sharedCalendarDao.getSharedCalendarList(sharedCalendarListDepartment);
@@ -116,12 +119,15 @@ public class SharedCalendarService {
 		Date now = new Date();
 		SimpleDateFormat sharedCalendarStart = new SimpleDateFormat("yyyy/MM/dd");
 		SimpleDateFormat sharedCalendarAlarm = new SimpleDateFormat("HH:mm");
-		List<SharedCalendar> list = sharedCalendarDao.alarmSharedCalendar(sharedCalendarStart.format(now), sharedCalendarAlarm.format(now));
-		for (SharedCalendar sharedCalendar : list) {
-			try {
-				mailService.sendNotiMail(sharedCalendar.getSharedCalendarEmail(), "부서 일정 확인", sharedCalendar.getSharedCalendarContents());
-			} catch (Exception e) {
-				e.printStackTrace();
+		List<SharedCalendar> sharedCalendarList = sharedCalendarDao.alarmSharedCalendar(sharedCalendarStart.format(now), sharedCalendarAlarm.format(now));
+		for (SharedCalendar sharedCalendar : sharedCalendarList) {
+			List<Employee> employeeList = employeeDao.getDepartmentEmail(sharedCalendar.getSharedCalendarDepartment());
+			for (Employee employee : employeeList) {
+				try {
+					mailService.sendNotiMail(employee.getEmployeeEmail(), "부서 일정 확인", sharedCalendar.getSharedCalendarContents());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

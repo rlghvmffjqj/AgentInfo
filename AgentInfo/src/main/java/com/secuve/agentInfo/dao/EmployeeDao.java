@@ -116,4 +116,8 @@ public class EmployeeDao {
 	public String getEmployeeDepartment(String employeeId) {
 		return sqlSession.selectOne("employee.getEmployeeDepartment", employeeId);
 	}
+
+	public List<Employee> getDepartmentEmail(String departmentName) {
+		return sqlSession.selectList("employee.getDepartmentEmail", departmentName);
+	}
 }

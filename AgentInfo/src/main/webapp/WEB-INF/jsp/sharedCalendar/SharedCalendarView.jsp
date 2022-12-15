@@ -60,9 +60,9 @@
 			<div style="margin-top: 165px;">
 				<img class="img-fluid" src="/AgentInfo/images/email.png" style="width:35px; float:left; margin-top: 3px;">
 				<div class="form-group form-default" style="float: right; width: 90%;">
-					<input type="text" class="form-control" id="employeeEmail" name="employeeEmail" maxlength="50" value="${employeeEmail}" required>
+					<input type="text" class="form-control" id="sharedCalendarDepartment" name="sharedCalendarDepartment" maxlength="50" value="${sharedCalendar.sharedCalendarDepartment}" required>
 					<span class="form-bar"></span>
-					<label class="float-label">이메일</label>
+					<label class="float-label">부서</label>
 				</div>
 			</div>
 			<div style="margin-top: 240px;">
