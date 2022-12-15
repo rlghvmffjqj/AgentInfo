@@ -3,7 +3,7 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.min.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.print.css" rel="stylesheet" media="print">
+		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.print.csssharedCalendartylesheet" media="print">
 		<script src="https://cdn.jsdelivr.net/npm/moment@2/min/moment.min.js"></script>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.min.js"></script>
@@ -17,7 +17,7 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','individualCalendar');
+		    	$.cookie('name','sharedCalendar');
 		    });
 	    </script>
 	    <style>
@@ -60,12 +60,12 @@
 			  padding: 1px;
 			}
 			
-			#calendar-container {
+			#sharedCalendar-container {
 			  position: relative;
 			  z-index: 0;
 			}
 			
-			#calendar {
+			#sharedCalendar {
 			  max-width: 85%;
     		  margin-left: 230px;
 			}
@@ -95,8 +95,8 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">개인 일정 관리</h5>
-									            <p class="m-b-0">Individual Schedule Management</p>
+									            <h5 class="m-b-10">부서 일정 관리</h5>
+									            <p class="m-b-0">Department Schedule Management</p>
 									        </div>
 									    </div>
 									    <div class="col-md-4">
@@ -104,7 +104,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">개인 일정 관리</a>
+									            <li class="breadcrumb-item"><a href="#!">부서 일정 관리</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -123,8 +123,8 @@
 													</div>
 													<div class="box-body">
 														<div class="add-node external-events" style="height: 265px; margin-bottom: 5px;">
-															<c:forEach var="item" items="${calendarList}">
-																<div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event" style="color: white; background-color:${item.calendarListColor}; border: 1px ${item.calendarListColor}">${item.calendarListContents}</div>
+															<c:forEach var="item" items="${sharedCalendarList}">
+																<div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event" style="color: white; background-color:${item.sharedCalendarListColor}; border: 1px ${item.sharedCalendarListColor}">${item.sharedCalendarListContents}</div>
 															</c:forEach>
 														</div>
 														<div class="checkbox">
@@ -167,11 +167,11 @@
 													</div>
 												</div>
 												
-												<div id='calendar-container'>
-													<div id="calendarTrash" class="calendar-trash" style="margin-left: 14.5%; margin-bottom: 5px;">
+												<div id='sharedCalendar-container'>
+													<div id="sharedCalendarTrash" class="sharedCalendar-trash" style="margin-left: 14.5%; margin-bottom: 5px;">
 														<img  src="/AgentInfo/images/trash.png" style="width:25px">
 													</div>
-												  	<div id='calendar'></div>
+												  	<div id='sharedCalendar'></div>
 												</div>
 	                                		</div>
 	                     				</div>
@@ -186,7 +186,7 @@
 	</body>
 	
 	<script>
-		var list = JSON.parse('${calendar}'); // List 결과 (자바스크립트 객체)를 문자열로 변환하여 list에 담음
+		var list = JSON.parse('${sharedCalendar}'); // List 결과 (자바스크립트 객체)를 문자열로 변환하여 list에 담음
 		var dataList = [];
 	
 		// 날짜 변환 함수
@@ -200,15 +200,15 @@
 		
 		for(var i in list){
 			var obj = {};
-			obj._id = list[i].calendarKeyNum;
-			obj.title = list[i].calendarContents;
-			obj.start = list[i].calendarStart;
-			if(list[i].calendarEnd != null){
-				obj.end = list[i].calendarEnd;
+			obj._id = list[i].sharedCalendarKeyNum;
+			obj.title = list[i].sharedCalendarContents;
+			obj.start = list[i].sharedCalendarStart;
+			if(list[i].sharedCalendarEnd != null){
+				obj.end = list[i].sharedCalendarEnd;
 			}
-			obj.allDay = list[i].calendarAllDay;
-			obj.backgroundColor = list[i].calendarColor;
-			obj.borderColor = list[i].calendarColor
+			obj.allDay = list[i].sharedCalendarAllDay;
+			obj.backgroundColor = list[i].sharedCalendarColor;
+			obj.borderColor = list[i].sharedCalendarColor
 			dataList.push(obj);
 		}
 		
@@ -230,7 +230,7 @@
 			}
 			ini_events($('#external-events div.fc-event'));
 			
-			$('#calendar').fullCalendar({
+			$('#sharedCalendar').fullCalendar({
 				header: {
 				  left: 'prev,next today',
 				  center: 'title',
@@ -258,24 +258,24 @@
 					copiedEventObject.color = rgbToHex($(this).css("color"));
 
 					$.ajax({
-						url: "<c:url value='/calendar/insert'/>",
+						url: "<c:url value='/sharedCalendar/insert'/>",
 						type: 'post',
 						data : {
-							'calendarStartDate' : copiedEventObject.start._d.getTime(),
-							'calendarContents' : copiedEventObject.title,
-							'calendarColor' : copiedEventObject.backgroundColor,
-							'calendarAllDay' : copiedEventObject.start._ambigTime
+							'sharedCalendarStartDate' : copiedEventObject.start._d.getTime(),
+							'sharedCalendarContents' : copiedEventObject.title,
+							'sharedCalendarColor' : copiedEventObject.backgroundColor,
+							'sharedCalendarAllDay' : copiedEventObject.start._ambigTime
 						},
 						async: false,
 						success : function(result) {
-							copiedEventObject.calendarKeyNum = result.result;
+							copiedEventObject.sharedCalendarKeyNum = result.result;
 							copiedEventObject._id = result.result;
 						},
 							error: function(error) {
 							console.log(error);
 						}
 					});
-					$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+					$('#sharedCalendar').fullCalendar('renderEvent', copiedEventObject, true);
 				    
 					if ($('#drop-remove').is(':checked')) {
 						$(this).remove();
@@ -296,12 +296,12 @@
 							event.end._d.setHours(event.end._d.getHours() -9);
 							$.ajax({
 								type: 'post',
-								url: "<c:url value='/calendar/move'/>",
+								url: "<c:url value='/sharedCalendar/move'/>",
 								data : {
-									'calendarKeyNum' : event._id,
-									'calendarStartDate' : event.start._d.getTime(),
-									'calendarEndDate' : event.end._d.getTime(),
-									'calendarAllDay' : event.allDay
+									'sharedCalendarKeyNum' : event._id,
+									'sharedCalendarStartDate' : event.start._d.getTime(),
+									'sharedCalendarEndDate' : event.end._d.getTime(),
+									'sharedCalendarAllDay' : event.allDay
 								},
 								async: false,
 								success : function(result){
@@ -316,7 +316,7 @@
 									console.log(error);
 								}
 							});
-							$('#calendar').fullCalendar('render');
+							$('#sharedCalendar').fullCalendar('render');
 						} else {
 							revertFunc();
 						}
@@ -338,12 +338,12 @@
 						if (result.isConfirmed) {
 							$.ajax({
 								type: 'post',
-								url: "<c:url value='/calendar/move'/>",
+								url: "<c:url value='/sharedCalendar/move'/>",
 								data : {
-									'calendarKeyNum' : event._id,
-									'calendarStartDate' : event.start._d.getTime(),
-									'calendarEndDate' : (event.end != null) ? event.end._d.getTime() : event.start._d.getTime(),
-									'calendarAllDay' : event.allDay									
+									'sharedCalendarKeyNum' : event._id,
+									'sharedCalendarStartDate' : event.start._d.getTime(),
+									'sharedCalendarEndDate' : (event.end != null) ? event.end._d.getTime() : event.start._d.getTime(),
+									'sharedCalendarAllDay' : event.allDay									
 								},
 								async: false,
 								success : function(result){
@@ -358,14 +358,14 @@
 									console.log(error);
 								}
 							});
-							$('#calendar').fullCalendar('render');
+							$('#sharedCalendar').fullCalendar('render');
 						} else {
 							revertFunc();
 						}
 					});
 				},
 				eventDragStop: function(event,jsEvent) {
-					var trashEl = jQuery('#calendarTrash');
+					var trashEl = jQuery('#sharedCalendarTrash');
 					var ofs = trashEl.offset();
 					var x1 = ofs.left;
 					var x2 = ofs.left + trashEl.outerWidth(true);
@@ -382,12 +382,12 @@
 							confirmButtonText: '예'
 						}).then((result) => {
 							if (result.isConfirmed) {
-								$('#calendar').fullCalendar('removeEvents', event._id);
+								$('#sharedCalendar').fullCalendar('removeEvents', event._id);
 								$.ajax({
 									type: 'post',
-									url: "<c:url value='/calendar/delete'/>",
+									url: "<c:url value='/sharedCalendar/delete'/>",
 									data : {
-										'calendarKeyNum' : event._id
+										'sharedCalendarKeyNum' : event._id
 									},
 									async: false,
 									success : function(result){
@@ -403,20 +403,20 @@
 									}
 								});
 							}
-							$('#calendar').fullCalendar('render');
+							$('#sharedCalendar').fullCalendar('render');
 						});
 					}
 				},
 				eventClick: function(calEvent, jsEvent, view) {
 					$.ajax({
 					    type: 'POST',
-					    url: "<c:url value='/calendar/view'/>",
-					    data: {"calendarKeyNum":calEvent._id},
+					    url: "<c:url value='/sharedCalendar/view'/>",
+					    data: {"sharedCalendarKeyNum":calEvent._id},
 					    async: false,
 					    success: function (data) {
 							if(data.indexOf("<!DOCTYPE html>") != -1) 
 								location.reload();
-					    	$.modal(data, 'calendar'); //modal창 호출
+					    	$.modal(data, 'sharedCalendar'); //modal창 호출
 					    },
 					    error: function(e) {
 					        alert(e);
@@ -452,11 +452,11 @@
 					return;
 				}
 				$.ajax({
-					url: "<c:url value='/calendarList/insert'/>",
+					url: "<c:url value='/sharedCalendarList/insert'/>",
 					type: 'post',
 					data: {
-						'calendarListContents':val,
-						'calendarListColor':currColor
+						'sharedCalendarListContents':val,
+						'sharedCalendarListColor':currColor
 					},
 					async: false,
 					success: function(result) {

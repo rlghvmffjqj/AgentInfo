@@ -51,7 +51,8 @@
 	<select id="alarmCalendar" resultMap="calendar">
 		SELECT * FROM calendar
 		WHERE calendarstart LIKE CONCAT(#{calendarStart},'%')
-		AND calendarAlarm = #{calendarAlarm};
+		AND calendarAlarm = #{calendarAlarm}
+		AND calendarAlarmYn = 1;
 	</select>
 	
 </mapper>

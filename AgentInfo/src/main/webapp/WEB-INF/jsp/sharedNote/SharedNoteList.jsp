@@ -45,8 +45,8 @@
 							    <div class="row align-dataList-center">
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
-							                <h5 class="m-b-10">공유 노트</h5>
-							                <p class="m-b-0">Shared Note</p>
+							                <h5 class="m-b-10">부서 노트</h5>
+							                <p class="m-b-0">Department Note</p>
 							            </div>
 							        </div>
 							        <div class="col-md-4">
@@ -54,7 +54,7 @@
 							                <li class="breadcrumb-item">
 							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 							                </li>
-							                <li class="breadcrumb-item"><a href="#!">공유 노트</a>
+							                <li class="breadcrumb-item"><a href="#!">부서 노트</a>
 							                </li>
 							            </ul>
 							        </div>

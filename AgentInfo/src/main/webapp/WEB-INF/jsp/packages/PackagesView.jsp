@@ -80,11 +80,11 @@
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청일자</label>
-	         	<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${packages.requestDate}">
+	         	<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${packages.requestDate}" max="9999-12-31">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">전달일자</label>
-	         	<input type="date" id="deliveryDataView" name="deliveryDataView" class="form-control viewForm" value="${packages.deliveryData}">
+	         	<input type="date" id="deliveryDataView" name="deliveryDataView" class="form-control viewForm" value="${packages.deliveryData}" max="9999-12-31">
 	         </div>
 	         <c:choose>
 				<c:when test="${viewType eq 'insert'}">

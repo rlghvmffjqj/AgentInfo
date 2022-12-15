@@ -73,7 +73,7 @@
 		                                			</div>
 		                                			<div class="col-lg-3">
 		                                				<label class="labelFontSize">전달일자</label>
-		                                				<input class="form-control" type="date" id="issueDate" name="issueDate">
+		                                				<input class="form-control" type="date" id="issueDate" name="issueDate" max="9999-12-31">
 		                                			</div>
 		                                			<div class="col-lg-4">
 		                                				<label class="labelFontSize">TOSMS</label>

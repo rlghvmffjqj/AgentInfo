@@ -206,7 +206,7 @@
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">사용 기간</label>
-		                      							<input type="date" id="serverListUidLogPeriodUse" name="serverListUidLogPeriodUse" class="form-control">
+		                      							<input type="date" id="serverListUidLogPeriodUse" name="serverListUidLogPeriodUse" class="form-control" max="9999-12-31">
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">사용자</label>
@@ -218,7 +218,7 @@
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">최종 수정일</label>
-		                      							<input type="date" id="serverListUidLogLastModifiedDate" name="serverListUidLogLastModifiedDate" class="form-control">
+		                      							<input type="date" id="serverListUidLogLastModifiedDate" name="serverListUidLogLastModifiedDate" class="form-control" max="9999-12-31">
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">비고</label>

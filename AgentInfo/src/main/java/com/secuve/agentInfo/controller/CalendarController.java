@@ -110,11 +110,11 @@ public class CalendarController {
 		return map;
 	}
 	
-	@Async
-	@Scheduled(cron="0 * * * * ?")
-	public void cronScheduler() {
-		calendarService.calendarScheduler();
-	  
-	}
+	//@Async
+	//@Scheduled(cron="0 * * * * ?")
+	//public void cronScheduler() {
+	//	calendarService.calendarScheduler();
+	//  
+	//}
 	
 }

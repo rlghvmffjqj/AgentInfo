@@ -60,7 +60,7 @@
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">발급일자</label>
-	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
+	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}" max="9999-12-31">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>

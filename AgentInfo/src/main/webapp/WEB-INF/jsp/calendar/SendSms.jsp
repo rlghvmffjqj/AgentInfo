@@ -33,9 +33,9 @@
 $('#smsClick').click(function(e) {
 	var postData = $('#smsForm').serializeObject();
 	$.ajax({
-		url: "<c:url value='/sms/send'/>",
+		url: "<c:url value='/mail/send'/>",
 		type: 'post',
-		data : postData,
+		//data : postData,
 		async: false,
 		success : function(result) {
 			console.log(result);

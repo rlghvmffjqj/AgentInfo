@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="sharedCalendar">
+	<resultMap type="com.secuve.agentInfo.vo.SharedCalendar" id="sharedCalendar"></resultMap>
+	
+	<select id="getSharedCalendarList" resultMap="sharedCalendar" parameterType="string">
+		SELECT * FROM sharedCalendarList WHERE sharedCalendarListDepartment = #{sharedCalendarListDepartment};
+	</select>
+	
+	<insert id="insertSharedCalendarList">
+		INSERT INTO sharedCalendarList(sharedCalendarListContents, sharedCalendarListColor, sharedCalendarListDepartment, sharedCalendarListRegistrant, sharedCalendarListRegistrationDate)
+		VALUES(#{sharedCalendarListContents}, #{sharedCalendarListColor}, #{sharedCalendarListDepartment}, #{sharedCalendarListRegistrant}, #{sharedCalendarListRegistrationDate});
+	</insert>
+	
+	<select id="overlapSharedCalendarList" resultType="int">
+		SELECT COUNT(*) FROM sharedCalendarList WHERE sharedCalendarListContents = #{sharedCalendarListContents} AND sharedCalendarListDepartment = #{sharedCalendarListDepartment};
+	</select>
+	
+	<insert id="insertSharedCalendar">
+	 	INSERT INTO sharedCalendar(sharedCalendarKeyNum, sharedCalendarStart, sharedCalendarEnd, sharedCalendarContents, sharedCalendarColor, sharedCalendarAllDay, sharedCalendarAlarm, sharedCalendarEmail, sharedCalendarDepartment, sharedCalendarRegistrant, sharedCalendarRegistrationDate) 
+	 	VALUES(nextval(SEQ_SharedCalendar), #{sharedCalendarStart}, #{sharedCalendarEnd}, #{sharedCalendarContents}, #{sharedCalendarColor}, ${sharedCalendarAllDay}, #{sharedCalendarAlarm}, #{sharedCalendarEmail}, #{sharedCalendarDepartment}, #{sharedCalendarRegistrant}, #{sharedCalendarRegistrationDate});
+	 	
+	 	<selectKey keyProperty="sharedCalendarKeyNum" order="AFTER" resultType="_int">
+	 		SELECT lastval(SEQ_SharedCalendar);
+	 	</selectKey>
+	</insert>
+	
+	<select id="getSharedCalendar" resultMap="sharedCalendar">
+		SELECT * FROM sharedCalendar WHERE sharedCalendarDepartment = #{sharedCalendarDepartment};
+	</select>
+	
+	<update id="updateSharedCalendar">
+		UPDATE sharedCalendar SET sharedCalendarStart = #{sharedCalendarStart}, sharedCalendarEnd = #{sharedCalendarEnd}, sharedCalendarAllDay = ${sharedCalendarAllDay}, sharedCalendarModifier = #{sharedCalendarModifier}, sharedCalendarModifiedDate = #{sharedCalendarModifiedDate}
+		WHERE sharedCalendarKeyNum = #{sharedCalendarKeyNum} AND sharedCalendarDepartment = #{sharedCalendarDepartment};
+	</update>
+	
+	<delete id="deleteSharedCalendar">
+		DELETE FROM sharedCalendar WHERE sharedCalendarKeyNum = #{sharedCalendarKeyNum} AND sharedCalendarDepartment = #{sharedCalendarDepartment};
+	</delete>
+	
+	<select id="getSharedCalendarOne" resultMap="sharedCalendar">
+		SELECT * FROM sharedCalendar WHERE sharedCalendarKeyNum = #{sharedCalendarKeyNum} AND sharedCalendarDepartment = #{sharedCalendarDepartment};
+	</select>
+	
+	<update id="saveSharedCalendar">
+		UPDATE sharedCalendar SET sharedCalendarStart = #{sharedCalendarStart}, sharedCalendarEnd = #{sharedCalendarEnd}, sharedCalendarContents = #{sharedCalendarContents}, sharedCalendarColor = #{sharedCalendarColor}, sharedCalendarAllDay = ${sharedCalendarAllDay}, sharedCalendarAlarm = #{sharedCalendarAlarm}, sharedCalendarAlarmYn = ${sharedCalendarAlarmYn}, sharedCalendarAddress = #{sharedCalendarAddress}, sharedCalendarModifier = #{sharedCalendarModifier}, sharedCalendarModifiedDate = #{sharedCalendarModifiedDate}
+		WHERE sharedCalendarKeyNum = #{sharedCalendarKeyNum} AND sharedCalendarDepartment = #{sharedCalendarDepartment};
+	</update>
+	
+	<select id="alarmSharedCalendar" resultMap="sharedCalendar">
+		SELECT * FROM sharedCalendar
+		WHERE sharedCalendarstart LIKE CONCAT(#{sharedCalendarStart},'%')
+		AND sharedCalendarAlarm = #{sharedCalendarAlarm};
+	</select>
+	
+</mapper>

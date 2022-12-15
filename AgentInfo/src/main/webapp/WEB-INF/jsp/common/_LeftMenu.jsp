@@ -122,6 +122,16 @@
 			$('.note').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'calendar') {
 			$('.calendar').addClass('active');
+		} else if($.cookie('name') == 'individualCalendar') {
+			$('.individualCalendar').addClass('active');
+			$('.calendar').addClass('active');
+			$('.calendar').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'sharedCalendar') {
+			$('.sharedCalendar').addClass('active');
+			$('.calendar').addClass('active');
+			$('.calendar').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'calendar') {
+			$('.calendar').addClass('active');
 		}
 	});
 </script>
@@ -279,6 +289,57 @@
 		            </li>
 		        </ul>
 		    </sec:authorize>
+		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">private</div>
+			<ul class="pcoded-item pcoded-left-item">
+			    <li class="note pcoded-hasmenu">
+					<a href="<c:url value='/individualNote/list'/>" class="waves-effect waves-dark">
+			            <span class="pcoded-micon"><i class="ti-bookmark-alt"></i><b>FC</b></span>
+			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">노트</span>
+			            <span class="pcoded-mcaret"></span>
+			        </a>
+			        <ul class="pcoded-submenu" style="display: block;">
+				        <li class="individualNote">
+				            <a href="<c:url value='/individualNote/list'/>" class="waves-effect waves-dark">
+				                <span class="pcoded-micon"><i class="ti-bookmark-alt"></i><b>FC</b></span>
+			            		<span class="pcoded-mtext" data-i18n="nav.form-components.main">개인 노트</span>
+			            		<span class="pcoded-mcaret"></span>
+				            </a>
+				        </li>
+				        <li class="sharedNote">
+				            <a href="<c:url value='/sharedNote/list'/>" class="waves-effect waves-dark">
+				                <span class="pcoded-micon"><i class="ti-bookmark-alt"></i><b>FC</b></span>
+				                <span class="pcoded-mtext" data-i18n="nav.form-components.main">부서 노트</span>
+				                <span class="pcoded-mcaret"></span>
+				            </a>
+				        </li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="pcoded-item pcoded-left-item">
+				<li class="calendar pcoded-hasmenu">
+					<a href="<c:url value='/calendar/list'/>" class="waves-effect waves-dark">
+			            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
+			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">일정</span>
+			            <span class="pcoded-mcaret"></span>
+			        </a>
+			        <ul class="pcoded-submenu" style="display: block;">
+				        <li class="individualCalendar">
+					        <a href="<c:url value='/calendar/list'/>" class="waves-effect waves-dark">
+					            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
+					            <span class="pcoded-mtext" data-i18n="nav.form-components.main">개인 일정</span>
+					            <span class="pcoded-mcaret"></span>
+					        </a>
+					    </li>
+				        <li class="sharedCalendar">
+					        <a href="<c:url value='/sharedCalendar/list'/>" class="waves-effect waves-dark">
+					            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
+					            <span class="pcoded-mtext" data-i18n="nav.form-components.main">부서 일정</span>
+					            <span class="pcoded-mcaret"></span>
+					        </a>
+					    </li>
+					</ul>
+				</li>
+			</ul>
 			<sec:authorize access="hasRole('ADMIN')">
 		 		<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
 			    <ul class="pcoded-item pcoded-left-item">
@@ -450,7 +511,7 @@
 		            </li>
 		        </ul>
 		        <sec:authorize access="hasRole('ADMIN')">
-			        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">admin</div>
+				<div class="pcoded-navigation-label" data-i18n="nav.category.forms">admin</div>
 				    <ul class="pcoded-item pcoded-left-item">
 				        <li class="loginSession">
 				            <a href="<c:url value='/loginSession/list'/>" class="waves-effect waves-dark">
@@ -470,41 +531,6 @@
 				        </li>
 				    </ul>
 			    </sec:authorize>
-			    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">private</div>
-			    <ul class="pcoded-item pcoded-left-item">
-			        <li class="note pcoded-hasmenu">
-						<a href="<c:url value='/individualNote/list'/>" class="waves-effect waves-dark">
-			                <span class="pcoded-micon"><i class="ti-bookmark-alt"></i><b>FC</b></span>
-			                <span class="pcoded-mtext" data-i18n="nav.form-components.main">노트</span>
-			                <span class="pcoded-mcaret"></span>
-			            </a>
-			            <ul class="pcoded-submenu" style="display: block;">
-					        <li class="individualNote">
-					            <a href="<c:url value='/individualNote/list'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-bookmark-alt"></i><b>FC</b></span>
-			                		<span class="pcoded-mtext" data-i18n="nav.form-components.main">개인 노트</span>
-			                		<span class="pcoded-mcaret"></span>
-					            </a>
-					        </li>
-					        <li class="sharedNote">
-					            <a href="<c:url value='/sharedNote/list'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-bookmark-alt"></i><b>FC</b></span>
-					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">공유 노트</span>
-					                <span class="pcoded-mcaret"></span>
-					            </a>
-					        </li>
-						</ul>
-					</li>
-			    </ul>
-			    <ul class="pcoded-item pcoded-left-item">
-				    <li class="calendar">
-				        <a href="<c:url value='/calendar/list'/>" class="waves-effect waves-dark">
-				            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">개인 일정</span>
-				            <span class="pcoded-mcaret"></span>
-				        </a>
-				    </li>
-				</ul>
 			</div>
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
  </nav>

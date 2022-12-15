@@ -171,7 +171,7 @@
 		$('#deliveryDataYear option:eq(0)').prop("selected", true);
 	});
 	
-	/* =========== 패키지 배포 현황(~현재) ========= */
+	/* =========== 패키지 배포 현황(전체) ========= */
 	var managementServer;
 	$.ajax({
 	    type: 'POST',
@@ -218,7 +218,7 @@
 	    	plugins: {
 	            title: {
 	              display: true,
-	              text: '패키지 배포 현황(~현재)'
+	              text: '패키지 배포 현황(전체)'
 	            },
 	            legend: {
 		            display: false
@@ -257,7 +257,7 @@
 			}
 		}
 		if(managementServerYear == "전체") {
-			managementServerChart.options.plugins.title.text = '패키지 배포 현황(~현재)';
+			managementServerChart.options.plugins.title.text = '패키지 배포 현황(전체)';
 		} else {
 			managementServerChart.options.plugins.title.text = '패키지 배포 현황('+managementServerYear+'년)';
 		}
@@ -278,7 +278,7 @@
 	    }
 	});	
 
-	/* =========== OS종류 별 Agent 배포현황(~현재) ========= */
+	/* =========== OS종류 별 Agent 배포현황(전체) ========= */
 	var ctx = document.getElementById('osType').getContext('2d');
 	var osTypeChart = new Chart(ctx, {
 		plugins: [ChartDataLabels],
@@ -286,7 +286,7 @@
 	    data: {
 	        labels: ['Linux', 'Windows', 'HP-UX', 'AIX', 'Solaris'],
 	        datasets: [{
-	            label: 'OS종류 별 Agent 배포현황(~현재)',
+	            label: 'OS종류 별 Agent 배포현황(전체)',
 	            data: osType,
 	            backgroundColor: [
 	                'rgba(255, 127, 14, 0.6)',
@@ -336,7 +336,7 @@
 		        },
 	            title: {
 	              display: true,
-	              text: 'OS종류 별 Agent 배포현황(~현재)'
+	              text: 'OS종류 별 Agent 배포현황(전체)'
 	            }
 	        }
 	    }
@@ -365,7 +365,7 @@
 			}
 		}
 		if(osTypeYear == "전체") {
-			osTypeChart.options.plugins.title.text = 'OS종류 별 Agent 배포현황(~현재)';
+			osTypeChart.options.plugins.title.text = 'OS종류 별 Agent 배포현황(전체)';
 		} else {
 			osTypeChart.options.plugins.title.text = 'OS종류 별 Agent 배포현황('+osTypeYear+'년)';
 		}
@@ -373,7 +373,7 @@
 	});
 </script>
 <script>
-	var osType;
+	var requestProductCategory;
 	$.ajax({
 	    type: 'POST',
 	    url: "<c:url value='/packages/chart/requestProductCategory'/>",
@@ -386,7 +386,7 @@
 	    }
 	});	
 	
-	/* =========== Agent 종류별 배포현황(~현재) ========= */
+	/* =========== Agent 종류별 배포현황(전체) ========= */
 	var ctx = document.getElementById('requestProductCategory').getContext('2d');
 	var requestProductCategoryChart = new Chart(ctx, {
 		plugins: [ChartDataLabels],
@@ -394,7 +394,7 @@
 	    data: {
 	        labels: ['TOS 5.0', 'TOS 3.0', 'TOS 2.0.60.X', 'TOS 2.0.70.X', 'iGRIFFIN 5.0'],
 	        datasets: [{
-	            label: 'Agent 종류별 배포현황(~현재)',
+	            label: 'Agent 종류별 배포현황(전체)',
 	            data: requestProductCategory,
 	            backgroundColor: [
 	                'rgba(255, 127, 14, 0.6)',
@@ -445,7 +445,7 @@
 		        },
 			    title: {
 		            display: true,
-		            text: 'Agent 종류별 배포현황(~현재)'
+		            text: 'Agent 종류별 배포현황(전체)'
 		         }
 	   	 	}
 	    }
@@ -474,7 +474,7 @@
 			}
 		}
 		if(requestProductCategoryYear == "전체") {
-			requestProductCategoryChart.options.plugins.title.text = 'Agent 종류별 배포현황(~현재)';
+			requestProductCategoryChart.options.plugins.title.text = 'Agent 종류별 배포현황(전체)';
 		} else {
 			requestProductCategoryChart.options.plugins.title.text = 'Agent 종류별 배포현황('+requestProductCategoryYear+'년)';
 		}
@@ -643,7 +643,7 @@
 	        // TODO 에러 화면
 	    }
 	});	
-	/* =========== 고객사별 패키지 배포 수량 TOP 7 (~현재) ========= */
+	/* =========== 고객사별 패키지 배포 수량 TOP 7 (전체) ========= */
 	var ctx = document.getElementById('customerName').getContext('2d');
 	var customerNameChart = new Chart(ctx, {
 		plugins: [ChartDataLabels],
@@ -685,7 +685,7 @@
 		        },
 	            title: {
 	              display: true,
-	              text: '고객사별 패키지 배포 수량 TOP 7 (~현재)'
+	              text: '고객사별 패키지 배포 수량 TOP 7 (전체)'
 	            },
 	            legend: {
 		            display: false
@@ -724,7 +724,7 @@
 			}
 		}
 		if(customerNameYear == "전체") {
-			customerNameChart.options.plugins.title.text = '고객사별 패키지 배포 수량 TOP 7 (~현재)';
+			customerNameChart.options.plugins.title.text = '고객사별 패키지 배포 수량 TOP 7 (전체)';
 		} else {
 			customerNameChart.options.plugins.title.text = '고객사별 패키지 배포 수량 TOP 7 ('+customerNameYear+'년)';
 		}

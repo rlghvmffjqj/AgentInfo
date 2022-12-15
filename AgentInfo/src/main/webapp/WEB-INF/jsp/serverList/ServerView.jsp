@@ -95,7 +95,7 @@
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">사용기간</label>
-	         	<input type="date" id="serverListPeriodUseView" name="serverListPeriodUseView" class="form-control viewForm" value="${serverList.serverListPeriodUse}">
+	         	<input type="date" id="serverListPeriodUseView" name="serverListPeriodUseView" class="form-control viewForm" value="${serverList.serverListPeriodUse}" max="9999-12-31">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">사용자</label>
@@ -107,7 +107,7 @@
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">최종 수정일</label>
-	         	<input type="date" id="serverListLastModifiedDateView" name="serverListLastModifiedDateView" class="form-control viewForm" value="${serverList.serverListLastModifiedDate}">
+	         	<input type="date" id="serverListLastModifiedDateView" name="serverListLastModifiedDateView" class="form-control viewForm" value="${serverList.serverListLastModifiedDate}" max="9999-12-31">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">비고</label>

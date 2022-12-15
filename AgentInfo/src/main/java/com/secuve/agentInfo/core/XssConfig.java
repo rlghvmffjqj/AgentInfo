@@ -33,6 +33,8 @@ public class XssConfig implements WebMvcConfigurer {
 		urls.add("/category/*");
 		urls.add("/requests/*");
 		urls.add("/requestsWrite/*");
+		urls.add("/sharedCalendar/*");
+		urls.add("/calendar/*");
 		filterRegistration.setUrlPatterns(urls);
 		return filterRegistration;
 	}
