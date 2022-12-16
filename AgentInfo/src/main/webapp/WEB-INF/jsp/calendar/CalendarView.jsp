@@ -83,9 +83,10 @@
 				</div>
 			</div>
 			<div style="margin-top: 370px">
-				<div id="map" style="width:100%;height:240px; border: 1px solid darkgoldenrod;"></div>
+				<div style="width:100%; height:240px;">
+					<div id="map" style="width:460px; height:240px; border: 1px solid darkgoldenrod;"></div>
+				</div>
 			</div>
-	
 		</form>
 	</div>
 </div>
@@ -387,5 +388,5 @@
 	naver.maps.onJSContentLoaded = initGeocoder;
 	
 	// 위치 맞추기 위해 추가
-	document.getElementById('map').firstChild.style.left = "170px";
+	//document.getElementById('map').firstChild.style.left = "170px";
 </script>
