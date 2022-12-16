@@ -48,6 +48,16 @@ public class SmsService {
 	private String phone;
 	
 	public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
+		String phone = "0";
+		System.out.println(this.phone.length());
+		if(this.phone.charAt(1) == '.') {
+			for(int i=0; i<this.phone.length()-2; i++) {
+				if(i != 1)
+					phone += this.phone.charAt(i);
+			}
+		} else {
+			phone = this.phone;
+		}
 		String space = " ";
         String newLine = "\n";
         String method = "POST";
@@ -77,6 +87,16 @@ public class SmsService {
 	}
 	
 	public void sendSms(Message message) throws Exception {
+		String phone = "0";
+		System.out.println(this.phone.length());
+		if(this.phone.charAt(1) == '.') {
+			for(int i=0; i<this.phone.length()-2; i++) {
+				if(i != 1)
+					phone += this.phone.charAt(i);
+			}
+		} else {
+			phone = this.phone;
+		}
 		Long time = System.currentTimeMillis();
 		
 		HttpHeaders headers = new HttpHeaders();
