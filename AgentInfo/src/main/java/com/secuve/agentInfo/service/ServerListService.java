@@ -37,7 +37,7 @@ public class ServerListService {
 	
 	public ServerList serverListSearch(ServerList search) {
 		search.setServerListDivisionArr(search.getServerListDivision().split(","));
-		search.setServerListIpArr(search.getServerListIp().split(","));
+		search.setServerListAssetNumArr(search.getServerListIp().split(","));
 		search.setServerListStateArr(search.getServerListState().split(","));
 		search.setServerListMacArr(search.getServerListMac().split(","));
 		search.setServerListAssetNumArr(search.getServerListAssetNum().split(","));
@@ -57,10 +57,20 @@ public class ServerListService {
 	}
 
 	public String insertServerList(ServerList serverList, String employeeId) {
-		int count = serverListDao.getServerListIp(serverList.getServerListIpView());
-		if(count >= 1)
-			return "IpOverlap";
-		
+		int count = serverListDao.getServerListAssetNum(serverList.getServerListAssetNumView());
+		if(count >= 1) {
+			return "AssetNumOverlap";
+		}
+		if(serverList.getServerListPeriodUseStartView() != "") {
+			Date start = new Date(serverList.getServerListPeriodUseStartView().replace('-', '/') + " 00:00");
+			if(serverList.getServerListPeriodUseEndView() != "") {
+				Date end = new Date(serverList.getServerListPeriodUseEndView().replace('-', '/') + " 00:00");
+				int compare = start.compareTo(end);
+				if(compare > 0) {
+					return "DateOver";
+				}
+			}
+		}
 		serverList.setServerListKeyNum(ServerListKeyNum());
 		if(serverList.getServerListPeriodUseStartView() == null) {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
@@ -134,14 +144,24 @@ public class ServerListService {
 	}
 
 	public String updateServerList(ServerList serverList, String employeeId) {
-		int count = serverListDao.getServerListIp(serverList.getServerListIpView());
-		String ip = serverListDao.getServerListOne(serverList.getServerListKeyNum()).getServerListIp();
-		if(ip.equals(serverList.getServerListIpView())) {
+		int count = serverListDao.getServerListAssetNum(serverList.getServerListAssetNumView());
+		String assetNum = serverListDao.getServerListOne(serverList.getServerListKeyNum()).getServerListAssetNum();
+		if(assetNum.equals(serverList.getServerListAssetNumView())) {
 			count = 0;
 		}
-		if(count >= 1)
-			return "IpOverlap";
-		
+		if(count >= 1) {
+			return "AssetNumOverlap";
+		}
+		if(serverList.getServerListPeriodUseStartView() != "") {
+			Date start = new Date(serverList.getServerListPeriodUseStartView().replace('-', '/') + " 00:00");
+			if(serverList.getServerListPeriodUseEndView() != "") {
+				Date end = new Date(serverList.getServerListPeriodUseEndView().replace('-', '/') + " 00:00");
+				int compare = start.compareTo(end);
+				if(compare > 0) {
+					return "DateOver";
+				}
+			}
+		}
 		if(serverList.getServerListPeriodUseStartView() == null) {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
 		} else {

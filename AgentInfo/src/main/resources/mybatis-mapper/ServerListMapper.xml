@@ -59,8 +59,8 @@
 		UPDATE serverList SET serverListState = #{stateView} WHERE serverListKeyNum = #{serverListKeyNum};
 	</update>
 	
-	<select id="getServerListIp" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM serverList WHERE serverListIp = #{serverListIpView};
+	<select id="getServerListAssetNum" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM serverList WHERE serverListAssetNum = #{serverListAssetNumView};
 	</select>
 	
 	<select id="getServerListAll" resultMap="serverList">

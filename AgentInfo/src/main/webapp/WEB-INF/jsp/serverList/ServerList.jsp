@@ -29,10 +29,10 @@
 					colModel:[
 						{name:'serverListKeyNum', index:'serverListKeyNum', align:'center', width: 35, hidden:true },
 						{name:'serverListDivision', index:'serverListDivision', align:'center', width: 80},
-						{name:'serverListIp', index:'serverListIp', align:'center', width: 100, formatter: linkFormatter},
+						{name:'serverListIp', index:'serverListIp', align:'center', width: 100},
 						{name:'serverListState', index:'serverListState', align:'center', width: 70, formatter: stateFormatter},
 						{name:'serverListMac', index:'serverListMac', align:'center', width: 110},
-						{name:'serverListAssetNum', index:'serverListAssetNum', align:'center', width: 120},
+						{name:'serverListAssetNum', index:'serverListAssetNum', align:'center', width: 120, formatter: linkFormatter},
 						{name:'serverListHostName', index:'serverListHostName',align:'center', width: 110},
 						{name:'serverListPurpose', index:'serverListPurpose',align:'center', width: 150},
 						{name:'serverListOs', index:'serverListOs', align:'center', width: 150},

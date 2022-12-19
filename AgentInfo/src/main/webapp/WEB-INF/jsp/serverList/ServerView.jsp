@@ -22,7 +22,6 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">IP</label>
 	        	<input type="text" id="serverListIpView" name="serverListIpView" class="form-control viewForm" value="${serverList.serverListIp}">
-	        	<span class="colorRed" id="NotServerListIp" style="display: none; line-height: initial;">IP를 입력해주세요.</span>
 			</div>
 			<div class="pading5Width450">
 	        	<label class="labelFontSize">상태</label>
@@ -41,6 +40,7 @@
 	        <div class="pading5Width450">
 	        	<label class="labelFontSize">자산번호</label>
 	        	<input type="text" id="serverListAssetNumView" name="serverListAssetNumView" class="form-control viewForm" value="${serverList.serverListAssetNum}">
+	        	<span class="colorRed" id="NotServerListAssetNum" style="display: none; line-height: initial;">자산번호를 입력해주세요.</span>
 	        </div>
 	        <div class="pading5Width450">
 	        	<label class="labelFontSize">HostName</label>
@@ -137,16 +137,16 @@
 	/* =========== 서버목록 추가 ========= */
 	$('#insertBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
-		var serverListIp = $('#serverListIpView').val();
-		if(serverListIp == "") {
+		var serverListAssetNum = $('#serverListAssetNumView').val();
+		if(serverListAssetNum == "") {
 			Swal.fire({               
 				icon: 'error',          
 				title: '실패!',           
-				text: 'IP를 반드시 입력 바랍니다.',    
+				text: '자산번호를 반드시 입력 바랍니다.',    
 			}); 
-			$('#NotServerListIp').show();
+			$('#NotServerListAssetNum').show();
 		} else {
-			$('#NotServerListIp').hide();
+			$('#NotServerListAssetNum').hide();
 			$.ajax({
 				url: "<c:url value='/serverList/insert'/>",
 		        type: 'post',
@@ -163,11 +163,17 @@
 		        		$('#modal').on('hidden.bs.modal', function () {
 		        			tableRefresh();
 		        		});
-					} else if(result.result == "IpOverlap") {
+					} else if(result.result == "AssetNumOverlap") {
 						Swal.fire({
 							icon: 'error',
 							title: '중복!',
-							text: '중복되는 IP가 존재합니다.',
+							text: '중복되는 자산번호가 존재합니다.',
+						});
+					} else if(result.result == "DateOver") {
+						Swal.fire({
+							icon: 'error',
+							title: '기간!',
+							text: '사용기간이 종료기간 보다 큼니다.',
 						});
 					} else {
 						Swal.fire({
@@ -187,15 +193,15 @@
 	/* =========== 서버목록 수정 ========= */
 	$('#updateBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
-		if(serverListIp == "") {
+		if(serverListAssetNum == "") {
 			Swal.fire({               
 				icon: 'error',          
 				title: '실패!',           
-				text: 'IP를 반드시 입력 바랍니다.',    
+				text: '자산번호를 반드시 입력 바랍니다.',    
 			}); 
-			$('#NotServerListIp').show();
+			$('#NotServerListAssetNum').show();
 		} else {
-			$('#NotServerListIp').hide();
+			$('#NotServerListAssetNum').hide();
 			$.ajax({
 				url: "<c:url value='/serverList/update'/>",
 	            type: 'post',
@@ -212,11 +218,17 @@
 	            		$('#modal').on('hidden.bs.modal', function () {
 	            			tableRefresh();
 	            		});
-					} else if(result.result == "IpOverlap") {
+					} else if(result.result == "AssetNumOverlap") {
 						Swal.fire({
 							icon: 'error',
 							title: '중복!',
-							text: '중복되는 IP가 존재합니다.',
+							text: '중복되는 자산번호가 존재합니다.',
+						});
+					} else if(result.result == "DateOver") {
+						Swal.fire({
+							icon: 'error',
+							title: '기간!',
+							text: '사용기간이 종료기간 보다 큼니다.',
 						});
 					} else {
 						Swal.fire({               

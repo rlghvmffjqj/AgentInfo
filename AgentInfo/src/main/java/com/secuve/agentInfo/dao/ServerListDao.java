@@ -57,8 +57,8 @@ public class ServerListDao {
 		return sqlSession.update("serverList.stateChange", parameters);
 	}
 
-	public int getServerListIp(String serverListIpView) {
-		return sqlSession.selectOne("serverList.getServerListIp", serverListIpView);
+	public int getServerListAssetNum(String serverListAssetNumView) {
+		return sqlSession.selectOne("serverList.getServerListAssetNum", serverListAssetNumView);
 	}
 
 	public List<ServerList> getServerListAll() {
