@@ -80,7 +80,7 @@ public class ServerListController {
 		serverList.setServerListRegistrationDate(serverListService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = serverListService.insertServerList(serverList);
+		String result = serverListService.insertServerList(serverList, principal.getName());
 		map.put("result", result);
 		return map;
 	}
@@ -105,7 +105,7 @@ public class ServerListController {
 		serverList.setServerListModifiedDate(serverListService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = serverListService.updateServerList(serverList);
+		String result = serverListService.updateServerList(serverList, principal.getName());
 		map.put("result", result);
 		return map;
 	}

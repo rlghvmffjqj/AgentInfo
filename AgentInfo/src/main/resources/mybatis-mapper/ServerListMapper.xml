@@ -34,8 +34,8 @@
 	</select>
 	
 	<insert id="insertServerList">
-		INSERT INTO serverlist(serverListKeyNum, serverListType, serverListDivision, serverListIp, serverListState, serverListMac, serverListAssetNum, serverListHostName, serverListPurpose, serverListOs, serverListServerClass, serverListRackPosition, serverListPeriodUse, serverListUser, serverListManager, serverListLastModifiedDate, serverListNote, serverListRegistrant, serverListRegistrationDate) 
-		VALUES(#{serverListKeyNum}, #{serverListTypeView}, #{serverListDivisionView}, #{serverListIpView}, #{serverListStateView}, #{serverListMacView}, #{serverListAssetNumView}, #{serverListHostNameView}, #{serverListPurposeView}, #{serverListOsView}, #{serverListServerClassView}, #{serverListRackPositionView}, #{serverListPeriodUseView}, #{serverListUserView}, #{serverListManagerView}, #{serverListLastModifiedDateView}, #{serverListNoteView}, #{serverListRegistrant}, #{serverListRegistrationDate});
+		INSERT INTO serverlist(serverListKeyNum, serverListType, serverListDivision, serverListIp, serverListState, serverListMac, serverListAssetNum, serverListHostName, serverListPurpose, serverListOs, serverListServerClass, serverListRackPosition, serverListPeriodUseStart, serverListPeriodUseEnd, serverListPeriodUse, serverListUser, serverListManager, serverListLastModifiedDate, serverListNote, calendarKeyNum, serverListRegistrant, serverListRegistrationDate) 
+		VALUES(#{serverListKeyNum}, #{serverListTypeView}, #{serverListDivisionView}, #{serverListIpView}, #{serverListStateView}, #{serverListMacView}, #{serverListAssetNumView}, #{serverListHostNameView}, #{serverListPurposeView}, #{serverListOsView}, #{serverListServerClassView}, #{serverListRackPositionView}, #{serverListPeriodUseStartView}, #{serverListPeriodUseEndView}, #{serverListPeriodUse}, #{serverListUserView}, #{serverListManagerView}, #{serverListLastModifiedDateView}, #{serverListNoteView}, ${calendarKeyNum}, #{serverListRegistrant}, #{serverListRegistrationDate});
 	</insert>
 	
 	<select id="getServerListKeyNum" resultType="_int">
@@ -51,7 +51,7 @@
 	</select>
 	
 	<update id="updateServerList">
-		UPDATE serverList SET serverListDivision = #{serverListDivisionView}, serverListIp = #{serverListIpView}, serverListState = #{serverListStateView}, serverListMac = #{serverListMacView}, serverListAssetNum = #{serverListAssetNumView}, serverListHostName = #{serverListHostNameView}, serverListPurpose = #{serverListPurposeView}, serverListOs = #{serverListOsView}, serverListServerClass = #{serverListServerClassView}, serverListRackPosition = #{serverListRackPositionView}, serverListPeriodUse = #{serverListPeriodUseView}, serverListUser = #{serverListUserView}, serverListManager = #{serverListManagerView}, serverListLastModifiedDate = #{serverListLastModifiedDateView}, serverListNote = #{serverListNoteView}, serverListModifier = #{serverListModifier}, serverListModifiedDate = #{serverListModifiedDate} 
+		UPDATE serverList SET serverListDivision = #{serverListDivisionView}, serverListIp = #{serverListIpView}, serverListState = #{serverListStateView}, serverListMac = #{serverListMacView}, serverListAssetNum = #{serverListAssetNumView}, serverListHostName = #{serverListHostNameView}, serverListPurpose = #{serverListPurposeView}, serverListOs = #{serverListOsView}, serverListServerClass = #{serverListServerClassView}, serverListRackPosition = #{serverListRackPositionView}, serverListPeriodUseEnd = #{serverListPeriodUseEndView}, serverListPeriodUseStart = #{serverListPeriodUseStartView}, serverListPeriodUse = #{serverListPeriodUse}, serverListUser = #{serverListUserView}, serverListManager = #{serverListManagerView}, serverListLastModifiedDate = #{serverListLastModifiedDateView}, serverListNote = #{serverListNoteView}, calendarKeyNum = #{calendarKeyNum}, serverListModifier = #{serverListModifier}, serverListModifiedDate = #{serverListModifiedDate} 
 		WHERE serverListKeyNum = #{serverListKeyNum};
 	</update>
 	
@@ -162,8 +162,8 @@
 				</trim>
 				)
 			</if>
-			<if test="serverListPeriodUse != null and serverListPeriodUse != ''">
-				AND serverListPeriodUse LIKE CONCAT('%',#{serverListPeriodUse},'%')
+			<if test="serverListPeriodUseEnd != null and serverListPeriodUseEnd != ''">
+				AND serverListPeriodUseEnd LIKE CONCAT('%',#{serverListPeriodUseEnd},'%')
 			</if>
 			<if test="serverListUser != null and serverListUser != ''">
 				AND serverListUser LIKE CONCAT('%',#{serverListUser},'%')

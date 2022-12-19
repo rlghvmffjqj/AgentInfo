@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.service;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -11,13 +12,16 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.secuve.agentInfo.dao.CalendarDao;
 import com.secuve.agentInfo.dao.ServerListDao;
+import com.secuve.agentInfo.vo.Calendar;
 import com.secuve.agentInfo.vo.ServerList;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class ServerListService {
 	@Autowired ServerListDao serverListDao;
+	@Autowired CalendarDao calendarDao;
 
 	public List<String> getSelectInput(String serverListType, String selectInput) {
 		return serverListDao.getSelectInput(serverListType, selectInput);
@@ -52,16 +56,58 @@ public class ServerListService {
 		return formatter.format(now);
 	}
 
-	public String insertServerList(ServerList serverList) {
+	public String insertServerList(ServerList serverList, String employeeId) {
 		int count = serverListDao.getServerListIp(serverList.getServerListIpView());
 		if(count >= 1)
 			return "IpOverlap";
 		
 		serverList.setServerListKeyNum(ServerListKeyNum());
+		if(serverList.getServerListPeriodUseStartView() == null) {
+			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
+		} else {
+			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" - "+serverList.getServerListPeriodUseEndView());
+		}
+		/* ========== 박범수 연구원 요청 시작 ========= */
+		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
+			if(serverList.getServerListStateView() == "장비대여" || serverList.getServerListStateView().equals("장비대여")) {
+				serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "insert"));
+			}
+		}
+		/* ========== 박범수 연구원 요청 종료 ========= */
 		int sucess = serverListDao.insertServerList(serverList);
+		
 		if (sucess <= 0)
 			return "FALSE";
 		return "OK";
+	}
+	
+	public int serverListCalendar(ServerList serverList, String employeeId, String state) {
+		int calendarKeyNum = 0;
+		Calendar calendar = new Calendar();
+		calendar.setCalendarKeyNum(serverList.getCalendarKeyNum());
+		calendar.setCalendarStart(serverList.getServerListPeriodUseStartView().replace('-', '/')+" 00:00");
+		
+		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date endtDate = simpleDate.parse(serverList.getServerListPeriodUseEndView());
+			java.util.Calendar cal = java.util.Calendar.getInstance();
+			cal.setTime(endtDate);
+			cal.add(java.util.Calendar.DATE, 1);
+			calendar.setCalendarEnd(simpleDate.format(cal.getTime()).replace('-', '/')+" 00:00");
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		calendar.setCalendarContents(serverList.getServerListAssetNumView());
+		calendar.setCalendarRegistrant(employeeId);
+		calendar.setCalendarRegistrationDate(nowDate());
+		if(state == "insert" || calendar.getCalendarKeyNum() == 0) {
+			calendarKeyNum = calendarDao.insertServerListCalendar(calendar);
+		} else if(state == "update") {
+			calendarKeyNum = calendarDao.updateServerListCalendar(calendar);
+		}
+		return calendarKeyNum;
 	}
 	
 	public int ServerListKeyNum() {
@@ -87,7 +133,7 @@ public class ServerListService {
 		return serverListDao.getServerListOne(serverListKeyNum);
 	}
 
-	public String updateServerList(ServerList serverList) {
+	public String updateServerList(ServerList serverList, String employeeId) {
 		int count = serverListDao.getServerListIp(serverList.getServerListIpView());
 		String ip = serverListDao.getServerListOne(serverList.getServerListKeyNum()).getServerListIp();
 		if(ip.equals(serverList.getServerListIpView())) {
@@ -96,6 +142,18 @@ public class ServerListService {
 		if(count >= 1)
 			return "IpOverlap";
 		
+		if(serverList.getServerListPeriodUseStartView() == null) {
+			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
+		} else {
+			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" - "+serverList.getServerListPeriodUseEndView());
+		}
+		/* ========== 박범수 연구원 요청 시작 ========= */
+		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
+			if(serverList.getServerListStateView() == "장비대여" || serverList.getServerListStateView().equals("장비대여")) {
+				serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "update"));
+			}
+		}
+		/* ========== 박범수 연구원 요청 종료 ========= */
 		int sucess = serverListDao.updateServerList(serverList);
 		if (sucess <= 0)
 			return "FALSE";

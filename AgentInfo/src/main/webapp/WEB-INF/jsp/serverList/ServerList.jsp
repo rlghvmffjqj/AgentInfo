@@ -38,7 +38,7 @@
 						{name:'serverListOs', index:'serverListOs', align:'center', width: 150},
 						{name:'serverListServerClass', index:'serverListServerClass', align:'center', width: 80},
 						{name:'serverListRackPosition', index:'serverListRackPosition', align:'center', width: 50},
-						{name:'serverListPeriodUse', index:'serverListPeriodUse', align:'center', width: 80},
+						{name:'serverListPeriodUse', index:'serverListPeriodUse', align:'center', width: 130},
 						{name:'serverListUser', index:'serverListUser', align:'center', width: 80},
 						{name:'serverListManager', index:'serverListManager', align:'center', width: 80},
 						{name:'serverListLastModifiedDate', index:'serverListLastModifiedDate', align:'center', width: 80},
@@ -219,7 +219,7 @@
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">사용 기간</label>
-		                      							<input type="date" id="serverListPeriodUse" name="serverListPeriodUse" class="form-control" max="9999-12-31">
+		                      							<input type="date" id="serverListPeriodUseEnd" name="serverListPeriodUseEnd" class="form-control" max="9999-12-31">
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">사용자</label>

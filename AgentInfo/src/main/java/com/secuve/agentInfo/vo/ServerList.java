@@ -23,11 +23,14 @@ public class ServerList {
 	private String serverListOs;				// 운영체제
 	private String serverListServerClass;		// 서버구분
 	private String serverListRackPosition;		// 랙위치
-	private String serverListPeriodUse;			// 사용기간
+	private String serverListPeriodUse;
+	private String serverListPeriodUseEnd;			// 사용기간
+	private String serverListPeriodUseStart;
 	private String serverListUser;				// 사용자
 	private String serverListManager;			// 관리자
 	private String serverListLastModifiedDate;	// 최종 수정일
 	private String serverListNote;				// 비고
+	private int calendarKeyNum;
 	
 	private String serverListTypeView;				// 외부망/내부망/Hyper-V
 	private String serverListDivisionView;			// 구분
@@ -40,7 +43,8 @@ public class ServerList {
 	private String serverListOsView;				// 운영체제
 	private String serverListServerClassView;		// 서버구분
 	private String serverListRackPositionView;		// 랙위치
-	private String serverListPeriodUseView;			// 사용기간
+	private String serverListPeriodUseEndView;			// 사용기간
+	private String serverListPeriodUseStartView;
 	private String serverListUserView;				// 사용자
 	private String serverListManagerView;			// 관리자
 	private String serverListLastModifiedDateView;	// 최종 수정일

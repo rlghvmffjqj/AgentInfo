@@ -6,6 +6,7 @@
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="serverListTypeView" name="serverListTypeView" class="form-control viewForm" value="${serverList.serverListType}">
 		<input type="hidden" id="serverListKeyNum" name="serverListKeyNum" class="form-control viewForm" value="${serverList.serverListKeyNum}">
+		<input type="hidden" id="calendarKeyNum" name="calendarKeyNum" class="form-control viewForm" value="${serverList.calendarKeyNum}">
 		<div class="leftDiv">
 			<div class="pading5Width450">
 				<label class="labelFontSize">구분</label>
@@ -94,8 +95,10 @@
 				</select>
 	         </div>
 	         <div class="pading5Width450">
-	         	<label class="labelFontSize">사용기간</label>
-	         	<input type="date" id="serverListPeriodUseView" name="serverListPeriodUseView" class="form-control viewForm" value="${serverList.serverListPeriodUse}" max="9999-12-31">
+	         	<label class="labelFontSize" style="width:100%">사용기간</label>
+	         	<input type="date" id="serverListPeriodUseStartView" name="serverListPeriodUseStartView" class="form-control viewForm" value="${serverList.serverListPeriodUseStart}" style="float: left; width: 47%;" max="9999-12-31">
+	         	<span style="margin-left: 9px;">~</span>
+	         	<input type="date" id="serverListPeriodUseEndView" name="serverListPeriodUseEndView" class="form-control viewForm" value="${serverList.serverListPeriodUseEnd}" style="float: right; width: 47%;"  max="9999-12-31">
 	         </div>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">사용자</label>
@@ -228,6 +231,35 @@
 				}
 	        });
 		}
+	});
+	
+	$("#serverListPeriodUseStartView").change(function() {
+		var start = $('#serverListPeriodUseStartView').val();
+		var end = $('#serverListPeriodUseEndView').val();
+		if(end != "") {
+			if(start > end) {
+				Swal.fire({
+					icon: 'error',
+					title: '기간!',
+					text: '사용기간이 종료기간 보다 큼니다.',
+				});
+			} 
+		}
+	});
+	
+	$("#serverListPeriodUseEndView").change(function() {
+		var start = $('#serverListPeriodUseStartView').val();
+		var end = $('#serverListPeriodUseEndView').val();
+		if(start == "") {
+			$('#serverListPeriodUseStartView').val(end);
+		}
+		if(start > end) {
+			Swal.fire({
+				icon: 'error',
+				title: '기간!',
+				text: '사용기간이 종료기간 보다 큼니다.',
+			});
+		} 
 	});
 	
 </script>
