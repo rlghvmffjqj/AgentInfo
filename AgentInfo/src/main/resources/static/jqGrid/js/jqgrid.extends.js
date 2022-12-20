@@ -232,8 +232,6 @@
 	// url: 'ExportExec'
 	function doExportExec(formName, gridName, url)
 	{
-		alert(gridName);
-		alert(url);
 		if ( formName === undefined ) {
 			formName = "#form";
 		}
