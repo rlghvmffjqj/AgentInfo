@@ -37,7 +37,7 @@ public class ServerListService {
 	
 	public ServerList serverListSearch(ServerList search) {
 		search.setServerListDivisionArr(search.getServerListDivision().split(","));
-		search.setServerListAssetNumArr(search.getServerListIp().split(","));
+		search.setServerListIpArr(search.getServerListIp().split(","));
 		search.setServerListStateArr(search.getServerListState().split(","));
 		search.setServerListMacArr(search.getServerListMac().split(","));
 		search.setServerListAssetNumArr(search.getServerListAssetNum().split(","));
@@ -72,10 +72,10 @@ public class ServerListService {
 			}
 		}
 		serverList.setServerListKeyNum(ServerListKeyNum());
-		if(serverList.getServerListPeriodUseStartView() == null) {
+		if(serverList.getServerListPeriodUseStartView() == null || serverList.getServerListPeriodUseStartView() == "") {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
 		} else {
-			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" - "+serverList.getServerListPeriodUseEndView());
+			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" ~ "+serverList.getServerListPeriodUseEndView());
 		}
 		/* ========== 박범수 연구원 요청 시작 ========= */
 		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
@@ -162,10 +162,10 @@ public class ServerListService {
 				}
 			}
 		}
-		if(serverList.getServerListPeriodUseStartView() == null) {
+		if(serverList.getServerListPeriodUseStartView() == null || serverList.getServerListPeriodUseStartView() == "") {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
 		} else {
-			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" - "+serverList.getServerListPeriodUseEndView());
+			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" ~ "+serverList.getServerListPeriodUseEndView());
 		}
 		/* ========== 박범수 연구원 요청 시작 ========= */
 		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
