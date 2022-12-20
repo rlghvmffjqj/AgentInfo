@@ -33,10 +33,6 @@ public class ServerListDao {
 		return sqlSession.insert("serverList.insertServerList", serverList);
 	}
 
-	public int getServerListKeyNum() {
-		return sqlSession.selectOne("serverList.getServerListKeyNum");
-	}
-
 	public int delServerList(int serverListKeyNum) {
 		return sqlSession.delete("serverList.delServerList", serverListKeyNum);
 	}

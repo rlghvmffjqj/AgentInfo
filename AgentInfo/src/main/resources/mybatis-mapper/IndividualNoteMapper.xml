@@ -10,17 +10,13 @@
 		WHERE individualNoteRegistrant=#{individualNoteRegistrant};
 	</select>
 	
-	<select id="getIndividualNoteKeyNum" resultType="_int">
-		SELECT MAX(individualNoteKeyNum) FROM individualNote;
-	</select>
-	
 	<select id="getIndividualNoteSort" resultType="_int">
 		SELECT MAX(individualNoteSort) FROM individualNote;
 	</select>
 	
-	<insert id="insertIndividualNote">
-		INSERT INTO individualNote(individualNoteKeyNum,individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteSort,individualNoteColor,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
-		VALUE(#{individualNoteKeyNum},#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteSort},#{individualNoteColor},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate});
+	<insert id="insertIndividualNote" parameterType="individualNote" useGeneratedKeys="true" keyProperty="individualNoteKeyNum">
+		INSERT INTO individualNote(individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteSort,individualNoteColor,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteSort},#{individualNoteColor},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate})
 	</insert>
 	
 	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">

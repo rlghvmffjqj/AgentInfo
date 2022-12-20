@@ -31,9 +31,9 @@
 		SELECT MAX(packagesKeyNum) FROM packages;
 	</select>
 	
-	<insert id="insertPackages">
-		INSERT INTO packages(packagesKeyNum, packagesKeyNumOrigin, customerName, businessName, networkClassification, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate, statusComment)
-		VALUES (#{packagesKeyNum}, #{packagesKeyNumOrigin}, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate}, #{statusComment});
+	<insert id="insertPackages" parameterType="packages" useGeneratedKeys="true" keyProperty="packagesKeyNum">
+		INSERT INTO packages(packagesKeyNumOrigin, customerName, businessName, networkClassification, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate, statusComment)
+		VALUES (#{packagesKeyNumOrigin}, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate}, #{statusComment});
 	</insert>
 	
 	<select id="getPackagesOne" parameterType="_int" resultMap="packages">

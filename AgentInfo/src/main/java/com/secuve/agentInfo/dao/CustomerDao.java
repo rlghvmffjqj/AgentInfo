@@ -20,10 +20,6 @@ public class CustomerDao {
 		return sqlSession.selectOne("customer.getCustomerCount", search);
 	}
 
-	public int getCustomerKeyNum() {
-		return sqlSession.selectOne("customer.getCustomerKeyNum");
-	}
-
 	public int insertCustomer(Customer customer) {
 		return sqlSession.insert("customer.insertCustomer", customer);
 	}

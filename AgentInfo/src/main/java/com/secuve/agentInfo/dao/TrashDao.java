@@ -21,10 +21,6 @@ public class TrashDao {
 		return sqlSession.selectOne("trash.getTrashListCount");
 	}
 
-	public int trashKeyNum() {
-		return sqlSession.selectOne("trash.trashKeyNum");
-	}
-
 	public void insertTrash(Trash trash) {
 		sqlSession.insert("trash.insertTrash", trash);		
 	}

@@ -17,13 +17,9 @@
 	</select>
 	
 	<insert id="insertIssueHistory">
-		INSERT INTO issueHistory(issueHistoryKeyNum,issueKeyNum,issueHistoryCustomer,issueHistoryTitle,issueHistoryDate,issueHistoryTosms,issueHistoryTosrf,issueHistoryPortal,issueHistoryJava,issueHistoryWas,issueHistoryTotal,issueHistoryPdf,issueHistoryRegistrant,issueHistoryRegistrationDate)
-		VALUES (#{issueHistoryKeyNum},#{issueKeyNum},#{issueHistoryCustomer},#{issueHistoryTitle},#{issueHistoryDate},#{issueHistoryTosms},#{issueHistoryTosrf},#{issueHistoryPortal},#{issueHistoryJava},#{issueHistoryWas},#{issueHistoryTotal},#{issueHistoryPdf},#{issueHistoryRegistrant},#{issueHistoryRegistrationDate});
+		INSERT INTO issueHistory(issueKeyNum,issueHistoryCustomer,issueHistoryTitle,issueHistoryDate,issueHistoryTosms,issueHistoryTosrf,issueHistoryPortal,issueHistoryJava,issueHistoryWas,issueHistoryTotal,issueHistoryPdf,issueHistoryRegistrant,issueHistoryRegistrationDate)
+		VALUES (#{issueKeyNum},#{issueHistoryCustomer},#{issueHistoryTitle},#{issueHistoryDate},#{issueHistoryTosms},#{issueHistoryTosrf},#{issueHistoryPortal},#{issueHistoryJava},#{issueHistoryWas},#{issueHistoryTotal},#{issueHistoryPdf},#{issueHistoryRegistrant},#{issueHistoryRegistrationDate});
 	</insert>
-	
-	<select id="getIssueHistoryKeyNum" resultType="_int">
-		SELECT MAX(issueHistoryKeyNum) FROM issueHistory;
-	</select>
 	
 	<delete id="deleteIssueHistory" parameterType="string">
 		DELETE FROM issueHistory WHERE issueHistoryPdf = #{issueHistoryPdf};

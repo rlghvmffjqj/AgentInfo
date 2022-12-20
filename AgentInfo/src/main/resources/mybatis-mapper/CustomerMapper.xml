@@ -23,13 +23,9 @@
 			<include refid="sqlCustomer" />
 	</select>
 	
-	<select id="getCustomerKeyNum" resultType="_int">
-		SELECT MAX(customerKeyNum) FROM customer;
-	</select>
-	
 	<insert id="insertCustomer">
-		INSERT INTO customer(customerKeyNum, customerName, businessName, customerManagerName, customerPhoneNumber, customerZipCode, customerAddress, customerFullAddress, customerDept, packageName, osType, employeeSeName, employeeSalesName, customerRegistrant, customerRegistrationDate)
-		VALUES(#{customerKeyNum}, #{customerNameView}, #{businessNameView}, #{customerManagerNameView}, #{customerPhoneNumberView}, #{customerZipCodeView}, #{customerAddressView}, #{customerFullAddressView}, #{customerDeptView}, #{packageNameView}, #{osTypeView}, #{employeeSeNameView}, #{employeeSalesNameView}, #{customerRegistrant}, #{customerRegistrationDate});
+		INSERT INTO customer(customerName, businessName, customerManagerName, customerPhoneNumber, customerZipCode, customerAddress, customerFullAddress, customerDept, packageName, osType, employeeSeName, employeeSalesName, customerRegistrant, customerRegistrationDate)
+		VALUES(#{customerNameView}, #{businessNameView}, #{customerManagerNameView}, #{customerPhoneNumberView}, #{customerZipCodeView}, #{customerAddressView}, #{customerFullAddressView}, #{customerDeptView}, #{packageNameView}, #{osTypeView}, #{employeeSeNameView}, #{employeeSalesNameView}, #{customerRegistrant}, #{customerRegistrationDate});
 	</insert>
 	
 	<delete id="delCustomer" parameterType="_int">

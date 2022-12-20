@@ -37,10 +37,6 @@ public class CategoryDao {
 		return sqlSession.delete("category.delCategory", categoryKeyNum);
 	}
 
-	public int getCategoryKeyNum() {
-		return sqlSession.selectOne("category.getCategoryKeyNum");
-	}
-
 	public int insertCategory(Category category) {
 		return sqlSession.insert("category.insertCategory", category);
 	}

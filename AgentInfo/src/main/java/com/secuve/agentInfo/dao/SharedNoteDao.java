@@ -22,10 +22,6 @@ public class SharedNoteDao {
 		return sqlSession.insert("sharedNote.insertSharedNote", sharedNote);
 	}
 
-	public int sharedNoteKeyNum() {
-		return sqlSession.selectOne("sharedNote.getSharedNoteKeyNum");
-	}
-
 	public List<SharedNote> getSharedNoteSearch(String[] sharedNoteTitle, String[] sharedNoteHashTag, String sharedNoteDepartment, SharedNote sharedNote) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("sharedNoteTitle", sharedNoteTitle);

@@ -113,10 +113,6 @@ public class CustomerInfoDao {
 		return sqlSession.selectOne("customerInfo.getCustomerInfoCount", parameters);
 	}
 
-	public int getCustomerInfoKeyNum() {
-		return sqlSession.selectOne("customerInfo.getCustomerInfoKeyNum");
-	}
-
 	public int getCustomerInfoDivision(int customerInfoKeyNum, String customerName, String businessName, String networkClassification) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("customerInfoKeyNum", customerInfoKeyNum);

@@ -39,7 +39,6 @@ public class CustomerInfoService {
 			return "NotCustomerName";
 		}
 		selfInput(customerInfo);
-		customerInfo.setCustomerInfoKeyNum(CustomerInfoKeyNum());
 		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > 0) {
 			return "Overlap";
 		}
@@ -55,15 +54,8 @@ public class CustomerInfoService {
 	}
 	
 	public void customerUidLog(CustomerInfo customerInfo, Principal principal, String event) {
-		int customerUidLogKeyNum = 0;
-		
 		CustomerUidLog customerUidLog = new CustomerUidLog();
-		try {
-			customerUidLogKeyNum = customerUidLogDao.customerUidLogKeyNum();
-		} catch (Exception e) {
-		}
 		
-		customerUidLog.setCustomerUidLogKeyNum(++customerUidLogKeyNum);
 		customerUidLog.setCustomerUidLogCustomerName(customerInfo.getCustomerName());
 		customerUidLog.setCustomerUidLogBusinessName(customerInfo.getBusinessName());
 		customerUidLog.setCustomerUidLogNetworkClassification(customerInfo.getNetworkClassification());
@@ -91,16 +83,6 @@ public class CustomerInfoService {
 		
 	}
 
-	public int CustomerInfoKeyNum() {
-		int customerInfoKeyNum = 0;
-		try {
-			customerInfoKeyNum = customerInfoDao.getCustomerInfoKeyNum();
-		} catch (Exception e) {
-			return customerInfoKeyNum;
-		}
-		return ++customerInfoKeyNum;
-	}
-	
 	public CustomerInfo selfInput(CustomerInfo customerInfo) {
 		if(customerInfo.getCustomerNameSelf().length() > 0)
 			customerInfo.setCustomerName(customerInfo.getCustomerNameSelf());

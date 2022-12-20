@@ -46,14 +46,11 @@ public class SharedNoteService {
 			return map;
 		}
 		sharedNote.setSharedNoteTreeParentPath(sharedNote.getSharedNoteTreeFullPath().replace("/"+sharedNote.getSharedNoteTreeName(), ""));
-		int sharedNoteKeyNum = 0;
 		int sharedNoteSort = 0;
 		try {
-			sharedNoteKeyNum =  sharedNoteDao.sharedNoteKeyNum();
 			sharedNoteSort =  sharedNoteDao.sharedNoteSort();
 		} catch (Exception e) {
 		}
-		sharedNote.setSharedNoteKeyNum(++sharedNoteKeyNum);
 		sharedNote.setSharedNoteSort(++sharedNoteSort);
 		int sucess = sharedNoteDao.insertSharedNote(sharedNote);
 		if (sucess <= 0) {

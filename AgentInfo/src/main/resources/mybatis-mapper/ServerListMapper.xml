@@ -34,13 +34,9 @@
 	</select>
 	
 	<insert id="insertServerList">
-		INSERT INTO serverlist(serverListKeyNum, serverListType, serverListDivision, serverListIp, serverListState, serverListMac, serverListAssetNum, serverListHostName, serverListPurpose, serverListOs, serverListServerClass, serverListRackPosition, serverListPeriodUseStart, serverListPeriodUseEnd, serverListPeriodUse, serverListUser, serverListManager, serverListLastModifiedDate, serverListNote, calendarKeyNum, serverListRegistrant, serverListRegistrationDate) 
-		VALUES(#{serverListKeyNum}, #{serverListTypeView}, #{serverListDivisionView}, #{serverListIpView}, #{serverListStateView}, #{serverListMacView}, #{serverListAssetNumView}, #{serverListHostNameView}, #{serverListPurposeView}, #{serverListOsView}, #{serverListServerClassView}, #{serverListRackPositionView}, #{serverListPeriodUseStartView}, #{serverListPeriodUseEndView}, #{serverListPeriodUse}, #{serverListUserView}, #{serverListManagerView}, #{serverListLastModifiedDateView}, #{serverListNoteView}, ${calendarKeyNum}, #{serverListRegistrant}, #{serverListRegistrationDate});
+		INSERT INTO serverlist(serverListType, serverListDivision, serverListIp, serverListState, serverListMac, serverListAssetNum, serverListHostName, serverListPurpose, serverListOs, serverListServerClass, serverListRackPosition, serverListPeriodUseStart, serverListPeriodUseEnd, serverListPeriodUse, serverListUser, serverListManager, serverListLastModifiedDate, serverListNote, calendarKeyNum, serverListRegistrant, serverListRegistrationDate) 
+		VALUES(#{serverListTypeView}, #{serverListDivisionView}, #{serverListIpView}, #{serverListStateView}, #{serverListMacView}, #{serverListAssetNumView}, #{serverListHostNameView}, #{serverListPurposeView}, #{serverListOsView}, #{serverListServerClassView}, #{serverListRackPositionView}, #{serverListPeriodUseStartView}, #{serverListPeriodUseEndView}, #{serverListPeriodUse}, #{serverListUserView}, #{serverListManagerView}, #{serverListLastModifiedDateView}, #{serverListNoteView}, ${calendarKeyNum}, #{serverListRegistrant}, #{serverListRegistrationDate});
 	</insert>
-	
-	<select id="getServerListKeyNum" resultType="_int">
-		SELECT MAX(serverListKeyNum) FROM serverList;
-	</select>
 	
 	<delete id="delServerList" parameterType="_int">
 		DELETE FROM serverList WHERE serverListKeyNum = #{serverListKeyNum};

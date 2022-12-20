@@ -151,7 +151,7 @@
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">패키지 Key</label>
-		                      							<input type="text" id="packagesKeyNum" name="packagesKeyNum" class="form-control">
+		                      							<input type="number" id="packagesKeyNum" name="packagesKeyNum" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">이벤트</label>

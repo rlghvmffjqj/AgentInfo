@@ -18,12 +18,8 @@
 	</select>
 	
 	<insert id="insertSharedCalendar">
-	 	INSERT INTO sharedCalendar(sharedCalendarKeyNum, sharedCalendarStart, sharedCalendarEnd, sharedCalendarContents, sharedCalendarColor, sharedCalendarAllDay, sharedCalendarAlarm, sharedCalendarEmail, sharedCalendarDepartment, sharedCalendarRegistrant, sharedCalendarRegistrationDate) 
-	 	VALUES(nextval(SEQ_SharedCalendar), #{sharedCalendarStart}, #{sharedCalendarEnd}, #{sharedCalendarContents}, #{sharedCalendarColor}, ${sharedCalendarAllDay}, #{sharedCalendarAlarm}, #{sharedCalendarEmail}, #{sharedCalendarDepartment}, #{sharedCalendarRegistrant}, #{sharedCalendarRegistrationDate});
-	 	
-	 	<selectKey keyProperty="sharedCalendarKeyNum" order="AFTER" resultType="_int">
-	 		SELECT lastval(SEQ_SharedCalendar);
-	 	</selectKey>
+	 	INSERT INTO sharedCalendar(sharedCalendarStart, sharedCalendarEnd, sharedCalendarContents, sharedCalendarColor, sharedCalendarAllDay, sharedCalendarAlarm, sharedCalendarEmail, sharedCalendarDepartment, sharedCalendarRegistrant, sharedCalendarRegistrationDate) 
+	 	VALUES(#{sharedCalendarStart}, #{sharedCalendarEnd}, #{sharedCalendarContents}, #{sharedCalendarColor}, ${sharedCalendarAllDay}, #{sharedCalendarAlarm}, #{sharedCalendarEmail}, #{sharedCalendarDepartment}, #{sharedCalendarRegistrant}, #{sharedCalendarRegistrationDate});
 	</insert>
 	
 	<select id="getSharedCalendar" resultMap="sharedCalendar">

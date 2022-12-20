@@ -46,7 +46,6 @@ public class CustomPackageService {
 		
 		selfInput(customPackage);
 		customPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
-		customPackage.setCustomPackageKeyNum(customPackageKeyNum());
 		int sucess = customPackageDao.insertCustomPackage(customPackage);
 
 		if (sucess <= 0)
@@ -108,16 +107,6 @@ public class CustomPackageService {
 		if(customPackage.getOsTypeSelf().length() > 0) {
 			customPackage.setOsTypeView(customPackage.getOsTypeSelf());
 		}
-	}
-	
-	public int customPackageKeyNum() {
-		int customPackageKeyNum = 0;
-		try {
-			customPackageKeyNum = customPackageDao.getCustomPackageKeyNum();
-		} catch (Exception e) {
-			return customPackageKeyNum;
-		}
-		return ++customPackageKeyNum;
 	}
 	
 	public void fileDownload(CustomPackage customPackage, MultipartFile releaseNotesView) throws IllegalStateException, IOException {

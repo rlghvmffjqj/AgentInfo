@@ -26,10 +26,6 @@ public class IssueHistoryDao {
 		return sqlSession.insert("issueHistory.insertIssueHistory", issueHistory);
 	}
 
-	public int getIssueHistoryKeyNum() {
-		return sqlSession.selectOne("issueHistory.getIssueHistoryKeyNum");
-	}
-
 	public int deleteIssueHistory(String issueHistoryPdf) {
 		return sqlSession.delete("issueHistory.deleteIssueHistory", issueHistoryPdf);
 	}

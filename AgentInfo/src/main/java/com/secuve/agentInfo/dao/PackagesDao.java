@@ -30,10 +30,6 @@ public class PackagesDao {
 		return sqlSession.insert("packages.insertPackages", packages);
 	}
 
-	public int getPackagesKeyNum() {
-		return sqlSession.selectOne("packages.getPackagesKeyNum");
-	}
-
 	public Packages getPackagesOne(int packagesKeyNum) {
 		return sqlSession.selectOne("packages.getPackagesOne", packagesKeyNum);
 	}

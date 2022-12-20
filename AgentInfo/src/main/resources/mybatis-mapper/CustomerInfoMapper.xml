@@ -5,8 +5,8 @@
 	<resultMap type="com.secuve.agentInfo.vo.CustomerInfo" id="customerInfo"></resultMap>
 	
 	<insert id="insertCustomerInfo">
-		INSERT INTO customerInfo(customerInfoKeyNum, customerName, businessName, networkClassification, customerManagerName, customerPhoneNumber, customerZipCode, customerAddress, customerFullAddress, customerDept, employeeSeName, employeeSalesName, productCheck, tosmsVer, tosrfVer, portalVer, osType, javaVer, webServerVer, databaseVer, logServerVer, scvEaVer, scvCaVer, authPkiVer, customerInfoRegistrant, customerInfoRegistrationDate)
-		VALUES(#{customerInfoKeyNum}, #{customerName}, #{businessName}, #{networkClassification}, #{customerManagerName}, #{customerPhoneNumber}, #{customerZipCode}, #{customerAddress}, #{customerFullAddress}, #{customerDept}, #{employeeSeName}, #{employeeSalesName}, #{productCheck}, #{tosmsVer}, #{tosrfVer}, #{portalVer}, #{osType}, #{javaVer}, #{webServerVer}, #{databaseVer}, #{logServerVer}, #{scvEaVer}, #{scvCaVer}, #{authPkiVer}, #{customerInfoRegistrant}, #{customerInfoRegistrationDate});
+		INSERT INTO customerInfo(customerName, businessName, networkClassification, customerManagerName, customerPhoneNumber, customerZipCode, customerAddress, customerFullAddress, customerDept, employeeSeName, employeeSalesName, productCheck, tosmsVer, tosrfVer, portalVer, osType, javaVer, webServerVer, databaseVer, logServerVer, scvEaVer, scvCaVer, authPkiVer, customerInfoRegistrant, customerInfoRegistrationDate)
+		VALUES(#{customerName}, #{businessName}, #{networkClassification}, #{customerManagerName}, #{customerPhoneNumber}, #{customerZipCode}, #{customerAddress}, #{customerFullAddress}, #{customerDept}, #{employeeSeName}, #{employeeSalesName}, #{productCheck}, #{tosmsVer}, #{tosrfVer}, #{portalVer}, #{osType}, #{javaVer}, #{webServerVer}, #{databaseVer}, #{logServerVer}, #{scvEaVer}, #{scvCaVer}, #{authPkiVer}, #{customerInfoRegistrant}, #{customerInfoRegistrationDate});
 	</insert>
 	
 	<select id="getCustomerInfoList" resultMap="customerInfo" parameterType="string">
@@ -98,10 +98,6 @@
 		UPDATE customerInfo SET productCheck = #{productCheck}
 		WHERE customerName = #{customerName} AND businessName = #{businessName} AND networkClassification = #{networkClassification} 
 	</update>
-	
-	<select id="getCustomerInfoKeyNum" resultType="_int">
-		SELECT MAX(customerInfoKeyNum) FROM customerInfo;
-	</select>
 	
 	<delete id="deleteCustomerInfo">
 		DELETE FROM customerInfo WHERE customerInfoKeyNum = #{customerInfoKeyNum};

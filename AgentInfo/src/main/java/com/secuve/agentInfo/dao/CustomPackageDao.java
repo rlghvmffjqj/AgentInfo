@@ -20,10 +20,6 @@ public class CustomPackageDao {
 		return sqlSession.selectOne("customPackage.getCustomPackageCount", search);
 	}
 
-	public int getCustomPackageKeyNum() {
-		return sqlSession.selectOne("customPackage.getCustomPackageKeyNum");
-	}
-
 	public int insertCustomPackage(CustomPackage customPackage) {
 		return sqlSession.insert("customPackage.insertCustomPackage", customPackage);
 	}

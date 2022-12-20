@@ -20,10 +20,6 @@ public class ProductDao {
 		return sqlSession.selectOne("product.getProductCount", search);
 	}
 
-	public int getProductKeyNum() {
-		return sqlSession.selectOne("product.getProductKeyNum");
-	}
-
 	public int insertProduct(Product product) {
 		return sqlSession.insert("product.insertProduct", product);
 	}

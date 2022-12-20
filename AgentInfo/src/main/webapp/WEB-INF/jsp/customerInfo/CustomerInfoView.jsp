@@ -125,7 +125,7 @@
 			    		<input type="text" id="customerPhoneNumber" name="customerPhoneNumber" class="form-control viewForm" value="${customerInfo.customerPhoneNumber}" readonly>
 			    	</sec:authorize>
 			    </div>
-			    <div class="pading5Width450">
+			    <div class="pading5Width450" style="height:129px">
 			    	<label class="labelFontSize width100">고객사 주소</label>
 			    	<sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 			    		<input type="text" id="customerZipCode" name="customerZipCode" class="form-control viewForm zipCodeForm" value="${customerInfo.customerZipCode}" placeholder="우편번호" readonly>

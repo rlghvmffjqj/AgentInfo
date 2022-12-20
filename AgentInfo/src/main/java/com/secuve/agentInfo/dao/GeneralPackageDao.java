@@ -20,10 +20,6 @@ public class GeneralPackageDao {
 		return sqlSession.selectOne("generalPackage.getGeneralPackageCount", search);
 	}
 
-	public int getGeneralPackageKeyNum() {
-		return sqlSession.selectOne("generalPackage.getGeneralPackageKeyNum");
-	}
-
 	public int insertGeneralPackage(GeneralPackage generalPackage) {
 		return sqlSession.insert("generalPackage.insertGeneralPackage", generalPackage);
 	}

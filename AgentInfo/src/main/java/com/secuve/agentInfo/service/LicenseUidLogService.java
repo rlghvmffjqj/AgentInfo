@@ -46,16 +46,8 @@ public class LicenseUidLogService {
 	}
 
 	public int insertLicenseUidLog(License license, Principal principal, String event, String type) {
-		int licenseUidLogKeyNum = 0;
 		LicenseUidLog licenseUidLog = new LicenseUidLog();
 		
-		try {
-			licenseUidLogKeyNum = licenseUidLogDao.licenseUidLogKeyNum();
-			licenseUidLogKeyNum++;
-		} catch (Exception e) {
-		}
-		
-		licenseUidLog.setLicenseUidLogKeyNum(licenseUidLogKeyNum);
 		licenseUidLog.setLicenseUidLogLicenseType(license.getLicenseType());
 		licenseUidLog.setLicenseUidLogIssueKey(license.getLicenseIssueKey());
 		licenseUidLog.setLicenseUidLogEvent(event);

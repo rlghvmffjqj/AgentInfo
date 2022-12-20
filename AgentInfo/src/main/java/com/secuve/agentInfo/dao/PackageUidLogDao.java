@@ -21,10 +21,6 @@ public class PackageUidLogDao {
 		return sqlSession.selectOne("uidLog.getPackageUidLogCount", search);
 	}
 	
-	public int uidLogKeyNum() {
-		return sqlSession.selectOne("uidLog.uidLogKeyNum");
-	}
-	
 	public void insertPackageUidLog(PackageUidLog uidLog) {
 		sqlSession.insert("uidLog.insertPackageUidLog", uidLog);		
 	}

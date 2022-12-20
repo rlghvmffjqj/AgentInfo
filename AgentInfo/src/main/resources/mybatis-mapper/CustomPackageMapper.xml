@@ -22,14 +22,10 @@
 		SELECT COUNT(*) FROM customPackage
 			<include refid="sqlCustomPackage" />
 	</select>
-	
-	<select id="getCustomPackageKeyNum" resultType="_int">
-		SELECT MAX(customPackageKeyNum) FROM customPackage;
-	</select>
-	
+
 	<insert id="insertCustomPackage">
-		INSERT INTO customPackage(customPackageKeyNum, customerName, businessName, managementServer, agentVer, osType, releaseNotes, customPackageRegistrant, customPackageRegistrationDate)
-		VALUES (#{customPackageKeyNum}, #{customerNameView}, #{businessNameView}, #{managementServerView}, #{agentVerView}, #{osTypeView}, #{releaseNotes}, #{customPackageRegistrant}, #{customPackageRegistrationDate});
+		INSERT INTO customPackage(customerName, businessName, managementServer, agentVer, osType, releaseNotes, customPackageRegistrant, customPackageRegistrationDate)
+		VALUES (#{customerNameView}, #{businessNameView}, #{managementServerView}, #{agentVerView}, #{osTypeView}, #{releaseNotes}, #{customPackageRegistrant}, #{customPackageRegistrationDate});
 	</insert>
 	
 	<update id="updateCustomPackage">

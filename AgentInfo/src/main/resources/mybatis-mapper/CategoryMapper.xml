@@ -46,13 +46,9 @@
 		DELETE FROM category WHERE categoryKeyNum = #{categoryKeyNum};
 	</delete>
 	
-	<select id="getCategoryKeyNum" resultType="_int">
-		SELECT MAX(categoryKeyNum) FROM category;
-	</select>
-	
 	<insert id="insertCategory">
-		INSERT INTO category(categoryKeyNum, categoryName, categoryValue, categoryRegistrant, categoryRegistrationDate)
-		VALUES (#{categoryKeyNum}, #{categoryName}, #{categoryValue}, #{categoryRegistrant}, #{categoryRegistrationDate});
+		INSERT INTO category(categoryName, categoryValue, categoryRegistrant, categoryRegistrationDate)
+		VALUES (#{categoryName}, #{categoryValue}, #{categoryRegistrant}, #{categoryRegistrationDate});
 	</insert>
 	
 	<select id="getCategoryOne" parameterType="_int" resultMap="category">

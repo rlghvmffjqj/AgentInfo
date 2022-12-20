@@ -71,7 +71,6 @@ public class ServerListService {
 				}
 			}
 		}
-		serverList.setServerListKeyNum(ServerListKeyNum());
 		if(serverList.getServerListPeriodUseStartView() == null || serverList.getServerListPeriodUseStartView() == "") {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseEndView());
 		} else {
@@ -80,7 +79,9 @@ public class ServerListService {
 		/* ========== 박범수 연구원 요청 시작 ========= */
 		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
 			if(serverList.getServerListStateView() == "장비대여" || serverList.getServerListStateView().equals("장비대여")) {
-				serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "insert"));
+				if(serverList.getServerListPeriodUseStartView() != "") {
+					serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "insert"));
+				}
 			}
 		}
 		/* ========== 박범수 연구원 요청 종료 ========= */
@@ -92,44 +93,35 @@ public class ServerListService {
 	}
 	
 	public int serverListCalendar(ServerList serverList, String employeeId, String state) {
-		int calendarKeyNum = 0;
 		Calendar calendar = new Calendar();
 		calendar.setCalendarKeyNum(serverList.getCalendarKeyNum());
 		calendar.setCalendarStart(serverList.getServerListPeriodUseStartView().replace('-', '/')+" 00:00");
 		
 		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date endtDate = simpleDate.parse(serverList.getServerListPeriodUseEndView());
-			java.util.Calendar cal = java.util.Calendar.getInstance();
-			cal.setTime(endtDate);
-			cal.add(java.util.Calendar.DATE, 1);
-			calendar.setCalendarEnd(simpleDate.format(cal.getTime()).replace('-', '/')+" 00:00");
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(serverList.getServerListPeriodUseEndView() != "") {
+			try {
+				Date endtDate = simpleDate.parse(serverList.getServerListPeriodUseEndView());
+				java.util.Calendar cal = java.util.Calendar.getInstance();
+				cal.setTime(endtDate);
+				cal.add(java.util.Calendar.DATE, 1);
+				calendar.setCalendarEnd(simpleDate.format(cal.getTime()).replace('-', '/')+" 00:00");
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		calendar.setCalendarContents(serverList.getServerListAssetNumView());
 		calendar.setCalendarRegistrant(employeeId);
 		calendar.setCalendarRegistrationDate(nowDate());
 		if(state == "insert" || calendar.getCalendarKeyNum() == 0) {
-			calendarKeyNum = calendarDao.insertServerListCalendar(calendar);
+			calendarDao.insertServerListCalendar(calendar);
 		} else if(state == "update") {
-			calendarKeyNum = calendarDao.updateServerListCalendar(calendar);
+			calendarDao.updateServerListCalendar(calendar);
 		}
-		return calendarKeyNum;
+		return calendar.getCalendarKeyNum();
 	}
 	
-	public int ServerListKeyNum() {
-		int serverListKeyNum = 1;
-		try {
-			serverListKeyNum = serverListDao.getServerListKeyNum();
-		} catch (Exception e) {
-			return serverListKeyNum;
-		}
-		return ++serverListKeyNum;
-	}
-
 	public String delServerList(int[] chkList, Principal principal) {
 		for (int serverListKeyNum : chkList) {
 			int sucess = serverListDao.delServerList(serverListKeyNum);
@@ -170,7 +162,9 @@ public class ServerListService {
 		/* ========== 박범수 연구원 요청 시작 ========= */
 		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
 			if(serverList.getServerListStateView() == "장비대여" || serverList.getServerListStateView().equals("장비대여")) {
-				serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "update"));
+				if(serverList.getServerListPeriodUseStartView() != "") {
+					serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "update"));
+				}
 			}
 		}
 		/* ========== 박범수 연구원 요청 종료 ========= */

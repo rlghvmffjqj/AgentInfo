@@ -23,13 +23,9 @@
 			<include refid="sqlGeneralPackage" />
 	</select>
 	
-	<select id="getGeneralPackageKeyNum" resultType="_int">
-		SELECT MAX(generalPackageKeyNum) FROM generalPackage;
-	</select>
-	
 	<insert id="insertGeneralPackage">
-		INSERT INTO generalpackage(generalPackageKeyNum, managementServer, agentVer, osType, releaseNotes, generalPackageRegistrant, generalPackageRegistrationDate)
-		VALUES (#{generalPackageKeyNum}, #{managementServerView}, #{agentVerView}, #{osTypeView}, #{releaseNotes}, #{generalPackageRegistrant}, #{generalPackageRegistrationDate});
+		INSERT INTO generalpackage(managementServer, agentVer, osType, releaseNotes, generalPackageRegistrant, generalPackageRegistrationDate)
+		VALUES (#{managementServerView}, #{agentVerView}, #{osTypeView}, #{releaseNotes}, #{generalPackageRegistrant}, #{generalPackageRegistrationDate});
 	</insert>
 	
 	<delete id="deleteGeneralPackage">

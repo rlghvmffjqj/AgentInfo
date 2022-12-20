@@ -27,10 +27,6 @@
 			<include refid="sqlEmployeeUidLog" />
 	</select>
 	
-	<select id="employeeUidLogKeyNum" resultType="_int">
-		SELECT MAX(employeeUidLogKeyNum) FROM employeeUidLog;
-	</select>
-	
 	<insert id="insertEmployeeUidLog">
 		INSERT INTO employeeUidLog(employeeUidLogKeyNum, employeeUidLogEmployeeId, employeeUidLogEmployeeName, employeeUidLogDepartmentName, employeeUidLogEmployeeType, employeeUidLogEmployeeRank, employeeUidLogLoginTime)
 		VALUES (#{employeeUidLogKeyNum}, #{employeeUidLogEmployeeId}, #{employeeUidLogEmployeeName}, #{employeeUidLogDepartmentName}, #{employeeUidLogEmployeeType}, #{employeeUidLogEmployeeRank}, #{employeeUidLogLoginTime});

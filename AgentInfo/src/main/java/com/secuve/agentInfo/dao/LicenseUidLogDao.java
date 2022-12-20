@@ -26,10 +26,6 @@ public class LicenseUidLogDao {
 		return sqlSession.selectOne("licenseUidLog.getLicenseUidLogCount", search);
 	}
 
-	public int licenseUidLogKeyNum() {
-		return sqlSession.selectOne("licenseUidLog.licenseUidLogKeyNum");
-	}
-
 	public void insertLicenseUidLog(LicenseUidLog licenseUidLog) {
 		sqlSession.insert("licenseUidLog.insertLicenseUidLog", licenseUidLog);		
 		

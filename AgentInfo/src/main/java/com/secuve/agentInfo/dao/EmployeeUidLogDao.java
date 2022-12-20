@@ -24,10 +24,6 @@ public class EmployeeUidLogDao {
 		return sqlSession.selectOne("employeeUidLog.getEmployeeUidLogCount", search);
 	}
 
-	public int employeeUidLogKeyNum() {
-		return sqlSession.selectOne("employeeUidLog.employeeUidLogKeyNum");
-	}
-
 	public void insertEmployeeUidLog(EmployeeUidLog employeeUidLog) {
 		sqlSession.insert("employeeUidLog.insertEmployeeUidLog", employeeUidLog);		
 		

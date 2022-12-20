@@ -49,17 +49,11 @@ public class CategoryService {
 	}
 
 	public String insertCategory(Category category) {
-		int categroyKeyNum = 0;
-		
 		if(category.getCategoryValue().equals("") || category.getCategoryValue() == "") 
 			return "NotCategory";
 		if(categoryDao.getCategoryCheck(category) != null)
 			return "duplicateCheck";
 		
-		try {
-			categroyKeyNum = categoryDao.getCategoryKeyNum();
-		} catch (Exception e) {}
-		category.setCategoryKeyNum(++categroyKeyNum);
 		int sucess = categoryDao.insertCategory(category);
 		
 		if(sucess <= 0) 
@@ -94,12 +88,7 @@ public class CategoryService {
 		if(categoryValue == "" || categoryValue == null || categoryValue.equals("") || categoryValue.equals(null) || categoryValue.length() == 0) {
 			return;
 		}
-		int categroyKeyNum = 0;
-		try {
-			categroyKeyNum = categoryDao.getCategoryKeyNum();
-		} catch (Exception e) {}
 		Category category = new Category();
-		category.setCategoryKeyNum(++categroyKeyNum);
     	category.setCategoryName(categoryName);
     	category.setCategoryValue(categoryValue);
     	category.setCategoryRegistrant(categoryRegistrant);

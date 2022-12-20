@@ -35,21 +35,10 @@ public class RequestsService {
 	}
 
 	public String insertRequests(Requests requests) {
-		requests.setRequestsKeyNum(requestsKeyNum());
 		int sucess = requestsDao.insertRequests(requests);
 		if (sucess <= 0)
 			return "FALSE";
 		return "OK";
-	}
-	
-	public int requestsKeyNum() {
-		int requestsKeyNum = 0;
-		try {
-			requestsKeyNum = requestsDao.getRequestsKeyNum();
-		} catch (Exception e) {
-			return requestsKeyNum;
-		}
-		return ++requestsKeyNum;
 	}
 
 	public Requests getRequestsOne(int requestsKeyNum) {

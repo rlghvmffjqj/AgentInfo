@@ -39,17 +39,9 @@ public class EmployeeUidLogService {
 	}
 
 	public void insertEmployeeUidLog(String employeeId) {
-		int employeeUidLogKeyNum = 0;
 		EmployeeUidLog employeeUidLog = new EmployeeUidLog();
 		Employee employee = employeeDao.getEmployeeOne(employeeId);
 		
-		try {
-			employeeUidLogKeyNum = employeeUidLogDao.employeeUidLogKeyNum();
-			employeeUidLogKeyNum++;
-		} catch (Exception e) {
-		}
-		
-		employeeUidLog.setEmployeeUidLogKeyNum(employeeUidLogKeyNum);
 		employeeUidLog.setEmployeeUidLogEmployeeId(employee.getEmployeeId());
 		employeeUidLog.setEmployeeUidLogEmployeeName(employee.getEmployeeName());
 		employeeUidLog.setEmployeeUidLogDepartmentName(employee.getDepartmentName());

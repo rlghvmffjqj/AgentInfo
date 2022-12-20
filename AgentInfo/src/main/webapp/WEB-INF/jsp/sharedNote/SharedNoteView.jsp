@@ -119,7 +119,7 @@
 		 		<label class="labelFontSize">Hash Tag</label>
 		 	</div>
 		 	<div>
-		 		<input class="form-control" type="text" style="width:85%; float: left;" id="sharedNoteHashTagView" name="sharedNoteHashTagView" placeholder='해시 태그' value="${sharedNote.sharedNoteHashTag}">
+		 		<input class="form-control" type="text" style="width:85%; float: left;" id="sharedNoteHashTagView" name="sharedNoteHashTagView" placeholder='해시 태그 ※(#해시태그1 해시태그2)' value="${sharedNote.sharedNoteHashTag}">
 		 		<span style="float: right; font-size: 11px;" id="sharedNoteModifiedDate">마지막 수정일 : ${sharedNote.sharedNoteModifiedDate}</span>
 		 	</div>
 		</div>

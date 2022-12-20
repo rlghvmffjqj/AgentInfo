@@ -39,7 +39,6 @@ public class IssueHistoryService {
 	public Map<String, String> insertIssueHistory(Issue issue, String issueHistoryDate) {
 		Map<String, String> map = new HashMap<>();
 		IssueHistory issueHistory = new IssueHistory();
-		issueHistory.setIssueHistoryKeyNum(IssueHistoryKeyNum());
 		issueHistory.setIssueKeyNum(issue.getIssueKeyNum());
 		issueHistory.setIssueHistoryCustomer(issue.getIssueCustomer());
 		issueHistory.setIssueHistoryTitle(issue.getIssueTitle());
@@ -61,16 +60,6 @@ public class IssueHistoryService {
 			map.put("result", "OK");
 		}
 		return map;
-	}
-	
-	public int IssueHistoryKeyNum() {
-		int issueHistoryKeyNum = 1;
-		try {
-			issueHistoryKeyNum = issueHistoryDao.getIssueHistoryKeyNum();
-		} catch (Exception e) {
-			return issueHistoryKeyNum;
-		}
-		return ++issueHistoryKeyNum;
 	}
 
 	public Map<String, String> deleteIssueHistory(String issueHistoryPdf) {

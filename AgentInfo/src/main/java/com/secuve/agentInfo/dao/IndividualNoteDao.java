@@ -22,10 +22,6 @@ public class IndividualNoteDao {
 		return sqlSession.insert("individualNote.insertIndividualNote", individualNote);
 	}
 
-	public int individualNoteKeyNum() {
-		return sqlSession.selectOne("individualNote.getIndividualNoteKeyNum");
-	}
-
 	public List<IndividualNote> getIndividualNoteSearch(String[] individualNoteTitle, String[] individualNoteHashTag, String individualNoteRegistrant, IndividualNote individualNote) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("individualNoteTitle", individualNoteTitle);

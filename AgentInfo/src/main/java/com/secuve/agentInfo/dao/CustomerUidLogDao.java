@@ -20,10 +20,6 @@ public class CustomerUidLogDao {
 		return sqlSession.selectOne("customerUidLog.getCustomerUidLogCount", search);
 	}
 
-	public int customerUidLogKeyNum() {
-		return sqlSession.selectOne("customerUidLog.customerUidLogKeyNum");
-	}
-
 	public void insertCustomerUidLog(CustomerUidLog customerUidLog) {
 		sqlSession.insert("customerUidLog.insertCustomerUidLog", customerUidLog);		
 	}

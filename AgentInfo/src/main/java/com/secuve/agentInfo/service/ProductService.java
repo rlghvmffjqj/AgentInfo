@@ -49,7 +49,6 @@ public class ProductService {
 			return "NotCustomerName";
 		}
 		selfInput(product);
-		product.setProductKeyNum(productKeyNum());
 		int sucess = productDao.insertProduct(product);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
@@ -77,16 +76,6 @@ public class ProductService {
 		return product;
 	}
 	
-	public int productKeyNum() {
-		int productKeyNum = 0;
-		try {
-			productKeyNum = productDao.getProductKeyNum();
-		} catch (Exception e) {
-			return productKeyNum;
-		}
-		return ++productKeyNum;
-	}
-
 	public Product getProductOne(int productKeyNum) {
 		return productDao.getProductOne(productKeyNum);
 	}

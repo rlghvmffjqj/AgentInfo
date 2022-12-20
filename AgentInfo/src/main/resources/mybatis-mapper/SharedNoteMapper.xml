@@ -10,17 +10,17 @@
 		WHERE sharedNoteDepartment = #{sharedNoteDepartment};
 	</select>
 	
-	<select id="getSharedNoteKeyNum" resultType="_int">
-		SELECT MAX(sharedNoteKeyNum) FROM sharedNote;
-	</select>
-	
 	<select id="getSharedNoteSort" resultType="_int">
 		SELECT MAX(sharedNoteSort) FROM sharedNote;
 	</select>
 	
 	<insert id="insertSharedNote">
-		INSERT INTO sharedNote(sharedNoteKeyNum,sharedNoteTitle,sharedNoteContents,sharedNoteHashTag,sharedNoteSort,sharedNoteColor,sharedNoteTreeName,sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteDepartment,sharedNoteRegistrant,sharedNoteRegistrationDate,sharedNoteModifier,sharedNoteModifiedDate) 
-		VALUE(#{sharedNoteKeyNum},#{sharedNoteTitleView},#{sharedNoteContentsView},#{sharedNoteHashTagView},#{sharedNoteSort},#{sharedNoteColor},#{sharedNoteTreeName},#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteDepartment},#{sharedNoteRegistrant},#{sharedNoteRegistrationDate},#{sharedNoteModifier},#{sharedNoteModifiedDate});
+		INSERT INTO sharedNote(sharedNoteTitle,sharedNoteContents,sharedNoteHashTag,sharedNoteSort,sharedNoteColor,sharedNoteTreeName,sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteDepartment,sharedNoteRegistrant,sharedNoteRegistrationDate,sharedNoteModifier,sharedNoteModifiedDate) 
+		VALUE(#{sharedNoteTitleView},#{sharedNoteContentsView},#{sharedNoteHashTagView},#{sharedNoteSort},#{sharedNoteColor},#{sharedNoteTreeName},#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteDepartment},#{sharedNoteRegistrant},#{sharedNoteRegistrationDate},#{sharedNoteModifier},#{sharedNoteModifiedDate});
+		
+		<selectKey resultType="int" keyProperty="sharedNoteKeyNum" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	
 	<select id="getSharedNoteSearch" parameterType="string" resultMap="sharedNote">

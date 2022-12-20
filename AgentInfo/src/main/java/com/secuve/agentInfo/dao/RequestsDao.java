@@ -20,10 +20,6 @@ public class RequestsDao {
 		return sqlSession.selectOne("requests.getRequestsListCount");
 	}
 
-	public int getRequestsKeyNum() {
-		return sqlSession.selectOne("requests.getRequestsKeyNum");
-	}
-
 	public int insertRequests(Requests requests) {
 		return sqlSession.insert("requests.insertRequests", requests);
 	}

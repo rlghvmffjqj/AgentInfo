@@ -15,7 +15,7 @@ public class PackageUidLog {
 	private String uidCustomerName = "";		// 고객사명
 	private String uidOsDetailVersion;			// OS 버전
 	private String uidPackageName;				// 패키지명
-	private String packagesKeyNum;				// 패키지 Key
+	private Integer packagesKeyNum;				// 패키지 Key
 	private String uidEvent = "";				// 로그 발생 이벤트
 	private String uidUser;						// 로그 발생 유저
 	private String uidTime;						// 로그 발생 시간

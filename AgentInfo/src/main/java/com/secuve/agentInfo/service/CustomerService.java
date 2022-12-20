@@ -43,7 +43,6 @@ public class CustomerService {
 			return "NotCustomerName";
 		}
 		selfInput(customer);
-		customer.setCustomerKeyNum(customerKeyNum());
 		int sucess = customerDao.insertCustomer(customer);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
@@ -52,16 +51,6 @@ public class CustomerService {
 			categoryCheck(customer, principal);
 		}
 		return parameter(sucess);
-	}
-	
-	public int customerKeyNum() {
-		int customerKeyNum = 0;
-		try {
-			customerKeyNum = customerDao.getCustomerKeyNum();
-		} catch (Exception e) {
-			return customerKeyNum;
-		}
-		return ++customerKeyNum;
 	}
 	
 	public Customer selfInput(Customer customer) {

@@ -46,7 +46,6 @@ public class GeneralPackageService {
 		
 		selfInput(generalPackage);
 		generalPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
-		generalPackage.setGeneralPackageKeyNum(generalPackageKeyNum());
 		int sucess = generalPackageDao.insertGeneralPackage(generalPackage);
 
 		if (sucess <= 0)
@@ -86,16 +85,6 @@ public class GeneralPackageService {
 		}
 	}
 	
-	public int generalPackageKeyNum() {
-		int generalPackageKeyNum = 0;
-		try {
-			generalPackageKeyNum = generalPackageDao.getGeneralPackageKeyNum();
-		} catch (Exception e) {
-			return generalPackageKeyNum;
-		}
-		return ++generalPackageKeyNum;
-	}
-
 	public String deleteGeneralPackage(int[] chkList) {
 		for(int generalPackageKeyNum: chkList) {
 			int sucess = generalPackageDao.deleteGeneralPackage(generalPackageKeyNum);

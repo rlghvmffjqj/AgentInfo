@@ -41,7 +41,7 @@ public class PackageUidLogController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packageUidLog")
-	public Map<String, Object> PackageUidLog(@ModelAttribute("search") PackageUidLog search) {
+	public Map<String, Object> PackageUidLog(PackageUidLog search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<PackageUidLog> list = new ArrayList<>(packageUidLogService.getPackageUidLogList(search));
 		

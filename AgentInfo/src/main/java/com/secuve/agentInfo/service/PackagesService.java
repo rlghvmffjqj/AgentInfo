@@ -106,7 +106,6 @@ public class PackagesService {
 		}
 		selfInput(packages);
 		packages.setState("배포완료");
-		packages.setPackagesKeyNum(PackagesKeyNum());
 		packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 		int sucess = packagesDao.insertPackages(packages);
 
@@ -119,20 +118,6 @@ public class PackagesService {
 		if (sucess <= 0)
 			return "FALSE";
 		return "OK";
-	}
-	
-	/**
-	 * 패키지 키값 증가
-	 * @return
-	 */
-	public int PackagesKeyNum() {
-		int packagesKeyNum = 1;
-		try {
-			packagesKeyNum = packagesDao.getPackagesKeyNum();
-		} catch (Exception e) {
-			return packagesKeyNum;
-		}
-		return ++packagesKeyNum;
 	}
 	
 	public int PackagesKeyNumOrigin() {
@@ -160,7 +145,6 @@ public class PackagesService {
 		}
 		packagesDao.plusPackagesKeyNumOrigin(packages.getPackagesKeyNumOrigin()); // 복사 대상 윗 데이터 +1
 		packages.setPackagesKeyNumOrigin(packages.getPackagesKeyNumOrigin() + 1); // 빈 공간 값 저장
-		packages.setPackagesKeyNum(PackagesKeyNum());
 		selfInput(packages);
 		int sucess = packagesDao.insertPackages(packages);
 
@@ -397,7 +381,6 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(PackagesKeyNum());
 			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
@@ -580,7 +563,6 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(PackagesKeyNum());
 			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
@@ -774,7 +756,6 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(PackagesKeyNum());
 			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
@@ -848,7 +829,7 @@ public class PackagesService {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 				}
-				packages.setNetworkClassification(cell.getStringCellValue());
+				packages.setNetworkClassificationView(cell.getStringCellValue());
 			}
 			// 행의 4번째 열(요청일자)
 			cell = row.getCell(3);
@@ -1005,7 +986,6 @@ public class PackagesService {
 			}
 
 			// 키값 저장
-			packages.setPackagesKeyNum(PackagesKeyNum());
 			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
 			// 로그인 사용자 아이디
 			packages.setPackagesRegistrant(principal.getName());
@@ -1028,15 +1008,8 @@ public class PackagesService {
 	 * @param event
 	 */
 	public void packageUidLog(Packages packages, Principal principal, String event) {
-		int packageUidLogKeyNum = 0;
-
 		PackageUidLog packageUidLog = new PackageUidLog();
-		try {
-			packageUidLogKeyNum = packageUidLogDao.uidLogKeyNum();
-		} catch (Exception e) {
-		}
-
-		packageUidLog.setUidKeyNum(++packageUidLogKeyNum);
+		packageUidLog.setPackagesKeyNum(packages.getPackagesKeyNum());
 		if(event == "DELETE" || event.equals("적용") || event.equals("대기") || event.equals("배포완료")) {
 			packageUidLog.setUidCustomerName(packages.getCustomerName());
 			packageUidLog.setUidOsDetailVersion(packages.getOsDetailVersion());
@@ -1046,7 +1019,7 @@ public class PackagesService {
 			packageUidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
 			packageUidLog.setUidPackageName(packages.getPackageNameView());
 		}
-		packageUidLog.setPackagesKeyNum(Integer.toString(packages.getPackagesKeyNum()));
+		packageUidLog.setPackagesKeyNum(packages.getPackagesKeyNum());
 		packageUidLog.setUidEvent(event);
 		packageUidLog.setUidUser(principal.getName());
 		packageUidLog.setUidTime(nowDate());
@@ -1317,16 +1290,8 @@ public class PackagesService {
 	 * @param principal
 	 */
 	public void trash(Packages packages, Principal principal) {
-		int trashKeyNum = 0;
-		
 		Trash trash = new Trash();
 
-		try {
-			trashKeyNum = trashDao.trashKeyNum();
-		} catch (Exception e) {
-		}
-
-		trash.setTrashKeyNum(++trashKeyNum);
 		trash.setTrashCustomerName(packages.getCustomerName());
 		trash.setTrashBusinessName(packages.getBusinessName());
 		trash.setTrashNetworkClassification(packages.getNetworkClassification());
@@ -1372,7 +1337,6 @@ public class PackagesService {
 			customerInfo = customerInfoDao.getCustomerInfoMapping(packages.getCustomerName(), packages.getBusinessName(), packages.getNetworkClassification());
 			if(customerInfo == null) {
 				CustomerInfo customerInfoSub = new CustomerInfo();
-				customerInfoSub.setCustomerInfoKeyNum(customerInfoService.CustomerInfoKeyNum());
 				customerInfoSub.setCustomerName(packages.getCustomerName());
 				customerInfoSub.setBusinessName(packages.getBusinessName());
 				customerInfoSub.setNetworkClassification(packages.getNetworkClassification());

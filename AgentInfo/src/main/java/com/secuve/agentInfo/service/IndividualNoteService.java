@@ -46,14 +46,11 @@ public class IndividualNoteService {
 			return map;
 		}
 		individualNote.setIndividualNoteTreeParentPath(individualNote.getIndividualNoteTreeFullPath().replace("/"+individualNote.getIndividualNoteTreeName(), ""));
-		int individualNoteKeyNum = 0;
 		int individualNoteSort = 0;
 		try {
-			individualNoteKeyNum =  individualNoteDao.individualNoteKeyNum();
 			individualNoteSort =  individualNoteDao.individualNoteSort();
 		} catch (Exception e) {
 		}
-		individualNote.setIndividualNoteKeyNum(++individualNoteKeyNum);
 		individualNote.setIndividualNoteSort(++individualNoteSort);
 		int sucess = individualNoteDao.insertIndividualNote(individualNote);
 		if (sucess <= 0) {

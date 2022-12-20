@@ -23,13 +23,9 @@
 			<include refid="sqlProduct" />
 	</select>
 	
-	<select id="getProductKeyNum" resultType="_int">
-		SELECT MAX(productKeyNum) FROM product;
-	</select>
-	
 	<insert id="insertProduct">
-		INSERT INTO product(productKeyNum, customerName, businessName, productCheck, tosmsVer, tosrfVer, portalVer, javaVer, webServerVer, databaseVer, logServerVer, scvEaVer, scvCaVer, authPkiVer, employeeSeName, employeeSalesName, productRegistrant, productRegistrationDate)
-		VALUES(#{productKeyNum}, #{customerNameView}, #{businessNameView}, #{productCheck}, #{tosmsVerView}, #{tosrfVerView}, #{portalVerView}, #{javaVerView}, #{webServerVerView}, #{databaseVerView}, #{logServerVerView}, #{scvEaVerView}, #{scvCaVerView}, #{authPkiVerView}, #{employeeSeNameView}, #{employeeSalesNameView}, #{productRegistrant}, #{productRegistrationDate});
+		INSERT INTO product(customerName, businessName, productCheck, tosmsVer, tosrfVer, portalVer, javaVer, webServerVer, databaseVer, logServerVer, scvEaVer, scvCaVer, authPkiVer, employeeSeName, employeeSalesName, productRegistrant, productRegistrationDate)
+		VALUES(#{customerNameView}, #{businessNameView}, #{productCheck}, #{tosmsVerView}, #{tosrfVerView}, #{portalVerView}, #{javaVerView}, #{webServerVerView}, #{databaseVerView}, #{logServerVerView}, #{scvEaVerView}, #{scvCaVerView}, #{authPkiVerView}, #{employeeSeNameView}, #{employeeSalesNameView}, #{productRegistrant}, #{productRegistrationDate});
 	</insert>
 	
 	<select id="getProductOne" parameterType="_int" resultMap="product">

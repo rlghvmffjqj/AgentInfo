@@ -119,7 +119,7 @@
 		 		<label class="labelFontSize">Hash Tag</label>
 		 	</div>
 		 	<div>
-		 		<input class="form-control" type="text" style="width:85%; float: left;" id="individualNoteHashTagView" name="individualNoteHashTagView" placeholder='해시 태그' value="${individualNote.individualNoteHashTag}">
+		 		<input class="form-control" type="text" style="width:85%; float: left;" id="individualNoteHashTagView" name="individualNoteHashTagView" placeholder='해시 태그 ※(#해시태그1 해시태그2)' value="${individualNote.individualNoteHashTag}">
 		 		<span style="float: right; font-size: 11px;" id="individualNoteModifiedDate">마지막 수정일 : ${individualNote.individualNoteModifiedDate}</span>
 		 	</div>
 		</div>

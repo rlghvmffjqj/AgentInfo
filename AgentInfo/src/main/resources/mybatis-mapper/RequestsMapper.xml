@@ -24,13 +24,9 @@
 			<include refid="sqlRequests" />
 	</select>
 	
-	<select id="getRequestsKeyNum" resultType="_int">
-		SELECT MAX(requestsKeyNum) FROM requests;
-	</select>
-	
 	<insert id="insertRequests">
-		INSERT INTO requests(requestsKeyNum, employeeId, requestsTitle, requestsDetail, requestsState, requestsDate, requestsRegistrant, requestsRegistrationDate)
-		VALUES(#{requestsKeyNum}, #{employeeId}, #{requestsTitle}, #{requestsDetail}, #{requestsState}, #{requestsDate}, #{requestsRegistrant}, #{requestsRegistrationDate});
+		INSERT INTO requests(employeeId, requestsTitle, requestsDetail, requestsState, requestsDate, requestsRegistrant, requestsRegistrationDate)
+		VALUES(#{employeeId}, #{requestsTitle}, #{requestsDetail}, #{requestsState}, #{requestsDate}, #{requestsRegistrant}, #{requestsRegistrationDate});
 	</insert>
 	
 	<select id="getRequestsOne" parameterType="_int" resultMap="requests">

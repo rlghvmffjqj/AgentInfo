@@ -4,10 +4,6 @@
 <mapper namespace="licenseUidLog">
 	<resultMap type="com.secuve.agentInfo.vo.LicenseUidLog" id="licenseUidLog"></resultMap>
 	
-	<select id="licenseUidLogKeyNum" resultType="_int">
-		SELECT MAX(licenseUidLogKeyNum) FROM licenseUidLog;
-	</select>
-	
 	<select id="getLicenseUidLog" resultMap="licenseUidLog" parameterType="string">
 		SELECT *
     	FROM
@@ -28,8 +24,8 @@
 	</select>
 	
 	<insert id="insertLicenseUidLog">
-		INSERT INTO licenseUidLog(licenseUidLogKeyNum,licenseUidLogCustomerName,licenseUidLogBusinessName,licenseUidLogIssueDate,licenseUidLogRequester,licenseUidLogPartners,licenseUidLogOsType,licenseUidLogOsVersion,licenseUidLogKernelVersion,licenseUidLogKernelBit,licenseUidLogTosVersion,licenseUidLogPeriod,licenseUidLogMacUmlHostId,licenseUidLogReleaseType,licenseUidLogDeliveryMethod,licenseUidLogIssueKey,licenseUidLogEvent,licenseUidUser,licenseUidTime,licenseUidLogRegistrant,licenseUidLogRegistrationDate) 
-		VALUES(#{licenseUidLogKeyNum},#{licenseUidLogCustomerName},#{licenseUidLogBusinessName},#{licenseUidLogIssueDate},#{licenseUidLogRequester},#{licenseUidLogPartners},#{licenseUidLogOsType},#{licenseUidLogOsVersion},#{licenseUidLogKernelVersion},#{licenseUidLogKernelBit},#{licenseUidLogTosVersion},#{licenseUidLogPeriod},#{licenseUidLogMacUmlHostId},#{licenseUidLogReleaseType},#{licenseUidLogDeliveryMethod},#{licenseUidLogIssueKey},#{licenseUidLogEvent},#{licenseUidUser},#{licenseUidTime},#{licenseUidLogRegistrant},#{licenseUidLogRegistrationDate});
+		INSERT INTO licenseUidLog(licenseUidLogCustomerName,licenseUidLogBusinessName,licenseUidLogIssueDate,licenseUidLogRequester,licenseUidLogPartners,licenseUidLogOsType,licenseUidLogOsVersion,licenseUidLogKernelVersion,licenseUidLogKernelBit,licenseUidLogTosVersion,licenseUidLogPeriod,licenseUidLogMacUmlHostId,licenseUidLogReleaseType,licenseUidLogDeliveryMethod,licenseUidLogIssueKey,licenseUidLogEvent,licenseUidUser,licenseUidTime,licenseUidLogRegistrant,licenseUidLogRegistrationDate) 
+		VALUES(#{licenseUidLogCustomerName},#{licenseUidLogBusinessName},#{licenseUidLogIssueDate},#{licenseUidLogRequester},#{licenseUidLogPartners},#{licenseUidLogOsType},#{licenseUidLogOsVersion},#{licenseUidLogKernelVersion},#{licenseUidLogKernelBit},#{licenseUidLogTosVersion},#{licenseUidLogPeriod},#{licenseUidLogMacUmlHostId},#{licenseUidLogReleaseType},#{licenseUidLogDeliveryMethod},#{licenseUidLogIssueKey},#{licenseUidLogEvent},#{licenseUidUser},#{licenseUidTime},#{licenseUidLogRegistrant},#{licenseUidLogRegistrationDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
