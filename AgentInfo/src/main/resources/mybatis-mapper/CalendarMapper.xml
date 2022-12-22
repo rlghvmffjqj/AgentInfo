@@ -55,17 +55,4 @@
 		AND calendarAlarmYn = 1;
 	</select>
 	
-	<insert id="insertServerListCalendar" parameterType="calendar">
-		<selectKey resultType="int" keyProperty="calendarKeyNum" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
-		INSERT INTO calendar(calendarStart, calendarEnd, calendarContents, calendarColor, calendarAllDay, calendarAlarm, calendarRegistrant, calendarRegistrationDate)
-		VALUES(#{calendarStart}, #{calendarEnd}, #{calendarContents}, '#001EFF', 1, '09:00', #{calendarRegistrant}, #{calendarRegistrationDate});
-	</insert>
-	
-	<update id="updateServerListCalendar">
-		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarContents = #{calendarContents}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
-		WHERE calendarKeyNum = #{calendarKeyNum}; 
-	</update>
-	
 </mapper>

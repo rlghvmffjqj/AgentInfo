@@ -197,6 +197,11 @@ p {
 	max-width: 500px;
 }
 
+.modal-serverCalendar {
+	top: 20%;
+	max-width: 500px;
+}
+
 .modal-requests {
 	top: 8%;
     max-width: 800px;

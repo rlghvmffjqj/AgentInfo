@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.core.MailService;
-import com.secuve.agentInfo.core.SmsService;
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.SharedCalendarDao;
 import com.secuve.agentInfo.vo.Employee;
@@ -21,7 +20,6 @@ import com.secuve.agentInfo.vo.SharedCalendar;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class SharedCalendarService {
 	@Autowired SharedCalendarDao sharedCalendarDao;
-	@Autowired SmsService smsService;
 	@Autowired MailService mailService;
 	@Autowired EmployeeDao employeeDao;
 

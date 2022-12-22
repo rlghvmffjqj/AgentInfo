@@ -130,6 +130,10 @@
 			$('.sharedCalendar').addClass('active');
 			$('.calendar').addClass('active');
 			$('.calendar').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'serverCalendar') {
+			$('.serverCalendar').addClass('active');
+			$('.calendar').addClass('active');
+			$('.calendar').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'calendar') {
 			$('.calendar').addClass('active');
 		}
@@ -334,6 +338,13 @@
 					        <a href="<c:url value='/sharedCalendar/list'/>" class="waves-effect waves-dark">
 					            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
 					            <span class="pcoded-mtext" data-i18n="nav.form-components.main">부서 일정</span>
+					            <span class="pcoded-mcaret"></span>
+					        </a>
+					    </li>
+					     <li class="serverCalendar">
+					        <a href="<c:url value='/serverCalendar/list'/>" class="waves-effect waves-dark">
+					            <span class="pcoded-micon"><i class="ti-calendar"></i><b>FC</b></span>
+					            <span class="pcoded-mtext" data-i18n="nav.form-components.main">장비대여 일정</span>
 					            <span class="pcoded-mcaret"></span>
 					        </a>
 					    </li>

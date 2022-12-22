@@ -6,7 +6,7 @@
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="serverListTypeView" name="serverListTypeView" class="form-control viewForm" value="${serverList.serverListType}">
 		<input type="hidden" id="serverListKeyNum" name="serverListKeyNum" class="form-control viewForm" value="${serverList.serverListKeyNum}">
-		<input type="hidden" id="calendarKeyNum" name="calendarKeyNum" class="form-control viewForm" value="${serverList.calendarKeyNum}">
+		<input type="hidden" id="serverCalendarKeyNum" name="serverCalendarKeyNum" class="form-control viewForm" value="${serverList.serverCalendarKeyNum}">
 		<div class="leftDiv">
 			<div class="pading5Width450">
 				<label class="labelFontSize">구분</label>

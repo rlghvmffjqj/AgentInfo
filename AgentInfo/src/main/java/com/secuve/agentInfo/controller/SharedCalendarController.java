@@ -26,7 +26,7 @@ public class SharedCalendarController {
 	@Autowired EmployeeService employeeService;
 	
 	@GetMapping(value = "/sharedCalendar/list")
-	public String CustomerList(Model model, Principal principal) {
+	public String SharedCalendarList(Model model, Principal principal) {
 		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
 		ArrayList<SharedCalendar> sharedCalendarList = new ArrayList<>(sharedCalendarService.getSharedCalendarList(principal.getName(), departmentName));
 		ArrayList<SharedCalendar> sharedCalendar = new ArrayList<>(sharedCalendarService.getSharedCalendar(departmentName));

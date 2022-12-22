@@ -18,6 +18,7 @@ $.modal = function (modalContent, size) {
     if(size=='requests')  html += ' modal-requests';
     if(size=='notice')  html += ' modal-notice';
     if(size=='calendar')  html += ' modal-calendar';
+    if(size=='serverCalendar')  html += ' modal-serverCalendar';
     
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

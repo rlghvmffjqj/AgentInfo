@@ -12,16 +12,18 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.secuve.agentInfo.dao.CalendarDao;
+import com.secuve.agentInfo.dao.EmployeeDao;
+import com.secuve.agentInfo.dao.ServerCalendarDao;
 import com.secuve.agentInfo.dao.ServerListDao;
-import com.secuve.agentInfo.vo.Calendar;
+import com.secuve.agentInfo.vo.ServerCalendar;
 import com.secuve.agentInfo.vo.ServerList;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class ServerListService {
 	@Autowired ServerListDao serverListDao;
-	@Autowired CalendarDao calendarDao;
+	@Autowired ServerCalendarDao serverCalendarDao;
+	@Autowired EmployeeDao employeeDao;
 
 	public List<String> getSelectInput(String serverListType, String selectInput) {
 		return serverListDao.getSelectInput(serverListType, selectInput);
@@ -77,10 +79,11 @@ public class ServerListService {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" ~ "+serverList.getServerListPeriodUseEndView());
 		}
 		/* ========== 박범수 연구원 요청 시작 ========= */
-		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
+		String departmentName = employeeDao.getEmployeeDepartment(employeeId);
+		if(departmentName == "QA팀" || departmentName.equals("QA팀")) {
 			if(serverList.getServerListStateView() == "장비대여" || serverList.getServerListStateView().equals("장비대여")) {
 				if(serverList.getServerListPeriodUseStartView() != "") {
-					serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "insert"));
+					serverList.setServerCalendarKeyNum(serverListCalendar(serverList, employeeId, "insert", departmentName));
 				}
 			}
 		}
@@ -92,10 +95,11 @@ public class ServerListService {
 		return "OK";
 	}
 	
-	public int serverListCalendar(ServerList serverList, String employeeId, String state) {
-		Calendar calendar = new Calendar();
-		calendar.setCalendarKeyNum(serverList.getCalendarKeyNum());
-		calendar.setCalendarStart(serverList.getServerListPeriodUseStartView().replace('-', '/')+" 00:00");
+	public int serverListCalendar(ServerList serverList, String employeeId, String state, String departmentName) {
+		ServerCalendar serverCalendar = new ServerCalendar();
+		serverCalendar.setServerCalendarDepartment(departmentName);
+		serverCalendar.setServerCalendarKeyNum(serverList.getServerCalendarKeyNum());
+		serverCalendar.setServerCalendarStart(serverList.getServerListPeriodUseStartView().replace('-', '/')+" 00:00");
 		
 		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
 		if(serverList.getServerListPeriodUseEndView() != "") {
@@ -104,22 +108,22 @@ public class ServerListService {
 				java.util.Calendar cal = java.util.Calendar.getInstance();
 				cal.setTime(endtDate);
 				cal.add(java.util.Calendar.DATE, 1);
-				calendar.setCalendarEnd(simpleDate.format(cal.getTime()).replace('-', '/')+" 00:00");
+				serverCalendar.setServerCalendarEnd(simpleDate.format(cal.getTime()).replace('-', '/')+" 00:00");
 				
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		calendar.setCalendarContents(serverList.getServerListAssetNumView());
-		calendar.setCalendarRegistrant(employeeId);
-		calendar.setCalendarRegistrationDate(nowDate());
-		if(state == "insert" || calendar.getCalendarKeyNum() == 0) {
-			calendarDao.insertServerListCalendar(calendar);
+		serverCalendar.setServerCalendarContents(serverList.getServerListAssetNumView());
+		serverCalendar.setServerCalendarRegistrant(employeeId);
+		serverCalendar.setServerCalendarRegistrationDate(nowDate());
+		if(state == "insert" || serverCalendar.getServerCalendarKeyNum() == 0) {
+			serverCalendarDao.insertServerListServerCalendar(serverCalendar);
 		} else if(state == "update") {
-			calendarDao.updateServerListCalendar(calendar);
+			serverCalendarDao.updateServerListServerCalendar(serverCalendar);
 		}
-		return calendar.getCalendarKeyNum();
+		return serverCalendar.getServerCalendarKeyNum();
 	}
 	
 	public String delServerList(int[] chkList, Principal principal) {
@@ -160,10 +164,11 @@ public class ServerListService {
 			serverList.setServerListPeriodUse(serverList.getServerListPeriodUseStartView()+" ~ "+serverList.getServerListPeriodUseEndView());
 		}
 		/* ========== 박범수 연구원 요청 시작 ========= */
-		if(employeeId == "admin" || employeeId.equals("admin") || employeeId == "bspark" || employeeId.equals("bspark")) {
+		String departmentName = employeeDao.getEmployeeDepartment(employeeId);
+		if(departmentName == "QA팀" || departmentName.equals("QA팀")) {
 			if(serverList.getServerListStateView() == "장비대여" || serverList.getServerListStateView().equals("장비대여")) {
 				if(serverList.getServerListPeriodUseStartView() != "") {
-					serverList.setCalendarKeyNum(serverListCalendar(serverList, employeeId, "update"));
+					serverList.setServerCalendarKeyNum(serverListCalendar(serverList, employeeId, "update", departmentName));
 				}
 			}
 		}

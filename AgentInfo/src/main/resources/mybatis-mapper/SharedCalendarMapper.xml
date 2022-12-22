@@ -17,7 +17,7 @@
 		SELECT COUNT(*) FROM sharedCalendarList WHERE sharedCalendarListContents = #{sharedCalendarListContents} AND sharedCalendarListDepartment = #{sharedCalendarListDepartment};
 	</select>
 	
-	<insert id="insertSharedCalendar">
+	<insert id="insertSharedCalendar" parameterType="sharedCalendar" useGeneratedKeys="true" keyProperty="sharedCalendarKeyNum">
 	 	INSERT INTO sharedCalendar(sharedCalendarStart, sharedCalendarEnd, sharedCalendarContents, sharedCalendarColor, sharedCalendarAllDay, sharedCalendarAlarm, sharedCalendarEmail, sharedCalendarDepartment, sharedCalendarRegistrant, sharedCalendarRegistrationDate) 
 	 	VALUES(#{sharedCalendarStart}, #{sharedCalendarEnd}, #{sharedCalendarContents}, #{sharedCalendarColor}, ${sharedCalendarAllDay}, #{sharedCalendarAlarm}, #{sharedCalendarEmail}, #{sharedCalendarDepartment}, #{sharedCalendarRegistrant}, #{sharedCalendarRegistrationDate});
 	</insert>

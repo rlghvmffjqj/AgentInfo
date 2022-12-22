@@ -30,7 +30,7 @@ public class ServerList {
 	private String serverListManager;			// 관리자
 	private String serverListLastModifiedDate;	// 최종 수정일
 	private String serverListNote;				// 비고
-	private int calendarKeyNum;
+	private int serverCalendarKeyNum;
 	
 	private String serverListTypeView;				// 외부망/내부망/Hyper-V
 	private String serverListDivisionView;			// 구분

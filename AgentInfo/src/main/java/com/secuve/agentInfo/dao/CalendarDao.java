@@ -71,15 +71,4 @@ public class CalendarDao {
 		return sqlSession.selectList("calendar.alarmCalendar", parameters);
 	}
 
-	public int insertServerListCalendar(Calendar calendar) {
-		sqlSession.insert("calendar.insertServerListCalendar", calendar);
-		return calendar.getCalendarKeyNum();
-	}
-
-	public int updateServerListCalendar(Calendar calendar) {
-		sqlSession.insert("calendar.updateServerListCalendar", calendar);
-		return 0;
-	}
-
-
 }
