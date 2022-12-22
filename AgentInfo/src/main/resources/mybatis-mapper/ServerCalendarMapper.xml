@@ -45,10 +45,15 @@
 	</update>
 	
 	<select id="alarmServerCalendar" resultMap="serverCalendar">
-		SELECT * FROM serverCalendar
-		WHERE serverCalendarEnd LIKE CONCAT(#{serverCalendarEnd},'%')
-		AND serverCalendarAlarm = #{serverCalendarAlarm}
-		AND serverCalendarAlarmYn = 1;
+		SELECT * FROM servercalendar
+		WHERE serverCalendarAllDay = 1
+			AND serverCalendarEnd LIKE CONCAT(#{serverCalendarEndAllDay},'%')
+			AND serverCalendarAlarm = #{serverCalendarAlarm}
+			AND serverCalendarAlarmYn = 1
+		OR serverCalendarAllDay = 0
+			AND serverCalendarEnd LIKE CONCAT(#{serverCalendarEnd},'%')
+			AND serverCalendarAlarm = #{serverCalendarAlarm}
+			AND serverCalendarAlarmYn = 1;
 	</select>
 	
 	<insert id="insertServerListServerCalendar" parameterType="serverCalendar">

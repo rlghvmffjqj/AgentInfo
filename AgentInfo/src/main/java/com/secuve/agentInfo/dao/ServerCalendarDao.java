@@ -66,8 +66,9 @@ public class ServerCalendarDao {
 		return sqlSession.update("serverCalendar.saveServerCalendar",serverCalendar);
 	}
 
-	public List<ServerCalendar> alarmServerCalendar(String serverCalendarEnd, String serverCalendarAlarm) {
+	public List<ServerCalendar> alarmServerCalendar(String serverCalendarEndAllDay, String serverCalendarEnd, String serverCalendarAlarm) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("serverCalendarEndAllDay", serverCalendarEndAllDay);
 		parameters.put("serverCalendarEnd", serverCalendarEnd);
 		parameters.put("serverCalendarAlarm", serverCalendarAlarm);
 		return sqlSession.selectList("serverCalendar.alarmServerCalendar", parameters);

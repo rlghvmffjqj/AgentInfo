@@ -110,15 +110,19 @@ public class ServerCalendarService {
 	}
 
 	public void serverCalendarScheduler() {
+		Date endtDate = new Date();
 		Date now = new Date();
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		cal.setTime(endtDate);
+		cal.add(java.util.Calendar.DATE, 1);
 		SimpleDateFormat serverCalendarEnd = new SimpleDateFormat("yyyy/MM/dd");
 		SimpleDateFormat serverCalendarAlarm = new SimpleDateFormat("HH:mm");
-		List<ServerCalendar> serverCalendarList = serverCalendarDao.alarmServerCalendar(serverCalendarEnd.format(now), serverCalendarAlarm.format(now));
+		List<ServerCalendar> serverCalendarList = serverCalendarDao.alarmServerCalendar(serverCalendarEnd.format(cal.getTime()), serverCalendarEnd.format(now), serverCalendarAlarm.format(now));
 		for (ServerCalendar serverCalendar : serverCalendarList) {
 			List<Employee> employeeList = employeeDao.getDepartmentEmail(serverCalendar.getServerCalendarDepartment());
 			for (Employee employee : employeeList) {
 				try {
-					mailService.sendNotiMail(employee.getEmployeeEmail(), "장비대여 일정 만료", serverCalendar.getServerCalendarContents());
+					mailService.sendNotiMail(employee.getEmployeeEmail(), "장비대여 일정 만료", "자산번호 : "+serverCalendar.getServerCalendarContents());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
