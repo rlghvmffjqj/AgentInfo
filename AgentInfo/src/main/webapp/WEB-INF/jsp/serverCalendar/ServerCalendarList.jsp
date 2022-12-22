@@ -2,13 +2,15 @@
 <!DOCTYPE html>
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
-		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.min.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.print.csssharedCalendartylesheet" media="print">
-		<script src="https://cdn.jsdelivr.net/npm/moment@2/min/moment.min.js"></script>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/fullcalendar.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.5/dist/locale-all.min.js"></script>
+		<!-- fullcalendar -->
+		<link rel="stylesheet" type="text/css" href="<c:url value='/fullcalendar/fullcalendar.min.css'/>">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/fullcalendar/fullcalendar.print.css'/>"  media="print">
+		<script type="text/javascript" src="<c:url value='/fullcalendar/moment.min.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/fullcalendar/fullcalendar.min.js'/>"></script>
+		<script type="text/javascript" src="<c:url value='/fullcalendar/locale-all.min.js'/>"></script>
 
+		<!-- datetimepicker -->
 		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
 		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
 		
