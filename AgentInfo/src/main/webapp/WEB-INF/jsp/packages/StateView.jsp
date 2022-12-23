@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
+<!-- SummerNote -->
+<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 <div class="modelHead">
 	<div class="modelHeadFont">상태 변경</div>
 </div>

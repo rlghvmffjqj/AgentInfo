@@ -62,7 +62,9 @@
 	}
 	
 </style>
-
+<!-- SummerNote -->
+<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 <div class="modal-body" style="width: 100%; height: 800px;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data">
 		<input type="hidden" id="sharedNoteTreeFullPath" name="sharedNoteTreeFullPath" class="form-control" value="${sharedNote.sharedNoteTreeFullPath}">

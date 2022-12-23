@@ -3,6 +3,9 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+		<!-- SummerNote -->
+		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 		<!-- 쿠키 스크립트 -->
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
