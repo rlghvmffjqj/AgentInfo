@@ -28,6 +28,9 @@ public class SharedNoteTreeService {
 
 	public String insertSharedNoteTree(SharedNoteTree sharedNoteTree) {
 		int sucess = 0;
+		if(sharedNoteTree.getSharedNoteTreeName().contains("/")) {
+			return "Slash";
+		}
 		if(sharedNoteTree.getSharedNoteTreeParentPath().equals("/")) {
 			sharedNoteTree.setSharedNoteTreeFullPath("/"+sharedNoteTree.getSharedNoteTreeName());
 		} else {
@@ -59,6 +62,9 @@ public class SharedNoteTreeService {
 	public String updateSharedNoteTree(SharedNoteTree sharedNoteTree) {
 		if(sharedNoteTree.getNewSharedNoteTreeName() == "" || sharedNoteTree.getNewSharedNoteTreeName() == null) {
 			return "Empty";
+		}
+		if(sharedNoteTree.getNewSharedNoteTreeName().contains("/")) {
+			return "Slash";
 		}
 		SharedNoteTree ordSharedNoteTree = (SharedNoteTree) sharedNoteTreeDao.getSharedNoteTreeFullPath(sharedNoteTree.getSharedNoteTreeFullPath(), sharedNoteTree.getSharedNoteTreeRegistrant(), sharedNoteTree.getSharedNoteTreeDepartment());
 		if(ordSharedNoteTree.getSharedNoteTreeParentPath().equals("/")) {

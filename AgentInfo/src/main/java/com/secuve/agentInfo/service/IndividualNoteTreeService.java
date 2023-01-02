@@ -28,6 +28,9 @@ public class IndividualNoteTreeService {
 
 	public String insertIndividualNoteTree(IndividualNoteTree individualNoteTree) {
 		int sucess = 0;
+		if(individualNoteTree.getIndividualNoteTreeName().contains("/")) {
+			return "Slash";
+		}
 		if(individualNoteTree.getIndividualNoteTreeParentPath().equals("/")) {
 			individualNoteTree.setIndividualNoteTreeFullPath("/"+individualNoteTree.getIndividualNoteTreeName());
 		} else {
@@ -59,6 +62,9 @@ public class IndividualNoteTreeService {
 	public String updateIndividualNoteTree(IndividualNoteTree individualNoteTree) {
 		if(individualNoteTree.getNewIndividualNoteTreeName() == "" || individualNoteTree.getNewIndividualNoteTreeName() == null) {
 			return "Empty";
+		}
+		if(individualNoteTree.getNewIndividualNoteTreeName().contains("/")) {
+			return "Slash";
 		}
 		IndividualNoteTree ordIndividualNoteTree = (IndividualNoteTree) individualNoteTreeDao.getIndividualNoteTreeFullPath(individualNoteTree.getIndividualNoteTreeFullPath(), individualNoteTree.getIndividualNoteTreeRegistrant());
 		if(ordIndividualNoteTree.getIndividualNoteTreeParentPath().equals("/")) {

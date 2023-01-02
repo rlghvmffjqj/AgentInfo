@@ -91,7 +91,13 @@
 						title: '실패!',
 						text: '폴더명을 입력해주세요.',
 					});
-				}else{
+				} else if(data.result == "Slash") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '"/" 입력을 제한합니다.',
+					});
+				} else {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
@@ -141,7 +147,13 @@
 						title: '실패!',
 						text: '폴더명을 입력해주세요.',
 					});
-				}else{
+				} else if(data.result == "Slash") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '"/" 입력을 제한합니다.',
+					});
+				} else {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
