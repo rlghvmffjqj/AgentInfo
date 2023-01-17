@@ -68,6 +68,7 @@ public class ServerListController {
 	
 	@PostMapping(value = "/serverList/insertView")
 	public String InsertServerView(Model model, ServerList serverList, String serverListType) {
+		serverList.setNowDate(serverListService.nowDateYMD());
 		model.addAttribute("serverListType", serverListType);
 		model.addAttribute("viewType", "insert").addAttribute("serverList", serverList);
 		return "/serverList/ServerView";

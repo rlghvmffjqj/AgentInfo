@@ -8,7 +8,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.secuve.agentInfo.vo.Calendar;
 import com.secuve.agentInfo.vo.ServerCalendar;
 
 @Repository

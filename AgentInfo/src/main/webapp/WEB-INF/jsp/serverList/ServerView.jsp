@@ -108,10 +108,20 @@
 	         	<label class="labelFontSize">관리자</label>
 	         	<input type="text" id="serverListManagerView" name="serverListManagerView" class="form-control viewForm" value="${serverList.serverListManager}">
 	         </div>
-	         <div class="pading5Width450">
-	         	<label class="labelFontSize">최종 수정일</label>
-	         	<input type="date" id="serverListLastModifiedDateView" name="serverListLastModifiedDateView" class="form-control viewForm" value="${serverList.serverListLastModifiedDate}" max="9999-12-31">
-	         </div>
+	         <c:choose>
+		         <c:when test="${viewType eq 'insert'}">
+			         <div class="pading5Width450">
+			         	<label class="labelFontSize">최종 수정일</label>
+			         	<input type="date" id="serverListLastModifiedDateView" name="serverListLastModifiedDateView" class="form-control viewForm" value="${serverList.nowDate}" max="9999-12-31">
+			         </div>
+		         </c:when>
+		         <c:when test="${viewType eq 'update'}">
+		         	<div class="pading5Width450">
+			         	<label class="labelFontSize">최종 수정일</label>
+			         	<input type="date" id="serverListLastModifiedDateView" name="serverListLastModifiedDateView" class="form-control viewForm" value="${serverList.serverListLastModifiedDate}" max="9999-12-31">
+			         </div>
+		         </c:when>
+		     </c:choose>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">비고</label>
 	         	<input type="text" id="serverListNoteView" name="serverListNoteView" class="form-control viewForm" value="${serverList.serverListNote}">

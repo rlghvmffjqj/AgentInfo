@@ -57,6 +57,12 @@ public class ServerListService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(now);
 	}
+	
+	public String nowDateYMD() {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		return formatter.format(now);
+	}
 
 	public String insertServerList(ServerList serverList, String employeeId) {
 		int count = serverListDao.getServerListAssetNum(serverList.getServerListAssetNumView());

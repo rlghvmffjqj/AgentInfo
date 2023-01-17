@@ -84,8 +84,6 @@
 			var formData = $("#form").serializeObject();
 			var requestsTitle = $("#requestsTitle").val();
 			var requestsDetail = $("#requestsDetail").val();
-			console.log(requestsTitle);
-			console.log(requestsDetail);
 			if(requestsTitle == "") {
 				Swal.fire({
 					icon: 'error',
