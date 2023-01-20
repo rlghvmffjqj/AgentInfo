@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="sendPackage">
+	<resultMap type="com.secuve.agentInfo.vo.SendPackage" id="sendPackage"></resultMap>
+	
+	<select id="getSendPackage" resultMap="sendPackage" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM sendPackage
+				WHERE sendPackageFlag = true
+					<include refid="sqlSendPackage" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getSendPackageCount" resultType="_int">
+		SELECT COUNT(*) FROM sendPackage
+		WHERE sendPackageFlag = true
+			<include refid="sqlSendPackage" />
+	</select>
+	
+	<insert id="insertSendPackage">
+		INSERT INTO sendPackage(employeeName, sendPackageName, sendPackageStartDate, sendPackageEndDate, sendPackageCount, sendPackageLimitCount, sendPackageRandomUrl, sendPackageFlag, sendPackageRegistrant, sendPackageRegistrationDate)
+		VALUES (#{employeeNameView}, #{sendPackageNameView}, #{sendPackageStartDateView}, #{sendPackageEndDateView}, 0, #{sendPackageLimitCountView}, #{sendPackageRandomUrl}, true, #{sendPackageRegistrant}, #{sendPackageRegistrationDate});
+	</insert>
+	
+	<delete id="deleteSendPackage">
+		DELETE FROM sendPackage WHERE sendPackageKeyNum = #{sendPackageKeyNum};
+	</delete>
+	
+	<select id="getSendPackageOne" parameterType="_int" resultMap="sendPackage">
+		SELECT * FROM sendPackage WHERE sendPackageKeyNum = #{sendPackageKeyNum};
+	</select>
+	
+	<update id="updateSendPackage">
+		UPDATE sendPackage SET employeeName=#{employeeNameView}, sendPackageStartDate=#{sendPackageStartDateView}, sendPackageCount=#{sendPackageCountView},
+		<if test="sendPackageNameView != null and sendPackageNameView != ''"> 
+			sendPackageName=#{sendPackageNameView},
+		</if>
+		sendPackageEndDate=#{sendPackageEndDateView}, sendPackageLimitCount=#{sendPackageLimitCountView}, sendPackageModifier=#{sendPackageModifier}, sendPackageModifiedDate=#{sendPackageModifiedDate}
+		WHERE sendPackageKeyNum = #{sendPackageKeyNum};
+	</update>
+	
+	<select id="batchDownload"  parameterType="_int" resultType="string">
+		SELECT releaseNotes FROM sendPackage WHERE sendPackageKeyNum = #{sendPackageKeyNum};
+	</select>
+	
+	<select id="getSendPackageListOne" resultMap="sendPackage" parameterType="string">
+		SELECT * FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageFlag = true;
+	</select>
+	
+	<update id="downloadCount">
+		UPDATE sendPackage SET sendPackageCount = sendPackageCount + 1 WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageName = #{sendPackageName};
+	</update>
+	
+	<select id="downloadLimitCount" parameterType="string" resultType="_int">
+		SELECT (sendPackageLimitCount-sendPackageCount) AS count FROM sendpackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageName = #{sendPackageName};
+	</select>
+	
+	<delete id="deleteSendPackageCountOver" parameterType="string">
+		DELETE FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageName = #{sendPackageName};
+	</delete>
+	
+	<update id="updateSendPackageFlag">
+		UPDATE sendPackage SET sendPackageFlag = false WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageName = #{sendPackageName}; 
+	</update>
+	
+	<select id="getRandomUrlCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl};
+	</select>
+	
+	<update id="updateSendPackageFlagKey">
+		UPDATE sendPackage SET sendPackageFlag = false WHERE sendPackageKeyNum = #{sendPackageKeyNum};
+	</update>
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlSendPackage">
+		<if test="employeeName != null and employeeName != ''"> 
+			AND employeeName LIKE CONCAT('%',#{employeeName},'%')
+		</if>
+		<if test="sendPackageName != null and sendPackageName != ''"> 
+			AND sendPackageName LIKE CONCAT('%',#{sendPackageName},'%')
+		</if>
+		<if test="sendPackageStartDate != null and sendPackageStartDate != ''"> 
+			AND sendPackageStartDate LIKE CONCAT('%',#{sendPackageStartDate},'%')
+		</if>
+		<if test="sendPackageEndDate != null and sendPackageEndDate != ''"> 
+			AND sendPackageEndDate LIKE CONCAT('%',#{sendPackageEndDate},'%')
+		</if>
+	</sql>
+</mapper>

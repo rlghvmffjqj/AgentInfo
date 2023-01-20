@@ -170,17 +170,6 @@
 		  cellHeight: 100
 		});
 		
-		//var items = [
-		//	<c:forEach items="${list}" var="item">
-		//		{keynum: "${item.individualNoteKeyNum}", title: "${item.individualNoteTitle}", contents: '${item.individualNoteContents}', hashTag: '${item.individualNoteHashTag}'},
-		//	</c:forEach>
-		//];
-		//
-		//items.forEach(n => {
-		//	n.content = "<div style='background-color:"+ n.backgroundColor + "; padding-bottom: 1px; height:100%; padding-left: 5px;'><a href='#' onClick='individualNoteDelete(this.parentNode.childNodes[3].value)' style='float: right; margin: 5px; font-size: 8px; padding-right: 5px;'>X</a><br><br><input type='hidden' value=" + n.keynum + "><laber style='font-weight: bold;color: mediumvioletred;'>" + n.title +"</laber>" + n.contents + "</div>";
-		//	grid.addWidget(n); 
-		//});
-		
 		/* =========== 노트 추가 View ========= */
 		function addWidget() {
 			var individualNoteTreeName = $("#individualNoteTreeName").val();

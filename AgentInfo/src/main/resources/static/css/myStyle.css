@@ -202,6 +202,11 @@ p {
 	max-width: 500px;
 }
 
+.modal-sendPackage {
+	top: 20%;
+	max-width: 500px;
+}
+
 .modal-requests {
 	top: 8%;
     max-width: 800px;

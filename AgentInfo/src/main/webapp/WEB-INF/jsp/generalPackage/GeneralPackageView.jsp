@@ -4,7 +4,7 @@
 
 <div class="modal-body" style="width: 100%; height: 350px;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
-		<input type="hidden" id="generalPackageKeyNum" name=generalPackageKeyNum class="form-control viewForm" value="${generalPackage.generalPackageKeyNum}">
+		<input type="hidden" id="generalPackageKeyNum" name="generalPackageKeyNum" class="form-control viewForm" value="${generalPackage.generalPackageKeyNum}">
 		<c:choose>
 			<c:when test="${viewType eq 'insert'}">
 				<div class="pading5Width320">

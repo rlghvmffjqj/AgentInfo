@@ -53,6 +53,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/calendar/**").hasAnyRole("ADMIN","MEMBER","ENGINEER","QA")
 			.antMatchers("/sharedCalendar/**").hasAnyRole("ADMIN","MEMBER","ENGINEER","QA")
 			.antMatchers("/serverCalendar/**").hasAnyRole("ADMIN","QA")
+			.antMatchers("/sendPackage/**").hasAnyRole("ADMIN")
 			.antMatchers("/").hasAnyRole("MEMBER","ADMIN","ENGINEER","QA");
 		
 		// 로그인 설정
