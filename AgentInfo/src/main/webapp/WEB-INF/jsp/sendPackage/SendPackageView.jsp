@@ -4,7 +4,7 @@
 
 <div class="modal-body" style="width: 100%; height: 350px;">
 	<div id="loadImage" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center; display:none;">
-		<img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;">
+		<!-- <img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;"> -->
 	</div>
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
@@ -64,6 +64,26 @@
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
     
 </div>
+
+<!-- progress Modal -->
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="margin-top: 100px;">
+        <div class="modal-content" style="border:1px solid !important; width: 95%; margin-left: 3%;">
+            <div class="modal-header" style="background: burlywood;">
+                <h3 style="font-weight: bold; font-family: none; color: white;">패키지 업로드 ...</h3>
+            </div>
+            <div class="modal-body">
+                <!-- progress , bar, percent를 표시할 div 생성한다. -->
+                <div class="progress">
+                    <div class="bar"></div>
+                    <div class="percent">0%</div>
+                </div>
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
 	$(function () {
@@ -173,13 +193,46 @@
 	
 	/* =========== 등록(중복 분리) ========= */
 	function insert(postData) {
+		 /* progressbar 정보 */
+        var bar = $('.bar');
+        var percent = $('.percent');
+        var status = $('#status');
+        
 		$.ajax({
+			xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = Math.floor((evt.loaded / evt.total) * 100);
+
+                        var percentVal = percentComplete + '%';
+                        bar.width(percentVal);
+                        percent.html(percentVal);
+
+                    }
+                }, false);
+                return xhr;
+            },
 			url: "<c:url value='/sendPackage/insert'/>",
 			type: 'post',
 		    data: postData,
-		    async: false,
+		    //async: false,
 		    processData: false,
 		    contentType: false,
+		    beforeSend:function(){
+                // progress Modal 열기
+                $("#pleaseWaitDialog").modal('show');
+
+                status.empty();
+                var percentVal = '0%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+
+            },
+            complete:function(){
+                // progress Modal 닫기
+                $("#pleaseWaitDialog").modal('hide');
+            },
 		    success: function(result) {
 				if(result.result == "OK") {
 					Swal.fire({
@@ -198,16 +251,7 @@
 						text: '작업을 실패하였습니다.',
 					});
 				}
-			},
-			beforeSend:function(){
-				$("#loadImage").show();
-		    },
-		    complete:function(){
-		    	$("#loadImage").hide();
-		    },
-			error: function(error) {
-				console.log(error);
-			}
+			}	
 		});
 	}
 	
@@ -314,4 +358,8 @@
 	.pading5Width450 {
 		height: 75px;
 	} 
+	
+	.progress { position:relative; width:100%; border: 1px solid #ddd; padding: 1px; border-radius: 3px; color: black; }
+	.bar { background-color: #337ab7; width:0%; height:30px; border-radius: 3px; }
+	.percent { position:absolute; display:inline-block; top:1px; left:48%; }
 </style>

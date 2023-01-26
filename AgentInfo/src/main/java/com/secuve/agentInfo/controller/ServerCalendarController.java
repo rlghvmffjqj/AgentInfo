@@ -115,11 +115,11 @@ public class ServerCalendarController {
 		return map;
 	}
 	
-	@Async
-	@Scheduled(cron="0 * * * * ?")
-	public void cronScheduler() {
-		serverCalendarService.serverCalendarScheduler();
-	  
-	}
+	//@Async
+	//@Scheduled(cron="0 * * * * ?")
+	//public void cronScheduler() {
+	//	serverCalendarService.serverCalendarScheduler();
+	//  
+	//}
 
 }

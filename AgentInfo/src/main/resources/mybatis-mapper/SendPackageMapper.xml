@@ -79,6 +79,17 @@
 		UPDATE sendPackage SET sendPackageFlag = false WHERE sendPackageKeyNum = #{sendPackageKeyNum};
 	</update>
 	
+	<delete id="deleteSendPackageSchedule">
+		DELETE FROM sendPackage WHERE sendPackageFlag = false;
+	</delete>
+	
+	<update id="expirationSendPackageSchedule">
+		UPDATE sendPackage SET sendPackageFlag = false WHERE sendPackageEndDate &lt; DATE_FORMAT(now(), '%Y-%m-%d %H');
+	</update>
+	
+	<select id="deleteSendPackageScheduleList" resultMap="sendPackage">
+		SELECT * FROM sendPackage WHERE sendPackageFlag = false;
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

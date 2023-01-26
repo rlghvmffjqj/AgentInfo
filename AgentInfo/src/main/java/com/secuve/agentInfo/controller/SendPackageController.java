@@ -9,6 +9,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,6 +108,8 @@ public class SendPackageController {
 	
 	@GetMapping(value = "/PKG/fileDownload")
 	public View FileDownload(@RequestParam String fileName, @RequestParam String url, Model model) throws Exception {
+		sendPackageService.downloadCount(fileName, url);
+		
 		String filePath = this.filePath + File.separator + "sendPackage";
 		
 		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
@@ -138,4 +143,5 @@ public class SendPackageController {
 		map.put("result", result);
 		return map;
 	}
+	
 }

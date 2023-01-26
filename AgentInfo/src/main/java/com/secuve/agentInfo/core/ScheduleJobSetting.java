@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.secuve.agentInfo.schedule.EmployeeSchedule;
 import com.secuve.agentInfo.schedule.PackagesSchedule;
+import com.secuve.agentInfo.schedule.SendPackageDeleteSchedule;
+import com.secuve.agentInfo.schedule.SendPackageExpirationSchedule;
 import com.secuve.agentInfo.schedule.ServerListSchedule;
 import com.secuve.agentInfo.service.ScheduleJobService;
 import com.secuve.agentInfo.vo.ScheduleJob;
@@ -30,12 +32,16 @@ public class ScheduleJobSetting {
 	@Autowired PackagesSchedule packagesSchedule;
 	@Autowired EmployeeSchedule employeeSchedule;
 	@Autowired ServerListSchedule serverListSchedule;
+	@Autowired SendPackageDeleteSchedule sendPackageDeleteSchedule;
+	@Autowired SendPackageExpirationSchedule sendPackageExpirationSchedule;
 
     @PostConstruct
     public void start() throws SchedulerException {
     	JobDataMap map1 = new JobDataMap(Collections.singletonMap("num", 1));
         JobDataMap map2 = new JobDataMap(Collections.singletonMap("num", 2));
         JobDataMap map3 = new JobDataMap(Collections.singletonMap("num", 3));
+        JobDataMap map4 = new JobDataMap(Collections.singletonMap("num", 4));
+        JobDataMap map5 = new JobDataMap(Collections.singletonMap("num", 5));
 
         ScheduleJob packagesSchedule = scheduleJobService.getScheduleOne("packages");
         JobDetail packages = jobDetail(packagesSchedule.getScheduleName(), "DEFAULT", PackagesSchedule.class, map1);
@@ -49,6 +55,14 @@ public class ScheduleJobSetting {
         JobDetail serverList = jobDetail(serverListSchedule.getScheduleName(), "DEFAULT", ServerListSchedule.class, map3);
        	scheduler.scheduleJob(serverList, trigger(serverListSchedule.getScheduleName(), "DEFAULT", serverListSchedule.getScheduleCron()));
        	
+       	ScheduleJob sendpackageDeleteSchedule = scheduleJobService.getScheduleOne("sendpackageDelete");
+        JobDetail sendpackageDelete = jobDetail(sendpackageDeleteSchedule.getScheduleName(), "DEFAULT", SendPackageDeleteSchedule.class, map4);
+       	scheduler.scheduleJob(sendpackageDelete, trigger(sendpackageDeleteSchedule.getScheduleName(), "DEFAULT", sendpackageDeleteSchedule.getScheduleCron()));
+       	
+       	ScheduleJob sendPackageExpirationSchedule = scheduleJobService.getScheduleOne("sendPackageExpiration");
+        JobDetail sendPackageExpiration = jobDetail(sendPackageExpirationSchedule.getScheduleName(), "DEFAULT", SendPackageExpirationSchedule.class, map5);
+       	scheduler.scheduleJob(sendPackageExpiration, trigger(sendPackageExpirationSchedule.getScheduleName(), "DEFAULT", sendPackageExpirationSchedule.getScheduleCron()));
+       	
        	Set<JobKey> jobkey = scheduler.getJobKeys(null);
        	for(JobKey key: jobkey) {
        		if(key.toString().equals("DEFAULT.packages")) {
@@ -61,6 +75,14 @@ public class ScheduleJobSetting {
 	            }
        		} else if(key.toString().equals("DEFAULT.serverList")) {
 	            if(serverListSchedule.getScheduleState() == "사용안함" || serverListSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.sendpackageDelete")) {
+	            if(sendpackageDeleteSchedule.getScheduleState() == "사용안함" || sendpackageDeleteSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.sendPackageExpiration")) {
+	            if(sendPackageExpirationSchedule.getScheduleState() == "사용안함" || sendPackageExpirationSchedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
        		}

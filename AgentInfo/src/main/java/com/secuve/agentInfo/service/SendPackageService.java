@@ -3,6 +3,7 @@ package com.secuve.agentInfo.service;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -38,12 +39,13 @@ public class SendPackageService {
 
 	public String insertSendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
-		//sendPackage.setSendPackageRandomUrl("https://172.16.100.90:8443/AgentInfo/PKG/download/"+createKey());
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
 		}
 		if(sendPackage.getSendPackageEndDateView().length() > 10) {
 			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
+		} else {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView() + " 24");
 		}
 		while(true) {
 			sendPackage.setSendPackageRandomUrl(createKey());
@@ -154,6 +156,19 @@ public class SendPackageService {
 		if(sendPackageView != null) 
 			fileDownload(sendPackage, sendPackageView);
 		return "OK";
+	}
+
+	public void deleteSendPackageSchedule() {
+		ArrayList<SendPackage> sendPackageList = new ArrayList<>(sendPackageDao.deleteSendPackageScheduleList());
+		for (SendPackage sendPackage : sendPackageList) {
+			fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
+		}
+		sendPackageDao.deleteSendPackageSchedule();
+		
+	}
+
+	public void expirationSendPackageSchedule() {
+		sendPackageDao.expirationSendPackageSchedule();
 	}
 
 }

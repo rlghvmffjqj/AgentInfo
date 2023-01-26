@@ -79,4 +79,16 @@ public class SendPackageDao {
 		return sqlSession.update("sendPackage.updateSendPackage",sendPackage);
 	}
 
+	public void deleteSendPackageSchedule() {
+		sqlSession.delete("sendPackage.deleteSendPackageSchedule");
+	}
+
+	public void expirationSendPackageSchedule() {
+		sqlSession.update("sendPackage.expirationSendPackageSchedule");
+	}
+
+	public List<SendPackage> deleteSendPackageScheduleList() {
+		return sqlSession.selectList("sendPackage.deleteSendPackageScheduleList");
+	}
+
 }
