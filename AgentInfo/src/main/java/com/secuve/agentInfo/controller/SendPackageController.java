@@ -9,9 +9,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,13 +77,14 @@ public class SendPackageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/sendPackage/insert")
-	public Map<String, String> InsertSendPackage(SendPackage sendPackage, MultipartFile sendPackageView, Principal principal) throws IllegalStateException, IOException {
+	public Map InsertSendPackage(SendPackage sendPackage, MultipartFile sendPackageView, Principal principal) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageRegistrant(principal.getName());
 		sendPackage.setSendPackageRegistrationDate(sendPackageService.nowDate());
 		
-		Map<String, String> map = new HashMap<String, String>();
+		Map map = new HashMap<String, String>();
 		String result = sendPackageService.insertSendPackage(sendPackage, sendPackageView);
 		
+		map.put("sendPackageKeyNum", sendPackage.getSendPackageKeyNum());
 		map.put("result", result);
 		return map;
 	}
@@ -134,13 +132,32 @@ public class SendPackageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/sendPackage/update")
-	public Map<String, String> UpdateSendPackage(SendPackage sendPackage, MultipartFile sendPackageView, Principal principal) throws IllegalStateException, IOException {
+	public Map UpdateSendPackage(SendPackage sendPackage, MultipartFile sendPackageView, Principal principal) throws IllegalStateException, IOException {
+		String result = null;
 		sendPackage.setSendPackageModifier(principal.getName());
 		sendPackage.setSendPackageModifiedDate(sendPackageService.nowDate());
 
-		Map<String, String> map = new HashMap<String, String>();
-		String result = sendPackageService.updateSendPackage(sendPackage, sendPackageView);
+		Map map = new HashMap<String, String>();
+		if(sendPackage.getSendPackageKeyNum() > 0) {
+			result = sendPackageService.updateSendPackage(sendPackage, sendPackageView);
+		} else {
+			result = sendPackageService.insertSendPackage(sendPackage, sendPackageView);
+		}
+		map.put("sendPackageKeyNum", sendPackage.getSendPackageKeyNum());
 		map.put("result", result);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/sendPackage/copy")
+	public Map<String, Integer> CopySendPackage(SendPackage sendPackage, MultipartFile sendPackageView, Principal principal) throws IllegalStateException, IOException {
+		sendPackage.setSendPackageRegistrant(principal.getName());
+		sendPackage.setSendPackageRegistrationDate(sendPackageService.nowDate());
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		sendPackageService.copySendPackage(sendPackage, sendPackageView);
+		
+		map.put("sendPackageKeyNum", sendPackage.getSendPackageKeyNum());
 		return map;
 	}
 	

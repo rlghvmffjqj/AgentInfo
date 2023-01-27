@@ -3,6 +3,9 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+		<!-- datetimepicker -->
+		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
+		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
@@ -351,7 +354,7 @@
 			    success: function (data) {
 					if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-			    	$.modal(data, 'll'); //modal창 호출
+			    	$.modal(data, 'packages'); //modal창 호출
 			    },
 			    error: function(e) {
 			        alert(e);
@@ -528,7 +531,7 @@
 		            success: function (data) {
 		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
 							location.reload();
-		                $.modal(data, 'll'); //modal창 호출
+		                $.modal(data, 'packages'); //modal창 호출
 		            },
 		            error: function(e) {
 		                // TODO 에러 화면
@@ -554,7 +557,7 @@
 		            success: function (data) {
 		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
 							location.reload();
-		                $.modal(data, 'll'); //modal창 호출
+		                $.modal(data, 'packages'); //modal창 호출
 		            },
 		            error: function(e) {
 		                // TODO 에러 화면

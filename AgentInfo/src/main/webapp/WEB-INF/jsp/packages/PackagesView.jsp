@@ -2,10 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 620px;">
+<div class="modal-body" style="width: 100%; height: 700px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name="packagesKeyNum" class="form-control viewForm" value="${packages.packagesKeyNum}">
-		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">  
+		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">
+		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
+		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
+		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">  
 		<div class="leftDiv">
 			 <c:choose>
 				<c:when test="${viewType eq 'insert'}">
@@ -189,13 +192,13 @@
 	         	<label class="labelFontSize">패키지명</label>
 	         	<input type="text" id="packageNameView" name="packageNameView" class="form-control viewForm" value="${packages.packageName}">
 	         </div>
-	     </div>
-         <div class="rightDiv">
-         	<div class="pading5Width450">
+	         <div class="pading5Width450">
 	         	<label class="labelFontSize">담당자</label>
 	         	<input type="text" id="managerView" name="managerView" class="form-control viewForm" value="${packages.manager}">
 	         </div>
-	         <c:choose>
+	     </div>
+         <div class="rightDiv">
+         	<c:choose>
 				<c:when test="${viewType eq 'insert'}">
 					 <div class="pading5Width450">
 					 	<div>
@@ -370,6 +373,45 @@
 	         	<label class="labelFontSize">비고</label>
 	         	<input type="text" id="noteView" name="noteView" class="form-control viewForm" value="${packages.note}">
 	         </div>
+	         <div style="background: chocolate; height: 1px; margin: 5px;"></div>
+	         <div style="float: right;">
+	         	<input class="cssCheck" type="checkbox" id="chkEssential" checked>
+			 	<label for="chkEssential"></label><span class="margin17">필수</span>
+			 </div>
+	         <div class="pading5Width450">
+		     	<div><label class="labelFontSize">다운로드 가능기간</label><label class="colorRed sendPackageEssential">*</label></div>
+		     	<input type="text" class="form-control viewForm" id="sendPackageStartDateView" name="sendPackageStartDateView"  value="${sendPackage.sendPackageStartDate}" max="9999-12-31" style="width: 48%;float: left;">
+		     	~
+		     	<input type="text" id="sendPackageEndDateView" name="sendPackageEndDateView" class="form-control viewForm" value="${sendPackage.sendPackageEndDate}" max="9999-12-31" style="width: 48%;float: right;">
+		     	<span class="colorRed" id="NotSendPackageDate" style="display: none; float: left; line-height: initial;">다운로드 기간 입력 바랍니다.</span>
+		     	<span class="colorRed" id="PeriodSendPackageDate" style="display: none; float: left; line-height: initial;">다운로드 가능 시작 기간이 종료 기간보다 크지 않아야 합니다.</span>
+		    </div>
+			<div class="pading5Width450">
+				<div>
+					<label class="labelFontSize">최대 다운로드 횟수</label><label class="colorRed sendPackageEssential">*</label>
+				</div>
+				<c:choose>
+					<c:when test="${viewType eq 'insert'}">
+						<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="1">
+					</c:when>
+					<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+						<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="${sendPackage.sendPackageLimitCount}">
+					</c:when>
+				</c:choose>
+				<span class="colorRed" id="NotSendPackageCount" style="display: none; line-height: initial; float: left; width: 100%;">1이상의 값을 입력 바랍니다.</span>
+			</div>
+			<div class="pading5Width450">
+				<div>
+					<label class="labelFontSize">패키지</label><label class="colorRed sendPackageEssential">*</label>
+				</div>
+				<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" />
+				<span class="colorRed" id="NotSendPackageView" style="display: none; line-height: initial;">패키지를 등록 해주세요.</span>
+				<c:choose>
+					<c:when test="${viewType eq 'update'}">
+						<span class="colorRed" style="line-height: initial;">패키지 변경 할 경우만 파일 선택 해주세요.</span>
+					</c:when>
+				</c:choose>
+			</div>
          </div>
 	</form>
 </div>
@@ -388,11 +430,62 @@
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 </div>
 
+<!-- progress Modal -->
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="margin-top: 25%;">
+        <div class="modal-content" style="border:1px solid !important; width: 95%; margin-left: 3%;">
+            <div class="modal-header" style="background: burlywood;">
+                <h3 style="font-weight: bold; font-family: none; color: white;">패키지 업로드 ...</h3>
+            </div>
+            <div class="modal-body">
+                <!-- progress , bar, percent를 표시할 div 생성한다. -->
+                <div class="progress">
+                    <div class="bar"></div>
+                    <div class="percent">0%</div>
+                </div>
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
+	$('#sendPackageStartDateView').datetimepicker();
+	$('#sendPackageEndDateView').datetimepicker();
+	
+	$(function () {
+		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
+		if(sendPackageLimitCountView == '') {
+			$('#sendPackageLimitCountView').val(1);
+		}
+		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
+		if(sendPackageKeyNum == '') {
+			$('#sendPackageKeyNum').val(0);
+		}
+		
+		if("${viewType}" == 'update' || "${viewType}" == 'copy') {
+			var sendPackageKeyNum = $('#sendPackageKeyNum').val();
+			if(sendPackageKeyNum > 0) {
+				$("#chkEssential").prop("checked", true);
+			} else {
+				$("#chkEssential").prop("checked", false);
+				$('.sendPackageEssential').hide();
+			}
+		}
+		var sendPackageStartDate = $('#sendPackageStartDateView').val();
+		var sendPackageEndDate = $('#sendPackageEndDateView').val();
+		if(sendPackageStartDate == "") {
+			$('#sendPackageStartDateView').val(new Date().toISOString().slice(0, 10));
+			
+		}
+		if(sendPackageEndDate == "") {
+			$('#sendPackageEndDateView').val(new Date().toISOString().slice(0, 10));
+		}
+	});
 	
 	/* =========== 패키지 추가 ========= */
-	$('#insertBtn').click(function() {
+	function packagesInsert() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/packages/insert'/>",
@@ -428,10 +521,10 @@
 				console.log(error);
 			}
 	    });
-	});
+	};
 	
 	/* =========== 패키지 정보 수정 ========= */
-	$('#updateBtn').click(function() {
+	function packagesUpdate() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/packages/update'/>",
@@ -467,10 +560,10 @@
 				console.log(error);
 			}
         });
-	});
+	};
 	
 	/* =========== 패키지 복사 ========= */
-	$('#copyBtn').click(function() {
+	function packagesCopy() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/packages/copy'/>",
@@ -507,7 +600,7 @@
 				console.log(error);
 			}
 	    });
-	});
+	};
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
 	function selfInput(data) {
@@ -656,4 +749,488 @@
 			}
 	    });
 	});
+	
+	
+	$('#insertBtn').click(function() {
+		 /* progressbar 정보 */
+       var bar = $('.bar');
+       var percent = $('.percent');
+       var status = $('#status');
+       
+       var check = 1;
+		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
+		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
+		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
+		var customerNameView = $('#customerNameView').val();
+		var businessNameView = $('#businessNameView').val();
+		var networkClassificationView = $('#networkClassificationView').val();
+		var managerView = $('#managerView').val();
+		var requestDateView = $('#requestDateView').val();
+		var managementServerView = $('#managementServerView').val();
+		var sendPackageView = $('#sendPackageView')[0];
+		
+		if(customerNameView == '') {
+			customerNameView = $('#customerNameSelf').val();
+		}
+		if(businessNameView == '') {
+			businessNameView = $('#businessNameSelf').val();
+		}
+		if(managementServerView == '') {
+			managementServerView = $('#managementServerSelf').val();
+		}
+		
+		const postData = new FormData();
+		
+		postData.append('sendPackageView',sendPackageView.files[0]);
+		postData.append('sendPackageStartDateView',sendPackageStartDateView);
+		postData.append('sendPackageEndDateView',sendPackageEndDateView);
+		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
+		postData.append('customerNameView',customerNameView);
+		postData.append('businessNameView',businessNameView);
+		postData.append('networkClassificationView',networkClassificationView);
+		postData.append('managerView',managerView);
+		postData.append('requestDateView',requestDateView);
+		postData.append('managementServerView',managementServerView);
+		
+		if ($('#chkEssential').is(":checked")) {
+			if(sendPackageStartDateView>sendPackageEndDateView) {
+				$('#PeriodSendPackageDate').show();
+				check = 0;
+			} else {
+				$('#PeriodSendPackageDate').hide();
+			}
+			if(sendPackageStartDateView == "" || sendPackageEndDateView == "") {
+				$('#NotSendPackageDate').show();
+				check = 0;
+			} else {
+				$('#NotSendPackageDate').hide();
+			}
+			if(sendPackageLimitCountView < 1) {
+				$('#NotSendPackageCount').show();
+				check = 0;
+			} else {
+				$('#NotSendPackageCount').hide();
+			}
+			if(customerNameView == "") {
+				$('#NotCustomerName').show();
+				check = 0;
+			} else {
+				$('#NotCustomerName').hide();
+			}
+			if(check == 0) {
+				return false;
+			}
+			
+			if (sendPackageView.value == "") {  
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '파일을 업로드해주세요.',
+				});
+				$('#NotSendPackageView').show();
+			 	return false;  
+			} 
+			$('#NotSendPackageView').hide();
+		} else {
+			packagesInsert();
+			return;
+		}
+       
+		$.ajax({
+			xhr: function() {
+	           var xhr = new window.XMLHttpRequest();
+	           xhr.upload.addEventListener("progress", function(evt) {
+	               if (evt.lengthComputable) {
+	                   var percentComplete = Math.floor((evt.loaded / evt.total) * 100);
+	
+	                   var percentVal = percentComplete + '%';
+	                   bar.width(percentVal);
+	                   percent.html(percentVal);
+	
+	               }
+	           }, false);
+	           return xhr;
+	       },
+			url: "<c:url value='/sendPackage/insert'/>",
+			type: 'post',
+		    data: postData,
+		    processData: false,
+		    contentType: false,
+		    beforeSend:function(){
+	           // progress Modal 열기
+	           $("#pleaseWaitDialog").modal('show');
+	
+	           status.empty();
+	           var percentVal = '0%';
+	           bar.width(percentVal);
+	           percent.html(percentVal);
+	
+	       },
+	       complete:function(){
+	           // progress Modal 닫기
+	           setTimeout(() => {
+		           $("#pleaseWaitDialog").modal('hide');
+		           packagesInsert();
+	           } ,500);
+	       },
+		    success: function(result) {
+				$('#sendPackageKeyNum').val(result.sendPackageKeyNum);
+			}	
+		});
+	});
+	
+	$('#updateBtn').click(function() {
+		var check = 1;
+		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
+		var sendPackageRandomUrl = $('#sendPackageRandomUrl').val();
+		var sendPackageCountView = $('#sendPackageCountView').val();
+		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
+		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
+		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
+		var customerNameView = $('#customerNameView').val();
+		var businessNameView = $('#businessNameView').val();
+		var networkClassificationView = $('#networkClassificationView').val();
+		var managerView = $('#managerView').val();
+		var requestDateView = $('#requestDateView').val();
+		var managementServerView = $('#managementServerView').val();
+		var existenceConfirmation;
+		var sendPackageView = $('#sendPackageView')[0];
+		
+		if(sendPackageView.files[0] != null) {
+			var sendPackageFileName = sendPackageView.files[0].name;
+		}
+		if(customerNameView == '') {
+			customerNameView = $('#customerNameSelf').val();
+		}
+		if(businessNameView == '') {
+			businessNameView = $('#businessNameSelf').val();
+		}
+		if(managementServerView == '') {
+			managementServerView = $('#managementServerSelf').val();
+		}
+		
+		const postData = new FormData();
+		postData.append('sendPackageView',sendPackageView.files[0]);
+		postData.append('sendPackageKeyNum',sendPackageKeyNum);
+		postData.append('sendPackageRandomUrl',sendPackageRandomUrl);
+		postData.append('sendPackageCountView',sendPackageCountView);
+		postData.append('sendPackageStartDateView',sendPackageStartDateView);
+		postData.append('sendPackageEndDateView',sendPackageEndDateView);
+		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
+		postData.append('customerNameView',customerNameView);
+		postData.append('businessNameView',businessNameView);
+		postData.append('networkClassificationView',networkClassificationView);
+		postData.append('managerView',managerView);
+		postData.append('requestDateView',requestDateView);
+		postData.append('managementServerView',managementServerView);
+		
+		if ($('#chkEssential').is(":checked")) {
+			if(sendPackageStartDateView>sendPackageEndDateView) {
+				$('#PeriodSendPackageDate').show();
+				check = 0;
+			} else {
+				$('#PeriodSendPackageDate').hide();
+			}
+			if(sendPackageStartDateView == "" || sendPackageEndDateView == "") {
+				$('#NotSendPackageDate').show();
+				check = 0;
+			} else {
+				$('#NotSendPackageDate').hide();
+			}
+			if(sendPackageLimitCountView < 1) {
+				$('#NotSendPackageCount').show();
+				check = 0;
+			} else {
+				$('#NotSendPackageCount').hide();
+			}
+			if(customerNameView == "") {
+				$('#NotCustomerName').show();
+				check = 0;
+			} else {
+				$('#NotCustomerName').hide();
+			}
+			if(check == 0) {
+				return false;
+			}
+		} else {
+			packagesUpdate();
+			return;
+		}
+		
+		if(sendPackageView.files[0] == null && sendPackageKeyNum == 0) {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '패키지 기간 만료 또는 다운로드 초과 되어 기존 정보가 삭제되었습니다. 파일을 새로 등록 하여 사용바랍니다.',
+			});
+			return;
+		}
+		
+		// 파일 존재 유무 확인
+		$.ajax({
+	        type: 'post',
+	        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
+	        async: false,
+	        //processData: false,
+		    //contentType: false,
+	        data: {"sendPackageFileName":sendPackageFileName+"_"+sendPackageRandomUrl},
+	        success: function (data) {
+	        	existenceConfirmation = data;
+	        },
+	    });
+		
+		// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
+		if(existenceConfirmation == "existence") {
+			Swal.fire({
+				  title: '덮어쓰기!',
+				  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: '예'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					sendPackageUpdate(postData);	// update
+				}
+			});
+		} else {
+			sendPackageUpdate(postData);		// update
+		}
+	});
+	
+	function sendPackageUpdate(postData) {
+		/* progressbar 정보 */
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		   
+		$.ajax({
+			xhr: function() {
+		        var xhr = new window.XMLHttpRequest();
+		        xhr.upload.addEventListener("progress", function(evt) {
+		            if (evt.lengthComputable) {
+		                var percentComplete = Math.floor((evt.loaded / evt.total) * 100);
+	
+		                var percentVal = percentComplete + '%';
+		                bar.width(percentVal);
+		                percent.html(percentVal);
+	
+		            }
+		        }, false);
+		        return xhr;
+		    },
+	        url: "<c:url value='/sendPackage/update'/>",
+	        type: 'post',
+	        data: postData,
+	        processData: false,
+		    contentType: false,
+		    beforeSend:function(){
+		        // progress Modal 열기
+		        $("#pleaseWaitDialog").modal('show');
+	
+		        status.empty();
+		        var percentVal = '0%';
+		        bar.width(percentVal);
+		        percent.html(percentVal);
+	
+		    },
+		    complete:function(){
+		    	setTimeout(() => {
+		            // progress Modal 닫기
+		            $("#pleaseWaitDialog").modal('hide');
+		            packagesUpdate();
+		    	}, 500);
+		    },
+	        success: function(result) {
+	        	$('#sendPackageKeyNum').val(result.sendPackageKeyNum);
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	}
+	
+	
+	$('#copyBtn').click(function() {
+		var check = 1;
+		var sendPackageRandomUrl = $('#sendPackageRandomUrl').val();
+		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
+		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
+		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
+		var customerNameView = $('#customerNameView').val();
+		var businessNameView = $('#businessNameView').val();
+		var networkClassificationView = $('#networkClassificationView').val();
+		var managerView = $('#managerView').val();
+		var requestDateView = $('#requestDateView').val();
+		var managementServerView = $('#managementServerView').val();
+		var existenceConfirmation;
+		var sendPackageView = $('#sendPackageView')[0];
+		
+		if(customerNameView == '') {
+			customerNameView = $('#customerNameSelf').val();
+		}
+		if(businessNameView == '') {
+			businessNameView = $('#businessNameSelf').val();
+		}
+		if(managementServerView == '') {
+			managementServerView = $('#managementServerSelf').val();
+		}
+		
+		const postData = new FormData();
+		postData.append('sendPackageView',sendPackageView.files[0]);
+		postData.append('sendPackageRandomUrl',sendPackageRandomUrl);
+		postData.append('sendPackageStartDateView',sendPackageStartDateView);
+		postData.append('sendPackageEndDateView',sendPackageEndDateView);
+		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
+		postData.append('customerNameView',customerNameView);
+		postData.append('businessNameView',businessNameView);
+		postData.append('networkClassificationView',networkClassificationView);
+		postData.append('managerView',managerView);
+		postData.append('requestDateView',requestDateView);
+		postData.append('managementServerView',managementServerView);
+		
+		if ($('#chkEssential').is(":checked")) {
+			if(sendPackageStartDateView>sendPackageEndDateView) {
+				$('#PeriodSendPackageDate').show();
+				check = 0;
+			} else {
+				$('#PeriodSendPackageDate').hide();
+			}
+			if(sendPackageStartDateView == "" || sendPackageEndDateView == "") {
+				$('#NotSendPackageDate').show();
+				check = 0;
+			} else {
+				$('#NotSendPackageDate').hide();
+			}
+			if(sendPackageLimitCountView < 1) {
+				$('#NotSendPackageCount').show();
+				check = 0;
+			} else {
+				$('#NotSendPackageCount').hide();
+			}
+			if(customerNameView == "") {
+				$('#NotCustomerName').show();
+				check = 0;
+			} else {
+				$('#NotCustomerName').hide();
+			}
+			if(check == 0) {
+				return false;
+			}
+			
+			if (sendPackageView.value == "") {  
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '파일을 업로드해주세요.',
+				});
+				$('#NotSendPackageView').show();
+			 	return false;  
+			} 
+			$('#NotSendPackageView').hide();
+		} else {
+			packagesCopy();
+			return;
+		}
+		
+		var sendPackageFileName = sendPackageView.files[0].name;
+		// 파일 존재 유무 확인
+		setTimeout(() => {
+			$.ajax({
+		        type: 'post',
+		        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
+		        async: false,
+		        //processData: false,
+		        //contentType: false,
+		        data: {"sendPackageFileName":sendPackageFileName},
+		        success: function (data) {
+		        	existenceConfirmation = data;
+		        },
+		    });
+			// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
+			if(existenceConfirmation == "existence") {
+				Swal.fire({
+					  title: '덮어쓰기!',
+					  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: '예'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						copy(postData);	// insert
+					} 
+				});
+			} else {
+				copy(postData);		// insert
+			}
+		}, "100");
+	});
+	
+	
+	function copy(postData) {
+		 /* progressbar 정보 */
+        var bar = $('.bar');
+        var percent = $('.percent');
+        var status = $('#status');
+        
+		$.ajax({
+			xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = Math.floor((evt.loaded / evt.total) * 100);
+
+                        var percentVal = percentComplete + '%';
+                        bar.width(percentVal);
+                        percent.html(percentVal);
+
+                    }
+                }, false);
+                return xhr;
+            },
+			url: "<c:url value='/sendPackage/copy'/>",
+			type: 'post',
+		    data: postData,
+		    //async: false,
+		    processData: false,
+		    contentType: false,
+		    beforeSend:function(){
+                // progress Modal 열기
+                $("#pleaseWaitDialog").modal('show');
+
+                status.empty();
+                var percentVal = '0%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+
+            },
+            complete:function(){
+            	setTimeout(() => {
+	                // progress Modal 닫기
+	                $("#pleaseWaitDialog").modal('hide');
+	                packagesCopy();
+            	}, 500);
+            },
+		    success: function(result) {
+
+		    }	
+		});
+	}
+	
+	$('#chkEssential').change(function () {
+		if ($(this).prop("checked")) {
+			$('.sendPackageEssential').show();
+        }
+        else {
+        	$('.sendPackageEssential').hide();
+        }
+	});
 </script>
+<style>
+	.progress { position:relative; width:100%; border: 1px solid #ddd; padding: 1px; border-radius: 3px; color: black; }
+	.bar { background-color: #337ab7; width:0%; height:30px; border-radius: 3px; }
+	.percent { position:absolute; display:inline-block; top:1px; left:48%; }
+</style>

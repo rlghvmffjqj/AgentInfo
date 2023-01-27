@@ -89,6 +89,8 @@ public class Packages {
 	private String[] requestProductCategoryArr;
 	private String[] deliveryMethodArr;
 	
+	private Integer sendPackageKeyNum = 0;
+	
 	private String deliveryDateStart;			// 전달일자  시작일
 	private String deliveryDateEnd;				// 전달일자  종료일
 	

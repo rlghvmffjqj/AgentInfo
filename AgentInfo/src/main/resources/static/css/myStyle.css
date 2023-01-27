@@ -203,13 +203,19 @@ p {
 }
 
 .modal-sendPackage {
-	top: 20%;
+	top: 0%;
 	max-width: 500px;
 }
 
 .modal-requests {
 	top: 8%;
     max-width: 800px;
+}
+
+.modal-packages {
+	top: 3%;
+	width: 1000px;
+	max-width: 1500px;
 }
 
 .modal-notice {

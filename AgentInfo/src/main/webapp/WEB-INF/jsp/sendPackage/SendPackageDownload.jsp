@@ -26,13 +26,25 @@
 		</table>
 		<table style="margin-left: auto; margin-right: auto;">
 			<tr>
+				<th style="width:180px; font-family: emoji;">고객사명</th>
+				<th style="width:230px; font-family: emoji;">사업명</th>
+				<th style="width:80px; font-family: emoji;">망구분</th>
+				<th style="width:80px; font-family: emoji;">담당자</th>
+				<th style="width:100px; font-family: emoji;">요청일자</th>
+				<th style="width:200px; font-family: emoji;">패키지종류</th>
 				<th style="width:290px; font-family: emoji;">패키지명</th>
 				<th style="width:250px; font-family: emoji;">다운로드 가능 기간</th>
-				<th style="width:150px; font-family: emoji;">다운로드 횟수</th>
+				<th style="width:140px; font-family: emoji;">다운로드 횟수</th>
 				<th style="width:150px; font-family: emoji;">다운로드</th>
 			</tr>
 			<c:forEach var="item" items="${list}">
 				<tr>
+					<td>${item.customerName}</td>
+					<td>${item.businessName}</td>
+					<td>${item.networkClassification}</td>
+					<td>${item.manager}</td>
+					<td>${item.requestDate}</td>
+					<td>${item.managementServer}</td>
 					<td>${item.sendPackageName}</td>
 					<td>${item.sendPackageStartDate} ~ ${item.sendPackageEndDate}</td>
 					<td>${item.sendPackageCount}/${item.sendPackageLimitCount}</td>
@@ -43,10 +55,10 @@
 	</div>
 	<!-- progress Modal -->
 	<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-	    <div class="modal-dialog" style="margin-top: 15%;">
+	    <div class="modal-dialog" style="margin-top: 18%;">
 	        <div class="modal-content">
-	            <div class="modal-header" style="background: #B51F1F;">
-	                <h3 style="font-weight: bold; font-family: none; color: white;">패키지 다운로드 ...</h3>
+	            <div class="modal-header" style="background: #B51F1F; padding: 5px;">
+	                <h4 style="font-weight: bold; font-family: none; color: white;">패키지 다운로드 ...</h4>
 	            </div>
 	            <div class="modal-body">
 	                <!-- progress , bar, percent를 표시할 div 생성한다. -->

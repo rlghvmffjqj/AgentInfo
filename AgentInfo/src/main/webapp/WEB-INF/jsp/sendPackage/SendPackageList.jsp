@@ -20,10 +20,9 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['No.','사원명','패키지명','다운로드 허용기간','다운로드 횟수','최대 다운로드 횟수','URL'],
+					colNames:['No.','패키지명','다운로드 허용기간','다운로드 횟수','최대 다운로드 횟수','URL'],
 					colModel:[
 						{name:'sendPackageKeyNum', index:'sendPackageKeyNum', align:'center', width: 70, hidden:true},
-						{name:'employeeName', index:'employeeName', align:'center', width: 100},
 						{name:'sendPackageName', index:'sendPackageName', align:'center', width: 500, formatter: linkFormatter},
 						{name:'sendPackageStartDate', index:'sendPackageStartDate', align:'center', width: 230, formatter: downloadPeriod},
 						{name:'sendPackageCount', index:'sendPackageCount', align:'center', width: 100},
@@ -93,10 +92,6 @@
                                 	<div class="ibox">
 	                                	<div class="searchbos">
 	                                		<form id="form" name="form" method ="post">
-												<div class="col-lg-2">
-		                      						<label class="labelFontSize">사원명</label>
-		                      						<input type="text" id="employeeName" name="employeeName" class="form-control">
-		                      					</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지명</label>
 	                      							<input type="text" id="sendPackageName" name="sendPackageName" class="form-control">

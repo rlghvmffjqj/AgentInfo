@@ -20,6 +20,7 @@ $.modal = function (modalContent, size) {
     if(size=='calendar')  html += ' modal-calendar';
     if(size=='serverCalendar')  html += ' modal-serverCalendar';
     if(size=='sendPackage') html += ' modal-sendPackage';
+    if(size=='packages') html += ' modal-packages';
     
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

@@ -28,12 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.PackagesService;
+import com.secuve.agentInfo.service.SendPackageService;
 import com.secuve.agentInfo.vo.Packages;
+import com.secuve.agentInfo.vo.SendPackage;
 
 @Controller
 public class PackagesController {
 	@Autowired PackagesService packagesService;
 	@Autowired CategoryService categoryService;
+	@Autowired SendPackageService sendPackageService;
 
 	/**
 	 * 패키지 리스트 이동
@@ -161,6 +164,7 @@ public class PackagesController {
 	@PostMapping(value = "/packages/updateView")
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
+		SendPackage sendPackage = sendPackageService.getSendPackageOne(packages.getSendPackageKeyNum());
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
@@ -183,6 +187,7 @@ public class PackagesController {
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
+		model.addAttribute("sendPackage", sendPackage);
 		model.addAttribute("viewType", "update").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -196,7 +201,7 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/update")
-	public Map<String, String> UpdateEmployee(Packages packages, Principal principal) {
+	public Map<String, String> UpdatePackages(Packages packages, Principal principal) {
 		packages.setPackagesModifier(principal.getName());
 		packages.setPackagesModifiedDate(packagesService.nowDate());
 
@@ -303,6 +308,7 @@ public class PackagesController {
 	@PostMapping(value = "/packages/copyView")
 	public String CopyPackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
+		SendPackage sendPackage = sendPackageService.getSendPackageOne(packages.getSendPackageKeyNum());
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
@@ -325,6 +331,7 @@ public class PackagesController {
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
+		model.addAttribute("sendPackage", sendPackage);
 		model.addAttribute("viewType", "copy").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}

@@ -12,7 +12,6 @@ import lombok.ToString;
 @Component
 public class SendPackage {
 	private int sendPackageKeyNum;
-	private String employeeName;
 	private String sendPackageName;
 	private String sendPackageStartDate;
 	private String sendPackageEndDate;
@@ -31,6 +30,20 @@ public class SendPackage {
 	private String sendPackageEndDateView;
 	private int sendPackageLimitCountView;
 	private Integer sendPackageCountView;
+	
+	private String customerName;
+	private String businessName;
+	private String networkClassification;
+	private String manager;
+	private String requestDate;
+	private String managementServer;
+	
+	private String customerNameView;
+	private String businessNameView;
+	private String networkClassificationView;
+	private String managerView;
+	private String requestDateView;
+	private String managementServerView;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

@@ -26,8 +26,12 @@
 	</select>
 	
 	<insert id="insertSendPackage">
-		INSERT INTO sendPackage(employeeName, sendPackageName, sendPackageStartDate, sendPackageEndDate, sendPackageCount, sendPackageLimitCount, sendPackageRandomUrl, sendPackageFlag, sendPackageRegistrant, sendPackageRegistrationDate)
-		VALUES (#{employeeNameView}, #{sendPackageNameView}, #{sendPackageStartDateView}, #{sendPackageEndDateView}, 0, #{sendPackageLimitCountView}, #{sendPackageRandomUrl}, true, #{sendPackageRegistrant}, #{sendPackageRegistrationDate});
+		INSERT INTO sendPackage(sendPackageName, sendPackageStartDate, sendPackageEndDate, sendPackageCount, sendPackageLimitCount, sendPackageRandomUrl, sendPackageFlag, customerName, businessName, networkClassification, manager, requestDate, managementServer, sendPackageRegistrant, sendPackageRegistrationDate)
+		VALUES (#{sendPackageNameView}, #{sendPackageStartDateView}, #{sendPackageEndDateView}, 0, #{sendPackageLimitCountView}, #{sendPackageRandomUrl}, true, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{managerView}, #{requestDateView}, #{managementServerView}, #{sendPackageRegistrant}, #{sendPackageRegistrationDate});
+		
+		<selectKey resultType="int" keyProperty="sendPackageKeyNum" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	
 	<delete id="deleteSendPackage">
@@ -39,11 +43,12 @@
 	</select>
 	
 	<update id="updateSendPackage">
-		UPDATE sendPackage SET employeeName=#{employeeNameView}, sendPackageStartDate=#{sendPackageStartDateView}, sendPackageCount=#{sendPackageCountView},
+		UPDATE sendPackage SET sendPackageStartDate=#{sendPackageStartDateView}, sendPackageCount=#{sendPackageCountView},
 		<if test="sendPackageNameView != null and sendPackageNameView != ''"> 
 			sendPackageName=#{sendPackageNameView},
 		</if>
-		sendPackageEndDate=#{sendPackageEndDateView}, sendPackageLimitCount=#{sendPackageLimitCountView}, sendPackageModifier=#{sendPackageModifier}, sendPackageModifiedDate=#{sendPackageModifiedDate}
+		sendPackageEndDate=#{sendPackageEndDateView}, sendPackageLimitCount=#{sendPackageLimitCountView}, sendPackageModifier=#{sendPackageModifier}, sendPackageModifiedDate=#{sendPackageModifiedDate},
+		customerName=#{customerNameView}, businessName=#{businessNameView}, networkClassification=#{networkClassificationView}, manager=#{managerView}, requestDate=#{requestDateView}, managementServer=#{managementServerView}
 		WHERE sendPackageKeyNum = #{sendPackageKeyNum};
 	</update>
 	
@@ -94,9 +99,6 @@
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlSendPackage">
-		<if test="employeeName != null and employeeName != ''"> 
-			AND employeeName LIKE CONCAT('%',#{employeeName},'%')
-		</if>
 		<if test="sendPackageName != null and sendPackageName != ''"> 
 			AND sendPackageName LIKE CONCAT('%',#{sendPackageName},'%')
 		</if>

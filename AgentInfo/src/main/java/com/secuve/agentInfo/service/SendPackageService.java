@@ -171,4 +171,18 @@ public class SendPackageService {
 		sendPackageDao.expirationSendPackageSchedule();
 	}
 
+	public void copySendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
+		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
+		if(sendPackage.getSendPackageStartDateView().length() > 10) {
+			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
+		}
+		if(sendPackage.getSendPackageEndDateView().length() > 10) {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
+		} else {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView() + " 24");
+		}
+		sendPackageDao.insertSendPackage(sendPackage);
+		fileDownload(sendPackage, sendPackageView);
+	}
+
 }

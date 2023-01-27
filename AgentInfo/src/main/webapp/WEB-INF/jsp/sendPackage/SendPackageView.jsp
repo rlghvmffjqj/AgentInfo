@@ -2,53 +2,81 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 350px;">
-	<div id="loadImage" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center; display:none;">
-		<!-- <img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;"> -->
-	</div>
+<div class="modal-body" style="width: 100%; height: 720px;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
 		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
 		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">
-			<div class="pading5Width450">
-				<div>
-					<label class="labelFontSize">사원명</label><label class="colorRed">*</label>
-				</div>
-				<input type="text" id="employeeNameView" name="employeeNameView" class="form-control viewForm" value="${sendPackage.employeeName}">
-				<span class="colorRed" id="NotEmployeeName" style="display: none; line-height: initial;">패키지 전달 받을 사원 이름 입력 바랍니다.</span>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
 			</div>
-			<div class="pading5Width450">
-	         	<div><label class="labelFontSize">다운로드 가능기간</label><label class="colorRed">*</label></div>
-	         	<input type="text" class="form-control viewForm" id="sendPackageStartDateView" name="sendPackageStartDateView"  value="${sendPackage.sendPackageStartDate}" max="9999-12-31" style="width: 48%;float: left;">
-	         	~
-	         	<input type="text" id="sendPackageEndDateView" name="sendPackageEndDateView" class="form-control viewForm" value="${sendPackage.sendPackageEndDate}" max="9999-12-31" style="width: 48%;float: right;">
-	         	<span class="colorRed" id="NotSendPackageDate" style="display: none; float: left; line-height: initial;">다운로드 기간 입력 바랍니다.</span>
-	        </div>
-			<div class="pading5Width450">
-				<div>
-					<label class="labelFontSize">최대 다운로드 횟수</label><label class="colorRed">*</label>
-				</div>
-				<c:choose>
-					<c:when test="${viewType eq 'insert'}">
-						<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="1">
-					</c:when>
-					<c:when test="${viewType eq 'update'}">
-						<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="${sendPackage.sendPackageLimitCount}">
-					</c:when>
-				</c:choose>
-				<span class="colorRed" id="NotSendPackageCount" style="display: none; line-height: initial;">1이상의 값을 입력 바랍니다.</span>
+			<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${sendPackage.customerName}">
+			<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력 바랍니다.</span>
+		</div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">사업명</label>
 			</div>
-			<div class="pading5Width450">
-				<div>
-					<label class="labelFontSize">패키지</label><label class="colorRed">*</label>
-				</div>
-				<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" />
-				<span class="colorRed" id="NotSendPackageView" style="display: none; line-height: initial;">패키지를 등록 해주세요.</span>
-				<c:choose>
-					<c:when test="${viewType eq 'update'}">
-						<span class="colorRed" style="line-height: initial;">패키지 변경 할 경우만 파일 선택 해주세요.</span>
-					</c:when>
-				</c:choose>
+			<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm" value="${sendPackage.businessName}">
+		</div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">망구분</label>
+			</div>
+			<input type="text" id="networkClassificationView" name="networkClassificationView" class="form-control viewForm" value="${sendPackage.networkClassification}">
+		</div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">담당자</label>
+			</div>
+			<input type="text" id="managerView" name="managerView" class="form-control viewForm" value="${sendPackage.manager}">
+		</div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">요청일자</label>
+			</div>
+			<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${sendPackage.requestDate}">
+		</div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">패키지종류</label>
+			</div>
+			<input type="text" id="managementServerView" name="managementServerView" class="form-control viewForm" value="${sendPackage.managementServer}">
+		</div>
+		<div class="pading5Width450">
+	     	<div><label class="labelFontSize">다운로드 가능기간</label><label class="colorRed">*</label></div>
+	     	<input type="text" class="form-control viewForm" id="sendPackageStartDateView" name="sendPackageStartDateView"  value="${sendPackage.sendPackageStartDate}" max="9999-12-31" style="width: 48%;float: left;">
+	     	~
+	     	<input type="text" id="sendPackageEndDateView" name="sendPackageEndDateView" class="form-control viewForm" value="${sendPackage.sendPackageEndDate}" max="9999-12-31" style="width: 48%;float: right;">
+	     	<span class="colorRed" id="NotSendPackageDate" style="display: none; float: left; line-height: initial;">다운로드 기간 입력 바랍니다.</span>
+	     	<span class="colorRed" id="PeriodSendPackageDate" style="display: none; float: left; line-height: initial;">다운로드 가능 시작 기간이 종료 기간보다 크지 않아야 합니다.</span>
+	    </div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">최대 다운로드 횟수</label><label class="colorRed">*</label>
+			</div>
+			<c:choose>
+				<c:when test="${viewType eq 'insert'}">
+					<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="1">
+				</c:when>
+				<c:when test="${viewType eq 'update'}">
+					<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="${sendPackage.sendPackageLimitCount}">
+				</c:when>
+			</c:choose>
+			<span class="colorRed" id="NotSendPackageCount" style="display: none; line-height: initial;">1이상의 값을 입력 바랍니다.</span>
+		</div>
+		<div class="pading5Width450">
+			<div>
+				<label class="labelFontSize">패키지</label><label class="colorRed">*</label>
+			</div>
+			<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" />
+			<span class="colorRed" id="NotSendPackageView" style="display: none; line-height: initial;">패키지를 등록 해주세요.</span>
+			<c:choose>
+				<c:when test="${viewType eq 'update'}">
+					<span class="colorRed" style="line-height: initial;">패키지 변경 할 경우만 파일 선택 해주세요.</span>
+				</c:when>
+			</c:choose>
 		</div>
 	</form>
 </div>
@@ -67,7 +95,7 @@
 
 <!-- progress Modal -->
 <div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog" style="margin-top: 100px;">
+    <div class="modal-dialog" style="margin-top: 50%;">
         <div class="modal-content" style="border:1px solid !important; width: 95%; margin-left: 3%;">
             <div class="modal-header" style="background: burlywood;">
                 <h3 style="font-weight: bold; font-family: none; color: white;">패키지 업로드 ...</h3>
@@ -106,25 +134,42 @@
 	/* =========== 패키지 등록 ========= */
 	$('#insertBtn').click(function() {
 		var check = 1;
-		var employeeNameView = $('#employeeNameView').val();
 		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
+		var customerNameView = $('#customerNameView').val();
+		var businessNameView = $('#businessNameView').val();
+		var networkClassificationView = $('#networkClassificationView').val();
+		var managerView = $('#managerView').val();
+		var requestDateView = $('#requestDateView').val();
+		var managementServerView = $('#managementServerView').val();
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		
 		const postData = new FormData();
+		
 		postData.append('sendPackageView',sendPackageView.files[0]);
-		postData.append('employeeNameView',employeeNameView);
 		postData.append('sendPackageStartDateView',sendPackageStartDateView);
 		postData.append('sendPackageEndDateView',sendPackageEndDateView);
 		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
+		postData.append('customerNameView',customerNameView);
+		postData.append('businessNameView',businessNameView);
+		postData.append('networkClassificationView',networkClassificationView);
+		postData.append('managerView',managerView);
+		postData.append('requestDateView',requestDateView);
+		postData.append('managementServerView',managementServerView);
 		
-		if(employeeNameView == "") {
-			$('#NotEmployeeName').show();
+		if(customerNameView == "") {
+			$('#NotCustomerName').show();
 			check = 0;
 		} else {
-			$('#NotEmployeeName').hide();
+			$('#NotCustomerName').hide();
+		}
+		if(sendPackageStartDateView>sendPackageEndDateView) {
+			$('#PeriodSendPackageDate').show();
+			check = 0;
+		} else {
+			$('#PeriodSendPackageDate').hide();
 		}
 		if(sendPackageStartDateView == "" || sendPackageEndDateView == "") {
 			$('#NotSendPackageDate').show();
@@ -151,11 +196,10 @@
 			$('#NotSendPackageView').show();
 		 	return false;  
 		} 
-		var sendPackageFileName = sendPackageView.files[0].name;
 		$('#NotSendPackageView').hide();
+		var sendPackageFileName = sendPackageView.files[0].name;
 		
 		// 파일 존재 유무 확인
-		$('#loadImage').css('display','block');
 		setTimeout(() => {
 			$.ajax({
 	            type: 'post',
@@ -181,9 +225,7 @@
 				}).then((result) => {
 					if (result.isConfirmed) {
 						insert(postData);	// insert
-					} else {
-						$("#loadImage").hide();
-					}
+					} 
 				});
 			} else {
 				insert(postData);		// insert
@@ -240,6 +282,7 @@
 						title: '성공!',
 						text: '작업을 완료했습니다.',
 					});
+					$('.modal-backdrop').hide();
 					$('#modal').modal("hide"); // 모달 닫기
 		       		$('#modal').on('hidden.bs.modal', function () {
 		       			tableRefresh();
@@ -260,10 +303,15 @@
 		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
 		var sendPackageRandomUrl = $('#sendPackageRandomUrl').val();
 		var sendPackageCountView = $('#sendPackageCountView').val();
-		var employeeNameView = $('#employeeNameView').val();
 		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
+		var customerNameView = $('#customerNameView').val();
+		var businessNameView = $('#businessNameView').val();
+		var networkClassificationView = $('#networkClassificationView').val();
+		var managerView = $('#managerView').val();
+		var requestDateView = $('#requestDateView').val();
+		var managementServerView = $('#managementServerView').val();
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		if(sendPackageView.files[0] != null) {
@@ -275,10 +323,15 @@
 		postData.append('sendPackageKeyNum',sendPackageKeyNum);
 		postData.append('sendPackageRandomUrl',sendPackageRandomUrl);
 		postData.append('sendPackageCountView',sendPackageCountView);
-		postData.append('employeeNameView',employeeNameView);
 		postData.append('sendPackageStartDateView',sendPackageStartDateView);
 		postData.append('sendPackageEndDateView',sendPackageEndDateView);
 		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
+		postData.append('customerNameView',customerNameView);
+		postData.append('businessNameView',businessNameView);
+		postData.append('networkClassificationView',networkClassificationView);
+		postData.append('managerView',managerView);
+		postData.append('requestDateView',requestDateView);
+		postData.append('managementServerView',managementServerView);
 		
 		if(sendPackageView.files[0] != null) {
 			// 파일 존재 유무 확인
@@ -321,13 +374,48 @@
 	
 	/* =========== 수정(중복 분리) ========= */
 	function update(postData) {
+		 /* progressbar 정보 */
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+	       
 		$.ajax({
+			xhr: function() {
+	            var xhr = new window.XMLHttpRequest();
+	            xhr.upload.addEventListener("progress", function(evt) {
+	                if (evt.lengthComputable) {
+	                    var percentComplete = Math.floor((evt.loaded / evt.total) * 100);
+
+	                    var percentVal = percentComplete + '%';
+	                    bar.width(percentVal);
+	                    percent.html(percentVal);
+
+	                }
+	            }, false);
+	            return xhr;
+	        },
             url: "<c:url value='/sendPackage/update'/>",
             type: 'post',
             data: postData,
-            async: false,
             processData: false,
 	        contentType: false,
+	        beforeSend:function(){
+	            // progress Modal 열기
+	            $("#pleaseWaitDialog").modal('show');
+
+	            status.empty();
+	            var percentVal = '0%';
+	            bar.width(percentVal);
+	            percent.html(percentVal);
+
+	        },
+	        complete:function(){
+	        	setTimeout(() => {
+		            // progress Modal 닫기
+		            $("#pleaseWaitDialog").modal('hide');
+		            packagesInsert();
+	        	}, 500);
+	        },
             success: function(result) {
 				if(result.result == "OK") {
 					Swal.fire({
@@ -335,6 +423,7 @@
 						title: '성공!',
 						text: '작업을 완료했습니다.',
 					});
+					$('.modal-backdrop').hide();
 					$('#modal').modal("hide"); // 모달 닫기
             		$('#modal').on('hidden.bs.modal', function () {
             			tableRefresh();
