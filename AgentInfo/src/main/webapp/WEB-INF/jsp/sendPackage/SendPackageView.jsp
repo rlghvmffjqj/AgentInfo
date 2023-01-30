@@ -7,19 +7,65 @@
 		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
 		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
 		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">
-		<div class="pading5Width450">
-			<div>
-				<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-			</div>
-			<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${sendPackage.customerName}">
-			<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력 바랍니다.</span>
-		</div>
-		<div class="pading5Width450">
-			<div>
-				<label class="labelFontSize">사업명</label>
-			</div>
-			<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm" value="${sendPackage.businessName}">
-		</div>
+		<c:choose>
+				<c:when test="${viewType eq 'insert'}">
+					<div class="pading5Width450">
+						<div>
+							<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+						</div>
+						<div id="customerNameViewSelf">
+						  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+						  		<option value=""></option>
+								<c:forEach var="item" items="${customerName}">
+									<option value="${item}"><c:out value="${item}"/></option>
+								</c:forEach>
+							</select>
+						</div>
+						<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력 바랍니다.</span>
+					</div>
+					<div class="pading5Width450">
+						<div>
+							<label class="labelFontSize">사업명</label>
+						</div>
+						<div id="businessNameViewSelf">
+						  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+						  		<option value=""></option>
+							</select>
+						</div>
+					</div>
+				</c:when>
+				<c:when test="${viewType eq 'update'}">
+					<div class="pading5Width450">
+						<div>
+							<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+						</div>
+						<div id="customerNameViewSelf">
+						  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+				         		<c:if test="${sendPackage.customerName ne ''}"><option value=""></option></c:if>
+				         		<c:if test="${sendPackage.customerName eq ''}"><option value=""></option></c:if>
+				         		<c:forEach var="item" items="${customerName}">
+									<option value="${item}" <c:if test="${item eq sendPackage.customerName}">selected</c:if>><c:out value="${item}"/></option>
+								</c:forEach>
+							</select>
+						</div>
+						<span class="colorRed" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력 바랍니다.</span>
+					</div>
+					<div class="pading5Width450">
+						<div>
+							<label class="labelFontSize">사업명</label>
+						</div>
+						<div id="businessNameViewSelf">
+						  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+				         		<c:if test="${sendPackage.businessName ne ''}"><option value=""></option></c:if>
+				         		<c:if test="${sendPackage.businessName eq ''}"><option value=""></option></c:if>
+				         		<c:forEach var="item" items="${businessName}">
+									<option value="${item}" <c:if test="${item eq sendPackage.businessName}">selected</c:if>><c:out value="${item}"/></option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+				</c:when>
+			</c:choose>
 		<div class="pading5Width450">
 			<div>
 				<label class="labelFontSize">망구분</label>
@@ -38,12 +84,35 @@
 			</div>
 			<input type="date" id="requestDateView" name="requestDateView" class="form-control viewForm" value="${sendPackage.requestDate}">
 		</div>
-		<div class="pading5Width450">
-			<div>
-				<label class="labelFontSize">패키지종류</label>
-			</div>
-			<input type="text" id="managementServerView" name="managementServerView" class="form-control viewForm" value="${sendPackage.managementServer}">
-		</div>
+		<c:choose>
+				<c:when test="${viewType eq 'insert'}">
+					<div class="pading5Width450">
+						<div>
+							<label class="labelFontSize">패키지종류</label>
+						</div>
+						<select class="form-control selectpicker selectForm" id="managementServerView" name="managementServerView" data-live-search="true" data-size="5">
+							<option value=""></option>
+							<c:forEach var="item" items="${managementServer}">
+								<option value="${item}"><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					</div>
+				</c:when>
+				<c:when test="${viewType eq 'update'}">
+					<div class="pading5Width450">
+						<div>
+							<label class="labelFontSize">패키지종류</label>
+						</div>
+						<select class="form-control selectpicker selectForm" id="managementServerView" name="managementServerView" data-live-search="true" data-size="5">
+				        	<c:if test="${sendPackage.managementServer ne ''}"><option value=""></option></c:if>
+				        	<c:if test="${sendPackage.managementServer eq ''}"><option value=""></option></c:if>
+				        	<c:forEach var="item" items="${managementServer}">
+								<option value="${item}" <c:if test="${item eq sendPackage.managementServer}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					</div>
+				</c:when>
+			</c:choose>
 		<div class="pading5Width450">
 	     	<div><label class="labelFontSize">다운로드 가능기간</label><label class="colorRed">*</label></div>
 	     	<input type="text" class="form-control viewForm" id="sendPackageStartDateView" name="sendPackageStartDateView"  value="${sendPackage.sendPackageStartDate}" max="9999-12-31" style="width: 48%;float: left;">
@@ -115,6 +184,7 @@
 
 <script>
 	$(function () {
+		$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 		$('#sendPackageStartDateView').datetimepicker();
 		$('#sendPackageEndDateView').datetimepicker();
 	});
@@ -441,6 +511,29 @@
 			}
         });
 	}
+	
+	/* =========== 고객사명 Select Box 선택 ========= */
+	$("#customerNameView").change(function() {
+		$("#businessNameView").empty();
+		$("#businessNameView").selectpicker("refresh");
+		var customerName = $('#customerNameView').val();
+		$.ajax({
+			url: "<c:url value='/category/customerBusinessName'/>",
+	        type: 'post',
+	        data: {'customerName':customerName},
+	        async: false,
+	        success: function(items) {
+	        	$("#businessNameView").append('<option value=""></option>');
+	        	$.each(items, function (i, item) {
+	        		$("#businessNameView").append('<option value="'+item+'">'+item+'</option>');
+	        		$("#businessNameView").selectpicker("refresh");
+	        	});
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	});
 	
 </script>
 <style>

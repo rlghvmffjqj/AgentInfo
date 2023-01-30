@@ -87,11 +87,11 @@ public class SendPackageService {
 	}
 
 	public List<SendPackage> getSendPackage(SendPackage search) {
-		return sendPackageDao.getSendPackage(search);
+		return sendPackageDao.getSendPackage(sendPackageSearch(search));
 	}
 
 	public int getSendPackageCount(SendPackage search) {
-		return sendPackageDao.getSendPackageCount(search);
+		return sendPackageDao.getSendPackageCount(sendPackageSearch(search));
 	}
 
 	public void downloadCount(String sendPackageName, String sendPackageRandomUrl) {
@@ -102,6 +102,14 @@ public class SendPackageService {
 			//sendPackageDao.deleteSendPackageCountOver(sendPackageName, sendPackageRandomUrl);
 			sendPackageDao.updateSendPackageFlag(sendPackageName, sendPackageRandomUrl);
 		}
+	}
+	
+	public SendPackage sendPackageSearch(SendPackage search) {
+		search.setCustomerNameArr(search.getCustomerName().split(","));
+		search.setBusinessNameArr(search.getBusinessName().split(","));
+		search.setManagementServerArr(search.getManagementServer().split(","));
+		
+		return search;
 	}
 	
 	public String fileDelete(String sendPackageName) {
@@ -183,6 +191,14 @@ public class SendPackageService {
 		}
 		sendPackageDao.insertSendPackage(sendPackage);
 		fileDownload(sendPackage, sendPackageView);
+	}
+
+	public boolean getSendPackageOneUrl(String sendPackageRandomUrl) {
+		return sendPackageDao.getSendPackageOneUrl(sendPackageRandomUrl);
+	}
+
+	public void updateInfoSendPackage(SendPackage sendPackage) {
+		sendPackageDao.updateInfoSendPackage(sendPackage);
 	}
 
 }

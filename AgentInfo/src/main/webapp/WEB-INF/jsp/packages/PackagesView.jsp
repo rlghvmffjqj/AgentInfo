@@ -953,6 +953,7 @@
 				return false;
 			}
 		} else {
+			sendPackageUpdateInfo();
 			packagesUpdate();
 			return;
 		}
@@ -1049,6 +1050,40 @@
 				console.log(error);
 			}
 	    });
+	}
+	
+	function sendPackageUpdateInfo() {
+		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
+		var customerNameView = $('#customerNameView').val();
+		var businessNameView = $('#businessNameView').val();
+		var networkClassificationView = $('#networkClassificationView').val();
+		var managerView = $('#managerView').val();
+		var requestDateView = $('#requestDateView').val();
+		var managementServerView = $('#managementServerView').val();
+		
+		const postData = new FormData();
+		postData.append('sendPackageKeyNum',sendPackageKeyNum);
+		postData.append('customerNameView',customerNameView);
+		postData.append('businessNameView',businessNameView);
+		postData.append('networkClassificationView',networkClassificationView);
+		postData.append('managerView',managerView);
+		postData.append('requestDateView',requestDateView);
+		postData.append('managementServerView',managementServerView);
+		
+		$.ajax({
+	        type: 'POST',
+	        url: "<c:url value='/sendPackage/updateInfo'/>",
+	        data: postData,
+	        async: false,
+	        processData: false,
+		    contentType: false,
+	        success: function () {
+
+	        },
+	        error: function(e) {
+	            // TODO 에러 화면
+	        }
+	    });	
 	}
 	
 	

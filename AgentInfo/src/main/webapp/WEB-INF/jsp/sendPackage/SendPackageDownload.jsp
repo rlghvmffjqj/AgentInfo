@@ -117,7 +117,12 @@
                 // progress Modal 닫기
                 $("#pleaseWaitDialog").modal('hide');
                 location.reload();
-            }
+            },
+            error: function(e) {
+            	alert(
+				  '다운로드 횟수 및 다운로드 가능 기간이 만료 되었습니다. \n관리자에게 요청 바랍니다.',
+				)
+	        }
 	    }).done(function (blob, status, xhr) {
 	        // check for a filename
 	        var fileName = "";

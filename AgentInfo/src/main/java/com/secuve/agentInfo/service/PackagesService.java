@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.secuve.agentInfo.dao.CustomerInfoDao;
 import com.secuve.agentInfo.dao.PackageUidLogDao;
 import com.secuve.agentInfo.dao.PackagesDao;
+import com.secuve.agentInfo.dao.SendPackageDao;
 import com.secuve.agentInfo.dao.TrashDao;
 import com.secuve.agentInfo.vo.CustomerInfo;
 import com.secuve.agentInfo.vo.PackageUidLog;
@@ -45,6 +46,7 @@ public class PackagesService {
 	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 	@Autowired CustomerInfoDao customerInfoDao;
 	@Autowired CustomerInfoService customerInfoService;
+	@Autowired SendPackageDao sendPackageDao;
 
 	/**
 	 * 패키지 리스트 조회
@@ -76,6 +78,7 @@ public class PackagesService {
 	public String delPackages(int[] chkList, Principal principal) {
 		for (int packagesKeyNum : chkList) {
 			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
+			sendPackageDao.updateSendPackageFlagKey(packages.getSendPackageKeyNum());
 			int sucess = packagesDao.delPackages(packagesKeyNum);
 
 			// uid 로그 기록

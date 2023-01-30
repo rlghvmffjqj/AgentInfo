@@ -96,6 +96,16 @@
 		SELECT * FROM sendPackage WHERE sendPackageFlag = false;
 	</select>
 	
+	<select id="getSendPackageOneUrl" parameterType="string" resultType="boolean">
+		SELECT sendPackageFlag FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl};
+	</select>
+	
+	<update id="updateInfoSendPackage">
+		UPDATE sendPackage SET sendPackageModifier=#{sendPackageModifier}, sendPackageModifiedDate=#{sendPackageModifiedDate},
+			customerName=#{customerNameView}, businessName=#{businessNameView}, networkClassification=#{networkClassificationView}, manager=#{managerView}, requestDate=#{requestDateView}, managementServer=#{managementServerView}
+		WHERE sendPackageKeyNum = #{sendPackageKeyNum};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlSendPackage">
@@ -107,6 +117,42 @@
 		</if>
 		<if test="sendPackageEndDate != null and sendPackageEndDate != ''"> 
 			AND sendPackageEndDate LIKE CONCAT('%',#{sendPackageEndDate},'%')
+		</if>
+		<if test="networkClassification != null and networkClassification != ''"> 
+			AND networkClassification LIKE CONCAT('%',#{networkClassification},'%')
+		</if>
+		<if test="manager != null and manager != ''"> 
+			AND manager LIKE CONCAT('%',#{manager},'%')
+		</if>
+		<if test="requestDate != null and requestDate != ''"> 
+			AND requestDate LIKE CONCAT('%',#{requestDate},'%')
+		</if>
+		<if test="customerName != null and customerName != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="customerNameArr" item="arr">
+					OR customerName LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="businessName != null and businessName != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="businessNameArr" item="arr">
+					OR businessName LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="managementServer != null and managementServer != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="managementServerArr" item="arr">
+					OR managementServer LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
 		</if>
 	</sql>
 </mapper>

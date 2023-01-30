@@ -91,4 +91,12 @@ public class SendPackageDao {
 		return sqlSession.selectList("sendPackage.deleteSendPackageScheduleList");
 	}
 
+	public boolean getSendPackageOneUrl(String sendPackageRandomUrl) {
+		return sqlSession.selectOne("sendPackage.getSendPackageOneUrl",sendPackageRandomUrl);
+	}
+
+	public void updateInfoSendPackage(SendPackage sendPackage) {
+		sqlSession.update("sendPackage.updateInfoSendPackage",sendPackage);
+	}
+
 }

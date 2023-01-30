@@ -45,6 +45,12 @@ public class SendPackage {
 	private String requestDateView;
 	private String managementServerView;
 	
+	private String[] customerNameArr;
+	private String[] businessNameArr;
+	private String[] managementServerArr;
+	
+	
+	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="sendPackageKeyNum";		// 정렬할 기준 데이터

@@ -20,14 +20,21 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['No.','패키지명','다운로드 허용기간','다운로드 횟수','최대 다운로드 횟수','URL'],
+					colNames:['No.','URL','고객사명','사업명','망구분','담당자','요청일자','패키지종류','패키지명','다운로드 허용기간','다운로드 횟수','최대 다운로드 횟수'],
 					colModel:[
 						{name:'sendPackageKeyNum', index:'sendPackageKeyNum', align:'center', width: 70, hidden:true},
-						{name:'sendPackageName', index:'sendPackageName', align:'center', width: 500, formatter: linkFormatter},
+						{name:'sendPackageRandomUrl', index:'sendPackageRandomUrl', align:'center', width: 310, formatter: copyFormatter, sortable:false},
+						{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
+						{name:'businessName', index:'businessName', align:'center', width: 200},
+						{name:'networkClassification', index:'networkClassification', align:'center', width: 70},
+						{name:'manager', index:'manager', align:'center', width: 70},
+						{name:'requestDate', index:'requestDate', align:'center', width: 70},
+						{name:'managementServer', index:'managementServer', align:'center', width: 200},
+						{name:'sendPackageName', index:'sendPackageName', align:'center', width: 500},
 						{name:'sendPackageStartDate', index:'sendPackageStartDate', align:'center', width: 230, formatter: downloadPeriod},
 						{name:'sendPackageCount', index:'sendPackageCount', align:'center', width: 100},
 						{name:'sendPackageLimitCount', index:'sendPackageLimitCount', align:'center', width: 100},
-						{name:'sendPackageRandomUrl', index:'sendPackageRandomUrl', align:'center', width: 350, formatter: copyFormatter, sortable:false},
+						
 					],
 					jsonReader : {
 			        	id: 'sendPackageKeyNum',
@@ -92,6 +99,42 @@
                                 	<div class="ibox">
 	                                	<div class="searchbos">
 	                                		<form id="form" name="form" method ="post">
+	                                			<div class="col-lg-2">
+	                      							<label class="labelFontSize">고객사명</label>
+													<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${customerName}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">사업명</label>
+													<select class="form-control selectpicker" id="businessNameMulti" name="businessNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${businessName}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">망 구분</label>
+	                      							<input type="text" id="networkClassification" name="networkClassification" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">담당자</label>
+	                      							<input type="text" id="manager" name="manager" class="form-control">
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">요청일자</label>
+													<input class="form-control" type="date" id="requestDate" name="requestDate" max="9999-12-31"> 
+	                      						</div>
+	                      						<div class="col-lg-2">
+	                      							<label class="labelFontSize">패키지 종류</label>
+													<select class="form-control selectpicker" id="managementServerMulti" name="managementServerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${managementServer}">
+															<option value="${item}"><c:out value="${item}"/></option>
+														</c:forEach>
+													</select>
+												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지명</label>
 	                      							<input type="text" id="sendPackageName" name="sendPackageName" class="form-control">
@@ -104,7 +147,10 @@
 	                      							<label class="labelFontSize">다운로드 허용 종료일</label>
 													<input class="form-control" type="date" id="sendPackageEndDate" name="sendPackageEndDate" max="9999-12-31"> 
 	                      						</div>
-		                      						<div class="col-lg-12 text-right">
+	                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
+		                      					<input type="hidden" id="businessName" name="businessName" class="form-control">
+	                      						<input type="hidden" id="managementServer" name="managementServer" class="form-control">
+		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
@@ -183,6 +229,9 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+			$('#managementServer').val($('#managementServerMulti').val().join());
+			$('#customerName').val($('#customerNameMulti').val().join());
+			$('#businessName').val($('#businessNameMulti').val().join());
 
 			var _postDate = $("#form").serializeObject();
 			
@@ -218,6 +267,9 @@
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
 			$("input[type='date']").val("");
+	        
+			$('.selectpicker').val('');
+	        $('.filter-option-inner-inner').text('');
 	        
 			tableRefresh();
 		});
