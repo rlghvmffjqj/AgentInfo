@@ -97,7 +97,7 @@
 	</select>
 	
 	<select id="getSendPackageOneUrl" parameterType="string" resultType="boolean">
-		SELECT sendPackageFlag FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl};
+		SELECT sendPackageFlag FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageName = #{sendPackageName};
 	</select>
 	
 	<update id="updateInfoSendPackage">

@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @Component
 public class SendPackage {
-	private int sendPackageKeyNum;
+	private Integer sendPackageKeyNum;
 	private String sendPackageName;
 	private String sendPackageStartDate;
 	private String sendPackageEndDate;
@@ -28,7 +28,7 @@ public class SendPackage {
 	private String sendPackageNameView;
 	private String sendPackageStartDateView;
 	private String sendPackageEndDateView;
-	private int sendPackageLimitCountView;
+	private Integer sendPackageLimitCountView;
 	private Integer sendPackageCountView;
 	
 	private String customerName;
@@ -48,6 +48,9 @@ public class SendPackage {
 	private String[] customerNameArr;
 	private String[] businessNameArr;
 	private String[] managementServerArr;
+	
+	private Integer packagesKeyNum;
+	private String sendPackageKeyNumList;
 	
 	
 	

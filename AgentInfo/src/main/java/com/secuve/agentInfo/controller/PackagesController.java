@@ -164,7 +164,12 @@ public class PackagesController {
 	@PostMapping(value = "/packages/updateView")
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
-		SendPackage sendPackage = sendPackageService.getSendPackageOne(packages.getSendPackageKeyNum());
+		SendPackage sendPackage = sendPackageService.getSendPackageOne(Integer.parseInt(packages.getSendPackageKeyNum().split(",")[0]));
+		try {
+			sendPackage.setSendPackageKeyNumList(packages.getSendPackageKeyNum());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
@@ -308,7 +313,7 @@ public class PackagesController {
 	@PostMapping(value = "/packages/copyView")
 	public String CopyPackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
-		SendPackage sendPackage = sendPackageService.getSendPackageOne(packages.getSendPackageKeyNum());
+		SendPackage sendPackage = sendPackageService.getSendPackageOne(Integer.parseInt(packages.getSendPackageKeyNum().split(",")[0]));
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");

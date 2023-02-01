@@ -6,7 +6,7 @@
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name="packagesKeyNum" class="form-control viewForm" value="${packages.packagesKeyNum}">
 		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">
-		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
+		<input type="hidden" id="sendPackageKeyNumList" name="sendPackageKeyNumList" class="form-control viewForm" value="${sendPackage.sendPackageKeyNumList}">
 		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
 		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">  
 		<div class="leftDiv">
@@ -404,7 +404,7 @@
 				<div>
 					<label class="labelFontSize">패키지</label><label class="colorRed sendPackageEssential">*</label>
 				</div>
-				<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" />
+				<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" multiple />
 				<span class="colorRed" id="NotSendPackageView" style="display: none; line-height: initial;">패키지를 등록 해주세요.</span>
 				<c:choose>
 					<c:when test="${viewType eq 'update'}">
@@ -459,14 +459,14 @@
 		if(sendPackageLimitCountView == '') {
 			$('#sendPackageLimitCountView').val(1);
 		}
-		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
-		if(sendPackageKeyNum == '') {
-			$('#sendPackageKeyNum').val(0);
+		var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
+		if(sendPackageKeyNumList == '') {
+			$('#sendPackageKeyNumList').val(0);
 		}
 		
-		if("${viewType}" == 'update' || "${viewType}" == 'copy') {
-			var sendPackageKeyNum = $('#sendPackageKeyNum').val();
-			if(sendPackageKeyNum > 0) {
+		if("${viewType}" == 'update') {
+			var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
+			if(sendPackageKeyNumList != "0") {
 				$("#chkEssential").prop("checked", true);
 			} else {
 				$("#chkEssential").prop("checked", false);
@@ -779,18 +779,7 @@
 			managementServerView = $('#managementServerSelf').val();
 		}
 		
-		const postData = new FormData();
-		
-		postData.append('sendPackageView',sendPackageView.files[0]);
-		postData.append('sendPackageStartDateView',sendPackageStartDateView);
-		postData.append('sendPackageEndDateView',sendPackageEndDateView);
-		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
-		postData.append('customerNameView',customerNameView);
-		postData.append('businessNameView',businessNameView);
-		postData.append('networkClassificationView',networkClassificationView);
-		postData.append('managerView',managerView);
-		postData.append('requestDateView',requestDateView);
-		postData.append('managementServerView',managementServerView);
+		const postData = new FormData($('#modalForm')[0]);
 		
 		if ($('#chkEssential').is(":checked")) {
 			if(sendPackageStartDateView>sendPackageEndDateView) {
@@ -852,6 +841,7 @@
 	           return xhr;
 	       },
 			url: "<c:url value='/sendPackage/insert'/>",
+			enctype: 'multipart/form-data',
 			type: 'post',
 		    data: postData,
 		    processData: false,
@@ -864,7 +854,6 @@
 	           var percentVal = '0%';
 	           bar.width(percentVal);
 	           percent.html(percentVal);
-	
 	       },
 	       complete:function(){
 	           // progress Modal 닫기
@@ -874,14 +863,14 @@
 	           } ,500);
 	       },
 		    success: function(result) {
-				$('#sendPackageKeyNum').val(result.sendPackageKeyNum);
+				$('#sendPackageKeyNumList').val(result.sendPackageKeyNumList);
 			}	
 		});
 	});
 	
 	$('#updateBtn').click(function() {
 		var check = 1;
-		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
+		var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
 		var sendPackageRandomUrl = $('#sendPackageRandomUrl').val();
 		var sendPackageCountView = $('#sendPackageCountView').val();
 		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
@@ -909,20 +898,7 @@
 			managementServerView = $('#managementServerSelf').val();
 		}
 		
-		const postData = new FormData();
-		postData.append('sendPackageView',sendPackageView.files[0]);
-		postData.append('sendPackageKeyNum',sendPackageKeyNum);
-		postData.append('sendPackageRandomUrl',sendPackageRandomUrl);
-		postData.append('sendPackageCountView',sendPackageCountView);
-		postData.append('sendPackageStartDateView',sendPackageStartDateView);
-		postData.append('sendPackageEndDateView',sendPackageEndDateView);
-		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
-		postData.append('customerNameView',customerNameView);
-		postData.append('businessNameView',businessNameView);
-		postData.append('networkClassificationView',networkClassificationView);
-		postData.append('managerView',managerView);
-		postData.append('requestDateView',requestDateView);
-		postData.append('managementServerView',managementServerView);
+		const postData = new FormData($('#modalForm')[0]);
 		
 		if ($('#chkEssential').is(":checked")) {
 			if(sendPackageStartDateView>sendPackageEndDateView) {
@@ -958,7 +934,7 @@
 			return;
 		}
 		
-		if(sendPackageView.files[0] == null && sendPackageKeyNum == 0) {
+		if(sendPackageView.files[0] == null && sendPackageKeyNumList == 0) {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
@@ -972,8 +948,6 @@
 	        type: 'post',
 	        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
 	        async: false,
-	        //processData: false,
-		    //contentType: false,
 	        data: {"sendPackageFileName":sendPackageFileName+"_"+sendPackageRandomUrl},
 	        success: function (data) {
 	        	existenceConfirmation = data;
@@ -1022,6 +996,7 @@
 		        return xhr;
 		    },
 	        url: "<c:url value='/sendPackage/update'/>",
+	        enctype: 'multipart/form-data',
 	        type: 'post',
 	        data: postData,
 	        processData: false,
@@ -1044,7 +1019,7 @@
 		    	}, 500);
 		    },
 	        success: function(result) {
-	        	$('#sendPackageKeyNum').val(result.sendPackageKeyNum);
+	        	$('#sendPackageKeyNumList').val(result.sendPackageKeyNumList);
 			},
 			error: function(error) {
 				console.log(error);
@@ -1053,7 +1028,7 @@
 	}
 	
 	function sendPackageUpdateInfo() {
-		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
+		var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
 		var customerNameView = $('#customerNameView').val();
 		var businessNameView = $('#businessNameView').val();
 		var networkClassificationView = $('#networkClassificationView').val();
@@ -1062,7 +1037,7 @@
 		var managementServerView = $('#managementServerView').val();
 		
 		const postData = new FormData();
-		postData.append('sendPackageKeyNum',sendPackageKeyNum);
+		postData.append('sendPackageKeyNumList',sendPackageKeyNumList);
 		postData.append('customerNameView',customerNameView);
 		postData.append('businessNameView',businessNameView);
 		postData.append('networkClassificationView',networkClassificationView);
@@ -1112,18 +1087,7 @@
 			managementServerView = $('#managementServerSelf').val();
 		}
 		
-		const postData = new FormData();
-		postData.append('sendPackageView',sendPackageView.files[0]);
-		postData.append('sendPackageRandomUrl',sendPackageRandomUrl);
-		postData.append('sendPackageStartDateView',sendPackageStartDateView);
-		postData.append('sendPackageEndDateView',sendPackageEndDateView);
-		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
-		postData.append('customerNameView',customerNameView);
-		postData.append('businessNameView',businessNameView);
-		postData.append('networkClassificationView',networkClassificationView);
-		postData.append('managerView',managerView);
-		postData.append('requestDateView',requestDateView);
-		postData.append('managementServerView',managementServerView);
+		const postData = new FormData($('#modalForm')[0]);
 		
 		if ($('#chkEssential').is(":checked")) {
 			if(sendPackageStartDateView>sendPackageEndDateView) {
@@ -1176,8 +1140,6 @@
 		        type: 'post',
 		        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
 		        async: false,
-		        //processData: false,
-		        //contentType: false,
 		        data: {"sendPackageFileName":sendPackageFileName},
 		        success: function (data) {
 		        	existenceConfirmation = data;
@@ -1227,6 +1189,7 @@
                 return xhr;
             },
 			url: "<c:url value='/sendPackage/copy'/>",
+			enctype: 'multipart/form-data',
 			type: 'post',
 		    data: postData,
 		    //async: false,
@@ -1250,7 +1213,7 @@
             	}, 500);
             },
 		    success: function(result) {
-
+		    	$('#sendPackageKeyNumList').val(result.sendPackageKeyNumList);
 		    }	
 		});
 	}

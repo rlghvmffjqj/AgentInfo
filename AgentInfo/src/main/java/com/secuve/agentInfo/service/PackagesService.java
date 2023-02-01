@@ -47,6 +47,7 @@ public class PackagesService {
 	@Autowired CustomerInfoDao customerInfoDao;
 	@Autowired CustomerInfoService customerInfoService;
 	@Autowired SendPackageDao sendPackageDao;
+	@Autowired SendPackageService sendPackageService;
 
 	/**
 	 * 패키지 리스트 조회
@@ -78,7 +79,8 @@ public class PackagesService {
 	public String delPackages(int[] chkList, Principal principal) {
 		for (int packagesKeyNum : chkList) {
 			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-			sendPackageDao.updateSendPackageFlagKey(packages.getSendPackageKeyNum());
+			//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(packages.getSendPackageKeyNum()));
+			sendPackageService.updateDelete(packages.getSendPackageKeyNum());
 			int sucess = packagesDao.delPackages(packagesKeyNum);
 
 			// uid 로그 기록

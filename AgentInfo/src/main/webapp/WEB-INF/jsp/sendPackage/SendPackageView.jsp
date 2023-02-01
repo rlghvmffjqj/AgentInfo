@@ -5,6 +5,7 @@
 <div class="modal-body" style="width: 100%; height: 720px;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
+		<input type="hidden" id="sendPackageKeyNumList" name="sendPackageKeyNumList" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
 		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
 		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">
 		<c:choose>
@@ -216,18 +217,7 @@
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		
-		const postData = new FormData();
-		
-		postData.append('sendPackageView',sendPackageView.files[0]);
-		postData.append('sendPackageStartDateView',sendPackageStartDateView);
-		postData.append('sendPackageEndDateView',sendPackageEndDateView);
-		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
-		postData.append('customerNameView',customerNameView);
-		postData.append('businessNameView',businessNameView);
-		postData.append('networkClassificationView',networkClassificationView);
-		postData.append('managerView',managerView);
-		postData.append('requestDateView',requestDateView);
-		postData.append('managementServerView',managementServerView);
+		const postData = new FormData($('#modalForm')[0]);
 		
 		if(customerNameView == "") {
 			$('#NotCustomerName').show();
@@ -326,9 +316,9 @@
                 return xhr;
             },
 			url: "<c:url value='/sendPackage/insert'/>",
+			enctype: 'multipart/form-data',
 			type: 'post',
 		    data: postData,
-		    //async: false,
 		    processData: false,
 		    contentType: false,
 		    beforeSend:function(){
@@ -388,20 +378,7 @@
 			var sendPackageFileName = sendPackageView.files[0].name;
 		}
 		
-		const postData = new FormData();
-		postData.append('sendPackageView',sendPackageView.files[0]);
-		postData.append('sendPackageKeyNum',sendPackageKeyNum);
-		postData.append('sendPackageRandomUrl',sendPackageRandomUrl);
-		postData.append('sendPackageCountView',sendPackageCountView);
-		postData.append('sendPackageStartDateView',sendPackageStartDateView);
-		postData.append('sendPackageEndDateView',sendPackageEndDateView);
-		postData.append('sendPackageLimitCountView',sendPackageLimitCountView);
-		postData.append('customerNameView',customerNameView);
-		postData.append('businessNameView',businessNameView);
-		postData.append('networkClassificationView',networkClassificationView);
-		postData.append('managerView',managerView);
-		postData.append('requestDateView',requestDateView);
-		postData.append('managementServerView',managementServerView);
+		const postData = new FormData($('#modalForm')[0]);
 		
 		if(sendPackageView.files[0] != null) {
 			// 파일 존재 유무 확인

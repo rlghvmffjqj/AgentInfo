@@ -128,10 +128,10 @@ public class SendPackageService {
 
 	public String deleteSendPackage(int[] chkList) {
 		for(int sendPackageKeyNum: chkList) {
-			int sucess = sendPackageDao.updateSendPackageFlagKey(sendPackageKeyNum);
-			//SendPackage sendPackage = sendPackageDao.getSendPackageOne(sendPackageKeyNum);
-			//fileDelete(sendPackage.getSendPackageName());
-			//int sucess = sendPackageDao.deleteSendPackage(sendPackageKeyNum);
+			//int sucess = sendPackageDao.updateSendPackageFlagKey(sendPackageKeyNum);
+			SendPackage sendPackage = sendPackageDao.getSendPackageOne(sendPackageKeyNum);
+			fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
+			int sucess = sendPackageDao.deleteSendPackage(sendPackageKeyNum);
 			if(sucess <= 0) 
 				return "FALSE";
 		}
@@ -146,23 +146,20 @@ public class SendPackageService {
 		return sendPackageDao.getSendPackageOne(sendPackageKeyNum);
 	}
 
-	public String updateSendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
-		if(sendPackageView != null) {
-			sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
-			SendPackage ordSendPackage = sendPackageDao.getSendPackageOne(sendPackage.getSendPackageKeyNum());
-			fileDelete(ordSendPackage.getSendPackageName()+"_"+ordSendPackage.getSendPackageRandomUrl());
-		}
+	public String updateSendPackage(SendPackage sendPackage)  {
+		int sucess = 0;
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
 		}
 		if(sendPackage.getSendPackageEndDateView().length() > 10) {
 			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
 		}
-		int sucess = sendPackageDao.updateSendPackage(sendPackage);
+		for(String sendPackageKeyNum : sendPackage.getSendPackageKeyNumList().split(",")) {
+			sendPackage.setSendPackageKeyNum(Integer.parseInt(sendPackageKeyNum));
+			sucess = sendPackageDao.updateSendPackage(sendPackage);
+		}
 		if (sucess <= 0)
 			return "FALSE";
-		if(sendPackageView != null) 
-			fileDownload(sendPackage, sendPackageView);
 		return "OK";
 	}
 
@@ -193,12 +190,48 @@ public class SendPackageService {
 		fileDownload(sendPackage, sendPackageView);
 	}
 
-	public boolean getSendPackageOneUrl(String sendPackageRandomUrl) {
-		return sendPackageDao.getSendPackageOneUrl(sendPackageRandomUrl);
+	public boolean getSendPackageOneUrl(String sendPackageName, String sendPackageRandomUrl) {
+		return sendPackageDao.getSendPackageOneUrl(sendPackageName, sendPackageRandomUrl);
 	}
 
 	public void updateInfoSendPackage(SendPackage sendPackage) {
 		sendPackageDao.updateInfoSendPackage(sendPackage);
+	}
+
+	public String insertSendPackageMulti(SendPackage sendPackage, MultipartFile sendPackageView, String sendPackageRandomUrl) throws IllegalStateException, IOException {
+		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
+		if(sendPackage.getSendPackageStartDateView().length() > 10) {
+			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
+		}
+		if(sendPackage.getSendPackageEndDateView().length() > 10) {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
+		} else {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView() + " 24");
+		}
+		if(sendPackageRandomUrl == "" || sendPackageRandomUrl == null) {
+			while(true) {
+				sendPackage.setSendPackageRandomUrl(createKey());
+				int count = sendPackageDao.getRandomUrlCheck(sendPackage.getSendPackageRandomUrl());
+				if(count == 0) {
+					break;
+				}
+			}
+		} else {
+			sendPackage.setSendPackageRandomUrl(sendPackageRandomUrl);
+		}
+		sendPackageDao.insertSendPackage(sendPackage);
+		fileDownload(sendPackage, sendPackageView);
+		return sendPackage.getSendPackageRandomUrl();
+	}
+
+	public void updateDelete(String sendPackageKeyNumList) {
+		for(String sendPackageKeyNum: sendPackageKeyNumList.split(",")) {
+			//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(sendPackageKeyNum));
+			SendPackage sendPackage = sendPackageDao.getSendPackageOne(Integer.parseInt(sendPackageKeyNum));
+			fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
+			sendPackageDao.deleteSendPackage(Integer.parseInt(sendPackageKeyNum));
+		}
+		
 	}
 
 }

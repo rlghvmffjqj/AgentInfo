@@ -345,11 +345,11 @@
 		
 		function copyFormatter(value, options, row) {
 			var URL = row.sendPackageRandomUrl;
-			return '<a href="#!" onClick="btnCopy('+"'"+URL+"'"+');" style="font-size:10px;">https://172.16.100.90:8443/AgentInfo/PKG/download/'+URL+'</a>';
+			return '<a href="#!" onClick="btnCopy('+"'"+URL+"'"+');" style="font-size:10px;">https://172.16.50.79:8443/AgentInfo/PKG/download/'+URL+'</a>';
 		}
 		
 		function btnCopy(URL) {
-			URL = "https://172.16.100.90:8443/AgentInfo/PKG/download/"+URL;
+			URL = "https://172.16.50.79:8443/AgentInfo/PKG/download/"+URL;
 			const textarea = document.createElement('textarea');
 			textarea.textContent = URL;
 			document.body.append(textarea);
