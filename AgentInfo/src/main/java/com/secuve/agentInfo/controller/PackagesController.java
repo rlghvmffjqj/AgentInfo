@@ -164,8 +164,9 @@ public class PackagesController {
 	@PostMapping(value = "/packages/updateView")
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
-		SendPackage sendPackage = sendPackageService.getSendPackageOne(Integer.parseInt(packages.getSendPackageKeyNum().split(",")[0]));
+		SendPackage sendPackage = new SendPackage();
 		try {
+			sendPackage = sendPackageService.getSendPackageOne(Integer.parseInt(packages.getSendPackageKeyNum().split(",")[0]));
 			sendPackage.setSendPackageKeyNumList(packages.getSendPackageKeyNum());
 		} catch (Exception e) {
 			// TODO: handle exception
