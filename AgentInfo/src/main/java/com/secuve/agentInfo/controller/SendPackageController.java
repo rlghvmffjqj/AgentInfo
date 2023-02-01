@@ -203,7 +203,6 @@ public class SendPackageController {
 			map.put("sendPackageKeyNumList", sendPackage.getSendPackageKeyNumList());
 		}
 		
-		
 		map.put("result", result);
 		return map;
 	}
