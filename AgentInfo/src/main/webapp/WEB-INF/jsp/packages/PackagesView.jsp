@@ -995,7 +995,7 @@
 		        }, false);
 		        return xhr;
 		    },
-	        url: "<c:url value='/sendPackage/update'/>",
+	        url: "<c:url value='/sendPackage/packagesUpdate'/>",
 	        enctype: 'multipart/form-data',
 	        type: 'post',
 	        data: postData,

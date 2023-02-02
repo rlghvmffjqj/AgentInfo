@@ -140,7 +140,14 @@
 			<div>
 				<label class="labelFontSize">패키지</label><label class="colorRed">*</label>
 			</div>
-			<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" multiple />
+			<c:choose>
+				<c:when test="${viewType eq 'insert'}">
+					<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" multiple />
+				</c:when>
+				<c:when test="${viewType eq 'update'}">
+					<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" />
+				</c:when>
+			</c:choose>
 			<span class="colorRed" id="NotSendPackageView" style="display: none; line-height: initial;">패키지를 등록 해주세요.</span>
 			<c:choose>
 				<c:when test="${viewType eq 'update'}">

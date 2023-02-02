@@ -225,13 +225,39 @@ public class SendPackageService {
 	}
 
 	public void updateDelete(String sendPackageKeyNumList) {
-		for(String sendPackageKeyNum: sendPackageKeyNumList.split(",")) {
-			//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(sendPackageKeyNum));
-			SendPackage sendPackage = sendPackageDao.getSendPackageOne(Integer.parseInt(sendPackageKeyNum));
-			fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
-			sendPackageDao.deleteSendPackage(Integer.parseInt(sendPackageKeyNum));
+		if(sendPackageKeyNumList != null && !sendPackageKeyNumList.equals("0")) {
+			for(String sendPackageKeyNum: sendPackageKeyNumList.split(",")) {
+				//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(sendPackageKeyNum));
+				SendPackage sendPackage = sendPackageDao.getSendPackageOne(Integer.parseInt(sendPackageKeyNum));
+				if(sendPackage != null) {
+					fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
+					sendPackageDao.deleteSendPackage(Integer.parseInt(sendPackageKeyNum));
+				}
+			}
 		}
 		
+	}
+
+	public String updateSendPackageFile(SendPackage sendPackage, MultipartFile sendPackageView)  throws IllegalStateException, IOException {
+		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
+		if(sendPackage.getSendPackageStartDateView().length() > 10) {
+			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
+		}
+		if(sendPackage.getSendPackageEndDateView().length() > 10) {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
+		} else {
+			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView() + " 24");
+		}
+		
+		if(!sendPackageView.getOriginalFilename().equals("")) {
+			SendPackage sendPackageOld = sendPackageDao.getSendPackageOne(sendPackage.getSendPackageKeyNum());
+			fileDelete(sendPackageOld.getSendPackageName()+"_"+sendPackageOld.getSendPackageRandomUrl());
+			fileDownload(sendPackage, sendPackageView);
+		} 
+		int sucess = sendPackageDao.updateSendPackage(sendPackage);
+		if (sucess <= 0)
+			return "FALSE";
+		return "OK";
 	}
 
 }

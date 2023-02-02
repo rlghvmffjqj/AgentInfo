@@ -174,14 +174,13 @@ public class SendPackageController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/sendPackage/update")
-	public Map UpdateSendPackage(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
+	@PostMapping(value = "/sendPackage/packagesUpdate")
+	public Map UpdatePackages(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageModifier(principal.getName());
 		sendPackage.setSendPackageModifiedDate(sendPackageService.nowDate());
 		
 		List<MultipartFile> fileList = request.getFiles("sendPackageView");
 		Map map = new HashMap<String, String>();
-		String result = "OK";
 		String sendPackageRandomUrl = null;
 		List<String> sendPackageKeyNumList = new ArrayList<String>();
 		if(!fileList.get(0).getOriginalFilename().equals("")) {
@@ -193,15 +192,28 @@ public class SendPackageController {
 				if(fileList.size() > 1) {
 					sendPackageRandomUrl = sendPackageService.insertSendPackageMulti(sendPackage, sendPackageView, sendPackageRandomUrl);
 				} else {
-					result = sendPackageService.insertSendPackage(sendPackage, sendPackageView);
+					sendPackageService.insertSendPackage(sendPackage, sendPackageView);
 				}
 				sendPackageKeyNumList.add(Integer.toString(sendPackage.getSendPackageKeyNum()));
 			}
 			map.put("sendPackageKeyNumList", sendPackageKeyNumList);
 		} else {
-			result = sendPackageService.updateSendPackage(sendPackage);
+			sendPackageService.updateSendPackage(sendPackage);
 			map.put("sendPackageKeyNumList", sendPackage.getSendPackageKeyNumList());
 		}
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/sendPackage/update")
+	public Map UpdateSendPackage(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
+		sendPackage.setSendPackageModifier(principal.getName());
+		sendPackage.setSendPackageModifiedDate(sendPackageService.nowDate());
+		
+		List<MultipartFile> fileList = request.getFiles("sendPackageView");
+		Map<String, String> map = new HashMap<String, String>();
+
+		String result = sendPackageService.updateSendPackageFile(sendPackage, fileList.get(0));
 		
 		map.put("result", result);
 		return map;
