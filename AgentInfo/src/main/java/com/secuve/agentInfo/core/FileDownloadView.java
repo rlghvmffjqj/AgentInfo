@@ -37,7 +37,7 @@ public class FileDownloadView extends AbstractView {
 
 		boolean ie = userAgent.indexOf("MSIE") > -1;
 
-		if (ie == true) {
+		if (ie == false) {
 			fileLogicalName = URLEncoder.encode(fileLogicalName, "UTF-8");
 		} else {
 			fileLogicalName = new String(fileLogicalName.getBytes("UTF-8"), "ISO-8859-1");
