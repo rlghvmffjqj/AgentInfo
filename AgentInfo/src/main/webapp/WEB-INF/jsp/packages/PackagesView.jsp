@@ -459,10 +459,21 @@
 			$('#sendPackageLimitCountView').val(1);
 		}
 		
-		//if("${viewType}" == 'update') {
-		//	$("#chkEssential").prop("checked", false);
-		//	$('.sendPackageEssential').hide();
-		//}
+		if("${viewType}" == 'update') {
+			$.ajax({
+		        type: 'post',
+		        url: "<c:url value='/sendPackage/packagesCount'/>",
+		        async: false,
+		        data: {"packagesKeyNum":$('#packagesKeyNum').val()},
+		        success: function (data) {
+		        	if(data == 0) {
+		        		$("#chkEssential").prop("checked", false);
+						$('.sendPackageEssential').hide();
+		        	}
+		        },
+		    });
+		}
+		
 		var sendPackageStartDate = $('#sendPackageStartDateView').val();
 		var sendPackageEndDate = $('#sendPackageEndDateView').val();
 		if(sendPackageStartDate == "") {
