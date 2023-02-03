@@ -5,7 +5,6 @@
 <div class="modal-body" style="width: 100%; height: 720px;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="sendPackageKeyNum" name="sendPackageKeyNum" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
-		<input type="hidden" id="sendPackageKeyNumList" name="sendPackageKeyNumList" class="form-control viewForm" value="${sendPackage.sendPackageKeyNum}">
 		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
 		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">
 		<c:choose>
@@ -216,11 +215,6 @@
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
 		var customerNameView = $('#customerNameView').val();
-		var businessNameView = $('#businessNameView').val();
-		var networkClassificationView = $('#networkClassificationView').val();
-		var managerView = $('#managerView').val();
-		var requestDateView = $('#requestDateView').val();
-		var managementServerView = $('#managementServerView').val();
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		
@@ -272,8 +266,6 @@
 	            type: 'post',
 	            url: "<c:url value='/sendPackage/existenceConfirmation'/>",
 	            async: false,
-	            //processData: false,
-		        //contentType: false,
 	            data: {"sendPackageFileName":sendPackageFileName},
 	            success: function (data) {
 	            	existenceConfirmation = data;
@@ -367,22 +359,43 @@
 	
 	/* =========== 패키지 수정 ========= */
 	$('#updateBtn').click(function() {
-		var sendPackageKeyNum = $('#sendPackageKeyNum').val();
-		var sendPackageRandomUrl = $('#sendPackageRandomUrl').val();
-		var sendPackageCountView = $('#sendPackageCountView').val();
+		check = 1;
 		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
 		var customerNameView = $('#customerNameView').val();
-		var businessNameView = $('#businessNameView').val();
-		var networkClassificationView = $('#networkClassificationView').val();
-		var managerView = $('#managerView').val();
-		var requestDateView = $('#requestDateView').val();
-		var managementServerView = $('#managementServerView').val();
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		if(sendPackageView.files[0] != null) {
 			var sendPackageFileName = sendPackageView.files[0].name;
+		}
+		
+		if(customerNameView == "") {
+			$('#NotCustomerName').show();
+			check = 0;
+		} else {
+			$('#NotCustomerName').hide();
+		}
+		if(sendPackageStartDateView>sendPackageEndDateView) {
+			$('#PeriodSendPackageDate').show();
+			check = 0;
+		} else {
+			$('#PeriodSendPackageDate').hide();
+		}
+		if(sendPackageStartDateView == "" || sendPackageEndDateView == "") {
+			$('#NotSendPackageDate').show();
+			check = 0;
+		} else {
+			$('#NotSendPackageDate').hide();
+		}
+		if(sendPackageLimitCountView < 1) {
+			$('#NotSendPackageCount').show();
+			check = 0;
+		} else {
+			$('#NotSendPackageCount').hide();
+		}
+		if(check == 0) {
+			return false;
 		}
 		
 		const postData = new FormData($('#modalForm')[0]);
@@ -393,8 +406,6 @@
 	            type: 'post',
 	            url: "<c:url value='/sendPackage/existenceConfirmation'/>",
 	            async: false,
-	            //processData: false,
-		        //contentType: false,
 	            data: {"sendPackageFileName":sendPackageFileName},
 	            success: function (data) {
 	            	existenceConfirmation = data;

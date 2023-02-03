@@ -98,8 +98,12 @@ public class SendPackageDao {
 		return sqlSession.selectOne("sendPackage.getSendPackageOneUrl",parameters);
 	}
 
-	public void updateInfoSendPackage(SendPackage sendPackage) {
-		sqlSession.update("sendPackage.updateInfoSendPackage",sendPackage);
+	public List<SendPackage> getSendPackageListPackages(int packagesKeyNum) {
+		return sqlSession.selectList("sendPackage.getSendPackageListPackages",packagesKeyNum);
+	}
+
+	public int getPackagesCount(int packagesKeyNum) {
+		return sqlSession.selectOne("sendPackage.getPackagesCount",packagesKeyNum);
 	}
 
 }

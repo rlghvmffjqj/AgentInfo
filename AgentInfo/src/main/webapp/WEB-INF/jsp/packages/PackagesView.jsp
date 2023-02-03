@@ -6,7 +6,6 @@
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name="packagesKeyNum" class="form-control viewForm" value="${packages.packagesKeyNum}">
 		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">
-		<input type="hidden" id="sendPackageKeyNumList" name="sendPackageKeyNumList" class="form-control viewForm" value="${sendPackage.sendPackageKeyNumList}">
 		<input type="hidden" id="sendPackageCountView" name="sendPackageCountView" class="form-control viewForm" value="${sendPackage.sendPackageCount}">
 		<input type="hidden" id="sendPackageRandomUrl" name="sendPackageRandomUrl" class="form-control viewForm" value="${sendPackage.sendPackageRandomUrl}">  
 		<div class="leftDiv">
@@ -459,20 +458,11 @@
 		if(sendPackageLimitCountView == '') {
 			$('#sendPackageLimitCountView').val(1);
 		}
-		var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
-		if(sendPackageKeyNumList == '') {
-			$('#sendPackageKeyNumList').val(0);
-		}
 		
-		if("${viewType}" == 'update') {
-			var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
-			if(sendPackageKeyNumList != "0") {
-				$("#chkEssential").prop("checked", true);
-			} else {
-				$("#chkEssential").prop("checked", false);
-				$('.sendPackageEssential').hide();
-			}
-		}
+		//if("${viewType}" == 'update') {
+		//	$("#chkEssential").prop("checked", false);
+		//	$('.sendPackageEssential').hide();
+		//}
 		var sendPackageStartDate = $('#sendPackageStartDateView').val();
 		var sendPackageEndDate = $('#sendPackageEndDateView').val();
 		if(sendPackageStartDate == "") {
@@ -483,124 +473,6 @@
 			$('#sendPackageEndDateView').val(new Date().toISOString().slice(0, 10));
 		}
 	});
-	
-	/* =========== 패키지 추가 ========= */
-	function packagesInsert() {
-		var postData = $('#modalForm').serializeObject();
-		$.ajax({
-			url: "<c:url value='/packages/insert'/>",
-	        type: 'post',
-	        data: postData,
-	        async: false,
-	        success: function(result) {
-	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
-					$('#NotCustomerName').show();
-				} else {
-					$('#NotCustomerName').hide();
-				} 
-	        	
-				if(result.result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					$('#modal').modal("hide"); // 모달 닫기
-	        		$('#modal').on('hidden.bs.modal', function () {
-	        			tableRefresh();
-	        		});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '작업을 실패하였습니다.',
-					});
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-	    });
-	};
-	
-	/* =========== 패키지 정보 수정 ========= */
-	function packagesUpdate() {
-		var postData = $('#modalForm').serializeObject();
-		$.ajax({
-			url: "<c:url value='/packages/update'/>",
-            type: 'post',
-            data: postData,
-            async: false,
-            success: function(result) {
-				if(result.result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					$('#modal').modal("hide"); // 모달 닫기
-            		$('#modal').on('hidden.bs.modal', function () {
-            			tableRefresh();
-            		});
-				} else {
-					Swal.fire({               
-						icon: 'error',          
-						title: '실패!',           
-						text: '작업을 실패했습니다.',    
-					});  
-				}
-				
-				if(result.result == "NotCustomerName") {  // 고객사명 미 입력 시
-					$('#NotCustomerName').show();
-				} else {
-					$('#NotCustomerName').hide();
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-        });
-	};
-	
-	/* =========== 패키지 복사 ========= */
-	function packagesCopy() {
-		var postData = $('#modalForm').serializeObject();
-		$.ajax({
-			url: "<c:url value='/packages/copy'/>",
-	        type: 'post',
-	        data: postData,
-	        async: false,
-	        success: function(result) {
-	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
-					$('#NotCustomerName').show();
-	        		
-				} else {
-					$('#NotCustomerName').hide();
-				} 
-				
-				if(result.result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					$('#modal').modal("hide"); // 모달 닫기
-	        		$('#modal').on('hidden.bs.modal', function () {
-	        			tableRefresh();
-	        		});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '작업을 실패하였습니다.',
-					});
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-	    });
-	};
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
 	function selfInput(data) {
@@ -752,35 +624,23 @@
 	
 	
 	$('#insertBtn').click(function() {
-		 /* progressbar 정보 */
-       var bar = $('.bar');
-       var percent = $('.percent');
-       var status = $('#status');
-       
-       var check = 1;
+		var check = 1;
 		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
 		var customerNameView = $('#customerNameView').val();
-		var businessNameView = $('#businessNameView').val();
-		var networkClassificationView = $('#networkClassificationView').val();
-		var managerView = $('#managerView').val();
-		var requestDateView = $('#requestDateView').val();
 		var managementServerView = $('#managementServerView').val();
 		var sendPackageView = $('#sendPackageView')[0];
 		
-		if(customerNameView == '') {
-			customerNameView = $('#customerNameSelf').val();
-		}
-		if(businessNameView == '') {
-			businessNameView = $('#businessNameSelf').val();
-		}
-		if(managementServerView == '') {
-			managementServerView = $('#managementServerSelf').val();
+		// 고객사명 유효성검사
+		if(customerNameView == "") {
+			$('#NotCustomerName').show();
+			return false;
+		} else {
+			$('#NotCustomerName').hide();
 		}
 		
-		const postData = new FormData($('#modalForm')[0]);
-		
+		// 패키지 전송 유효성 검사
 		if ($('#chkEssential').is(":checked")) {
 			if(sendPackageStartDateView>sendPackageEndDateView) {
 				$('#PeriodSendPackageDate').show();
@@ -800,12 +660,6 @@
 			} else {
 				$('#NotSendPackageCount').hide();
 			}
-			if(customerNameView == "") {
-				$('#NotCustomerName').show();
-				check = 0;
-			} else {
-				$('#NotCustomerName').hide();
-			}
 			if(check == 0) {
 				return false;
 			}
@@ -820,11 +674,57 @@
 			 	return false;  
 			} 
 			$('#NotSendPackageView').hide();
-		} else {
-			packagesInsert();
-			return;
 		}
-       
+		
+		var postData = $('#modalForm').serializeObject();
+		$.ajax({
+			url: "<c:url value='/packages/insert'/>",
+	        type: 'post',
+	        data: postData,
+	        async: false,
+	        success: function(result) {
+	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
+					$('#NotCustomerName').show();
+				} else {
+					$('#NotCustomerName').hide();
+				} 
+	        	
+				if(result.result == "OK") {
+					if ($('#chkEssential').is(":checked")) {
+						$('#packagesKeyNum').val(result.packagesKeyNum);
+						sendPackageInsert();
+					} else {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						});
+						$('#modal').modal("hide"); // 모달 닫기
+		        		$('#modal').on('hidden.bs.modal', function () {
+		        			tableRefresh();
+		        		});
+					}
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업을 실패하였습니다.',
+					});
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	});
+	
+	function sendPackageInsert() {
+		/* progressbar 정보 */
+	    var bar = $('.bar');
+	    var percent = $('.percent');
+	    var status = $('#status');
+	       
+		const postData = new FormData($('#modalForm')[0]);
 		$.ajax({
 			xhr: function() {
 	           var xhr = new window.XMLHttpRequest();
@@ -856,31 +756,30 @@
 	           percent.html(percentVal);
 	       },
 	       complete:function(){
-	           // progress Modal 닫기
-	           setTimeout(() => {
-		           $("#pleaseWaitDialog").modal('hide');
-		           packagesInsert();
-	           } ,500);
-	       },
-		    success: function(result) {
-				$('#sendPackageKeyNumList').val(result.sendPackageKeyNumList);
-			}	
+				// progress Modal 닫기
+	        	Swal.fire({
+					icon: 'success',
+					title: '성공!',
+					text: '작업을 완료했습니다.',
+				});
+	        	setTimeout(() => {
+				    $("#pleaseWaitDialog").modal('hide');
+				    $('#modal').modal("hide");
+				    $('#modal').on('hidden.bs.modal', function () {
+			        	tableRefresh();
+					});
+	        	}, 500);
+	       }
 		});
-	});
+	}
 	
 	$('#updateBtn').click(function() {
 		var check = 1;
-		var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
 		var sendPackageRandomUrl = $('#sendPackageRandomUrl').val();
-		var sendPackageCountView = $('#sendPackageCountView').val();
 		var sendPackageStartDateView = $('#sendPackageStartDateView').val();
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
 		var customerNameView = $('#customerNameView').val();
-		var businessNameView = $('#businessNameView').val();
-		var networkClassificationView = $('#networkClassificationView').val();
-		var managerView = $('#managerView').val();
-		var requestDateView = $('#requestDateView').val();
 		var managementServerView = $('#managementServerView').val();
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
@@ -888,18 +787,15 @@
 		if(sendPackageView.files[0] != null) {
 			var sendPackageFileName = sendPackageView.files[0].name;
 		}
-		if(customerNameView == '') {
-			customerNameView = $('#customerNameSelf').val();
-		}
-		if(businessNameView == '') {
-			businessNameView = $('#businessNameSelf').val();
-		}
-		if(managementServerView == '') {
-			managementServerView = $('#managementServerSelf').val();
-		}
 		
 		const postData = new FormData($('#modalForm')[0]);
 		
+		if(customerNameView == "") {
+			$('#NotCustomerName').show();
+			return false;
+		} else {
+			$('#NotCustomerName').hide();
+		}
 		if ($('#chkEssential').is(":checked")) {
 			if(sendPackageStartDateView>sendPackageEndDateView) {
 				$('#PeriodSendPackageDate').show();
@@ -919,66 +815,114 @@
 			} else {
 				$('#NotSendPackageCount').hide();
 			}
-			if(customerNameView == "") {
-				$('#NotCustomerName').show();
-				check = 0;
-			} else {
-				$('#NotCustomerName').hide();
-			}
 			if(check == 0) {
 				return false;
 			}
+			
+			var result = false;
+			if(sendPackageView.files[0] == null) {			
+				$.ajax({
+			        type: 'post',
+			        url: "<c:url value='/sendPackage/packagesCount'/>",
+			        async: false,
+			        data: {"packagesKeyNum":$('#packagesKeyNum').val()},
+			        success: function (data) {
+			        	if(data == 0) {
+				        	Swal.fire({
+				        		icon: 'error',
+				        		title: '실패!',
+				        		text: '패키지 기간 만료 또는 다운로드 초과 되어 기존 정보가 삭제되었습니다. 파일을 새로 등록 하여 사용바랍니다.',
+				        	});
+			        		result = true;	
+			        	}
+			        },
+			    });
+			}
+			if(result)
+				return false;
+			
+			// 파일 존재 유무 확인
+			$.ajax({
+		        type: 'post',
+		        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
+		        async: false,
+		        data: {"sendPackageFileName":sendPackageFileName+"_"+sendPackageRandomUrl},
+		        success: function (data) {
+		        	existenceConfirmation = data;
+		        },
+		    });
+			
+			// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
+			if(existenceConfirmation == "existence") {
+				Swal.fire({
+					  title: '덮어쓰기!',
+					  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: '예'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						packagesUpdate();	// 덮어쓰기 선택한 경우
+					}
+				});
+			} else {
+				packagesUpdate();	// 동일한 파일이 존재하지 않는 경우
+			}
 		} else {
-			sendPackageUpdateInfo();
-			packagesUpdate();
-			return;
-		}
-		
-		if(sendPackageView.files[0] == null && sendPackageKeyNumList == 0) {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '패키지 기간 만료 또는 다운로드 초과 되어 기존 정보가 삭제되었습니다. 파일을 새로 등록 하여 사용바랍니다.',
-			});
-			return;
-		}
-		
-		// 파일 존재 유무 확인
-		$.ajax({
-	        type: 'post',
-	        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
-	        async: false,
-	        data: {"sendPackageFileName":sendPackageFileName+"_"+sendPackageRandomUrl},
-	        success: function (data) {
-	        	existenceConfirmation = data;
-	        },
-	    });
-		
-		// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
-		if(existenceConfirmation == "existence") {
-			Swal.fire({
-				  title: '덮어쓰기!',
-				  text: "선택한 파일과 동일한 이름의 파일이 존재합니다. 덮어쓰기 하시겠습니까?",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonColor: '#7066e0',
-				  cancelButtonColor: '#FF99AB',
-				  confirmButtonText: '예'
-			}).then((result) => {
-				if (result.isConfirmed) {
-					sendPackageUpdate(postData);	// update
-				}
-			});
-		} else {
-			sendPackageUpdate(postData);		// update
+			packagesUpdate();	// 체크박스 체크되어있지 않은 경우
 		}
 	});
-	
-	function sendPackageUpdate(postData) {
+		
+	function packagesUpdate() {
+		var postData = $('#modalForm').serializeObject();
+		$.ajax({
+			url: "<c:url value='/packages/update'/>",
+	        type: 'post',
+	        data: postData,
+	        async: false,
+	        success: function(result) {
+				if(result.result == "OK") {
+					if ($('#chkEssential').is(":checked")) {
+						sendPackageUpdate();
+					} else {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						});
+						$('#modal').modal("hide"); // 모달 닫기
+	            		$('#modal').on('hidden.bs.modal', function () {
+	            			tableRefresh();
+	            		});
+					}
+				} else {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '작업을 실패했습니다.',    
+					});  
+				}
+				
+				if(result.result == "NotCustomerName") {  // 고객사명 미 입력 시
+					$('#NotCustomerName').show();
+				} else {
+					$('#NotCustomerName').hide();
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	};
+		
+	function sendPackageUpdate() {
 		/* progressbar 정보 */
 		var bar = $('.bar');
 		var percent = $('.percent');
 		var status = $('#status');
+		const postData = new FormData($('#modalForm')[0]);
 		   
 		$.ajax({
 			xhr: function() {
@@ -1012,55 +956,24 @@
 	
 		    },
 		    complete:function(){
+		    	Swal.fire({
+					icon: 'success',
+					title: '성공!',
+					text: '작업을 완료했습니다.',
+				});
 		    	setTimeout(() => {
-		            // progress Modal 닫기
-		            $("#pleaseWaitDialog").modal('hide');
-		            packagesUpdate();
+			    	$("#pleaseWaitDialog").modal('hide');
+					$('#modal').modal("hide");
+					$('#modal').on('hidden.bs.modal', function () {
+				     	tableRefresh();
+					});
 		    	}, 500);
 		    },
-	        success: function(result) {
-	        	$('#sendPackageKeyNumList').val(result.sendPackageKeyNumList);
-			},
 			error: function(error) {
 				console.log(error);
 			}
 	    });
 	}
-	
-	function sendPackageUpdateInfo() {
-		var sendPackageKeyNumList = $('#sendPackageKeyNumList').val();
-		var customerNameView = $('#customerNameView').val();
-		var businessNameView = $('#businessNameView').val();
-		var networkClassificationView = $('#networkClassificationView').val();
-		var managerView = $('#managerView').val();
-		var requestDateView = $('#requestDateView').val();
-		var managementServerView = $('#managementServerView').val();
-		
-		const postData = new FormData();
-		postData.append('sendPackageKeyNumList',sendPackageKeyNumList);
-		postData.append('customerNameView',customerNameView);
-		postData.append('businessNameView',businessNameView);
-		postData.append('networkClassificationView',networkClassificationView);
-		postData.append('managerView',managerView);
-		postData.append('requestDateView',requestDateView);
-		postData.append('managementServerView',managementServerView);
-		
-		$.ajax({
-	        type: 'POST',
-	        url: "<c:url value='/sendPackage/updateInfo'/>",
-	        data: postData,
-	        async: false,
-	        processData: false,
-		    contentType: false,
-	        success: function () {
-
-	        },
-	        error: function(e) {
-	            // TODO 에러 화면
-	        }
-	    });	
-	}
-	
 	
 	$('#copyBtn').click(function() {
 		var check = 1;
@@ -1069,26 +982,15 @@
 		var sendPackageEndDateView = $('#sendPackageEndDateView').val();
 		var sendPackageLimitCountView = $('#sendPackageLimitCountView').val();
 		var customerNameView = $('#customerNameView').val();
-		var businessNameView = $('#businessNameView').val();
-		var networkClassificationView = $('#networkClassificationView').val();
-		var managerView = $('#managerView').val();
-		var requestDateView = $('#requestDateView').val();
-		var managementServerView = $('#managementServerView').val();
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		
-		if(customerNameView == '') {
-			customerNameView = $('#customerNameSelf').val();
+		if(customerNameView == "") {
+			$('#NotCustomerName').show();
+			return false;
+		} else {
+			$('#NotCustomerName').hide();
 		}
-		if(businessNameView == '') {
-			businessNameView = $('#businessNameSelf').val();
-		}
-		if(managementServerView == '') {
-			managementServerView = $('#managementServerSelf').val();
-		}
-		
-		const postData = new FormData($('#modalForm')[0]);
-		
 		if ($('#chkEssential').is(":checked")) {
 			if(sendPackageStartDateView>sendPackageEndDateView) {
 				$('#PeriodSendPackageDate').show();
@@ -1108,12 +1010,6 @@
 			} else {
 				$('#NotSendPackageCount').hide();
 			}
-			if(customerNameView == "") {
-				$('#NotCustomerName').show();
-				check = 0;
-			} else {
-				$('#NotCustomerName').hide();
-			}
 			if(check == 0) {
 				return false;
 			}
@@ -1128,23 +1024,18 @@
 			 	return false;  
 			} 
 			$('#NotSendPackageView').hide();
-		} else {
-			packagesCopy();
-			return;
-		}
-		
-		var sendPackageFileName = sendPackageView.files[0].name;
-		// 파일 존재 유무 확인
-		setTimeout(() => {
+			
+			var sendPackageFileName = sendPackageView.files[0].name;
+			// 파일 존재 유무 확인
 			$.ajax({
-		        type: 'post',
-		        url: "<c:url value='/sendPackage/existenceConfirmation'/>",
-		        async: false,
-		        data: {"sendPackageFileName":sendPackageFileName},
-		        success: function (data) {
-		        	existenceConfirmation = data;
-		        },
-		    });
+			    type: 'post',
+			    url: "<c:url value='/sendPackage/existenceConfirmation'/>",
+			    async: false,
+			    data: {"sendPackageFileName":sendPackageFileName+"_"+sendPackageRandomUrl},
+			    success: function (data) {
+			    	existenceConfirmation = data;
+			    },
+			});
 			// 동일한 이름의 파일이 존재할 경우 덮어쓰기 선택
 			if(existenceConfirmation == "existence") {
 				Swal.fire({
@@ -1157,21 +1048,69 @@
 					  confirmButtonText: '예'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						copy(postData);	// insert
+						packagesCopy();	// insert
 					} 
 				});
 			} else {
-				copy(postData);		// insert
+				packagesCopy();		// insert
 			}
-		}, "100");
+		} else {
+			packagesCopy();
+		}
 	});
 	
+	function packagesCopy() {
+		var postData = $('#modalForm').serializeObject();
+		$.ajax({
+			url: "<c:url value='/packages/copy'/>",
+	        type: 'post',
+	        data: postData,
+	        async: false,
+	        success: function(result) {
+	        	if(result.result == "NotCustomerName") { // 고객사명 미 입력 시
+					$('#NotCustomerName').show();
+	        		
+				} else {
+					$('#NotCustomerName').hide();
+				} 
+				
+				if(result.result == "OK") {
+					if ($('#chkEssential').is(":checked")) {
+						sendPackageCopy();
+					} else {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						});
+						$("#pleaseWaitDialog").modal('hide');
+						$('#modal').modal("hide");
+						$('#modal').on('hidden.bs.modal', function () {
+					    	tableRefresh();
+						});
+					}
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업을 실패하였습니다.',
+					});
+				}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	};
 	
-	function copy(postData) {
+	
+	function sendPackageCopy() {
 		 /* progressbar 정보 */
         var bar = $('.bar');
         var percent = $('.percent');
         var status = $('#status');
+        
+        const postData = new FormData($('#modalForm')[0]);
         
 		$.ajax({
 			xhr: function() {
@@ -1206,15 +1145,19 @@
 
             },
             complete:function(){
+            	Swal.fire({
+					icon: 'success',
+					title: '성공!',
+					text: '작업을 완료했습니다.',
+				});
             	setTimeout(() => {
-	                // progress Modal 닫기
-	                $("#pleaseWaitDialog").modal('hide');
-	                packagesCopy();
+			        $("#pleaseWaitDialog").modal('hide');
+			        $('#modal').modal("hide");
+			        $('#modal').on('hidden.bs.modal', function () {
+		        		tableRefresh();
+					});
             	}, 500);
-            },
-		    success: function(result) {
-		    	$('#sendPackageKeyNumList').val(result.sendPackageKeyNumList);
-		    }	
+            }
 		});
 	}
 	
@@ -1226,6 +1169,7 @@
         	$('.sendPackageEssential').hide();
         }
 	});
+	
 </script>
 <style>
 	.progress { position:relative; width:100%; border: 1px solid #ddd; padding: 1px; border-radius: 3px; color: black; }

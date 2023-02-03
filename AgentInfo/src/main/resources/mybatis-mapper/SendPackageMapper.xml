@@ -26,8 +26,8 @@
 	</select>
 	
 	<insert id="insertSendPackage">
-		INSERT INTO sendPackage(sendPackageName, sendPackageStartDate, sendPackageEndDate, sendPackageCount, sendPackageLimitCount, sendPackageRandomUrl, sendPackageFlag, customerName, businessName, networkClassification, manager, requestDate, managementServer, sendPackageRegistrant, sendPackageRegistrationDate)
-		VALUES (#{sendPackageNameView}, #{sendPackageStartDateView}, #{sendPackageEndDateView}, 0, #{sendPackageLimitCountView}, #{sendPackageRandomUrl}, true, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{managerView}, #{requestDateView}, #{managementServerView}, #{sendPackageRegistrant}, #{sendPackageRegistrationDate});
+		INSERT INTO sendPackage(sendPackageName, packagesKeyNum, sendPackageStartDate, sendPackageEndDate, sendPackageCount, sendPackageLimitCount, sendPackageRandomUrl, sendPackageFlag, customerName, businessName, networkClassification, manager, requestDate, managementServer, sendPackageRegistrant, sendPackageRegistrationDate)
+		VALUES (#{sendPackageNameView}, #{packagesKeyNum}, #{sendPackageStartDateView}, #{sendPackageEndDateView}, 0, #{sendPackageLimitCountView}, #{sendPackageRandomUrl}, true, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{managerView}, #{requestDateView}, #{managementServerView}, #{sendPackageRegistrant}, #{sendPackageRegistrationDate});
 		
 		<selectKey resultType="int" keyProperty="sendPackageKeyNum" order="AFTER">
 			SELECT LAST_INSERT_ID()
@@ -100,11 +100,13 @@
 		SELECT sendPackageFlag FROM sendPackage WHERE sendPackageRandomUrl = #{sendPackageRandomUrl} AND sendPackageName = #{sendPackageName};
 	</select>
 	
-	<update id="updateInfoSendPackage">
-		UPDATE sendPackage SET sendPackageModifier=#{sendPackageModifier}, sendPackageModifiedDate=#{sendPackageModifiedDate},
-			customerName=#{customerNameView}, businessName=#{businessNameView}, networkClassification=#{networkClassificationView}, manager=#{managerView}, requestDate=#{requestDateView}, managementServer=#{managementServerView}
-		WHERE sendPackageKeyNum = #{sendPackageKeyNum};
-	</update>
+	<select id="getSendPackageListPackages" parameterType="_int" resultMap="sendPackage">
+		SELECT * FROM sendPackage WHERE packagesKeyNum = #{packagesKeyNum};
+	</select>
+	
+	<select id="getPackagesCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM sendPackage WHERE packagesKeyNum = #{packagesKeyNum};
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

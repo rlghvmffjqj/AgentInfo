@@ -33,6 +33,7 @@ import com.secuve.agentInfo.dao.TrashDao;
 import com.secuve.agentInfo.vo.CustomerInfo;
 import com.secuve.agentInfo.vo.PackageUidLog;
 import com.secuve.agentInfo.vo.Packages;
+import com.secuve.agentInfo.vo.SendPackage;
 import com.secuve.agentInfo.vo.Trash;
 
 @Service
@@ -79,9 +80,11 @@ public class PackagesService {
 	public String delPackages(int[] chkList, Principal principal) {
 		for (int packagesKeyNum : chkList) {
 			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-			//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(packages.getSendPackageKeyNum()));
-			sendPackageService.updateDelete(packages.getSendPackageKeyNum());
 			int sucess = packagesDao.delPackages(packagesKeyNum);
+			List<SendPackage> sendPackageList =  sendPackageDao.getSendPackageListPackages(packagesKeyNum);
+			for(SendPackage sendPackage : sendPackageList) {
+				sendPackageService.updateDelete(sendPackage.getSendPackageKeyNum());
+			}
 
 			// uid 로그 기록
 			if (sucess > 0) {

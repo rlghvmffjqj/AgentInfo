@@ -95,29 +95,27 @@ public class SendPackageController {
 	}
 	
 	@ResponseBody
+	@PostMapping(value = "/sendPackage/packagesCount")
+	public int getPackagesCount(int packagesKeyNum) {
+		return sendPackageService.getPackagesCount(packagesKeyNum);
+	}
+	
+	@ResponseBody
 	@PostMapping(value = "/sendPackage/insert")
-	public Map InsertSendPackage(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
+	public Map<String, String> InsertSendPackage(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageRegistrant(principal.getName());
 		sendPackage.setSendPackageRegistrationDate(sendPackageService.nowDate());
 		
 		List<MultipartFile> fileList = request.getFiles("sendPackageView");
-		List<String> sendPackageKeyNumList = new ArrayList<String>();
-		String result = "OK";
-		String sendPackageRandomUrl = null;
+		Map<String,String> resultMap = new HashMap<String, String>();
 		
-		Map map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<String, String>();
 		for (MultipartFile sendPackageView : fileList) {
-			if(fileList.size() > 1) {
-				sendPackageRandomUrl = sendPackageService.insertSendPackageMulti(sendPackage, sendPackageView, sendPackageRandomUrl);
-			} else {
-				result = sendPackageService.insertSendPackage(sendPackage, sendPackageView);
-			}
-			sendPackageKeyNumList.add(Integer.toString(sendPackage.getSendPackageKeyNum()));
+			resultMap = sendPackageService.insertSendPackage(sendPackage, sendPackageView);
+			sendPackage.setSendPackageRandomUrl(resultMap.get("sendPackageRandomUrl"));
 		}
 		
-		//map.put("sendPackageKeyNum", sendPackage.getSendPackageKeyNum());
-		map.put("sendPackageKeyNumList", sendPackageKeyNumList);
-		map.put("result", result);
+		map.put("result", resultMap.get("result"));
 		return map;
 	}
 	
@@ -175,32 +173,35 @@ public class SendPackageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/sendPackage/packagesUpdate")
-	public Map UpdatePackages(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
+	public Map<String, String> UpdatePackages(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageModifier(principal.getName());
 		sendPackage.setSendPackageModifiedDate(sendPackageService.nowDate());
 		
+		Map<String,String> resultMap = new HashMap<String, String>();
 		List<MultipartFile> fileList = request.getFiles("sendPackageView");
-		Map map = new HashMap<String, String>();
-		String sendPackageRandomUrl = null;
-		List<String> sendPackageKeyNumList = new ArrayList<String>();
+		Map<String, String> map = new HashMap<String, String>();
+		List<SendPackage> sendPackageListPackage = new ArrayList<SendPackage>();
+		sendPackageListPackage = sendPackageService.getSendPackageListPackages(sendPackage.getPackagesKeyNum());
 		if(!fileList.get(0).getOriginalFilename().equals("")) {
-			try {
-				sendPackageService.updateDelete(sendPackage.getSendPackageKeyNumList());
-			} catch (Exception e) {} 
+			
+			if(sendPackageListPackage.size() > 0) {
+				for(SendPackage sendPackageMulti : sendPackageListPackage) {
+					sendPackageService.updateDelete(sendPackageMulti.getSendPackageKeyNum());
+				}
+			} 
 			
 			for (MultipartFile sendPackageView : fileList) {
-				if(fileList.size() > 1) {
-					sendPackageRandomUrl = sendPackageService.insertSendPackageMulti(sendPackage, sendPackageView, sendPackageRandomUrl);
-				} else {
-					sendPackageService.insertSendPackage(sendPackage, sendPackageView);
-				}
-				sendPackageKeyNumList.add(Integer.toString(sendPackage.getSendPackageKeyNum()));
+				resultMap = sendPackageService.insertSendPackage(sendPackage, sendPackageView);
+				sendPackage.setSendPackageRandomUrl(resultMap.get("sendPackageRandomUrl"));
 			}
-			map.put("sendPackageKeyNumList", sendPackageKeyNumList);
 		} else {
-			sendPackageService.updateSendPackage(sendPackage);
-			map.put("sendPackageKeyNumList", sendPackage.getSendPackageKeyNumList());
+			for(SendPackage sendPackageMulti : sendPackageListPackage) {
+				sendPackage.setSendPackageKeyNum(sendPackageMulti.getSendPackageKeyNum());
+				sendPackage.setSendPackageCountView(sendPackageMulti.getSendPackageCount());
+				resultMap.put("result", sendPackageService.updateSendPackage(sendPackage));
+			}
 		}
+		map.put("result", resultMap.get("result"));
 		return map;
 	}
 	
@@ -226,30 +227,13 @@ public class SendPackageController {
 		sendPackage.setSendPackageRegistrationDate(sendPackageService.nowDate());
 		
 		List<MultipartFile> fileList = request.getFiles("sendPackageView");
-		List<String> sendPackageKeyNumList = new ArrayList<String>();
-		String sendPackageRandomUrl = null;
 		
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		for (MultipartFile sendPackageView : fileList) {
-			if(fileList.size() > 1) {
-				sendPackageRandomUrl = sendPackageService.insertSendPackageMulti(sendPackage, sendPackageView, sendPackageRandomUrl);
-			} else {
-				sendPackageService.insertSendPackage(sendPackage, sendPackageView);
-			}
-			sendPackageKeyNumList.add(Integer.toString(sendPackage.getSendPackageKeyNum()));
+			sendPackageService.insertSendPackage(sendPackage, sendPackageView);
 		}
 		
-		map.put("sendPackageKeyNumList", sendPackageKeyNumList);
 		return map;
-	}
-	
-	@ResponseBody
-	@PostMapping(value = "/sendPackage/updateInfo")
-	public void UpdateInfoSendPackage(SendPackage sendPackage, Principal principal) throws IllegalStateException, IOException {
-		sendPackage.setSendPackageModifier(principal.getName());
-		sendPackage.setSendPackageModifiedDate(sendPackageService.nowDate());
-
-		sendPackageService.updateInfoSendPackage(sendPackage);
 	}
 	
 }

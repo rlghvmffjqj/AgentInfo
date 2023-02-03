@@ -50,9 +50,6 @@ public class SendPackage {
 	private String[] managementServerArr;
 	
 	private Integer packagesKeyNum;
-	private String sendPackageKeyNumList;
-	
-	
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

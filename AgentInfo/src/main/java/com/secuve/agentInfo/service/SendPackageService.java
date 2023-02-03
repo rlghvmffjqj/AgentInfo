@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,8 @@ public class SendPackageService {
 		return formatter.format(now);
 	}
 
-	public String insertSendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
+	public Map<String, String> insertSendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
+		Map<String,String> resultMap = new HashMap<String,String>();
 		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
@@ -47,18 +50,24 @@ public class SendPackageService {
 		} else {
 			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView() + " 24");
 		}
-		while(true) {
-			sendPackage.setSendPackageRandomUrl(createKey());
-			int count = sendPackageDao.getRandomUrlCheck(sendPackage.getSendPackageRandomUrl());
-			if(count == 0) {
-				break;
+		if(sendPackage.getSendPackageRandomUrl().equals("")) {
+			while(true) {
+				sendPackage.setSendPackageRandomUrl(createKey());
+				int count = sendPackageDao.getRandomUrlCheck(sendPackage.getSendPackageRandomUrl());
+				if(count == 0) {
+					break;
+				}
 			}
 		}
 		int sucess = sendPackageDao.insertSendPackage(sendPackage);
-		if (sucess <= 0)
-			return "FALSE";
+		if (sucess <= 0) {
+			resultMap.put("result", "FALSE");
+			return resultMap;
+		}
 		fileDownload(sendPackage, sendPackageView);
-		return "OK";
+		resultMap.put("result", "OK");
+		resultMap.put("sendPackageRandomUrl", sendPackage.getSendPackageRandomUrl());
+		return resultMap;
 	}
 	
 	public static String createKey() {
@@ -154,10 +163,8 @@ public class SendPackageService {
 		if(sendPackage.getSendPackageEndDateView().length() > 10) {
 			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
 		}
-		for(String sendPackageKeyNum : sendPackage.getSendPackageKeyNumList().split(",")) {
-			sendPackage.setSendPackageKeyNum(Integer.parseInt(sendPackageKeyNum));
+			sendPackage.setSendPackageKeyNum(sendPackage.getSendPackageKeyNum());
 			sucess = sendPackageDao.updateSendPackage(sendPackage);
-		}
 		if (sucess <= 0)
 			return "FALSE";
 		return "OK";
@@ -194,10 +201,6 @@ public class SendPackageService {
 		return sendPackageDao.getSendPackageOneUrl(sendPackageName, sendPackageRandomUrl);
 	}
 
-	public void updateInfoSendPackage(SendPackage sendPackage) {
-		sendPackageDao.updateInfoSendPackage(sendPackage);
-	}
-
 	public String insertSendPackageMulti(SendPackage sendPackage, MultipartFile sendPackageView, String sendPackageRandomUrl) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
@@ -224,18 +227,13 @@ public class SendPackageService {
 		return sendPackage.getSendPackageRandomUrl();
 	}
 
-	public void updateDelete(String sendPackageKeyNumList) {
-		if(sendPackageKeyNumList != null && !sendPackageKeyNumList.equals("0")) {
-			for(String sendPackageKeyNum: sendPackageKeyNumList.split(",")) {
-				//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(sendPackageKeyNum));
-				SendPackage sendPackage = sendPackageDao.getSendPackageOne(Integer.parseInt(sendPackageKeyNum));
-				if(sendPackage != null) {
-					fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
-					sendPackageDao.deleteSendPackage(Integer.parseInt(sendPackageKeyNum));
-				}
-			}
+	public void updateDelete(int sendPackageKeyNum) {
+		//sendPackageDao.updateSendPackageFlagKey(Integer.parseInt(sendPackageKeyNum));
+		SendPackage sendPackage = sendPackageDao.getSendPackageOne(sendPackageKeyNum);
+		if(sendPackage != null) {
+			fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
+			sendPackageDao.deleteSendPackage(sendPackageKeyNum);
 		}
-		
 	}
 
 	public String updateSendPackageFile(SendPackage sendPackage, MultipartFile sendPackageView)  throws IllegalStateException, IOException {
@@ -258,6 +256,14 @@ public class SendPackageService {
 		if (sucess <= 0)
 			return "FALSE";
 		return "OK";
+	}
+
+	public List<SendPackage> getSendPackageListPackages(int packagesKeyNum) {
+		return sendPackageDao.getSendPackageListPackages(packagesKeyNum);
+	}
+
+	public int getPackagesCount(int packagesKeyNum) {
+		return sendPackageDao.getPackagesCount(packagesKeyNum);
 	}
 
 }

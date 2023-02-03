@@ -32,8 +32,8 @@
 	</select>
 	
 	<insert id="insertPackages" parameterType="packages" useGeneratedKeys="true" keyProperty="packagesKeyNum">
-		INSERT INTO packages(packagesKeyNumOrigin, customerName, businessName, networkClassification, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate, statusComment, sendPackageKeyNum)
-		VALUES (#{packagesKeyNumOrigin}, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate}, #{statusComment}, #{sendPackageKeyNumList});
+		INSERT INTO packages(packagesKeyNumOrigin, customerName, businessName, networkClassification, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate, statusComment)
+		VALUES (#{packagesKeyNumOrigin}, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate}, #{statusComment});
 	</insert>
 	
 	<select id="getPackagesOne" parameterType="_int" resultMap="packages">
@@ -41,7 +41,7 @@
 	</select>
 	
 	<update id="updatePackages">
-		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerNameView}, businessName = #{businessNameView}, networkClassification = #{networkClassificationView}, requestDate = #{requestDateView}, deliveryData = #{deliveryDataView}, existingNew = #{existingNewView}, managementServer = #{managementServerView}, agentOS = #{agentOSView}, osDetailVersion = #{osDetailVersionView}, generalCustom = #{generalCustomView}, osType = #{osTypeView}, agentVer = #{agentVerView}, packageName = #{packageNameView}, manager = #{managerView}, requestProductCategory = #{requestProductCategoryView}, deliveryMethod = #{deliveryMethodView}, note = #{noteView}, sendPackageKeyNum = #{sendPackageKeyNumList}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
+		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerNameView}, businessName = #{businessNameView}, networkClassification = #{networkClassificationView}, requestDate = #{requestDateView}, deliveryData = #{deliveryDataView}, existingNew = #{existingNewView}, managementServer = #{managementServerView}, agentOS = #{agentOSView}, osDetailVersion = #{osDetailVersionView}, generalCustom = #{generalCustomView}, osType = #{osTypeView}, agentVer = #{agentVerView}, packageName = #{packageNameView}, manager = #{managerView}, requestProductCategory = #{requestProductCategoryView}, deliveryMethod = #{deliveryMethodView}, note = #{noteView}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
 		WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
 	

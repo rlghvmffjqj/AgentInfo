@@ -144,12 +144,13 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/insert")
-	public Map<String, String> InsertPackages(Packages packages, Principal principal) {
+	public Map InsertPackages(Packages packages, Principal principal) {
 		packages.setPackagesRegistrant(principal.getName());
 		packages.setPackagesRegistrationDate(packagesService.nowDate());
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map map = new HashMap();
 		String result = packagesService.insertPackages(packages, principal);
+		map.put("packagesKeyNum", packages.getPackagesKeyNum());
 		map.put("result", result);
 		return map;
 	}
@@ -165,12 +166,6 @@ public class PackagesController {
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
 		SendPackage sendPackage = new SendPackage();
-		try {
-			sendPackage = sendPackageService.getSendPackageOne(Integer.parseInt(packages.getSendPackageKeyNum().split(",")[0]));
-			sendPackage.setSendPackageKeyNumList(packages.getSendPackageKeyNum());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
@@ -314,7 +309,6 @@ public class PackagesController {
 	@PostMapping(value = "/packages/copyView")
 	public String CopyPackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
-		SendPackage sendPackage = sendPackageService.getSendPackageOne(Integer.parseInt(packages.getSendPackageKeyNum().split(",")[0]));
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
@@ -337,7 +331,6 @@ public class PackagesController {
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
-		model.addAttribute("sendPackage", sendPackage);
 		model.addAttribute("viewType", "copy").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
