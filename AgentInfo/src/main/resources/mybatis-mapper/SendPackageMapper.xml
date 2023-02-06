@@ -112,10 +112,6 @@
 		SELECT * FROM sendPackage WHERE  packagesKeyNum = #{packagesKeyNum} LIMIT 1;
 	</select>
 	
-	<select id="maxPackagesKeyNum" resultType="_int">
-		SELECT MAX(packagesKeyNum) FROM sendPackage;
-	</select>
-	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlSendPackage">

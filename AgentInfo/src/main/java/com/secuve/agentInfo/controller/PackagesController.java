@@ -344,12 +344,13 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/copy")
-	public Map<String, String> copyPackages(Packages packages, Principal principal) {
+	public Map copyPackages(Packages packages, Principal principal) {
 		packages.setPackagesRegistrant(principal.getName());
 		packages.setPackagesRegistrationDate(packagesService.nowDate());
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map map = new HashMap();
 		String result = packagesService.copyPackages(packages, principal);
+		map.put("packagesKeyNum", packages.getPackagesKeyNum());
 		map.put("result", result);
 		return map;
 	}

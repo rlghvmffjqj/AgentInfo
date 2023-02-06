@@ -174,9 +174,7 @@ public class PackagesService {
 	 * @return
 	 */
 	public Packages getPackagesOne(int packagesKeyNum) {
-		Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-		packages.setPackagesKeyNum(sendPackageDao.maxPackagesKeyNum()+1);
-		return packages;
+		return packagesDao.getPackagesOne(packagesKeyNum);
 	}
 
 	/**
@@ -1402,5 +1400,4 @@ public class PackagesService {
 	public List<Packages> getPackagesAll() {
 		return packagesDao.getPackagesAll();
 	}
-
 }
