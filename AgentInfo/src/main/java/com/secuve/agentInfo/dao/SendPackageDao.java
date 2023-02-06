@@ -106,4 +106,12 @@ public class SendPackageDao {
 		return sqlSession.selectOne("sendPackage.getPackagesCount",packagesKeyNum);
 	}
 
+	public SendPackage getPackageOne(int packagesKeyNum) {
+		return sqlSession.selectOne("sendPackage.getPackageOne",packagesKeyNum);
+	}
+
+	public int maxPackagesKeyNum() {
+		return sqlSession.selectOne("sendPackage.maxPackagesKeyNum");
+	}
+
 }

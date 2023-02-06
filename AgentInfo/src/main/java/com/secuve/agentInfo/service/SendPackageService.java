@@ -266,4 +266,8 @@ public class SendPackageService {
 		return sendPackageDao.getPackagesCount(packagesKeyNum);
 	}
 
+	public SendPackage getPackageOne(int packagesKeyNum) {
+		return sendPackageDao.getPackageOne(packagesKeyNum);
+	}
+
 }

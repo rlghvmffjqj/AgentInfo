@@ -108,6 +108,14 @@
 		SELECT COUNT(*) FROM sendPackage WHERE packagesKeyNum = #{packagesKeyNum};
 	</select>
 	
+	<select id="getPackageOne" parameterType="_int" resultMap="sendPackage">
+		SELECT * FROM sendPackage WHERE  packagesKeyNum = #{packagesKeyNum} LIMIT 1;
+	</select>
+	
+	<select id="maxPackagesKeyNum" resultType="_int">
+		SELECT MAX(packagesKeyNum) FROM sendPackage;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlSendPackage">

@@ -165,7 +165,7 @@ public class PackagesController {
 	@PostMapping(value = "/packages/updateView")
 	public String UpdatePackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
-		SendPackage sendPackage = new SendPackage();
+		SendPackage sendPackage = sendPackageService.getPackageOne(packagesKeyNum);
 
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
