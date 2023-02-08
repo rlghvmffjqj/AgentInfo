@@ -1088,6 +1088,7 @@
 				if(result.result == "OK") {
 					if ($('#chkEssential').is(":checked")) {
 						$('#packagesKeyNum').val(result.packagesKeyNum);
+						$('#sendPackageRandomUrl').val(result.sendPackageRandomUrl);
 						sendPackageCopy();
 					} else {
 						Swal.fire({

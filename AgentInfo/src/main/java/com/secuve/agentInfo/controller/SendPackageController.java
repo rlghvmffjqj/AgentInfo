@@ -222,18 +222,16 @@ public class SendPackageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/sendPackage/copy")
-	public Map<String, List<String>> CopySendPackage(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
+	public void CopySendPackage(SendPackage sendPackage, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
 		sendPackage.setSendPackageRegistrant(principal.getName());
 		sendPackage.setSendPackageRegistrationDate(sendPackageService.nowDate());
 		
 		List<MultipartFile> fileList = request.getFiles("sendPackageView");
 		
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		for (MultipartFile sendPackageView : fileList) {
 			sendPackageService.insertSendPackage(sendPackage, sendPackageView);
 		}
 		
-		return map;
 	}
 	
 }

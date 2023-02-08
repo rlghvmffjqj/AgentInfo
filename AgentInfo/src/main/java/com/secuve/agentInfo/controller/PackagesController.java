@@ -347,10 +347,13 @@ public class PackagesController {
 	public Map copyPackages(Packages packages, Principal principal) {
 		packages.setPackagesRegistrant(principal.getName());
 		packages.setPackagesRegistrationDate(packagesService.nowDate());
+		
+		SendPackage sendPackage = sendPackageService.getPackageOne(packages.getPackagesKeyNum());
 
 		Map map = new HashMap();
 		String result = packagesService.copyPackages(packages, principal);
 		map.put("packagesKeyNum", packages.getPackagesKeyNum());
+		map.put("sendPackageRandomUrl", sendPackage.getSendPackageRandomUrl());
 		map.put("result", result);
 		return map;
 	}
