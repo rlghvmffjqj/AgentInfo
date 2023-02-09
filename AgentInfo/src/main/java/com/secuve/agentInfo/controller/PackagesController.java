@@ -348,12 +348,16 @@ public class PackagesController {
 		packages.setPackagesRegistrant(principal.getName());
 		packages.setPackagesRegistrationDate(packagesService.nowDate());
 		
+		String sendPackageRandomUrl = "";
 		SendPackage sendPackage = sendPackageService.getPackageOne(packages.getPackagesKeyNum());
+		try {
+			sendPackageRandomUrl = sendPackage.getSendPackageRandomUrl();
+		} catch (Exception e) {}
 
 		Map map = new HashMap();
 		String result = packagesService.copyPackages(packages, principal);
 		map.put("packagesKeyNum", packages.getPackagesKeyNum());
-		map.put("sendPackageRandomUrl", sendPackage.getSendPackageRandomUrl());
+		map.put("sendPackageRandomUrl", sendPackageRandomUrl);
 		map.put("result", result);
 		return map;
 	}
