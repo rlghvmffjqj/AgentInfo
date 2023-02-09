@@ -644,7 +644,7 @@
 		var sendPackageView = $('#sendPackageView')[0];
 		
 		// 고객사명 유효성검사
-		if(customerNameView == "") {
+		if(customerNameView == "" && $('#customerNameSelf').val() == "") {
 			$('#NotCustomerName').show();
 			return false;
 		} else {
@@ -801,7 +801,7 @@
 		
 		const postData = new FormData($('#modalForm')[0]);
 		
-		if(customerNameView == "") {
+		if(customerNameView == "" && $('#customerNameSelf').val() == "") {
 			$('#NotCustomerName').show();
 			return false;
 		} else {
@@ -996,7 +996,7 @@
 		var existenceConfirmation;
 		var sendPackageView = $('#sendPackageView')[0];
 		
-		if(customerNameView == "") {
+		if(customerNameView == "" && $('#customerNameSelf').val() == "") {
 			$('#NotCustomerName').show();
 			return false;
 		} else {
@@ -1089,7 +1089,9 @@
 					if ($('#chkEssential').is(":checked")) {
 						$('#packagesKeyNum').val(result.packagesKeyNum);
 						$('#sendPackageRandomUrl').val(result.sendPackageRandomUrl);
-						sendPackageCopy();
+						if ($('#chkEssential').is(":checked")) {
+							sendPackageCopy();
+						}
 					} else {
 						Swal.fire({
 							icon: 'success',
