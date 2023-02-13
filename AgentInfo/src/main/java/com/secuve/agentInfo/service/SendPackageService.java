@@ -41,6 +41,7 @@ public class SendPackageService {
 
 	public Map<String, String> insertSendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
 		Map<String,String> resultMap = new HashMap<String,String>();
+		sendPackage = selfCheck(sendPackage);
 		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
@@ -157,6 +158,7 @@ public class SendPackageService {
 
 	public String updateSendPackage(SendPackage sendPackage)  {
 		int sucess = 0;
+		sendPackage = selfCheck(sendPackage);
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
 		}
@@ -184,6 +186,7 @@ public class SendPackageService {
 	}
 
 	public void copySendPackage(SendPackage sendPackage, MultipartFile sendPackageView) throws IllegalStateException, IOException {
+		sendPackage = selfCheck(sendPackage);
 		sendPackage.setSendPackageNameView(sendPackageView.getOriginalFilename());
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
@@ -268,6 +271,16 @@ public class SendPackageService {
 
 	public SendPackage getPackageOne(int packagesKeyNum) {
 		return sendPackageDao.getPackageOne(packagesKeyNum);
+	}
+	
+	public SendPackage selfCheck(SendPackage sendPackage) {
+		if(sendPackage.getCustomerNameView() == "" || sendPackage.getCustomerNameView().equals(""))
+			sendPackage.setCustomerNameView(sendPackage.getCustomerNameSelf());
+		if(sendPackage.getBusinessNameView() == "" || sendPackage.getBusinessNameView().equals(""))
+			sendPackage.setBusinessNameView(sendPackage.getBusinessNameSelf());
+		if(sendPackage.getManagementServerView() == "" || sendPackage.getManagementServerView().equals(""))
+			sendPackage.setManagementServerView(sendPackage.getManagementServerSelf());
+		return sendPackage;
 	}
 
 }

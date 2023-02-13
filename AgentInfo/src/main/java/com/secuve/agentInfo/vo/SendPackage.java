@@ -45,6 +45,10 @@ public class SendPackage {
 	private String requestDateView;
 	private String managementServerView;
 	
+	private String customerNameSelf;
+	private String businessNameSelf;
+	private String managementServerSelf;
+	
 	private String[] customerNameArr;
 	private String[] businessNameArr;
 	private String[] managementServerArr;
