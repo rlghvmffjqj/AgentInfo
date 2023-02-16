@@ -21,8 +21,6 @@ import com.secuve.agentInfo.vo.ScheduleJob;
 @Controller
 public class ScheduleJobController {
 	@Autowired ScheduleJobService scheduleJobService;
-	@Autowired SchedulerFactoryBean schedulerFactory;
-	@Autowired PackagesSchedule packagesSchedule;
 	
 	/**
 	 * 스케줄러 페이지 이동

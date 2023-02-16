@@ -17,10 +17,13 @@ import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.secuve.agentInfo.schedule.EmployeeDeleteSchedule;
 import com.secuve.agentInfo.schedule.EmployeeSchedule;
+import com.secuve.agentInfo.schedule.PackagesDeleteSchedule;
 import com.secuve.agentInfo.schedule.PackagesSchedule;
 import com.secuve.agentInfo.schedule.SendPackageDeleteSchedule;
 import com.secuve.agentInfo.schedule.SendPackageExpirationSchedule;
+import com.secuve.agentInfo.schedule.ServerListDeleteSchedule;
 import com.secuve.agentInfo.schedule.ServerListSchedule;
 import com.secuve.agentInfo.service.ScheduleJobService;
 import com.secuve.agentInfo.vo.ScheduleJob;
@@ -32,6 +35,9 @@ public class ScheduleJobSetting {
 	@Autowired PackagesSchedule packagesSchedule;
 	@Autowired EmployeeSchedule employeeSchedule;
 	@Autowired ServerListSchedule serverListSchedule;
+	@Autowired PackagesDeleteSchedule packagesDeleteSchedule;
+	@Autowired EmployeeDeleteSchedule employeeDeleteSchedule;
+	@Autowired ServerListDeleteSchedule serverListDeleteSchedule;
 	@Autowired SendPackageDeleteSchedule sendPackageDeleteSchedule;
 	@Autowired SendPackageExpirationSchedule sendPackageExpirationSchedule;
 
@@ -42,6 +48,9 @@ public class ScheduleJobSetting {
         JobDataMap map3 = new JobDataMap(Collections.singletonMap("num", 3));
         JobDataMap map4 = new JobDataMap(Collections.singletonMap("num", 4));
         JobDataMap map5 = new JobDataMap(Collections.singletonMap("num", 5));
+        JobDataMap map6 = new JobDataMap(Collections.singletonMap("num", 6));
+        JobDataMap map7 = new JobDataMap(Collections.singletonMap("num", 7));
+        JobDataMap map8 = new JobDataMap(Collections.singletonMap("num", 8));
 
         ScheduleJob packagesSchedule = scheduleJobService.getScheduleOne("packages");
         JobDetail packages = jobDetail(packagesSchedule.getScheduleName(), "DEFAULT", PackagesSchedule.class, map1);
@@ -54,6 +63,18 @@ public class ScheduleJobSetting {
        	ScheduleJob serverListSchedule = scheduleJobService.getScheduleOne("serverList");
         JobDetail serverList = jobDetail(serverListSchedule.getScheduleName(), "DEFAULT", ServerListSchedule.class, map3);
        	scheduler.scheduleJob(serverList, trigger(serverListSchedule.getScheduleName(), "DEFAULT", serverListSchedule.getScheduleCron()));
+       	
+       	ScheduleJob packagesDeleteSchedule = scheduleJobService.getScheduleOne("packagesDelete");
+        JobDetail packagesDelete = jobDetail(packagesDeleteSchedule.getScheduleName(), "DEFAULT", PackagesDeleteSchedule.class, map6);
+        scheduler.scheduleJob(packagesDelete, trigger(packagesDeleteSchedule.getScheduleName(), "DEFAULT", packagesDeleteSchedule.getScheduleCron()));
+        
+        ScheduleJob employeeDeleteSchedule = scheduleJobService.getScheduleOne("employeeDelete");
+        JobDetail employeeDelete = jobDetail(employeeDeleteSchedule.getScheduleName(), "DEFAULT", EmployeeDeleteSchedule.class, map7);
+       	scheduler.scheduleJob(employeeDelete, trigger(employeeDeleteSchedule.getScheduleName(), "DEFAULT", employeeDeleteSchedule.getScheduleCron()));
+       	
+       	ScheduleJob serverListDeleteSchedule = scheduleJobService.getScheduleOne("serverListDelete");
+        JobDetail serverListDelete = jobDetail(serverListDeleteSchedule.getScheduleName(), "DEFAULT", ServerListDeleteSchedule.class, map8);
+       	scheduler.scheduleJob(serverListDelete, trigger(serverListDeleteSchedule.getScheduleName(), "DEFAULT", serverListDeleteSchedule.getScheduleCron()));
        	
        	ScheduleJob sendpackageDeleteSchedule = scheduleJobService.getScheduleOne("sendpackageDelete");
         JobDetail sendpackageDelete = jobDetail(sendpackageDeleteSchedule.getScheduleName(), "DEFAULT", SendPackageDeleteSchedule.class, map4);
@@ -75,6 +96,18 @@ public class ScheduleJobSetting {
 	            }
        		} else if(key.toString().equals("DEFAULT.serverList")) {
 	            if(serverListSchedule.getScheduleState() == "사용안함" || serverListSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.packagesDelete")) {
+	       		if(packagesDeleteSchedule.getScheduleState() == "사용안함" || packagesDeleteSchedule.getScheduleState().equals("사용안함")) {
+	       			scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.employeeDelete")) {
+	            if(employeeDeleteSchedule.getScheduleState() == "사용안함" || employeeDeleteSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.serverListDelete")) {
+	            if(serverListDeleteSchedule.getScheduleState() == "사용안함" || serverListDeleteSchedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
        		} else if(key.toString().equals("DEFAULT.sendpackageDelete")) {

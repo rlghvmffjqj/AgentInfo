@@ -30,12 +30,18 @@ public class ScheduleJobService{
 	JobKey packagesJobKey;
 	JobKey employeeJobKey;
 	JobKey serverListJobKey;
+	JobKey packagesDeleteJobKey;
+	JobKey employeeDeleteJobKey;
+	JobKey serverListDeleteJobKey;
 	JobKey sendpackageDeleteJobKey;
 	JobKey sendPackageExpirationJobKey;
 	
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
 	TriggerKey serverListTriggerKey;
+	TriggerKey packagesDeleteTriggerKey;
+	TriggerKey employeeDeleteTriggerKey;
+	TriggerKey serverListDeleteTriggerKey;
 	TriggerKey sendpackageDeleteTriggerKey;
 	TriggerKey sendPackageExpirationTriggerKey;
 	
@@ -158,6 +164,12 @@ public class ScheduleJobService{
 			jobKey = employeeJobKey;
 		} else if(scheduleName.equals("SERVERLIST") || scheduleName.equals("serverList")) {
 			jobKey = serverListJobKey;
+		} else if(scheduleName.equals("PACKAGESDELETE") || scheduleName.equals("packagesDelete")) {
+			jobKey = packagesDeleteJobKey;
+		} else if(scheduleName.equals("EMPLOYEEDELETE") || scheduleName.equals("employeeDelete")) {
+			jobKey = employeeDeleteJobKey;
+		} else if(scheduleName.equals("SERVERLISTDELETE") || scheduleName.equals("serverListDelete")) {
+			jobKey = serverListDeleteJobKey;
 		} else if(scheduleName.equals("SENDPACKAGEDELETE") || scheduleName.equals("sendpackageDelete")) {
 			jobKey = sendpackageDeleteJobKey;
 		} else if(scheduleName.equals("SENDPACKAGEEXPIRATION") || scheduleName.equals("sendPackageExpiration")) {
@@ -174,6 +186,12 @@ public class ScheduleJobService{
 			triggerKey = employeeTriggerKey;
 		} else if(scheduleName.equals("SERVERLIST") || scheduleName.equals("serverList")) {
 			triggerKey = serverListTriggerKey;
+		} else if(scheduleName.equals("PACKAGESDELETE") || scheduleName.equals("packagesDelete")) {
+			triggerKey = packagesDeleteTriggerKey;
+		} else if(scheduleName.equals("EMPLOYEEDELETE") || scheduleName.equals("employeeDelete")) {
+			triggerKey = employeeDeleteTriggerKey;
+		} else if(scheduleName.equals("SERVERLISTDELETE") || scheduleName.equals("serverListDelete")) {
+			triggerKey = serverListDeleteTriggerKey;
 		} else if(scheduleName.equals("SENDPACKAGEDELETE") || scheduleName.equals("sendpackageDelete")) {
 			triggerKey = sendpackageDeleteTriggerKey;
 		} else if(scheduleName.equals("SENDPACKAGEEXPIRATION") || scheduleName.equals("sendPackageExpiration")) {
@@ -194,6 +212,12 @@ public class ScheduleJobService{
 	       			employeeJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.serverList")) {
 	       			serverListJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.packagesDelete")) {
+	       			packagesDeleteJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.employeeDelete")) {
+	       			employeeDeleteJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.serverListDelete")) {
+	       			serverListDeleteJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.sendpackageDelete")) {
 	       			sendpackageDeleteJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.sendPackageExpiration")) {
@@ -217,6 +241,12 @@ public class ScheduleJobService{
 	       			employeeTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.serverList")) {
 	       			serverListTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.packagesDelete")) {
+	       			packagesDeleteTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.employeeDelete")) {
+	       			employeeDeleteTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.serverListDelete")) {
+	       			serverListDeleteTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.sendpackageDelete")) {
 	       			sendpackageDeleteTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.sendPackageExpiration")) {
