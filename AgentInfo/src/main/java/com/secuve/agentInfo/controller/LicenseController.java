@@ -32,7 +32,7 @@ public class LicenseController {
 	 * @return
 	 */
 	@GetMapping(value = "/license/issuance")
-	public String ProductList(Model model) {
+	public String LicenseList(Model model) {
 		List<String> customerName = licenseService.getSelectInput("customerName");
 		List<String> businessName = licenseService.getSelectInput("businessName");
 		List<String> requester = licenseService.getSelectInput("requester");
@@ -51,7 +51,7 @@ public class LicenseController {
 		model.addAttribute("tosVersion", tosVersion);
 		model.addAttribute("macUmlHostId", macUmlHostId);
 		
-		return "/license/License";
+		return "/license/LicenseList";
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class LicenseController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/license")
-	public Map<String, Object> Package(License search) {
+	public Map<String, Object> Licens(License search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<License> list = new ArrayList<>(licenseService.getLicenseList(search));
 

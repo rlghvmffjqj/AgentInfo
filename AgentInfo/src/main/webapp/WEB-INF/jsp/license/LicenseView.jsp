@@ -19,12 +19,12 @@
 							Linux 2.0
 						</label>
 					</div>
-					<div class="form-check radioDate">
+					<!-- <div class="form-check radioDate">
 						<input class="form-check-input" type="radio" name="licenseType" id="Linux50" value="Linux50" >
 						<label class="form-check-label" for="Linux50">
 							Linux 5.0
 						</label>
-					</div>
+					</div> -->
 				</c:when>
 				<c:when test="${viewType eq 'issuedback' || viewType eq 'copyback' || viewType eq 'copy'}">
 					<div class="form-check radioDate">
@@ -39,12 +39,12 @@
 							Linux 2.0
 						</label>
 					</div>
-					<div class="form-check radioDate">
+					<%-- <div class="form-check radioDate">
 						<input class="form-check-input" type="radio" name="licenseType" id="Linux50" value="Linux50" <c:if test="${'Linux50' eq license.licenseType}">checked</c:if>>
 						<label class="form-check-label" for="Linux50">
 							Linux 5.0
 						</label>
-					</div>
+					</div> --%>
 				</c:when>
 			</c:choose>
 		</div>
@@ -141,7 +141,7 @@
 	        <div class="pading5Width450">
 	        	<label class="labelFontSize">커널버전</label><label class="colorRed">*</label>
 	        	<span class="colorRed licenseShow" id="NotKernelVersionView" style="display: none; line-height: initial; float: right;">커널버전을 입력해주세요.</span>
-	        	<input type="text" id="osVersionView" name="kernelVersionView" class="form-control viewForm" value="${license.kernelVersion}">
+	        	<input type="text" id="kernelVersionView" name="kernelVersionView" class="form-control viewForm" value="${license.kernelVersion}">
 			</div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">커널비트</label><label class="colorRed">*</label>

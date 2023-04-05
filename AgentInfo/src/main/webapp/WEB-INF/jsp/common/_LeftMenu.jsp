@@ -94,8 +94,14 @@
 			$('.loginSession').addClass('active');
 		} else if($.cookie('name') == 'schedule') {
 			$('.schedule').addClass('active');
-		} else if($.cookie('name') == 'license') {
+		} else if($.cookie('name') == 'license5') {
 			$('.license').addClass('active');
+			$('.license').addClass('pcoded-trigger');
+			$('.license5').addClass('active');
+		} else if($.cookie('name') == 'license2') {
+			$('.license').addClass('active');
+			$('.license').addClass('pcoded-trigger');
+			$('.license2').addClass('active');
 		} else if($.cookie('name') == 'externalEquipment') {
 			$('.externalEquipment').addClass('active');
 			$('.serverList').addClass('active');
@@ -184,14 +190,32 @@
 				        </a>
 				    </li>
 				</ul>
+		    </sec:authorize>
+		    <sec:authorize access="hasAnyRole('ADMIN')">
 			    <ul class="pcoded-item pcoded-left-item">
-			        <li class="license">
-			            <a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
-			                <span class="pcoded-micon"><i class="ti-key"></i><b>FC</b></span>
-			                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 발급</span>
-			                <span class="pcoded-mcaret"></span>
-			            </a>
-			        </li>
+					<li class="license pcoded-hasmenu">
+						<a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-key"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 관리</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				        <ul class="pcoded-submenu" style="display: block;">
+				         	<li class="license5">
+								<a href="<c:url value='/license5/issuance'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">라이센스 5.0</span>
+									<span class="pcoded-mcaret"></span>
+								</a>
+					     	</li>
+						    <li class="license2">
+						           <a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
+						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						             <span class="pcoded-mtext">라이센스 2.0</span>
+						             <span class="pcoded-mcaret"></span>
+						           </a>
+						    </li>
+					  	</ul>
+				    </li>
 			    </ul>
 		    </sec:authorize>
 		    <%-- <ul class="pcoded-item pcoded-left-item">

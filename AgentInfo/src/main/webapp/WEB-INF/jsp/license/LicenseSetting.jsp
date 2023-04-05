@@ -5,7 +5,7 @@
 <div class="modelHead">
 	<div class="modelHeadFont">License Issued 경로 설정</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 220px;">
+<div class="modal-body modalBody" style="width: 100%; height: 170px;">
 	<table style="margin:20px">
 		<tbody>
 			<tr><td style="font-weight: bolder;">WINDOWS</td></tr>
@@ -13,9 +13,9 @@
 			<tr class="height15"></tr>
 			<tr><td style="font-weight: bolder;">LINUX 2.0</td></tr>
 			<tr><td><input type="text" class="width380" id="linuxLicense20Route" value="${licenseSetting.linuxLicense20Route}" placeholder="루트경로 + 실행파일"></td></tr>
-			<tr class="height15"></tr>
+			<%-- <tr class="height15"></tr>
 			<tr><td style="font-weight: bolder;">LINUX 5.0</td></tr>
-			<tr><td><input type="text" class="width380" id="linuxLicense50Route" value="${licenseSetting.linuxLicense50Route}" placeholder="루트경로 + 실행파일"></td></tr>
+			<tr><td><input type="text" class="width380" id="linuxLicense50Route" value="${licenseSetting.linuxLicense50Route}" placeholder="루트경로 + 실행파일"></td></tr> --%>
 		</tbody>
 	</table>
 </div>

@@ -6,7 +6,7 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','license');
+		    	$.cookie('name','license2');
 		    });
 	    </script>
 	    <script>
@@ -79,7 +79,7 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">라이센스 발급</h5>
+									            <h5 class="m-b-10">라이센스 2.0</h5>
 									            <p class="m-b-0">License Issuance</p>
 									        </div>
 									    </div>

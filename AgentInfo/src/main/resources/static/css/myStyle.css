@@ -376,6 +376,10 @@ p {
 	float: left;
 }
 
+.floatRight {
+	float: right;
+}
+
 .rightDiv {
 	float: left;
     margin-left: 30px;
