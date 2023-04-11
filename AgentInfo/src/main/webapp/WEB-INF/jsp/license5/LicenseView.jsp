@@ -20,42 +20,40 @@
 					<div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<!-- <a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a> -->
+					  		<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
-						  	<select class="form-control selectpicker selectForm" id="customerNameSelect" name="customerNameSelect" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${customerName}">
 									<option value="${item}"><c:out value="${item}"/></option>
 								</c:forEach>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 입력해주세요.</span>
 					 </div>
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-					  		<!-- <a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a> -->
+					  		<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
-						  	<select class="form-control selectpicker selectForm" id="businessNameSelect" name="businessNameSelect" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 입력해주세요.</span>
 					 </div>
 	         	</c:when>
 	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
 	         		<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+					  		<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
-				         	<select class="form-control selectpicker selectForm" id="customerNameSelect" name="customerNameSelect" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
 				         		<c:if test="${license.customerName ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${license.customerName eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${customerName}">
@@ -63,16 +61,15 @@
 								</c:forEach>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
 			         </div>
 			         <div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">사업명</label>
-					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+					  		<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
-				         	<select class="form-control selectpicker selectForm" id="businessNameSelect" name="businessNameSelect" data-live-search="true" data-size="5">
+				         	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
 				         		<c:if test="${license.businessName ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${license.businessName eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${businessName}">
@@ -113,7 +110,7 @@
 	         </c:choose>
 	         <div class="pading5Width450">
 	         	<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
-	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right;">MAC주소를 입력해주세요.</span>
+	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요.</span>
 	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}">
 	         </div>
 	          <div class="pading5Width450">
@@ -338,10 +335,6 @@
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
         <input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDays}">
-        <input type="hidden" id="customerNameView" name="customerNameView">
-        <input type="hidden" id="businessNameView" name="businessNameView">
-        
-        
 	</form>
 </div>
 <div class="modal-footer">
@@ -417,8 +410,7 @@
 			}
 		}
 		
-		$("#customerNameSelect").change(function() {
-			customerBusinessChange();
+		$("#customerNameView").change(function() {
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -426,26 +418,7 @@
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		});
 		
-		$("#customerNameSelf").change(function() {
-			customerBusinessChange();
-			var customerName = $('#customerNameView').val();
-			var businessName = $('#businessNameView').val();
-			var issueDate = $('#issueDateView').val();
-			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
-		});
-		
-		$("#businessNameSelect").change(function() {
-			customerBusinessChange();
-			var customerName = $('#customerNameView').val();
-			var businessName = $('#businessNameView').val();
-			var issueDate = $('#issueDateView').val();
-			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
-		});
-		
-		$("#businessNameSelf").change(function() {
-			customerBusinessChange();
+		$("#businessNameView").change(function() {
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -454,7 +427,6 @@
 		});
 		
 		$("#issueDateView").change(function() {
-			customerBusinessChange();
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -541,22 +513,6 @@
 			$("#expirationDaysView").val(day);
 		}
 		
-		if($("#customerNameChange").text() == "선택입력") {
-			var self = $("#customerNameSelf").val();;
-			$("#customerNameView").val(self);
-		} else if($("#customerNameChange").text() == "직접입력") {
-			var select = $("#customerNameSelect").val();
-			$("#customerNameView").val(select);
-		}
-		
-		if($("#businessNameChange").text() == "선택입력") {
-			var self = $("#businessNameSelf").val();;
-			$("#businessNameView").val(self);
-		} else if($("#businessNameChange").text() == "직접입력") {
-			var select = $("#businessNameSelect").val();
-			$("#businessNameView").val(select);
-		}
-		
 		var customerName = $('#customerNameView').val();
 		var businessName = $('#businessNameView').val();
 		var macAddress = $('#macAddressView').val();
@@ -608,48 +564,24 @@
 				$('#expirationDaysViewSelect').show();
 				$("#expirationDaysChange").text("달력");
 			}
-		} else if (data == "customerNameChange") {
-			if($('#customerNameChange').text() == "직접입력") {
-				$('#customerNameViewSelf').hide();
-				$('#customerNameSelf').attr('type','text');
-				$('#customerNameView').val('');	
-				$("#customerNameChange").text("선택입력");
-			} else if($('#customerNameChange').text() == "선택입력") {
-				$('#customerNameViewSelf').show();
-				$('#customerNameSelf').attr('type','hidden');
-				$('#customerNameSelf').val('');	
-				$("#customerNameChange").text("직접입력");
-			}
-		} else if (data == "businessNameChange") {
-			if($('#businessNameChange').text() == "직접입력") {
-				$('#businessNameViewSelf').hide();
-				$('#businessNameSelf').attr('type','text');
-				$('#businessNameView').val('');	
-				$("#businessNameChange").text("선택입력");
-			} else if($('#businessNameChange').text() == "선택입력") {
-				$('#businessNameViewSelf').show();
-				$('#businessNameSelf').attr('type','hidden');
-				$('#businessNameSelf').val('');	
-				$("#businessNameChange").text("직접입력");
-			}
 		}
 	}
 	
 	/* =========== 고객사명 Select Box 선택 ========= */
-	$("#customerNameSelect").change(function() {
-		$("#businessNameSelect").empty();
-		$("#businessNameSelect").selectpicker("refresh");
-		var customerName = $('#customerNameSelect').val();
+	$("#customerNameView").change(function() {
+		$("#businessNameView").empty();
+		$("#businessNameView").selectpicker("refresh");
+		var customerName = $('#customerNameView').val();
 		$.ajax({
 			url: "<c:url value='/category/customerBusinessName'/>",
 	        type: 'post',
 	        data: {'customerName':customerName},
 	        async: false,
 	        success: function(items) {
-	        	$("#businessNameSelect").append('<option value=""></option>');
+	        	$("#businessNameView").append('<option value=""></option>');
 	        	$.each(items, function (i, item) {
-	        		$("#businessNameSelect").append('<option value="'+item+'">'+item+'</option>');
-	        		$("#businessNameSelect").selectpicker("refresh");
+	        		$("#businessNameView").append('<option value="'+item+'">'+item+'</option>');
+	        		$("#businessNameView").selectpicker("refresh");
 	        	});
 			},
 			error: function(error) {
@@ -657,25 +589,6 @@
 			}
 	    });
 	});
-	
-	function customerBusinessChange() {
-		if($("#customerNameChange").text() == "선택입력") {
-			var self = $("#customerNameSelf").val();;
-			$("#customerNameView").val(self);
-		} else if($("#customerNameChange").text() == "직접입력") {
-			var select = $("#customerNameSelect").val();
-			$("#customerNameView").val(select);
-		}
-		
-		if($("#businessNameChange").text() == "선택입력") {
-			var self = $("#businessNameSelf").val();;
-			$("#businessNameView").val(self);
-		} else if($("#businessNameChange").text() == "직접입력") {
-			var select = $("#businessNameSelect").val();
-			$("#businessNameView").val(select);
-		}
-	}
-	
 	
 	function BtnUpdate() {
 		if($("#expirationDaysChange").text() == "Day") {
@@ -686,22 +599,6 @@
 			$("#expirationDaysView").val(day);
 		}
 		
-		if($("#customerNameChange").text() == "선택입력") {
-			var self = $("#customerNameSelf").val();;
-			$("#customerNameView").val(self);
-		} else if($("#customerNameChange").text() == "직접입력") {
-			var select = $("#customerNameSelect").val();
-			$("#customerNameView").val(select);
-		}
-		
-		if($("#businessNameChange").text() == "선택입력") {
-			var self = $("#businessNameSelf").val();;
-			$("#businessNameView").val(self);
-		} else if($("#businessNameChange").text() == "직접입력") {
-			var select = $("#businessNameSelect").val();
-			$("#businessNameView").val(select);
-		}
-		
 		var customerName = $('#customerNameView').val();
 		var businessName = $('#businessNameView').val();
 		var macAddress = $('#macAddressView').val();
@@ -710,6 +607,7 @@
 		var licenseFilePath = $('#licenseFilePathView').val();
 		
 		$('.licenseShow').hide();
+		console.log(customerName);
 		if(customerName == "") {
 			$('#NotCustomerName').show();
 		} else if(businessName == "") {

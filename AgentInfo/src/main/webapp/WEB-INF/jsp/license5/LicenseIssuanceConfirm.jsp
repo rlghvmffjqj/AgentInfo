@@ -42,8 +42,9 @@
 		<input type="hidden" id="productVersionView" name="productVersionView" value="${license.productVersionView}">
 		<input type="hidden" id="licenseFilePathView" name="licenseFilePathView" value="${license.licenseFilePathView}">
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
-		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
+		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
+		<input type="hidden" id="viewType" name="viewType" value="issuedback">
 		
 		
 	</form>
