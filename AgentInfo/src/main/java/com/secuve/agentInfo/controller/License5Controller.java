@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.License5Service;
@@ -78,6 +81,11 @@ public class License5Controller {
 		model.addAttribute("license", license).addAttribute("viewType", viewType);
 		
 		return "/license5/LicenseView";
+	}
+	
+	@PostMapping(value = "/license5/licenseXmlImportView")
+	public String LicenseXmlImport() {
+		return "/license5/LicenseXmlImport";
 	}
 	
 	@ResponseBody
@@ -203,5 +211,26 @@ public class License5Controller {
 		model.addAttribute("businessName", businessName);
 		model.addAttribute("viewType", "update").addAttribute("license", license);
 		return "/license5/LicenseView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/licenseXmlImport")
+	public Map<String, String> licenseXmlImport(License5 license, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
+		license.setLicenseIssuanceRegistrant(principal.getName());
+		license.setLicenseIssuanceRegistrationDate(license5Service.nowDate());
+		
+		List<MultipartFile> fileList = request.getFiles("licenseXml");
+		
+		Map<String, String> map = new HashMap<String, String>();
+		int sucess = 1;
+		for (MultipartFile xmlFile : fileList) {
+			sucess *= license5Service.licenseXmlImport(license, xmlFile);
+		}
+		
+		if(sucess > 0) 
+			map.put("result", "OK");
+		else
+			map.put("result", "FALSE");
+		return map;
 	}
 }

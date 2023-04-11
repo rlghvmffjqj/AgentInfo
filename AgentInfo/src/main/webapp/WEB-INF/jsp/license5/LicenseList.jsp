@@ -268,6 +268,7 @@
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">XML Import</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -314,6 +315,20 @@
 			        // TODO 에러 화면
 			    }
 			});		
+		});
+		
+		$('#BtnImport').click(function() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/license5/licenseXmlImportView'/>",
+			    async: false,
+			    success: function (data) {
+			    	$.modal(data, 'xmlImport'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});
 		});
 		
 		/* =========== 라이센스 발급 정보 제거 ========= */
