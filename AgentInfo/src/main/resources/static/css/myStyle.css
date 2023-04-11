@@ -218,6 +218,11 @@ p {
 	max-width: 1500px;
 }
 
+.modal-licenseConfirm {
+	top: 10%;
+    width: 400px;
+}
+
 .modal-notice {
 	top: 8%;
     max-width: 600px;

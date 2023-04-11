@@ -567,6 +567,7 @@
 		$('#BtnRoute').click(function() {
 			$.ajax({
 				url: "<c:url value='/license/setting'/>",
+				data: {"licenseVersion" : "2"},
 				type: "POST",
 				traditional: true,
 				async: false,

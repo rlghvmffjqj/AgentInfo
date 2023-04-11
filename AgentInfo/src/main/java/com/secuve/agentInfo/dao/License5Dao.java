@@ -40,5 +40,13 @@ public class License5Dao {
 	public int issuedLicense(License5 license) {
 		return sqlSession.insert("license5.issuedLicense", license);
 	}
-	
+
+	public int delLicense(int licenseKeyNum) {
+		return sqlSession.delete("license5.delLicense", licenseKeyNum);
+	}
+
+	public int updateLicense(License5 license) {
+		return sqlSession.update("license5.updateLicense", license);
+	}
+
 }

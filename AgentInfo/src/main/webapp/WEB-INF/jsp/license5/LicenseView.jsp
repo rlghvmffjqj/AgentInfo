@@ -4,40 +4,50 @@
 
 <div class="modal-body" style="width: 100%; height: 650px;">
 	<form id="modalForm" name="form" method ="post">
+		<div style="width: 100%; height: 25px; border-bottom: dashed 1px silver; float:left">
+			<div style="width: 65%; float:left">
+				<input class="cssCheck" type="checkbox" id="chkLicenseIssuance" name="chkLicenseIssuance" checked>
+		    	<label for="chkLicenseIssuance"></label><span class="margin17">라이센스 발급(해제할 경우 Database에 입력한 정보만 저장되고 라이센스 발급하지 않습니다.)</span>
+		    </div>
+		    <div style="width: 35%; float:right">
+			<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none">
+		</div>
+		</div>
+		
 		<div class="leftDiv">
 			<c:choose>
 				<c:when test="${viewType eq 'issued'}">
 					<div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+					  		<!-- <a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a> -->
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
-						  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="customerNameSelect" name="customerNameSelect" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 								<c:forEach var="item" items="${customerName}">
 									<option value="${item}"><c:out value="${item}"/></option>
 								</c:forEach>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 입력해주세요.</span>
 					 </div>
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+					  		<!-- <a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a> -->
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
-						  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+						  	<select class="form-control selectpicker selectForm" id="businessNameSelect" name="businessNameSelect" data-live-search="true" data-size="5">
 						  		<option value=""></option>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 입력해주세요.</span>
+						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 입력해주세요.</span>
 					 </div>
 	         	</c:when>
-	         	<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
 	         		<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
@@ -45,11 +55,11 @@
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
-				         	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
-				         		<c:if test="${packages.customerName ne ''}"><option value=""></option></c:if>
-				         		<c:if test="${packages.customerName eq ''}"><option value=""></option></c:if>
+				         	<select class="form-control selectpicker selectForm" id="customerNameSelect" name="customerNameSelect" data-live-search="true" data-size="5">
+				         		<c:if test="${license.customerName ne ''}"><option value=""></option></c:if>
+				         		<c:if test="${license.customerName eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${customerName}">
-									<option value="${item}" <c:if test="${item eq packages.customerName}">selected</c:if>><c:out value="${item}"/></option>
+									<option value="${item}" <c:if test="${item eq license.customerName}">selected</c:if>><c:out value="${item}"/></option>
 								</c:forEach>
 							</select>
 						</div>
@@ -62,11 +72,11 @@
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
-				         	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
-				         		<c:if test="${packages.businessName ne ''}"><option value=""></option></c:if>
-				         		<c:if test="${packages.businessName eq ''}"><option value=""></option></c:if>
+				         	<select class="form-control selectpicker selectForm" id="businessNameSelect" name="businessNameSelect" data-live-search="true" data-size="5">
+				         		<c:if test="${license.businessName ne ''}"><option value=""></option></c:if>
+				         		<c:if test="${license.businessName eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${businessName}">
-									<option value="${item}" <c:if test="${item eq packages.businessName}">selected</c:if>><c:out value="${item}"/></option>
+									<option value="${item}" <c:if test="${item eq license.businessName}">selected</c:if>><c:out value="${item}"/></option>
 								</c:forEach>
 							</select>
 						</div>
@@ -89,7 +99,7 @@
 						</select>
 			         </div>
 		         </c:when>
-		         <c:when test="${viewType eq 'copy'}">
+		         <c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
 		         	<div class="pading5Width450">
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
@@ -110,53 +120,67 @@
 	         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
 	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 	         </div>
-	         <div class="pading5Width450">
-	         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
-	         	<div class="floatRight">
-	         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="전체">
-    				<label for="chkExpirationDays"></label><span class="margin17">전체</span>
-    			</div>
-    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
-	         	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
-	         		<input type="date" id="expirationDaysView" name="expirationDaysView" class="form-control viewForm expirationDays" value="${license.expirationDays}">
-	         	</div>
-	         	<div id="expirationDaysViewSelect">
-		         	<input type="number" id="expirationDaysView" name="expirationDaysView" class="form-control viewForm expirationDays" value="90">
-				</div>
-	         </div>
 	         <c:choose>
 				<c:when test="${viewType eq 'issued'}">
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
+		    				<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
+		    			</div>
+		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
+			         	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
+			         		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
+			         	</div>
+			         	<div id="expirationDaysViewSelect">
+				         	<input type="number" id="expirationDaysDay" name="expirationDaysDay" class="form-control viewForm" value="90">
+						</div>
+			         </div>
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">iGRIFFIN Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="전체">
-		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
+		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
-			         	<input type="number" id="iGRIFFINAgentCountView" name="iGRIFFINAgentCountView" class="form-control viewForm" value="1">
+			         	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="1">
 			         </div>
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 5.0 Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="전체">
-		    				<label for="chkTos5AgentCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
+		    				<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="1">
 					 </div>
 				</c:when>
-		        <c:when test="${viewType eq 'copy'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
+		        	<div class="pading5Width450">
+			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
+		    				<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
+		    			</div>
+		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
+			         	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
+			         		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
+			         	</div>
+			         	<div id="expirationDaysViewSelect">
+				         	<input type="number" id="expirationDaysDay" name="expirationDaysDay" class="form-control viewForm" value="90">
+						</div>
+			         </div>
 		         	<div class="pading5Width450">
 			         	<label class="labelFontSize">iGRIFFIN Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="전체">
-		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
+		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
-			         	<input type="number" id="iGRIFFINAgentCountView" name="iGRIFFINAgentCountView" class="form-control viewForm" value="${license.iGRIFFINAgentCount}">
+			         	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="${license.igriffinAgentCount}">
 			         </div>
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 5.0 Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="전체">
-		    				<label for="chkTos5AgentCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
+		    				<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="${license.tos5AgentCount}">
 					 </div>
@@ -169,24 +193,24 @@
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 2.0 Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="전체">
-		    				<label for="chkTos2AgentCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
+		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="1">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">DBMS 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="전체">
-		    				<label for="chkDbmsCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">Network 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="전체">
-		    				<label for="chkNetworkCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
 					</div>
@@ -223,7 +247,11 @@
 					<div class="pading5Width450">
 						<label class="labelFontSize">제품버전</label><label class="colorRed">*</label>
 						<span class="colorRed licenseShow" id="NotProductVersion" style="display: none; line-height: initial; float: right;">제품 버전을 입력해주세요.</span>
-						<input type="text" id="productVersionView" name="productVersionView" class="form-control viewForm" value="5.0.20">
+						<select class="form-control selectpicker" id="productVersionView" name="productVersionView" data-live-search="true" data-size="5" data-actions-box="true">
+							<option value="5.0.21">5.0.21</option>
+							<option value="5.0.20" selected>5.0.20</option>
+							<option value="5.0.19">5.0.19</option>
+						</select>
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">라이센스 파일명</label><label class="colorRed">*</label>
@@ -231,25 +259,29 @@
 			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
 			        </div>
 	       		</c:when>
-		        <c:when test="${viewType eq 'copy'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 2.0 Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="전체">
-		    				<label for="chkTos2AgentCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
+		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="${license.tos2AgentCount}">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">DBMS 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="전체">
-		    				<label for="chkDbmsCount"></label><span class="margin17">전체</span>
+			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">Network 개수</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
+		    			</div>
 			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
 					</div>
 					<div class="pading5Width450">
@@ -285,7 +317,11 @@
 					<div class="pading5Width450">
 						<label class="labelFontSize">제품버전</label><label class="colorRed">*</label>
 						<span class="colorRed licenseShow" id="NotProductVersion" style="display: none; line-height: initial; float: right;">제품 버전을 입력해주세요.</span>
-						<input type="text" id="productVersionView" name="productVersionView" class="form-control viewForm" value="${license.productVersion}">
+						<select class="form-control selectpicker" id="productVersionView" name="productVersionView" data-live-search="true" data-size="5" data-actions-box="true">
+							<option value="5.0.21" <c:if test="${'5.0.21' eq license.productVersion}">selected</c:if>>5.0.21</option>
+							<option value="5.0.20" <c:if test="${'5.0.20' eq license.productVersion}">selected</c:if>>5.0.20</option>
+							<option value="5.0.19" <c:if test="${'5.0.19' eq license.productVersion}">selected</c:if>>5.0.19</option>
+						</select>
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">라이센스 파일명</label><label class="colorRed">*</label>
@@ -300,18 +336,22 @@
 	        </div>
         </div>
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
-        <input type="hidden" id="btnType" name="btnType">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
+        <input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDays}">
+        <input type="hidden" id="customerNameView" name="customerNameView">
+        <input type="hidden" id="businessNameView" name="businessNameView">
+        
+        
 	</form>
 </div>
 <div class="modal-footer">
 	<c:choose>
-		<c:when test="${viewType eq 'issued'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('issued')">발급</button>
+		<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
+			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert()">발급</button>
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
-		<c:when test="${viewType eq 'copy'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert('copy')">발급</button>
+		<c:when test="${viewType eq 'update'}">
+			<button class="btn btn-default btn-outline-info-add" onClick="BtnUpdate()">발급</button>
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
     </c:choose>
@@ -327,7 +367,58 @@
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		}
 		
-		$("#customerNameView").change(function() {
+		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
+			if($('#expirationDaysView').val() == "무제한") {
+				$('#chkExpirationDays').prop("checked",true);
+				$("#expirationDaysDay").val(90);
+				$("#expirationDaysCalender").attr("disabled",true);
+				$("#expirationDaysDay").attr("disabled",true);
+				$("#expirationDaysView").attr("disabled",true);
+			} else if($('#expirationDaysView').val().length > 4) {
+				$("#expirationDaysChange").text("Day");
+				$('#expirationDaysViewSelf').show();
+				$('#expirationDaysViewSelect').hide();
+				$('#expirationDaysCalender').val($('#expirationDaysView').val());
+			} else {
+				$("#expirationDaysChange").text("달력");
+				$('#expirationDaysViewSelf').hide();
+				$('#expirationDaysViewSelect').show();
+				$('#expirationDaysDay').val($('#expirationDaysView').val());
+			}
+			
+			if($('#igriffinAgentCountView').val() == "") {
+				$('#chkIGRIFFINAgentCount').prop("checked",true);
+				$("#igriffinAgentCountView").val(1);
+				$("#igriffinAgentCountView").attr("disabled",true);
+			}
+			
+			if($('#tos5AgentCountView').val() == "") {
+				$('#chkTos5AgentCount').prop("checked",true);
+				$("#tos5AgentCountView").val(1);
+				$("#tos5AgentCountView").attr("disabled",true);
+			}
+			
+			if($('#tos2AgentCountView').val() == "") {
+				$('#chkTos2AgentCount').prop("checked",true);
+				$("#tos2AgentCountView").val(1);
+				$("#tos2AgentCountView").attr("disabled",true);
+			}
+			
+			if($('#dbmsCountView').val() == "") {
+				$('#chkDbmsCount').prop("checked",true);
+				$("#dbmsCountView").val(1);
+				$("#dbmsCountView").attr("disabled",true);
+			}
+			
+			if($('#networkCountView').val() == "") {
+				$('#chkNetworkCount').prop("checked",true);
+				$("#networkCountView").val(1);
+				$("#networkCountView").attr("disabled",true);
+			}
+		}
+		
+		$("#customerNameSelect").change(function() {
+			customerBusinessChange();
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -335,7 +426,26 @@
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		});
 		
-		$("#businessNameView").change(function() {
+		$("#customerNameSelf").change(function() {
+			customerBusinessChange();
+			var customerName = $('#customerNameView').val();
+			var businessName = $('#businessNameView').val();
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+		
+		$("#businessNameSelect").change(function() {
+			customerBusinessChange();
+			var customerName = $('#customerNameView').val();
+			var businessName = $('#businessNameView').val();
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+		
+		$("#businessNameSelf").change(function() {
+			customerBusinessChange();
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -344,6 +454,7 @@
 		});
 		
 		$("#issueDateView").change(function() {
+			customerBusinessChange();
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -353,17 +464,21 @@
 		
 		$('#chkExpirationDays').change(function() {
 			if($("#chkExpirationDays").is(":checked")){
-				$(".expirationDays").attr("disabled",true);
+				$("#expirationDaysCalender").attr("disabled",true);
+				$("#expirationDaysDay").attr("disabled",true);
+				$("#expirationDaysView").attr("disabled",true);
 			} else {
-				$(".expirationDays").attr("disabled",false);
+				$("#expirationDaysCalender").attr("disabled",false);
+				$("#expirationDaysDay").attr("disabled",false);
+				$("#expirationDaysView").attr("disabled",false);
 			}
 		});
 		
 		$('#chkIGRIFFINAgentCount').change(function() {
 			if($("#chkIGRIFFINAgentCount").is(":checked")){
-				$("#iGRIFFINAgentCountView").attr("disabled",true);
+				$("#igriffinAgentCountView").attr("disabled",true);
 			} else {
-				$("#iGRIFFINAgentCountView").attr("disabled",false);
+				$("#igriffinAgentCountView").attr("disabled",false);
 			}
 		});
 		
@@ -399,19 +514,49 @@
 			}
 		});
 		
-		chkNetworkCount
+		$('#chkLicenseIssuance').change(function() {
+			if($("#chkLicenseIssuance").is(":checked")){
+				$("#serialNumberView").css("display","none");
+			} else {
+				$("#serialNumberView").css("display","block");
+			}
+		});
 		
 	});
 	
 	if($('#viewType').val() == "issued") {
 		document.getElementById('issueDateView').valueAsDate = new Date();
+		document.getElementById('expirationDaysCalender').valueAsDate = new Date();
 	}
 
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
 	/* =========== 라이센스 발급 ========= */
-	function BtnInsert(btnType) {
-		$('#btnType').val(btnType);
+	function BtnInsert() {
+		if($("#expirationDaysChange").text() == "Day") {
+			var calender = $("#expirationDaysCalender").val();;
+			$("#expirationDaysView").val(calender);
+		} else if($("#expirationDaysChange").text() == "달력") {
+			var day = $("#expirationDaysDay").val();
+			$("#expirationDaysView").val(day);
+		}
+		
+		if($("#customerNameChange").text() == "선택입력") {
+			var self = $("#customerNameSelf").val();;
+			$("#customerNameView").val(self);
+		} else if($("#customerNameChange").text() == "직접입력") {
+			var select = $("#customerNameSelect").val();
+			$("#customerNameView").val(select);
+		}
+		
+		if($("#businessNameChange").text() == "선택입력") {
+			var self = $("#businessNameSelf").val();;
+			$("#businessNameView").val(self);
+		} else if($("#businessNameChange").text() == "직접입력") {
+			var select = $("#businessNameSelect").val();
+			$("#businessNameView").val(select);
+		}
+		
 		var customerName = $('#customerNameView').val();
 		var businessName = $('#businessNameView').val();
 		var macAddress = $('#macAddressView').val();
@@ -431,55 +576,22 @@
 		} else if(licenseFilePath == "") {
 			$('#NotLicenseFilePath').show();
 		} else { 
-			if($("#expirationDaysChange").text() == "선택입력" && $('#expirationDaysYearSelf').val() <= 0 && $('#expirationDaysMonthSelf').val() <= 0 && $('#expirationDaysDaySelf').val() <= 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '직접 입력의 경우 1일 이상의 값을 입력 바랍니다.',    
-				});
-			} else {
-				var postData = $('#modalForm').serializeObject();
-				$.ajax({
-					url: "<c:url value='/license5/linuxIssued50'/>",
-				    type: 'post',
-				    data: postData,
-				    async: false,
-				    success: function(result) {
-						if(result.result == "FALSE") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '라이센스 발급에 실패하였습니다.',
-							});
-						} else if(result.result == "NotRoute") {
-							Swal.fire({
-								icon: 'error',
-								title: '경로 설정!',
-								text: '경로 설정 후 라이센스 발급 바랍니다.',
-							});
-						} else if(result.result == "NOTCONNECT") {
-				        		Swal.fire({
-									icon: 'error',
-									title: '연결 실패!',
-									text: '서버 연결에 실패하였습니다.',
-								});
-						} else {
-							Swal.fire({
-								icon: 'success',
-								title: '라이센스 발급!',
-								text: result.result,
-							});
-							$('#modal').modal("hide"); // 모달 닫기
-				    		$('#modal').on('hidden.bs.modal', function () {
-				    			tableRefresh();
-				    		});
-						}
-					},
-					error: function(error) {
-						console.log(error);
-					}
-				});
-			}
+			var postData = $('#modalForm').serializeObject();
+			$.ajax({
+				url: "<c:url value='/license5/licenseIssuanceConfirm'/>",
+			    type: 'post',
+			    data: postData,
+			    async: false,
+			    success: function (data) {
+			    	$('#modal').modal("hide"); // 모달 닫기
+			    	setTimeout(function() {
+			    		$.modal(data, 'licenseConfirm'); //modal창 호출
+			    	},300)
+			    },
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		}
 	};
 	
@@ -524,20 +636,20 @@
 	}
 	
 	/* =========== 고객사명 Select Box 선택 ========= */
-	$("#customerNameView").change(function() {
-		$("#businessNameView").empty();
-		$("#businessNameView").selectpicker("refresh");
-		var customerName = $('#customerNameView').val();
+	$("#customerNameSelect").change(function() {
+		$("#businessNameSelect").empty();
+		$("#businessNameSelect").selectpicker("refresh");
+		var customerName = $('#customerNameSelect').val();
 		$.ajax({
 			url: "<c:url value='/category/customerBusinessName'/>",
 	        type: 'post',
 	        data: {'customerName':customerName},
 	        async: false,
 	        success: function(items) {
-	        	$("#businessNameView").append('<option value=""></option>');
+	        	$("#businessNameSelect").append('<option value=""></option>');
 	        	$.each(items, function (i, item) {
-	        		$("#businessNameView").append('<option value="'+item+'">'+item+'</option>');
-	        		$("#businessNameView").selectpicker("refresh");
+	        		$("#businessNameSelect").append('<option value="'+item+'">'+item+'</option>');
+	        		$("#businessNameSelect").selectpicker("refresh");
 	        	});
 			},
 			error: function(error) {
@@ -545,4 +657,86 @@
 			}
 	    });
 	});
+	
+	function customerBusinessChange() {
+		if($("#customerNameChange").text() == "선택입력") {
+			var self = $("#customerNameSelf").val();;
+			$("#customerNameView").val(self);
+		} else if($("#customerNameChange").text() == "직접입력") {
+			var select = $("#customerNameSelect").val();
+			$("#customerNameView").val(select);
+		}
+		
+		if($("#businessNameChange").text() == "선택입력") {
+			var self = $("#businessNameSelf").val();;
+			$("#businessNameView").val(self);
+		} else if($("#businessNameChange").text() == "직접입력") {
+			var select = $("#businessNameSelect").val();
+			$("#businessNameView").val(select);
+		}
+	}
+	
+	
+	function BtnUpdate() {
+		if($("#expirationDaysChange").text() == "Day") {
+			var calender = $("#expirationDaysCalender").val();;
+			$("#expirationDaysView").val(calender);
+		} else if($("#expirationDaysChange").text() == "달력") {
+			var day = $("#expirationDaysDay").val();
+			$("#expirationDaysView").val(day);
+		}
+		
+		if($("#customerNameChange").text() == "선택입력") {
+			var self = $("#customerNameSelf").val();;
+			$("#customerNameView").val(self);
+		} else if($("#customerNameChange").text() == "직접입력") {
+			var select = $("#customerNameSelect").val();
+			$("#customerNameView").val(select);
+		}
+		
+		if($("#businessNameChange").text() == "선택입력") {
+			var self = $("#businessNameSelf").val();;
+			$("#businessNameView").val(self);
+		} else if($("#businessNameChange").text() == "직접입력") {
+			var select = $("#businessNameSelect").val();
+			$("#businessNameView").val(select);
+		}
+		
+		var customerName = $('#customerNameView').val();
+		var businessName = $('#businessNameView').val();
+		var macAddress = $('#macAddressView').val();
+		var expirationDays = $('#expirationDaysView').val();
+		var productVersion = $('#productVersionView').val();
+		var licenseFilePath = $('#licenseFilePathView').val();
+		
+		$('.licenseShow').hide();
+		if(customerName == "") {
+			$('#NotCustomerName').show();
+		} else if(businessName == "") {
+			$('#NotBusinessName').show();
+		} else if(macAddress == "") {
+			$('#NotMacAddress').show();			
+		} else if(productVersion == "") {
+			$('#NotProductVersion').show();
+		} else if(licenseFilePath == "") {
+			$('#NotLicenseFilePath').show();
+		} else { 
+			var postData = $('#modalForm').serializeObject();
+			$.ajax({
+				url: "<c:url value='/license5/licenseUpdateConfirm'/>",
+			    type: 'post',
+			    data: postData,
+			    async: false,
+			    success: function (data) {
+			    	$('#modal').modal("hide"); // 모달 닫기
+			    	setTimeout(function() {
+			    		$.modal(data, 'licenseConfirm'); //modal창 호출
+			    	},300)
+			    },
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+	}
 </script>

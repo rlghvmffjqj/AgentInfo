@@ -1,7 +1,9 @@
 package com.secuve.agentInfo.service;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,8 @@ import com.secuve.agentInfo.vo.License5;
 public class License5Service {
 	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	@Autowired License5Dao license5Dao;
+	@Autowired CategoryService categoryService;
+	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 
 	public List<License5> getLicenseList(License5 search) {
 		return license5Dao.getLicenseList(licenseSearch(search));
@@ -72,36 +76,82 @@ public class License5Service {
 		return formatter.format(now);
 	}
 	
-	public String linuxIssuedLicense50(License5 license, Principal principal) {
-		String resault = null;
-		String answer = "";
+	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
+		String resault = "OK";
 		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
-		try {
-			resault = LinuxLicenseIssued50(route);
-		} catch (Exception e) {
-			return "NOTCONNECT";
+		license.setMacAddressView(license.getMacAddressView().replaceAll("-", ":"));
+		
+		if("on".equals(license.getChkLicenseIssuance())) {
+			try {
+				resault = LinuxLicenseIssued50(route, license).replaceAll("\"", "");
+				license.setSerialNumberView(resault);
+			} catch (Exception e) {
+				LOGGER.debug("Agent 연결 실패");
+				return "NOTCONNECT";
+			}
 		}
 		
-		if(!answer.equals("FALSE")) {
+		if(!resault.equals("FALSE")) {
+			license = licenseInputFormat(license);
 			int sucess = license5Dao.issuedLicense(license);
 		
 			// 로그 기록
 			if (sucess <= 0) {
 				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
 				return "FALSE";
+			} else {
+				categoryCheck(license, principal);
+				customerBusinessMappingService.customerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
 			}
 		} else {
 			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
 			return "FALSE";
 		}
-		return answer;
+		return resault;
 	}
 	
-	public String LinuxLicenseIssued50(String route) {
-		String url = "http://172.16.50.182:8080/linuxLicenseIssued50";
+	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
+		String resault = "OK";
+		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
+		if(route == null || route.equals("") || route == "") {
+			return "NotRoute";
+		}
+		license.setMacAddressView(license.getMacAddressView().replaceAll("-", ":"));
+		
+		if("on".equals(license.getChkLicenseIssuance())) {
+			try {
+				resault = LinuxLicenseIssued50(route, license).replaceAll("\"", "");
+				license.setSerialNumberView(resault);
+			} catch (Exception e) {
+				LOGGER.debug("Agent 연결 실패");
+				return "NOTCONNECT";
+			}
+		}
+		
+		if(!resault.equals("FALSE")) {
+			license = licenseInputFormat(license);
+			int sucess = license5Dao.updateLicense(license);
+		
+			// 로그 기록
+			if (sucess <= 0) {
+				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
+				return "FALSE";
+			} else {
+				categoryCheck(license, principal);
+				customerBusinessMappingService.customerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
+			}
+		} else {
+			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
+			return "FALSE";
+		}
+		return resault;
+	}
+	
+	public String LinuxLicenseIssued50(String route, License5 license) {
+		String url = "http://172.16.50.174:8080/linuxLicenseIssued50";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
@@ -112,6 +162,23 @@ public class License5Service {
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("route", route)
+        		.queryParam("productType", license.getProductTypeView())
+        		.queryParam("customerName", license.getCustomerNameView())
+        		.queryParam("businessName", license.getBusinessNameView())
+        		.queryParam("additionalInformation", license.getAdditionalInformationView())
+        		.queryParam("macAddress", license.getMacAddressView())
+        		.queryParam("issueDate", license.getIssueDateView())
+        		.queryParam("expirationDays", license.getExpirationDaysView())
+        		.queryParam("igriffinAgentCount", license.getIgriffinAgentCountView())
+        		.queryParam("tos5AgentCount", license.getTos5AgentCountView())
+        		.queryParam("tos2AgentCount", license.getTos2AgentCountView())
+        		.queryParam("dbmsCount", license.getDbmsCountView())
+        		.queryParam("networkCount", license.getNetworkCountView())
+        		.queryParam("managerOsType", license.getManagerOsTypeView())
+        		.queryParam("managerDbmsType", license.getManagerDbmsTypeView())
+        		.queryParam("country", license.getCountryView())
+        		.queryParam("productVersion", license.getProductVersionView())
+        		.queryParam("licenseFilePath", license.getLicenseFilePathView())
         		.build();
 
         ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
@@ -129,9 +196,94 @@ public class License5Service {
 			e.printStackTrace();
 		}
         
-        System.out.println(jsonInString);
         return jsonInString;
 	}
+
+	public ResponseEntity<?> fileDownload(String licenseFilePath, Principal principal) {
+		String url = "http://172.16.50.174:8080/fileDownload";
+		RestTemplate restTemplate = new RestTemplate();
+		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
+		String[] routeArr = route.split("/");
+		String routeStr = "";
+		for (int i=0; i<routeArr.length-1; i++) {
+			routeStr += routeArr[i]+"/";
+		}
+		
+		UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+				.queryParam("fileName", licenseFilePath)
+				.queryParam("filePath", routeStr)
+        		.build();
+		HttpHeaders header = new HttpHeaders();
+		HttpEntity<?> entity = new HttpEntity<>(header);
+		ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, String.class);
+		return resultMap;
+	}
+
+	public String delLicense(int[] chkList, Principal principal) {
+		for (int licenseKeyNum : chkList) {
+			License5 license = license5Dao.getLicenseOne(licenseKeyNum);
+			int sucess = license5Dao.delLicense(licenseKeyNum);
+
+			// 로그 기록
+			if (sucess > 0) {
+			} else if (sucess <= 0) {
+				LOGGER.debug("라이센스 DELETE ERROR");
+				return "FALSE";
+			}
+		}
+		return "OK";
+	}
 	
+	public License5 licenseInputFormat(License5 license) throws ParseException {
+		if(license.getExpirationDaysView().isEmpty()) {
+			license.setExpirationDaysView("무제한");
+		} else {
+			if(license.getExpirationDaysView().length() < 4) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(formatter.parse(license.getIssueDateView()));
+				cal.add(Calendar.DATE, Integer.parseInt(license.getExpirationDaysView()));
+				Date date = new Date(cal.getTimeInMillis());
+				
+				license.setExpirationDaysView(formatter.format(date));
+			}
+		}
+		
+		if(license.getExpirationDaysView().isEmpty()) {
+			license.setExpirationDaysView("무제한");
+		}
+		
+		if(license.getIgriffinAgentCountView().isEmpty()) {
+			license.setIgriffinAgentCountView("무제한");
+		}
+		if(license.getTos5AgentCountView().isEmpty()) {
+			license.setTos5AgentCountView("무제한");
+		}
+		if(license.getTos2AgentCountView().isEmpty()) {
+			license.setTos2AgentCountView("무제한");
+		}
+		if(license.getDbmsCountView().isEmpty()) {
+			license.setDbmsCountView("무제한");
+		}
+		if(license.getNetworkCountView().isEmpty()) {
+			license.setNetworkCountView("무제한");
+		}
+		
+		
+		return license;
+	}
+	
+	public void categoryCheck(License5 license, Principal principal) {
+		if (categoryService.getCategory("customerName", license.getCustomerNameView()) == 0) {
+			categoryService.setCategory("customerName", license.getCustomerNameView(), principal.getName(), nowDate());
+		}
+		if (categoryService.getCategory("businessName", license.getBusinessNameView()) == 0) {
+			categoryService.setCategory("businessName", license.getBusinessNameView(), principal.getName(), nowDate());
+		}
+	}
+	
+	public License5 getLicenseOne(int licenseKeyNum) {
+		return license5Dao.getLicenseOne(licenseKeyNum);
+	}
 }
 

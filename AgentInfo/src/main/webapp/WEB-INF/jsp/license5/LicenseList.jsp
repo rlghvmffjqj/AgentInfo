@@ -17,28 +17,28 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','사업명','추가정보','제품유형','일련번호','MAC주소','시작일','만료일','iGRIFFIN Agent 개수','TOS 5.0 Agent 개수','TOS 2.0 Agent 개수','DBMS 개수','Network 개수','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자'],
+					colNames:['Key','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 개수','TOS 5.0 Agent 개수','TOS 2.0 Agent 개수','DBMS 개수','Network 개수','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자'],
 					colModel:[
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 35, hidden:true },
 						{name:'customerName', index:'customerName', align:'center', width: 200},
 						{name:'businessName', index:'businessName', align:'center', width: 250},
-						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 80},
-						{name:'productType', index:'productType', align:'center', width: 80},
-						{name:'serialNumber', index:'serialNumber',align:'center', width: 150},
-						{name:'macAddress', index:'macAddress',align:'center', width: 80},
-						{name:'issueDate', index:'issueDate', align:'center', width: 150},
-						{name:'expirationDays', index:'expirationDays', align:'center', width: 70},
-						{name:'iGRIFFINAgentCount', index:'iGRIFFINAgentCount', align:'center', width: 70},
-						{name:'tos5AgentCount', index:'tos5AgentCount', align:'center', width: 150},
-						{name:'tos2AgentCount', index:'tos2AgentCount', align:'center', width: 70},
-						{name:'dbmsCount', index:'dbmsCount', align:'center', width: 200},
-						{name:'networkCount', index:'networkCount', align:'center', width: 100},
-						{name:'managerOsType', index:'managerOsType', align:'center', width: 100},
-						{name:'managerDbmsType', index:'managerDbmsType', align:'center', width: 200},
-						{name:'country', index:'country', align:'center', width: 100},
+						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
+						{name:'issueDate', index:'issueDate', align:'center', width: 80},
+						{name:'expirationDays', index:'expirationDays', align:'center', width: 80},
+						{name:'serialNumber', index:'serialNumber',align:'center', width: 250},
+						{name:'macAddress', index:'macAddress',align:'center', width: 100},
+						{name:'productType', index:'productType', align:'center', width: 80},						
+						{name:'igriffinAgentCount', index:'igriffinAgentCount', align:'center', width: 120},
+						{name:'tos5AgentCount', index:'tos5AgentCount', align:'center', width: 120},
+						{name:'tos2AgentCount', index:'tos2AgentCount', align:'center', width: 120},
+						{name:'dbmsCount', index:'dbmsCount', align:'center', width: 120},
+						{name:'networkCount', index:'networkCount', align:'center', width: 120},
+						{name:'managerOsType', index:'managerOsType', align:'center', width: 80},
+						{name:'managerDbmsType', index:'managerDbmsType', align:'center', width: 80},
+						{name:'country', index:'country', align:'center', width: 50},
 						{name:'productVersion', index:'productVersion', align:'center', width: 100},
-						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 100},
-						{name:'requester', index:'requester', align:'center', width: 100},
+						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 250},
+						{name:'requester', index:'requester', align:'center', width: 80},
 					],
 					jsonReader : {
 			        	id: 'licenseKeyNum',
@@ -164,7 +164,7 @@
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">iGRIFFIN Agent 개수</label>
-		                      							<input type="number" id="iGRIFFINAgentCount" name="iGRIFFINAgentCount" class="form-control">
+		                      							<input type="number" id="igriffinAgentCount" name="igriffinAgentCount" class="form-control">
 													</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">TOS 5.0 Agent 개수</label>
@@ -266,7 +266,7 @@
 																	<sec:authorize access="hasRole('ADMIN')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
@@ -449,10 +449,7 @@
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
 			$("input[type='date']").val("");
-			$("#dateFull").prop("checked",true);
-	        
 	        $('.selectpicker').val('');
-	        $('.filter-option-inner-inner').text('');
 			
 			tableRefresh();
 		});
@@ -471,7 +468,8 @@
 		/* =========== 경로 설정 ========= */
 		$('#BtnRoute').click(function() {
 			$.ajax({
-				url: "<c:url value='/license5/setting'/>",
+				url: "<c:url value='/license/setting'/>",
+				data: {"licenseVersion" : "5"},
 				type: "POST",
 				traditional: true,
 				async: false,
@@ -484,8 +482,8 @@
 			});
 		});
 		
-		/* =========== 데이터 복사 Modal ========= */
-		$('#BtnCopy').click(function() {
+		/* =========== 데이터 수정 Modal ========= */
+		$('#BtnUpdate').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			var licenseKeyNum = chkList[0];
 			if(chkList.length == 0) {
@@ -497,7 +495,7 @@
 			} else if(chkList.length == 1) {
 				$.ajax({
 		            type: 'POST',
-		            url: "<c:url value='/license5/copyView'/>",
+		            url: "<c:url value='/license5/updateView'/>",
 		            data: {"licenseKeyNum" : licenseKeyNum},
 		            async: false,
 		            success: function (data) {
@@ -511,7 +509,7 @@
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
-					text: '복사를 원하는 데이터 한 행만 체크 해주세요.',    
+					text: '수정를 원하는 데이터 한 행만 체크 해주세요.',    
 				}); 
 			}
 		});

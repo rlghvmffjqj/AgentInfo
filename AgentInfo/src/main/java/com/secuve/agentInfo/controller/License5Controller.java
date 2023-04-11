@@ -1,16 +1,19 @@
 package com.secuve.agentInfo.controller;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CategoryService;
@@ -79,7 +82,7 @@ public class License5Controller {
 	
 	@ResponseBody
 	@PostMapping(value = "/license5/linuxIssued50")
-	public Map<String, String> LinuxIssuedLicense50(License5 license, Principal principal) {
+	public Map<String, String> LinuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
 		license.setLicenseIssuanceRegistrant(principal.getName());
 		license.setLicenseIssuanceRegistrationDate(license5Service.nowDate());
 
@@ -87,5 +90,118 @@ public class License5Controller {
 		String result = license5Service.linuxIssuedLicense50(license, principal);
 		map.put("result", result);
 		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/linuxUpdate50")
+	public Map<String, String> LinuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
+		license.setLicenseIssuanceModifier(principal.getName());
+		license.setLicenseIssuanceModifiedDate(license5Service.nowDate());
+
+		Map<String, String> map = new HashMap<String, String>();
+		String result = license5Service.linuxUpdateLicense50(license, principal);
+		map.put("result", result);
+		return map;
+	}
+	
+	@PostMapping(value = "/license5/licenseIssuanceConfirm")
+	public String LicenseIssuanceConfirm(License5 license, Model model) {
+		model.addAttribute("license", license);
+		model.addAttribute("viewType","issued");
+		return "/license5/LicenseIssuanceConfirm";
+	}
+	
+	@PostMapping(value = "/license5/licenseUpdateConfirm")
+	public String licenseUpdateConfirm(License5 license, Model model) {
+		model.addAttribute("license", license);
+		model.addAttribute("viewType","update");
+		return "/license5/LicenseIssuanceConfirm";
+	}
+	
+	@PostMapping(value = "/license5/issuedBackView")
+	public String issuedBackView(License5 license, String viewType, Model model) {
+		license.setCustomerName(license.getCustomerNameView());
+		license.setBusinessName(license.getBusinessNameView());
+		license.setAdditionalInformation(license.getAdditionalInformationView());
+		license.setProductType(license.getProductTypeView());
+		license.setMacAddress(license.getMacAddressView());
+		license.setIssueDate(license.getIssueDateView());
+		license.setExpirationDays(license.getExpirationDaysView());
+		license.setIgriffinAgentCount(license.getIgriffinAgentCountView());
+		license.setTos5AgentCount(license.getTos5AgentCountView());
+		license.setTos2AgentCount(license.getTos2AgentCountView());
+		license.setDbmsCount(license.getDbmsCountView());
+		license.setNetworkCount(license.getNetworkCountView());
+		license.setManagerOsType(license.getManagerOsTypeView());
+		license.setManagerDbmsType(license.getManagerDbmsTypeView());
+		license.setCountry(license.getCountryView());
+		license.setProductVersion(license.getProductVersionView());
+		license.setLicenseFilePath(license.getLicenseFilePathView());
+		license.setRequester(license.getRequesterView());
+		license.setSerialNumber(license.getSerialNumberView());
+		
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName", license.getCustomerName());
+		
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("businessName", businessName);
+		model.addAttribute("license", license).addAttribute("viewType", viewType);
+		
+		return "/license5/LicenseView";
+	}
+	
+	@PostMapping(value = "/license5/updateBackView")
+	public String updateBackView(License5 license, String viewType, Model model) {
+		license.setCustomerName(license.getCustomerNameView());
+		license.setBusinessName(license.getBusinessNameView());
+		license.setAdditionalInformation(license.getAdditionalInformationView());
+		license.setProductType(license.getProductTypeView());
+		license.setMacAddress(license.getMacAddressView());
+		license.setIssueDate(license.getIssueDateView());
+		license.setExpirationDays(license.getExpirationDaysView());
+		license.setIgriffinAgentCount(license.getIgriffinAgentCountView());
+		license.setTos5AgentCount(license.getTos5AgentCountView());
+		license.setTos2AgentCount(license.getTos2AgentCountView());
+		license.setDbmsCount(license.getDbmsCountView());
+		license.setNetworkCount(license.getNetworkCountView());
+		license.setManagerOsType(license.getManagerOsTypeView());
+		license.setManagerDbmsType(license.getManagerDbmsTypeView());
+		license.setCountry(license.getCountryView());
+		license.setProductVersion(license.getProductVersionView());
+		license.setLicenseFilePath(license.getLicenseFilePathView());
+		license.setRequester(license.getRequesterView());
+		license.setSerialNumber(license.getSerialNumberView());
+		
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName", license.getCustomerName());
+		
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("businessName", businessName);
+		model.addAttribute("license", license).addAttribute("viewType", viewType);
+		
+		return "/license5/LicenseView";
+	}
+	
+	@GetMapping(value = "/license5/fileDownload")
+	public ResponseEntity<?> fileDownload(String licenseFilePath, Principal principal) {
+		return license5Service.fileDownload(licenseFilePath, principal);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/delete")
+	public String LicenseDelete(@RequestParam int[] chkList, Principal principal) {
+		return license5Service.delLicense(chkList, principal);
+	}
+	
+	@PostMapping(value = "/license5/updateView")
+	public String UpdateLicenseView(Model model, int licenseKeyNum) {
+		License5 license = license5Service.getLicenseOne(licenseKeyNum);
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryValue("businessName", license.getCustomerName());
+		
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("businessName", businessName);
+		model.addAttribute("viewType", "update").addAttribute("license", license);
+		return "/license5/LicenseView";
 	}
 }

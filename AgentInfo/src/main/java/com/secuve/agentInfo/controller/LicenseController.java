@@ -204,10 +204,11 @@ public class LicenseController {
 	 * @return
 	 */
 	@PostMapping(value = "/license/setting")
-	public String LicenseSetting(Principal principal, Model model) {
+	public String LicenseSetting(Principal principal, String licenseVersion, Model model) {
 		String employeeId = principal.getName();
 		LicenseSetting licenseSetting = licenseService.getlicenseSetting(employeeId);
 		model.addAttribute("licenseSetting", licenseSetting);
+		model.addAttribute("licenseVersion", licenseVersion);
 		return "/license/LicenseSetting";
 	}
 	

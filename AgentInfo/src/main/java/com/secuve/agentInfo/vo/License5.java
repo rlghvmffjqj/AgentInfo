@@ -19,7 +19,7 @@ public class License5 {
 	private String macAddress;							// MAC 주소
 	private String issueDate;							// 시작일
 	private String expirationDays;						// 만료일
-	private String iGRIFFINAgentCount;						// iGRIFFIN Agent 개수
+	private String igriffinAgentCount;						// iGRIFFIN Agent 개수
 	private String tos5AgentCount;							// TOS 5.0 Agent 개수
 	private String tos2AgentCount;							// TOS 2.0 Agent 개수
 	private String dbmsCount;								// DBMS 개수
@@ -36,17 +36,6 @@ public class License5 {
 	private String licenseIssuanceModifier;
 	private String licenseIssuanceModifiedDate;
 	
-	private String productTypeSelf;							// 제품 유형
-	private String customerNameSelf;						// 고객사명
-	private String businessNameSelf;						// 사업명
-	private String additionalInformationSelf;				// 추가정보
-	private String macAddressSelf;							// MAC 주소
-	private String managerOsTypeSelf;						// 관리서버 OS
-	private String managerDbmsTypeSelf;						// 관리서버 DBMS
-	private String productVersionSelf;						// 제품버전
-	private String licenseFilePathSelf;						// 라이선스 파일명
-	private String requesterSelf;							// 요청자
-	
 	private String productTypeView;							// 제품 유형
 	private String customerNameView;						// 고객사명
 	private String businessNameView;						// 사업명
@@ -54,7 +43,7 @@ public class License5 {
 	private String macAddressView;							// MAC 주소
 	private String issueDateView;							// 시작일
 	private String expirationDaysView;						// 만료일
-	private String iGRIFFINAgentCountView;						// iGRIFFIN Agent 개수
+	private String igriffinAgentCountView;						// iGRIFFIN Agent 개수
 	private String tos5AgentCountView;							// TOS 5.0 Agent 개수
 	private String tos2AgentCountView;							// TOS 2.0 Agent 개수
 	private String dbmsCountView;								// DBMS 개수
@@ -80,11 +69,10 @@ public class License5 {
 	private String[] requesterArr;							// 요청자
 	private String[] countryArr;								// 국가
 	
-	private String expirationDaysYearSelf;
-	private String expirationDaysMonthSelf;
-	private String expirationDaysDaySelf;
 	private String viewType;
 	private String btnType;
+	
+	private String chkLicenseIssuance;					// 라이센스 발급 여부
 	
 	private Integer page=1;							// 기본 페이지 번호
 	private Integer rows=25;						// 데이터 보여줄 갯수

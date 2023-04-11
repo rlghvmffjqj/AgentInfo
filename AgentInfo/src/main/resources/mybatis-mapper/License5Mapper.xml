@@ -29,14 +29,26 @@
 	</select>
 	
 	<select id="getLicenseOne" parameterType="_int" resultMap="license">
-		SELECT * FROM license WHERE licenseKeyNum = #{licenseKeyNum};	
+		SELECT * FROM license5 WHERE licenseKeyNum = #{licenseKeyNum};	
 	</select>
 	
 	<select id="getRoute" parameterType="string" resultType="string">
 		SELECT ${column} FROM licenseSetting WHERE employeeId = #{employeeId};
 	</select>
 	
+	<insert id="issuedLicense">
+		INSERT INTO license5(productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
+		VALUES(#{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
+	</insert>
 	
+	<delete id="delLicense" parameterType="_int">
+		DELETE FROM license5 WHERE licenseKeyNum = #{licenseKeyNum};
+	</delete>
+	
+	<update id="updateLicense">
+		UPDATE license5 SET productType=#{productTypeView}, customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, igriffinAgentCount=#{igriffinAgentCountView}, tos5AgentCount=#{tos5AgentCountView}, tos2AgentCount=#{tos2AgentCountView}, dbmsCount=#{dbmsCountView}, networkCount=#{networkCountView}, managerOsType=#{managerOsTypeView}, country=#{countryView}, productVersion=#{productVersionView}, licenseFilePath=#{licenseFilePathView}, serialNumber=#{serialNumberView}, requester=#{requesterView}, licenseIssuanceModifier=#{licenseIssuanceModifier}, licenseIssuanceModifiedDate=#{licenseIssuanceModifiedDate}     
+		WHERE licenseKeyNum = #{licenseKeyNum};
+	</update>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlLicense">
@@ -156,8 +168,8 @@
 				AND expirationDays = #{expirationDays}
 			</if>
 			
-			<if test="iGRIFFINAgentCount != null and iGRIFFINAgentCount != ''">
-				AND iGRIFFINAgentCount = #{iGRIFFINAgentCount}
+			<if test="igriffinAgentCount != null and igriffinAgentCount != ''">
+				AND igriffinAgentCount = #{igriffinAgentCount}
 			</if>
 			<if test="tos5AgentCount != null and tos5AgentCount != ''">
 				AND tos5AgentCount = #{tos5AgentCount}
