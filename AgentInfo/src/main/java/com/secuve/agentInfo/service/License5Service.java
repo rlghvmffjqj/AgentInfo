@@ -24,6 +24,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
@@ -36,6 +39,7 @@ import com.secuve.agentInfo.dao.License5Dao;
 import com.secuve.agentInfo.vo.License5;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class License5Service {
 	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	@Autowired License5Dao license5Dao;
@@ -295,19 +299,20 @@ public class License5Service {
 	@Value("${spring.servlet.multipart.location}")
 	String filePath;
 
-	public int licenseXmlImport(License5 license, MultipartFile xmlFile) throws IOException {
-		 File convFile = new File(xmlFile.getOriginalFilename());
-		 convFile.createNewFile();
-		 String filePath = this.filePath + File.separator + "license5" + File.separator + convFile;
-		 FileOutputStream fos = new FileOutputStream(filePath);
-		 fos.write(xmlFile.getBytes());
-		 fos.close();
-		 String path = filePath.replaceAll("\\\\", "\\\\\\\\");
-		 File file = new File(path);
-		
-		 BufferedReader file_reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
-		 String line;
-		 while ((line = file_reader.readLine()) != null) {
+	public int licenseXmlImport(License5 license, MultipartFile xmlFile) {
+		try {
+			File convFile = new File(xmlFile.getOriginalFilename());
+			convFile.createNewFile();
+			String filePath = this.filePath + File.separator + "license5" + File.separator + convFile;
+			FileOutputStream fos = new FileOutputStream(filePath);
+			fos.write(xmlFile.getBytes());
+			fos.close();
+			String path = filePath.replaceAll("\\\\", "\\\\\\\\");
+			File file = new File(path);
+			
+			BufferedReader file_reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
+			String line;
+			while ((line = file_reader.readLine()) != null) {
 			 if (line.contains("serialNumber")) 
 				 license.setSerialNumberView(line.replace("<serialNumber>", "").replace("</serialNumber>","").replace(" ", ""));
 			 if (line.contains("productType")) 
@@ -334,9 +339,12 @@ public class License5Service {
 				 license.setDbmsCountView(line.replace("<limit_DBMS>", "").replace("</limit_DBMS>","").replace(" ", ""));
 			 if (line.contains("limit_Network")) 
 				 license.setNetworkCountView(line.replace("<limit_Network>", "").replace("</limit_Network>","").replace(" ", ""));
-		 }
-		 license.setLicenseFilePathView(xmlFile.getOriginalFilename());
-		 return license5Dao.issuedLicense(license);
+			}
+		} catch (Exception e) {
+			return 0;
+		}
+		license.setLicenseFilePathView(xmlFile.getOriginalFilename());
+		return license5Dao.issuedLicense(license);
 	}
 }
 

@@ -26,7 +26,7 @@
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'expirationDays', index:'expirationDays', align:'center', width: 80},
 						{name:'serialNumber', index:'serialNumber',align:'center', width: 250},
-						{name:'macAddress', index:'macAddress',align:'center', width: 100},
+						{name:'macAddress', index:'macAddress',align:'center', width: 300},
 						{name:'productType', index:'productType', align:'center', width: 80},						
 						{name:'igriffinAgentCount', index:'igriffinAgentCount', align:'center', width: 120},
 						{name:'tos5AgentCount', index:'tos5AgentCount', align:'center', width: 120},
