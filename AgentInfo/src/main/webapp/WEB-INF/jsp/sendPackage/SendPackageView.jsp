@@ -280,7 +280,7 @@
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
 					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: '예'
+					  confirmButtonText: 'OK'
 				}).then((result) => {
 					if (result.isConfirmed) {
 						insert(postData);	// insert
@@ -421,7 +421,7 @@
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
 					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: '예'
+					  confirmButtonText: 'OK'
 				}).then((result) => {
 					if (result.isConfirmed) {
 						update(postData);	// update

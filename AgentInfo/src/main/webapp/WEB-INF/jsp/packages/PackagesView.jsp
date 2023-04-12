@@ -872,7 +872,7 @@
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
 					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: '예'
+					  confirmButtonText: 'OK'
 				}).then((result) => {
 					if (result.isConfirmed) {
 						packagesUpdate();	// 덮어쓰기 선택한 경우
@@ -1056,7 +1056,7 @@
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
 					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: '예'
+					  confirmButtonText: 'OK'
 				}).then((result) => {
 					if (result.isConfirmed) {
 						packagesCopy();	// insert

@@ -289,7 +289,7 @@
 						showCancelButton: true,
 						confirmButtonColor: '#7066e0',
 						cancelButtonColor: '#FF99AB',
-						confirmButtonText: '예'
+						confirmButtonText: 'OK'
 					}).then((result) => {
 						if (result.isConfirmed) {
 							event.start._d.setHours(event.start._d.getHours() -9);
@@ -333,7 +333,7 @@
 						showCancelButton: true,
 						confirmButtonColor: '#7066e0',
 						cancelButtonColor: '#FF99AB',
-						confirmButtonText: '예'
+						confirmButtonText: 'OK'
 					}).then((result) => {
 						if (result.isConfirmed) {
 							$.ajax({
@@ -379,7 +379,7 @@
 							showCancelButton: true,
 							confirmButtonColor: '#7066e0',
 							cancelButtonColor: '#FF99AB',
-							confirmButtonText: '예'
+							confirmButtonText: 'OK'
 						}).then((result) => {
 							if (result.isConfirmed) {
 								$('#serverCalendar').fullCalendar('removeEvents', event._id);

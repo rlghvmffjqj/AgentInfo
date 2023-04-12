@@ -541,7 +541,7 @@
 		        success: function(items) {
 		        	if(items.length != 0) {
 			        	$.each(items, function (i, item) {
-			        		swalText += item+"<br>";
+			        		swalText += "일련번호 : "+item+"<br>";
 			        	});
 			        	Swal.fire({
 			  			  title: ' 발급을 계속 진행하시겠습니까?',
@@ -550,7 +550,7 @@
 			  			  showCancelButton: true,
 			  			  confirmButtonColor: '#7066e0',
 			  			  cancelButtonColor: '#FF99AB',
-			  			  confirmButtonText: '예'
+			  			  confirmButtonText: 'OK'
 				  		}).then((result) => {
 				  			if (result.isConfirmed) {
 				  				if(viewType == "issued" || viewType == "issuedback") 
