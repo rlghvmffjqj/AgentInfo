@@ -45,7 +45,7 @@
 						</div>
 					 </div>
 	         	</c:when>
-	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
+	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 	         		<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
@@ -96,7 +96,7 @@
 						</select>
 			         </div>
 		         </c:when>
-		         <c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
+		         <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		         	<div class="pading5Width450">
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
@@ -150,7 +150,7 @@
 			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="1">
 					 </div>
 				</c:when>
-		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -256,7 +256,7 @@
 			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
 			        </div>
 	       		</c:when>
-		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 2.0 Agent 개수</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -340,11 +340,11 @@
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnInsert()">발급</button>
+			<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
-		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnUpdate()">발급</button>
+		<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
+			<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
     </c:choose>
@@ -503,22 +503,14 @@
 
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
-	/* =========== 라이센스 발급 ========= */
-	function BtnInsert() {
-		if($("#expirationDaysChange").text() == "Day") {
-			var calender = $("#expirationDaysCalender").val();;
-			$("#expirationDaysView").val(calender);
-		} else if($("#expirationDaysChange").text() == "달력") {
-			var day = $("#expirationDaysDay").val();
-			$("#expirationDaysView").val(day);
-		}
-		
+	function existenceCheck() {
 		var customerName = $('#customerNameView').val();
 		var businessName = $('#businessNameView').val();
 		var macAddress = $('#macAddressView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
+		var viewType = $('#viewType').val();
 		
 		$('.licenseShow').hide();
 		if(customerName == "") {
@@ -533,22 +525,81 @@
 			$('#NotLicenseFilePath').show();
 		} else { 
 			var postData = $('#modalForm').serializeObject();
+			var swalText = "<span style='font-weight: 600;'>라이센스 관리 목록에 데이터가 존재합니다.</span> <br><br>";
 			$.ajax({
-				url: "<c:url value='/license5/licenseIssuanceConfirm'/>",
-			    type: 'post',
-			    data: postData,
-			    async: false,
-			    success: function (data) {
-			    	$('#modal').modal("hide"); // 모달 닫기
-			    	setTimeout(function() {
-			    		$.modal(data, 'licenseConfirm'); //modal창 호출
-			    	},300)
-			    },
+				<c:choose>
+					<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
+						url: "<c:url value='/license5/existenceCheckInsert'/>",
+					</c:when>
+					<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
+						url: "<c:url value='/license5/existenceCheckUpdate'/>",
+					</c:when>
+		    	</c:choose>
+		        type: 'post',
+		        data: postData,
+		        async: false,
+		        success: function(items) {
+		        	if(items.length != 0) {
+			        	$.each(items, function (i, item) {
+			        		swalText += item+"<br>";
+			        	});
+			        	Swal.fire({
+			  			  title: ' 발급을 계속 진행하시겠습니까?',
+			  			  html: swalText,
+			  			  icon: 'warning',
+			  			  showCancelButton: true,
+			  			  confirmButtonColor: '#7066e0',
+			  			  cancelButtonColor: '#FF99AB',
+			  			  confirmButtonText: '예'
+				  		}).then((result) => {
+				  			if (result.isConfirmed) {
+				  				if(viewType == "issued" || viewType == "issuedback") 
+				  					BtnInsert();
+				  				else if(viewType == "update" || viewType == "updateback")
+				  					BtnUpdate();	
+				  			}
+				  		});
+		        	} else {
+		        		console.log("하");
+		        		if(viewType == "issued" || viewType == "issuedback") 
+		  					BtnInsert();
+		  				else if(viewType == "update" || viewType == "updateback")
+		  					BtnUpdate();	
+		        	}
+				},
 				error: function(error) {
 					console.log(error);
 				}
-			});
+		    });
 		}
+	}
+	
+	/* =========== 라이센스 발급 ========= */
+	function BtnInsert() {
+		if($("#expirationDaysChange").text() == "Day") {
+			var calender = $("#expirationDaysCalender").val();;
+			$("#expirationDaysView").val(calender);
+		} else if($("#expirationDaysChange").text() == "달력") {
+			var day = $("#expirationDaysDay").val();
+			$("#expirationDaysView").val(day);
+		}
+		
+		var postData = $('#modalForm').serializeObject();
+		$.ajax({
+			url: "<c:url value='/license5/licenseIssuanceConfirm'/>",
+		    type: 'post',
+		    data: postData,
+		    async: false,
+		    success: function (data) {
+		    	$('#modal').modal("hide"); // 모달 닫기
+		    	setTimeout(function() {
+		    		$.modal(data, 'licenseConfirm'); //modal창 호출
+		    	},300)
+		    },
+			error: function(error) {
+				console.log(error);
+			}
+		});
 	};
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
@@ -599,42 +650,21 @@
 			$("#expirationDaysView").val(day);
 		}
 		
-		var customerName = $('#customerNameView').val();
-		var businessName = $('#businessNameView').val();
-		var macAddress = $('#macAddressView').val();
-		var expirationDays = $('#expirationDaysView').val();
-		var productVersion = $('#productVersionView').val();
-		var licenseFilePath = $('#licenseFilePathView').val();
-		
-		$('.licenseShow').hide();
-		console.log(customerName);
-		if(customerName == "") {
-			$('#NotCustomerName').show();
-		} else if(businessName == "") {
-			$('#NotBusinessName').show();
-		} else if(macAddress == "") {
-			$('#NotMacAddress').show();			
-		} else if(productVersion == "") {
-			$('#NotProductVersion').show();
-		} else if(licenseFilePath == "") {
-			$('#NotLicenseFilePath').show();
-		} else { 
-			var postData = $('#modalForm').serializeObject();
-			$.ajax({
-				url: "<c:url value='/license5/licenseUpdateConfirm'/>",
-			    type: 'post',
-			    data: postData,
-			    async: false,
-			    success: function (data) {
-			    	$('#modal').modal("hide"); // 모달 닫기
-			    	setTimeout(function() {
-			    		$.modal(data, 'licenseConfirm'); //modal창 호출
-			    	},300)
-			    },
-				error: function(error) {
-					console.log(error);
-				}
-			});
-		}
+		var postData = $('#modalForm').serializeObject();
+		$.ajax({
+			url: "<c:url value='/license5/licenseUpdateConfirm'/>",
+		    type: 'post',
+		    data: postData,
+		    async: false,
+		    success: function (data) {
+		    	$('#modal').modal("hide"); // 모달 닫기
+		    	setTimeout(function() {
+		    		$.modal(data, 'licenseConfirm'); //modal창 호출
+		    	},300)
+		    },
+			error: function(error) {
+				console.log(error);
+			}
+		});
 	}
 </script>

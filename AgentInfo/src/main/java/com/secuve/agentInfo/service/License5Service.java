@@ -364,5 +364,13 @@ public class License5Service {
 		}
 		return map;
 	}
+
+	public List<String> existenceCheckInsert(License5 license) {
+		return license5Dao.existenceCheckInsert(license);
+	}
+
+	public List<String> existenceCheckUpdate(License5 license) {
+		return license5Dao.existenceCheckUpdate(license);
+	}
 }
 

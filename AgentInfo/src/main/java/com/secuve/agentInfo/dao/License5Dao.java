@@ -49,4 +49,12 @@ public class License5Dao {
 		return sqlSession.update("license5.updateLicense", license);
 	}
 
+	public List<String> existenceCheckInsert(License5 license) {
+		return sqlSession.selectList("license5.existenceCheckInsert", license);
+	}
+
+	public List<String> existenceCheckUpdate(License5 license) {
+		return sqlSession.selectList("license5.existenceCheckUpdate", license);
+	}
+
 }

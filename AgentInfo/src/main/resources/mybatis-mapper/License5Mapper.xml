@@ -49,6 +49,24 @@
 		UPDATE license5 SET productType=#{productTypeView}, customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, igriffinAgentCount=#{igriffinAgentCountView}, tos5AgentCount=#{tos5AgentCountView}, tos2AgentCount=#{tos2AgentCountView}, dbmsCount=#{dbmsCountView}, networkCount=#{networkCountView}, managerOsType=#{managerOsTypeView}, country=#{countryView}, productVersion=#{productVersionView}, licenseFilePath=#{licenseFilePathView}, serialNumber=#{serialNumberView}, requester=#{requesterView}, licenseIssuanceModifier=#{licenseIssuanceModifier}, licenseIssuanceModifiedDate=#{licenseIssuanceModifiedDate}     
 		WHERE licenseKeyNum = #{licenseKeyNum};
 	</update>
+	
+	<select id="existenceCheckInsert" resultType="string">
+		SELECT serialNumber FROM license5 
+		WHERE customerName = #{customerNameView}
+		AND businessName = #{businessNameView}
+		AND additionalInformation = #{additionalInformationView}
+	</select>
+	
+	<select id="existenceCheckUpdate" resultType="string">
+		SELECT serialNumber FROM license5 
+		WHERE customerName = #{customerNameView}
+		AND businessName = #{businessNameView}
+		AND additionalInformation = #{additionalInformationView}
+		AND serialNumber != #{serialNumber}
+	</select>
+	
+	
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlLicense">

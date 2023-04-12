@@ -127,7 +127,7 @@ public class License5Controller {
 	}
 	
 	@PostMapping(value = "/license5/issuedBackView")
-	public String issuedBackView(License5 license, String viewType, Model model) {
+	public String issuedBackView(License5 license, Model model) {
 		license.setCustomerName(license.getCustomerNameView());
 		license.setBusinessName(license.getBusinessNameView());
 		license.setAdditionalInformation(license.getAdditionalInformationView());
@@ -153,13 +153,13 @@ public class License5Controller {
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
-		model.addAttribute("license", license).addAttribute("viewType", viewType);
+		model.addAttribute("license", license).addAttribute("viewType", "issuedback");
 		
 		return "/license5/LicenseView";
 	}
 	
 	@PostMapping(value = "/license5/updateBackView")
-	public String updateBackView(License5 license, String viewType, Model model) {
+	public String updateBackView(License5 license, Model model) {
 		license.setCustomerName(license.getCustomerNameView());
 		license.setBusinessName(license.getBusinessNameView());
 		license.setAdditionalInformation(license.getAdditionalInformationView());
@@ -185,7 +185,7 @@ public class License5Controller {
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
-		model.addAttribute("license", license).addAttribute("viewType", viewType);
+		model.addAttribute("license", license).addAttribute("viewType", "updateback");
 		
 		return "/license5/LicenseView";
 	}
@@ -219,5 +219,19 @@ public class License5Controller {
 		List<MultipartFile> fileList = request.getFiles("licenseXml");
 		
 		return license5Service.licenseXmlImport(fileList, principal);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/existenceCheckInsert")
+	public List<String> existenceCheckInsert(License5 license, Principal principal) throws IllegalStateException, IOException {
+		
+		return license5Service.existenceCheckInsert(license);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/existenceCheckUpdate")
+	public List<String> existenceCheckUpdate(License5 license, Principal principal) throws IllegalStateException, IOException {
+		license.setSerialNumber(license5Service.getLicenseOne(license.getLicenseKeyNum()).getSerialNumber());
+		return license5Service.existenceCheckUpdate(license);
 	}
 }
