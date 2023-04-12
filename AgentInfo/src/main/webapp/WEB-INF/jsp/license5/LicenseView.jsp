@@ -361,7 +361,7 @@
 		}
 		
 		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
-			if($('#expirationDaysView').val() == "무제한") {
+			if($('#expirationDaysView').val() == "") {
 				$('#chkExpirationDays').prop("checked",true);
 				$("#expirationDaysDay").val(90);
 				$("#expirationDaysCalender").attr("disabled",true);

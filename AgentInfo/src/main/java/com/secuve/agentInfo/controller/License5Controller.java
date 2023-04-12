@@ -215,22 +215,9 @@ public class License5Controller {
 	
 	@ResponseBody
 	@PostMapping(value = "/license5/licenseXmlImport")
-	public Map<String, String> licenseXmlImport(License5 license, MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
-		license.setLicenseIssuanceRegistrant(principal.getName());
-		license.setLicenseIssuanceRegistrationDate(license5Service.nowDate());
-		
+	public Map<String, Object> licenseXmlImport(MultipartHttpServletRequest  request, Principal principal) throws IllegalStateException, IOException {
 		List<MultipartFile> fileList = request.getFiles("licenseXml");
 		
-		Map<String, String> map = new HashMap<String, String>();
-		int sucess = 1;
-		for (MultipartFile xmlFile : fileList) {
-			sucess *= license5Service.licenseXmlImport(license, xmlFile);
-		}
-		
-		if(sucess > 0) 
-			map.put("result", "OK");
-		else
-			map.put("result", "FALSE");
-		return map;
+		return license5Service.licenseXmlImport(fileList, principal);
 	}
 }

@@ -3,9 +3,6 @@ package com.secuve.agentInfo.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.Principal;
 import java.text.ParseException;
@@ -14,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -299,18 +297,18 @@ public class License5Service {
 	@Value("${spring.servlet.multipart.location}")
 	String filePath;
 
-	public int licenseXmlImport(License5 license, MultipartFile xmlFile) {
+	public int licenseXmlInsert(License5 license, MultipartFile xmlFile) {
 		try {
-			File convFile = new File(xmlFile.getOriginalFilename());
-			convFile.createNewFile();
-			String filePath = this.filePath + File.separator + "license5" + File.separator + convFile;
-			FileOutputStream fos = new FileOutputStream(filePath);
-			fos.write(xmlFile.getBytes());
-			fos.close();
-			String path = filePath.replaceAll("\\\\", "\\\\\\\\");
-			File file = new File(path);
+			String fileName = xmlFile.getOriginalFilename();
+		    String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+		    if(!extension.equals("xml")) {
+		    	return 0;
+		    }
+		    
+			File newFileName = new File(filePath + File.separator + "license5", xmlFile.getOriginalFilename());
+			xmlFile.transferTo(newFileName);
 			
-			BufferedReader file_reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "utf-8"));
+			BufferedReader file_reader = new BufferedReader(new InputStreamReader(new FileInputStream(newFileName), "utf-8"));
 			String line;
 			while ((line = file_reader.readLine()) != null) {
 			 if (line.contains("serialNumber")) 
@@ -345,6 +343,26 @@ public class License5Service {
 		}
 		license.setLicenseFilePathView(xmlFile.getOriginalFilename());
 		return license5Dao.issuedLicense(license);
+	}
+
+	public Map<String, Object> licenseXmlImport(List<MultipartFile> fileList, Principal principal) {
+		int sucess = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		for (MultipartFile xmlFile : fileList) {
+			License5 license = new License5();
+			license.setLicenseIssuanceRegistrant(principal.getName());
+			license.setLicenseIssuanceRegistrationDate(nowDate());
+			sucess += licenseXmlInsert(license, xmlFile);
+		}
+		
+		if(sucess > 0) {
+			map.put("result", "OK");
+			map.put("sucess", sucess);
+		} else {
+			map.put("result", "FALSE");
+		}
+		return map;
 	}
 }
 

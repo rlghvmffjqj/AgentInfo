@@ -64,7 +64,7 @@
 					Swal.fire({
 						icon: 'success',
 						title: '성공!',
-						text: '작업을 완료했습니다.',
+						text: result.sucess+'개의 작업을 처리하였습니다.',
 					});
 					$('.modal-backdrop').hide();
 					$('#modal').modal("hide"); // 모달 닫기
