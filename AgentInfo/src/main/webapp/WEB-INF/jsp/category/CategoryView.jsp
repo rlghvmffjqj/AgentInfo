@@ -11,27 +11,94 @@
 		</div>
 		<div class="pading5">
 		   	<label class="labelFontSize">이름</label>
-			<input type="text" id="categoryValue" name="categoryValue" class="form-control viewForm" value="${category.categoryValue}"> 
-			<span class="colorRed" id="NotCategory" style="display: none">카테고리 이름을 입력해주세요.</span>
+			<input type="text" id="categoryValueView" name="categoryValueView" class="form-control viewForm" value="${category.categoryValue}" autofocus>
+			<span class="colorRed" id="NotCategory" style="display: none; font-size: 12px;">카테고리 이름을 입력해주세요.</span>
 		</div>
 	</form>
 </div>
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'insert'}">
-			<button class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
+			<button class="btn btn-default btn-outline-info-add" id="insertBtn" onClick="existenceCheck()">추가</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
+			<button class="btn btn-default btn-outline-info-add" id="updateBtn" onClick="existenceCheck()">수정</button>	
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 </div>
 
 <script>
+	/* =========== autofocus 미작동시 추가 ========= */
+	$(document).on('shown.bs.modal', function (e) {
+	    $(this).find('[autofocus]').focus();
+	});
+
+	$("#categoryValueView").keypress(function(event) {
+		if (window.event.keyCode == 13) {
+			existenceCheck();
+		}
+	});
+
+	function existenceCheck() {
+		var postData = $('#modalForm').serializeObject();
+		var swalText = "<span style='font-weight: 600;'>카테고리 목록에 유사한 데이터가 존재합니다.</span> <br><br>";
+		$.ajax({
+			<c:choose>
+				<c:when test="${viewType eq 'insert'}">
+					url: "<c:url value='/category/existenceCheckInsert'/>",
+				</c:when>
+				<c:when test="${viewType eq 'update'}">
+					url: "<c:url value='/category/existenceCheckUpdate'/>",
+				</c:when>
+	    	</c:choose>
+	        type: 'post',
+	        data: postData,
+	        async: false,
+	        success: function(items) {
+	        	if(items.length != 0) {
+		        	$.each(items, function (i, item) {
+		        		swalText += item+"<br>";
+		        	});
+		        	Swal.fire({
+		  			  title: ' 추가를 계속 진행하시겠습니까?',
+		  			  html: swalText,
+		  			  icon: 'warning',
+		  			  showCancelButton: true,
+		  			  confirmButtonColor: '#7066e0',
+		  			  cancelButtonColor: '#FF99AB',
+		  			  confirmButtonText: 'OK'
+			  		}).then((result) => {
+			  			if (result.isConfirmed) {
+			  				<c:choose>
+								<c:when test="${viewType eq 'insert'}">
+									insertBtn();
+								</c:when>
+								<c:when test="${viewType eq 'update'}">
+									updateBtn();
+								</c:when>
+				    		</c:choose> 
+			  			}
+			  		});
+	        	} else {
+	        		<c:choose>
+						<c:when test="${viewType eq 'insert'}">
+							insertBtn();
+						</c:when>
+						<c:when test="${viewType eq 'update'}">
+							updateBtn();
+						</c:when>
+	    			</c:choose> 	
+	        	}
+			},
+			error: function(error) {
+				console.log(error);
+			}
+	    });
+	}
+	
 	/* =========== 카테고리 추가 ========= */
-	$('#insertBtn').click(function() {
-		var categoryCheck = $('#categoryValue').val();
+	function insertBtn() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/category/insert'/>",
@@ -75,10 +142,10 @@
 				console.log(error);
 			}
 	    });
-	});
+	}
 	
 	/* =========== 카테고리 수정 ========= */
-	$('#updateBtn').click(function() {
+	function updateBtn() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
             url: 'update',
@@ -121,5 +188,5 @@
 				console.log(error);
 			}
         });
-	});
+	}
 </script>

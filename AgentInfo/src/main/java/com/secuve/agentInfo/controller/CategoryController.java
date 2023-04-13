@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.vo.Category;
+import com.secuve.agentInfo.vo.License5;
 
 @Controller
 public class CategoryController {
@@ -206,7 +208,10 @@ public class CategoryController {
 	 */
 	@PostMapping(value = "/category/insertView")
 	public String InsertCategoryView(Model model, Category category) {
+		List<String> categoryValue = categoryService.getCategoryValue(category.getCategoryName());
 		model.addAttribute("viewType","insert").addAttribute("category", category);
+		model.addAttribute("categoryValue", categoryValue);
+		
 		return "/category/CategoryView";
 	}
 	
@@ -240,7 +245,10 @@ public class CategoryController {
 	@PostMapping(value ="/category/updateView")
 	public String UpdateCategoryView(Model model, int categoryKeyNum) {
 		Category category = categoryService.getCategoryOne(categoryKeyNum);
+		List<String> categoryValue = categoryService.getCategoryValue(category.getCategoryName());
+		
 		model.addAttribute("viewType","update").addAttribute("category", category);
+		model.addAttribute("categoryValue", categoryValue);
 		return "/category/CategoryView";
 	}
 	
@@ -263,5 +271,17 @@ public class CategoryController {
 		String result = categoryService.updateCategory(category);
 		map.put("result", result);
 		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/category/existenceCheckInsert")
+	public List<String> existenceCheckInsert(Category category, Principal principal) throws IllegalStateException, IOException {
+		return categoryService.existenceCheckInsert(category);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/category/existenceCheckUpdate")
+	public List<String> existenceCheckUpdate(Category category, Principal principal) throws IllegalStateException, IOException {
+		return categoryService.existenceCheckUpdate(category);
 	}
 }

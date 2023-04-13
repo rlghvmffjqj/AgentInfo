@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class CategoryService {
 	}
 
 	public String insertCategory(Category category) {
-		if(category.getCategoryValue().equals("") || category.getCategoryValue() == "") 
+		if(category.getCategoryValueView().equals("") || category.getCategoryValueView() == "") 
 			return "NotCategory";
 		if(categoryDao.getCategoryCheck(category) != null)
 			return "duplicateCheck";
@@ -66,7 +67,7 @@ public class CategoryService {
 	}
 
 	public String updateCategory(Category category) {
-		if(category.getCategoryValue().equals("") || category.getCategoryValue() == "") 
+		if(category.getCategoryValueView().equals("") || category.getCategoryValueView() == "") 
 			return "NotCategory";
 		if(categoryDao.getCategoryCheck(category) != null)
 			return "duplicateCheck";
@@ -98,5 +99,33 @@ public class CategoryService {
 
 	public List<String> getSelectInput(String selectInput) {
 		return categoryDao.getSelectInput(selectInput);
+	}
+
+	public List<String> existenceCheckInsert(Category category) {
+		List<String> categoryValueList = new ArrayList<String>();
+		
+		List<String> categoryNameList = categoryDao.getCategoryValue(category.getCategoryName());
+		for(String categoryName: categoryNameList) {
+			if(categoryName.replaceAll(" ", "").contains(category.getCategoryValueView().replaceAll(" ", ""))) {
+				categoryValueList.add(categoryName);
+			} else if(category.getCategoryValueView().replaceAll(" ", "").contains(categoryName.replaceAll(" ", ""))) {
+				categoryValueList.add(categoryName);
+			}
+		}
+		return categoryValueList;
+	}
+
+	public List<String> existenceCheckUpdate(Category category) {
+		List<String> categoryValueList = new ArrayList<String>();
+		
+		List<String> categoryNameList = categoryDao.getCategoryValue(category.getCategoryName());
+		for(String categoryName: categoryNameList) {
+			if(categoryName.replaceAll(" ", "").contains(category.getCategoryValueView().replaceAll(" ", ""))) {
+				categoryValueList.add(categoryName);
+			} else if(category.getCategoryValueView().replaceAll(" ", "").contains(categoryName.replaceAll(" ", ""))) {
+				categoryValueList.add(categoryName);
+			}
+		}
+		return categoryValueList;
 	}
 }

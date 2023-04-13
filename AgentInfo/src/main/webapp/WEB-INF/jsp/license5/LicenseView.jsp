@@ -560,7 +560,6 @@
 				  			}
 				  		});
 		        	} else {
-		        		console.log("하");
 		        		if(viewType == "issued" || viewType == "issuedback") 
 		  					BtnInsert();
 		  				else if(viewType == "update" || viewType == "updateback")

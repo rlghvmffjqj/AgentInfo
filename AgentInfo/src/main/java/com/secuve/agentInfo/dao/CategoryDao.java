@@ -60,4 +60,5 @@ public class CategoryDao {
 	public List<String> getSelectInput(String selectInput) {
 		return sqlSession.selectList("category.getSelectInput", selectInput);
 	}
+
 }

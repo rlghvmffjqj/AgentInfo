@@ -48,7 +48,7 @@
 	
 	<insert id="insertCategory">
 		INSERT INTO category(categoryName, categoryValue, categoryRegistrant, categoryRegistrationDate)
-		VALUES (#{categoryName}, #{categoryValue}, #{categoryRegistrant}, #{categoryRegistrationDate});
+		VALUES (#{categoryName}, #{categoryValueView}, #{categoryRegistrant}, #{categoryRegistrationDate});
 	</insert>
 	
 	<select id="getCategoryOne" parameterType="_int" resultMap="category">
@@ -56,12 +56,12 @@
 	</select>
 	
 	<update id="updateCategory">
-		UPDATE category SET categoryValue = #{categoryValue}, categoryModifier = #{categoryModifier}, categoryModifiedDate = #{categoryModifiedDate}
+		UPDATE category SET categoryValue = #{categoryValueView}, categoryModifier = #{categoryModifier}, categoryModifiedDate = #{categoryModifiedDate}
 		WHERE categoryKeyNum = #{categoryKeyNum};
 	</update>
 	
 	<select id="getCategoryCheck" parameterType="string" resultMap="category">
-		SELECT * FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValue};
+		SELECT * FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValueView};
 	</select>
 	
 	<select id="getCategoryManagementServer" resultType="_int">
