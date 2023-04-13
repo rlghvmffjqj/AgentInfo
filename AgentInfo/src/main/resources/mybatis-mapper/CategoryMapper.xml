@@ -3,6 +3,7 @@
         
 <mapper namespace="category">
 	<resultMap type="com.secuve.agentInfo.vo.Category" id="category"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.CategoryBusiness" id="categoryBusiness"></resultMap>
 	
 	<select id="getCategoryValue" resultType="string" parameterType="string">
 		SELECT categoryValue FROM category WHERE categoryName = #{categoryName};
@@ -37,9 +38,16 @@
 	
 	<select id="getCategoryListCount" resultType="_int">
 		SELECT COUNT(*) FROM category WHERE categoryName = #{categoryName}
-			<if test="categoryValue != null and categoryValue != ''">
-				AND categoryValue LIKE CONCAT('%',#{categoryValue},'%')
-			</if>
+		WHERE categoryName = #{categoryName}
+		<if test="categoryValue != null and categoryValue != ''">
+			AND(
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="categoryValueArr" item="arr">
+						OR categoryValue LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
 	</select>
 	
 	<delete id="delCategory" parameterType="_int">
@@ -70,5 +78,63 @@
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
 		SELECT DISTINCT categoryValue FROM category WHERE categoryValue != '' AND categoryName = #{selectInput};
+	</select>
+	
+	<select id="getCategoryBusinessList" resultMap="categoryBusiness" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM categoryBusiness
+				<trim prefix="WHERE" prefixOverrides="AND|OR">
+					<if test="categoryCustomerName != null and categoryCustomerName != ''">
+						AND(
+							<trim prefix="" prefixOverrides="OR">
+								<foreach collection="categoryCustomerNameArr" item="arr">
+									OR categoryCustomerName LIKE CONCAT('%',#{arr},'%')
+								</foreach>
+							</trim>
+						)
+					</if>
+					<if test="categoryBusinessName != null and categoryBusinessName != ''">
+						AND(
+							<trim prefix="" prefixOverrides="OR">
+								<foreach collection="categoryBusinessNameArr" item="arr">
+									OR categoryBusinessName LIKE CONCAT('%',#{arr},'%')
+								</foreach>
+							</trim>
+						)
+					</if>
+				</trim>
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getCategoryBusinessListCount" resultType="_int" parameterType="string">
+		SELECT COUNT(*)
+		FROM categoryBusiness
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="categoryCustomerName != null and categoryCustomerName != ''">
+				AND(
+					<trim prefix="" prefixOverrides="OR">
+						<foreach collection="categoryCustomerNameArr" item="arr">
+							OR categoryCustomerName LIKE CONCAT('%',#{arr},'%')
+						</foreach>
+					</trim>
+				)
+			</if>
+			<if test="categoryBusinessName != null and categoryBusinessName != ''">
+				AND(
+					<trim prefix="" prefixOverrides="OR">
+						<foreach collection="categoryBusinessNameArr" item="arr">
+							OR categoryBusinessName LIKE CONCAT('%',#{arr},'%')
+						</foreach>
+					</trim>
+				)
+			</if>
+		</trim>
 	</select>
 </mapper>

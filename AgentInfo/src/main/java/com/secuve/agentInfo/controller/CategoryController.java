@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.vo.Category;
-import com.secuve.agentInfo.vo.License5;
+import com.secuve.agentInfo.vo.CategoryBusiness;
 
 @Controller
 public class CategoryController {
@@ -164,10 +164,8 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/businessName")
 	public String businessName(Model model) {
-		List<String> categoryValue = categoryService.getSelectInput("businessName");
-		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "businessName");
-		return "category/CategoryList";
+		return "category/CategoryBusinessList";
 	}
 	
 	/**
@@ -283,5 +281,19 @@ public class CategoryController {
 	@PostMapping(value = "/category/existenceCheckUpdate")
 	public List<String> existenceCheckUpdate(Category category, Principal principal) throws IllegalStateException, IOException {
 		return categoryService.existenceCheckUpdate(category);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness")
+	public Map<String, Object> CategoryBusiness(@ModelAttribute("search") CategoryBusiness search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<CategoryBusiness> list = new ArrayList<>(categoryService.getCategoryBusinessList(search));
+		
+		int totalCount = categoryService.getCategoryBusinessListCount(search);
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float)totalCount/search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
 	}
 }

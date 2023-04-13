@@ -78,6 +78,10 @@
 			$('.licenseLog').addClass('active');
 			$('.log').addClass('active');
 			$('.log').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'license5Log') {
+			$('.license5Log').addClass('active');
+			$('.log').addClass('active');
+			$('.log').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'customerLog') {
 			$('.customerLog').addClass('active');
 			$('.log').addClass('active');
@@ -405,10 +409,17 @@
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
+					        <li class="license5Log">
+					            <a href="<c:url value='/license5UidLog/list'/>" class="waves-effect waves-dark">
+					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 5.0 관리 로그</span>
+					                <span class="pcoded-mcaret"></span>
+					            </a>
+					        </li>
 					        <li class="licenseLog">
 					            <a href="<c:url value='/licenseUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
-					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 발급 로그</span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 2.0 관리 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>

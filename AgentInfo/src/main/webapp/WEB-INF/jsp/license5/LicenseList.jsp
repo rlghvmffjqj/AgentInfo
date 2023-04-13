@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 개수','TOS 5.0 Agent 개수','TOS 2.0 Agent 개수','DBMS 개수','Network 개수','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자'],
+					colNames:['Key','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자'],
 					colModel:[
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 35, hidden:true },
 						{name:'customerName', index:'customerName', align:'center', width: 200},
@@ -33,6 +33,11 @@
 						{name:'tos2AgentCount', index:'tos2AgentCount', align:'center', width: 120},
 						{name:'dbmsCount', index:'dbmsCount', align:'center', width: 120},
 						{name:'networkCount', index:'networkCount', align:'center', width: 120},
+						{name:'aixCountView', index:'aixCountView', align:'center', width: 100},
+						{name:'hpuxCountView', index:'hpuxCountView', align:'center', width: 100},
+						{name:'solarisCountView', index:'solarisCountView', align:'center', width: 100},
+						{name:'linuxCountView', index:'linuxCountView', align:'center', width: 100},
+						{name:'windowsCountView', index:'windowsCountView', align:'center', width: 100},
 						{name:'managerOsType', index:'managerOsType', align:'center', width: 80},
 						{name:'managerDbmsType', index:'managerDbmsType', align:'center', width: 80},
 						{name:'country', index:'country', align:'center', width: 50},
@@ -163,24 +168,44 @@
 														<input class="form-control" type="date" id="expirationDays" name="expirationDays" max="9999-12-31">
 													</div>
 													<div class="col-lg-2">
-		                      							<label class="labelFontSize">iGRIFFIN Agent 개수</label>
+		                      							<label class="labelFontSize">iGRIFFIN Agent 수량</label>
 		                      							<input type="number" id="igriffinAgentCount" name="igriffinAgentCount" class="form-control">
 													</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">TOS 5.0 Agent 개수</label>
+		                      							<label class="labelFontSize">TOS 5.0 Agent 수량</label>
 		                      							<input type="number" id="tos5AgentCount" name="tos5AgentCount" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">TOS 2.0 Agent 개수</label>
+		                      							<label class="labelFontSize">TOS 2.0 Agent 수량</label>
 		                      							<input type="number" id="tos2AgentCount" name="tos2AgentCount" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">DBMS 개수</label>
+		                      							<label class="labelFontSize">DBMS 수량</label>
 		                      							<input type="number" id="dbmsCount" name="dbmsCount" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">Network 개수</label>
+		                      							<label class="labelFontSize">Network 수량</label>
 		                      							<input type="number" id="networkCount" name="networkCount" class="form-control">
+		                      						</div>
+		                      						<div class="col-lg-2">
+		                      							<label class="labelFontSize">AIX(OS) 수량</label>
+		                      							<input type="number" id="aixCount" name="aixCount" class="form-control">
+		                      						</div>
+		                      						<div class="col-lg-2">
+		                      							<label class="labelFontSize">HPUX(OS) 수량</label>
+		                      							<input type="number" id="hpuxCount" name="hpuxCount" class="form-control">
+		                      						</div>
+		                      						<div class="col-lg-2">
+		                      							<label class="labelFontSize">Solaris(OS) 수량</label>
+		                      							<input type="number" id="solarisCount" name="solarisCount" class="form-control">
+		                      						</div>
+		                      						<div class="col-lg-2">
+		                      							<label class="labelFontSize">Linux(OS) 수량</label>
+		                      							<input type="number" id="linuxCount" name="linuxCount" class="form-control">
+		                      						</div>
+		                      						<div class="col-lg-2">
+		                      							<label class="labelFontSize">Windows(OS) 수량</label>
+		                      							<input type="number" id="windowsCount" name="windowsCount" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">관리서버 OS</label>
@@ -309,7 +334,7 @@
 		    	},
 			    async: false,
 			    success: function (data) {
-			    	$.modal(data, 'll'); //modal창 호출
+			    	$.modal(data, 'license5'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
@@ -514,7 +539,7 @@
 		            data: {"licenseKeyNum" : licenseKeyNum},
 		            async: false,
 		            success: function (data) {
-		                $.modal(data, 'll'); //modal창 호출
+		                $.modal(data, 'license5'); //modal창 호출
 		            },
 		            error: function(e) {
 		                // TODO 에러 화면

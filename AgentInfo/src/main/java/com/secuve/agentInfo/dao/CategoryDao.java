@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.secuve.agentInfo.vo.Category;
+import com.secuve.agentInfo.vo.CategoryBusiness;
 
 @Repository
 public class CategoryDao {
@@ -59,6 +60,14 @@ public class CategoryDao {
 
 	public List<String> getSelectInput(String selectInput) {
 		return sqlSession.selectList("category.getSelectInput", selectInput);
+	}
+
+	public List<CategoryBusiness> getCategoryBusinessList(CategoryBusiness search) {
+		return sqlSession.selectList("category.getCategoryBusinessList", search);
+	}
+
+	public int getCategoryBusinessListCount(CategoryBusiness search) {
+		return sqlSession.selectOne("category.getCategoryBusinessListCount", search);
 	}
 
 }

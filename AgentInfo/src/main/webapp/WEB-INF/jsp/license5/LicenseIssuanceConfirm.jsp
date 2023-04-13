@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 480px;">
+<div class="modal-body" style="width: 100%; height: 600px;">
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">고객사명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.customerNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
@@ -10,11 +10,16 @@
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">MAC주소 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.macAddressView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">시작일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">만료일 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.expirationDaysView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.expirationDaysView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">iGRIFFIN Agent 개수 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.igriffinAgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.igriffinAgentCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">TOS 5.0 Agent 개수 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.tos5AgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.tos5AgentCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">TOS 2.0 Agent 개수 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.tos2AgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.tos2AgentCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">DBMS 개수 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.dbmsCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.dbmsCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Network 개수 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.networkCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.networkCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">iGRIFFIN Agent 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.igriffinAgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.igriffinAgentCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">TOS 5.0 Agent 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.tos5AgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.tos5AgentCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">TOS 2.0 Agent 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.tos2AgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.tos2AgentCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">DBMS 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.dbmsCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.dbmsCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Network 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.networkCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.networkCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">AIX(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.aixCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">HPUX(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.hpuxCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Solaris(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.solarisCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Linux(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.linuxCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Windows(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.windowsCountView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">관리서버 OS : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.managerOsTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">관리서버 DBMS : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.managerDbmsTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">국가 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.countryView}</span></div></div>
@@ -36,6 +41,11 @@
 		<input type="hidden" id="tos2AgentCountView" name="tos2AgentCountView" value="${license.tos2AgentCountView}">
 		<input type="hidden" id="dbmsCountView" name="dbmsCountView" value="${license.dbmsCountView}">
 		<input type="hidden" id="networkCountView" name="networkCountView" value="${license.networkCountView}">
+		<input type="hidden" id="aixCountView" name="aixCountView" value="${license.aixCountView}">
+		<input type="hidden" id="hpuxCountView" name="hpuxCountView" value="${license.hpuxCountView}">
+		<input type="hidden" id="solarisCountView" name="solarisCountView" value="${license.solarisCountView}">
+		<input type="hidden" id="linuxCountView" name="linuxCountView" value="${license.linuxCountView}">
+		<input type="hidden" id="windowsCountView" name="windowsCountView" value="${license.windowsCountView}">
 		<input type="hidden" id="managerOsTypeView" name="managerOsTypeView" value="${license.managerOsTypeView}">
 		<input type="hidden" id="managerDbmsTypeView" name="managerDbmsTypeView" value="${license.managerDbmsTypeView}">
 		<input type="hidden" id="countryView" name="countryView" value="${license.countryView}">
@@ -146,7 +156,7 @@
 		    success: function (data) {
 		    	$('#modal').modal("hide"); // 모달 닫기
 		    	setTimeout(function() {
-		    		$.modal(data, 'll'); //modal창 호출
+		    		$.modal(data, 'license5'); //modal창 호출
 		    	},300)
 		    },
 		    error: function(e) {
@@ -213,7 +223,7 @@
 		    success: function (data) {
 		    	$('#modal').modal("hide"); // 모달 닫기
 		    	setTimeout(function() {
-		    		$.modal(data, 'll'); //modal창 호출
+		    		$.modal(data, 'license5'); //modal창 호출
 		    	},300)
 		    },
 		    error: function(e) {

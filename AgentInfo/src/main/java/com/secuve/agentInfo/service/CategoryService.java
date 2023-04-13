@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.CategoryDao;
 import com.secuve.agentInfo.vo.Category;
+import com.secuve.agentInfo.vo.CategoryBusiness;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
@@ -37,7 +38,7 @@ public class CategoryService {
 	}
 
 	public int getCategoryListCount(Category search) {
-		return categoryDao.getCategoryListCount(search);
+		return categoryDao.getCategoryListCount(categroySearch(search));
 	}
 
 	public String delCategory(int[] chkList) {
@@ -91,7 +92,7 @@ public class CategoryService {
 		}
 		Category category = new Category();
     	category.setCategoryName(categoryName);
-    	category.setCategoryValue(categoryValue);
+    	category.setCategoryValueView(categoryValue);
     	category.setCategoryRegistrant(categoryRegistrant);
     	category.setCategoryRegistrationDate(categoryRegistrationDate);
     	categoryDao.insertCategory(category);
@@ -127,5 +128,17 @@ public class CategoryService {
 			}
 		}
 		return categoryValueList;
+	}
+
+	public List<CategoryBusiness> getCategoryBusinessList(CategoryBusiness search) {
+		search.setCategoryCustomerNameArr(search.getCategoryCustomerName().split(","));
+		search.setCategoryBusinessNameArr(search.getCategoryBusinessName().split(","));
+		return categoryDao.getCategoryBusinessList(search);
+	}
+
+	public int getCategoryBusinessListCount(CategoryBusiness search) {
+		search.setCategoryCustomerNameArr(search.getCategoryCustomerName().split(","));
+		search.setCategoryBusinessNameArr(search.getCategoryBusinessName().split(","));
+		return categoryDao.getCategoryBusinessListCount(search);
 	}
 }

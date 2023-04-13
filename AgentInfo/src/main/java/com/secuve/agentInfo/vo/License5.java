@@ -24,6 +24,11 @@ public class License5 {
 	private String tos2AgentCount;							// TOS 2.0 Agent 개수
 	private String dbmsCount;								// DBMS 개수
 	private String networkCount;							// Network 개수
+	private Integer aixCount;								// AIX 수량
+	private Integer hpuxCount;								// hpux 수량
+	private Integer solarisCount;							// solaris 수량
+	private Integer linuxCount;								// linux 수량
+	private Integer windowsCount;							// windows 수량
 	private String managerOsType;						// 관리서버 OS
 	private String managerDbmsType;						// 관리서버 DBMS
 	private String country;								// 국가
@@ -48,6 +53,11 @@ public class License5 {
 	private String tos2AgentCountView;							// TOS 2.0 Agent 개수
 	private String dbmsCountView;								// DBMS 개수
 	private String networkCountView;							// Network 개수
+	private Integer aixCountView;								// AIX 수량
+	private Integer hpuxCountView;								// hpux 수량
+	private Integer solarisCountView;							// solaris 수량
+	private Integer linuxCountView;								// linux 수량
+	private Integer windowsCountView;							// windows 수량
 	private String managerOsTypeView;						// 관리서버 OS
 	private String managerDbmsTypeView;						// 관리서버 DBMS
 	private String countryView;								// 국가

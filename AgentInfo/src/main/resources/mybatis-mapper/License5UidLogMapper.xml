@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="license5UidLog">
+	<resultMap type="com.secuve.agentInfo.vo.License5UidLog" id="licenseUidLog"></resultMap>
+	
+	<select id="getLicenseUidLog" resultMap="licenseUidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM license5UidLog
+					<include refid="sqlLicense5UidLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicenseUidLogCount" resultType="_int">
+		SELECT COUNT(*) FROM license5UidLog
+			<include refid="sqlLicense5UidLog" />
+	</select>
+	
+	<insert id="insertLicenseUidLog">
+		INSERT INTO license5UidLog(licenseUidLogCustomerName,licenseUidLogBusinessName,licenseUidLogIssueDate,licenseUidLogRequester,licenseUidLogPartners,licenseUidLogOsType,licenseUidLogOsVersion,licenseUidLogKernelVersion,licenseUidLogKernelBit,licenseUidLogTosVersion,licenseUidLogPeriod,licenseUidLogMacUmlHostId,licenseUidLogReleaseType,licenseUidLogDeliveryMethod,licenseUidLogIssueKey,licenseUidLogEvent,licenseUidUser,licenseUidTime,licenseUidLogRegistrant,licenseUidLogRegistrationDate) 
+		VALUES(#{licenseUidLogCustomerName},#{licenseUidLogBusinessName},#{licenseUidLogIssueDate},#{licenseUidLogRequester},#{licenseUidLogPartners},#{licenseUidLogOsType},#{licenseUidLogOsVersion},#{licenseUidLogKernelVersion},#{licenseUidLogKernelBit},#{licenseUidLogTosVersion},#{licenseUidLogPeriod},#{licenseUidLogMacUmlHostId},#{licenseUidLogReleaseType},#{licenseUidLogDeliveryMethod},#{licenseUidLogIssueKey},#{licenseUidLogEvent},#{licenseUidUser},#{licenseUidTime},#{licenseUidLogRegistrant},#{licenseUidLogRegistrationDate});
+	</insert>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM license5UidLog;
+	</select>
+	
+	<select id="getLicenseIssueKey" parameterType="_int" resultType="string">
+		SELECT licenseUidLogIssueKey FROM license5UidLog WHERE licenseUidLogKeyNum = #{licenseUidLogKeyNum};
+	</select>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlLicense5UidLog">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+		</trim>
+	</sql>
+</mapper>

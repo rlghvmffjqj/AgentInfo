@@ -219,8 +219,14 @@ p {
 }
 
 .modal-licenseConfirm {
-	top: 10%;
-    width: 400px;
+	top: 5%;
+    width: 450px;
+}
+
+.modal-license5 {
+	top: 0%;
+    width: 1000px;
+	max-width: 1500px;
 }
 
 .modal-notice {

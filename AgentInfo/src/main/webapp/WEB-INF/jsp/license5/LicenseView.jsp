@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 650px;">
+<div class="modal-body" style="width: 100%; height: 820px;">
 	<form id="modalForm" name="form" method ="post">
 		<div style="width: 100%; height: 25px; border-bottom: dashed 1px silver; float:left">
 			<div style="width: 65%; float:left">
@@ -134,7 +134,7 @@
 						</div>
 			         </div>
 			         <div class="pading5Width450">
-			         	<label class="labelFontSize">iGRIFFIN Agent 개수</label><label class="colorRed">*</label>
+			         	<label class="labelFontSize">iGRIFFIN Agent 수량</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
 			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
 		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
@@ -142,13 +142,37 @@
 			         	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="1">
 			         </div>
 			         <div class="pading5Width450">
-			         	<label class="labelFontSize">TOS 5.0 Agent 개수</label><label class="colorRed">*</label>
+			         	<label class="labelFontSize">TOS 5.0 Agent 수량</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
 			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
 		    				<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="1">
 					 </div>
+					 <div class="pading5Width450">
+			         	<label class="labelFontSize">TOS 2.0 Agent 수량</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
+		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
+		    			</div>
+			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="1">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+		    			</div>
+			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
+		    			</div>
+			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+					</div>
 				</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
@@ -166,7 +190,7 @@
 						</div>
 			         </div>
 		         	<div class="pading5Width450">
-			         	<label class="labelFontSize">iGRIFFIN Agent 개수</label><label class="colorRed">*</label>
+			         	<label class="labelFontSize">iGRIFFIN Agent 수량</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
 			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
 		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
@@ -174,42 +198,62 @@
 			         	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="${license.igriffinAgentCount}">
 			         </div>
 			         <div class="pading5Width450">
-			         	<label class="labelFontSize">TOS 5.0 Agent 개수</label><label class="colorRed">*</label>
+			         	<label class="labelFontSize">TOS 5.0 Agent 수량</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
 			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
 		    				<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="${license.tos5AgentCount}">
 					 </div>
+					 <div class="pading5Width450">
+			         	<label class="labelFontSize">TOS 2.0 Agent 수량</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
+		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
+		    			</div>
+			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="${license.tos2AgentCount}">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+		    			</div>
+			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
+			         	<div class="floatRight">
+			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
+		    			</div>
+			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
+					</div>
 				</c:when>
 	         </c:choose>
 	    </div>
         <div class="rightDiv">
         	<c:choose>
 				<c:when test="${viewType eq 'issued'}">
-		        	<div class="pading5Width450">
-			         	<label class="labelFontSize">TOS 2.0 Agent 개수</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
-		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="1">
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="0">
 					</div>
 					<div class="pading5Width450">
-			         	<label class="labelFontSize">DBMS 개수</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
+			         	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="0">
 					</div>
 					<div class="pading5Width450">
-			         	<label class="labelFontSize">Network 개수</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
-		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+			         	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="0">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="0">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="0">
 					</div>
 				    <div class="pading5Width450">
 						<label class="labelFontSize">관리서버 OS</label><label class="colorRed">*</label>
@@ -258,28 +302,24 @@
 	       		</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
-			         	<label class="labelFontSize">TOS 2.0 Agent 개수</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
-		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="${license.tos2AgentCount}">
+			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCountView}">
 					</div>
 					<div class="pading5Width450">
-			         	<label class="labelFontSize">DBMS 개수</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
+			         	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="${license.hpuxCountView}">
 					</div>
 					<div class="pading5Width450">
-			         	<label class="labelFontSize">Network 개수</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
-		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
+			         	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="${license.solarisCountView}">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="${license.linuxCountView}">
+					</div>
+					<div class="pading5Width450">
+			         	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
+			         	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="${license.windowsCountView}">
 					</div>
 					<div class="pading5Width450">
 						<label class="labelFontSize">관리서버 OS</label><label class="colorRed">*</label>

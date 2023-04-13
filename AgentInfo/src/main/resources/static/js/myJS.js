@@ -23,6 +23,7 @@ $.modal = function (modalContent, size) {
     if(size=='packages') html += ' modal-packages';
     if(size=='licenseConfirm') html += ' modal-licenseConfirm';
     if(size=='xmlImport') html += ' modal-xmlImport';
+    if(size=='license5') html += ' modal-license5';
     
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

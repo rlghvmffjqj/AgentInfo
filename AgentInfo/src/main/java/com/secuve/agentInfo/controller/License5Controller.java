@@ -140,6 +140,11 @@ public class License5Controller {
 		license.setTos2AgentCount(license.getTos2AgentCountView());
 		license.setDbmsCount(license.getDbmsCountView());
 		license.setNetworkCount(license.getNetworkCountView());
+		license.setAixCount(license.getAixCountView());
+		license.setHpuxCount(license.getHpuxCountView());
+		license.setSolarisCount(license.getSolarisCountView());
+		license.setLinuxCount(license.getLinuxCountView());
+		license.setWindowsCount(license.getWindowsCountView());
 		license.setManagerOsType(license.getManagerOsTypeView());
 		license.setManagerDbmsType(license.getManagerDbmsTypeView());
 		license.setCountry(license.getCountryView());
@@ -172,6 +177,11 @@ public class License5Controller {
 		license.setTos2AgentCount(license.getTos2AgentCountView());
 		license.setDbmsCount(license.getDbmsCountView());
 		license.setNetworkCount(license.getNetworkCountView());
+		license.setAixCount(license.getAixCountView());
+		license.setHpuxCount(license.getHpuxCountView());
+		license.setSolarisCount(license.getSolarisCountView());
+		license.setLinuxCount(license.getLinuxCountView());
+		license.setWindowsCount(license.getWindowsCountView());
 		license.setManagerOsType(license.getManagerOsTypeView());
 		license.setManagerDbmsType(license.getManagerDbmsTypeView());
 		license.setCountry(license.getCountryView());
