@@ -46,7 +46,8 @@ public class CustomerInfoService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
+			//customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
+			categoryService.insertCustomerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
 			customerUidLog(customerInfo, principal, "INSERT");
 		}
@@ -133,7 +134,8 @@ public class CustomerInfoService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
+			//customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
+			categoryService.insertCustomerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
 			customerUidLog(customerInfo, principal, "UPDATE");
 		}

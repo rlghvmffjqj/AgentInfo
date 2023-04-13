@@ -11,13 +11,16 @@ import lombok.ToString;
 @ToString
 @Component
 public class CategoryBusiness {
-	private String categoryBusinessKeyNum;
+	private int categoryBusinessKeyNum;
 	private String categoryCustomerName;
 	private String categoryBusinessName;
 	private String categoryBusinessRegistrant;
 	private String categoryBusinessRegistrationDate;
 	private String categoryBusinessModifier;
 	private String categoryBusinessModifiedDate;
+	
+	private String categoryCustomerNameView;
+	private String categoryBusinessNameView;
 	
 	private String[] categoryCustomerNameArr;
 	private String[] categoryBusinessNameArr;

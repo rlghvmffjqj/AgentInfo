@@ -70,4 +70,40 @@ public class CategoryDao {
 		return sqlSession.selectOne("category.getCategoryBusinessListCount", search);
 	}
 
+	public List<String> existenceBusinessCheck(CategoryBusiness category) {
+		return sqlSession.selectList("category.existenceBusinessCheck", category);
+	}
+	
+	public CategoryBusiness getCategoryBusinessCheck(CategoryBusiness category) {
+		return sqlSession.selectOne("category.getCategoryBusinessCheck", category);
+	}
+	
+	public int insertCategoryBusiness(CategoryBusiness category) {
+		return sqlSession.insert("category.insertCategoryBusiness", category);
+	}
+	
+	public int updateCategoryBusiness(CategoryBusiness category) {
+		return sqlSession.insert("category.updateCategoryBusiness", category);
+	}
+	
+	public CategoryBusiness getCategoryBusinessOne(int categoryBusinessKeyNum) {
+		return sqlSession.selectOne("category.getCategoryBusinessOne", categoryBusinessKeyNum);
+	}
+	
+	public int delCategoryBusiness(int categoryBusinessKeyNum) {
+		return sqlSession.delete("category.delCategoryBusiness", categoryBusinessKeyNum);
+	}
+
+	public List<String> getCategoryBusinessNameList() {
+		return sqlSession.selectList("category.getCategoryBusinessNameList");
+	}
+
+	public List<String> getCategoryCustomerBusinessName(String customerName) {
+		return sqlSession.selectList("category.getCategoryCustomerBusinessName",customerName);
+	}
+
+	public int checkCustomerBusinessMapping(CategoryBusiness categoryBusiness) {
+		return sqlSession.selectOne("category.checkCustomerBusinessMapping",categoryBusiness);
+	}
+
 }

@@ -50,7 +50,8 @@ public class CustomPackageService {
 
 		if (sucess <= 0)
 			return "FALSE";
-		customerBusinessMappingService.customerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
+		//customerBusinessMappingService.customerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
+		categoryService.insertCustomerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryCheck(customPackage, principal);
 		fileDownload(customPackage, releaseNotesView);
 		return "OK";
@@ -68,7 +69,8 @@ public class CustomPackageService {
 
 		if (sucess <= 0)
 			return "FALSE";
-		customerBusinessMappingService.customerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
+		//customerBusinessMappingService.customerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
+		categoryService.insertCustomerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryCheck(customPackage, principal);
 		fileDownload(customPackage, releaseNotesView);
 		return "OK";

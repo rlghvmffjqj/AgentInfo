@@ -119,7 +119,8 @@ public class PackagesService {
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			packageUidLog(packages, principal, "INSERT");
 		}
@@ -158,7 +159,8 @@ public class PackagesService {
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			packageUidLog(packages, principal, "INSERT");
 		}
@@ -196,7 +198,8 @@ public class PackagesService {
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+			//customerBusinessMappingService.customerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			packageUidLog(packages, principal, "UPDATE");
 		}

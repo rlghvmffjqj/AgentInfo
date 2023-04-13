@@ -141,4 +141,93 @@ public class CategoryService {
 		search.setCategoryBusinessNameArr(search.getCategoryBusinessName().split(","));
 		return categoryDao.getCategoryBusinessListCount(search);
 	}
+
+	public List<String> existenceBusinessCheckInsert(CategoryBusiness category) {
+		List<String> categoryBusinessNameList = new ArrayList<String>();
+		List<String> categoryBusinessNameAllList =  categoryDao.existenceBusinessCheck(category);
+		
+		for(String categoryBusinessName: categoryBusinessNameAllList) {
+			if(categoryBusinessName.replaceAll(" ", "").contains(category.getCategoryBusinessNameView().replaceAll(" ", ""))) {
+				categoryBusinessNameList.add(categoryBusinessName);
+			} else if(category.getCategoryBusinessNameView().replaceAll(" ", "").contains(categoryBusinessName.replaceAll(" ", ""))) {
+				categoryBusinessNameList.add(categoryBusinessName);
+			}
+		}
+		return categoryBusinessNameList;
+	}
+
+	public List<String> existenceBusinessCheckUpdate(CategoryBusiness category) {
+		List<String> categoryBusinessNameList = new ArrayList<String>();
+		List<String> categoryBusinessNameAllList =  categoryDao.existenceBusinessCheck(category);
+		
+		for(String categoryBusinessName: categoryBusinessNameAllList) {
+			if(categoryBusinessName.replaceAll(" ", "").contains(category.getCategoryBusinessNameView().replaceAll(" ", ""))) {
+				categoryBusinessNameList.add(categoryBusinessName);
+			} else if(category.getCategoryBusinessNameView().replaceAll(" ", "").contains(categoryBusinessName.replaceAll(" ", ""))) {
+				categoryBusinessNameList.add(categoryBusinessName);
+			}
+		}
+		return categoryBusinessNameList;
+	}
+
+	public String insertCategoryBusiness(CategoryBusiness category) {
+		if(category.getCategoryCustomerNameView().equals("") || category.getCategoryCustomerNameView() == "") 
+			return "NotCategoryCustomerName";
+		if(category.getCategoryBusinessNameView().equals("") || category.getCategoryBusinessNameView() == "") 
+			return "NotCategoryBusinessName";
+		if(categoryDao.getCategoryBusinessCheck(category) != null)
+			return "duplicateCheck";
+		
+		int sucess = categoryDao.insertCategoryBusiness(category);
+		
+		if(sucess <= 0) 
+			return "FALSE";
+		return "OK";
+	}
+
+	public String updateCategoryBusiness(CategoryBusiness category) {
+		if(category.getCategoryCustomerNameView().equals("") || category.getCategoryCustomerNameView() == "") 
+			return "NotCategoryCustomerName";
+		if(category.getCategoryBusinessNameView().equals("") || category.getCategoryBusinessNameView() == "") 
+			return "NotCategoryBusinessName";
+		if(categoryDao.getCategoryBusinessCheck(category) != null)
+			return "duplicateCheck";
+		
+		int sucess = categoryDao.updateCategoryBusiness(category);
+		
+		if(sucess <= 0) 
+			return "FALSE";
+		return "OK";
+	}
+
+	public CategoryBusiness getCategoryBusinessOne(int categoryBusinessKeyNum) {
+		return categoryDao.getCategoryBusinessOne(categoryBusinessKeyNum);
+	}
+
+	public String delCategoryBusiness(int[] chkList) {
+		for(int categoryBusinessKeyNum: chkList) {
+			int sucess = categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
+			if(sucess <= 0) 
+				return "FALSE";
+		}
+		return "OK";
+	}
+
+	public List<String> getCategoryBusinessNameList() {
+		return categoryDao.getCategoryBusinessNameList();
+	}
+
+	public List<String> getCategoryCustomerBusinessName(String customerName) {
+		return categoryDao.getCategoryCustomerBusinessName(customerName);
+	}
+
+	public void insertCustomerBusinessMapping(String customerNameView, String businessNameView) {
+		CategoryBusiness categoryBusiness = new CategoryBusiness();
+		categoryBusiness.setCategoryCustomerNameView(customerNameView);
+		categoryBusiness.setCategoryBusinessNameView(businessNameView);
+		int count = categoryDao.checkCustomerBusinessMapping(categoryBusiness);
+		if(count <= 0) {
+			categoryDao.insertCategoryBusiness(categoryBusiness);
+		}
+	}
 }

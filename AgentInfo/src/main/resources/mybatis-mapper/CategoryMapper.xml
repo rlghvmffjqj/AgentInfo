@@ -36,8 +36,8 @@
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
-	<select id="getCategoryListCount" resultType="_int">
-		SELECT COUNT(*) FROM category WHERE categoryName = #{categoryName}
+	<select id="getCategoryListCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM category
 		WHERE categoryName = #{categoryName}
 		<if test="categoryValue != null and categoryValue != ''">
 			AND(
@@ -136,5 +136,43 @@
 				)
 			</if>
 		</trim>
+	</select>
+	
+	<select id="existenceBusinessCheck" resultType="string" parameterType="string">
+		SELECT categoryBusinessName FROM categoryBusiness WHERE categoryCustomerName = #{categoryCustomerNameView};
+	</select>
+	
+	<select id="getCategoryBusinessCheck" parameterType="string" resultMap="categoryBusiness">
+		SELECT * FROM categoryBusiness WHERE categoryCustomerName = #{categoryCustomerNameView} AND categoryBusinessName = #{categoryBusinessNameView};
+	</select>
+	
+	<insert id="insertCategoryBusiness">
+		INSERT INTO categoryBusiness(categoryCustomerName, categoryBusinessName, categoryBusinessRegistrant, categoryBusinessRegistrationDate)
+		VALUES(#{categoryCustomerNameView}, #{categoryBusinessNameView}, #{categoryBusinessRegistrant}, #{categoryBusinessRegistrationDate});
+	</insert>
+	
+	<update id="updateCategoryBusiness">
+		UPDATE categoryBusiness SET categoryCustomerName=#{categoryCustomerNameView}, categoryBusinessName=#{categoryBusinessNameView}, categoryBusinessModifier=#{categoryBusinessModifier}, categoryBusinessModifiedDate=#{categoryBusinessModifiedDate}
+		WHERE categoryBusinessKeyNum = #{categoryBusinessKeyNum};
+	</update>
+	
+	<select id="getCategoryBusinessOne" parameterType="_int" resultMap="categoryBusiness">
+		SELECT * FROM categoryBusiness WHERE categoryBusinessKeyNum = #{categoryBusinessKeyNum};
+	</select>
+	
+	<delete id="delCategoryBusiness">
+		DELETE FROM categoryBusiness WHERE categoryBusinessKeyNum = #{categoryBusinessKeyNum};
+	</delete>
+	
+	<select id="getCategoryBusinessNameList" resultType="string">
+		SELECT DISTINCT categoryBusinessName FROM categoryBusiness;
+	</select>
+	
+	<select id="getCategoryCustomerBusinessName" resultType="string">
+		SELECT categoryBusinessName FROM categoryBusiness  WHERE categoryCustomerName = #{customerName}; 
+	</select>
+	
+	<select id="checkCustomerBusinessMapping" resultType="_int" parameterType="string">
+		SELECT COUNT(*) FROM categoryBusiness  WHERE categoryCustomerName = #{categoryCustomerNameView} AND categoryBusinessName = #{categoryBusinessNameView}
 	</select>
 </mapper>

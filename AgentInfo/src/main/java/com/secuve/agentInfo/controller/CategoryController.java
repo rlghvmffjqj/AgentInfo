@@ -152,7 +152,7 @@ public class CategoryController {
 	@ResponseBody
 	@PostMapping(value = "/category/customerBusinessName")
 	public List<String> customerBusinessName(Model model, String customerName) {
-		List<String> businessName = categoryService.getCategoryValue("businessName", customerName);
+		List<String> businessName = categoryService.getCategoryCustomerBusinessName(customerName);
 		model.addAttribute("businessName", businessName);
 		return businessName;
 	}
@@ -164,7 +164,11 @@ public class CategoryController {
 	 */
 	@GetMapping(value = "/category/businessName")
 	public String businessName(Model model) {
+		List<String> categoryCustomerName = categoryService.getSelectInput("customerName");
+		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		model.addAttribute("category", "businessName");
+		model.addAttribute("categoryCustomerName", categoryCustomerName).addAttribute("categoryBusinessName",categoryBusinessName);
+		
 		return "category/CategoryBusinessList";
 	}
 	
@@ -295,5 +299,66 @@ public class CategoryController {
 		map.put("records", totalCount);
 		map.put("rows", list);
 		return map;
+	}
+	
+	@PostMapping(value = "/categoryBusiness/insertView")
+	public String InsertCategoryBusinessView(Model model, CategoryBusiness category) {
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		model.addAttribute("viewType","insert").addAttribute("customerName", customerName);
+		model.addAttribute("category", category);
+		
+		return "/category/CategoryBusinessView";
+	}
+	
+	@PostMapping(value = "/categoryBusiness/updateView")
+	public String UpdateCategoryBusinessView(Model model, CategoryBusiness category) {
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		category = categoryService.getCategoryBusinessOne(category.getCategoryBusinessKeyNum());
+		model.addAttribute("viewType","update").addAttribute("customerName", customerName);
+		model.addAttribute("category", category);
+		
+		return "/category/CategoryBusinessView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/existenceCheckInsert")
+	public List<String> existenceBusinessCheckInsert(CategoryBusiness category, Principal principal) throws IllegalStateException, IOException {
+		return categoryService.existenceBusinessCheckInsert(category);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/existenceCheckUpdate")
+	public List<String> existenceBusinessCheckUpdate(CategoryBusiness category, Principal principal) throws IllegalStateException, IOException {
+		return categoryService.existenceBusinessCheckUpdate(category);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/insert")
+	public String InsertCategoryBusiness(CategoryBusiness category, Principal principal) {
+		category.setCategoryBusinessRegistrant(principal.getName());
+		// Date formatter 현재 시간
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		category.setCategoryBusinessRegistrationDate(formatter.format(now));
+
+		return categoryService.insertCategoryBusiness(category);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/update")
+	public String UpdateCategoryBusiness(CategoryBusiness category, Principal principal) {
+		category.setCategoryBusinessModifiedDate(principal.getName());
+		// Date formatter 현재 시간
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		category.setCategoryBusinessModifiedDate(formatter.format(now));
+
+		return categoryService.updateCategoryBusiness(category);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/delete")
+	public String CategoryBusinessDelete(@RequestParam int[] chkList) {
+		return categoryService.delCategoryBusiness(chkList);
 	}
 }
