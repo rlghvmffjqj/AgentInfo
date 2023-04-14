@@ -40,11 +40,11 @@ public class SendPackageController {
 	@GetMapping(value = "/sendPackage/list")
 	public String SendPackageList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 
 		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		model.addAttribute("businessName", categoryBusinessName);
 		model.addAttribute("managementServer", managementServer);
 		return "/sendPackage/SendPackageList";
 	}
@@ -66,11 +66,11 @@ public class SendPackageController {
 	@PostMapping(value = "/sendPackage/insertView")
 	public String InsertSendPackageView(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		
 		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		model.addAttribute("businessName", categoryBusinessName);
 		model.addAttribute("managementServer", managementServer);
 		
 		model.addAttribute("viewType","insert");

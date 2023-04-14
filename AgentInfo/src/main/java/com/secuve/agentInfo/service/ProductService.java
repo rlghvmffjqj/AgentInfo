@@ -18,7 +18,6 @@ import com.secuve.agentInfo.vo.Product;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class ProductService {
 	@Autowired ProductDao productDao;
-	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 	@Autowired CategoryService categoryService;
 
 	public List<Product> getProductList(Product search) {
@@ -53,7 +52,6 @@ public class ProductService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			//customerBusinessMappingService.customerBusinessMapping(product.getCustomerNameView(), product.getBusinessNameView());
 			categoryCheck(product, principal);
 		}
 		return parameter(sucess);
@@ -92,7 +90,6 @@ public class ProductService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			//customerBusinessMappingService.customerBusinessMapping(product.getCustomerNameView(), product.getBusinessNameView());
 			categoryCheck(product, principal);
 		}
 		return parameter(sucess);

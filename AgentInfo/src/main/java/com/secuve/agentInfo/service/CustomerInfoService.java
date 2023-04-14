@@ -21,7 +21,6 @@ import com.secuve.agentInfo.vo.CustomerUidLog;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class CustomerInfoService {
 	@Autowired CustomerInfoDao customerInfoDao;
-	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 	@Autowired CategoryService categoryService;
 	@Autowired CustomerUidLogDao customerUidLogDao;
 
@@ -46,7 +45,6 @@ public class CustomerInfoService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			//customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryService.insertCustomerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
 			customerUidLog(customerInfo, principal, "INSERT");
@@ -134,7 +132,6 @@ public class CustomerInfoService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			//customerBusinessMappingService.customerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryService.insertCustomerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
 			customerUidLog(customerInfo, principal, "UPDATE");

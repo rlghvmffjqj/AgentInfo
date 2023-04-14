@@ -42,13 +42,13 @@ public class CustomPackageController {
 	@GetMapping(value = "/customPackage/List")
 	public String CustomPackageList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> osType = categoryService.getCategoryValue("osType");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		
 		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		model.addAttribute("businessName", categoryBusinessName);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("osType", osType);
 		model.addAttribute("agentVer", agentVer);

@@ -47,7 +47,7 @@ public class PackagesController {
 	@GetMapping(value = "/packages/list")
 	public String PackagesList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
@@ -58,7 +58,7 @@ public class PackagesController {
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		
 		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		model.addAttribute("businessName", categoryBusinessName);
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);

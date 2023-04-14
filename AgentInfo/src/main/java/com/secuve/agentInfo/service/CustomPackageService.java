@@ -22,7 +22,6 @@ import com.secuve.agentInfo.vo.CustomPackage;
 public class CustomPackageService {
 	@Autowired CustomPackageDao customPackageDao;
 	@Autowired CategoryService categoryService;
-	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 
 	public List<CustomPackage> getCustomPackage(CustomPackage search) {
 		return customPackageDao.getCustomPackage(CustomPackageSearch(search));
@@ -50,7 +49,6 @@ public class CustomPackageService {
 
 		if (sucess <= 0)
 			return "FALSE";
-		//customerBusinessMappingService.customerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryService.insertCustomerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryCheck(customPackage, principal);
 		fileDownload(customPackage, releaseNotesView);
@@ -69,7 +67,6 @@ public class CustomPackageService {
 
 		if (sucess <= 0)
 			return "FALSE";
-		//customerBusinessMappingService.customerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryService.insertCustomerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryCheck(customPackage, principal);
 		fileDownload(customPackage, releaseNotesView);

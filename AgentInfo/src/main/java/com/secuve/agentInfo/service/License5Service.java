@@ -42,7 +42,6 @@ public class License5Service {
 	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	@Autowired License5Dao license5Dao;
 	@Autowired CategoryService categoryService;
-	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 
 	public List<License5> getLicenseList(License5 search) {
 		return license5Dao.getLicenseList(licenseSearch(search));

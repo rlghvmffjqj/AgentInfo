@@ -31,10 +31,10 @@ public class CustomerController {
 	@GetMapping(value = "/customer/list")
 	public String CustomerList(Model model) {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName");
+		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		
 		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		model.addAttribute("businessName", categoryBusinessName);
 		
 		return "/customer/CustomerList";
 	}

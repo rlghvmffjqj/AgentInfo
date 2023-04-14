@@ -18,7 +18,6 @@ import com.secuve.agentInfo.vo.Customer;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class CustomerService {
 	@Autowired CustomerDao customerDao;
-	@Autowired CustomerBusinessMappingService customerBusinessMappingService;
 	@Autowired CategoryService categoryService;
 
 	public List<Customer> getCustomerList(Customer search) {
@@ -47,7 +46,6 @@ public class CustomerService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			//customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryService.insertCustomerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
@@ -88,7 +86,6 @@ public class CustomerService {
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
 		if (sucess > 0) {
-			//customerBusinessMappingService.customerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryService.insertCustomerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
