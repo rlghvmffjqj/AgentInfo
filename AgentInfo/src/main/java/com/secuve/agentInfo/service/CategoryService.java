@@ -225,9 +225,11 @@ public class CategoryService {
 		CategoryBusiness categoryBusiness = new CategoryBusiness();
 		categoryBusiness.setCategoryCustomerNameView(customerNameView);
 		categoryBusiness.setCategoryBusinessNameView(businessNameView);
-		int count = categoryDao.checkCustomerBusinessMapping(categoryBusiness);
-		if(count <= 0) {
-			categoryDao.insertCategoryBusiness(categoryBusiness);
+		if(categoryBusiness.getCategoryBusinessNameView() != "") {
+			int count = categoryDao.checkCustomerBusinessMapping(categoryBusiness);
+			if(count <= 0) {
+				categoryDao.insertCategoryBusiness(categoryBusiness);
+			}
 		}
 	}
 }

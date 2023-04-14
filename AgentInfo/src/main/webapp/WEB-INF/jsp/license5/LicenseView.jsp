@@ -565,7 +565,7 @@
 			$('#NotLicenseFilePath').show();
 		} else { 
 			var postData = $('#modalForm').serializeObject();
-			var swalText = "<span style='font-weight: 600;'>라이센스 관리 목록에 데이터가 존재합니다.</span> <br><br>";
+			var swalText = "<span style='font-weight: 600;'>라이센스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";
 			$.ajax({
 				<c:choose>
 					<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
