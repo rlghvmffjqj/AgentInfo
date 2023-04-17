@@ -99,6 +99,7 @@ public class License5Service {
 				resault = LinuxLicenseIssued50(route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {
+				System.out.println(e);
 				LOGGER.debug("Agent 연결 실패");
 				return "NOTCONNECT";
 			}
@@ -342,6 +343,7 @@ public class License5Service {
 			 if (line.contains("limit_Network")) 
 				 license.setNetworkCountView(line.replace("<limit_Network>", "").replace("</limit_Network>","").replace(" ", ""));
 			}
+			file_reader.close();
 		} catch (Exception e) {
 			return 0;
 		}

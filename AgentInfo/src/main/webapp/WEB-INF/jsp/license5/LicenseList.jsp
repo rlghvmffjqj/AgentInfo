@@ -368,7 +368,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 패키지를 삭제하시겠습니까?",
+					  text: "선택한 라이센스를 삭제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
