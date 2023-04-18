@@ -160,7 +160,7 @@ public class SendPackageController {
 		SendPackage sendPackage = sendPackageService.getSendPackageOne(sendPackageKeyNum);
 		
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", sendPackage.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(sendPackage.getCustomerName());
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		
 		model.addAttribute("customerName", customerName);

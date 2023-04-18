@@ -17,9 +17,9 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자','이벤트','사용자','시간'],
+					colNames:[/* 'Key', */'고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자','이벤트','사용자','시간'],
 					colModel:[
-						{name:'license5UidLogKeyNum', index:'license5UidLogKeyNum', align:'center', width: 35, hidden:true },
+						/* {name:'license5UidLogKeyNum', index:'license5UidLogKeyNum', align:'center', width: 35, hidden:true }, */
 						{name:'customerName', index:'customerName', align:'center', width: 200},
 						{name:'businessName', index:'businessName', align:'center', width: 250},
 						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},

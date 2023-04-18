@@ -127,7 +127,7 @@ public class CustomPackageController {
 	public String UpdateCustomPackageView(Model model, int customPackageKeyNum) {
 		CustomPackage customPackage = customPackageService.getCustomPackageOne(customPackageKeyNum);
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", customPackage.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(customPackage.getCustomerName());
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> osType = categoryService.getCategoryValue("osType");

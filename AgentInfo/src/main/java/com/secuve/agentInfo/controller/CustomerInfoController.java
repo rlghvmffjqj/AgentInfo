@@ -60,7 +60,7 @@ public class CustomerInfoController {
 		CustomerInfo customerInfo = customerInfoService.getCustomerInfoOne(customerInfoKeyNum);
 		
 		List<String> customerNameCategory = categoryService.getCategoryValue("customerName");
-		List<String> businessNameCategory = categoryService.getCategoryValue("businessName", customerInfo.getCustomerName());
+		List<String> businessNameCategory = categoryService.getCategoryBusinessValue(customerInfo.getCustomerName());
 
 		model.addAttribute("customerName", customerNameCategory);
 		model.addAttribute("businessName", businessNameCategory);

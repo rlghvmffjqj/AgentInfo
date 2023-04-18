@@ -175,4 +175,8 @@
 	<select id="checkCustomerBusinessMapping" resultType="_int" parameterType="string">
 		SELECT COUNT(*) FROM categoryBusiness  WHERE categoryCustomerName = #{categoryCustomerNameView} AND categoryBusinessName = #{categoryBusinessNameView}
 	</select>
+	
+	<select id="getCategoryBusinessValue" parameterType="string" resultType="string">
+		SELECT categoryBusinessName FROM categoryBusiness WHERE categoryCustomerName = #{customerName};
+	</select>
 </mapper>

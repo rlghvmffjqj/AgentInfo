@@ -105,7 +105,7 @@ public class ProductController {
 		Product product = productService.getProductOne(productKeyNum);
 
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", product.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(product.getCustomerName());
 
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);

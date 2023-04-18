@@ -154,7 +154,7 @@ public class License5Controller {
 		license.setSerialNumber(license.getSerialNumberView());
 		
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", license.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
@@ -191,7 +191,7 @@ public class License5Controller {
 		license.setSerialNumber(license.getSerialNumberView());
 		
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", license.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
@@ -215,7 +215,7 @@ public class License5Controller {
 	public String UpdateLicenseView(Model model, int licenseKeyNum) {
 		License5 license = license5Service.getLicenseOne(licenseKeyNum);
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", license.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);

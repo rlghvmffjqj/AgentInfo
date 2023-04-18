@@ -176,7 +176,7 @@ public class PackagesController {
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", packages.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(packages.getCustomerName());
 
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);
@@ -319,7 +319,7 @@ public class PackagesController {
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", packages.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(packages.getCustomerName());
 
 		model.addAttribute("existingNew", existingNew);
 		model.addAttribute("managementServer", managementServer);

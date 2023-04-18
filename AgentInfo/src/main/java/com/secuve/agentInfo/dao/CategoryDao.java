@@ -106,4 +106,8 @@ public class CategoryDao {
 		return sqlSession.selectOne("category.checkCustomerBusinessMapping",categoryBusiness);
 	}
 
+	public List<String> getCategoryBusinessValue(String customerName) {
+		return sqlSession.selectList("category.getCategoryBusinessValue", customerName);
+	}
+
 }

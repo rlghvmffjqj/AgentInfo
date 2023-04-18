@@ -114,7 +114,7 @@ public class CustomerController {
 		Customer customer = customerService.getCustomerOne(customerKeyNum);
 
 		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryValue("businessName", customer.getCustomerName());
+		List<String> businessName = categoryService.getCategoryBusinessValue(customer.getCustomerName());
 
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
