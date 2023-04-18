@@ -42,6 +42,7 @@ public class License5Service {
 	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	@Autowired License5Dao license5Dao;
 	@Autowired CategoryService categoryService;
+	@Autowired License5UidLogService license5UidLogService;
 
 	public List<License5> getLicenseList(License5 search) {
 		return license5Dao.getLicenseList(licenseSearch(search));
@@ -114,6 +115,7 @@ public class License5Service {
 				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
+			license5UidLogService.license5UidLogInsert(license, "INSERT", principal);	// 로그 수집
 		} else {
 			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
 			return "FALSE";
@@ -148,6 +150,7 @@ public class License5Service {
 				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
+			license5UidLogService.license5UidLogInsert(license, "UPDATE", principal);	// 로그 수집
 		} else {
 			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
 			return "FALSE";
@@ -240,6 +243,7 @@ public class License5Service {
 				LOGGER.debug("라이센스 DELETE ERROR");
 				return "FALSE";
 			}
+			license5UidLogService.license5UidLogDeleteInsert(license, "DELETE", principal);	// 로그 수집
 		}
 		return "OK";
 	}
