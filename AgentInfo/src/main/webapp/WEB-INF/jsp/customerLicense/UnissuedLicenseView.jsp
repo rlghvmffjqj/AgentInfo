@@ -16,7 +16,7 @@
 		
 		<div class="leftDiv">
 			<c:choose>
-				<c:when test="${viewType eq 'issued'}">
+				<c:when test="${viewType eq 'insert'}">
 					<div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
@@ -45,7 +45,7 @@
 						</div>
 					 </div>
 	         	</c:when>
-	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+	         	<c:when test="${viewType eq 'update' || viewType eq 'insertback' || viewType eq 'updateback'}">
 	         		<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
@@ -81,11 +81,11 @@
 	         	</c:when>
 			 </c:choose>
 	         <div class="pading5Width450">
-	         	<label class="labelFontSize">추가정보</label>
+	         	<label class="labelFontSize">하위사업구분</label>
 	         	<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
 	         </div>
 	         <c:choose>
-				<c:when test="${viewType eq 'issued'}">
+				<c:when test="${viewType eq 'insert'}">
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
@@ -96,7 +96,7 @@
 						</select>
 			         </div>
 		         </c:when>
-		         <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		         <c:when test="${viewType eq 'update' || viewType eq 'insertback' || viewType eq 'updateback'}">
 		         	<div class="pading5Width450">
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
@@ -118,7 +118,7 @@
 	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 	         </div>
 	         <c:choose>
-				<c:when test="${viewType eq 'issued'}">
+				<c:when test="${viewType eq 'insert'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -174,7 +174,7 @@
 			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
 					</div>
 				</c:when>
-		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'insertback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -234,7 +234,7 @@
 	    </div>
         <div class="rightDiv">
         	<c:choose>
-				<c:when test="${viewType eq 'issued'}">
+				<c:when test="${viewType eq 'insert'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
 			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="0">
@@ -300,7 +300,7 @@
 			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
 			        </div>
 	       		</c:when>
-		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'insertback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
 			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCountView}">
@@ -379,7 +379,7 @@
 </div>
 <div class="modal-footer">
 	<c:choose>
-		<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
+		<c:when test="${viewType eq 'insert' || viewType eq 'insertback'}">
 			<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
 			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 		</c:when>
@@ -392,7 +392,7 @@
 
 <script>
 	$(function() {
-		if($('#viewType').val() == 'issued') {
+		if($('#viewType').val() == 'insert') {
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
@@ -400,7 +400,7 @@
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		}
 		
-		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
+		if($('#viewType').val() == 'update' || $('#viewType').val() == 'insertback') {
 			if($('#expirationDaysView').val() == "") {
 				$('#chkExpirationDays').prop("checked",true);
 				$("#expirationDaysDay").val(90);
@@ -536,7 +536,7 @@
 		
 	});
 	
-	if($('#viewType').val() == "issued") {
+	if($('#viewType').val() == "insert") {
 		document.getElementById('issueDateView').valueAsDate = new Date();
 		document.getElementById('expirationDaysCalender').valueAsDate = new Date();
 	}
@@ -568,7 +568,7 @@
 			var swalText = "<span style='font-weight: 600;'>라이선스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";
 			$.ajax({
 				<c:choose>
-					<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
+					<c:when test="${viewType eq 'insert' || viewType eq 'insertback'}">
 						url: "<c:url value='/license5/existenceCheckInsert'/>",
 					</c:when>
 					<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
@@ -593,14 +593,14 @@
 			  			  confirmButtonText: 'OK'
 				  		}).then((result) => {
 				  			if (result.isConfirmed) {
-				  				if(viewType == "issued" || viewType == "issuedback") 
+				  				if(viewType == "insert" || viewType == "insertback") 
 				  					BtnInsert();
 				  				else if(viewType == "update" || viewType == "updateback")
 				  					BtnUpdate();	
 				  			}
 				  		});
 		        	} else {
-		        		if(viewType == "issued" || viewType == "issuedback") 
+		        		if(viewType == "insert" || viewType == "insertback") 
 		  					BtnInsert();
 		  				else if(viewType == "update" || viewType == "updateback")
 		  					BtnUpdate();	

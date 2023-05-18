@@ -148,7 +148,21 @@
 			$('.calendar').addClass('active');
 		} else if($.cookie('name') == 'sendPackage') {
 			$('.sendPackage').addClass('active');
+		} else if($.cookie('name') == 'customerLicenseManagement') {
+			$('.customerLicense').addClass('active');
+			$('.customerLicense').addClass('pcoded-trigger');
+			$('.customerLicenseManagement').addClass('active');
+		} else if($.cookie('name') == 'engineerUnassigned') {
+			$('.customerLicense').addClass('active');
+			$('.customerLicense').addClass('pcoded-trigger');
+			$('.engineerUnassigned').addClass('active');
+		} else if($.cookie('name') == 'unissuedLicense') {
+			$('.customerLicense').addClass('active');
+			$('.customerLicense').addClass('pcoded-trigger');
+			$('.unissuedLicense').addClass('active');
 		}
+		
+		
 	});
 </script>
 <nav class="pcoded-navbar">
@@ -184,6 +198,38 @@
 		            </a>
 		        </li>
 		    </ul>
+		    <ul class="pcoded-item pcoded-left-item">
+				<li class="customerLicense pcoded-hasmenu">
+					<a href="#!" class="waves-effect waves-dark">
+			            <span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
+			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 & 라이선스</span>
+			            <span class="pcoded-mcaret"></span>
+			        </a>
+			        <ul class="pcoded-submenu" style="display: block;">
+			         	<li class="customerLicenseManagement">
+							<a href="<c:url value='/customerLicense/customerLicenseManagement/list'/>" class="waves-effect waves-dark">
+								<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								<span class="pcoded-mtext" style="font-size: 13px;">고객사 & 라이선스 관리</span>
+								<span class="pcoded-mcaret"></span>
+							</a>
+				     	</li>
+					    <li class="engineerUnassigned">
+					           <a href="<c:url value='/customerLicense/engineerUnassigned/list'/>" class="waves-effect waves-dark">
+					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					             <span class="pcoded-mtext" style="font-size: 13px;">엔지니어 미배정 사업 목록</span>
+					             <span class="pcoded-mcaret"></span>
+					           </a>
+					    </li>
+					    <li class="unissuedLicense">
+					           <a href="<c:url value='/customerLicense/unissuedLicense/list'/>" class="waves-effect waves-dark">
+					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					             <span class="pcoded-mtext" style="font-size: 13px;">미발급 라이선스 요청 목록</span>
+					             <span class="pcoded-mcaret"></span>
+					           </a>
+					    </li>
+				  	</ul>
+			    </li>
+			</ul>
 		    <sec:authorize access="hasRole('ADMIN')">
 		    	<ul class="pcoded-item pcoded-left-item">
 				    <li class="sendPackage">
@@ -200,21 +246,21 @@
 					<li class="license pcoded-hasmenu">
 						<a href="#!" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-key"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 관리</span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이선스 관리</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				        <ul class="pcoded-submenu" style="display: block;">
 				         	<li class="license5">
 								<a href="<c:url value='/license5/issuance'/>" class="waves-effect waves-dark">
 									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-									<span class="pcoded-mtext">라이센스 5.0</span>
+									<span class="pcoded-mtext">라이선스 5.0</span>
 									<span class="pcoded-mcaret"></span>
 								</a>
 					     	</li>
 						    <li class="license2">
 						           <a href="<c:url value='/license/issuance'/>" class="waves-effect waves-dark">
 						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-						             <span class="pcoded-mtext">라이센스 2.0</span>
+						             <span class="pcoded-mtext">라이선스 2.0</span>
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
@@ -412,14 +458,14 @@
 					        <li class="license5Log">
 					            <a href="<c:url value='/license5UidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
-					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 5.0 관리 로그</span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이선스 5.0 관리 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>
 					        <li class="licenseLog">
 					            <a href="<c:url value='/licenseUidLog/list'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
-					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이센스 2.0 관리 로그</span>
+					                <span class="pcoded-mtext" data-i18n="nav.form-components.main">라이선스 2.0 관리 로그</span>
 					                <span class="pcoded-mcaret"></span>
 					            </a>
 					        </li>

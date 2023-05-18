@@ -18,7 +18,7 @@
 				mtype: 'POST',
 				postData: formData,
 				datatype: 'json',
-				colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','커널비트','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이센스 발급 Key'/*, '라이센스 발급 번호' */,'이벤트','사용자','시간'],
+				colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','커널비트','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이선스 발급 Key'/*, '라이선스 발급 번호' */,'이벤트','사용자','시간'],
 				colModel:[
 					{name:'licenseUidLogKeyNum', index:'licenseUidLogKeyNum', align:'center', width: 35, hidden:true },
 					{name:'licenseUidLogCustomerName', index:'licenseUidLogCustomerName', align:'center', width: 200},
@@ -83,7 +83,7 @@
 	                              <div class="row align-items-center">
 	                                  <div class="col-md-8">
 	                                      <div class="page-header-title" >
-	                                          <h5 class="m-b-10">라이센스 2.0 관리 로그</h5>
+	                                          <h5 class="m-b-10">라이선스 2.0 관리 로그</h5>
 	                                          <p class="m-b-0">License Issued Log</p>
 	                                      </div>
 	                                  </div>
@@ -251,7 +251,7 @@
 														</select>
 			                      					</div>
 			                      					<div class="col-lg-2">
-		                      							<label class="labelFontSize">라이센스 발급 Key</label>
+		                      							<label class="labelFontSize">라이선스 발급 Key</label>
 		                      							<input type="text" id="licenseUidLogIssueKey" name="licenseUidLogIssueKey" class="form-control">
 		                      						</div>
 			                      					<div class="col-lg-2">
@@ -359,13 +359,13 @@
 			}
 		});
 		
-		/* =========== 라이센스 발급 Key 확인 버튼 ========= */
+		/* =========== 라이선스 발급 Key 확인 버튼 ========= */
 		function licenseUidLogNumFormatter(value, options, row) {
 			var licenseUidLogKeyNum = row.licenseUidLogKeyNum;
-			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + licenseUidLogKeyNum + "'"  + ')">라이센스 발급</button>';
+			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + licenseUidLogKeyNum + "'"  + ')">라이선스 발급</button>';
 		}
 		
-		/* =========== 라이센스 Key 확인 ========= */
+		/* =========== 라이선스 Key 확인 ========= */
 		function licenseNumber(licenseUidLogKeyNum) {
 			$.ajax({
 	            type: 'POST',
@@ -376,12 +376,12 @@
 	            	if(data == "FALSE") {
 	            		Swal.fire(
 	      					  '실패!',
-	      					  '라이센스 발급 Key가 존재하지 않습니다.',
+	      					  '라이선스 발급 Key가 존재하지 않습니다.',
 	      					  'error'
 	      					)
 	            	} else {
 		            	Swal.fire(
-						  '라이센스 발급 Key!',
+						  '라이선스 발급 Key!',
 						  data,
 						  'success'
 						)

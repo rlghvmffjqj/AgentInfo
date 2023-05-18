@@ -11,9 +11,9 @@ import lombok.ToString;
 @ToString
 @Component
 public class License {
-	private int licenseKeyNum;			// 라이센스 기본 키
-	private int licenseKeyNumOrigin;			// 라이센스 정렬 사용
-	private String licenseType;			// 라이센스 타입
+	private int licenseKeyNum;			// 라이선스 기본 키
+	private int licenseKeyNumOrigin;			// 라이선스 정렬 사용
+	private String licenseType;			// 라이선스 타입
 	private String customerName;		// 업체명
 	private String businessName;		// 사업명
 	private String issueDate;			// 발급 날짜
@@ -28,9 +28,9 @@ public class License {
 	private String macUmlHostId;		// MAC / UML / HostId 정보
 	private String releaseType;			// 릴리즈타입
 	private String deliveryMethod;		// 전달 방법
-	private String licenseIssueKey;		// 라이센스 발급 키
-	private String licenseIssueAnswer;  // 리눅스 라이센스 결과 Full
-	private String licenseIssueCommand; // 리눅스 라이센스 발급 명령어
+	private String licenseIssueKey;		// 라이선스 발급 키
+	private String licenseIssueAnswer;  // 리눅스 라이선스 결과 Full
+	private String licenseIssueCommand; // 리눅스 라이선스 발급 명령어
 	
 	private String periodYearSelf;
 	private String periodMonthSelf;

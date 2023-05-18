@@ -3,17 +3,17 @@
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <div class="modelHead">
-	<div class="modelHeadFont">라이센스 발급 키 등록</div>
+	<div class="modelHeadFont">라이선스 발급 키 등록</div>
 </div>
 <div class="modal-body modalBody" style="width: 100%; height: 90px;">
 	<table style="margin:20px">
 		<tbody>
 			<tr>
-				<td style="font-weight: bolder;">Windows 라이센스 발급 키 : </td>
+				<td style="font-weight: bolder;">Windows 라이선스 발급 키 : </td>
 				<td><input type="text" id="licenseIssueKeyView" autofocus></td>
 			</tr>
 			<tr>
-				<td colspan='2'><span class="colorRed" id="NotLicenseIssuedKey" style="display: none; line-height: initial;">라이센스 발급 키 값을 반드시 입력 바랍니다.</span></td>
+				<td colspan='2'><span class="colorRed" id="NotLicenseIssuedKey" style="display: none; line-height: initial;">라이선스 발급 키 값을 반드시 입력 바랍니다.</span></td>
 			</tr>
 		</tbody>
 	</table>
@@ -82,7 +82,7 @@
 		});
 	}
 
-	/* =========== 라이센스 발급 키 저장 ========= */
+	/* =========== 라이선스 발급 키 저장 ========= */
 	function BtnLicenseSave() {
 		var licenseIssueKey = $('#licenseIssueKeyView').val();
 		var licenseKeyNum = $('#licenseKeyNum').val();
@@ -101,7 +101,7 @@
 					if(data.result == "OK"){
 						Swal.fire({
 							icon: 'success',
-							title: '라이센스 발급 키 등록 완료!',
+							title: '라이선스 발급 키 등록 완료!',
 							text: licenseIssueKey,
 						});
 						$('#modal').modal("hide"); // 모달 닫기
@@ -125,7 +125,7 @@
 			Swal.fire({
 				icon: 'info',
 				title: '확인!',
-				text: '라이센스 발급 키 값을 반드시 입력 바랍니다.',
+				text: '라이선스 발급 키 값을 반드시 입력 바랍니다.',
 			});
 		}
 	}

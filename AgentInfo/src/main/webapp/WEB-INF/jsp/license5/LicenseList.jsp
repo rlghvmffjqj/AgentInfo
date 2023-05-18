@@ -87,7 +87,7 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">라이센스 5.0</h5>
+									            <h5 class="m-b-10">라이선스 5.0</h5>
 									            <p class="m-b-0">License Issuance</p>
 									        </div>
 									    </div>
@@ -96,7 +96,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">라이센스 발급</a>
+									            <li class="breadcrumb-item"><a href="#!">라이선스 발급</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -241,7 +241,7 @@
 														</select>
 		                      						</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">라이센스 파일명</label>
+		                      							<label class="labelFontSize">라이선스 파일명</label>
 		                      							<select class="form-control selectpicker" id="licenseFilePathMulti" name="licenseFilePathMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<c:forEach var="item" items="${licenseFilePath}">
 																<option value="${item}"><c:out value="${item}"/></option>
@@ -287,7 +287,7 @@
 														<table style="width:100%">
 														<tbody>
 															<tr>
-																<td style="font-weight:bold;">라이센스 관리 :
+																<td style="font-weight:bold;">라이선스 관리 :
 																	<sec:authorize access="hasRole('ADMIN')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
@@ -324,7 +324,7 @@
 	</body>
 
 	<script>
-		/* =========== 라이센스 발급 Modal ========= */
+		/* =========== 라이선스 발급 Modal ========= */
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
@@ -356,7 +356,7 @@
 			});
 		});
 		
-		/* =========== 라이센스 발급 정보 제거 ========= */
+		/* =========== 라이선스 발급 정보 제거 ========= */
 		$('#BtnDelect').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList == 0) {
@@ -368,7 +368,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 라이센스를 삭제하시겠습니까?",
+					  text: "선택한 라이선스를 삭제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -417,13 +417,13 @@
 	        });
 		});
 		
-		/* =========== 라이센스 발급 Key 확인 버튼 ========= */
+		/* =========== 라이선스 발급 Key 확인 버튼 ========= */
 		function licenseNumFormatter(value, options, row) {
 			var licenseKeyNum = row.licenseKeyNum;
-			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + licenseKeyNum + "'"  + ')">라이센스 발급</button>';
+			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + licenseKeyNum + "'"  + ')">라이선스 발급</button>';
 		}
 		
-		/* =========== 라이센스 Key 확인 ========= */
+		/* =========== 라이선스 Key 확인 ========= */
 		function licenseNumber(licenseKeyNum) {
 			$.ajax({
 	            type: 'POST',
@@ -434,12 +434,12 @@
 	            	if(data == "FALSE") {
 	            		Swal.fire(
 	      					  '실패!',
-	      					  '라이센스 발급 Key가 존재하지 않습니다.',
+	      					  '라이선스 발급 Key가 존재하지 않습니다.',
 	      					  'error'
 	      					)
 	            	} else {
 		            	Swal.fire(
-						  '라이센스 발급 Key!',
+						  '라이선스 발급 Key!',
 						  data,
 						  'success'
 						)

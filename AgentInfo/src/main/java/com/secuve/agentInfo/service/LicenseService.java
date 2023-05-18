@@ -75,11 +75,11 @@ public class LicenseService {
 		try {
 			result = licenseDao.getLicenseIssueKey(licenseKeyNum);
 			if(result == "" || result.equals("")) {
-				LOGGER.debug("라이센스 KEY NULL ERROR");
+				LOGGER.debug("라이선스 KEY NULL ERROR");
 				return "FALSE";
 			}
 		} catch (Exception e) {
-			LOGGER.debug("라이센스 KEY SELECT ERROR");
+			LOGGER.debug("라이선스 KEY SELECT ERROR");
 			return "FALSE";
 		}
 		return result;
@@ -110,11 +110,11 @@ public class LicenseService {
 			answer += resault.charAt(i);
 		}
 		license.setLicenseIssueAnswer(answer);
-		// 라이센스 발급 후 메시지에서 불필요 내용 제거
+		// 라이선스 발급 후 메시지에서 불필요 내용 제거
 		try {
 			answer = answer.substring(32);
 		} catch (Exception e) {
-			LOGGER.debug("리눅스 라이센스 2.0 발급 결과값 CUTTING ERROR");
+			LOGGER.debug("리눅스 라이선스 2.0 발급 결과값 CUTTING ERROR");
 			return "FALSE";
 		}
 		
@@ -129,11 +129,11 @@ public class LicenseService {
 			if (sucess > 0) {
 				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "LINUX");
 			} else {
-				LOGGER.debug("리눅스 라이센스 2.0 발급 INSERT ERROR");
+				LOGGER.debug("리눅스 라이선스 2.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
 		} else {
-			LOGGER.debug("리눅스 라이센스 2.0 발급 ERROR");
+			LOGGER.debug("리눅스 라이선스 2.0 발급 ERROR");
 			return "FALSE";
 		}
 		return answer;
@@ -168,11 +168,11 @@ public class LicenseService {
 			answer += resault.charAt(i);
 		}
 		license.setLicenseIssueAnswer(answer);
-		// 라이센스 발급 후 메시지에서 불필요 내용 제거
+		// 라이선스 발급 후 메시지에서 불필요 내용 제거
 		try {
 			answer = answer.substring(32);
 		} catch (Exception e) {
-			LOGGER.debug("리눅스 라이센스 5.0 발급 결과값 CUTTING ERROR");
+			LOGGER.debug("리눅스 라이선스 5.0 발급 결과값 CUTTING ERROR");
 			return "FALSE";
 		}
 		
@@ -188,11 +188,11 @@ public class LicenseService {
 			if (sucess > 0) {
 				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "LINUX");
 			} else {
-				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
+				LOGGER.debug("리눅스 라이선스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
 		} else {
-			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
+			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
 			return "FALSE";
 		}
 		return answer;
@@ -388,7 +388,7 @@ public class LicenseService {
 			if (sucess > 0) {
 				licenseUidLogService.insertLicenseUidLog(license, principal, "DELETE", "ALL");
 			} else if (sucess <= 0) {
-				LOGGER.debug("라이센스 DELETE ERROR");
+				LOGGER.debug("라이선스 DELETE ERROR");
 				return "FALSE";
 			}
 		}
@@ -398,7 +398,7 @@ public class LicenseService {
 	public String saveLicenseKey(String licenseIssueKey, int licenseKeyNum, Principal principal) {
 		int sucess = licenseDao.saveLicenseKey(licenseIssueKey, licenseKeyNum);
 		if(sucess <= 0) {
-			LOGGER.debug("라이센스 INSERT ERROR");
+			LOGGER.debug("라이선스 INSERT ERROR");
 			return "FALSE";
 		} 
 		License license = licenseDao.getLicenseOne(licenseKeyNum);

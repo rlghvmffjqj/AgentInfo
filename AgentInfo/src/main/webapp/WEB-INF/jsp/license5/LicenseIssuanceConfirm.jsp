@@ -24,7 +24,7 @@
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">관리서버 DBMS : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.managerDbmsTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">국가 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.countryView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">제품번호 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.productVersionView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">라이센스 파일명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.licenseFilePathView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">라이선스 파일명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.licenseFilePathView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">요청자 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.requesterView}</span></div></div>
 	
 	<form id="confirmForm" name="form" method ="post">
@@ -112,13 +112,13 @@
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '라이센스 발급에 실패하였습니다.',
+						text: '라이선스 발급에 실패하였습니다.',
 					});
 				} else if(result.result == "NotRoute") {
 					Swal.fire({
 						icon: 'error',
 						title: '경로 설정!',
-						text: '경로 설정 후 라이센스 발급 바랍니다.',
+						text: '경로 설정 후 라이선스 발급 바랍니다.',
 					});
 				} else if(result.result == "NOTCONNECT") {
 		        		Swal.fire({
@@ -129,7 +129,7 @@
 				} else {
 					Swal.fire({
 						icon: 'success',
-						title: '라이센스 발급!',
+						title: '라이선스 발급!',
 						text: result.result,
 					});
 					$('#modal').modal("hide"); // 모달 닫기
@@ -179,13 +179,13 @@
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '라이센스 발급에 실패하였습니다.',
+						text: '라이선스 발급에 실패하였습니다.',
 					});
 				} else if(result.result == "NotRoute") {
 					Swal.fire({
 						icon: 'error',
 						title: '경로 설정!',
-						text: '경로 설정 후 라이센스 발급 바랍니다.',
+						text: '경로 설정 후 라이선스 발급 바랍니다.',
 					});
 				} else if(result.result == "NOTCONNECT") {
 		        		Swal.fire({
@@ -196,7 +196,7 @@
 				} else {
 					Swal.fire({
 						icon: 'success',
-						title: '라이센스 수정 발급!',
+						title: '라이선스 수정 발급!',
 						text: result.result,
 					});
 					$('#modal').modal("hide"); // 모달 닫기

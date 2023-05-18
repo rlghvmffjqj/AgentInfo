@@ -229,12 +229,23 @@ p {
 	max-width: 1500px;
 }
 
+.modal-customerLicense {
+	top: -1%;
+    width: 1000px;
+	max-width: 1500px;
+}
+
 .modal-notice {
 	top: 8%;
     max-width: 600px;
 }
 
 .modal-xmlImport {
+	top: 30%;
+    max-width: 500px;
+}
+
+.modal-engineerUnassigned {
 	top: 30%;
     max-width: 350px;
 }
@@ -375,7 +386,7 @@ p {
 .leftDiv {
 	float: left;
     width: 50%;
-    border-right: solid 1px;
+    border-right: solid 1px #c3c3c3;
 }
 
 .leftDivNonBord {
@@ -964,4 +975,92 @@ input:focus+.labl::before{
     border: 0;
     background: burlywood;
     height: 70px;
+}
+
+.btn-sales {
+	float: left;
+    width: 50%;
+	background: white;
+	border-right: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+	padding: 0;
+    height: 55px;
+    border-radius: 0px;
+    font-family: monospace;
+    margin-right: 0px;
+    font-size: 15px;
+    z-index: 0;
+}
+
+.btn-sales:hover {
+	background-image: none;
+	font-weight: bold;
+}
+
+.btn-security {
+	float: left;
+    width: 50%;
+	background: white;
+	border-right: 1px solid #dbdbdb;
+    border-bottom: 1px solid #dbdbdb;
+	padding: 0;
+    height: 55px;
+    border-radius: 0px;
+    font-family: monospace;
+    margin-right: 0px;
+    font-size: 15px;
+    z-index: 0;
+}
+
+.btn-security:hover {
+	background-image: none;
+	font-weight: bold;
+}
+
+.btn-evaluation {
+	float: left;
+    width: 50%;
+	background: white;
+    border-bottom: 1px solid #dbdbdb;
+	padding: 0;
+    height: 55px;
+    border-radius: 0px;
+    font-family: monospace;
+    margin-right: 0px;
+    font-size: 15px;
+    z-index: 0;
+}
+
+.btn-evaluation:hover {
+	background-image: none;
+	font-weight: bold;
+}
+
+.customerManagentActive {
+	background: burlywood !important;
+	font-weight: bold !important;
+	color: white !important;
+}
+
+.customerManagentActiveSub {
+	background: #b9a183 !important;
+	font-weight: bold !important;
+	color: white !important;
+}
+
+.hoverBtn:hover {
+	font-weight: bold;
+}
+
+.btn-securitySub {
+	height: 35px;
+	float: left;
+    width: 50%;
+	background: white;
+	border-right: 1px solid #dbdbdb;
+	padding: 0;
+    border-radius: 0px;
+    font-family: monospace;
+    margin-right: 0px;
+    font-size: 14px;
 }

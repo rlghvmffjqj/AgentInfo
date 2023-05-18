@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','커널비트','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이센스 발급 Key',/* '라이센스 발급 번호' */],
+					colNames:['Key','업체 명','사업명 / 설치 사유','발급일자','요청자','협력사명','OS','OS버전','커널버전','커널비트','TOS 버전','기간','MAC / UML / HostId','릴리즈타입','전달방법','라이선스 발급 Key',/* '라이선스 발급 번호' */],
 					colModel:[
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 35, hidden:true },
 						{name:'customerName', index:'customerName', align:'center', width: 200},
@@ -79,7 +79,7 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">라이센스 2.0</h5>
+									            <h5 class="m-b-10">라이선스 2.0</h5>
 									            <p class="m-b-0">License Issuance</p>
 									        </div>
 									    </div>
@@ -88,7 +88,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">라이센스 발급</a>
+									            <li class="breadcrumb-item"><a href="#!">라이선스 발급</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -248,7 +248,7 @@
 														</select>
 			                      					</div>
 			                      					<div class="col-lg-2">
-		                      							<label class="labelFontSize">라이센스 발급 Key</label>
+		                      							<label class="labelFontSize">라이선스 발급 Key</label>
 		                      							<input type="text" id="licenseIssueKey" name="licenseIssueKey" class="form-control">
 		                      						</div>
 			                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
@@ -281,7 +281,7 @@
 														<table style="width:100%">
 														<tbody>
 															<tr>
-																<td style="font-weight:bold;">라이센스 관리 :
+																<td style="font-weight:bold;">라이선스 관리 :
 																	<sec:authorize access="hasRole('ADMIN')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
@@ -318,7 +318,7 @@
 	</body>
 
 	<script>
-		/* =========== 라이센스 발급 Modal ========= */
+		/* =========== 라이선스 발급 Modal ========= */
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
@@ -338,7 +338,7 @@
 			});		
 		});
 		
-		/* =========== 라이센스 발급 정보 제거 ========= */
+		/* =========== 라이선스 발급 정보 제거 ========= */
 		$('#BtnDelect').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList == 0) {
@@ -399,13 +399,13 @@
 	        });
 		});
 		
-		/* =========== 라이센스 발급 Key 확인 버튼 ========= */
+		/* =========== 라이선스 발급 Key 확인 버튼 ========= */
 		function licenseNumFormatter(value, options, row) {
 			var licenseKeyNum = row.licenseKeyNum;
-			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + licenseKeyNum + "'"  + ')">라이센스 발급</button>';
+			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + licenseKeyNum + "'"  + ')">라이선스 발급</button>';
 		}
 		
-		/* =========== 라이센스 Key 확인 ========= */
+		/* =========== 라이선스 Key 확인 ========= */
 		function licenseNumber(licenseKeyNum) {
 			$.ajax({
 	            type: 'POST',
@@ -416,12 +416,12 @@
 	            	if(data == "FALSE") {
 	            		Swal.fire(
 	      					  '실패!',
-	      					  '라이센스 발급 Key가 존재하지 않습니다.',
+	      					  '라이선스 발급 Key가 존재하지 않습니다.',
 	      					  'error'
 	      					)
 	            	} else {
 		            	Swal.fire(
-						  '라이센스 발급 Key!',
+						  '라이선스 발급 Key!',
 						  data,
 						  'success'
 						)

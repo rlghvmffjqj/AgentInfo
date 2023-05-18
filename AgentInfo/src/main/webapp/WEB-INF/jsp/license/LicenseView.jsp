@@ -189,7 +189,7 @@
 
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
-	/* =========== 라이센스 발급 ========= */
+	/* =========== 라이선스 발급 ========= */
 	function BtnInsert(btnType) {
 		$('#btnType').val(btnType);
 		var customerName = $('#customerNameView').val();
@@ -231,13 +231,13 @@
 								Swal.fire({
 									icon: 'error',
 									title: '실패!',
-									text: '라이센스 발급에 실패하였습니다.',
+									text: '라이선스 발급에 실패하였습니다.',
 								});
 							} else if(result.result == "NotRoute") {
 								Swal.fire({
 									icon: 'error',
 									title: '경로 설정!',
-									text: '경로 설정 후 라이센스 발급 바랍니다.',
+									text: '경로 설정 후 라이선스 발급 바랍니다.',
 								});
 				        	} else if(result.result == "NOTCONNECT") {
 				        		Swal.fire({
@@ -248,7 +248,7 @@
 				        	} else {
 								Swal.fire({
 									icon: 'success',
-									title: '라이센스 발급!',
+									title: '라이선스 발급!',
 									text: result.result,
 								});
 								$('#modal').modal("hide"); // 모달 닫기
@@ -272,13 +272,13 @@
 								Swal.fire({
 									icon: 'error',
 									title: '실패!',
-									text: '라이센스 발급에 실패하였습니다.',
+									text: '라이선스 발급에 실패하였습니다.',
 								});
 							} else if(result.result == "NotRoute") {
 								Swal.fire({
 									icon: 'error',
 									title: '경로 설정!',
-									text: '경로 설정 후 라이센스 발급 바랍니다.',
+									text: '경로 설정 후 라이선스 발급 바랍니다.',
 								});
 							} else if(result.result == "NOTCONNECT") {
 					        		Swal.fire({
@@ -289,7 +289,7 @@
 							} else {
 								Swal.fire({
 									icon: 'success',
-									title: '라이센스 발급!',
+									title: '라이선스 발급!',
 									text: result.result,
 								});
 								$('#modal').modal("hide"); // 모달 닫기
@@ -330,7 +330,7 @@
 					    		Swal.fire({
 									icon: 'error',
 									title: '경로 설정!',
-									text: '경로 설정 후 라이센스 발급 바랍니다.',
+									text: '경로 설정 후 라이선스 발급 바랍니다.',
 								});
 					    	}
 					    },

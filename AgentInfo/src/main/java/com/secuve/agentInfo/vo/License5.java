@@ -82,7 +82,7 @@ public class License5 {
 	private String viewType;
 	private String btnType;
 	
-	private String chkLicenseIssuance;					// 라이센스 발급 여부
+	private String chkLicenseIssuance;					// 라이선스 발급 여부
 	
 	private Integer page=1;							// 기본 페이지 번호
 	private Integer rows=25;						// 데이터 보여줄 갯수

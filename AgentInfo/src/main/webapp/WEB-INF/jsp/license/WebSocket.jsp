@@ -52,13 +52,13 @@
 	                if(data == "OK")
 						Swal.fire(
 							'Success!',
-							'라이센스 발급 하였습니다.',
+							'라이선스 발급 하였습니다.',
 							'success'
 						)
 					else if(data == "FALSE")
 						Swal.fire(
 							'Failure!',
-							'라이센스 발급에 실패하였습니다.',
+							'라이선스 발급에 실패하였습니다.',
 							'error'
 						)
 	            }
@@ -80,7 +80,7 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">라이센스 발급</h5>
+									            <h5 class="m-b-10">라이선스 발급</h5>
 									            <p class="m-b-0">License Issuance</p>
 									        </div>
 									    </div>
@@ -89,7 +89,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">라이센스 발급</a>
+									            <li class="breadcrumb-item"><a href="#!">라이선스 발급</a>
 									            </li>
 									        </ul>
 									    </div>

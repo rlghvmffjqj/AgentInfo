@@ -112,12 +112,12 @@ public class License5Service {
 		
 			// 로그 기록
 			if (sucess <= 0) {
-				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
+				LOGGER.debug("리눅스 라이선스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
 			license5UidLogService.license5UidLogInsert(license, "INSERT", principal);	// 로그 수집
 		} else {
-			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
+			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
 			return "FALSE";
 		}
 		return resault;
@@ -147,12 +147,12 @@ public class License5Service {
 		
 			// 로그 기록
 			if (sucess <= 0) {
-				LOGGER.debug("리눅스 라이센스 5.0 발급 INSERT ERROR");
+				LOGGER.debug("리눅스 라이선스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
 			license5UidLogService.license5UidLogInsert(license, "UPDATE", principal);	// 로그 수집
 		} else {
-			LOGGER.debug("리눅스 라이센스 5.0 발급 ERROR");
+			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
 			return "FALSE";
 		}
 		return resault;
@@ -240,7 +240,7 @@ public class License5Service {
 			// 로그 기록
 			if (sucess > 0) {
 			} else if (sucess <= 0) {
-				LOGGER.debug("라이센스 DELETE ERROR");
+				LOGGER.debug("라이선스 DELETE ERROR");
 				return "FALSE";
 			}
 			license5UidLogService.license5UidLogDeleteInsert(license, "DELETE", principal);	// 로그 수집

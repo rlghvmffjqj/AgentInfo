@@ -24,7 +24,7 @@ public class LicenseController2 {
 	@ResponseBody
 	@PostMapping(value = "/license/button")
 	public String InsertProductView() {
-		// 원격서버에서 라이센스 발급 request
+		// 원격서버에서 라이선스 발급 request
 		
 		// listener
 		// async

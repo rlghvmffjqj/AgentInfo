@@ -24,10 +24,38 @@ $.modal = function (modalContent, size) {
     if(size=='licenseConfirm') html += ' modal-licenseConfirm';
     if(size=='xmlImport') html += ' modal-xmlImport';
     if(size=='license5') html += ' modal-license5';
+    if(size=='customerLicense') html += ' modal-customerLicense';
+    if(size=='engineerUnassigned') html += ' modal-engineerUnassigned';
+
+    
     
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';
     html += '" role="document">';
+
+    if(size=='customerLicense') {
+	    html += '<div style="display: flex; width: 100%;">';
+		html += 	'<button class="btn btn-sales btnm customerManagentActive" type="button" id="btnSales">';
+		html += 		'<span>영업본부</span>';
+		html += 	'</button>';
+		html += 	'<button class="btn btn-security btnm" type="button" id="btnSecurity">';
+		html += 		'<span>보안기술사업본부</span>';
+        html += 	'</button>';
+        html += 	'<button class="btn btn-evaluation btnm" type="button" id="btnEvaluation">';
+		html += 		'<span>평가 인증실</span>';
+		html += 	'</button>';
+        html += '</div>';
+        html += '<div id="securitySub" style="height: 30px; background: white; display: flex; width: 100%; display: none;">';
+        html +=     '<div class="btn-securitySub">';
+        html +=     '</div>';
+        html +=     '<div class="btn-securitySub">';
+        html +=        '<button class="hoverBtn customerManagentActiveSub" id="defaultInfo" style="height: 30px; border: none; width: 50%; background: white;">기본정보</button>'
+        html +=        '<button class="hoverBtn" id="licenseInfo" style="height: 30px; border: none; width: 50%; background: white; border-left: 1px solid #dbdbdb;">라이선스 발급 정보</button>'
+        html +=     '</div>';
+        html +=     '<div class="btn-securitySub">';
+        html +=     '</div>';
+        html += '</div>';
+	} 
     
     if(size=='se') {
 	    html += '<div style="display: flex; width: 30%; margin-bottom: -3px;">';
@@ -38,8 +66,12 @@ $.modal = function (modalContent, size) {
 		html += 		'<span>제품</span>';
 		html += 	'</button>';
 		html += '</div>';
-	} 
-    html += '		<div class="modal-content">';
+    } 
+    if(size=='customerLicense') {
+        html += '		<div class="modal-content" style="border-top: 1px solid #dbdbdb!important; border-radius: 0;">';
+    } else {
+        html += '		<div class="modal-content">';
+    }
     
     html += modalContent;
     html += '		</div>';

@@ -27,7 +27,7 @@ public class LicenseController {
 	@Autowired LicenseService licenseService;
 	
 	/**
-	 * 라이센스 발급 페이지 이동
+	 * 라이선스 발급 페이지 이동
 	 * @param model
 	 * @return
 	 */
@@ -55,7 +55,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 라이센스 발급 테이블 정보 조회
+	 * 라이선스 발급 테이블 정보 조회
 	 * @param search
 	 * @return
 	 */
@@ -74,7 +74,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 테이블 내 라이센스 발급 키 컬럼 버튼
+	 * 테이블 내 라이선스 발급 키 컬럼 버튼
 	 * @param licenseKeyNum
 	 * @return
 	 */
@@ -85,7 +85,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 라이센스 발급 View
+	 * 라이선스 발급 View
 	 * @return
 	 */
 	@PostMapping(value = "/license/issuedView")
@@ -96,7 +96,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 리눅스 라이센스 2.0 발급
+	 * 리눅스 라이선스 2.0 발급
 	 * @param license
 	 * @param principal
 	 * @return
@@ -114,7 +114,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 리눅스 라이센스 5.0 발급
+	 * 리눅스 라이선스 5.0 발급
 	 * @param license
 	 * @param principal
 	 * @return
@@ -132,7 +132,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 윈도우 라이센스 발급
+	 * 윈도우 라이선스 발급
 	 * @param license
 	 * @param principal
 	 * @param model
@@ -161,7 +161,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 윈도우 라이센스 발급 키 저장
+	 * 윈도우 라이선스 발급 키 저장
 	 * @param licenseIssueKey
 	 * @param licenseKeyNum
 	 * @param licenseUidLogKeyNum
@@ -199,7 +199,7 @@ public class LicenseController {
 	}
 	
 	/**
-	 * 라이센스 발급 세팅 Modal
+	 * 라이선스 발급 세팅 Modal
 	 * @param model
 	 * @return
 	 */

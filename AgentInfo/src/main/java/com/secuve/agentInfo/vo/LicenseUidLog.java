@@ -11,8 +11,8 @@ import lombok.ToString;
 @ToString
 @Component
 public class LicenseUidLog {
-	private int licenseUidLogKeyNum;				// 라이센스 기본 키
-	private String licenseUidLogLicenseType;		// 라이센스 타입
+	private int licenseUidLogKeyNum;				// 라이선스 기본 키
+	private String licenseUidLogLicenseType;		// 라이선스 타입
 	private String licenseUidLogCustomerName;		// 업체명
 	private String licenseUidLogBusinessName;		// 사업명
 	private String licenseUidLogIssueDate;			// 발급 날짜
@@ -27,7 +27,7 @@ public class LicenseUidLog {
 	private String licenseUidLogMacUmlHostId;		// MAC / UML / HostId 정보
 	private String licenseUidLogReleaseType;		// 릴리즈타입
 	private String licenseUidLogDeliveryMethod;		// 전달 방법
-	private String licenseUidLogIssueKey;			// 라이센스 발급 키
+	private String licenseUidLogIssueKey;			// 라이선스 발급 키
 	
 	private String licenseUidLogEvent = "";				// 로그 발생 이벤트
 	private String licenseUidUser;						// 로그 발생 유저

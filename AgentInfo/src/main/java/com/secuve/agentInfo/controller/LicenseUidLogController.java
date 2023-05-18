@@ -21,7 +21,7 @@ public class LicenseUidLogController {
 	@Autowired LicenseUidLogService licenseUidLogService;
 	
 	/**
-	 * 라이센스 발급 로그 페이지 이동
+	 * 라이선스 발급 로그 페이지 이동
 	 * @param model
 	 * @return
 	 */
@@ -51,7 +51,7 @@ public class LicenseUidLogController {
 	}
 	
 	/**
-	 * 테이블 내 라이센스 발급 키 컬럼 버튼
+	 * 테이블 내 라이선스 발급 키 컬럼 버튼
 	 * @param licenseUidLogKeyNum
 	 * @return
 	 */
@@ -62,7 +62,7 @@ public class LicenseUidLogController {
 	}
 	
 	/**
-	 * 라이센스 발급 로그 테이블 정보 조회
+	 * 라이선스 발급 로그 테이블 정보 조회
 	 * @param search
 	 * @return
 	 */
