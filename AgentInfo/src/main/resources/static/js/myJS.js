@@ -49,7 +49,7 @@ $.modal = function (modalContent, size) {
         html +=     '<div class="btn-securitySub">';
         html +=     '</div>';
         html +=     '<div class="btn-securitySub">';
-        html +=        '<button class="hoverBtn customerManagentActiveSub" id="defaultInfo" style="height: 30px; border: none; width: 50%; background: white;">기본정보</button>'
+        html +=        '<button class="hoverBtn customerManagentActiveSub" id="defaultInfo" style="height: 30px; border: none; width: 50%; background: white;">사업기본정보</button>'
         html +=        '<button class="hoverBtn" id="licenseInfo" style="height: 30px; border: none; width: 50%; background: white; border-left: 1px solid #dbdbdb;">라이선스 발급 정보</button>'
         html +=     '</div>';
         html +=     '<div class="btn-securitySub">';

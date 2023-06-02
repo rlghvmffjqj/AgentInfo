@@ -160,8 +160,19 @@
 			$('.customerLicense').addClass('active');
 			$('.customerLicense').addClass('pcoded-trigger');
 			$('.unissuedLicense').addClass('active');
+		} else if($.cookie('name') == 'totalTest') {
+			$('.totalTest').addClass('active');
+			$('.checkListSetting').addClass('active');
+			$('.checkListSetting').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'basicTest') {
+			$('.basicTest').addClass('active');
+			$('.checkListSetting').addClass('active');
+			$('.checkListSetting').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'foundationTest') {
+			$('.foundationTest').addClass('active');
+			$('.checkListSetting').addClass('active');
+			$('.checkListSetting').addClass('pcoded-trigger');
 		}
-		
 		
 	});
 </script>
@@ -636,6 +647,40 @@
 				        </li>
 				    </ul>
 			    </sec:authorize>
+			    <sec:authorize access="hasAnyRole('ADMIN','QA')">
+				    <ul class="pcoded-item pcoded-left-item">
+						<li class="checkListSetting pcoded-hasmenu">
+							<a href="#!" class="waves-effect waves-dark">
+					            <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
+					            <span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트 설정</span>
+					            <span class="pcoded-mcaret"></span>
+					        </a>
+					        <ul class="pcoded-submenu" style="display: block;">
+					         	<li class="totalTest">
+									<a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=totalTest" class="waves-effect waves-dark">
+										<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+										<span class="pcoded-mtext">전수 테스트 설정</span>
+										<span class="pcoded-mcaret"></span>
+									</a>
+						     	</li>
+							    <li class="vasicTest">
+							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=vasicTest" class="waves-effect waves-dark">
+							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+							             <span class="pcoded-mtext">기본 테스트 설정</span>
+							             <span class="pcoded-mcaret"></span>
+							           </a>
+							    </li>
+							    <li class="foundationTest">
+							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=foundationTest" class="waves-effect waves-dark">
+							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+							             <span class="pcoded-mtext">기초 테스트 설정</span>
+							             <span class="pcoded-mcaret"></span>
+							           </a>
+							    </li>
+						  	</ul>
+					    </li>
+					</ul>
+				</sec:authorize>
 			</div>
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
  </nav>
