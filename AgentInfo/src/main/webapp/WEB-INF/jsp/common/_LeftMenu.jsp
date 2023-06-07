@@ -663,8 +663,8 @@
 										<span class="pcoded-mcaret"></span>
 									</a>
 						     	</li>
-							    <li class="vasicTest">
-							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=vasicTest" class="waves-effect waves-dark">
+							    <li class="basicTest">
+							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=basicTest" class="waves-effect waves-dark">
 							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 							             <span class="pcoded-mtext">기본 테스트 설정</span>
 							             <span class="pcoded-mcaret"></span>

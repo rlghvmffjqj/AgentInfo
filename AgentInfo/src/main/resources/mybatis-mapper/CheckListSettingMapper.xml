@@ -4,9 +4,67 @@
 <mapper namespace="checkListSetting">
 	<resultMap type="com.secuve.agentInfo.vo.CheckListSetting" id="checkListSetting"></resultMap>
 	
-	<select id="checkListSettingForm" resultMap="checkListSetting">
-		SELECT * FROM checkListSettingForm;
+	<select id="checkListSettingForm" parameterType="string" resultMap="checkListSetting">
+		SELECT * FROM checkListSettingForm WHERE checkListSettingType = #{checkListSettingType};
 	</select>
+	
+	<insert id="formPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingFormKeyNum">
+		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingType, checkListSettingDivision)
+		VALUES('미입력', #{checkListSettingType}, #{checkListSettingDivision});
+	</insert>
+	
+	<update id="formChange">
+		UPDATE checkListSettingForm SET checkListSettingFormName = #{checkListSettingFormName} WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+	</update>
+	
+	<delete id="formMinus" parameterType="_int">
+		DELETE FROM checkListSettingForm WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+	</delete>
+	
+	<select id="checkListSettingCategory" resultMap="checkListSetting">
+		SELECT * FROM checkListSettingCategory;
+	</select>
+	
+	<select id="checkListSettingSubCategory" resultMap="checkListSetting">
+		SELECT * FROM checkListSettingSubCategory;
+	</select>
+	
+	<insert id="categoryPlus"  parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingCategoryKeyNum">
+		INSERT INTO checkListSettingCategory(checkListSettingFormKeyNum) VALUES (#{checkListSettingFormKeyNum});
+	</insert>
+	
+	<insert id="subCategoryPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingSubCategoryKeyNum">
+		INSERT INTO checkListSettingSubCategory(checkListSettingCategoryKeyNum, checkListSettingFormKeyNum) VALUES (#{checkListSettingCategoryKeyNum}, #{checkListSettingFormKeyNum});
+	</insert>
+	
+	<delete id="formCategoryMinus" parameterType="_int">
+		DELETE FROM checkListSettingCategory WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+	</delete>
+	
+	<delete id="formSubCategoryMinus" parameterType="_int">
+		DELETE FROM checkListSettingSubCategory WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+	</delete>
+	
+	<update id="categorySave">
+		UPDATE checkListSettingCategory SET checkListSettingCategoryName = #{checkListSettingCategoryName} WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
+	</update>
+	
+	<update id="subCategorySave">
+		UPDATE checkListSettingSubCategory SET checkListSettingSubCategoryName = #{checkListSettingSubCategoryName} WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
+	</update>
+	
+	<delete id="categoryMinus" parameterType="_int">
+		DELETE FROM checkListSettingCategory WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
+	</delete>
+	
+	<delete id="categorySubCategoryMinus" parameterType="_int">
+		DELETE FROM checkListSettingSubCategory WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
+	</delete>
+	
+	<delete id="subCategoryMinus" parameterType="_int">
+		DELETE FROM checkListSettingSubCategory WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
+	</delete>
+	
 	
 	
 </mapper>

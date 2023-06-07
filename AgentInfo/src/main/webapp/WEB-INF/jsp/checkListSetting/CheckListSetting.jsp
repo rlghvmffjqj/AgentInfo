@@ -11,8 +11,8 @@
 		    $(function() {
 		    	if("${checkListSettingType}" == "totalTest") {
 			    	$.cookie('name','totalTest');
-		    	} else if("${checkListSettingType}" == "vasicTest") {
-		    		$.cookie('name','vasicTest');
+		    	} else if("${checkListSettingType}" == "basicTest") {
+		    		$.cookie('name','basicTest');
 		    	} else if("${checkListSettingType}" == "foundationTest") {
 		    		$.cookie('name','foundationTest');
 		    	}
@@ -53,82 +53,70 @@
 			                <div>
 			                	<button class='btn btn-secondary divisionActive' id='TOSMS' style='float: left;'>TOSMS</button>
 			                	<button class='btn btn-secondary' id='Agent'>Agent</button>
-			                	<input type='hidden' id='checkListSettingDivisionName' name='checkListSettingDivisionName' value='TOSMS'>
+			                	<input type='hidden' id='checkListSettingDivision' name='checkListSettingDivision' value='TOSMS'>
+			                	<input type='hidden' id='checkListSettingType' name='checkListSettingType' value='${checkListSettingType}'>
 			                </div>
 			                <div class='main-body' id='main-TOSMS'>
 			                    <div class='page-wrapper'>
 			                    	<div class='ibox'>
-		                    			<div style='width: 100%; height: 140px; background: rgba(0, 0, 0, 0.05)'>
+		                    			<div class='formDiv'>
 		                    				<c:if test="${checkListSettingForm eq '[]'}">
 			                    				<div class='chckListForm'>
-				                    				<div class='chckListCommand'>
-				                    					<button class='btn btn-primary'  id='form_1' style='width: 70%; height: 50px;'>미지정</button>
-				                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this)'><span class='chekListFont'>제거</span></button></div>
-				                    					<div style='width: 80%; display: inline-block;'>
-					                						<div class='input-group'>
-																<input type='text' class='form-control' id='inputChange' placeholder='이름'>
-																<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='btnChange(this)'>변경</button>
-															</div>
-														</div>
-				                    				</div>
-				                    				<div class='chckListPlus'>
-				                    					<button class='formPlus' onClick='formPlus(this)'><span class='chekListFont'>추가</span></button>
+			                    					<div id='chckListPlusOne'>
+					                    				<div style='padding-left: 100%; padding-top: 130%;'>
+					                    					<button class='formPlus' onClick='formPlus(this)'><span class='chekListFont'>추가</span></button>
+					                    				</div>
 				                    				</div>
 				                    			</div>
 				                    		</c:if>
 				                    		<c:if test="${checkListSettingForm ne '[]'}">
 				                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingForm}">
-				                    				<div class='chckListForm'>
-					                    				<div class='chckListCommand'>
-					                    					<button class='btn btn-primary'  id='form_${checkListSettingFormList.checkListSettingFormKeyNum}' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style='width: 70%; height: 50px;'>${checkListSettingFormList.checkListSettingFormName}</button>
-					                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this)'><span class='chekListFont'>제거</span></button></div>
-					                    					<div style='width: 80%; display: inline-block;'>
-						                						<div class='input-group'>
-																	<input type='text' class='form-control' id='inputChange' placeholder='이름'>
-																	<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='btnChange(this)'>변경</button>
+				                    				<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'TOSMS'}">
+					                    				<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+						                    				<div class='chckListCommand'>
+						                    					<button class='btn btn-primary' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style='width: 70%; height: 50px;'>${checkListSettingFormList.checkListSettingFormName}</button>
+						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${checkListSettingFormList.checkListSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
+						                    					<div style='width: 80%; display: inline-block;'>
+							                						<div class='input-group'>
+																		<input type='text' class='form-control' id='inputChange' placeholder='이름'>
+																		<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,${checkListSettingFormList.checkListSettingFormKeyNum})'>변경</button>
+																	</div>
 																</div>
-															</div>
-					                    				</div>
-					                    				<div class='chckListPlus'>
-					                    					<button class='formPlus' onClick='formPlus(this)'><span class='chekListFont'>추가</span></button>
-					                    				</div>
-					                    			</div>
+						                    				</div>
+						                    				<div class='chckListPlus'>
+						                    					<button class='formPlus' onClick='formPlus(this)'><span class='chekListFont'>추가</span></button>
+						                    				</div>
+						                    			</div>
+						                    		</c:if>
 					                    		</c:forEach>
 				                    		</c:if>
 		                    			</div>
-		                    			<c:if test="${checkListSettingForm eq '[]'}">
-			                    			<div class='categoryDiv' id='categoryDiv_1'>
-			                    				<div>
-			                    					<div style='height: 30px;'>
-					                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;'>
-					                    				<button class='categoryPlus' onClick='categoryPlus(this)'><span class='chekListFont'>추가</span></button>
-					                    				<button class='categoryMinus' onClick='categoryMinus(this)'><span class='chekListFont'>제거</span></button>
-					                    			</div>
-				                    				<div class='subCategoryDiv'>
-				                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>
-				                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this)'><span class='chekListFont'>추가</span></button>
-				                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this)'><span class='chekListFont'>제거</span></button>
-				                    					<button class='subCategoryDetail' onClick='subCategoryDetail()'><span class='subCategoryDetailFont'>!</span></button>
-				                    				</div>
-				                    			</div>
-			                    			</div>
-			                    		</c:if>
 			                    		<c:if test="${checkListSettingForm ne '[]'}">
 			                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingForm}">
 				                    			<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-				                    				<div>
-				                    					<div style='height: 30px;'>
-						                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;'>
-						                    				<button class='categoryPlus' onClick='categoryPlus(this)'><span class='chekListFont'>추가</span></button>
-						                    				<button class='categoryMinus' onClick='categoryMinus(this)'><span class='chekListFont'>제거</span></button>
-						                    			</div>
-					                    				<div class='subCategoryDiv'>
-					                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>
-					                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this)'><span class='chekListFont'>추가</span></button>
-					                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this)'><span class='chekListFont'>제거</span></button>
-					                    					<button class='subCategoryDetail' onClick='subCategoryDetail()'><span class='subCategoryDetailFont'>!</span></button>
-					                    				</div>
-					                    			</div>
+				                    				<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
+				                    					<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
+						                    				<div class='categorySmallDiv'>
+						                    					<div style='height: 30px;'>
+								                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;' value="${checkListSettingCategoryList.checkListSettingCategoryName}">
+								                    				<button class='categorySave' onClick='categorySave(this,${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
+								                    				<button class='categoryPlus' onClick='categoryPlus(this,${checkListSettingFormList.checkListSettingFormKeyNum})'><span class='chekListFont'>추가</span></button>
+								                    				<button class='categoryMinus' onClick='categoryMinus(this,${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+								                    			</div>
+								                    			<c:forEach var='checkListSettingSubCategoryList' items='${checkListSettingSubCategory}'>
+								                    				<c:if test='${checkListSettingCategoryList.checkListSettingCategoryKeyNum eq checkListSettingSubCategoryList.checkListSettingCategoryKeyNum}'>
+									                    				<div class='subCategoryDiv'>
+									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${checkListSettingSubCategoryList.checkListSettingSubCategoryName}">
+									                    					<button class='subCategorySave' onClick='subCategorySave(this,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
+									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${checkListSettingFormList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
+									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+									                    				</div>
+									                    			</c:if>
+								                    			</c:forEach>
+							                    			</div>
+							                    		</c:if>
+						                    		</c:forEach>
 				                    			</div>
 				                    		</c:forEach>
 			                    		</c:if>
@@ -146,7 +134,7 @@
 		                    					<div style="width: 80%; display: inline-block;">
 			                						<div class="input-group">
 														<input type="text" class="form-control" id="inputChange" placeholder="이름">
-														<button class="btn btn-primary" style="background: dimgray; border-color: black;" id="btnChange" onClick="btnChange(this)">변경</button>
+														<button class="btn btn-primary" style="background: dimgray; border-color: black;" id="formChange" onClick="formChange(this)">변경</button>
 													</div>
 												</div>
 		                    				</div>
@@ -168,7 +156,7 @@
 		$('#TOSMS').click(function() {
 			$('#TOSMS').addClass('divisionActive');
 			$('#Agent').removeClass('divisionActive');
-			$('#checkListSettingDivisionName').val('TOSMS');
+			$('#checkListSettingDivision').val('TOSMS');
 			$('#main-TOSMS').show();
 			$('#main-Agent').hide();
 		});
@@ -176,28 +164,72 @@
 		$('#Agent').click(function() {
 			$('#Agent').addClass('divisionActive');
 			$('#TOSMS').removeClass('divisionActive');
-			$('#checkListSettingDivisionName').val('Agent');
+			$('#checkListSettingDivision').val('Agent');
 			$('#main-TOSMS').hide();
 			$('#main-Agent').show();
 		});
 		
-		function btnChange(obj) {
+		function formChange(obj, number) {
 			var btnName = $(obj).siblings('input').val();
-			$(obj).parent().parent().siblings('button').first().text(btnName);
-			console.log($(obj).parent().parent().siblings('button').text());
+			
+			$.ajax({
+				url: "<c:url value='/checkListSetting/formChange'/>",
+				type: "POST",
+				data: {
+					"checkListSettingFormKeyNum": number,
+					"checkListSettingFormName": btnName,
+				},
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						$(obj).parent().parent().siblings('button').first().text(btnName);
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '폼 이름 변경에 실패 했습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		}
 		
 		
 		function formPlus(obj) {
+			var number;
+			var number2;
+			var number3;
+			var checkListSettingType = $('#checkListSettingType').val();
+			var checkListSettingDivision = $('#checkListSettingDivision').val();
+			
+			$.ajax({
+				url: "<c:url value='/checkListSetting/formPlus'/>",
+				type: "POST",
+				data: {
+					"checkListSettingType": checkListSettingType,
+					"checkListSettingDivision": checkListSettingDivision,
+				},
+				async: false,
+				success: function(data) {
+					number = data;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			
 			var table = $(obj).parent().parent();
-			var rowItem = "<div>";
+			var rowItem = "<div class='chckListForm' id='form_"+number+"'>";
 			rowItem += "<div class='chckListCommand'>";
-			rowItem += "<button class='btn btn-primary' style='width: 70%; height: 50px;'>미지정</button>";
-			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this)'><span class='chekListFont'>제거</span></button></div>";
+			rowItem += "<button class='btn btn-primary' onClick='checkListSettingForm("+number+")' style='width: 70%; height: 50px;'>미지정</button>";
+			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,"+number+")'><span class='chekListFont'>제거</span></button></div>";
 			rowItem += "<div style='width: 80%; display: inline-block;'>";
 			rowItem += "<div class='input-group'>";
 			rowItem += "<input type='text' class='form-control' id='inputChange' placeholder='이름'>";
-			rowItem += "<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='btnChange(this)'>변경</button>";
+			rowItem += "<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,"+number+")'>변경</button>";
 			rowItem += "</div>";
 			rowItem += "</div>";
 			rowItem += "</div>";
@@ -206,48 +238,328 @@
 			rowItem += "</div>";
 			rowItem += "</div>";
 			table.after(rowItem);
+			
+			$.ajax({
+				url: "<c:url value='/checkListSetting/categoryPlus'/>",
+				type: "POST",
+				data: {"checkListSettingFormKeyNum":number},
+				async: false,
+				success: function(data) {
+					number2 = data;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			$.ajax({
+				url: "<c:url value='/checkListSetting/subCategoryPlus'/>",
+				type: "POST",
+				data: {
+					"checkListSettingCategoryKeyNum":number2,
+					"checkListSettingFormKeyNum": number,
+				},
+				async: false,
+				success: function(data) {
+					number3 = data;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			
+			var table2 = $(obj).parent().parent().parent().parent();
+			var rowItem2 = "<div class='categoryDiv' id='categoryDiv_"+number+"' style='display: none;'>";
+			rowItem2 += "<div class='categorySmallDiv'>";
+			rowItem2 += "<div style='height: 30px;'>";
+			rowItem2 += "<input class='form-control' placeholder='Category' style='width: 40%; float: left;'>";
+			rowItem2 += "<button class='categorySave' onClick='categorySave(this,"+number2+")'><span class='chekListFont'>저장</span></button>";
+			rowItem2 += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+")'><span class='chekListFont'>추가</span></button>";
+			rowItem2 += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='chekListFont'>제거</span></button>";
+			rowItem2 += "</div>";
+			rowItem2 += "<div class='subCategoryDiv'>";
+			rowItem2 += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
+			rowItem2 += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
+			rowItem2 += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
+			rowItem2 += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
+			rowItem2 += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
+			rowItem2 += "</div>";
+			rowItem2 += "</div>";
+			rowItem2 += "</div>";
+			table2.after(rowItem2);
+			
+			$('#chckListPlusOne').hide();
 		}
 		
-		function formMinus(obj) {
-			$(obj).parent().parent().parent().remove();
+		function formMinus(obj, number) {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "폼을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+						url: "<c:url value='/checkListSetting/formMinus'/>",
+						type: "POST",
+						data: {
+							"checkListSettingFormKeyNum": number,
+						},
+						async: false,
+						success: function(data) {
+							if(data == "OK") {
+								$('#form_'+number).remove();
+								$('#categoryDiv_'+number).remove();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '폼 삭제 실패 했습니다.',
+								});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
+			  	}
+			})
 		}
 		
-		function categoryPlus(obj) {
+		function categorySave(obj, number) {
+			var checkListSettingCategoryName = $(obj).siblings('input').val();
+			
+			$.ajax({
+				url: "<c:url value='/checkListSetting/categorySave'/>",
+				type: "POST",
+				data: {
+					"checkListSettingCategoryKeyNum": number,
+					"checkListSettingCategoryName": checkListSettingCategoryName,
+				},
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '저장!',
+							text: '카테고리 저장 완료!',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+		
+		function categoryPlus(obj, number) {
+			var number2;
+			var number3;
+			$.ajax({
+				url: "<c:url value='/checkListSetting/categoryPlus'/>",
+				type: "POST",
+				data: {"checkListSettingFormKeyNum":number},
+				async: false,
+				success: function(data) {
+					number2 = data;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			$.ajax({
+				url: "<c:url value='/checkListSetting/subCategoryPlus'/>",
+				type: "POST",
+				data: {
+					"checkListSettingCategoryKeyNum":number2,
+					"checkListSettingFormKeyNum": number,
+				},
+				async: false,
+				success: function(data) {
+					number3 = data;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			
 			var table = $(obj).parent().parent();
-			var rowItem = "<div style='padding-top: 5%;'>";
+			var rowItem = "<div class='categorySmallDiv'>";
 			rowItem += "<div style='height: 30px;'>";
 			rowItem += "<input class='form-control' placeholder='Category' style='width: 40%; float: left;'>";
-			rowItem += "<button class='categoryPlus' onClick='categoryPlus(this)'><span class='chekListFont'>추가</span></button>";
-			rowItem += "<button class='categoryMinus' onClick='categoryMinus(this)'><span class='chekListFont'>제거</span></button>";
+			rowItem += "<button class='categorySave' onClick='categorySave(this,"+number2+")'><span class='chekListFont'>저장</span></button>";
+			rowItem += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+")'><span class='chekListFont'>추가</span></button>";
+			rowItem += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='chekListFont'>제거</span></button>";
 			rowItem += "</div>";
 			rowItem += "<div class='subCategoryDiv'>";
 			rowItem += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
-			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this)'><span class='chekListFont'>추가</span></button>";
-			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this)'><span class='chekListFont'>제거</span></button>";
-			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail()'><span class='subCategoryDetailFont'>!</span></button>";
+			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
+			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
+			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
+			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem += "</div>";
 			rowItem += "</div>";
 			console.log(table);
 			table.after(rowItem);
+			
+			$('#categoryPlusOne').hide();
 		}
 		
-		function categoryMinus(obj) {
-			$(obj).parent().parent().remove();
+		function categoryMinus(obj, number) {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "카테고리를 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+						url: "<c:url value='/checkListSetting/categoryMinus'/>",
+						type: "POST",
+						data: {
+							"checkListSettingCategoryKeyNum":number,
+						},
+						async: false,
+						success: function(data) {
+							if(data == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '삭제!',
+									text: '카테고리 삭제 완료!',
+								});
+								
+								$(obj).parent().parent().remove();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '카테고리 삭제 실패 했습니다.',
+								});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
+					
+					$.ajax({
+						url: "<c:url value='/checkListSetting/categorySubCategoryMinus'/>",
+						type: "POST",
+						data: {
+							"checkListSettingCategoryKeyNum":number,
+						},
+						async: false,
+						success: function(data) {
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
+			  	}
+			})
 		}
 		
-		function subCategoryPlus(obj) {
+		function subCategorySave(obj, number) {
+			var checkListSettingSubCategoryName = $(obj).siblings('input').val();
+			
+			$.ajax({
+				url: "<c:url value='/checkListSetting/subCategorySave'/>",
+				type: "POST",
+				data: {
+					"checkListSettingSubCategoryKeyNum": number,
+					"checkListSettingSubCategoryName": checkListSettingSubCategoryName,
+				},
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '저장!',
+							text: '서브 카테고리 저장 완료!',
+						});
+					} 
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+		
+		function subCategoryPlus(obj, number, number2) {
+			var number3;
+			$.ajax({
+				url: "<c:url value='/checkListSetting/subCategoryPlus'/>",
+				type: "POST",
+				data: {
+					"checkListSettingFormKeyNum": number,
+					"checkListSettingCategoryKeyNum": number2,
+				},
+				async: false,
+				success: function(data) {
+					number3 = data;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+			
 			var table = $(obj).parent();
 			var rowItem = "<div class='subCategoryDiv'>";
 			rowItem += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
-			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this)'><span class='chekListFont'>추가</span></button>";
-			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this)'><span class='chekListFont'>제거</span></button>";
-			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail()'><span class='subCategoryDetailFont'>!</span></button>";
+			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
+			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
+			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
+			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem += "</div>";
 			table.after(rowItem);
 		}
 		
-		function subCategoryMinus(obj) {
-			$(obj).parent().remove();
+		function subCategoryMinus(obj, number) {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "서브 카테고리를 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+						url: "<c:url value='/checkListSetting/subCategoryMinus'/>",
+						type: "POST",
+						data: {
+							"checkListSettingSubCategoryKeyNum": number,
+						},
+						async: false,
+						success: function(data) {
+							if(data == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '삭제!',
+									text: '서브 카테고리 삭제 완료!',
+								});
+								
+								$(obj).parent().remove();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '서브 카테고리 삭제 실패 했습니다.',
+								});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					});
+			  	}
+			})
 		}
 		
 		$('#form_1').click(function() {
@@ -256,7 +568,7 @@
 		});
 		
 		function checkListSettingForm(number) {
-			console.log(number);
+			$('.categorySmallDiv').show();
 			$('.categoryDiv').hide();
 			$('#categoryDiv_'+number).show();
 		}
@@ -271,15 +583,13 @@
 		}
 		
 		.chckListPlus {
-			width: 3%;
 		    text-align: center;
 		    height: 100%;
-		    padding-top: 3.5%;
+		    padding-top: 25%;
 		    float: left;
 		}
 		
 		.chckListCommand {
-			width: 15%;
 		    text-align: center;
 		    height: 100%;
 		    padding-top: 10px;
@@ -323,6 +633,14 @@
 		    float: left;
 		}
 		
+		.categorySave {
+			height: 33px;
+			background: #f3e8c1;
+    		border: 1px solid #ffcd5c;
+		    margin-right: 5px;
+		    float: left;
+		}
+		
 		.subCategoryPlus {
 			height: 33px;
 		    background: #cfcff7;
@@ -335,6 +653,14 @@
 			height: 33px;
 		    background: #f7cfcf;
 		    border: 1px solid #efa8a8;
+		    margin-right: 5px;
+		    float: left;
+		}
+		
+		.subCategorySave {
+			height: 33px;
+		    background: #f3e8c1;
+    		border: 1px solid #ffcd5c;
 		    margin-right: 5px;
 		    float: left;
 		}
@@ -362,5 +688,21 @@
 		    width: 40px;
 		}
 		
+		.chckListForm {
+			display: inline-block;
+		}
+		
+		.formDiv {
+			width: 100%;
+		    height: 155px;
+		    background: rgba(0, 0, 0, 0.05);
+		    overflow-x: scroll;
+		    overflow-y: hidden;
+		    white-space: nowrap;
+		}
+		
+		.categorySmallDiv {
+			padding-bottom: 3%;
+		}
 	</style>
 </html>
