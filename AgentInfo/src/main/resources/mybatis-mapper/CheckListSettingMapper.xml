@@ -5,16 +5,17 @@
 	<resultMap type="com.secuve.agentInfo.vo.CheckListSetting" id="checkListSetting"></resultMap>
 	
 	<select id="checkListSettingForm" parameterType="string" resultMap="checkListSetting">
-		SELECT * FROM checkListSettingForm WHERE checkListSettingType = #{checkListSettingType};
+		SELECT * FROM checkListSettingForm WHERE checkListSettingType = #{checkListSettingType} AND checkListSettingDivision = #{checkListSettingDivision};
 	</select>
 	
 	<insert id="formPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingFormKeyNum">
-		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingType, checkListSettingDivision)
-		VALUES('미입력', #{checkListSettingType}, #{checkListSettingDivision});
+		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingType, checkListSettingDivision, checkListSettingFormRegistrant, checkListSettingFormRegistrationDate)
+		VALUES('미입력', #{checkListSettingType}, #{checkListSettingDivision}, #{checkListSettingFormRegistrant}, #{checkListSettingFormRegistrationDate});
 	</insert>
 	
 	<update id="formChange">
-		UPDATE checkListSettingForm SET checkListSettingFormName = #{checkListSettingFormName} WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+		UPDATE checkListSettingForm SET checkListSettingFormName = #{checkListSettingFormName}, checkListSettingFormModifier = #{checkListSettingFormModifier}, checkListSettingFormModifiedDate = #{checkListSettingFormModifiedDate}
+		WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
 	</update>
 	
 	<delete id="formMinus" parameterType="_int">
@@ -30,11 +31,13 @@
 	</select>
 	
 	<insert id="categoryPlus"  parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingCategoryKeyNum">
-		INSERT INTO checkListSettingCategory(checkListSettingFormKeyNum) VALUES (#{checkListSettingFormKeyNum});
+		INSERT INTO checkListSettingCategory(checkListSettingFormKeyNum, checkListSettingCategoryRegistrant, checkListSettingCategoryRegistrationDate) 
+		VALUES (#{checkListSettingFormKeyNum}, #{checkListSettingCategoryRegistrant}, #{checkListSettingCategoryRegistrationDate});
 	</insert>
 	
 	<insert id="subCategoryPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingSubCategoryKeyNum">
-		INSERT INTO checkListSettingSubCategory(checkListSettingCategoryKeyNum, checkListSettingFormKeyNum) VALUES (#{checkListSettingCategoryKeyNum}, #{checkListSettingFormKeyNum});
+		INSERT INTO checkListSettingSubCategory(checkListSettingCategoryKeyNum, checkListSettingFormKeyNum, checkListSettingSubCategoryRegistrant, checkListSettingSubCategoryRegistrationDate) 
+		VALUES (#{checkListSettingCategoryKeyNum}, #{checkListSettingFormKeyNum}, #{checkListSettingSubCategoryRegistrant}, #{checkListSettingSubCategoryRegistrationDate});
 	</insert>
 	
 	<delete id="formCategoryMinus" parameterType="_int">
@@ -46,11 +49,13 @@
 	</delete>
 	
 	<update id="categorySave">
-		UPDATE checkListSettingCategory SET checkListSettingCategoryName = #{checkListSettingCategoryName} WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
+		UPDATE checkListSettingCategory SET checkListSettingCategoryName = #{checkListSettingCategoryName}, checkListSettingCategoryModifier = #{checkListSettingCategoryModifier}, checkListSettingCategoryModifiedDate = #{checkListSettingCategoryModifiedDate}
+		WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
 	</update>
 	
 	<update id="subCategorySave">
-		UPDATE checkListSettingSubCategory SET checkListSettingSubCategoryName = #{checkListSettingSubCategoryName} WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
+		UPDATE checkListSettingSubCategory SET checkListSettingSubCategoryName = #{checkListSettingSubCategoryName}, checkListSettingSubCategoryModifier = #{checkListSettingSubCategoryModifier}, checkListSettingSubCategoryModifiedDate = #{checkListSettingSubCategoryModifiedDate}
+		WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
 	</update>
 	
 	<delete id="categoryMinus" parameterType="_int">
@@ -65,6 +70,31 @@
 		DELETE FROM checkListSettingSubCategory WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
 	</delete>
 	
+	<select id="checkListSettingDetail" parameterType="_int" resultMap="checkListSetting">
+		SELECT * FROM checkListSettingDetail WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
+	</select>
+	
+	<insert id="checkListSettingDetailInsert">
+		INSERT INTO checkListSettingDetail(checkListSettingFormKeyNum,checkListSettingCategoryKeyNum,checkListSettingSubCategoryKeyNum,checkListSettingDetailMethod,checkListSettingDetailRegistrant,checkListSettingDetailRegistrationDate)
+		VALUES(#{checkListSettingFormKeyNum},#{checkListSettingCategoryKeyNum},#{checkListSettingSubCategoryKeyNum},#{checkListSettingDetailMethod},#{checkListSettingDetailRegistrant},#{checkListSettingDetailRegistrationDate});
+	</insert>
+	
+	<update id="checkListSettingDetailUpdate">
+		UPDATE checkListSettingDetail SET checkListSettingDetailMethod = #{checkListSettingDetailMethod}, checkListSettingDetailModifier = #{checkListSettingDetailModifier}, checkListSettingDetailModifiedDate = #{checkListSettingDetailModifiedDate}
+		WHERE checkListSettingDetailKeyNum = #{checkListSettingDetailKeyNum};
+	</update>
+	
+	<delete id="formDetailMinus" parameterType="_int">
+		DELETE FROM checkListSettingDetail WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+	</delete>
+	
+	<delete id="categoryDetailMinus" parameterType="_int">
+		DELETE FROM checkListSettingDetail WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
+	</delete>
+	
+	<delete id="subCategoryDetailMinus" parameterType="_int">
+		DELETE FROM checkListSettingDetail WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
+	</delete>
 	
 	
 </mapper>

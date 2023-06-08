@@ -3,9 +3,6 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-		<!-- SummerNote -->
-		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
@@ -60,7 +57,7 @@
 			                    <div class='page-wrapper'>
 			                    	<div class='ibox'>
 		                    			<div class='formDiv'>
-		                    				<c:if test="${checkListSettingForm eq '[]'}">
+		                    				<c:if test="${checkListSettingFormTOSMS eq '[]'}">
 			                    				<div class='chckListForm'>
 			                    					<div id='chckListPlusOne'>
 					                    				<div style='padding-left: 100%; padding-top: 130%;'>
@@ -69,8 +66,8 @@
 				                    				</div>
 				                    			</div>
 				                    		</c:if>
-				                    		<c:if test="${checkListSettingForm ne '[]'}">
-				                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingForm}">
+				                    		<c:if test="${checkListSettingFormTOSMS ne '[]'}">
+				                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingFormTOSMS}">
 				                    				<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'TOSMS'}">
 					                    				<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
 						                    				<div class='chckListCommand'>
@@ -91,8 +88,8 @@
 					                    		</c:forEach>
 				                    		</c:if>
 		                    			</div>
-			                    		<c:if test="${checkListSettingForm ne '[]'}">
-			                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingForm}">
+			                    		<c:if test="${checkListSettingFormTOSMS ne '[]'}">
+			                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingFormTOSMS}">
 				                    			<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
 				                    				<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
 				                    					<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
@@ -110,7 +107,7 @@
 									                    					<button class='subCategorySave' onClick='subCategorySave(this,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
 									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${checkListSettingFormList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
 									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
-									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingCategoryList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum},${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
 									                    				</div>
 									                    			</c:if>
 								                    			</c:forEach>
@@ -125,23 +122,69 @@
 		                    </div>
 		                    <!-- ================================================================================================================= -->
 		                    <div class='main-body' id='main-Agent' style="display: none;">
-			                    <div class="page-wrapper">
-			                    	<div class="ibox">
-		                    			<div style="width: 100%; height: 130px; background: rgba(0, 0, 0, 0.05)">
-		                    				<div class="chckListCommand">
-		                    					<button class="btn btn-primary" style="width: 70%; height: 50px;">미지정</button>
-		                    					<div style="height: 30px; padding-top: 5px;"><button><span class='chekListFont'>제거</span></button></div>
-		                    					<div style="width: 80%; display: inline-block;">
-			                						<div class="input-group">
-														<input type="text" class="form-control" id="inputChange" placeholder="이름">
-														<button class="btn btn-primary" style="background: dimgray; border-color: black;" id="formChange" onClick="formChange(this)">변경</button>
-													</div>
-												</div>
-		                    				</div>
-		                    				<div class="chckListPlus">
-		                    					<button onClick="formPlus(this)"><span class='chekListFont'>추가</span></button>
-		                    				</div>
+			                    <div class='page-wrapper'>
+			                    	<div class='ibox'>
+		                    			<div class='formDiv'>
+		                    				<c:if test="${checkListSettingFormAgent eq '[]'}">
+			                    				<div class='chckListForm'>
+			                    					<div id='chckListPlusOne'>
+					                    				<div style='padding-left: 100%; padding-top: 130%;'>
+					                    					<button class='formPlus' onClick='formPlus(this)'><span class='chekListFont'>추가</span></button>
+					                    				</div>
+				                    				</div>
+				                    			</div>
+				                    		</c:if>
+				                    		<c:if test="${checkListSettingFormAgent ne '[]'}">
+				                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingFormAgent}">
+				                    				<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'Agent'}">
+					                    				<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+						                    				<div class='chckListCommand'>
+						                    					<button class='btn btn-primary' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style='width: 70%; height: 50px;'>${checkListSettingFormList.checkListSettingFormName}</button>
+						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${checkListSettingFormList.checkListSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
+						                    					<div style='width: 80%; display: inline-block;'>
+							                						<div class='input-group'>
+																		<input type='text' class='form-control' id='inputChange' placeholder='이름'>
+																		<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,${checkListSettingFormList.checkListSettingFormKeyNum})'>변경</button>
+																	</div>
+																</div>
+						                    				</div>
+						                    				<div class='chckListPlus'>
+						                    					<button class='formPlus' onClick='formPlus(this)'><span class='chekListFont'>추가</span></button>
+						                    				</div>
+						                    			</div>
+						                    		</c:if>
+					                    		</c:forEach>
+				                    		</c:if>
 		                    			</div>
+			                    		<c:if test="${checkListSettingFormAgent ne '[]'}">
+			                    			<c:forEach var="checkListSettingFormList" items="${checkListSettingFormAgent}">
+				                    			<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+				                    				<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
+				                    					<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
+						                    				<div class='categorySmallDiv'>
+						                    					<div style='height: 30px;'>
+								                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;' value="${checkListSettingCategoryList.checkListSettingCategoryName}">
+								                    				<button class='categorySave' onClick='categorySave(this,${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
+								                    				<button class='categoryPlus' onClick='categoryPlus(this,${checkListSettingFormList.checkListSettingFormKeyNum})'><span class='chekListFont'>추가</span></button>
+								                    				<button class='categoryMinus' onClick='categoryMinus(this,${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+								                    			</div>
+								                    			<c:forEach var='checkListSettingSubCategoryList' items='${checkListSettingSubCategory}'>
+								                    				<c:if test='${checkListSettingCategoryList.checkListSettingCategoryKeyNum eq checkListSettingSubCategoryList.checkListSettingCategoryKeyNum}'>
+									                    				<div class='subCategoryDiv'>
+									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${checkListSettingSubCategoryList.checkListSettingSubCategoryName}">
+									                    					<button class='subCategorySave' onClick='subCategorySave(this,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
+									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${checkListSettingFormList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
+									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingCategoryList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum},${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+									                    				</div>
+									                    			</c:if>
+								                    			</c:forEach>
+							                    			</div>
+							                    		</c:if>
+						                    		</c:forEach>
+				                    			</div>
+				                    		</c:forEach>
+			                    		</c:if>
 		                    		</div>
 	                        	</div>
 		                    </div>
@@ -281,7 +324,7 @@
 			rowItem2 += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
 			rowItem2 += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
 			rowItem2 += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
-			rowItem2 += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
+			rowItem2 += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number+","+number2+","+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem2 += "</div>";
 			rowItem2 += "</div>";
 			rowItem2 += "</div>";
@@ -398,7 +441,7 @@
 			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
 			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
 			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
-			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
+			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number+","+number2+","+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem += "</div>";
 			rowItem += "</div>";
 			console.log(table);
@@ -441,20 +484,6 @@
 									text: '카테고리 삭제 실패 했습니다.',
 								});
 							}
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					});
-					
-					$.ajax({
-						url: "<c:url value='/checkListSetting/categorySubCategoryMinus'/>",
-						type: "POST",
-						data: {
-							"checkListSettingCategoryKeyNum":number,
-						},
-						async: false,
-						success: function(data) {
 						},
 						error: function(error) {
 							console.log(error);
@@ -514,7 +543,7 @@
 			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
 			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
 			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
-			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
+			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number+","+number2+","+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem += "</div>";
 			table.after(rowItem);
 		}
@@ -571,6 +600,12 @@
 			$('.categorySmallDiv').show();
 			$('.categoryDiv').hide();
 			$('#categoryDiv_'+number).show();
+		}
+		
+		function subCategoryDetail(number, number2, number3) {
+			var url = "<c:url value='/checkListSetting/detailView?checkListSettingFormKeyNum="+number+"&checkListSettingCategoryKeyNum="+number2+"&checkListSettingSubCategoryKeyNum="+number3+"'/>";
+			var windowFeatures = 'width=1000,height=800';
+			window.open(url, '_blank', windowFeatures);
 		}
 		
 	</script>

@@ -12,8 +12,8 @@ import com.secuve.agentInfo.vo.CheckListSetting;
 public class CheckListSettingDao {
 	@Autowired SqlSessionTemplate sqlSession;
 
-	public List<CheckListSetting> checkListSettingForm(String checkListSettingType) {
-		return sqlSession.selectList("checkListSetting.checkListSettingForm", checkListSettingType);
+	public List<CheckListSetting> checkListSettingForm(CheckListSetting checkListSetting) {
+		return sqlSession.selectList("checkListSetting.checkListSettingForm", checkListSetting);
 	}
 
 	public int formPlus(CheckListSetting checkListSetting) {
@@ -70,5 +70,29 @@ public class CheckListSettingDao {
 
 	public int subCategoryMinus(CheckListSetting checkListSetting) {
 		return sqlSession.delete("checkListSetting.subCategoryMinus", checkListSetting);
+	}
+
+	public CheckListSetting checkListSettingDetail(Integer checkListSettingSubCategoryKeyNum) {
+		return sqlSession.selectOne("checkListSetting.checkListSettingDetail",checkListSettingSubCategoryKeyNum);
+	}
+
+	public int checkListSettingDetailInsert(CheckListSetting checkListSetting) {
+		return sqlSession.insert("checkListSetting.checkListSettingDetailInsert",checkListSetting);
+	}
+
+	public int checkListSettingDetailUpdate(CheckListSetting checkListSetting) {
+		return sqlSession.update("checkListSetting.checkListSettingDetailUpdate",checkListSetting);
+	}
+
+	public void formDetailMinus(Integer checkListSettingFormKeyNum) {
+		sqlSession.delete("checkListSetting.formDetailMinus", checkListSettingFormKeyNum);
+	}
+
+	public void categoryDetailMinus(CheckListSetting checkListSetting) {
+		sqlSession.delete("checkListSetting.categoryDetailMinus", checkListSetting);
+	}
+
+	public void subCategoryDetailMinus(CheckListSetting checkListSetting) {
+		sqlSession.delete("checkListSetting.subCategoryDetailMinus", checkListSetting);
 	}
 }
