@@ -160,19 +160,31 @@
 			$('.customerLicense').addClass('active');
 			$('.customerLicense').addClass('pcoded-trigger');
 			$('.unissuedLicense').addClass('active');
+		} else if($.cookie('name') == 'totalTestSetting') {
+			$('.totalTestSetting').addClass('active');
+			$('.checkListSetting').addClass('active');
+			$('.checkListSetting').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'basicTestSetting') {
+			$('.basicTestSetting').addClass('active');
+			$('.checkListSetting').addClass('active');
+			$('.checkListSetting').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'foundationTestSetting') {
+			$('.foundationTestSetting').addClass('active');
+			$('.checkListSetting').addClass('active');
+			$('.checkListSetting').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'totalTest') {
 			$('.totalTest').addClass('active');
-			$('.checkListSetting').addClass('active');
-			$('.checkListSetting').addClass('pcoded-trigger');
+			$('.checkList').addClass('active');
+			$('.checkList').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'basicTest') {
 			$('.basicTest').addClass('active');
-			$('.checkListSetting').addClass('active');
-			$('.checkListSetting').addClass('pcoded-trigger');
+			$('.checkList').addClass('active');
+			$('.checkList').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'foundationTest') {
 			$('.foundationTest').addClass('active');
-			$('.checkListSetting').addClass('active');
-			$('.checkListSetting').addClass('pcoded-trigger');
-		}
+			$('.checkList').addClass('active');
+			$('.checkList').addClass('pcoded-trigger');
+		} 
 		
 	});
 </script>
@@ -341,16 +353,50 @@
 			    </ul>
 		    </sec:authorize>
 		    <sec:authorize access="hasAnyRole('ADMIN','QA')">
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="checkList pcoded-hasmenu">
+						<a href="#!" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-check-box"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				        <ul class="pcoded-submenu" style="display: block;">
+				         	<li class="totalTest">
+								<a href="<c:url value='/checkList/list'/>?checkListType=totalTest" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">전수 테스트</span>
+									<span class="pcoded-mcaret"></span>
+								</a>
+					     	</li>
+						    <li class="basicTest">
+						           <a href="<c:url value='/checkList/list'/>?checkListType=basicTest" class="waves-effect waves-dark">
+						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						             <span class="pcoded-mtext">기본 테스트</span>
+						             <span class="pcoded-mcaret"></span>
+						           </a>
+						    </li>
+						    <li class="foundationTest">
+						           <a href="<c:url value='/checkList/list'/>?checkListType=foundationTest" class="waves-effect waves-dark">
+						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						             <span class="pcoded-mtext">기초 테스트</span>
+						             <span class="pcoded-mcaret"></span>
+						           </a>
+						    </li>
+					  	</ul>
+				    </li>
+				</ul>
+			</sec:authorize>
+		    <sec:authorize access="hasAnyRole('ADMIN','QA')">
 			   	<ul class="pcoded-item pcoded-left-item">
-				        <li class="issueList">
-				            <a href="<c:url value='/issue/issueList'/>" class="waves-effect waves-dark">
-				                <span class="pcoded-micon"><i class="ti-receipt"></i><b>FC</b></span>
-				                <span class="pcoded-mtext" data-i18n="nav.form-components.main">이슈 목록</span>
-				                <span class="pcoded-mcaret"></span>
-				            </a>
-				        </li>
-				    </ul>
-			    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Issue</div>
+				    <li class="issueList">
+				        <a href="<c:url value='/issue/issueList'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-receipt"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">이슈 목록</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				    </li>
+				</ul>
+			    <%-- <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Issue</div>
 			    <ul class="pcoded-item pcoded-left-item">
 				    <li class="issueWrite">
 				        <a href="<c:url value='/issue/issueWrite'/>" class="waves-effect waves-dark">
@@ -359,7 +405,7 @@
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				    </li>
-			    </ul>
+			    </ul> --%>
 		    </sec:authorize>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
@@ -656,22 +702,22 @@
 					            <span class="pcoded-mcaret"></span>
 					        </a>
 					        <ul class="pcoded-submenu" style="display: block;">
-					         	<li class="totalTest">
-									<a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=totalTest" class="waves-effect waves-dark">
+					         	<li class="totalTestSetting">
+									<a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=totalTestSetting" class="waves-effect waves-dark">
 										<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 										<span class="pcoded-mtext">전수 테스트 설정</span>
 										<span class="pcoded-mcaret"></span>
 									</a>
 						     	</li>
-							    <li class="basicTest">
-							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=basicTest" class="waves-effect waves-dark">
+							    <li class="basicTestSetting">
+							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=basicTestSetting" class="waves-effect waves-dark">
 							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 							             <span class="pcoded-mtext">기본 테스트 설정</span>
 							             <span class="pcoded-mcaret"></span>
 							           </a>
 							    </li>
-							    <li class="foundationTest">
-							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=foundationTest" class="waves-effect waves-dark">
+							    <li class="foundationTestSetting">
+							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=foundationTestSetting" class="waves-effect waves-dark">
 							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 							             <span class="pcoded-mtext">기초 테스트 설정</span>
 							             <span class="pcoded-mcaret"></span>

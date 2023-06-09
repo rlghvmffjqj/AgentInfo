@@ -6,12 +6,12 @@
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	if("${checkListSettingType}" == "totalTest") {
-			    	$.cookie('name','totalTest');
-		    	} else if("${checkListSettingType}" == "basicTest") {
-		    		$.cookie('name','basicTest');
-		    	} else if("${checkListSettingType}" == "foundationTest") {
-		    		$.cookie('name','foundationTest');
+		    	if("${checkListSettingType}" == "totalTestSetting") {
+			    	$.cookie('name','totalTestSetting');
+		    	} else if("${checkListSettingType}" == "basicTestSetting") {
+		    		$.cookie('name','basicTestSetting');
+		    	} else if("${checkListSettingType}" == "foundationTestSetting") {
+		    		$.cookie('name','foundationTestSetting');
 		    	}
 		    });
 		</script>
