@@ -13,18 +13,19 @@ import lombok.ToString;
 @ToString
 @Component
 public class CheckList {
-	private Integer checkListKeyNum;
+	private int checkListKeyNum;
 	private Integer checkListSettingSubCategoryKeyNum;
 	private String checkListCustomer;
 	private String checkListTitle;
 	private String checkListDate;
 	private String checkListSubCategoryState;
 	private String checkListSubCategoryFailReason;
-	private String checkListSubCategoryRegistrant;
-	private String checkListSubCategoryRegistrationDate;
-	private String checkListSubCategoryModifier;
-	private String checkListSubCategoryModifiedDate;
+	private String checkListRegistrant;
+	private String checkListRegistrationDate;
+	private String checkListModifier;
+	private String checkListModifiedDate;
 	
+	private List<Integer> checkListSettingSubCategoryKeyNumList;
 	private List<String> checkListSubCategoryStateList;
 	private List<String> checkListSubCategoryFailReasonList;
 	

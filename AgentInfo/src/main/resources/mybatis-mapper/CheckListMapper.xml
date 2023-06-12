@@ -23,6 +23,15 @@
 			<include refid="sqlCheckList" />
 	</select>
 	
+	<select id="getCheckListKeyNum" resultType="_int">
+		SELECT MAX(checkListKeyNum) FROM checkList;
+	</select>
+	
+	<insert id="insertCheckList">
+		INSERT INTO checkList(checkListKeyNum,checkListCustomer,checkListTitle,checkListDate,checkListSettingSubCategoryKeyNum,checkListSubCategoryState,checkListSubCategoryFailReason,checkListRegistrant,checkListRegistrationDate)
+		VALUES(#{checkListKeyNum},#{checkListCustomer},#{checkListTitle},#{checkListDate},#{checkListSettingSubCategoryKeyNum},#{checkListSubCategoryState},#{checkListSubCategoryFailReason},#{checkListRegistrant},#{checkListRegistrationDate});
+	</insert>
+	
 	
 	<!-- ==================================================================================== -->
 	

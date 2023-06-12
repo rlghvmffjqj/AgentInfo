@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,25 @@ public class CheckListController {
 		model.addAttribute("checkListSettingFormAgent",checkListSettingFormAgent);
 		model.addAttribute("checkListSettingCategory",checkListSettingCategory);
 		model.addAttribute("checkListSettingSubCategory",checkListSettingSubCategory);
+		model.addAttribute("viewType","insert");
 		return "/checkList/CheckListView";
 	}
+	
+	@GetMapping(value = "/checkList/detailView")
+	public String detailView(CheckListSetting checkListSetting, Model model) {
+		CheckListSetting checkListSettingDetail = checkListSettingService.checkListSettingDetail(checkListSetting.getCheckListSettingSubCategoryKeyNum());
+		model.addAttribute("checkListSettingDetail", checkListSettingDetail);
+		return "/checkList/CheckListDetail";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/checkList/checkListSave")
+	public Map CheckListSave(CheckList checkList, Principal principal) {
+		checkList.setCheckListRegistrant(principal.getName());
+		checkList.setCheckListRegistrationDate(checkListService.nowDate());
+		
+		Map result = checkListService.insertCheckList(checkList, principal);
+		return result;
+	}
+	
 }

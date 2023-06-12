@@ -364,7 +364,7 @@
 
 	<script>
 		/* =========== 전달일자 오늘 날짜 입력 ========= */
-		document.getElementById('issueDate').value = new Date().toISOString().substring(0, 10);;
+		document.getElementById('issueDate').value = new Date().toISOString().substring(0, 10);
 		
 		/* =========== 최초 1회 실행 ========= */
 		$(function() {

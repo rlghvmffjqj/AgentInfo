@@ -19,4 +19,28 @@ public class CheckListDao {
 	public int getCheckListCount(CheckList search) {
 		return sqlSession.selectOne("checkList.getCheckListCount", search);
 	}
+
+	public int getCheckListKeyNum() {
+		return sqlSession.selectOne("checkList.getCheckListKeyNum");
+	}
+
+	public int insertCheckList(Integer checkListKeyNum, String checkListCustomer, String checkListTitle,
+			String checkListDate, Integer checkListSettingSubCategoryKeyNum, String checkListSubCategoryState, String checkListSubCategoryFailReason, String checkListRegistrant,
+			String checkListRegistrationDate, String checkListModifier, String checkListModifiedDate) {
+
+		CheckList checkList = new CheckList();
+		checkList.setCheckListKeyNum(checkListKeyNum);
+		checkList.setCheckListCustomer(checkListCustomer);
+		checkList.setCheckListTitle(checkListTitle);
+		checkList.setCheckListDate(checkListDate);
+		checkList.setCheckListSettingSubCategoryKeyNum(checkListSettingSubCategoryKeyNum);
+		checkList.setCheckListSubCategoryState(checkListSubCategoryState);
+		checkList.setCheckListSubCategoryFailReason(checkListSubCategoryFailReason);
+		checkList.setCheckListRegistrant(checkListRegistrant);
+		checkList.setCheckListRegistrationDate(checkListRegistrationDate);
+		checkList.setCheckListModifier(checkListModifier);
+		checkList.setCheckListModifiedDate(checkListModifiedDate);
+		
+		return sqlSession.insert("checkList.insertCheckList", checkList);
+	}
 }

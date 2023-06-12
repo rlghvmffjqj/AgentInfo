@@ -52,91 +52,142 @@
 			                	<button class='btn btn-secondary' id='Agent'>Agent</button>
 			                	<input type='hidden' id='checkListSettingDivision' name='checkListSettingDivision' value='TOSMS'>
 			                </div>
-			                <div class='main-body' id='main-TOSMS'>
-			                    <div class='page-wrapper'>
-			                    	<div class='ibox'>
-		                    			<div class='formDiv'>
+			                <form id="form" name="form" method ="post">
+				                <div class='main-body'>
+				                    <div class='page-wrapper'>
+				                    	<div class='ibox'>
+				                    		<div class="searchbos">
+				                    			<div class="col-lg-2">
+		                      						<label class="labelFontSize">고객사명</label><span class="colorRed" id="NotCheckListCustomer" style="display: none; line-height: initial;">고객사 필수 입력 바랍니다.</span>
+		                      						<input type="text" id="checkListCustomer" name="checkListCustomer" class="form-control">
+		                      					</div>
+		                      					<div class="col-lg-2">
+		                      						<label class="labelFontSize">Title</label>
+		                      						<input type="text" id="checkListTitle" name="checkListTitle" class="form-control">
+		                      					</div>
+		                      					<div class="col-lg-2">
+		                      						<label class="labelFontSize">날짜</label>
+		                      						<input type="date" id="checkListDate" name="checkListDate" class="form-control">
+		                      					</div>
+				                    		</div>
+				                    	</div>
+				                    </div>
+				                </div>
+				                <div class='main-body' id='main-TOSMS'>
+				                    <div class='page-wrapper'>
+				                    	<div class='ibox'>
+			                    			<div class='formDiv'>
+					                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormTOSMS}">
+					                    			<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'TOSMS'}">
+						                    			<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+							                    			<div class='chckListCommand'>
+							                    				<button type="button" class='btn btn-primary formBtn' onClick="checkListForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${checkListSettingFormList.checkListSettingFormName}</button>
+							                    			</div>
+							                    		</div>
+							                    	</c:if>
+						                    	</c:forEach>
+			                    			</div>
 				                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormTOSMS}">
-				                    			<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'TOSMS'}">
-					                    			<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-						                    			<div class='chckListCommand'>
-						                    				<button class='btn btn-primary formBtn' onClick="checkListForm(${checkListSettingFormList.checkListSettingFormKeyNum})">${checkListSettingFormList.checkListSettingFormName}</button>
-						                    			</div>
-						                    		</div>
-						                    	</c:if>
-					                    	</c:forEach>
-		                    			</div>
-			                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormTOSMS}">
-				                    		<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-				                    			<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
-				                    				<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
-						                				<div class='categorySmallDiv'>
-						                					<div style='height: 45px;'>
-								                				<span class="categorySpan">${checkListSettingCategoryList.checkListSettingCategoryName}</span>
+					                    		<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+					                    			<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
+					                    				<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
+							                				<div class='categorySmallDiv'>
+							                					<div style='height: 45px;'>
+									                				<span class="categorySpan">${checkListSettingCategoryList.checkListSettingCategoryName}</span>
+									                			</div>
+									                			<c:forEach var='checkListSettingSubCategoryList' items='${checkListSettingSubCategory}'>
+									                				<c:if test='${checkListSettingCategoryList.checkListSettingCategoryKeyNum eq checkListSettingSubCategoryList.checkListSettingCategoryKeyNum}'>
+										                				<div class='subCategoryDiv'>
+										                					<div class="checkbox-group">
+																				<label>
+																					<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox"  value='empty'>
+																					<span class="checkmark"></span>
+																				</label>
+																			</div>
+																			<input type="hidden" value="${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum}" name="checkListSettingSubCategoryKeyNumList">
+										                					<span class="subCategorySpan">${checkListSettingSubCategoryList.checkListSettingSubCategoryName}</span>
+										                					<input class='form-control' name="checkListSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+										                					<button type="button" class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+										                				</div>
+										                			</c:if>
+									                			</c:forEach>
 								                			</div>
-								                			<c:forEach var='checkListSettingSubCategoryList' items='${checkListSettingSubCategory}'>
-								                				<c:if test='${checkListSettingCategoryList.checkListSettingCategoryKeyNum eq checkListSettingSubCategoryList.checkListSettingCategoryKeyNum}'>
-									                				<div class='subCategoryDiv'>
-									                					<div class="checkbox-group">
-																			<label>
-																				<input type="checkbox" name="checkbox1" class="custom-checkbox">
-																				<span class="checkmark"></span>
-																			</label>
-																		</div>
-
-									                					<span class="subCategorySpan">${checkListSettingSubCategoryList.checkListSettingSubCategoryName}</span>
-									                					<input class='form-control' placeholder='Note' style='width: 53%; float: left;'>
-									                					<button class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingCategoryList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum},${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
-									                				</div>
-									                			</c:if>
-								                			</c:forEach>
-							                			</div>
-							                		</c:if>
-						                		</c:forEach>
-				                    		</div>
-				                    	</c:forEach>
-		                    		</div>
-	                        	</div>
-		                    </div>
-		                    <!-- ================================================================================================================= -->
-		                    <div class='main-body' id='main-Agent' style="display: none;">
-			                    <div class='page-wrapper'>
-			                    	<div class='ibox'>
-		                    			<div class='formDiv'>
+								                		</c:if>
+							                		</c:forEach>
+							                		<div style="padding-top: 3%;">
+							                			<c:choose>
+															<c:when test="${viewType eq 'insert'}">
+							                					<button type="button" class="btn btn-default btn-outline-info-add" id="btnSave">SAVE</button>
+							                				</c:when>
+							                				<c:when test="${viewType eq 'update'}">
+			                                					<button type="button" class="btn btn-default btn-outline-info-add" id="btnUpdate">SAVE</button>
+			                                				</c:when>
+							                			</c:choose>
+							                		</div>
+					                    		</div>
+					                    	</c:forEach>
+			                    		</div>
+		                        	</div>
+			                    </div>
+		                    	<!-- ================================================================================================================= -->
+			                    <div class='main-body' id='main-Agent' style="display: none;">
+				                    <div class='page-wrapper'>
+				                    	<div class='ibox'>
+			                    			<div class='formDiv'>
+					                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormAgent}">
+					                    			<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'Agent'}">
+						                    			<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+							                    			<div class='chckListCommand'>
+							                    				<button type="button" class='btn btn-primary formBtn' onClick="checkListForm(${checkListSettingFormList.checkListSettingFormKeyNum})">${checkListSettingFormList.checkListSettingFormName}</button>
+							                    			</div>
+							                    		</div>
+							                    	</c:if>
+						                    	</c:forEach>
+			                    			</div>
 				                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormAgent}">
-				                    			<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'Agent'}">
-					                    			<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-						                    			<div class='chckListCommand'>
-						                    				<button class='btn btn-primary formBtn' onClick="checkListForm(${checkListSettingFormList.checkListSettingFormKeyNum})">${checkListSettingFormList.checkListSettingFormName}</button>
-						                    			</div>
-						                    		</div>
-						                    	</c:if>
-					                    	</c:forEach>
-		                    			</div>
-			                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormAgent}">
-				                    		<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-				                    			<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
-				                    				<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
-						                				<div class='categorySmallDiv'>
-						                					<div style='height: 45px;'>
-								                				<span class='categorySpan'>${checkListSettingCategoryList.checkListSettingCategoryName}</span>
+					                    		<div class='categoryDiv' id='categoryDiv_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+					                    			<c:forEach var='checkListSettingCategoryList' items="${checkListSettingCategory}">
+					                    				<c:if test="${checkListSettingFormList.checkListSettingFormKeyNum eq checkListSettingCategoryList.checkListSettingFormKeyNum}"> 
+							                				<div class='categorySmallDiv'>
+							                					<div style='height: 45px;'>
+									                				<span class='categorySpan'>${checkListSettingCategoryList.checkListSettingCategoryName}</span>
+									                			</div>
+									                			<c:forEach var='checkListSettingSubCategoryList' items='${checkListSettingSubCategory}'>
+									                				<c:if test='${checkListSettingCategoryList.checkListSettingCategoryKeyNum eq checkListSettingSubCategoryList.checkListSettingCategoryKeyNum}'>
+										                				<div class='subCategoryDiv'>
+										                					<div class="checkbox-group">
+																				<label>
+																					<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox" value='empty'>
+																					<span class="checkmark"></span>
+																				</label>
+																			</div>
+																			<input type="hidden" value="${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum}" name="checkListSettingSubCategoryKeyNumList">
+										                					<span class="subCategorySpan">${checkListSettingSubCategoryList.checkListSettingSubCategoryName}</span>
+										                					<input class='form-control' name="checkListSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+										                					<button type="button" class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+										                				</div>
+										                			</c:if>
+									                			</c:forEach>
 								                			</div>
-								                			<c:forEach var='checkListSettingSubCategoryList' items='${checkListSettingSubCategory}'>
-								                				<c:if test='${checkListSettingCategoryList.checkListSettingCategoryKeyNum eq checkListSettingSubCategoryList.checkListSettingCategoryKeyNum}'>
-									                				<div class='subCategoryDiv'>
-									                					<span class="subCategorySpan">${checkListSettingSubCategoryList.checkListSettingSubCategoryName}</span>
-									                					<button class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingCategoryList.checkListSettingFormKeyNum},${checkListSettingCategoryList.checkListSettingCategoryKeyNum},${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
-									                				</div>
-									                			</c:if>
-								                			</c:forEach>
-							                			</div>
-							                		</c:if>
-						                		</c:forEach>
-				                    		</div>
-				                    	</c:forEach>
-		                    		</div>
-	                        	</div>
-		                    </div>
+								                		</c:if>
+							                		</c:forEach>
+							                		<div style="padding-top: 3%;">
+							                			<c:choose>
+															<c:when test="${viewType eq 'insert'}">
+							                					<button type="button" class="btn btn-default btn-outline-info-add" id="btnSave">SAVE</button>
+							                				</c:when>
+							                				<c:when test="${viewType eq 'update'}">
+			                                					<button type="button" class="btn btn-default btn-outline-info-add" id="btnUpdate">SAVE</button>
+			                                				</c:when>
+							                			</c:choose>
+							                		</div>
+					                    		</div>
+					                    	</c:forEach>
+			                    		</div>
+		                        	</div>
+			                    </div>
+			                    <input class="form-control" type="hidden" id="checkListBtnType" name="checkListBtnType" value="${viewType}">
+							</form> 
 	                    </div>
 	                </div>
 	            </div>
@@ -145,6 +196,9 @@
 	</body>
 
 	<script>
+		/* =========== 전달일자 오늘 날짜 입력 ========= */
+		document.getElementById('checkListDate').value = new Date().toISOString().substring(0, 10);
+	
 		$('#TOSMS').click(function() {
 			$('#TOSMS').addClass('divisionActive');
 			$('#Agent').removeClass('divisionActive');
@@ -167,33 +221,117 @@
 			$('#categoryDiv_'+number).show();
 		}
 		
-		function subCategoryDetail(number, number2, number3) {
-			var url = "<c:url value='/checkList/detailView?checkListSettingFormKeyNum="+number+"&checkListSettingCategoryKeyNum="+number2+"&checkListSettingSubCategoryKeyNum="+number3+"'/>";
+		function subCategoryDetail(number) {
+			var url = "<c:url value='/checkList/detailView?checkListSettingSubCategoryKeyNum="+number+"'/>";
 			var windowFeatures = 'width=1000,height=800';
 			window.open(url, '_blank', windowFeatures);
 		}
+		
+		$('#btnSave').click(function() {
+			const values = $('.custom-checkbox').map(function() {
+				return this.checked ? this.value : 'empty';
+			}).get();
+			
+			var postData = $('#form').serializeArray();
+			
+			$.each(values, function(index, value) {
+				postData.push({ name: "checkListSubCategoryStateList", value: value });
+			});
+			
+			var checkListCustomer = $('#checkListCustomer').val();
+			if(checkListCustomer == "") {
+				$('#NotCheckListCustomer').show();
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '고객사 필수 입력 바랍니다.',
+				});
+			} else {
+				$('#NotCheckListCustomer').hide();
+				$.ajax({
+					url: "<c:url value='/checkList/checkListSave'/>",
+			        type: 'post',
+			        data: postData,
+			        async: false,
+			        success: function(result) {
+			        	$('#checkListKeyNum').val(result.checkListKeyNum);
+			        	var checkListKeyNum = $('#checkListKeyNum').val();
+			        	if(result.result == "OK") {
+			        		Swal.fire({
+								  title: '저장 완료!',
+								  text: "체크리스트 목록으로 이동하시겠습니까?",
+								  icon: 'success',
+								  showCancelButton: true,
+								  confirmButtonColor: '#7066e0',
+								  cancelButtonColor: '#FF99AB',
+								  confirmButtonText: '이동',
+								  cancelButtonText: '저장',
+							}).then((result) => {
+								if (result.isConfirmed) {
+									location.href="<c:url value='/checkList/checkListList'/>";
+								} else {
+									$('#save').hide();
+									$('#update').show();
+									$('#checkListBtnType').val("update");
+								}
+							})
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '작업을 실패하였습니다.',
+							});
+						}
+					},
+					error: function(error) {
+						console.log(error);
+					}
+			    });
+			}
+		});
+		
+		/* =========== Ctrl + S 사용시 저장 ========= */
+		document.onkeydown = function(e) {
+		    if (e.which == 17)  isCtrl = true;
+		    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
+		    	var btnType = $('#checkListBtnType').val();
+		    	if(btnType == "copy") {
+		    		$('#btnCopy').click();
+		    	} else {
+		    		$('#btnUpdate').click();
+		    	}
+		    	isCtrl = false;
+		    	return false;
+		    }
+		}
+		document.onkeyup = function(e) {
+			if (e.which == 17)  isCtrl = false;
+		}
 	</script>
 	<script>
-		const checkbox = document.querySelector('.custom-checkbox');
+		const checkboxes = document.querySelectorAll('.custom-checkbox');
 		let clickCount = 0;
-
-		checkbox.addEventListener('click', function() {
-		  clickCount++;
-		  
-		  if (clickCount === 1) {
-		    this.classList.remove('failure', 'empty');
-		    this.classList.add('success');
-		  } else if (clickCount === 2) {
-		    this.classList.remove('success', 'empty');
-		    this.classList.add('failure');
-		  } else if (clickCount === 3) {
-		    this.classList.remove('success', 'failure');
-		    this.classList.add('empty');
-		    clickCount = 0;
-		  }
+	
+		checkboxes.forEach(function(checkbox) {
+			checkbox.addEventListener('click', function() {
+		    	clickCount++;
+	
+				if (clickCount === 1) {
+					this.classList.remove('failure', 'empty');
+					this.classList.add('success');
+					$(this).val('success');
+				} else if (clickCount === 2) {
+					this.classList.remove('success', 'empty');
+					this.classList.add('failure');
+					$(this).val('failure');
+				} else if (clickCount === 3) {
+					this.classList.remove('success', 'failure');
+					this.classList.add('empty');
+					$(this).val('empty');
+					clickCount = 0;
+				}
+			});
 		});
-
-		
 	</script>
 	
 	<style>
@@ -281,63 +419,60 @@
 	
 	<style>
 		.checkbox-group {
-		  display: flex;
-		  flex-direction: column;
-		  
+			display: flex;
+			flex-direction: column;
+			padding-top: 9px;
 		}
 		
 		.checkbox-group label {
-		  display: flex;
-		  align-items: center;
-		  position: relative;
-		  margin-bottom: 5px;
+			display: flex;
+			align-items: center;
+			position: relative;
+			margin-bottom: 5px;
 		}
 		
 		.custom-checkbox {
-		  display: none;
+			display: none;
 		}
 		
 		.checkmark {
-		  position: relative;
-		  display: inline-block;
-		  width: 16px;
-		  height: 16px;
-		  background-color: #fff;
-		  border: 1px solid #000;
-		  cursor: pointer;
+			position: relative;
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			background-color: #fff;
+			border: 1px solid #000;
+			cursor: pointer;
+			text-align: center;
 		}
 		
 		.checkmark::after {
-		  content: "";
-		  position: absolute;
-		  display: none;
-		  top: 3px;
-		  left: 6px;
-		  width: 4px;
-		  height: 8px;
-		  border: solid #000;
-		  border-width: 0 2px 2px 0;
-		  transform: rotate(45deg);
+			content: "";
+			position: absolute;
+			display: none;
+			top: 3px;
+			left: 6px;
+			width: 4px;
+			height: 8px;
+			border: solid #000;
+			border-width: 0 2px 2px 0;
+			transform: rotate(45deg);
 		}
 		
 		.custom-checkbox.success + .checkmark::after {
-		  display: block;
+			display: block;
 		}
 		
 		.custom-checkbox.failure + .checkmark::after {
-		  display: block;
-		  content: "X";
-		  font-weight: bold;
-		  font-size: 12px;
-		  text-align: center;
-		  line-height: 10px;
-		  border-color: #ff0000;
+			display: contents;
+		    content: "X";
+		    font-weight: bold;
+		    font-size: 14px;
+		    color: red;
 		}
 		
 		.custom-checkbox.empty + .checkmark::after {
-		  display: none;
+			display: none;
 		}
-		
-		
 	</style>
 </html>
