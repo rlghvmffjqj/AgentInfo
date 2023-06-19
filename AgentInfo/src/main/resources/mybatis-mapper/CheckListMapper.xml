@@ -32,6 +32,16 @@
 		VALUES(#{checkListKeyNum},#{checkListCustomer},#{checkListTitle},#{checkListDate},#{checkListSettingSubCategoryKeyNum},#{checkListSubCategoryState},#{checkListSubCategoryFailReason},#{checkListRegistrant},#{checkListRegistrationDate});
 	</insert>
 	
+	<select id="getCheckListOneTitle" resultMap="checkList" parameterType="_int">
+		SELECT DISTINCT checkListKeyNum, checkListCustomer, checkListTitle, checkListDate 
+		FROM checkList 
+		WHERE checkListKeyNum = #{checkListKeyNum};
+	</select>
+	
+	<select id="getCheckListOne" resultMap="checkList" parameterType="_int">
+		SELECT * FROM checkList WHERE checkListKeyNum = #{checkListKeyNum};
+	</select>
+	
 	
 	<!-- ==================================================================================== -->
 	

@@ -78,4 +78,26 @@ public class CheckListController {
 		return result;
 	}
 	
+	@GetMapping(value = "/checkList/updateView")
+	public String UpdateView(Model model, Principal principal, int checkListKeyNum, String checkListType) {
+		CheckList checkListTitle = checkListService.getCheckListOneTitle(checkListKeyNum);
+		ArrayList<CheckList> checkList = new ArrayList<>(checkListService.getCheckListOne(checkListKeyNum));
+		
+		checkListType += "Setting";
+		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm(checkListType, "TOSMS");
+		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm(checkListType, "Agent");
+		List<CheckListSetting> checkListSettingCategory = checkListSettingService.checkListSettingCategory();
+		List<CheckListSetting> checkListSettingSubCategory = checkListSettingService.checkListSettingSubCategory();
+		
+		model.addAttribute("checkListType", checkListType);
+		model.addAttribute("checkListSettingFormTOSMS",checkListSettingFormTOSMS);
+		model.addAttribute("checkListSettingFormAgent",checkListSettingFormAgent);
+		model.addAttribute("checkListSettingCategory",checkListSettingCategory);
+		model.addAttribute("checkListSettingSubCategory",checkListSettingSubCategory);
+		model.addAttribute("viewType", "update");
+		model.addAttribute("checkListTitle", checkListTitle);
+		model.addAttribute("checkList",checkList);
+		return "checkList/CheckListView";
+	}
+	
 }

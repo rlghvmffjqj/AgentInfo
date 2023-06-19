@@ -43,4 +43,12 @@ public class CheckListDao {
 		
 		return sqlSession.insert("checkList.insertCheckList", checkList);
 	}
+
+	public CheckList getCheckListOneTitle(int checkListKeyNum) {
+		return sqlSession.selectOne("checkList.getCheckListOneTitle", checkListKeyNum);
+	}
+
+	public List<CheckList> getCheckListOne(int checkListKeyNum) {
+		return sqlSession.selectList("checkList.getCheckListOne", checkListKeyNum);
+	}
 }

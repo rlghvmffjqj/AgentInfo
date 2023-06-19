@@ -343,7 +343,7 @@
 		
 		/* =========== 체크 리스트 수정 Modal ========= */
 		function updateView(data) {
-			location.href="<c:url value='/checkList/updateView'/>?checkListKeyNum="+data;
+			location.href="<c:url value='/checkList/updateView'/>?checkListKeyNum="+data+"&checkListType=${checkListType}";
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */
