@@ -98,4 +98,14 @@ public class CheckListService {
 	public List<CheckList> getCheckListOne(int checkListKeyNum) {
 		return checkListDao.getCheckListOne(checkListKeyNum);
 	}
+
+	public String delCheckList(int[] chkList) {
+		for (int checkListKeyNum : chkList) {
+			int sucess = checkListDao.delCheckList(checkListKeyNum);
+
+			if (sucess <= 0)
+				return "FALSE";
+		}
+		return "OK";
+	}
 }

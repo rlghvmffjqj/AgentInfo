@@ -42,6 +42,9 @@
 		SELECT * FROM checkList WHERE checkListKeyNum = #{checkListKeyNum};
 	</select>
 	
+	<delete id="delCheckList" parameterType="_int">
+		DELETE FROM checkList WHERE checkListKeyNum = #{checkListKeyNum};
+	</delete>
 	
 	<!-- ==================================================================================== -->
 	

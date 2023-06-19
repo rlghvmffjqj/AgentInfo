@@ -51,4 +51,8 @@ public class CheckListDao {
 	public List<CheckList> getCheckListOne(int checkListKeyNum) {
 		return sqlSession.selectList("checkList.getCheckListOne", checkListKeyNum);
 	}
+
+	public int delCheckList(int checkListKeyNum) {
+		return sqlSession.delete("checkList.delCheckList", checkListKeyNum);
+	}
 }

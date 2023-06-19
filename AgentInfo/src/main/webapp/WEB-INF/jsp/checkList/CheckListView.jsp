@@ -101,19 +101,19 @@
 											                				<div class="checkbox-group">
 																				<label>
 																					<c:if test="${viewType eq 'insert'}">
-																						<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox"  value='empty'>
+																						<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox"  value='empty'>
 																					</c:if>
 																					<c:if test="${viewType eq 'update'}">
 																						<c:forEach var='checkListList' items='${checkList}'>
 																							<c:if test='${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum eq checkListList.checkListSettingSubCategoryKeyNum}'>
 																								<c:if test="${checkListList.checkListSubCategoryState eq 'success'}">
-																									<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox success"  value='success'>
+																									<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox success"  value='success'>
 																								</c:if>
 																								<c:if test="${checkListList.checkListSubCategoryState eq 'failure'}">
-																									<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox failure"  value='failure'>
+																									<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox failure"  value='failure'>
 																								</c:if>
 																								<c:if test="${checkListList.checkListSubCategoryState eq 'empty'}">
-																									<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox empty"  value='empty'>
+																									<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox empty"  value='empty'>
 																								</c:if>
 																							</c:if>
 																						</c:forEach>
@@ -183,13 +183,41 @@
 										                				<div class='subCategoryDiv'>
 										                					<div class="checkbox-group">
 																				<label>
-																					<input type="checkbox" name="checkListSubCategoryStateList" class="custom-checkbox" value='empty'>
+																					<c:if test="${viewType eq 'insert'}">
+																						<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox"  value='empty'>
+																					</c:if>
+																					<c:if test="${viewType eq 'update'}">
+																						<c:forEach var='checkListList' items='${checkList}'>
+																							<c:if test='${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum eq checkListList.checkListSettingSubCategoryKeyNum}'>
+																								<c:if test="${checkListList.checkListSubCategoryState eq 'success'}">
+																									<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox success"  value='success'>
+																								</c:if>
+																								<c:if test="${checkListList.checkListSubCategoryState eq 'failure'}">
+																									<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox failure"  value='failure'>
+																								</c:if>
+																								<c:if test="${checkListList.checkListSubCategoryState eq 'empty'}">
+																									<input type="checkbox" name="checkListSubCategoryState" class="custom-checkbox empty"  value='empty'>
+																								</c:if>
+																							</c:if>
+																						</c:forEach>
+																					</c:if>
 																					<span class="checkmark"></span>
 																				</label>
 																			</div>
 																			<input type="hidden" value="${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum}" name="checkListSettingSubCategoryKeyNumList">
 										                					<span class="subCategorySpan">${checkListSettingSubCategoryList.checkListSettingSubCategoryName}</span>
+										                					<c:if test="${viewType eq 'insert'}">
+																				<input class='form-control' name="checkListSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+																			</c:if>
+																			<c:if test="${viewType eq 'update'}">
+																				<c:forEach var='checkListList' items='${checkList}'>
+																					<c:if test='${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum eq checkListList.checkListSettingSubCategoryKeyNum}'>
+															                			<input class='form-control' name="checkListSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;' value="${checkListList.checkListSubCategoryFailReason}">
+															                		</c:if>
+															                	</c:forEach>
+															                </c:if>
 										                					<input class='form-control' name="checkListSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+										                					
 										                					<button type="button" class='subCategoryDetail' onClick='subCategoryDetail(${checkListSettingSubCategoryList.checkListSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
 										                				</div>
 										                			</c:if>
@@ -255,7 +283,12 @@
 		
 		$('#btnSave').click(function() {
 			const values = $('.custom-checkbox').map(function() {
-				return this.checked ? null : 'empty';
+				if(this.value=='empty')
+					return 'empty';
+				if(this.value=='success')
+					return 'success';
+				if(this.value=='failure')
+					return 'failure';
 			}).get();
 			
 			var postData = $('#form').serializeArray();
@@ -336,25 +369,21 @@
 	</script>
 	<script>
 		const checkboxes = document.querySelectorAll('.custom-checkbox');
-		let clickCount = 0;
 	
 		checkboxes.forEach(function(checkbox) {
 			checkbox.addEventListener('click', function() {
-		    	clickCount++;
-	
-				if (clickCount === 1) {
+				if (this.value == 'empty') {
 					this.classList.remove('failure', 'empty');
 					this.classList.add('success');
 					$(this).val('success');
-				} else if (clickCount === 2) {
+				} else if (this.value == 'success') {
 					this.classList.remove('success', 'empty');
 					this.classList.add('failure');
 					$(this).val('failure');
-				} else if (clickCount === 3) {
+				}else if (this.value == 'failure') {
 					this.classList.remove('success', 'failure');
 					this.classList.add('empty');
 					$(this).val('empty');
-					clickCount = 0;
 				}
 			});
 		});

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CheckListService;
@@ -98,6 +99,12 @@ public class CheckListController {
 		model.addAttribute("checkListTitle", checkListTitle);
 		model.addAttribute("checkList",checkList);
 		return "checkList/CheckListView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/checkList/delete")
+	public String CheckListDelete(@RequestParam int[] chkList) {
+		return checkListService.delCheckList(chkList);
 	}
 	
 }
