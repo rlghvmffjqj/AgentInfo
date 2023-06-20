@@ -55,4 +55,8 @@ public class CheckListDao {
 	public int delCheckList(int checkListKeyNum) {
 		return sqlSession.delete("checkList.delCheckList", checkListKeyNum);
 	}
+	
+	public List<Integer> checkListCheckListSettingSubCategoryKeyNum(int checkListKeyNum) {
+		return sqlSession.selectList("checkList.checkListCheckListSettingSubCategoryKeyNum",checkListKeyNum);
+	}
 }

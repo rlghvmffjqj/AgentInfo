@@ -52,6 +52,8 @@ public class CheckListController {
 		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm(checkListType, "Agent");
 		List<CheckListSetting> checkListSettingCategory = checkListSettingService.checkListSettingCategory();
 		List<CheckListSetting> checkListSettingSubCategory = checkListSettingService.checkListSettingSubCategory();
+		CheckList checkList = new CheckList();
+		checkList.setCheckListKeyNum(0);
 		
 		model.addAttribute("checkListType", checkListType);
 		model.addAttribute("checkListSettingFormTOSMS",checkListSettingFormTOSMS);
@@ -59,6 +61,7 @@ public class CheckListController {
 		model.addAttribute("checkListSettingCategory",checkListSettingCategory);
 		model.addAttribute("checkListSettingSubCategory",checkListSettingSubCategory);
 		model.addAttribute("viewType","insert");
+		model.addAttribute("checkListTitle",checkList);
 		return "/checkList/CheckListView";
 	}
 	
@@ -89,6 +92,7 @@ public class CheckListController {
 		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm(checkListType, "Agent");
 		List<CheckListSetting> checkListSettingCategory = checkListSettingService.checkListSettingCategory();
 		List<CheckListSetting> checkListSettingSubCategory = checkListSettingService.checkListSettingSubCategory();
+		List<Integer> checkListCheckListSettingSubCategoryKeyNum = checkListService.checkListCheckListSettingSubCategoryKeyNum(checkListKeyNum);
 		
 		model.addAttribute("checkListType", checkListType);
 		model.addAttribute("checkListSettingFormTOSMS",checkListSettingFormTOSMS);
@@ -98,6 +102,7 @@ public class CheckListController {
 		model.addAttribute("viewType", "update");
 		model.addAttribute("checkListTitle", checkListTitle);
 		model.addAttribute("checkList",checkList);
+		model.addAttribute("checkListCheckListSettingSubCategoryKeyNum", checkListCheckListSettingSubCategoryKeyNum);
 		return "checkList/CheckListView";
 	}
 	
@@ -105,6 +110,16 @@ public class CheckListController {
 	@PostMapping(value = "/checkList/delete")
 	public String CheckListDelete(@RequestParam int[] chkList) {
 		return checkListService.delCheckList(chkList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/checkList/update")
+	public Map CheckListUpdate(CheckList checkList, Principal principal) {
+		checkList.setCheckListModifier(principal.getName());
+		checkList.setCheckListModifiedDate(checkListService.nowDate());
+		
+		Map result = checkListService.updateCheckList(checkList, principal);
+		return result;
 	}
 	
 }

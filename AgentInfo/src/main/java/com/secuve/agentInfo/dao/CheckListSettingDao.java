@@ -95,4 +95,5 @@ public class CheckListSettingDao {
 	public void subCategoryDetailMinus(CheckListSetting checkListSetting) {
 		sqlSession.delete("checkListSetting.subCategoryDetailMinus", checkListSetting);
 	}
+
 }

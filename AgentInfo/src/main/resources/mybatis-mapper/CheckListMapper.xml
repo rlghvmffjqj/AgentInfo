@@ -28,8 +28,8 @@
 	</select>
 	
 	<insert id="insertCheckList">
-		INSERT INTO checkList(checkListKeyNum,checkListCustomer,checkListTitle,checkListDate,checkListSettingSubCategoryKeyNum,checkListSubCategoryState,checkListSubCategoryFailReason,checkListRegistrant,checkListRegistrationDate)
-		VALUES(#{checkListKeyNum},#{checkListCustomer},#{checkListTitle},#{checkListDate},#{checkListSettingSubCategoryKeyNum},#{checkListSubCategoryState},#{checkListSubCategoryFailReason},#{checkListRegistrant},#{checkListRegistrationDate});
+		INSERT INTO checkList(checkListKeyNum,checkListCustomer,checkListTitle,checkListDate,checkListSettingSubCategoryKeyNum,checkListSubCategoryState,checkListSubCategoryFailReason,checkListRegistrant,checkListRegistrationDate,checkListModifier,checkListModifiedDate)
+		VALUES(#{checkListKeyNum},#{checkListCustomer},#{checkListTitle},#{checkListDate},#{checkListSettingSubCategoryKeyNum},#{checkListSubCategoryState},#{checkListSubCategoryFailReason},#{checkListRegistrant},#{checkListRegistrationDate},#{checkListModifier},#{checkListModifiedDate});
 	</insert>
 	
 	<select id="getCheckListOneTitle" resultMap="checkList" parameterType="_int">
@@ -45,6 +45,10 @@
 	<delete id="delCheckList" parameterType="_int">
 		DELETE FROM checkList WHERE checkListKeyNum = #{checkListKeyNum};
 	</delete>
+	
+	<select id="checkListCheckListSettingSubCategoryKeyNum" parameterType="_int" resultType="java.lang.Integer">
+		SELECT checkListSettingSubCategoryKeyNum FROM checkList WHERE checkListKeyNum = #{checkListKeyNum};
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

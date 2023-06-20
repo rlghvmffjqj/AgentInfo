@@ -108,4 +108,18 @@ public class CheckListService {
 		}
 		return "OK";
 	}
+
+	public Map updateCheckList(CheckList checkList, Principal principal) {
+		Map map = new HashMap();
+		int count = checkListDao.delCheckList(checkList.getCheckListKeyNum());
+		if(count == 0 && checkList.getCheckListKeyNum() != 0) {
+			map.put("result", "FALSE");
+			return map;
+		}
+		return insertCheckList(checkList, principal);
+	}
+
+	public List<Integer> checkListCheckListSettingSubCategoryKeyNum(int checkListKeyNum) {
+		return checkListDao.checkListCheckListSettingSubCategoryKeyNum(checkListKeyNum);
+	}
 }
