@@ -6,13 +6,7 @@
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	if("${checkListSettingType}" == "totalTestSetting") {
-			    	$.cookie('name','totalTestSetting');
-		    	} else if("${checkListSettingType}" == "basicTestSetting") {
-		    		$.cookie('name','basicTestSetting');
-		    	} else if("${checkListSettingType}" == "foundationTestSetting") {
-		    		$.cookie('name','foundationTestSetting');
-		    	}
+		    	$.cookie('name','totalTestSetting');
 		    });
 		</script>
 	</head>
@@ -51,7 +45,6 @@
 			                	<button class='btn btn-secondary divisionActive' id='TOSMS' style='float: left;'>TOSMS</button>
 			                	<button class='btn btn-secondary' id='Agent'>Agent</button>
 			                	<input type='hidden' id='checkListSettingDivision' name='checkListSettingDivision' value='TOSMS'>
-			                	<input type='hidden' id='checkListSettingType' name='checkListSettingType' value='${checkListSettingType}'>
 			                </div>
 			                <div class='main-body' id='main-TOSMS'>
 			                    <div class='page-wrapper'>
@@ -245,14 +238,12 @@
 			var number;
 			var number2;
 			var number3;
-			var checkListSettingType = $('#checkListSettingType').val();
 			var checkListSettingDivision = $('#checkListSettingDivision').val();
 			
 			$.ajax({
 				url: "<c:url value='/checkListSetting/formPlus'/>",
 				type: "POST",
 				data: {
-					"checkListSettingType": checkListSettingType,
 					"checkListSettingDivision": checkListSettingDivision,
 				},
 				async: false,

@@ -18,12 +18,11 @@ public class CheckListSettingController {
 	@Autowired CheckListSettingService checkListSettingService;
 	
 	@GetMapping(value = "/checkListSetting/setting")
-	public String CustomerList(Model model, String checkListSettingType) {
-		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm(checkListSettingType, "TOSMS");
-		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm(checkListSettingType, "Agent");
+	public String CustomerList(Model model) {
+		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm("TOSMS");
+		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm("Agent");
 		List<CheckListSetting> checkListSettingCategory = checkListSettingService.checkListSettingCategory();
 		List<CheckListSetting> checkListSettingSubCategory = checkListSettingService.checkListSettingSubCategory();
-		model.addAttribute("checkListSettingType", checkListSettingType);
 		model.addAttribute("checkListSettingFormTOSMS",checkListSettingFormTOSMS);
 		model.addAttribute("checkListSettingFormAgent",checkListSettingFormAgent);
 		model.addAttribute("checkListSettingCategory",checkListSettingCategory);

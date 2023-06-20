@@ -6,13 +6,7 @@
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	if("${checkListType}" == "totalTest") {
-			    	$.cookie('name','totalTest');
-		    	} else if("${checkListType}" == "basicTest") {
-		    		$.cookie('name','basicTest');
-		    	} else if("${checkListType}" == "foundationTest") {
-		    		$.cookie('name','foundationTest');
-		    	}
+		    	$.cookie('name','totalTest');
 		    });
 		</script>
 	</head>
@@ -347,7 +341,7 @@
 								  cancelButtonText: '저장',
 							}).then((result) => {
 								if (result.isConfirmed) {
-									location.href="<c:url value='/checkList/checkList'/>";
+									location.href="<c:url value='/checkList/list'/>";
 								} else {
 									$('#save').hide();
 									$('#update').show();
@@ -415,7 +409,7 @@
 								  cancelButtonText: '저장',
 							}).then((result2) => {
 								if (result2.isConfirmed) {
-									location.href="<c:url value='/checkList/checkList'/>";
+									location.href="<c:url value='/checkList/list'/>";
 								} else {
 									$('#checkListKeyNum').val(result.checkListKeyNum);
 									$('#downloadBtn').show();

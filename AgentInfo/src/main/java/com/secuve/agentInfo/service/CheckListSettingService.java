@@ -14,9 +14,8 @@ import com.secuve.agentInfo.vo.CheckListSetting;
 public class CheckListSettingService {
 	@Autowired CheckListSettingDao checkListSettingDao;
 
-	public List<CheckListSetting> checkListSettingForm(String checkListSettingType, String checkListSettingDivision) {
+	public List<CheckListSetting> checkListSettingForm(String checkListSettingDivision) {
 		CheckListSetting checkListSetting = new CheckListSetting();
-		checkListSetting.setCheckListSettingType(checkListSettingType);
 		checkListSetting.setCheckListSettingDivision(checkListSettingDivision);
 		return checkListSettingDao.checkListSettingForm(checkListSetting);
 	}

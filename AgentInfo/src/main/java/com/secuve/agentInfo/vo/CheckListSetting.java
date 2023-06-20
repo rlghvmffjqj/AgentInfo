@@ -13,7 +13,6 @@ import lombok.ToString;
 public class CheckListSetting {
 	private Integer checkListSettingFormKeyNum;
 	private String checkListSettingFormName;
-	private String checkListSettingType;
 	private String checkListSettingDivision;
 	private String checkListSettingFormRegistrant;
 	private String checkListSettingFormRegistrationDate;

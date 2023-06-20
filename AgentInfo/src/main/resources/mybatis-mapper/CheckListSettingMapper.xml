@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.CheckListSetting" id="checkListSetting"></resultMap>
 	
 	<select id="checkListSettingForm" parameterType="string" resultMap="checkListSetting">
-		SELECT * FROM checkListSettingForm WHERE checkListSettingType = #{checkListSettingType} AND checkListSettingDivision = #{checkListSettingDivision};
+		SELECT * FROM checkListSettingForm WHERE checkListSettingDivision = #{checkListSettingDivision};
 	</select>
 	
 	<insert id="formPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingFormKeyNum">
-		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingType, checkListSettingDivision, checkListSettingFormRegistrant, checkListSettingFormRegistrationDate)
-		VALUES('미입력', #{checkListSettingType}, #{checkListSettingDivision}, #{checkListSettingFormRegistrant}, #{checkListSettingFormRegistrationDate});
+		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingDivision, checkListSettingFormRegistrant, checkListSettingFormRegistrationDate)
+		VALUES('미입력', #{checkListSettingDivision}, #{checkListSettingFormRegistrant}, #{checkListSettingFormRegistrationDate});
 	</insert>
 	
 	<update id="formChange">

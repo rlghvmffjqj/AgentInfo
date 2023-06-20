@@ -25,8 +25,7 @@ public class CheckListController {
 	@Autowired CheckListSettingService checkListSettingService;
 	
 	@GetMapping(value = "/checkList/list")
-	public String checkListList(String checkListType, Model model) {
-		model.addAttribute("checkListType", checkListType);
+	public String checkListList(Model model) {
 		
 		return "checkList/CheckList";
 	}
@@ -46,16 +45,14 @@ public class CheckListController {
 	}
 	
 	@GetMapping(value = "/checkList/view")
-	public String ExistingNew(Model model, String checkListType) {
-		checkListType += "Setting";
-		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm(checkListType, "TOSMS");
-		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm(checkListType, "Agent");
+	public String ExistingNew(Model model) {
+		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm("TOSMS");
+		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm("Agent");
 		List<CheckListSetting> checkListSettingCategory = checkListSettingService.checkListSettingCategory();
 		List<CheckListSetting> checkListSettingSubCategory = checkListSettingService.checkListSettingSubCategory();
 		CheckList checkList = new CheckList();
 		checkList.setCheckListKeyNum(0);
 		
-		model.addAttribute("checkListType", checkListType);
 		model.addAttribute("checkListSettingFormTOSMS",checkListSettingFormTOSMS);
 		model.addAttribute("checkListSettingFormAgent",checkListSettingFormAgent);
 		model.addAttribute("checkListSettingCategory",checkListSettingCategory);
@@ -83,18 +80,16 @@ public class CheckListController {
 	}
 	
 	@GetMapping(value = "/checkList/updateView")
-	public String UpdateView(Model model, Principal principal, int checkListKeyNum, String checkListType) {
+	public String UpdateView(Model model, Principal principal, int checkListKeyNum) {
 		CheckList checkListTitle = checkListService.getCheckListOneTitle(checkListKeyNum);
 		ArrayList<CheckList> checkList = new ArrayList<>(checkListService.getCheckListOne(checkListKeyNum));
 		
-		checkListType += "Setting";
-		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm(checkListType, "TOSMS");
-		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm(checkListType, "Agent");
+		List<CheckListSetting> checkListSettingFormTOSMS = checkListSettingService.checkListSettingForm("TOSMS");
+		List<CheckListSetting> checkListSettingFormAgent = checkListSettingService.checkListSettingForm("Agent");
 		List<CheckListSetting> checkListSettingCategory = checkListSettingService.checkListSettingCategory();
 		List<CheckListSetting> checkListSettingSubCategory = checkListSettingService.checkListSettingSubCategory();
 		List<Integer> checkListCheckListSettingSubCategoryKeyNum = checkListService.checkListCheckListSettingSubCategoryKeyNum(checkListKeyNum);
 		
-		model.addAttribute("checkListType", checkListType);
 		model.addAttribute("checkListSettingFormTOSMS",checkListSettingFormTOSMS);
 		model.addAttribute("checkListSettingFormAgent",checkListSettingFormAgent);
 		model.addAttribute("checkListSettingCategory",checkListSettingCategory);

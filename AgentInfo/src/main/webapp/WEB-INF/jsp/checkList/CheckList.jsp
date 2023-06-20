@@ -9,13 +9,7 @@
 		<script>
 		/* =========== 페이지 쿠키 값 저장 ========= */
 	    $(function() {
-	    	if("${checkListType}" == "totalTest") {
-		    	$.cookie('name','totalTest');
-	    	} else if("${checkListType}" == "basicTest") {
-	    		$.cookie('name','basicTest');
-	    	} else if("${checkListType}" == "foundationTest") {
-	    		$.cookie('name','foundationTest');
-	    	}
+	    	$.cookie('name','totalTest');
 	    });
 		</script>
 		<script>
@@ -209,7 +203,7 @@
 	<script>
 		/* =========== 체크 리스트 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
-			location.href="<c:url value='/checkList/view?checkListType=${checkListType}'/>";		
+			location.href="<c:url value='/checkList/view'/>";		
 		});
 		
 		/* =========== 검색 ========= */
@@ -343,7 +337,7 @@
 		
 		/* =========== 체크 리스트 수정 Modal ========= */
 		function updateView(data) {
-			location.href="<c:url value='/checkList/updateView'/>?checkListKeyNum="+data+"&checkListType=${checkListType}";
+			location.href="<c:url value='/checkList/updateView'/>?checkListKeyNum="+data;
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */
