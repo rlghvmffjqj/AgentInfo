@@ -6,7 +6,7 @@
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','totalTest');
+		    	$.cookie('name','checkList');
 		    });
 		</script>
 	</head>

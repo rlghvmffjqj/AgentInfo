@@ -160,30 +160,14 @@
 			$('.customerLicense').addClass('active');
 			$('.customerLicense').addClass('pcoded-trigger');
 			$('.unissuedLicense').addClass('active');
-		} else if($.cookie('name') == 'totalTestSetting') {
-			$('.totalTestSetting').addClass('active');
+		} else if($.cookie('name') == 'checkListSetting') {
 			$('.checkListSetting').addClass('active');
-			$('.checkListSetting').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'basicTestSetting') {
-			$('.basicTestSetting').addClass('active');
-			$('.checkListSetting').addClass('active');
-			$('.checkListSetting').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'foundationTestSetting') {
-			$('.foundationTestSetting').addClass('active');
-			$('.checkListSetting').addClass('active');
-			$('.checkListSetting').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'totalTest') {
-			$('.totalTest').addClass('active');
+		} else if($.cookie('name') == 'checkList') {
 			$('.checkList').addClass('active');
-			$('.checkList').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'basicTest') {
-			$('.basicTest').addClass('active');
-			$('.checkList').addClass('active');
-			$('.checkList').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'foundationTest') {
-			$('.foundationTest').addClass('active');
-			$('.checkList').addClass('active');
-			$('.checkList').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'functionTestSetting') {
+			$('.functionTestSetting').addClass('active');
+		} else if($.cookie('name') == 'functionTest') {
+			$('.functionTest').addClass('active');
 		} 
 		
 	});
@@ -353,40 +337,8 @@
 			    </ul>
 		    </sec:authorize>
 		    <sec:authorize access="hasAnyRole('ADMIN','QA')">
-				<%-- <ul class="pcoded-item pcoded-left-item">
-					<li class="checkList pcoded-hasmenu">
-						<a href="#!" class="waves-effect waves-dark">
-				            <span class="pcoded-micon"><i class="ti-check-box"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트</span>
-				            <span class="pcoded-mcaret"></span>
-				        </a>
-				        <ul class="pcoded-submenu" style="display: block;">
-				         	<li class="totalTest">
-								<a href="<c:url value='/checkList/list'/>?checkListType=totalTest" class="waves-effect waves-dark">
-									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-									<span class="pcoded-mtext">전수 테스트</span>
-									<span class="pcoded-mcaret"></span>
-								</a>
-					     	</li>
-						    <li class="basicTest">
-						           <a href="<c:url value='/checkList/list'/>?checkListType=basicTest" class="waves-effect waves-dark">
-						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-						             <span class="pcoded-mtext">기본 테스트</span>
-						             <span class="pcoded-mcaret"></span>
-						           </a>
-						    </li>
-						    <li class="foundationTest">
-						           <a href="<c:url value='/checkList/list'/>?checkListType=foundationTest" class="waves-effect waves-dark">
-						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-						             <span class="pcoded-mtext">기초 테스트</span>
-						             <span class="pcoded-mcaret"></span>
-						           </a>
-						    </li>
-					  	</ul>
-				    </li>
-				</ul> --%>
 				<ul class="pcoded-item pcoded-left-item">
-				    <li class="totalTest">
+				    <li class="checkList">
 				        <a href="<c:url value='/checkList/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-check-box"></i><b>FC</b></span>
 				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트</span>
@@ -395,8 +347,8 @@
 				    </li>
 				</ul>
 				<ul class="pcoded-item pcoded-left-item">
-				    <li class="sendPackage">
-				        <a href="<c:url value='/sendPackage/list'/>" class="waves-effect waves-dark">
+				    <li class="functionTest">
+				        <a href="<c:url value='/functionTest/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-desktop"></i><b>FC</b></span>
 				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">기능 테스트</span>
 				            <span class="pcoded-mcaret"></span>
@@ -712,41 +664,8 @@
 				    </ul>
 			    </sec:authorize>
 			    <sec:authorize access="hasAnyRole('ADMIN','QA')">
-				    <%-- <ul class="pcoded-item pcoded-left-item">
-						<li class="checkListSetting pcoded-hasmenu">
-							<a href="#!" class="waves-effect waves-dark">
-					            <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
-					            <span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트 설정</span>
-					            <span class="pcoded-mcaret"></span>
-					        </a>
-					        <ul class="pcoded-submenu" style="display: block;">
-					         	<li class="totalTestSetting">
-									<a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=totalTestSetting" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-										<span class="pcoded-mtext">전수 테스트 설정</span>
-										<span class="pcoded-mcaret"></span>
-									</a>
-						     	</li>
-							    <li class="basicTestSetting">
-							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=basicTestSetting" class="waves-effect waves-dark">
-							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-							             <span class="pcoded-mtext">기본 테스트 설정</span>
-							             <span class="pcoded-mcaret"></span>
-							           </a>
-							    </li>
-							    <li class="foundationTestSetting">
-							           <a href="<c:url value='/checkListSetting/setting'/>?checkListSettingType=foundationTestSetting" class="waves-effect waves-dark">
-							             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-							             <span class="pcoded-mtext">기초 테스트 설정</span>
-							             <span class="pcoded-mcaret"></span>
-							           </a>
-							    </li>
-						  	</ul>
-					    </li>
-					</ul> --%>
-					
 					<ul class="pcoded-item pcoded-left-item">
-				        <li class="totalTestSetting">
+				        <li class="checkListSetting">
 				            <a href="<c:url value='/checkListSetting/setting'/>" class="waves-effect waves-dark">
 				                <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
 				                <span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트 설정</span>
@@ -755,8 +674,8 @@
 				        </li>
 				    </ul>
 				    <ul class="pcoded-item pcoded-left-item">
-				        <li class="totalTestSetting">
-				            <a href="<c:url value='/checkListSetting/setting'/>" class="waves-effect waves-dark">
+				        <li class="functionTestSetting">
+				            <a href="<c:url value='/functionTestSetting/setting'/>" class="waves-effect waves-dark">
 				                <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
 				                <span class="pcoded-mtext" data-i18n="nav.form-components.main">기능 테스트 설정</span>
 				                <span class="pcoded-mcaret"></span>
