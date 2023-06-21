@@ -93,9 +93,30 @@
 								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>추가</span></button>
 								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
 								                    			</div>
+								                    			<div style="margin-bottom: -15px; margin-top: 10px;">
+								                    				<span class="checkTortalSpan">전수</span><span class="checkBasicSpan">기본</span><span class="checkFoundationSpan">기초</span>
+								                    			</div>
 								                    			<c:forEach var='functionTestSettingSubCategoryList' items='${functionTestSettingSubCategory}'>
 								                    				<c:if test='${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum eq functionTestSettingSubCategoryList.functionTestSettingCategoryKeyNum}'>
 									                    				<div class='subCategoryDiv'>
+									                    					<div class="checkbox-group">
+									                    						<label>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox success" value='success'>
+										                    						<span class="checkmark"></span>
+									                    						</label>
+									                    					</div>
+									                    					<div class="checkbox-group">
+									                    						<label>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox empty" value='empty'>
+										                    						<span class="checkmark"></span>
+									                    						</label>
+									                    					</div>
+									                    					<div class="checkbox-group">
+									                    						<label>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox empty" value='empty'>
+										                    						<span class="checkmark"></span>
+									                    						</label>
+									                    					</div>
 									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}">
 									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
 									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
@@ -161,9 +182,30 @@
 								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>추가</span></button>
 								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
 								                    			</div>
+								                    			<div style="margin-bottom: -15px; margin-top: 10px;">
+								                    				<span class="checkTortalSpan">전수</span><span class="checkBasicSpan">기본</span><span class="checkFoundationSpan">기초</span>
+								                    			</div>
 								                    			<c:forEach var='functionTestSettingSubCategoryList' items='${functionTestSettingSubCategory}'>
 								                    				<c:if test='${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum eq functionTestSettingSubCategoryList.functionTestSettingCategoryKeyNum}'>
 									                    				<div class='subCategoryDiv'>
+									                    					<div class="checkbox-group">
+									                    						<label>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox success" value='success'>
+										                    						<span class="checkmark"></span>
+									                    						</label>
+									                    					</div>
+									                    					<div class="checkbox-group">
+									                    						<label>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox empty" value='empty'>
+										                    						<span class="checkmark"></span>
+									                    						</label>
+									                    					</div>
+									                    					<div class="checkbox-group">
+									                    						<label>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox empty" value='empty'>
+										                    						<span class="checkmark"></span>
+									                    						</label>
+									                    					</div>
 									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}">
 									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
 									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
@@ -187,7 +229,6 @@
 	        </div>
 	    </div>
 	</body>
-
 	<script>
 		$('#TOSMS').click(function() {
 			$('#TOSMS').addClass('divisionActive');
@@ -598,7 +639,25 @@
 			var windowFeatures = 'width=1000,height=800';
 			window.open(url, '_blank', windowFeatures);
 		}
+	</script>
+	<script>
+		$(function () {
+			const checkboxes = document.querySelectorAll('.custom-checkbox');
 		
+			checkboxes.forEach(function(checkbox) {
+				checkbox.addEventListener('click', function() {
+					if (this.value == 'empty') {
+						this.classList.remove('empty');
+						this.classList.add('success');
+						$(this).val('success');
+					} else if (this.value == 'success') {
+						this.classList.remove('success');
+						this.classList.add('empty');
+						$(this).val('empty');
+					}
+				});
+			});
+		})
 	</script>
 	
 	<style>
@@ -729,6 +788,74 @@
 		
 		.categorySmallDiv {
 			padding-bottom: 3%;
+		}
+	</style>
+	<style>
+		.checkbox-group {
+			display: flex;
+			flex-direction: column;
+			padding-top: 9px;
+			float: left;
+    		margin-right: 1%;
+		}
+		
+		.checkbox-group label {
+			display: flex;
+			align-items: center;
+			position: relative;
+			margin-bottom: 5px;
+		}
+		
+		.custom-checkbox {
+			display: none;
+		}
+		
+		.checkmark {
+			position: relative;
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			background-color: #fff;
+			border: 1px solid #000;
+			cursor: pointer;
+			text-align: center;
+		}
+		
+		.checkmark::after {
+			content: "";
+			position: absolute;
+			display: none;
+			top: 3px;
+			left: 6px;
+			width: 4px;
+			height: 8px;
+			border: solid #000;
+			border-width: 0 2px 2px 0;
+			transform: rotate(45deg);
+		}
+		
+		.custom-checkbox.success + .checkmark::after {
+			display: block;
+		}
+		
+		.custom-checkbox.empty + .checkmark::after {
+			display: none;
+		}
+
+		
+		.checkTortalSpan {
+			font-size: 12px;
+			margin-left: 1.8%;
+		}
+		
+		.checkBasicSpan {
+			font-size: 12px;
+			margin-left: 0.4%;
+		}
+		
+		.checkFoundationSpan {
+			font-size: 12px;
+			margin-left: 0.6%;
 		}
 	</style>
 </html>

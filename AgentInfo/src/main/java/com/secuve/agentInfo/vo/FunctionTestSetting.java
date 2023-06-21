@@ -30,6 +30,9 @@ public class FunctionTestSetting {
 	private String functionTestSettingSubCategoryName;
 	private String functionTestSettingSubCategoryState;
 	private String functionTestSettingSubCategoryFailReason;
+	private String functionTestSettingSubCategoryTortal;
+	private String functionTestSettingSubCategoryBasic;
+	private String functionTestSettingSubCategoryFoundation;
 	private String functionTestSettingSubCategoryRegistrant;
 	private String functionTestSettingSubCategoryRegistrationDate;
 	private String functionTestSettingSubCategoryModifier;

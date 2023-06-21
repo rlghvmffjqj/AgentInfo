@@ -295,7 +295,6 @@
 		}
 		
 		function btnSave() {
-			console.log("하");
 			const values = $('.custom-checkbox').map(function() {
 				if(this.value=='empty')
 					return 'empty';
@@ -453,25 +452,25 @@
 	</script>
 	<script>
 		$(function () {
-		const checkboxes = document.querySelectorAll('.custom-checkbox');
-	
-		checkboxes.forEach(function(checkbox) {
-			checkbox.addEventListener('click', function() {
-				if (this.value == 'empty') {
-					this.classList.remove('failure', 'empty');
-					this.classList.add('success');
-					$(this).val('success');
-				} else if (this.value == 'success') {
-					this.classList.remove('success', 'empty');
-					this.classList.add('failure');
-					$(this).val('failure');
-				}else if (this.value == 'failure') {
-					this.classList.remove('success', 'failure');
-					this.classList.add('empty');
-					$(this).val('empty');
-				}
+			const checkboxes = document.querySelectorAll('.custom-checkbox');
+		
+			checkboxes.forEach(function(checkbox) {
+				checkbox.addEventListener('click', function() {
+					if (this.value == 'empty') {
+						this.classList.remove('failure', 'empty');
+						this.classList.add('success');
+						$(this).val('success');
+					} else if (this.value == 'success') {
+						this.classList.remove('success', 'empty');
+						this.classList.add('failure');
+						$(this).val('failure');
+					}else if (this.value == 'failure') {
+						this.classList.remove('success', 'failure');
+						this.classList.add('empty');
+						$(this).val('empty');
+					}
+				});
 			});
-		});
 		})
 	</script>
 	
