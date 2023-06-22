@@ -15,6 +15,10 @@ public class FunctionTestSettingDao {
 	public List<FunctionTestSetting> functionTestSettingForm(FunctionTestSetting functionTestSetting) {
 		return sqlSession.selectList("functionTestSetting.functionTestSettingForm", functionTestSetting);
 	}
+	
+	public List<FunctionTestSetting> functionTestForm(FunctionTestSetting functionTestSetting) {
+		return sqlSession.selectList("functionTestSetting.functionTestForm", functionTestSetting);
+	}
 
 	public int formPlus(FunctionTestSetting functionTestSetting) {
 		return sqlSession.insert("functionTestSetting.formPlus", functionTestSetting);
@@ -31,9 +35,17 @@ public class FunctionTestSettingDao {
 	public List<FunctionTestSetting> functionTestSettingCategory() {
 		return sqlSession.selectList("functionTestSetting.functionTestSettingCategory");
 	}
+	
+	public List<FunctionTestSetting> functionTestCategory(FunctionTestSetting functionTestSetting) {
+		return sqlSession.selectList("functionTestSetting.functionTestCategory", functionTestSetting);
+	}
 
 	public List<FunctionTestSetting> functionTestSettingSubCategory() {
 		return sqlSession.selectList("functionTestSetting.functionTestSettingSubCategory");
+	}
+	
+	public List<FunctionTestSetting> functionTestSubCategory(FunctionTestSetting functionTestSetting) {
+		return sqlSession.selectList("functionTestSetting.functionTestSubCategory",functionTestSetting);
 	}
 
 	public int categoryPlus(FunctionTestSetting functionTestSetting) {
@@ -94,6 +106,18 @@ public class FunctionTestSettingDao {
 
 	public void subCategoryDetailMinus(FunctionTestSetting functionTestSetting) {
 		sqlSession.delete("functionTestSetting.subCategoryDetailMinus", functionTestSetting);
+	}
+
+	public void updateFunctionTestSettingTortalCheck(FunctionTestSetting functionTestSetting) {
+		sqlSession.update("functionTestSetting.updateFunctionTestSettingTortalCheck",functionTestSetting);
+	}
+
+	public void updateFunctionTestSettingBasicCheck(FunctionTestSetting functionTestSetting) {
+		sqlSession.update("functionTestSetting.updateFunctionTestSettingBasicCheck",functionTestSetting);
+	}
+
+	public void updateFunctionTestSettingFoundationCheck(FunctionTestSetting functionTestSetting) {
+		sqlSession.update("functionTestSetting.updateFunctionTestSettingFoundationCheck",functionTestSetting);
 	}
 
 }

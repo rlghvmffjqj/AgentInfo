@@ -9,7 +9,12 @@
 		<script>
 		/* =========== 페이지 쿠키 값 저장 ========= */
 	    $(function() {
-	    	$.cookie('name','functionTest');
+	    	if("${functionTestType}"=="tortal")
+	    		$.cookie('name','functionTestTortal');
+	    	if("${functionTestType}"=="basic")
+	    		$.cookie('name','functionTestBasic');
+	    	if("${functionTestType}"=="foundation")
+	    		$.cookie('name','functionTestFoundation');
 	    });
 		</script>
 		<script>
@@ -158,6 +163,7 @@
 														</button>
 													</p>
 												</div>
+												<input type="hidden" name="functionTestType" value="${functionTestType}">
 												</form>
 		                     				</div>
 	                     				 </div>
@@ -203,7 +209,7 @@
 	<script>
 		/* =========== 체크 리스트 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
-			location.href="<c:url value='/functionTest/view'/>";		
+			location.href="<c:url value='/functionTest/view'/>?functionTestType=${functionTestType}";		
 		});
 		
 		/* =========== 검색 ========= */
@@ -337,7 +343,7 @@
 		
 		/* =========== 체크 리스트 수정 Modal ========= */
 		function updateView(data) {
-			location.href="<c:url value='/functionTest/updateView'/>?functionTestKeyNum="+data;
+			location.href="<c:url value='/functionTest/updateView'/>?functionTestType=${functionTestType}&functionTestKeyNum="+data;
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */

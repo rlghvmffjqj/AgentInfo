@@ -25,8 +25,8 @@ public class FunctionTestController {
 	@Autowired FunctionTestSettingService functionTestSettingService;
 	
 	@GetMapping(value = "/functionTest/list")
-	public String functionTestList(Model model) {
-		
+	public String functionTestList(String functionTestType, Model model) {
+		model.addAttribute("functionTestType",functionTestType);
 		return "functionTest/FunctionTest";
 	}
 	
@@ -45,11 +45,11 @@ public class FunctionTestController {
 	}
 	
 	@GetMapping(value = "/functionTest/view")
-	public String ExistingNew(Model model) {
-		List<FunctionTestSetting> functionTestSettingFormTOSMS = functionTestSettingService.functionTestSettingForm("TOSMS");
-		List<FunctionTestSetting> functionTestSettingFormAgent = functionTestSettingService.functionTestSettingForm("Agent");
-		List<FunctionTestSetting> functionTestSettingCategory = functionTestSettingService.functionTestSettingCategory();
-		List<FunctionTestSetting> functionTestSettingSubCategory = functionTestSettingService.functionTestSettingSubCategory();
+	public String ExistingNew(String functionTestType, Model model) {
+		List<FunctionTestSetting> functionTestSettingFormTOSMS = functionTestSettingService.functionTestForm("TOSMS", functionTestType);
+		List<FunctionTestSetting> functionTestSettingFormAgent = functionTestSettingService.functionTestForm("Agent", functionTestType);
+		List<FunctionTestSetting> functionTestSettingCategory = functionTestSettingService.functionTestCategory(functionTestType);
+		List<FunctionTestSetting> functionTestSettingSubCategory = functionTestSettingService.functionTestSubCategory(functionTestType);
 		FunctionTest functionTest = new FunctionTest();
 		functionTest.setFunctionTestKeyNum(0);
 		
@@ -59,6 +59,7 @@ public class FunctionTestController {
 		model.addAttribute("functionTestSettingSubCategory",functionTestSettingSubCategory);
 		model.addAttribute("viewType","insert");
 		model.addAttribute("functionTestTitle",functionTest);
+		model.addAttribute("functionTestType",functionTestType);
 		return "/functionTest/FunctionTestView";
 	}
 	
@@ -80,14 +81,14 @@ public class FunctionTestController {
 	}
 	
 	@GetMapping(value = "/functionTest/updateView")
-	public String UpdateView(Model model, Principal principal, int functionTestKeyNum) {
+	public String UpdateView(Model model, Principal principal, int functionTestKeyNum, String functionTestType) {
 		FunctionTest functionTestTitle = functionTestService.getFunctionTestOneTitle(functionTestKeyNum);
 		ArrayList<FunctionTest> functionTest = new ArrayList<>(functionTestService.getFunctionTestOne(functionTestKeyNum));
 		
-		List<FunctionTestSetting> functionTestSettingFormTOSMS = functionTestSettingService.functionTestSettingForm("TOSMS");
-		List<FunctionTestSetting> functionTestSettingFormAgent = functionTestSettingService.functionTestSettingForm("Agent");
-		List<FunctionTestSetting> functionTestSettingCategory = functionTestSettingService.functionTestSettingCategory();
-		List<FunctionTestSetting> functionTestSettingSubCategory = functionTestSettingService.functionTestSettingSubCategory();
+		List<FunctionTestSetting> functionTestSettingFormTOSMS = functionTestSettingService.functionTestForm("TOSMS", functionTestType);
+		List<FunctionTestSetting> functionTestSettingFormAgent = functionTestSettingService.functionTestForm("Agent", functionTestType);
+		List<FunctionTestSetting> functionTestSettingCategory = functionTestSettingService.functionTestCategory(functionTestType);
+		List<FunctionTestSetting> functionTestSettingSubCategory = functionTestSettingService.functionTestSubCategory(functionTestType);
 		List<Integer> functionTestFunctionTestSettingSubCategoryKeyNum = functionTestService.functionTestFunctionTestSettingSubCategoryKeyNum(functionTestKeyNum);
 		
 		model.addAttribute("functionTestSettingFormTOSMS",functionTestSettingFormTOSMS);
@@ -98,6 +99,7 @@ public class FunctionTestController {
 		model.addAttribute("functionTestTitle", functionTestTitle);
 		model.addAttribute("functionTest",functionTest);
 		model.addAttribute("functionTestFunctionTestSettingSubCategoryKeyNum", functionTestFunctionTestSettingSubCategoryKeyNum);
+		model.addAttribute("functionTestType",functionTestType);
 		return "functionTest/FunctionTestView";
 	}
 	
@@ -116,5 +118,4 @@ public class FunctionTestController {
 		Map result = functionTestService.updateFunctionTest(functionTest, principal);
 		return result;
 	}
-	
 }

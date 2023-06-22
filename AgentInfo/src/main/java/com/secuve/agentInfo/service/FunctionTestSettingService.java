@@ -19,6 +19,18 @@ public class FunctionTestSettingService {
 		functionTestSetting.setFunctionTestSettingDivision(functionTestSettingDivision);
 		return functionTestSettingDao.functionTestSettingForm(functionTestSetting);
 	}
+	
+	public List<FunctionTestSetting> functionTestForm(String functionTestSettingDivision, String functionTestType) {
+		FunctionTestSetting functionTestSetting = new FunctionTestSetting();
+		if(functionTestType.equals("tortal"))
+			functionTestSetting.setFunctionTestSettingSubCategoryTortal("success");
+		if(functionTestType.equals("basic"))
+			functionTestSetting.setFunctionTestSettingSubCategoryBasic("success");
+		if(functionTestType.equals("foundation"))
+			functionTestSetting.setFunctionTestSettingSubCategoryFoundation("success");
+		functionTestSetting.setFunctionTestSettingDivision(functionTestSettingDivision);
+		return functionTestSettingDao.functionTestForm(functionTestSetting);
+	}
 
 	public int formPlus(FunctionTestSetting functionTestSetting) {
 		functionTestSettingDao.formPlus(functionTestSetting);
@@ -47,9 +59,31 @@ public class FunctionTestSettingService {
 	public List<FunctionTestSetting> functionTestSettingCategory() {
 		return functionTestSettingDao.functionTestSettingCategory();
 	}
+	
+	public List<FunctionTestSetting> functionTestCategory(String functionTestType) {
+		FunctionTestSetting functionTestSetting = new FunctionTestSetting();
+		if(functionTestType.equals("tortal"))
+			functionTestSetting.setFunctionTestSettingSubCategoryTortal("success");
+		if(functionTestType.equals("basic"))
+			functionTestSetting.setFunctionTestSettingSubCategoryBasic("success");
+		if(functionTestType.equals("foundation"))
+			functionTestSetting.setFunctionTestSettingSubCategoryFoundation("success");
+		return functionTestSettingDao.functionTestCategory(functionTestSetting);
+	}
 
 	public List<FunctionTestSetting> functionTestSettingSubCategory() {
 		return functionTestSettingDao.functionTestSettingSubCategory();
+	}
+	
+	public List<FunctionTestSetting> functionTestSubCategory(String functionTestType) {
+		FunctionTestSetting functionTestSetting = new FunctionTestSetting();
+		if(functionTestType.equals("tortal"))
+			functionTestSetting.setFunctionTestSettingSubCategoryTortal("success");
+		if(functionTestType.equals("basic"))
+			functionTestSetting.setFunctionTestSettingSubCategoryBasic("success");
+		if(functionTestType.equals("foundation"))
+			functionTestSetting.setFunctionTestSettingSubCategoryFoundation("success");
+		return functionTestSettingDao.functionTestSubCategory(functionTestSetting);
 	}
 
 	public int categoryPlus(FunctionTestSetting functionTestSetting) {
@@ -119,4 +153,12 @@ public class FunctionTestSettingService {
 		return formatter.format(now);
 	}
 
+	public void updateFunctionTestSettingCheck(FunctionTestSetting functionTestSetting) {
+		if(functionTestSetting.getFunctionTestSettingSubCategoryType() == "tortal" || functionTestSetting.getFunctionTestSettingSubCategoryType().equals("tortal"))
+			functionTestSettingDao.updateFunctionTestSettingTortalCheck(functionTestSetting);
+		if(functionTestSetting.getFunctionTestSettingSubCategoryType() == "basic" || functionTestSetting.getFunctionTestSettingSubCategoryType().equals("basic"))
+			functionTestSettingDao.updateFunctionTestSettingBasicCheck(functionTestSetting);
+		if(functionTestSetting.getFunctionTestSettingSubCategoryType() == "foundation" || functionTestSetting.getFunctionTestSettingSubCategoryType().equals("foundation"))
+			functionTestSettingDao.updateFunctionTestSettingFoundationCheck(functionTestSetting);
+	}
 }

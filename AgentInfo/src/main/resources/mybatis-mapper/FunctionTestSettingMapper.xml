@@ -5,7 +5,14 @@
 	<resultMap type="com.secuve.agentInfo.vo.FunctionTestSetting" id="functionTestSetting"></resultMap>
 	
 	<select id="functionTestSettingForm" parameterType="string" resultMap="functionTestSetting">
-		SELECT * FROM functionTestSettingForm WHERE functionTestSettingDivision = #{functionTestSettingDivision};
+		SELECT * FROM functionTestSettingForm WHERE functionTestSettingDivision = #{functionTestSettingDivision}
+	</select>
+	
+	<select id="functionTestForm" parameterType="string" resultMap="functionTestSetting">
+		SELECT DISTINCT f.* FROM functiontestsettingform f, functionTestSettingSubCategory s
+		WHERE functionTestSettingDivision = #{functionTestSettingDivision}
+		AND f.functionTestSettingFormKeyNum = s.functionTestSettingFormKeyNum
+		<include refid="sqlFunctionTestSetting" />
 	</select>
 	
 	<insert id="formPlus" parameterType="functionTestSetting" useGeneratedKeys="true" keyProperty="functionTestSettingFormKeyNum">
@@ -26,8 +33,29 @@
 		SELECT * FROM functionTestSettingCategory;
 	</select>
 	
+	<select id="functionTestCategory" resultMap="functionTestSetting">
+		SELECT DISTINCT c.* FROM functionTestSettingCategory c, functionTestSettingSubCategory s
+		WHERE c.functionTestSettingCategoryKeyNum = s.functionTestSettingCategoryKeyNum
+		<include refid="sqlFunctionTestSetting" />
+	</select>
+	
 	<select id="functionTestSettingSubCategory" resultMap="functionTestSetting">
 		SELECT * FROM functionTestSettingSubCategory;
+	</select>
+	
+	<select id="functionTestSubCategory" resultMap="functionTestSetting">
+		SELECT DISTINCT * FROM functionTestSettingSubCategory
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="functionTestSettingSubCategoryTortal != null and functionTestSettingSubCategoryTortal != ''">
+				AND functionTestSettingSubCategoryTortal = 'success';
+			</if>
+			<if test="functionTestSettingSubCategoryBasic != null and functionTestSettingSubCategoryBasic != ''">
+				AND functionTestSettingSubCategoryBasic = 'success';
+			</if>
+			<if test="functionTestSettingSubCategoryFoundation != null and functionTestSettingSubCategoryFoundation != ''">
+				AND functionTestSettingSubCategoryFoundation = 'success';
+			</if>
+		</trim>
 	</select>
 	
 	<insert id="categoryPlus"  parameterType="functionTestSetting" useGeneratedKeys="true" keyProperty="functionTestSettingCategoryKeyNum">
@@ -36,8 +64,8 @@
 	</insert>
 	
 	<insert id="subCategoryPlus" parameterType="functionTestSetting" useGeneratedKeys="true" keyProperty="functionTestSettingSubCategoryKeyNum">
-		INSERT INTO functionTestSettingSubCategory(functionTestSettingCategoryKeyNum, functionTestSettingFormKeyNum, functionTestSettingSubCategoryRegistrant, functionTestSettingSubCategoryRegistrationDate) 
-		VALUES (#{functionTestSettingCategoryKeyNum}, #{functionTestSettingFormKeyNum}, #{functionTestSettingSubCategoryRegistrant}, #{functionTestSettingSubCategoryRegistrationDate});
+		INSERT INTO functionTestSettingSubCategory(functionTestSettingCategoryKeyNum, functionTestSettingFormKeyNum, functionTestSettingSubCategoryTortal, functionTestSettingSubCategoryBasic, functionTestSettingSubCategoryFoundation, functionTestSettingSubCategoryRegistrant, functionTestSettingSubCategoryRegistrationDate) 
+		VALUES (#{functionTestSettingCategoryKeyNum}, #{functionTestSettingFormKeyNum}, 'success', 'empty', 'empty', #{functionTestSettingSubCategoryRegistrant}, #{functionTestSettingSubCategoryRegistrationDate});
 	</insert>
 	
 	<delete id="formCategoryMinus" parameterType="_int">
@@ -95,6 +123,35 @@
 	<delete id="subCategoryDetailMinus" parameterType="_int">
 		DELETE FROM functionTestSettingDetail WHERE functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
 	</delete>
+	
+	<update id="updateFunctionTestSettingTortalCheck">
+		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategoryTortal = #{functionTestSettingSubCategoryCheck}
+		WHERE functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
+	</update>
+	
+	<update id="updateFunctionTestSettingBasicCheck">
+		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategoryBasic = #{functionTestSettingSubCategoryCheck}
+		WHERE functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
+	</update>
+	
+	<update id="updateFunctionTestSettingFoundationCheck">
+		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategoryFoundation = #{functionTestSettingSubCategoryCheck}
+		WHERE functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
+	</update>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlFunctionTestSetting">
+		<if test="functionTestSettingSubCategoryTortal != null and functionTestSettingSubCategoryTortal != ''">
+			AND s.functionTestSettingSubCategoryTortal = 'success';
+		</if>
+		<if test="functionTestSettingSubCategoryBasic != null and functionTestSettingSubCategoryBasic != ''">
+			AND s.functionTestSettingSubCategoryBasic = 'success';
+		</if>
+		<if test="functionTestSettingSubCategoryFoundation != null and functionTestSettingSubCategoryFoundation != ''">
+			AND s.functionTestSettingSubCategoryFoundation = 'success';
+		</if>
+	</sql>
 	
 	
 </mapper>

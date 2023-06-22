@@ -25,7 +25,7 @@ public class FunctionTestDao {
 	}
 
 	public int insertFunctionTest(Integer functionTestKeyNum, String functionTestCustomer, String functionTestTitle,
-			String functionTestDate, Integer functionTestSettingSubCategoryKeyNum, String functionTestSubCategoryState, String functionTestSubCategoryFailReason, String functionTestRegistrant,
+			String functionTestDate, Integer functionTestSettingSubCategoryKeyNum, String functionTestSubCategoryState, String functionTestSubCategoryFailReason, String functionTestType, String functionTestRegistrant,
 			String functionTestRegistrationDate, String functionTestModifier, String functionTestModifiedDate) {
 
 		FunctionTest functionTest = new FunctionTest();
@@ -36,6 +36,7 @@ public class FunctionTestDao {
 		functionTest.setFunctionTestSettingSubCategoryKeyNum(functionTestSettingSubCategoryKeyNum);
 		functionTest.setFunctionTestSubCategoryState(functionTestSubCategoryState);
 		functionTest.setFunctionTestSubCategoryFailReason(functionTestSubCategoryFailReason);
+		functionTest.setFunctionTestType(functionTestType);
 		functionTest.setFunctionTestRegistrant(functionTestRegistrant);
 		functionTest.setFunctionTestRegistrationDate(functionTestRegistrationDate);
 		functionTest.setFunctionTestModifier(functionTestModifier);

@@ -101,19 +101,19 @@
 									                    				<div class='subCategoryDiv'>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox success" value='success'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}" onClick='functionTestSettingSubCategoryCheck(this,"tortal",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox empty" value='empty'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}" onClick='functionTestSettingSubCategoryCheck(this,"basic",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox empty" value='empty'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}" onClick='functionTestSettingSubCategoryCheck(this,"foundation",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
@@ -190,19 +190,19 @@
 									                    				<div class='subCategoryDiv'>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox success" value='success'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}" onClick='functionTestSettingSubCategoryCheck(this,"tortal",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox empty" value='empty'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}" onClick='functionTestSettingSubCategoryCheck(this,"basic",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox empty" value='empty'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}" onClick='functionTestSettingSubCategoryCheck(this,"foundation",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
@@ -351,7 +351,28 @@
 			rowItem2 += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+")'><span class='chekListFont'>추가</span></button>";
 			rowItem2 += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='chekListFont'>제거</span></button>";
 			rowItem2 += "</div>";
+			rowItem2 += "<div style='margin-bottom: -15px; margin-top: 10px;'>";
+			rowItem2 += "<span class='checkTortalSpan'>전수</span><span class='checkBasicSpan'>기본</span><span class='checkFoundationSpan'>기초</span>";
+			rowItem2 += "</div>";
 			rowItem2 += "<div class='subCategoryDiv'>";
+			rowItem2 += "<div class='checkbox-group'>";
+			rowItem2 += "<label>";
+			rowItem2 += "<input type='checkbox' name='functionTestSettingSubCategoryTortal' class='custom-checkbox success' onClick='functionTestSettingSubCategoryCheck(this,"+'"tortal"'+","+number3+")' value='success'>";
+			rowItem2 += "<span class='checkmark'></span>";
+			rowItem2 += "</label>";
+			rowItem2 += "</div>";
+			rowItem2 += "<div class='checkbox-group'>";
+			rowItem2 += "<label>";
+			rowItem2 += "<input type='checkbox' name='functionTestSettingSubCategoryBasic' class='custom-checkbox empty' onClick='functionTestSettingSubCategoryCheck(this,"+'"basic"'+","+number3+")' value='empty'>";
+			rowItem2 += "<span class='checkmark'></span>";
+			rowItem2 += "</label>";
+			rowItem2 += "</div>";
+			rowItem2 += "<div class='checkbox-group'>";
+			rowItem2 += "<label>";
+			rowItem2 += "<input type='checkbox' name='functionTestSettingSubCategoryFoundation' class='custom-checkbox empty' onClick='functionTestSettingSubCategoryCheck(this,"+'"foundation"'+","+number3+")' value='empty'>";
+			rowItem2 += "<span class='checkmark'></span>";
+			rowItem2 += "</label>";
+			rowItem2 += "</div>";
 			rowItem2 += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
 			rowItem2 += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
 			rowItem2 += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
@@ -468,7 +489,28 @@
 			rowItem += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+")'><span class='chekListFont'>추가</span></button>";
 			rowItem += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='chekListFont'>제거</span></button>";
 			rowItem += "</div>";
+			rowItem += "<div style='margin-bottom: -15px; margin-top: 10px;'>";
+			rowItem += "<span class='checkTortalSpan'>전수</span><span class='checkBasicSpan'>기본</span><span class='checkFoundationSpan'>기초</span>";
+			rowItem += "</div>";
 			rowItem += "<div class='subCategoryDiv'>";
+			rowItem += "<div class='checkbox-group'>";
+			rowItem += "<label>";
+			rowItem += "<input type='checkbox' name='functionTestSettingSubCategoryTortal' class='custom-checkbox success' onClick='functionTestSettingSubCategoryCheck(this,"+'"tortal"'+","+number3+")' value='success'>";
+			rowItem += "<span class='checkmark'></span>";
+			rowItem += "</label>";
+			rowItem += "</div>";
+			rowItem += "<div class='checkbox-group'>";
+			rowItem += "<label>";
+			rowItem += "<input type='checkbox' name='functionTestSettingSubCategoryBasic' class='custom-checkbox empty' onClick='functionTestSettingSubCategoryCheck(this,"+'"basic"'+","+number3+")' value='empty'>";
+			rowItem += "<span class='checkmark'></span>";
+			rowItem += "</label>";
+			rowItem += "</div>";
+			rowItem += "<div class='checkbox-group'>";
+			rowItem += "<label>";
+			rowItem += "<input type='checkbox' name='functionTestSettingSubCategoryFoundation' class='custom-checkbox empty' onClick='functionTestSettingSubCategoryCheck(this,"+'"foundation"'+","+number3+")' value='empty'>";
+			rowItem += "<span class='checkmark'></span>";
+			rowItem += "</label>";
+			rowItem += "</div>";
 			rowItem += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
 			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
 			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
@@ -571,6 +613,24 @@
 			
 			var table = $(obj).parent();
 			var rowItem = "<div class='subCategoryDiv'>";
+			rowItem += "<div class='checkbox-group'>";
+			rowItem += "<label>";
+			rowItem += "<input type='checkbox' name='functionTestSettingSubCategoryTortal' class='custom-checkbox success' onClick='functionTestSettingSubCategoryCheck(this,"+'"tortal"'+","+number3+")' value='success'>";
+			rowItem += "<span class='checkmark'></span>";
+			rowItem += "</label>";
+			rowItem += "</div>";
+			rowItem += "<div class='checkbox-group'>";
+			rowItem += "<label>";
+			rowItem += "<input type='checkbox' name='functionTestSettingSubCategoryBasic' class='custom-checkbox empty' onClick='functionTestSettingSubCategoryCheck(this,"+'"basic"'+","+number3+")' value='empty'>";
+			rowItem += "<span class='checkmark'></span>";
+			rowItem += "</label>";
+			rowItem += "</div>";
+			rowItem += "<div class='checkbox-group'>";
+			rowItem += "<label>";
+			rowItem += "<input type='checkbox' name='functionTestSettingSubCategoryFoundation' class='custom-checkbox empty' onClick='functionTestSettingSubCategoryCheck(this,"+'"foundation"'+","+number3+")' value='empty'>";
+			rowItem += "<span class='checkmark'></span>";
+			rowItem += "</label>";
+			rowItem += "</div>";
 			rowItem += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
 			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
 			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
@@ -641,7 +701,7 @@
 		}
 	</script>
 	<script>
-		$(function () {
+		/* $(function () {
 			const checkboxes = document.querySelectorAll('.custom-checkbox');
 		
 			checkboxes.forEach(function(checkbox) {
@@ -657,7 +717,35 @@
 					}
 				});
 			});
-		})
+		}) */
+		
+		function functionTestSettingSubCategoryCheck(obj,type,number) {
+			if (obj.value == 'empty') {
+				obj.classList.remove('empty');
+				obj.classList.add('success');
+				$(obj).val('success');
+			} else if (obj.value == 'success') {
+				obj.classList.remove('success');
+				obj.classList.add('empty');
+				$(obj).val('empty');
+			}
+			
+			$.ajax({
+				url: "<c:url value='/functionTestSetting/check'/>",
+				type: "POST",
+				data: {
+					"functionTestSettingSubCategoryKeyNum": number,
+					"functionTestSettingSubCategoryType":type,
+					"functionTestSettingSubCategoryCheck": obj.value,
+				},
+				async: false,
+				success: function() {
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
 	</script>
 	
 	<style>

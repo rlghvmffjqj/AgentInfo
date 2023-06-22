@@ -17,7 +17,6 @@
 
 <script>
 	function btnLicenseXmlImport() {
-		console.log("하");
 		const postData = new FormData($('#modalImportForm')[0]);
 		/* progressbar 정보 */
         var bar = $('.bar');

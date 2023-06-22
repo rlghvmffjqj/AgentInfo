@@ -44,4 +44,7 @@ public class FunctionTestSetting {
 	private String functionTestSettingDetailRegistrationDate;
 	private String functionTestSettingDetailModifier;
 	private String functionTestSettingDetailModifiedDate;
+	
+	private String functionTestSettingSubCategoryType;
+	private String functionTestSettingSubCategoryCheck;
 }

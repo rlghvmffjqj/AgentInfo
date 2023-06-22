@@ -4,10 +4,14 @@
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<script>
-			/* =========== 페이지 쿠키 값 저장 ========= */
-		    $(function() {
-		    	$.cookie('name','functionTest');
-		    });
+		$(function() {
+	    	if("${functionTestType}"=="tortal")
+	    		$.cookie('name','functionTestTortal');
+	    	if("${functionTestType}"=="basic")
+	    		$.cookie('name','functionTestBasic');
+	    	if("${functionTestType}"=="foundation")
+	    		$.cookie('name','functionTestFoundation');
+	    });
 		</script>
 	</head>
 	<body>
@@ -252,6 +256,7 @@
 			                    		</div>
 		                        	</div>
 			                    </div>
+			                    <input class="form-control" type="hidden" id="functionTestType" name="functionTestType" value="${functionTestType}">
 			                    <input class="form-control" type="hidden" id="functionTestBtnType" name="functionTestBtnType" value="${viewType}">
 			                    <input class="form-control" type="hidden" id="functionTestKeyNum" name="functionTestKeyNum" value="${functionTestTitle.functionTestKeyNum}">
 							</form> 
@@ -295,7 +300,6 @@
 		}
 		
 		function btnSave() {
-			console.log("하");
 			const values = $('.custom-checkbox').map(function() {
 				if(this.value=='empty')
 					return 'empty';
@@ -341,7 +345,7 @@
 								  cancelButtonText: '저장',
 							}).then((result) => {
 								if (result.isConfirmed) {
-									location.href="<c:url value='/functionTest/list'/>";
+									location.href="<c:url value='/functionTest/list'/>?functionTestType=${functionTestType}";
 								} else {
 									$('#save').hide();
 									$('#update').show();
@@ -409,7 +413,7 @@
 								  cancelButtonText: '저장',
 							}).then((result2) => {
 								if (result2.isConfirmed) {
-									location.href="<c:url value='/functionTest/list'/>";
+									location.href="<c:url value='/functionTest/list'/>?functionTestType=${functionTestType}";
 								} else {
 									$('#functionTestKeyNum').val(result.functionTestKeyNum);
 									$('#downloadBtn').show();

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.FunctionTestSettingService;
+import com.secuve.agentInfo.vo.FunctionTest;
 import com.secuve.agentInfo.vo.FunctionTestSetting;
 
 @Controller
@@ -113,4 +114,11 @@ public class FunctionTestSettingController {
 		functionTestSetting.setFunctionTestSettingDetailModifiedDate(functionTestSettingService.nowDate());
 		return functionTestSettingService.functionTestSettingDetailSave(functionTestSetting);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/functionTestSetting/check")
+	public void FunctionTestCheck(FunctionTestSetting functionTestSetting) {
+		functionTestSettingService.updateFunctionTestSettingCheck(functionTestSetting);
+	}
+	
 }

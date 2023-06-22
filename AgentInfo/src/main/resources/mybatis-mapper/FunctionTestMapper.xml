@@ -28,8 +28,8 @@
 	</select>
 	
 	<insert id="insertFunctionTest">
-		INSERT INTO functionTest(functionTestKeyNum,functionTestCustomer,functionTestTitle,functionTestDate,functionTestSettingSubCategoryKeyNum,functionTestSubCategoryState,functionTestSubCategoryFailReason,functionTestRegistrant,functionTestRegistrationDate,functionTestModifier,functionTestModifiedDate)
-		VALUES(#{functionTestKeyNum},#{functionTestCustomer},#{functionTestTitle},#{functionTestDate},#{functionTestSettingSubCategoryKeyNum},#{functionTestSubCategoryState},#{functionTestSubCategoryFailReason},#{functionTestRegistrant},#{functionTestRegistrationDate},#{functionTestModifier},#{functionTestModifiedDate});
+		INSERT INTO functionTest(functionTestKeyNum,functionTestCustomer,functionTestTitle,functionTestDate,functionTestSettingSubCategoryKeyNum,functionTestSubCategoryState,functionTestSubCategoryFailReason,functionTestType,functionTestRegistrant,functionTestRegistrationDate,functionTestModifier,functionTestModifiedDate)
+		VALUES(#{functionTestKeyNum},#{functionTestCustomer},#{functionTestTitle},#{functionTestDate},#{functionTestSettingSubCategoryKeyNum},#{functionTestSubCategoryState},#{functionTestSubCategoryFailReason},#{functionTestType},#{functionTestRegistrant},#{functionTestRegistrationDate},#{functionTestModifier},#{functionTestModifiedDate});
 	</insert>
 	
 	<select id="getFunctionTestOneTitle" resultMap="functionTest" parameterType="_int">
@@ -75,6 +75,7 @@
 			<if test="functionTestDateStart != null and functionTestDateStart != ''">
 				AND functionTestDate BETWEEN #{functionTestDateStart} AND #{functionTestDateEnd}
 			</if>
+			AND functionTestType = #{functionTestType}
 		</trim>
 	</sql>
 	

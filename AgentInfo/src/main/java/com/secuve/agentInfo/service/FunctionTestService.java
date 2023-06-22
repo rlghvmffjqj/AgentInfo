@@ -51,7 +51,7 @@ public class FunctionTestService {
 		int sucess = 1;
 		functionTest = oneDate(functionTest);
 		for(int i=0; i < functionTest.getFunctionTestSubCategoryStateList().size(); i++) {
-			sucess *= functionTestDao.insertFunctionTest(functionTest.getFunctionTestKeyNum(), functionTest.getFunctionTestCustomer(), functionTest.getFunctionTestTitle(), functionTest.getFunctionTestDate(), functionTest.getFunctionTestSettingSubCategoryKeyNumList().get(i), functionTest.getFunctionTestSubCategoryStateList().get(i), functionTest.getFunctionTestSubCategoryFailReasonList().get(i), functionTest.getFunctionTestRegistrant(), functionTest.getFunctionTestRegistrationDate(), functionTest.getFunctionTestModifier(), functionTest.getFunctionTestModifiedDate());
+			sucess *= functionTestDao.insertFunctionTest(functionTest.getFunctionTestKeyNum(), functionTest.getFunctionTestCustomer(), functionTest.getFunctionTestTitle(), functionTest.getFunctionTestDate(), functionTest.getFunctionTestSettingSubCategoryKeyNumList().get(i), functionTest.getFunctionTestSubCategoryStateList().get(i), functionTest.getFunctionTestSubCategoryFailReasonList().get(i), functionTest.getFunctionTestType(), functionTest.getFunctionTestRegistrant(), functionTest.getFunctionTestRegistrationDate(), functionTest.getFunctionTestModifier(), functionTest.getFunctionTestModifiedDate());
 		}
 		if (sucess <= 0) {
 			map.put("result", "FALSE");
@@ -122,4 +122,5 @@ public class FunctionTestService {
 	public List<Integer> functionTestFunctionTestSettingSubCategoryKeyNum(int functionTestKeyNum) {
 		return functionTestDao.functionTestFunctionTestSettingSubCategoryKeyNum(functionTestKeyNum);
 	}
+
 }

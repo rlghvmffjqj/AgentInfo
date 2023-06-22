@@ -20,6 +20,7 @@ public class FunctionTest {
 	private String functionTestDate;
 	private String functionTestSubCategoryState;
 	private String functionTestSubCategoryFailReason;
+	private String functionTestType;
 	private String functionTestRegistrant;
 	private String functionTestRegistrationDate;
 	private String functionTestModifier;
