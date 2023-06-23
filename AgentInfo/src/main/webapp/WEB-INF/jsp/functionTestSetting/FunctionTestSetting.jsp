@@ -25,8 +25,8 @@
 							    <div class="row align-items-center">
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
-							                <h5 class="m-b-10">테스트 체크리스트 설정</h5>
-							                <p class="m-b-0">Set up a test checklist</p>
+							                <h5 class="m-b-10">기능 테스트 설정</h5>
+							                <p class="m-b-0">Set up a function test</p>
 							            </div>
 							        </div>
 							        <div class="col-md-4">
@@ -34,7 +34,7 @@
 							                <li class="breadcrumb-item">
 							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 							                </li>
-							                <li class="breadcrumb-item"><a href="#!">체크리스트 설정</a>
+							                <li class="breadcrumb-item"><a href="#!">기능 테스트 설정</a>
 							                </li>
 							            </ul>
 							        </div>

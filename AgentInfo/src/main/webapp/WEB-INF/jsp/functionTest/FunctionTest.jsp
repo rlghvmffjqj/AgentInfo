@@ -73,8 +73,8 @@
 							    <div class="row align-items-center">
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
-							                <h5 class="m-b-10">체크 리스트</h5>
-							                <p class="m-b-0">Check List</p>
+							                <h5 class="m-b-10">기능 테스트</h5>
+							                <p class="m-b-0">Function Test</p>
 							            </div>
 							        </div>
 							        <div class="col-md-4">
@@ -82,7 +82,7 @@
 							                <li class="breadcrumb-item">
 							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 							                </li>
-							                <li class="breadcrumb-item"><a href="#!">체크 리스트 목록</a>
+							                <li class="breadcrumb-item"><a href="#!">기능 테스트 목록</a>
 							                </li>
 							            </ul>
 							        </div>
@@ -173,7 +173,7 @@
 														<table style="width:100%">
 														<tbody>
 															<tr>
-																<td style="font-weight:bold;">체크 리스트 관리 :
+																<td style="font-weight:bold;">기능 테스트 관리 :
 																	<sec:authorize access="hasAnyRole('ADMIN','QA')">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
@@ -207,7 +207,7 @@
 	</body>
 
 	<script>
-		/* =========== 체크 리스트 추가 Modal ========= */
+		/* =========== 기능 테스트 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
 			location.href="<c:url value='/functionTest/view'/>?functionTestType=${functionTestType}";		
 		});
@@ -289,7 +289,7 @@
 			tableRefresh();
 		});
 		
-		/* =========== 체크 리스트 삭제 ========= */
+		/* =========== 기능 테스트 삭제 ========= */
 		$('#BtnDelect').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList == 0) {
@@ -301,7 +301,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 체크 리스트를 삭제하시겠습니까?",
+					  text: "선택한 기능 테스트를 삭제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -341,7 +341,7 @@
 		});
 		
 		
-		/* =========== 체크 리스트 수정 Modal ========= */
+		/* =========== 기능 테스트 수정 Modal ========= */
 		function updateView(data) {
 			location.href="<c:url value='/functionTest/updateView'/>?functionTestType=${functionTestType}&functionTestKeyNum="+data;
 		}
