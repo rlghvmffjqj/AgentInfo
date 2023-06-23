@@ -538,7 +538,8 @@
 		}
 		
 		.formBtn {
-			width: 150px;
+			width: auto;
+    		min-width: 140px;
 		    font-weight: bold;
 		    font-size: 14px;
 		    height: 55px;

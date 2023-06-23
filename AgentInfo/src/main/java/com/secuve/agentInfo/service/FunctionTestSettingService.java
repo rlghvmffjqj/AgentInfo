@@ -38,7 +38,7 @@ public class FunctionTestSettingService {
 		} else {
 			int functionTestSettingSort = functionTestSettingDao.getFunctionTestSettingFormSort(functionTestSetting.getFunctionTestSettingFormKeyNum());
 			functionTestSetting.setFunctionTestSettingFormSort(++functionTestSettingSort);
-			functionTestSettingDao.getFunctionTestSettingFormSortPlus(functionTestSetting.getFunctionTestSettingFormKeyNum());
+			functionTestSettingDao.getFunctionTestSettingFormSortPlus(functionTestSetting);
 		}
 		functionTestSettingDao.formPlus(functionTestSetting);
 		return functionTestSetting.getFunctionTestSettingFormKeyNum();
@@ -100,7 +100,7 @@ public class FunctionTestSettingService {
 		} catch (Exception e) {
 		}
 		functionTestSetting.setFunctionTestSettingCategorySort(++functionTestSettingSort);
-		functionTestSettingDao.getFunctionTestSettingCategorySortPlus(functionTestSetting.getFunctionTestSettingCategoryKeyNum());
+		functionTestSettingDao.getFunctionTestSettingCategorySortPlus(functionTestSetting);
 		functionTestSettingDao.categoryPlus(functionTestSetting);
 		return functionTestSetting.getFunctionTestSettingCategoryKeyNum();
 	}
@@ -112,7 +112,7 @@ public class FunctionTestSettingService {
 		} catch (Exception e) {
 		}
 		functionTestSetting.setFunctionTestSettingSubCategorySort(++functionTestSettingSort);
-		functionTestSettingDao.getFunctionTestSettingSubCategorySortPlus(functionTestSetting.getFunctionTestSettingSubCategoryKeyNum());
+		functionTestSettingDao.getFunctionTestSettingSubCategorySortPlus(functionTestSetting);
 		functionTestSettingDao.subCategoryPlus(functionTestSetting);
 		return functionTestSetting.getFunctionTestSettingSubCategoryKeyNum();
 	}

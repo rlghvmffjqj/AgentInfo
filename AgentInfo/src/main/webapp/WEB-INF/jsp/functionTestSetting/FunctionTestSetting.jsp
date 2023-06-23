@@ -64,7 +64,7 @@
 				                    				<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'TOSMS'}">
 					                    				<div class='chckListForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
 						                    				<div class='chckListCommand'>
-						                    					<button class='btn btn-primary' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})" style='width: 70%; height: 50px;'>${functionTestSettingFormList.functionTestSettingFormName}</button>
+						                    					<button class='btn btn-primary formBtn' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})">${functionTestSettingFormList.functionTestSettingFormName}</button>
 						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
@@ -153,7 +153,7 @@
 				                    				<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'Agent'}">
 					                    				<div class='chckListForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
 						                    				<div class='chckListCommand'>
-						                    					<button class='btn btn-primary' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})" style='width: 70%; height: 50px;'>${functionTestSettingFormList.functionTestSettingFormName}</button>
+						                    					<button class='btn btn-primary formBtn' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})">${functionTestSettingFormList.functionTestSettingFormName}</button>
 						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
@@ -299,7 +299,7 @@
 			var table = $(obj).parent().parent();
 			var rowItem = "<div class='chckListForm' id='form_"+number+"'>";
 			rowItem += "<div class='chckListCommand'>";
-			rowItem += "<button class='btn btn-primary' onClick='functionTestSettingForm("+number+")' style='width: 70%; height: 50px;'>미지정</button>";
+			rowItem += "<button class='btn btn-primary formBtn' onClick='functionTestSettingForm("+number+")'>미지정</button>";
 			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,"+number+")'><span class='chekListFont'>제거</span></button></div>";
 			rowItem += "<div style='width: 80%; display: inline-block;'>";
 			rowItem += "<div class='input-group'>";
@@ -946,6 +946,12 @@
 		.checkFoundationSpan {
 			font-size: 12px;
 			margin-left: 0.6%;
+		}
+		
+		.formBtn {
+			min-width:70%;
+			width: auto; 
+			height: 50px;
 		}
 	</style>
 </html>

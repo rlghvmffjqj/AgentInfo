@@ -101,7 +101,7 @@
 	</select>
 	
 	<update id="getCheckListSettingFormSortPlus">
-		UPDATE checkListSettingForm SET checkListSettingFormSort = checkListSettingFormSort + 1 WHERE checkListSettingFormKeyNum > #{checkListSettingFormKeyNum};
+		UPDATE checkListSettingForm SET checkListSettingFormSort = checkListSettingFormSort + 1 WHERE checkListSettingFormSort >= #{checkListSettingFormSort};
 	</update>
 	
 	<select id="getCheckListSettingCategorySort" parameterType="_int" resultType="_int">
@@ -109,7 +109,7 @@
 	</select>
 	
 	<update id="getCheckListSettingCategorySortPlus">
-		UPDATE checkListSettingCategory SET checkListSettingCategorySort = checkListSettingCategorySort + 1 WHERE checkListSettingCategoryKeyNum > #{checkListSettingCategoryKeyNum};
+		UPDATE checkListSettingCategory SET checkListSettingCategorySort = checkListSettingCategorySort + 1 WHERE checkListSettingCategorySort >= #{checkListSettingCategorySort};
 	</update>
 	
 	<select id="getCheckListSettingSubCategorySort" parameterType="_int" resultType="_int">
@@ -117,7 +117,7 @@
 	</select>
 	
 	<update id="getCheckListSettingSubCategorySortPlus">
-		UPDATE checkListSettingSubCategory SET checkListSettingSubCategorySort = checkListSettingSubCategorySort + 1 WHERE checkListSettingSubCategoryKeyNum > #{checkListSettingSubCategoryKeyNum};
+		UPDATE checkListSettingSubCategory SET checkListSettingSubCategorySort = checkListSettingSubCategorySort + 1 WHERE checkListSettingSubCategorySort >= #{checkListSettingSubCategorySort};
 	</update>
 	
 </mapper>

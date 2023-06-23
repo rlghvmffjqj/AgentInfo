@@ -124,24 +124,24 @@ public class FunctionTestSettingDao {
 		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingFormSort",functionTestSettingFormKeyNum);
 	}
 
-	public void getFunctionTestSettingFormSortPlus(Integer functionTestSettingFormKeyNum) {
-		sqlSession.update("functionTestSetting.getFunctionTestSettingFormSortPlus",functionTestSettingFormKeyNum);		
+	public void getFunctionTestSettingFormSortPlus(FunctionTestSetting functionTestSetting) {
+		sqlSession.update("functionTestSetting.getFunctionTestSettingFormSortPlus",functionTestSetting);		
 	}
 
 	public int getFunctionTestSettingCategorySort(Integer functionTestSettingCategoryKeyNum) {
 		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingCategorySort",functionTestSettingCategoryKeyNum);
 	}
 
-	public void getFunctionTestSettingCategorySortPlus(Integer functionTestSettingCategoryKeyNum) {
-		sqlSession.update("functionTestSetting.getFunctionTestSettingCategorySortPlus",functionTestSettingCategoryKeyNum);
+	public void getFunctionTestSettingCategorySortPlus(FunctionTestSetting functionTestSetting) {
+		sqlSession.update("functionTestSetting.getFunctionTestSettingCategorySortPlus",functionTestSetting);
 	}
 
 	public int getFunctionTestSettingSubCategorySort(Integer functionTestSettingSubCategoryKeyNum) {
 		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingSubCategorySort",functionTestSettingSubCategoryKeyNum);
 	}
 
-	public void getFunctionTestSettingSubCategorySortPlus(Integer functionTestSettingSubCategoryKeyNum) {
-		sqlSession.update("functionTestSetting.getFunctionTestSettingSubCategorySortPlus",functionTestSettingSubCategoryKeyNum);
+	public void getFunctionTestSettingSubCategorySortPlus(FunctionTestSetting functionTestSetting) {
+		sqlSession.update("functionTestSetting.getFunctionTestSettingSubCategorySortPlus",functionTestSetting);
 	}
 
 }

@@ -64,7 +64,7 @@
 				                    				<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'TOSMS'}">
 					                    				<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
 						                    				<div class='chckListCommand'>
-						                    					<button class='btn btn-primary' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style='width: 70%; height: 50px;'>${checkListSettingFormList.checkListSettingFormName}</button>
+						                    					<button class='btn btn-primary formBtn' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})">${checkListSettingFormList.checkListSettingFormName}</button>
 						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${checkListSettingFormList.checkListSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
@@ -132,7 +132,7 @@
 				                    				<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'Agent'}">
 					                    				<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
 						                    				<div class='chckListCommand'>
-						                    					<button class='btn btn-primary' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style='width: 70%; height: 50px;'>${checkListSettingFormList.checkListSettingFormName}</button>
+						                    					<button class='btn btn-primary formBtn' onClick="checkListSettingForm(${checkListSettingFormList.checkListSettingFormKeyNum})">${checkListSettingFormList.checkListSettingFormName}</button>
 						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${checkListSettingFormList.checkListSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
@@ -258,7 +258,7 @@
 			var table = $(obj).parent().parent();
 			var rowItem = "<div class='chckListForm' id='form_"+number+"'>";
 			rowItem += "<div class='chckListCommand'>";
-			rowItem += "<button class='btn btn-primary' onClick='checkListSettingForm("+number+")' style='width: 70%; height: 50px;'>미지정</button>";
+			rowItem += "<button class='btn btn-primary formBtn' onClick='checkListSettingForm("+number+")'>미지정</button>";
 			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,"+number+")'><span class='chekListFont'>제거</span></button></div>";
 			rowItem += "<div style='width: 80%; display: inline-block;'>";
 			rowItem += "<div class='input-group'>";
@@ -731,6 +731,12 @@
 		
 		.categorySmallDiv {
 			padding-bottom: 3%;
+		}
+		
+		.formBtn {
+			 min-width: 70%;
+			 width: auto; 
+			 height: 50px;
 		}
 	</style>
 </html>

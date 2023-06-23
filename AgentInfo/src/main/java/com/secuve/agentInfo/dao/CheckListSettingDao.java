@@ -100,24 +100,24 @@ public class CheckListSettingDao {
 		return sqlSession.selectOne("checkListSetting.getCheckListSettingFormSort",checkListSettingFormKeyNum);
 	}
 
-	public void getCheckListSettingFormSortPlus(Integer checkListSettingFormKeyNum) {
-		sqlSession.update("checkListSetting.getCheckListSettingFormSortPlus",checkListSettingFormKeyNum);		
+	public void getCheckListSettingFormSortPlus(CheckListSetting checkListSetting) {
+		sqlSession.update("checkListSetting.getCheckListSettingFormSortPlus",checkListSetting);		
 	}
 
 	public int getCheckListSettingCategorySort(Integer checkListSettingCategoryKeyNum) {
 		return sqlSession.selectOne("checkListSetting.getCheckListSettingCategorySort",checkListSettingCategoryKeyNum);
 	}
 
-	public void getCheckListSettingCategorySortPlus(Integer checkListSettingCategoryKeyNum) {
-		sqlSession.update("checkListSetting.getCheckListSettingCategorySortPlus",checkListSettingCategoryKeyNum);
+	public void getCheckListSettingCategorySortPlus(CheckListSetting checkListSetting) {
+		sqlSession.update("checkListSetting.getCheckListSettingCategorySortPlus",checkListSetting);
 	}
 
 	public int getCheckListSettingSubCategorySort(Integer checkListSettingSubCategoryKeyNum) {
 		return sqlSession.selectOne("checkListSetting.getCheckListSettingSubCategorySort",checkListSettingSubCategoryKeyNum);
 	}
 
-	public void getCheckListSettingSubCategorySortPlus(Integer checkListSettingSubCategoryKeyNum) {
-		sqlSession.update("checkListSetting.getCheckListSettingSubCategorySortPlus",checkListSettingSubCategoryKeyNum);
+	public void getCheckListSettingSubCategorySortPlus(CheckListSetting checkListSetting) {
+		sqlSession.update("checkListSetting.getCheckListSettingSubCategorySortPlus",checkListSetting);
 	}
 
 }

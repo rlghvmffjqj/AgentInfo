@@ -147,7 +147,7 @@
 	</select>
 	
 	<update id="getFunctionTestSettingFormSortPlus">
-		UPDATE functionTestSettingForm SET functionTestSettingFormSort = functionTestSettingFormSort + 1 WHERE functionTestSettingFormKeyNum > #{functionTestSettingFormKeyNum};
+		UPDATE functionTestSettingForm SET functionTestSettingFormSort = functionTestSettingFormSort + 1 WHERE functionTestSettingFormSort >= #{functionTestSettingFormSort};
 	</update>
 	
 	<select id="getFunctionTestSettingCategorySort" parameterType="_int" resultType="_int">
@@ -155,7 +155,7 @@
 	</select>
 	
 	<update id="getFunctionTestSettingCategorySortPlus">
-		UPDATE functionTestSettingCategory SET functionTestSettingCategorySort = functionTestSettingCategorySort + 1 WHERE functionTestSettingCategoryKeyNum > #{functionTestSettingCategoryKeyNum};
+		UPDATE functionTestSettingCategory SET functionTestSettingCategorySort = functionTestSettingCategorySort + 1 WHERE functionTestSettingCategorySort >= #{functionTestSettingCategorySort};
 	</update>
 	
 	<select id="getFunctionTestSettingSubCategorySort" parameterType="_int" resultType="_int">
@@ -163,7 +163,7 @@
 	</select>
 	
 	<update id="getFunctionTestSettingSubCategorySortPlus">
-		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategorySort = functionTestSettingSubCategorySort + 1 WHERE functionTestSettingSubCategoryKeyNum > #{functionTestSettingSubCategoryKeyNum};
+		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategorySort = functionTestSettingSubCategorySort + 1 WHERE functionTestSettingSubCategorySort >= #{functionTestSettingSubCategorySort};
 	</update>
 	
 	<!-- ==================================================================================== -->
