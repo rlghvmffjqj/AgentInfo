@@ -77,8 +77,8 @@
 			                    			<div class='formDiv'>
 					                    		<c:forEach var="functionTestSettingFormList" items="${functionTestSettingFormTOSMS}">
 					                    			<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'TOSMS'}">
-						                    			<div class='chckListForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
-							                    			<div class='chckListCommand'>
+						                    			<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
+							                    			<div class='functionTestCommand'>
 							                    				<button type="button" class='btn btn-primary formBtn' onClick="functionTestForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${functionTestSettingFormList.functionTestSettingFormName}</button>
 							                    			</div>
 							                    		</div>
@@ -170,8 +170,8 @@
 			                    			<div class='formDiv'>
 					                    		<c:forEach var="functionTestSettingFormList" items="${functionTestSettingFormAgent}">
 					                    			<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'Agent'}">
-						                    			<div class='chckListForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
-							                    			<div class='chckListCommand'>
+						                    			<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
+							                    			<div class='functionTestCommand'>
 							                    				<button type="button" class='btn btn-primary formBtn' onClick="functionTestForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${functionTestSettingFormList.functionTestSettingFormName}</button>
 							                    			</div>
 							                    		</div>
@@ -486,7 +486,7 @@
 			color: white !important;
 		}
 		
-		.chckListCommand {
+		.functionTestCommand {
 		    text-align: center;
 		    height: 100%;
 		    padding-top: 20%;
@@ -525,7 +525,7 @@
     		font-family: monospace;
 		}
 		
-		.chckListForm {
+		.functionTestForm {
 			display: inline-block;
 		}
 		

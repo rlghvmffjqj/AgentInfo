@@ -73,8 +73,8 @@
 			                    			<div class='formDiv'>
 					                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormTOSMS}">
 					                    			<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'TOSMS'}">
-						                    			<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-							                    			<div class='chckListCommand'>
+						                    			<div class='checkListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+							                    			<div class='checkListCommand'>
 							                    				<button type="button" class='btn btn-primary formBtn' onClick="checkListForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${checkListSettingFormList.checkListSettingFormName}</button>
 							                    			</div>
 							                    		</div>
@@ -166,8 +166,8 @@
 			                    			<div class='formDiv'>
 					                    		<c:forEach var="checkListSettingFormList" items="${checkListSettingFormAgent}">
 					                    			<c:if test="${checkListSettingFormList.checkListSettingDivision eq 'Agent'}">
-						                    			<div class='chckListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
-							                    			<div class='chckListCommand'>
+						                    			<div class='checkListForm' id='form_${checkListSettingFormList.checkListSettingFormKeyNum}'>
+							                    			<div class='checkListCommand'>
 							                    				<button type="button" class='btn btn-primary formBtn' onClick="checkListForm(${checkListSettingFormList.checkListSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${checkListSettingFormList.checkListSettingFormName}</button>
 							                    			</div>
 							                    		</div>
@@ -481,7 +481,7 @@
 			color: white !important;
 		}
 		
-		.chckListCommand {
+		.checkListCommand {
 		    text-align: center;
 		    height: 100%;
 		    padding-top: 20%;
@@ -520,7 +520,7 @@
     		font-family: monospace;
 		}
 		
-		.chckListForm {
+		.checkListForm {
 			display: inline-block;
 		}
 		

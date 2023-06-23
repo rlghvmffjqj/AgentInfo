@@ -51,10 +51,10 @@
 			                    	<div class='ibox'>
 		                    			<div class='formDiv'>
 		                    				<c:if test="${functionTestSettingFormTOSMS eq '[]'}">
-			                    				<div class='chckListForm'>
-			                    					<div id='chckListPlusOne'>
+			                    				<div class='functionTestForm'>
+			                    					<div id='functionTestPlusOne'>
 					                    				<div style='padding-left: 100%; padding-top: 130%;'>
-					                    					<button class='formPlus' onClick='formPlus(this,0)'><span class='chekListFont'>추가</span></button>
+					                    					<button class='formPlus' onClick='formPlus(this,0)'><span class='functionTestFont'>추가</span></button>
 					                    				</div>
 				                    				</div>
 				                    			</div>
@@ -62,10 +62,10 @@
 				                    		<c:if test="${functionTestSettingFormTOSMS ne '[]'}">
 				                    			<c:forEach var="functionTestSettingFormList" items="${functionTestSettingFormTOSMS}">
 				                    				<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'TOSMS'}">
-					                    				<div class='chckListForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
-						                    				<div class='chckListCommand'>
+					                    				<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
+						                    				<div class='functionTestCommand'>
 						                    					<button class='btn btn-primary formBtn' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})">${functionTestSettingFormList.functionTestSettingFormName}</button>
-						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
+						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
 																		<input type='text' class='form-control' id='inputChange' placeholder='이름'>
@@ -73,8 +73,8 @@
 																	</div>
 																</div>
 						                    				</div>
-						                    				<div class='chckListPlus'>
-						                    					<button class='formPlus' onClick='formPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>추가</span></button>
+						                    				<div class='functionTestPlus'>
+						                    					<button class='formPlus' onClick='formPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>추가</span></button>
 						                    				</div>
 						                    			</div>
 						                    		</c:if>
@@ -89,9 +89,9 @@
 						                    				<div class='categorySmallDiv'>
 						                    					<div style='height: 30px;'>
 								                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;' value="${functionTestSettingCategoryList.functionTestSettingCategoryName}">
-								                    				<button class='categorySave' onClick='categorySave(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
-								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
-								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+								                    				<button class='categorySave' onClick='categorySave(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
+								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
+								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
 								                    			</div>
 								                    			<div style="margin-bottom: -15px; margin-top: 10px;">
 								                    				<span class="checkTortalSpan">전수</span><span class="checkBasicSpan">기본</span><span class="checkFoundationSpan">기초</span>
@@ -118,9 +118,9 @@
 									                    						</label>
 									                    					</div>
 									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}">
-									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
-									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
-									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
+									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
+									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
 									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(${functionTestSettingCategoryList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
 									                    				</div>
 									                    			</c:if>
@@ -140,10 +140,10 @@
 			                    	<div class='ibox'>
 		                    			<div class='formDiv'>
 		                    				<c:if test="${functionTestSettingFormAgent eq '[]'}">
-			                    				<div class='chckListForm'>
-			                    					<div id='chckListPlusOne'>
+			                    				<div class='functionTestForm'>
+			                    					<div id='functionTestPlusOne'>
 					                    				<div style='padding-left: 100%; padding-top: 130%;'>
-					                    					<button class='formPlus' onClick='formPlus(this,0)'><span class='chekListFont'>추가</span></button>
+					                    					<button class='formPlus' onClick='formPlus(this,0)'><span class='functionTestFont'>추가</span></button>
 					                    				</div>
 				                    				</div>
 				                    			</div>
@@ -151,10 +151,10 @@
 				                    		<c:if test="${functionTestSettingFormAgent ne '[]'}">
 				                    			<c:forEach var="functionTestSettingFormList" items="${functionTestSettingFormAgent}">
 				                    				<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'Agent'}">
-					                    				<div class='chckListForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
-						                    				<div class='chckListCommand'>
+					                    				<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
+						                    				<div class='functionTestCommand'>
 						                    					<button class='btn btn-primary formBtn' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})">${functionTestSettingFormList.functionTestSettingFormName}</button>
-						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>제거</span></button></div>
+						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
 																		<input type='text' class='form-control' id='inputChange' placeholder='이름'>
@@ -162,8 +162,8 @@
 																	</div>
 																</div>
 						                    				</div>
-						                    				<div class='chckListPlus'>
-						                    					<button class='formPlus' onClick='formPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='chekListFont'>추가</span></button>
+						                    				<div class='functionTestPlus'>
+						                    					<button class='formPlus' onClick='formPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>추가</span></button>
 						                    				</div>
 						                    			</div>
 						                    		</c:if>
@@ -178,9 +178,9 @@
 						                    				<div class='categorySmallDiv'>
 						                    					<div style='height: 30px;'>
 								                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;' value="${functionTestSettingCategoryList.functionTestSettingCategoryName}">
-								                    				<button class='categorySave' onClick='categorySave(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
-								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
-								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+								                    				<button class='categorySave' onClick='categorySave(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
+								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
+								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
 								                    			</div>
 								                    			<div style="margin-bottom: -15px; margin-top: 10px;">
 								                    				<span class="checkTortalSpan">전수</span><span class="checkBasicSpan">기본</span><span class="checkFoundationSpan">기초</span>
@@ -207,9 +207,9 @@
 									                    						</label>
 									                    					</div>
 									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}">
-									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>저장</span></button>
-									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>추가</span></button>
-									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='chekListFont'>제거</span></button>
+									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
+									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
+									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
 									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(${functionTestSettingCategoryList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
 									                    				</div>
 									                    			</c:if>
@@ -297,10 +297,10 @@
 			});
 			
 			var table = $(obj).parent().parent();
-			var rowItem = "<div class='chckListForm' id='form_"+number+"'>";
-			rowItem += "<div class='chckListCommand'>";
+			var rowItem = "<div class='functionTestForm' id='form_"+number+"'>";
+			rowItem += "<div class='functionTestCommand'>";
 			rowItem += "<button class='btn btn-primary formBtn' onClick='functionTestSettingForm("+number+")'>미지정</button>";
-			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,"+number+")'><span class='chekListFont'>제거</span></button></div>";
+			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,"+number+")'><span class='functionTestFont'>제거</span></button></div>";
 			rowItem += "<div style='width: 80%; display: inline-block;'>";
 			rowItem += "<div class='input-group'>";
 			rowItem += "<input type='text' class='form-control' id='inputChange' placeholder='이름'>";
@@ -308,8 +308,8 @@
 			rowItem += "</div>";
 			rowItem += "</div>";
 			rowItem += "</div>";
-			rowItem += "<div class='chckListPlus'>";
-			rowItem += "<button class='formPlus' onClick='formPlus(this,"+number+")'><span class='chekListFont'>추가</span></button>";
+			rowItem += "<div class='functionTestPlus'>";
+			rowItem += "<button class='formPlus' onClick='formPlus(this,"+number+")'><span class='functionTestFont'>추가</span></button>";
 			rowItem += "</div>";
 			rowItem += "</div>";
 			table.after(rowItem);
@@ -347,9 +347,9 @@
 			rowItem2 += "<div class='categorySmallDiv'>";
 			rowItem2 += "<div style='height: 30px;'>";
 			rowItem2 += "<input class='form-control' placeholder='Category' style='width: 40%; float: left;'>";
-			rowItem2 += "<button class='categorySave' onClick='categorySave(this,"+number2+")'><span class='chekListFont'>저장</span></button>";
-			rowItem2 += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
-			rowItem2 += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='chekListFont'>제거</span></button>";
+			rowItem2 += "<button class='categorySave' onClick='categorySave(this,"+number2+")'><span class='functionTestFont'>저장</span></button>";
+			rowItem2 += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+","+number2+")'><span class='functionTestFont'>추가</span></button>";
+			rowItem2 += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='functionTestFont'>제거</span></button>";
 			rowItem2 += "</div>";
 			rowItem2 += "<div style='margin-bottom: -15px; margin-top: 10px;'>";
 			rowItem2 += "<span class='checkTortalSpan'>전수</span><span class='checkBasicSpan'>기본</span><span class='checkFoundationSpan'>기초</span>";
@@ -374,16 +374,16 @@
 			rowItem2 += "</label>";
 			rowItem2 += "</div>";
 			rowItem2 += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
-			rowItem2 += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
-			rowItem2 += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+","+number3+")'><span class='chekListFont'>추가</span></button>";
-			rowItem2 += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
+			rowItem2 += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='functionTestFont'>저장</span></button>";
+			rowItem2 += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+","+number3+")'><span class='functionTestFont'>추가</span></button>";
+			rowItem2 += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='functionTestFont'>제거</span></button>";
 			rowItem2 += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number+","+number2+","+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem2 += "</div>";
 			rowItem2 += "</div>";
 			rowItem2 += "</div>";
 			table2.after(rowItem2);
 			
-			$('#chckListPlusOne').hide();
+			$('#functionTestPlusOne').hide();
 		}
 		
 		function formMinus(obj, number) {
@@ -487,9 +487,9 @@
 			var rowItem = "<div class='categorySmallDiv'>";
 			rowItem += "<div style='height: 30px;'>";
 			rowItem += "<input class='form-control' placeholder='Category' style='width: 40%; float: left;'>";
-			rowItem += "<button class='categorySave' onClick='categorySave(this,"+number2+")'><span class='chekListFont'>저장</span></button>";
-			rowItem += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+","+number2+")'><span class='chekListFont'>추가</span></button>";
-			rowItem += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='chekListFont'>제거</span></button>";
+			rowItem += "<button class='categorySave' onClick='categorySave(this,"+number2+")'><span class='functionTestFont'>저장</span></button>";
+			rowItem += "<button class='categoryPlus' onClick='categoryPlus(this,"+number+","+number2+")'><span class='functionTestFont'>추가</span></button>";
+			rowItem += "<button class='categoryMinus' onClick='categoryMinus(this,"+number2+")'><span class='functionTestFont'>제거</span></button>";
 			rowItem += "</div>";
 			rowItem += "<div style='margin-bottom: -15px; margin-top: 10px;'>";
 			rowItem += "<span class='checkTortalSpan'>전수</span><span class='checkBasicSpan'>기본</span><span class='checkFoundationSpan'>기초</span>";
@@ -514,9 +514,9 @@
 			rowItem += "</label>";
 			rowItem += "</div>";
 			rowItem += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
-			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
-			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+","+number3+")'><span class='chekListFont'>추가</span></button>";
-			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
+			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='functionTestFont'>저장</span></button>";
+			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+","+number3+")'><span class='functionTestFont'>추가</span></button>";
+			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='functionTestFont'>제거</span></button>";
 			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number+","+number2+","+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem += "</div>";
 			rowItem += "</div>";
@@ -634,9 +634,9 @@
 			rowItem += "</label>";
 			rowItem += "</div>";
 			rowItem += "<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;'>";
-			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='chekListFont'>저장</span></button>";
-			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+","+number3+")'><span class='chekListFont'>추가</span></button>";
-			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='chekListFont'>제거</span></button>";
+			rowItem += "<button class='subCategorySave' onClick='subCategorySave(this,"+number3+")'><span class='functionTestFont'>저장</span></button>";
+			rowItem += "<button class='subCategoryPlus' onClick='subCategoryPlus(this,"+number+","+number2+","+number3+")'><span class='functionTestFont'>추가</span></button>";
+			rowItem += "<button class='subCategoryMinus' onClick='subCategoryMinus(this,"+number3+")'><span class='functionTestFont'>제거</span></button>";
 			rowItem += "<button class='subCategoryDetail' onClick='subCategoryDetail("+number+","+number2+","+number3+")'><span class='subCategoryDetailFont'>!</span></button>";
 			rowItem += "</div>";
 			table.after(rowItem);
@@ -757,14 +757,14 @@
 			color: white !important;
 		}
 		
-		.chckListPlus {
+		.functionTestPlus {
 		    text-align: center;
 		    height: 100%;
 		    padding-top: 25%;
 		    float: left;
 		}
 		
-		.chckListCommand {
+		.functionTestCommand {
 		    text-align: center;
 		    height: 100%;
 		    padding-top: 10px;
@@ -787,7 +787,7 @@
 		    padding-left: 2%;
 		}
 		
-		.chekListFont {
+		.functionTestFont {
 			font-size: 12px;
     		font-family: monospace;
 		}
@@ -863,7 +863,7 @@
 		    width: 40px;
 		}
 		
-		.chckListForm {
+		.functionTestForm {
 			display: inline-block;
 		}
 		
