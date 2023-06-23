@@ -14,6 +14,7 @@ public class CheckListSetting {
 	private Integer checkListSettingFormKeyNum;
 	private String checkListSettingFormName;
 	private String checkListSettingDivision;
+	private Integer checkListSettingFormSort;
 	private String checkListSettingFormRegistrant;
 	private String checkListSettingFormRegistrationDate;
 	private String checkListSettingFormModifier;
@@ -21,6 +22,7 @@ public class CheckListSetting {
 
 	private Integer checkListSettingCategoryKeyNum;
 	private String checkListSettingCategoryName;
+	private Integer checkListSettingCategorySort;
 	private String checkListSettingCategoryRegistrant;
 	private String checkListSettingCategoryRegistrationDate;
 	private String checkListSettingCategoryModifier;
@@ -30,6 +32,7 @@ public class CheckListSetting {
 	private String checkListSettingSubCategoryName;
 	private String checkListSettingSubCategoryState;
 	private String checkListSettingSubCategoryFailReason;
+	private Integer checkListSettingSubCategorySort;
 	private String checkListSettingSubCategoryRegistrant;
 	private String checkListSettingSubCategoryRegistrationDate;
 	private String checkListSettingSubCategoryModifier;

@@ -550,7 +550,7 @@
 		}
 		
 		.categorySpan {
-			font-size: 25px;
+			font-size: 20px;
     		font-weight: bold;
 		}
 		

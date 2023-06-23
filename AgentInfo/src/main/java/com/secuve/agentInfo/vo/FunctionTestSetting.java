@@ -14,6 +14,7 @@ public class FunctionTestSetting {
 	private Integer functionTestSettingFormKeyNum;
 	private String functionTestSettingFormName;
 	private String functionTestSettingDivision;
+	private Integer functionTestSettingFormSort;
 	private String functionTestSettingFormRegistrant;
 	private String functionTestSettingFormRegistrationDate;
 	private String functionTestSettingFormModifier;
@@ -21,6 +22,7 @@ public class FunctionTestSetting {
 
 	private Integer functionTestSettingCategoryKeyNum;
 	private String functionTestSettingCategoryName;
+	private Integer functionTestSettingCategorySort;
 	private String functionTestSettingCategoryRegistrant;
 	private String functionTestSettingCategoryRegistrationDate;
 	private String functionTestSettingCategoryModifier;
@@ -33,6 +35,7 @@ public class FunctionTestSetting {
 	private String functionTestSettingSubCategoryTortal;
 	private String functionTestSettingSubCategoryBasic;
 	private String functionTestSettingSubCategoryFoundation;
+	private Integer functionTestSettingSubCategorySort;
 	private String functionTestSettingSubCategoryRegistrant;
 	private String functionTestSettingSubCategoryRegistrationDate;
 	private String functionTestSettingSubCategoryModifier;

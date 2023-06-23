@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.CheckListSetting" id="checkListSetting"></resultMap>
 	
 	<select id="checkListSettingForm" parameterType="string" resultMap="checkListSetting">
-		SELECT * FROM checkListSettingForm WHERE checkListSettingDivision = #{checkListSettingDivision};
+		SELECT * FROM checkListSettingForm WHERE checkListSettingDivision = #{checkListSettingDivision} ORDER BY checkListSettingFormSort ASC;
 	</select>
 	
 	<insert id="formPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingFormKeyNum">
-		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingDivision, checkListSettingFormRegistrant, checkListSettingFormRegistrationDate)
-		VALUES('미입력', #{checkListSettingDivision}, #{checkListSettingFormRegistrant}, #{checkListSettingFormRegistrationDate});
+		INSERT INTO checkListSettingForm(checkListSettingFormName, checkListSettingDivision, checkListSettingFormSort, checkListSettingFormRegistrant, checkListSettingFormRegistrationDate)
+		VALUES('미입력', #{checkListSettingDivision}, #{checkListSettingFormSort}, #{checkListSettingFormRegistrant}, #{checkListSettingFormRegistrationDate});
 	</insert>
 	
 	<update id="formChange">
@@ -23,21 +23,21 @@
 	</delete>
 	
 	<select id="checkListSettingCategory" resultMap="checkListSetting">
-		SELECT * FROM checkListSettingCategory;
+		SELECT * FROM checkListSettingCategory ORDER BY checkListSettingCategorySort ASC;
 	</select>
 	
 	<select id="checkListSettingSubCategory" resultMap="checkListSetting">
-		SELECT * FROM checkListSettingSubCategory;
+		SELECT * FROM checkListSettingSubCategory ORDER BY checkListSettingSubCategorySort ASC;
 	</select>
 	
 	<insert id="categoryPlus"  parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingCategoryKeyNum">
-		INSERT INTO checkListSettingCategory(checkListSettingFormKeyNum, checkListSettingCategoryRegistrant, checkListSettingCategoryRegistrationDate) 
-		VALUES (#{checkListSettingFormKeyNum}, #{checkListSettingCategoryRegistrant}, #{checkListSettingCategoryRegistrationDate});
+		INSERT INTO checkListSettingCategory(checkListSettingFormKeyNum, checkListSettingCategorySort, checkListSettingCategoryRegistrant, checkListSettingCategoryRegistrationDate) 
+		VALUES (#{checkListSettingFormKeyNum}, #{checkListSettingCategorySort}, #{checkListSettingCategoryRegistrant}, #{checkListSettingCategoryRegistrationDate});
 	</insert>
 	
 	<insert id="subCategoryPlus" parameterType="checkListSetting" useGeneratedKeys="true" keyProperty="checkListSettingSubCategoryKeyNum">
-		INSERT INTO checkListSettingSubCategory(checkListSettingCategoryKeyNum, checkListSettingFormKeyNum, checkListSettingSubCategoryRegistrant, checkListSettingSubCategoryRegistrationDate) 
-		VALUES (#{checkListSettingCategoryKeyNum}, #{checkListSettingFormKeyNum}, #{checkListSettingSubCategoryRegistrant}, #{checkListSettingSubCategoryRegistrationDate});
+		INSERT INTO checkListSettingSubCategory(checkListSettingCategoryKeyNum, checkListSettingFormKeyNum, checkListSettingSubCategorySort, checkListSettingSubCategoryRegistrant, checkListSettingSubCategoryRegistrationDate) 
+		VALUES (#{checkListSettingCategoryKeyNum}, #{checkListSettingFormKeyNum}, #{checkListSettingSubCategorySort}, #{checkListSettingSubCategoryRegistrant}, #{checkListSettingSubCategoryRegistrationDate});
 	</insert>
 	
 	<delete id="formCategoryMinus" parameterType="_int">
@@ -96,5 +96,28 @@
 		DELETE FROM checkListSettingDetail WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
 	</delete>
 	
+	<select id="getCheckListSettingFormSort" parameterType="_int" resultType="_int">
+		SELECT checkListSettingFormSort FROM checkListSettingForm WHERE checkListSettingFormKeyNum = #{checkListSettingFormKeyNum};
+	</select>
+	
+	<update id="getCheckListSettingFormSortPlus">
+		UPDATE checkListSettingForm SET checkListSettingFormSort = checkListSettingFormSort + 1 WHERE checkListSettingFormKeyNum > #{checkListSettingFormKeyNum};
+	</update>
+	
+	<select id="getCheckListSettingCategorySort" parameterType="_int" resultType="_int">
+		SELECT checkListSettingCategorySort FROM checkListSettingCategory WHERE checkListSettingCategoryKeyNum = #{checkListSettingCategoryKeyNum};
+	</select>
+	
+	<update id="getCheckListSettingCategorySortPlus">
+		UPDATE checkListSettingCategory SET checkListSettingCategorySort = checkListSettingCategorySort + 1 WHERE checkListSettingCategoryKeyNum > #{checkListSettingCategoryKeyNum};
+	</update>
+	
+	<select id="getCheckListSettingSubCategorySort" parameterType="_int" resultType="_int">
+		SELECT checkListSettingSubCategorySort FROM checkListSettingSubCategory WHERE checkListSettingSubCategoryKeyNum = #{checkListSettingSubCategoryKeyNum};
+	</select>
+	
+	<update id="getCheckListSettingSubCategorySortPlus">
+		UPDATE checkListSettingSubCategory SET checkListSettingSubCategorySort = checkListSettingSubCategorySort + 1 WHERE checkListSettingSubCategoryKeyNum > #{checkListSettingSubCategoryKeyNum};
+	</update>
 	
 </mapper>

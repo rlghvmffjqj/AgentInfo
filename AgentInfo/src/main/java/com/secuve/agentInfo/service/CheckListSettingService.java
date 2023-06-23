@@ -21,6 +21,13 @@ public class CheckListSettingService {
 	}
 
 	public int formPlus(CheckListSetting checkListSetting) {
+		if(checkListSetting.getCheckListSettingFormKeyNum() == 0) {
+			checkListSetting.setCheckListSettingFormSort(0);
+		} else {
+			int checkListSettingSort = checkListSettingDao.getCheckListSettingFormSort(checkListSetting.getCheckListSettingFormKeyNum());
+			checkListSetting.setCheckListSettingFormSort(++checkListSettingSort);
+			checkListSettingDao.getCheckListSettingFormSortPlus(checkListSetting.getCheckListSettingFormKeyNum());
+		}
 		checkListSettingDao.formPlus(checkListSetting);
 		return checkListSetting.getCheckListSettingFormKeyNum();
 	}
@@ -53,11 +60,25 @@ public class CheckListSettingService {
 	}
 
 	public int categoryPlus(CheckListSetting checkListSetting) {
+		int checkListSettingSort = 0;
+		try {
+			checkListSettingSort = checkListSettingDao.getCheckListSettingCategorySort(checkListSetting.getCheckListSettingCategoryKeyNum());
+		} catch (Exception e) {
+		}
+		checkListSetting.setCheckListSettingCategorySort(++checkListSettingSort);
+		checkListSettingDao.getCheckListSettingCategorySortPlus(checkListSetting.getCheckListSettingCategoryKeyNum());
 		checkListSettingDao.categoryPlus(checkListSetting);
 		return checkListSetting.getCheckListSettingCategoryKeyNum();
 	}
 
 	public int subCategoryPlus(CheckListSetting checkListSetting) {
+		int checkListSettingSort = 0;
+		try {
+			checkListSettingSort = checkListSettingDao.getCheckListSettingSubCategorySort(checkListSetting.getCheckListSettingSubCategoryKeyNum());
+		} catch (Exception e) {
+		}
+		checkListSetting.setCheckListSettingSubCategorySort(++checkListSettingSort);
+		checkListSettingDao.getCheckListSettingSubCategorySortPlus(checkListSetting.getCheckListSettingSubCategoryKeyNum());
 		checkListSettingDao.subCategoryPlus(checkListSetting);
 		return checkListSetting.getCheckListSettingSubCategoryKeyNum();
 	}

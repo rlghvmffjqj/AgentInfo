@@ -33,6 +33,13 @@ public class FunctionTestSettingService {
 	}
 
 	public int formPlus(FunctionTestSetting functionTestSetting) {
+		if(functionTestSetting.getFunctionTestSettingFormKeyNum() == 0) {
+			functionTestSetting.setFunctionTestSettingFormSort(0);
+		} else {
+			int functionTestSettingSort = functionTestSettingDao.getFunctionTestSettingFormSort(functionTestSetting.getFunctionTestSettingFormKeyNum());
+			functionTestSetting.setFunctionTestSettingFormSort(++functionTestSettingSort);
+			functionTestSettingDao.getFunctionTestSettingFormSortPlus(functionTestSetting.getFunctionTestSettingFormKeyNum());
+		}
 		functionTestSettingDao.formPlus(functionTestSetting);
 		return functionTestSetting.getFunctionTestSettingFormKeyNum();
 	}
@@ -87,11 +94,25 @@ public class FunctionTestSettingService {
 	}
 
 	public int categoryPlus(FunctionTestSetting functionTestSetting) {
+		int functionTestSettingSort = 0;
+		try {
+			functionTestSettingSort = functionTestSettingDao.getFunctionTestSettingCategorySort(functionTestSetting.getFunctionTestSettingCategoryKeyNum());
+		} catch (Exception e) {
+		}
+		functionTestSetting.setFunctionTestSettingCategorySort(++functionTestSettingSort);
+		functionTestSettingDao.getFunctionTestSettingCategorySortPlus(functionTestSetting.getFunctionTestSettingCategoryKeyNum());
 		functionTestSettingDao.categoryPlus(functionTestSetting);
 		return functionTestSetting.getFunctionTestSettingCategoryKeyNum();
 	}
 
 	public int subCategoryPlus(FunctionTestSetting functionTestSetting) {
+		int functionTestSettingSort = 0;
+		try {
+			functionTestSettingSort = functionTestSettingDao.getFunctionTestSettingSubCategorySort(functionTestSetting.getFunctionTestSettingSubCategoryKeyNum());
+		} catch (Exception e) {
+		}
+		functionTestSetting.setFunctionTestSettingSubCategorySort(++functionTestSettingSort);
+		functionTestSettingDao.getFunctionTestSettingSubCategorySortPlus(functionTestSetting.getFunctionTestSettingSubCategoryKeyNum());
 		functionTestSettingDao.subCategoryPlus(functionTestSetting);
 		return functionTestSetting.getFunctionTestSettingSubCategoryKeyNum();
 	}

@@ -96,4 +96,28 @@ public class CheckListSettingDao {
 		sqlSession.delete("checkListSetting.subCategoryDetailMinus", checkListSetting);
 	}
 
+	public int getCheckListSettingFormSort(Integer checkListSettingFormKeyNum) {
+		return sqlSession.selectOne("checkListSetting.getCheckListSettingFormSort",checkListSettingFormKeyNum);
+	}
+
+	public void getCheckListSettingFormSortPlus(Integer checkListSettingFormKeyNum) {
+		sqlSession.update("checkListSetting.getCheckListSettingFormSortPlus",checkListSettingFormKeyNum);		
+	}
+
+	public int getCheckListSettingCategorySort(Integer checkListSettingCategoryKeyNum) {
+		return sqlSession.selectOne("checkListSetting.getCheckListSettingCategorySort",checkListSettingCategoryKeyNum);
+	}
+
+	public void getCheckListSettingCategorySortPlus(Integer checkListSettingCategoryKeyNum) {
+		sqlSession.update("checkListSetting.getCheckListSettingCategorySortPlus",checkListSettingCategoryKeyNum);
+	}
+
+	public int getCheckListSettingSubCategorySort(Integer checkListSettingSubCategoryKeyNum) {
+		return sqlSession.selectOne("checkListSetting.getCheckListSettingSubCategorySort",checkListSettingSubCategoryKeyNum);
+	}
+
+	public void getCheckListSettingSubCategorySortPlus(Integer checkListSettingSubCategoryKeyNum) {
+		sqlSession.update("checkListSetting.getCheckListSettingSubCategorySortPlus",checkListSettingSubCategoryKeyNum);
+	}
+
 }

@@ -119,5 +119,29 @@ public class FunctionTestSettingDao {
 	public void updateFunctionTestSettingFoundationCheck(FunctionTestSetting functionTestSetting) {
 		sqlSession.update("functionTestSetting.updateFunctionTestSettingFoundationCheck",functionTestSetting);
 	}
+	
+	public int getFunctionTestSettingFormSort(Integer functionTestSettingFormKeyNum) {
+		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingFormSort",functionTestSettingFormKeyNum);
+	}
+
+	public void getFunctionTestSettingFormSortPlus(Integer functionTestSettingFormKeyNum) {
+		sqlSession.update("functionTestSetting.getFunctionTestSettingFormSortPlus",functionTestSettingFormKeyNum);		
+	}
+
+	public int getFunctionTestSettingCategorySort(Integer functionTestSettingCategoryKeyNum) {
+		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingCategorySort",functionTestSettingCategoryKeyNum);
+	}
+
+	public void getFunctionTestSettingCategorySortPlus(Integer functionTestSettingCategoryKeyNum) {
+		sqlSession.update("functionTestSetting.getFunctionTestSettingCategorySortPlus",functionTestSettingCategoryKeyNum);
+	}
+
+	public int getFunctionTestSettingSubCategorySort(Integer functionTestSettingSubCategoryKeyNum) {
+		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingSubCategorySort",functionTestSettingSubCategoryKeyNum);
+	}
+
+	public void getFunctionTestSettingSubCategorySortPlus(Integer functionTestSettingSubCategoryKeyNum) {
+		sqlSession.update("functionTestSetting.getFunctionTestSettingSubCategorySortPlus",functionTestSettingSubCategoryKeyNum);
+	}
 
 }

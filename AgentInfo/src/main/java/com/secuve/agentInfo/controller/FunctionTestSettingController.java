@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.FunctionTestSettingService;
-import com.secuve.agentInfo.vo.FunctionTest;
 import com.secuve.agentInfo.vo.FunctionTestSetting;
 
 @Controller

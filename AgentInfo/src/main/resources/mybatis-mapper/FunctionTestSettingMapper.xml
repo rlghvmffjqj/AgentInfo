@@ -5,19 +5,20 @@
 	<resultMap type="com.secuve.agentInfo.vo.FunctionTestSetting" id="functionTestSetting"></resultMap>
 	
 	<select id="functionTestSettingForm" parameterType="string" resultMap="functionTestSetting">
-		SELECT * FROM functionTestSettingForm WHERE functionTestSettingDivision = #{functionTestSettingDivision}
+		SELECT * FROM functionTestSettingForm WHERE functionTestSettingDivision = #{functionTestSettingDivision} ORDER BY functionTestSettingFormSort ASC;
 	</select>
 	
 	<select id="functionTestForm" parameterType="string" resultMap="functionTestSetting">
-		SELECT DISTINCT f.* FROM functiontestsettingform f, functionTestSettingSubCategory s
+		SELECT DISTINCT f.* FROM functionTestSettingForm f, functionTestSettingSubCategory s
 		WHERE functionTestSettingDivision = #{functionTestSettingDivision}
 		AND f.functionTestSettingFormKeyNum = s.functionTestSettingFormKeyNum
 		<include refid="sqlFunctionTestSetting" />
+		ORDER BY functionTestSettingFormSort ASC;
 	</select>
 	
 	<insert id="formPlus" parameterType="functionTestSetting" useGeneratedKeys="true" keyProperty="functionTestSettingFormKeyNum">
-		INSERT INTO functionTestSettingForm(functionTestSettingFormName, functionTestSettingDivision, functionTestSettingFormRegistrant, functionTestSettingFormRegistrationDate)
-		VALUES('미입력', #{functionTestSettingDivision}, #{functionTestSettingFormRegistrant}, #{functionTestSettingFormRegistrationDate});
+		INSERT INTO functionTestSettingForm(functionTestSettingFormName, functionTestSettingDivision, functionTestSettingFormSort, functionTestSettingFormRegistrant, functionTestSettingFormRegistrationDate)
+		VALUES('미입력', #{functionTestSettingDivision}, #{functionTestSettingFormSort}, #{functionTestSettingFormRegistrant}, #{functionTestSettingFormRegistrationDate});
 	</insert>
 	
 	<update id="formChange">
@@ -30,42 +31,44 @@
 	</delete>
 	
 	<select id="functionTestSettingCategory" resultMap="functionTestSetting">
-		SELECT * FROM functionTestSettingCategory;
+		SELECT * FROM functionTestSettingCategory ORDER BY functionTestSettingCategorySort ASC;
 	</select>
 	
 	<select id="functionTestCategory" resultMap="functionTestSetting">
 		SELECT DISTINCT c.* FROM functionTestSettingCategory c, functionTestSettingSubCategory s
 		WHERE c.functionTestSettingCategoryKeyNum = s.functionTestSettingCategoryKeyNum
 		<include refid="sqlFunctionTestSetting" />
+		ORDER BY functionTestSettingCategorySort ASC;
 	</select>
 	
 	<select id="functionTestSettingSubCategory" resultMap="functionTestSetting">
-		SELECT * FROM functionTestSettingSubCategory;
+		SELECT * FROM functionTestSettingSubCategory ORDER BY functionTestSettingSubCategorySort ASC;
 	</select>
 	
 	<select id="functionTestSubCategory" resultMap="functionTestSetting">
 		SELECT DISTINCT * FROM functionTestSettingSubCategory
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="functionTestSettingSubCategoryTortal != null and functionTestSettingSubCategoryTortal != ''">
-				AND functionTestSettingSubCategoryTortal = 'success';
+				AND functionTestSettingSubCategoryTortal = 'success'
 			</if>
 			<if test="functionTestSettingSubCategoryBasic != null and functionTestSettingSubCategoryBasic != ''">
-				AND functionTestSettingSubCategoryBasic = 'success';
+				AND functionTestSettingSubCategoryBasic = 'success'
 			</if>
 			<if test="functionTestSettingSubCategoryFoundation != null and functionTestSettingSubCategoryFoundation != ''">
-				AND functionTestSettingSubCategoryFoundation = 'success';
+				AND functionTestSettingSubCategoryFoundation = 'success'
 			</if>
 		</trim>
+		 ORDER BY functionTestSettingSubCategorySort ASC;
 	</select>
 	
 	<insert id="categoryPlus"  parameterType="functionTestSetting" useGeneratedKeys="true" keyProperty="functionTestSettingCategoryKeyNum">
-		INSERT INTO functionTestSettingCategory(functionTestSettingFormKeyNum, functionTestSettingCategoryRegistrant, functionTestSettingCategoryRegistrationDate) 
-		VALUES (#{functionTestSettingFormKeyNum}, #{functionTestSettingCategoryRegistrant}, #{functionTestSettingCategoryRegistrationDate});
+		INSERT INTO functionTestSettingCategory(functionTestSettingFormKeyNum, functionTestSettingCategorySort, functionTestSettingCategoryRegistrant, functionTestSettingCategoryRegistrationDate) 
+		VALUES (#{functionTestSettingFormKeyNum}, #{functionTestSettingCategorySort}, #{functionTestSettingCategoryRegistrant}, #{functionTestSettingCategoryRegistrationDate});
 	</insert>
 	
 	<insert id="subCategoryPlus" parameterType="functionTestSetting" useGeneratedKeys="true" keyProperty="functionTestSettingSubCategoryKeyNum">
-		INSERT INTO functionTestSettingSubCategory(functionTestSettingCategoryKeyNum, functionTestSettingFormKeyNum, functionTestSettingSubCategoryTortal, functionTestSettingSubCategoryBasic, functionTestSettingSubCategoryFoundation, functionTestSettingSubCategoryRegistrant, functionTestSettingSubCategoryRegistrationDate) 
-		VALUES (#{functionTestSettingCategoryKeyNum}, #{functionTestSettingFormKeyNum}, 'success', 'empty', 'empty', #{functionTestSettingSubCategoryRegistrant}, #{functionTestSettingSubCategoryRegistrationDate});
+		INSERT INTO functionTestSettingSubCategory(functionTestSettingCategoryKeyNum, functionTestSettingFormKeyNum, functionTestSettingSubCategoryTortal, functionTestSettingSubCategoryBasic, functionTestSettingSubCategoryFoundation, functionTestSettingSubCategorySort, functionTestSettingSubCategoryRegistrant, functionTestSettingSubCategoryRegistrationDate) 
+		VALUES (#{functionTestSettingCategoryKeyNum}, #{functionTestSettingFormKeyNum}, 'success', 'empty', 'empty', #{functionTestSettingSubCategorySort}, #{functionTestSettingSubCategoryRegistrant}, #{functionTestSettingSubCategoryRegistrationDate});
 	</insert>
 	
 	<delete id="formCategoryMinus" parameterType="_int">
@@ -139,17 +142,41 @@
 		WHERE functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
 	</update>
 	
+	<select id="getFunctionTestSettingFormSort" parameterType="_int" resultType="_int">
+		SELECT functionTestSettingFormSort FROM functionTestSettingForm WHERE functionTestSettingFormKeyNum = #{functionTestSettingFormKeyNum};
+	</select>
+	
+	<update id="getFunctionTestSettingFormSortPlus">
+		UPDATE functionTestSettingForm SET functionTestSettingFormSort = functionTestSettingFormSort + 1 WHERE functionTestSettingFormKeyNum > #{functionTestSettingFormKeyNum};
+	</update>
+	
+	<select id="getFunctionTestSettingCategorySort" parameterType="_int" resultType="_int">
+		SELECT functionTestSettingCategorySort FROM functionTestSettingCategory WHERE functionTestSettingCategoryKeyNum = #{functionTestSettingCategoryKeyNum};
+	</select>
+	
+	<update id="getFunctionTestSettingCategorySortPlus">
+		UPDATE functionTestSettingCategory SET functionTestSettingCategorySort = functionTestSettingCategorySort + 1 WHERE functionTestSettingCategoryKeyNum > #{functionTestSettingCategoryKeyNum};
+	</update>
+	
+	<select id="getFunctionTestSettingSubCategorySort" parameterType="_int" resultType="_int">
+		SELECT functionTestSettingSubCategorySort FROM functionTestSettingSubCategory WHERE functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
+	</select>
+	
+	<update id="getFunctionTestSettingSubCategorySortPlus">
+		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategorySort = functionTestSettingSubCategorySort + 1 WHERE functionTestSettingSubCategoryKeyNum > #{functionTestSettingSubCategoryKeyNum};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlFunctionTestSetting">
 		<if test="functionTestSettingSubCategoryTortal != null and functionTestSettingSubCategoryTortal != ''">
-			AND s.functionTestSettingSubCategoryTortal = 'success';
+			AND s.functionTestSettingSubCategoryTortal = 'success'
 		</if>
 		<if test="functionTestSettingSubCategoryBasic != null and functionTestSettingSubCategoryBasic != ''">
-			AND s.functionTestSettingSubCategoryBasic = 'success';
+			AND s.functionTestSettingSubCategoryBasic = 'success'
 		</if>
 		<if test="functionTestSettingSubCategoryFoundation != null and functionTestSettingSubCategoryFoundation != ''">
-			AND s.functionTestSettingSubCategoryFoundation = 'success';
+			AND s.functionTestSettingSubCategoryFoundation = 'success'
 		</if>
 	</sql>
 	
