@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="license">
+	<resultMap type="com.secuve.agentInfo.vo.License" id="license"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.LicenseSetting" id="licenseStting"></resultMap>
+	
+	<select id="getLicenseList" resultMap="license" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM license
+					<include refid="sqlLicense" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicenseListCount" resultType="_int">
+		SELECT COUNT(*) FROM license
+			<include refid="sqlLicense" />
+	</select>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM license WHERE ${selectInput} != '';
+	</select>
+	
+	<select id="getLicenseIssueKey" parameterType="_int" resultType="string">
+		SELECT licenseIssueKey FROM license WHERE licenseKeyNum = #{licenseKeyNum};
+	</select>
+	
+	<select id="getLicenseKeyNum" resultType="_int">
+		SELECT MAX(licenseKeyNum) FROM license;
+	</select>
+	
+	<select id="getLicenseKeyNumOrigin" resultType="_int">
+		SELECT MAX(licenseKeyNumOrigin) FROM license;
+	</select>
+	
+	<insert id="issuedLicense">
+		INSERT INTO license(licenseKeyNum,licenseKeyNumOrigin,licenseType,customerName,businessName,issueDate,requester,partners,osType,osVersion,kernelVersion,kernelBit,tosVersion,period,macUmlHostId,releaseType,deliveryMethod,licenseIssueKey,licenseIssueAnswer,licenseIssueCommand,licenseRegistrant,licenseRegistrationDate) 
+		VALUES(#{licenseKeyNum},#{licenseKeyNumOrigin},#{licenseType},#{customerNameView},#{businessNameView},#{issueDateView},#{requesterView},#{partnersView},#{osTypeView},#{osVersionView},#{kernelVersionView},#{kernelBitView},#{tosVersionView},#{periodView},#{macUmlHostIdView},#{releaseTypeView},#{deliveryMethodView},#{licenseIssueKey},#{licenseIssueAnswer},#{licenseIssueCommand},#{licenseRegistrant},#{licenseRegistrationDate});
+	</insert>
+	
+	<select id="getLicenseOne" parameterType="_int" resultMap="license">
+		SELECT * FROM license WHERE licenseKeyNum = #{licenseKeyNum};	
+	</select>
+	
+	<delete id="delLicense" parameterType="_int">
+		DELETE FROM license WHERE licenseKeyNum = #{licenseKeyNum};
+	</delete>
+	
+	<update id="saveLicenseKey">
+		UPDATE license SET licenseIssueKey = #{licenseIssueKey} WHERE licenseKeyNum = #{licenseKeyNum};
+	</update>
+	
+	<select id="getlicenseSetting" resultMap="licenseStting">
+		SELECT * FROM licenseSetting WHERE employeeId = #{employeeId};
+	</select>
+	
+	<update id="RouteChange">
+		UPDATE licenseSetting 
+		SET 
+			windowsLicenseRoute = #{windowsLicenseRoute},
+			linuxLicense20Route = #{linuxLicense20Route},
+			linuxLicense50Route = #{linuxLicense50Route}
+		WHERE employeeId = #{employeeId};
+	</update>
+	
+	<insert id="RouteInsert">
+		INSERT INTO licenseSetting(employeeId,windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route)
+		VALUES(#{employeeId},#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route});
+	</insert>
+	
+	<update id="plusLicenseKeyNumOrigin">
+		UPDATE license SET licenseKeyNumOrigin = licenseKeyNumOrigin + 1 WHERE licenseKeyNumOrigin > #{licenseKeyNumOrigin};
+	</update>
+	
+	<select id="getRoute" parameterType="string" resultType="string">
+		SELECT ${column} FROM licenseSetting WHERE employeeId = #{employeeId};
+	</select>
+	
+	<select id="getSettingCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM licenseSetting WHERE employeeId = #{employeeId};
+	</select>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlLicense">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="requester != null and requester != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="requesterArr" item="arr">
+						OR requester LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="partners != null and partners != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="partnersArr" item="arr">
+						OR partners LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="osType != null and osType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osTypeArr" item="arr">
+						OR osType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="osVersion != null and osVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osVersionArr" item="arr">
+						OR osVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="tosVersion != null and tosVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="tosVersionArr" item="arr">
+						OR tosVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="macUmlHostId != null and macUmlHostId != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="macUmlHostIdArr" item="arr">
+						OR macUmlHostId LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="releaseType != null and releaseType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="releaseTypeArr" item="arr">
+						OR releaseType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="deliveryMethod != null and deliveryMethod != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="deliveryMethodArr" item="arr">
+						OR deliveryMethod LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="kernelVersion != null and kernelVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="kernelVersionArr" item="arr">
+						OR kernelVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="kernelBit != null and kernelBit != ''">
+				AND kernelBit = #{kernelBit}
+			</if>
+			<if test="period != null and period != ''">
+				AND period LIKE CONCAT('%',#{period},'%')
+			</if>
+			<if test="licenseIssueKey != null and licenseIssueKey != ''">
+				AND licenseIssueKey LIKE CONCAT('%',#{licenseIssueKey},'%')
+			</if>
+			<if test="issueDateStart != null and issueDateStart != ''">
+				AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+			</if>
+		</trim>
+	</sql>
+</mapper>

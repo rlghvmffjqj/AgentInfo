@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="scheduleJob">
+	<resultMap type="com.secuve.agentInfo.vo.ScheduleJob" id="scheduleJob"></resultMap>
+	
+	<select id="getScheduleJob" resultType="scheduleJob" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM scheduleJob
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getScheduleOne" parameterType="string" resultType="scheduleJob">
+		SELECT * FROM scheduleJob WHERE scheduleName = #{scheduleName};
+	</select>
+	
+	<select id="getScheduleOneKeyNum" parameterType="_int" resultType="scheduleJob">
+		SELECT * FROM scheduleJob WHERE scheduleKeyNum = #{scheduleKeyNum};
+	</select>
+	
+	<select id="getScheduleJobCount" resultType="_int">
+		SELECT COUNT(*) FROM scheduleJob
+	</select>
+	
+	<update id="setScheduleStateUse">
+		UPDATE scheduleJob SET scheduleState = '사용' WHERE scheduleName = #{scheduleName};
+	</update>
+	
+	<update id="setScheduleStateNotUse">
+		UPDATE scheduleJob SET scheduleState = '사용안함' WHERE scheduleName = #{scheduleName};
+	</update>
+	
+	<update id="updateScheduleJob">
+		UPDATE scheduleJob SET scheduleState = #{scheduleState}, scheduleCron = #{scheduleCron} WHERE scheduleName = #{scheduleName};
+	</update>
+	
+</mapper>

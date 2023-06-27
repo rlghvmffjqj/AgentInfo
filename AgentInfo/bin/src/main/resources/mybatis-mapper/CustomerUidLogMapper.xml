@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customerUidLog">
+	<resultMap type="com.secuve.agentInfo.vo.CustomerUidLog" id="customerUidLog"></resultMap>
+	
+	<select id="getCustomerUidLog" resultMap="customerUidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM customerUidLog
+					<include refid="sqlCustomerUidLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getCustomerUidLogCount" resultType="_int">
+		SELECT COUNT(*) FROM customerUidLog
+			<include refid="sqlCustomerUidLog" />
+	</select>
+	
+	<insert id="insertCustomerUidLog">
+		INSERT INTO customerUidLog(customerUidLogCustomerName, customerUidLogBusinessName, customerUidLogNetworkClassification, customerUidLogCustomerManagerName, customerUidLogCustomerPhoneNumber, customerUidLogCustomerFullAddress, customerUidLogCustomerDept, customerUidLogEmployeeSeName, customerUidLogEmployeeSalesName, customerUidLogProductCheck, customerUidLogTosmsVer, customerUidLogTosrfVer, customerUidLogPortalVer, customerUidLogOsType, customerUidLogJavaVer, customerUidLogWebServerVer, customerUidLogDatabaseVer, customerUidLogLogServerVer, customerUidLogScvEaVer, customerUidLogScvCaVer, customerUidLogAuthPkiVer, customerUidEvent, customerUidUser, customerUidTime)
+		VALUES (#{customerUidLogCustomerName}, #{customerUidLogBusinessName}, #{customerUidLogNetworkClassification}, #{customerUidLogCustomerManagerName}, #{customerUidLogCustomerPhoneNumber}, #{customerUidLogCustomerFullAddress}, #{customerUidLogCustomerDept}, #{customerUidLogEmployeeSeName}, #{customerUidLogEmployeeSalesName}, #{customerUidLogProductCheck}, #{customerUidLogTosmsVer}, #{customerUidLogTosrfVer}, #{customerUidLogPortalVer}, #{customerUidLogOsType}, #{customerUidLogJavaVer}, #{customerUidLogWebServerVer}, #{customerUidLogDatabaseVer}, #{customerUidLogLogServerVer}, #{customerUidLogScvEaVer}, #{customerUidLogScvCaVer}, #{customerUidLogAuthPkiVer}, #{customerUidEvent}, #{customerUidUser}, #{customerUidTime});
+	</insert>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlCustomerUidLog">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerUidLogCustomerName != null and customerUidLogCustomerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerUidLogCustomerNameArr" item="arr">
+						OR customerUidLogCustomerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="customerUidLogBusinessName != null and customerUidLogBusinessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerUidLogBusinessNameArr" item="arr">
+						OR customerUidLogBusinessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="customerUidEvent != null and customerUidEvent != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerUidEventArr" item="arr">
+						OR customerUidEvent LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="customerUidLogNetworkClassification != null and customerUidLogNetworkClassification != ''">
+				AND customerUidLogNetworkClassification LIKE CONCAT('%',#{customerUidLogNetworkClassification},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="customerUidUser != null and customerUidUser != ''">
+				AND customerUidUser LIKE CONCAT('%',#{customerUidUser},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="customerUidDateStart != null and customerUidDateStart != ''">
+				AND customerUidTime BETWEEN #{customerUidDateStart} AND #{customerUidDateEnd}
+			</if>
+		</trim>
+	</sql>
+</mapper>

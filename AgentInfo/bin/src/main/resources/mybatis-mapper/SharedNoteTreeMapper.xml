@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="sharedNoteTree">
+	<resultMap type="com.secuve.agentInfo.vo.SharedNoteTree" id="sharedNoteTree"></resultMap>
+	
+	<select id="getSharedNoteTreeList" parameterType="string" resultMap="sharedNoteTree">
+		SELECT *
+		FROM sharedNoteTree
+		WHERE sharedNoteTreeParentPath = #{parentPath}
+		AND sharedNoteTreeDepartment = #{sharedNoteTreeDepartment}
+		ORDER BY sharedNoteTreeFullPath ASC
+	</select>
+	
+	<insert id="insertSharedNoteTree">
+		INSERT INTO sharedNoteTree(sharedNoteTreeFullPath,sharedNoteTreeParentPath,sharedNoteTreeName,sharedNoteTreeDepartment,sharedNoteTreeRegistrant,sharedNoteTreeRegistrationDate) 
+		VALUES(#{sharedNoteTreeFullPath},#{sharedNoteTreeParentPath},#{sharedNoteTreeName},#{sharedNoteTreeDepartment},#{sharedNoteTreeRegistrant},#{sharedNoteTreeRegistrationDate});
+	</insert>
+	
+	<select id="getSharedNoteTreeFullPath" parameterType="string" resultMap="sharedNoteTree">
+		SELECT * FROM sharedNoteTree WHERE sharedNoteTreeFullPath = #{sharedNoteTreeFullPath}
+		AND sharedNoteTreeDepartment = #{sharedNoteTreeDepartment};
+	</select>
+	
+	<select id="getSharedNoteTreeParentPath" parameterType="string" resultMap="sharedNoteTree">
+		SELECT * FROM sharedNoteTree WHERE sharedNoteTreeParentPath = #{sharedNoteTreeParentPath};
+	</select>
+	
+	<delete id="deleteSharedNoteTree">
+		DELETE FROM sharedNoteTree WHERE sharedNoteTreeFullPath = #{sharedNoteTreeFullPath};
+	</delete>
+	
+	<update id="updateTree">
+		UPDATE sharedNoteTree SET sharedNoteTreeFullPath = #{sharedNoteTreeFullPath}, sharedNoteTreeParentPath = #{sharedNoteTreeParentPath}, sharedNoteTreeName = #{sharedNoteTreeName}, sharedNoteTreeModifier = #{sharedNoteTreeModifier}, sharedNoteTreeModifiedDate = #{sharedNoteTreeModifiedDate}
+		WHERE sharedNoteTreeFullPath = #{ordSharedNoteTreeFullPath};
+	</update>
+	
+	<select id="getSharedNoteTreeFullPathList" resultMap="sharedNoteTree" parameterType="string">
+		SELECT * FROM sharedNoteTree 
+		WHERE sharedNoteTreeFullPath = #{sharedNoteTreeFullPath} OR sharedNoteTreeFullPath Like #{sharedNoteTreeParentPath};
+	</select>
+	
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="individualNote">
+	<resultMap type="com.secuve.agentInfo.vo.IndividualNote" id="individualNote"></resultMap>
+	
+	<select id="getIndividualNote" resultMap="individualNote" parameterType="string">
+		SELECT *
+		FROM individualNote
+		WHERE individualNoteRegistrant=#{individualNoteRegistrant};
+	</select>
+	
+	<select id="getIndividualNoteSort" resultType="_int">
+		SELECT MAX(individualNoteSort) FROM individualNote;
+	</select>
+	
+	<insert id="insertIndividualNote" parameterType="individualNote" useGeneratedKeys="true" keyProperty="individualNoteKeyNum">
+		INSERT INTO individualNote(individualNoteTitle,individualNoteContents,individualNoteHashTag,individualNoteSort,individualNoteColor,individualNoteTreeName,individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteRegistrant,individualNoteRegistrationDate,individualNoteModifier,individualNoteModifiedDate) 
+		VALUE(#{individualNoteTitleView},#{individualNoteContentsView},#{individualNoteHashTagView},#{individualNoteSort},#{individualNoteColor},#{individualNoteTreeName},#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteRegistrant},#{individualNoteRegistrationDate},#{individualNoteModifier},#{individualNoteModifiedDate})
+	</insert>
+	
+	<select id="getIndividualNoteSearch" parameterType="string" resultMap="individualNote">
+		SELECT *
+		FROM individualNote
+		WHERE individualNoteRegistrant=#{individualNoteRegistrant}
+		AND individualNoteTreeFullPath=#{individualNoteTreeFullPath}
+		AND individualNoteTreeName=#{individualNoteTreeName}
+		<if test="individualNoteTitleCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteTitle" item="arr">
+						OR individualNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="individualNoteHashTagCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteHashTag" item="arr">
+						OR individualNoteHashTag LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		ORDER BY individualNoteSort ASC;
+	</select>
+	
+	<select id="getIndividualNoteOne" resultMap="individualNote">
+		SELECT * FROM individualNote WHERE individualNoteKeyNum = #{individualNoteKeyNum} AND individualNoteRegistrant=#{individualNoteRegistrant};
+	</select>
+	
+	<update id="updateIndividualNote">
+		UPDATE individualNote SET individualNoteTitle=#{individualNoteTitleView},individualNoteContents=#{individualNoteContentsView},individualNoteHashTag=#{individualNoteHashTagView},individualNoteColor=#{individualNoteColor},individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate}
+		WHERE individualNoteKeyNum=#{individualNoteKeyNum};
+	</update>
+	
+	<delete id="delIndividualNote" parameterType="_int">
+		DELETE FROM individualNote WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</delete>
+	
+	<delete id="delAllIndividualNote" parameterType="string">
+		DELETE FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteTreeName = #{individualNoteTreeName} AND individualNoteTreeFullPath = #{individualNoteTreeFullPath};
+	</delete>
+	
+	<select id="getIndividualNoteTitle" resultType="string" parameterType="string">
+		SELECT DISTINCT individualNoteTitle FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteTitle != '';
+	</select>
+	
+	<select id="getIndividualNoteHashTag" resultType="string" parameterType="string">
+		SELECT DISTINCT individualNoteHashTag FROM individualNote WHERE individualNoteRegistrant = #{individualNoteRegistrant} AND individualNoteHashTag IS NOT NULL AND individualNoteHashTag != '';
+	</select>
+	
+	<update id="updateTree">
+		UPDATE individualNote SET individualNoteTreeFullPath = #{individualNoteTreeFullPath}, individualNoteTreeParentPath = #{individualNoteTreeParentPath}, individualNoteTreeName = #{individualNoteTreeName}, individualNoteModifier=#{individualNoteModifier},individualNoteModifiedDate=#{individualNoteModifiedDate} 
+		WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath} AND individualNoteRegistrant = #{individualNoteTreeRegistrant};
+	</update>
+	
+	<select id="getIndividualNoteSearchAll" parameterType="string" resultMap="individualNote">
+		SELECT *
+		FROM individualNote
+		WHERE individualNoteRegistrant=#{individualNoteRegistrant}
+		<if test="individualNoteTitleCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteTitle" item="arr">
+						OR individualNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="individualNoteHashTagCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="individualNoteHashTag" item="arr">
+						OR individualNoteHashTag LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+	</select>
+	
+	<update id="saveIndividualNote">
+		UPDATE individualNote SET individualNoteSort = #{individualNoteSort} WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</update>
+	
+	<insert id="insertIndividualNoteFile">
+		INSERT INTO individualNoteFile(individualNoteKeyNum,individualNoteFileName,individualNoteFileRegistrant,individualNoteFileRegistrationDate) 
+		VALUES(#{individualNoteKeyNum},#{individualNoteFileName},#{individualNoteFileRegistrant},#{individualNoteFileRegistrationDate});
+	</insert>
+	
+	<select id="getIndividualNoteFileName" parameterType="_int" resultType="string">
+		SELECT individualNoteFileName FROM individualNoteFile WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</select>
+	
+	<delete id="deleteIndividualNoteFile">
+		DELETE FROM individualNoteFile WHERE individualNoteKeyNum = #{individualNoteKeyNum} AND individualNoteFileName = #{individualNoteFileName};
+	</delete>
+	
+	<delete id="deleteIndividualNoteFileKeyNum" parameterType="_int">
+		DELETE FROM individualNoteFile WHERE individualNoteKeyNum = #{individualNoteKeyNum};
+	</delete>
+</mapper>

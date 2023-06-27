@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="licenseUidLog">
+	<resultMap type="com.secuve.agentInfo.vo.LicenseUidLog" id="licenseUidLog"></resultMap>
+	
+	<select id="getLicenseUidLog" resultMap="licenseUidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM licenseUidLog
+					<include refid="sqlLicenseUidLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicenseUidLogCount" resultType="_int">
+		SELECT COUNT(*) FROM licenseUidLog
+			<include refid="sqlLicenseUidLog" />
+	</select>
+	
+	<insert id="insertLicenseUidLog">
+		INSERT INTO licenseUidLog(licenseUidLogCustomerName,licenseUidLogBusinessName,licenseUidLogIssueDate,licenseUidLogRequester,licenseUidLogPartners,licenseUidLogOsType,licenseUidLogOsVersion,licenseUidLogKernelVersion,licenseUidLogKernelBit,licenseUidLogTosVersion,licenseUidLogPeriod,licenseUidLogMacUmlHostId,licenseUidLogReleaseType,licenseUidLogDeliveryMethod,licenseUidLogIssueKey,licenseUidLogEvent,licenseUidUser,licenseUidTime,licenseUidLogRegistrant,licenseUidLogRegistrationDate) 
+		VALUES(#{licenseUidLogCustomerName},#{licenseUidLogBusinessName},#{licenseUidLogIssueDate},#{licenseUidLogRequester},#{licenseUidLogPartners},#{licenseUidLogOsType},#{licenseUidLogOsVersion},#{licenseUidLogKernelVersion},#{licenseUidLogKernelBit},#{licenseUidLogTosVersion},#{licenseUidLogPeriod},#{licenseUidLogMacUmlHostId},#{licenseUidLogReleaseType},#{licenseUidLogDeliveryMethod},#{licenseUidLogIssueKey},#{licenseUidLogEvent},#{licenseUidUser},#{licenseUidTime},#{licenseUidLogRegistrant},#{licenseUidLogRegistrationDate});
+	</insert>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM licenseUidLog;
+	</select>
+	
+	<select id="getLicenseIssueKey" parameterType="_int" resultType="string">
+		SELECT licenseUidLogIssueKey FROM licenseUidLog WHERE licenseUidLogKeyNum = #{licenseUidLogKeyNum};
+	</select>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlLicenseUidLog">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="licenseUidLogCustomerName != null and licenseUidLogCustomerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogCustomerNameArr" item="arr">
+						OR licenseUidLogCustomerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogBusinessName != null and licenseUidLogBusinessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogBusinessNameArr" item="arr">
+						OR licenseUidLogBusinessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogRequester != null and licenseUidLogRequester != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogRequesterArr" item="arr">
+						OR licenseUidLogRequester LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogPartners != null and licenseUidLogPartners != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogPartnersArr" item="arr">
+						OR licenseUidLogPartners LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogOsType != null and licenseUidLogOsType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogOsTypeArr" item="arr">
+						OR licenseUidLogOsType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogOsVersion != null and licenseUidLogOsVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogOsVersionArr" item="arr">
+						OR licenseUidLogOsVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogKernelVersion != null and licenseUidLogKernelVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogKernelVersionArr" item="arr">
+						OR licenseUidLogKernelVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogKernelBit != null and licenseUidLogKernelBit != ''">
+				AND licenseUidLogKernelBit = #{licenseUidLogKernelBit}
+			</if>
+			<if test="licenseUidLogTosVersion != null and licenseUidLogTosVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogTosVersionArr" item="arr">
+						OR licenseUidLogTosVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogMacUmlHostId != null and licenseUidLogMacUmlHostId != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogMacUmlHostIdArr" item="arr">
+						OR licenseUidLogMacUmlHostId LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogReleaseType != null and licenseUidLogReleaseType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogReleaseTypeArr" item="arr">
+						OR licenseUidLogReleaseType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogDeliveryMethod != null and licenseUidLogDeliveryMethod != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogDeliveryMethodArr" item="arr">
+						OR licenseUidLogDeliveryMethod LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidLogPeriod != null and licenseUidLogPeriod != ''">
+				AND licenseUidLogPeriod LIKE CONCAT('%',#{licenseUidLogPeriod},'%')
+			</if>
+			<if test="licenseUidLogIssueKey != null and licenseUidLogIssueKey != ''">
+				AND licenseUidLogIssueKey LIKE CONCAT('%',#{licenseUidLogIssueKey},'%')
+			</if>
+			<if test="licenseUidLogIssueDateStart != null and licenseUidLogIssueDateStart != ''">
+				AND licenseUidLogIssueDate BETWEEN #{licenseUidLogIssueDateStart} AND #{licenseUidLogIssueDateEnd}
+			</if>
+			<if test="licenseUidLogEvent != null and licenseUidLogEvent != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseUidLogEventArr" item="arr">
+						OR licenseUidLogEvent LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseUidUser != null and licenseUidUser != ''">
+				AND licenseUidUser LIKE CONCAT('%',#{licenseUidUser},'%')
+			</if>
+		</trim>
+	</sql>
+</mapper>

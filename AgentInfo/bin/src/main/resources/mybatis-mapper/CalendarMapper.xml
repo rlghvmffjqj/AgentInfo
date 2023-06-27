@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="calendar">
+	<resultMap type="com.secuve.agentInfo.vo.Calendar" id="calendar"></resultMap>
+	
+	<select id="getCalendarList" resultMap="calendar" parameterType="string">
+		SELECT * FROM calendarList WHERE calendarListRegistrant = #{calendarListRegistrant};
+	</select>
+	
+	<insert id="insertCalendarList">
+		INSERT INTO calendarList(calendarListContents, calendarListColor, calendarListRegistrant, calendarListRegistrationDate)
+		VALUES(#{calendarListContents}, #{calendarListColor}, #{calendarListRegistrant}, #{calendarListRegistrationDate});
+	</insert>
+	
+	<select id="overlapCalendarList" resultType="int">
+		SELECT COUNT(*) FROM calendarList WHERE calendarListContents = #{calendarListContents} AND calendarListRegistrant = #{calendarListRegistrant};
+	</select>
+	
+	<insert id="insertCalendar">
+	 	INSERT INTO calendar(calendarStart, calendarEnd, calendarContents, calendarColor, calendarAllDay, calendarAlarm, calendarPhone, calendarRegistrant, calendarRegistrationDate) 
+	 	VALUES(#{calendarStart}, #{calendarEnd}, #{calendarContents}, #{calendarColor}, ${calendarAllDay}, #{calendarAlarm}, #{calendarPhone}, #{calendarRegistrant}, #{calendarRegistrationDate});
+	 	
+	 	<selectKey resultType="int" keyProperty="calendarKeyNum" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<select id="getCalendar" resultMap="calendar">
+		SELECT * FROM calendar WHERE calendarRegistrant = #{calendarRegistrant};
+	</select>
+	
+	<update id="updateCalendar">
+		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarAllDay = ${calendarAllDay}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
+		WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
+	</update>
+	
+	<delete id="deleteCalendar">
+		DELETE FROM calendar WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
+	</delete>
+	
+	<select id="getCalendarOne" resultMap="calendar">
+		SELECT * FROM calendar WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
+	</select>
+	
+	<update id="saveCalendar">
+		UPDATE calendar SET calendarStart = #{calendarStart}, calendarEnd = #{calendarEnd}, calendarContents = #{calendarContents}, calendarColor = #{calendarColor}, calendarAllDay = ${calendarAllDay}, calendarAlarm = #{calendarAlarm}, calendarAlarmYn = ${calendarAlarmYn}, calendarAddress = #{calendarAddress}, calendarModifier = #{calendarModifier}, calendarModifiedDate = #{calendarModifiedDate}
+		WHERE calendarKeyNum = #{calendarKeyNum} AND calendarRegistrant = #{calendarRegistrant};
+	</update>
+	
+	<select id="alarmCalendar" resultMap="calendar">
+		SELECT * FROM calendar
+		WHERE calendarstart LIKE CONCAT(#{calendarStart},'%')
+		AND calendarAlarm = #{calendarAlarm}
+		AND calendarAlarmYn = 1;
+	</select>
+	
+</mapper>

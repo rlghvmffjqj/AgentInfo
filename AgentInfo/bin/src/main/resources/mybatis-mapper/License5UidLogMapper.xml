@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="license5UidLog">
+	<resultMap type="com.secuve.agentInfo.vo.License5UidLog" id="licenseUidLog"></resultMap>
+	
+	<select id="getLicense5UidLog" resultMap="licenseUidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM license5UidLog
+					<include refid="sqlLicense5UidLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicense5UidLogCount" resultType="_int">
+		SELECT COUNT(*) FROM license5UidLog
+			<include refid="sqlLicense5UidLog" />
+	</select>
+	
+	<insert id="license5UidLogInsert">
+		INSERT INTO license5UidLog(productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, license5UidLogEvent,license5UidUser,license5UidTime, license5IssuanceRegistrant, license5IssuanceRegistrationDate)
+		VALUES(#{productType}, #{customerName}, #{businessName}, #{additionalInformation}, #{macAddress}, #{issueDate}, #{expirationDays}, #{igriffinAgentCount}, #{tos5AgentCount}, #{tos2AgentCount}, #{dbmsCount}, #{networkCount}, #{aixCount}, #{hpuxCount}, #{solarisCount}, #{linuxCount}, #{windowsCount}, #{managerOsType}, #{managerDbmsType}, #{country}, #{productVersion}, #{licenseFilePath}, #{serialNumber}, #{requester}, #{license5UidLogEvent}, #{license5UidUser}, #{license5UidTime}, #{license5IssuanceRegistrant}, #{license5IssuanceRegistrationDate});
+	</insert>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM license5UidLog WHERE ${selectInput} != '';
+	</select>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlLicense5UidLog">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="requester != null and requester != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="requesterArr" item="arr">
+						OR requester LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="productType != null and productType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="productTypeArr" item="arr">
+						OR productType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="additionalInformation != null and additionalInformation != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="additionalInformationArr" item="arr">
+						OR additionalInformation LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="macAddress != null and macAddress != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="macAddressArr" item="arr">
+						OR macAddress LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="managerOsType != null and managerOsType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managerOsTypeArr" item="arr">
+						OR managerOsType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="managerDbmsType != null and managerDbmsType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managerDbmsTypeArr" item="arr">
+						OR managerDbmsType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="productVersion != null and productVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="productVersionArr" item="arr">
+						OR productVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseFilePath != null and licenseFilePath != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseFilePathArr" item="arr">
+						OR licenseFilePath LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serialNumber != null and serialNumber != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serialNumberArr" item="arr">
+						OR serialNumber LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="country != null and country != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="countryArr" item="arr">
+						OR country LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="license5UidLogEvent != null and license5UidLogEvent != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="license5UidLogEventArr" item="arr">
+						OR license5UidLogEvent LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="license5UidUser != null and license5UidUser != ''">
+				AND license5UidUser LIKE CONCAT('%',#{license5UidUser},'%')
+			</if>
+			<if test="issueDate != null and issueDate != ''">
+				AND issueDate = #{issueDate}
+			</if>
+			<if test="expirationDays != null and expirationDays != ''">
+				AND expirationDays = #{expirationDays}
+			</if>
+			
+			<if test="igriffinAgentCount != null and igriffinAgentCount != ''">
+				AND igriffinAgentCount = #{igriffinAgentCount}
+			</if>
+			<if test="tos5AgentCount != null and tos5AgentCount != ''">
+				AND tos5AgentCount = #{tos5AgentCount}
+			</if>
+			<if test="tos2AgentCount != null and tos2AgentCount != ''">
+				AND tos2AgentCount = #{tos2AgentCount}
+			</if>
+			<if test="dbmsCount != null and dbmsCount != ''">
+				AND dbmsCount = #{dbmsCount}
+			</if>
+			<if test="networkCount != null and networkCount != ''">
+				AND networkCount = #{networkCount}
+			</if>
+			<if test="aixCount != null and aixCount != ''">
+				AND aixCount = #{aixCount}
+			</if>
+			<if test="hpuxCount != null and hpuxCount != ''">
+				AND hpuxCount = #{hpuxCount}
+			</if>
+			<if test="solarisCount != null and solarisCount != ''">
+				AND solarisCount = #{solarisCount}
+			</if>
+			<if test="linuxCount != null and linuxCount != ''">
+				AND linuxCount = #{linuxCount}
+			</if>
+			<if test="windowsCount != null and windowsCount != ''">
+				AND windowsCount = #{windowsCount}
+			</if>
+		</trim>
+	</sql>
+</mapper>

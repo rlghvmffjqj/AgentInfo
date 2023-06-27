@@ -250,6 +250,11 @@ p {
     max-width: 350px;
 }
 
+.modal-testCaseForm {
+	top: 30%;
+    max-width: 350px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

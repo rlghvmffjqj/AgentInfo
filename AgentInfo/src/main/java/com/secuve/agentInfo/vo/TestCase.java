@@ -11,5 +11,17 @@ import lombok.ToString;
 @ToString
 @Component
 public class TestCase {
-
+	private int testCaseFormKeyNum;
+	private String testCaseFormName;
+	private String testCaseFormRegistrant;
+	private String testCaseFormRegistrationDate;
+	private String testCaseFormModifier;
+	private String testCaseFormModifiedDate;
+	
+	private int testCaseKeyNum;
+	private String testCaseFullPath;
+	private String testCaseParentPath;
+	private String testCaseName;
+	
+	private String testCaseFormNameOriginal;
 }

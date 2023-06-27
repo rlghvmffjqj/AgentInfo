@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="department">
+	<resultMap type="com.secuve.agentInfo.vo.Department" id="department"></resultMap>
+	
+	<select id="getDepartmentList" parameterType="string" resultMap="department">
+		SELECT *
+		FROM department
+		WHERE departmentParentPath = #{parentPath}
+		ORDER BY departmentFullPath ASC
+	</select>
+	
+	<insert id="insertDepartment">
+		INSERT INTO department VALUES(#{departmentFullPath},#{departmentParentPath},#{departmentName});
+	</insert>
+	
+	<select id="getDepartmentFullPath" parameterType="string" resultMap="department">
+		SELECT * FROM department WHERE departmentFullPath = #{departmentFullPath};
+	</select>
+	
+	<select id="getDepartmentParentPath" parameterType="string" resultMap="department">
+		SELECT * FROM department WHERE departmentParentPath = #{departmentParentPath};
+	</select>
+	
+	<delete id="deleteDepartment">
+		DELETE FROM department WHERE departmentFullPath = #{departmentFullPath};
+	</delete>
+	
+	<update id="updateDept">
+		UPDATE department SET departmentFullPath = #{departmentFullPath}, departmentParentPath = #{departmentParentPath}, departmentName = #{departmentName} WHERE departmentFullPath = #{ordDepartmentFullPath};
+	</update>
+	
+	<select id="getDepartmentFullPathList" resultMap="department" parameterType="string">
+		SELECT * FROM department 
+		WHERE departmentFullPath = #{departmentFullPath} OR departmentFullPath Like #{departmentParentPath};
+	</select>
+</mapper>

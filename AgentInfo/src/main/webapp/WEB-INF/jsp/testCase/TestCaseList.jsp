@@ -161,23 +161,25 @@
 												</form>
 		                     				</div>
 	                     				 </div>
+										  <table style="width:100%">
+											<tbody>
+												<tr>
+													<td style="font-weight:bold;">테스트 케이스 타입 :
+														<sec:authorize access="hasAnyRole('ADMIN','QA')">
+															<button class="btn btn-outline-info-add myBtn" id="BtnInsertType">추가</button>
+															<button class="btn btn-outline-info-del myBtn" id="BtnDelectType">삭제</button>
+															<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdateType">수정</button>
+														</sec:authorize>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 	                     				 <div class="ibox">
-	                     				 	<div class="searchbos">
-	                     				 		<div class='testCaseForm'>
-						                    		<div class='testCaseCommand'>
-						                    			<button class='btn btn-primary formBtn' onClick="testCaseSettingForm(${testCaseSettingFormList.testCaseSettingFormKeyNum})">${testCaseSettingFormList.testCaseSettingFormName}</button>
-						                    			<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${testCaseSettingFormList.testCaseSettingFormKeyNum})'><span class='testCaseFont'>제거</span></button></div>
-						                    			<div style='width: 80%; display: inline-block;'>
-							                				<div class='input-group'>
-																<input type='text' class='form-control' id='inputChange' placeholder='이름'>
-																<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,${testCaseSettingFormList.testCaseSettingFormKeyNum})'>변경</button>
-															</div>
-														</div>
-						                    		</div>
-						                    		<div class='testCasePlus'>
-						                    			<button class='formPlus' onClick='formPlus(this,${testCaseSettingFormList.testCaseSettingFormKeyNum})'><span class='testCaseFont'>추가</span></button>
-						                    		</div>
-						                    	</div>
+	                     				 	<div class="searchbos" id="testCaseFormDiv">
+												<input type="hidden" id="selectTestCaseFormName" value="TOSMS" class="form-control">
+												<c:forEach var="testCaseForm" items="${testCaseFormList}">
+													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this)">${testCaseForm}</button>
+												</c:forEach>
 	                     				 	</div>
 	                     				 </div>
 			                           	 <table style="width:99%;">
@@ -385,47 +387,107 @@
 	        });
 		});
 	</script>
+
+	<script>
+		/* =========== 테스트 케이스 추가 Modal ========= */
+		$('#BtnInsertType').click(function() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/testCase/insertFormView'/>",
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'testCaseForm'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		});
+
+		function btnTestCaseForm(obj) {
+			var testCaseFormName = $(obj).text();
+			$('#selectTestCaseFormName').val(testCaseFormName);
+		}
+		
+		$('#BtnDelectType').click(function() {
+			var testCaseFormName = $('#selectTestCaseFormName').val();
+			if(testCaseFormName==='TOSMS') {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: 'TOSMS는 삭제가 불가능 합니다.',
+				});
+				return false;
+			}
+			Swal.fire({
+				  title: '삭제!',
+				  text: "제품("+testCaseFormName+")을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+					    type: 'POST',
+					    url: "<c:url value='/testCase/delTestCaseForm'/>",
+					    async: false,
+						data: { "testCaseFormName":testCaseFormName },
+					    success: function (result) {
+							if(result == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '삭제!',
+									text: '삭제을 완료했습니다.',
+								});
+								$('#'+testCaseFormName).remove();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '작업을 실패하였습니다.',
+								});
+							}
+					    },
+					    error: function(e) {
+					        alert(e);
+					    }
+					});
+				}
+			});	
+		});	
+
+		$('#BtnUpdateType').click(function() {
+			var testCaseFormName = $('#selectTestCaseFormName').val();
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/testCase/updateFormView'/>",
+				data: {"testCaseFormName":testCaseFormName},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'testCaseForm'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		});
+
+	</script>
 	
 	<style>
-		.testCaseForm {
-			display: inline-block;
-		}
-		
-		.testCaseCommand {
-		    text-align: center;
-		    height: 100%;
-		    padding-top: 10px;
-		    float: left;
-		}
-		
 		.formBtn {
-			 min-width: 70%;
-			 width: auto; 
-			 height: 50px;
-		}
-		
-		.formPlus {
-			background: #cfcff7;
-		    border: 1px solid #b7bbf1;
-		    height: 30px;
-		}
-		
-		.formMinus {
-			background: #f7cfcf;
-		    border: 1px solid #efa8a8;
-		    width: 40px;
-		}
-		
-		.testCaseFont {
-			font-size: 12px;
-    		font-family: monospace;
-		}
-		
-		.testCasePlus {
-		    text-align: center;
-		    height: 100%;
-		    padding-top: 25%;
-		    float: left;
+			width: auto;
+    		min-width: 140px;
+		    font-weight: bold;
+		    font-size: 14px;
+		    height: 55px;
+			margin: 5px;
 		}
 	</style>
 </html>

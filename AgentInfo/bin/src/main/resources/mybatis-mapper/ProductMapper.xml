@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="product">
+	<resultMap type="com.secuve.agentInfo.vo.Product" id="product"></resultMap>
+	
+	<select id="getProduct" resultMap="product" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM product
+					<include refid="sqlProduct" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getProductCount" resultType="_int">
+		SELECT COUNT(*) FROM product
+			<include refid="sqlProduct" />
+	</select>
+	
+	<insert id="insertProduct">
+		INSERT INTO product(customerName, businessName, productCheck, tosmsVer, tosrfVer, portalVer, javaVer, webServerVer, databaseVer, logServerVer, scvEaVer, scvCaVer, authPkiVer, employeeSeName, employeeSalesName, productRegistrant, productRegistrationDate)
+		VALUES(#{customerNameView}, #{businessNameView}, #{productCheck}, #{tosmsVerView}, #{tosrfVerView}, #{portalVerView}, #{javaVerView}, #{webServerVerView}, #{databaseVerView}, #{logServerVerView}, #{scvEaVerView}, #{scvCaVerView}, #{authPkiVerView}, #{employeeSeNameView}, #{employeeSalesNameView}, #{productRegistrant}, #{productRegistrationDate});
+	</insert>
+	
+	<select id="getProductOne" parameterType="_int" resultMap="product">
+		SELECT * FROM product WHERE productKeyNum = #{productKeyNum};
+	</select>
+	
+	<update id="updateProduct">
+		UPDATE product SET customerName = #{customerNameView}, businessName = #{businessNameView}, productCheck = #{productCheck}, tosmsVer = #{tosmsVerView}, tosrfVer = #{tosrfVerView}, portalVer = #{portalVerView}, javaVer = #{javaVerView}, webServerVer = #{webServerVerView}, databaseVer = #{databaseVerView}, logServerVer = #{logServerVerView}, scvEaVer = #{scvEaVerView}, scvCaVer = #{scvCaVerView}, authPkiVer = #{authPkiVerView}, employeeSeName = #{employeeSeNameView}, employeeSalesName = #{employeeSalesNameView}, productRegistrant = #{productRegistrant}, productRegistrationDate = #{productRegistrationDate}
+		WHERE productKeyNum = #{productKeyNum};
+	</update>
+	
+	<delete id="delProduct" parameterType="_int">
+		DELETE FROM product WHERE productKeyNum = #{productKeyNum};
+	</delete>
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlProduct">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="employeeSeName != null and employeeSeName != ''">
+				AND employeeSeName LIKE CONCAT('%',#{employeeSeName},'%')
+			</if>
+			<if test="employeeSalesName != null and employeeSalesName != ''">
+				AND employeeSalesName LIKE CONCAT('%',#{employeeSalesName},'%')
+			</if>
+		</trim>
+	</sql>
+</mapper>

@@ -26,7 +26,7 @@ $.modal = function (modalContent, size) {
     if(size=='license5') html += ' modal-license5';
     if(size=='customerLicense') html += ' modal-customerLicense';
     if(size=='engineerUnassigned') html += ' modal-engineerUnassigned';
-
+	if(size=='testCaseForm') html += ' modal-testCaseForm';
     
     
     if(size=='r') html += ' modal-r';

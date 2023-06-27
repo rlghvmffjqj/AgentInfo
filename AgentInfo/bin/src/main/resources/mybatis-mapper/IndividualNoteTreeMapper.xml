@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="individualNoteTree">
+	<resultMap type="com.secuve.agentInfo.vo.IndividualNoteTree" id="individualNoteTree"></resultMap>
+	
+	<select id="getIndividualNoteTreeList" parameterType="string" resultMap="individualNoteTree">
+		SELECT *
+		FROM individualNoteTree
+		WHERE individualNoteTreeParentPath = #{parentPath}
+		AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant}
+		ORDER BY individualNoteTreeFullPath ASC
+	</select>
+	
+	<insert id="insertIndividualNoteTree">
+		INSERT INTO individualNoteTree(individualNoteTreeFullPath,individualNoteTreeParentPath,individualNoteTreeName,individualNoteTreeRegistrant,individualNoteTreeRegistrationDate) 
+		VALUES(#{individualNoteTreeFullPath},#{individualNoteTreeParentPath},#{individualNoteTreeName},#{individualNoteTreeRegistrant},#{individualNoteTreeRegistrationDate});
+	</insert>
+	
+	<select id="getIndividualNoteTreeFullPath" parameterType="string" resultMap="individualNoteTree">
+		SELECT * FROM individualNoteTree WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
+	</select>
+	
+	<select id="getIndividualNoteTreeParentPath" parameterType="string" resultMap="individualNoteTree">
+		SELECT * FROM individualNoteTree WHERE individualNoteTreeParentPath = #{individualNoteTreeParentPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
+	</select>
+	
+	<delete id="deleteIndividualNoteTree">
+		DELETE FROM individualNoteTree WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
+	</delete>
+	
+	<update id="updateTree">
+		UPDATE individualNoteTree SET individualNoteTreeFullPath = #{individualNoteTreeFullPath}, individualNoteTreeParentPath = #{individualNoteTreeParentPath}, individualNoteTreeName = #{individualNoteTreeName}, individualNoteTreeModifier = #{individualNoteTreeModifier}, individualNoteTreeModifiedDate = #{individualNoteTreeModifiedDate}
+		WHERE individualNoteTreeFullPath = #{ordIndividualNoteTreeFullPath} AND individualNoteTreeRegistrant = #{individualNoteTreeRegistrant};
+	</update>
+	
+	<select id="getIndividualNoteTreeFullPathList" resultMap="individualNoteTree" parameterType="string">
+		SELECT * FROM individualNoteTree 
+		WHERE individualNoteTreeFullPath = #{individualNoteTreeFullPath} OR individualNoteTreeFullPath Like #{individualNoteTreeParentPath};
+	</select>
+	
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="serverList">
+	<resultMap type="com.secuve.agentInfo.vo.ServerList" id="serverList"></resultMap>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM serverList WHERE serverListType = #{serverListType} AND ${selectInput} != '';
+	</select>
+	
+	<select id="getServerList" resultMap="serverList" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM serverList
+					<include refid="sqlServerList" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getServerListSearchAll" resultMap="serverList" parameterType="string">
+		SELECT *
+    	FROM serverList
+			<include refid="sqlServerList" />
+	</select>
+	
+	<select id="getServerListCount" resultType="_int">
+		SELECT COUNT(*) FROM serverList
+			<include refid="sqlServerList" />
+	</select>
+	
+	<insert id="insertServerList">
+		INSERT INTO serverlist(serverListType, serverListDivision, serverListIp, serverListState, serverListMac, serverListAssetNum, serverListHostName, serverListPurpose, serverListOs, serverListServerClass, serverListRackPosition, serverListPeriodUseStart, serverListPeriodUseEnd, serverListPeriodUse, serverListUser, serverListManager, serverListLastModifiedDate, serverListNote, serverCalendarKeyNum, serverListRegistrant, serverListRegistrationDate) 
+		VALUES(#{serverListTypeView}, #{serverListDivisionView}, #{serverListIpView}, #{serverListStateView}, #{serverListMacView}, #{serverListAssetNumView}, #{serverListHostNameView}, #{serverListPurposeView}, #{serverListOsView}, #{serverListServerClassView}, #{serverListRackPositionView}, #{serverListPeriodUseStartView}, #{serverListPeriodUseEndView}, #{serverListPeriodUse}, #{serverListUserView}, #{serverListManagerView}, #{serverListLastModifiedDateView}, #{serverListNoteView}, ${serverCalendarKeyNum}, #{serverListRegistrant}, #{serverListRegistrationDate});
+	</insert>
+	
+	<delete id="delServerList" parameterType="_int">
+		DELETE FROM serverList WHERE serverListKeyNum = #{serverListKeyNum};
+	</delete>
+	
+	<select id="getServerListOne" parameterType="_int" resultMap="serverList">
+		SELECT * FROM serverList WHERE serverListKeyNum = #{serverListKeyNum};	
+	</select>
+	
+	<update id="updateServerList">
+		UPDATE serverList SET serverListDivision = #{serverListDivisionView}, serverListIp = #{serverListIpView}, serverListState = #{serverListStateView}, serverListMac = #{serverListMacView}, serverListAssetNum = #{serverListAssetNumView}, serverListHostName = #{serverListHostNameView}, serverListPurpose = #{serverListPurposeView}, serverListOs = #{serverListOsView}, serverListServerClass = #{serverListServerClassView}, serverListRackPosition = #{serverListRackPositionView}, serverListPeriodUseEnd = #{serverListPeriodUseEndView}, serverListPeriodUseStart = #{serverListPeriodUseStartView}, serverListPeriodUse = #{serverListPeriodUse}, serverListUser = #{serverListUserView}, serverListManager = #{serverListManagerView}, serverListLastModifiedDate = #{serverListLastModifiedDateView}, serverListNote = #{serverListNoteView}, serverCalendarKeyNum = #{serverCalendarKeyNum}, serverListModifier = #{serverListModifier}, serverListModifiedDate = #{serverListModifiedDate} 
+		WHERE serverListKeyNum = #{serverListKeyNum};
+	</update>
+	
+	<update id="stateChange">
+		UPDATE serverList SET serverListState = #{stateView} WHERE serverListKeyNum = #{serverListKeyNum};
+	</update>
+	
+	<select id="getServerListAssetNum" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM serverList WHERE serverListAssetNum = #{serverListAssetNumView};
+	</select>
+	
+	<select id="getServerListAll" resultMap="serverList">
+		SELECT * FROM serverList ORDER BY serverListType;;
+	</select>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlServerList">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			AND serverListType = #{serverListType}
+			<if test="serverListDivision != null and serverListDivision != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListDivisionArr" item="arr">
+						OR serverListDivision LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListIp != null and serverListIp != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListIpArr" item="arr">
+						OR serverListIp LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListState != null and serverListState != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListStateArr" item="arr">
+						OR serverListState LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListMac != null and serverListMac != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListMacArr" item="arr">
+						OR serverListMac LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListAssetNum != null and serverListAssetNum != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListAssetNumArr" item="arr">
+						OR serverListAssetNum LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListHostName != null and serverListHostName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListHostNameArr" item="arr">
+						OR serverListHostName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListPurpose != null and serverListPurpose != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListPurposeArr" item="arr">
+						OR serverListPurpose LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListOs != null and serverListOs != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListOsArr" item="arr">
+						OR serverListOs LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListServerClass != null and serverListServerClass != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListServerClassArr" item="arr">
+						OR serverListServerClass LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListRackPosition != null and serverListRackPosition != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serverListRackPositionArr" item="arr">
+						OR serverListRackPosition LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serverListPeriodUseEnd != null and serverListPeriodUseEnd != ''">
+				AND serverListPeriodUseEnd LIKE CONCAT('%',#{serverListPeriodUseEnd},'%')
+			</if>
+			<if test="serverListUser != null and serverListUser != ''">
+				AND serverListUser LIKE CONCAT('%',#{serverListUser},'%')
+			</if>
+			<if test="serverListManager != null and serverListManager != ''">
+				AND serverListManager LIKE CONCAT('%',#{serverListManager},'%')
+			</if>
+			<if test="serverListLastModifiedDate != null and serverListLastModifiedDate != ''">
+				AND serverListLastModifiedDate = #{serverListLastModifiedDate}
+			</if>
+			<if test="serverListNote != null and serverListNote != ''">
+				AND serverListNote LIKE CONCAT('%',#{serverListNote},'%')
+			</if>
+		</trim>
+	</sql>
+</mapper>

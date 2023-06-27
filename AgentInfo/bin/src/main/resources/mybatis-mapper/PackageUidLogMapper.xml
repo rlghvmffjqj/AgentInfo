@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="uidLog">
+	<resultMap type="com.secuve.agentInfo.vo.PackageUidLog" id="uidLog"></resultMap>
+	
+	<select id="getPackageUidLog" resultMap="uidLog" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM uidLog
+					<include refid="sqlPackageUidLog" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getPackageUidLogCount" resultType="_int">
+		SELECT COUNT(*) FROM uidLog
+			<include refid="sqlPackageUidLog" />
+	</select>
+	
+	<insert id="insertPackageUidLog">
+		INSERT INTO uidLog(uidCustomerName, uidOsDetailVersion, uidPackageName, packagesKeyNum, uidEvent, uidUser, uidTime)
+		VALUES (#{uidCustomerName}, #{uidOsDetailVersion}, #{uidPackageName}, #{packagesKeyNum}, #{uidEvent}, #{uidUser}, #{uidTime});
+	</insert>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlPackageUidLog">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="uidCustomerName != null and uidCustomerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="uidCustomerNameArr" item="arr">
+						OR uidCustomerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="uidEvent != null and uidEvent != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="uidEventArr" item="arr">
+						OR uidEvent LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidOsDetailVersion != null and uidOsDetailVersion != ''">
+				AND uidOsDetailVersion LIKE CONCAT('%',#{uidOsDetailVersion},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidPackageName != null and uidPackageName != ''">
+				AND uidPackageName LIKE CONCAT('%',#{uidPackageName},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidUser != null and uidUser != ''">
+				AND uidUser LIKE CONCAT('%',#{uidUser},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="packagesKeyNum != null and packagesKeyNum != ''">
+				AND packagesKeyNum LIKE CONCAT('%',#{packagesKeyNum},'%')
+			</if>
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="uidDateStart != null and uidDateStart != ''">
+				AND uidTime BETWEEN #{uidDateStart} AND #{uidDateEnd}
+			</if>
+		</trim>
+	</sql>
+</mapper>

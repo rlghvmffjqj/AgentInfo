@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="testCase">
+	<resultMap type="com.secuve.agentInfo.vo.TestCase" id="testCase"></resultMap>
+	
+	<select id="getTestCaseForm" resultType="string">
+		SELECT testCaseFormName FROM testCaseForm;
+	</select>
+	
+	<insert id="insertTestCaseForm">
+		INSERT INTO testCaseForm(testCaseFormName,testCaseFormRegistrant,testCaseFormRegistrationDate)
+		VALUES(#{testCaseFormName},#{testCaseFormRegistrant},#{testCaseFormRegistrationDate});
+	</insert>
+	
+	<select id="testCaseFormNameDuplication" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM testCaseForm WHERE testCaseFormName = #{testCaseFormName};
+	</select>
+	
+	<delete id="delTestCaseForm">
+		DELETE FROM testCaseForm WHERE testCaseFormName = #{testCaseFormName};
+	</delete>
+	
+	<update id="updateTestCaseForm">
+		UPDATE testCaseForm SET testCaseFormName = #{testCaseFormName} WHERE testCaseFormName = #{testCaseFormNameOriginal};
+	</update>
+</mapper>
