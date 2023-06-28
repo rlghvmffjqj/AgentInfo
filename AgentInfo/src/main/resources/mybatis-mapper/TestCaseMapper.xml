@@ -4,6 +4,33 @@
 <mapper namespace="testCase">
 	<resultMap type="com.secuve.agentInfo.vo.TestCase" id="testCase"></resultMap>
 	
+	<select id="getTestCaseList" resultMap="testCase" parameterType="string">
+		SELECT DISTINCT testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT DISTINCT testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
+				FROM testCaseRoute
+				WHERE testCaseFormName = #{testCaseFormName}
+					<include refid="sqlTestCase" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getTestCaseListCount" resultType="_int">
+		SELECT COUNT(DISTINCT testCaseRouteCustomer,testCaseRouteNote, testCaseRouteDate) FROM testCaseRoute
+		WHERE testCaseFormName = #{testCaseFormName}
+			<include refid="sqlTestCase" />
+	</select>
+	
+	<select id="getSearchValue" parameterType="string" resultType="string">
+		SELECT DISTINCT ${searchValue} FROM testCaseRoute;
+	</select>
+	
+	<!-- ======================================= -->
+	
 	<select id="getTestCaseForm" resultType="string">
 		SELECT testCaseFormName FROM testCaseForm;
 	</select>
@@ -24,4 +51,85 @@
 	<update id="updateTestCaseForm">
 		UPDATE testCaseForm SET testCaseFormName = #{testCaseFormName} WHERE testCaseFormName = #{testCaseFormNameOriginal};
 	</update>
+	
+	<!-- ======================================= -->
+	
+	<select id="getRouteList" parameterType="string" resultMap="testCase">
+		SELECT *
+		FROM testCaseRoute
+		WHERE testCaseRouteParentPath = #{testCaseRouteParentPath}
+		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
+		AND testCaseRouteNote = #{testCaseRouteNote}
+		AND testCaseFormName = #{testCaseFormName}
+		ORDER BY testCaseRouteFullPath ASC;
+	</select>
+	
+	<insert id="insertRoute">
+		INSERT INTO testCaseRoute(testCaseFormName,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
+		VALUES(#{testCaseFormName},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
+	</insert>
+	
+	<select id="getTestCaseRouteFullPath" parameterType="string" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormName = #{testCaseFormName};
+	</select>
+	
+	<select id="getTestCaseRouteParentPath" parameterType="string" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteParentPath = #{testCaseRouteParentPath};
+	</select>
+	
+	<delete id="deleteRoute">
+		DELETE FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath};
+	</delete>
+	
+	<update id="updateRoute">
+		UPDATE testCaseRoute SET testCaseRouteFullPath = #{testCaseRouteFullPath}, testCaseRouteParentPath = #{testCaseRouteParentPath}, testCaseRouteName = #{testCaseRouteName} 
+		WHERE testCaseRouteFullPath = #{ordTestCaseFullPath};
+	</update>
+	
+	<select id="getTestCaseRouteFullPathList" resultMap="testCase" parameterType="string">
+		SELECT * FROM testCaseRoute 
+		WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} OR testCaseRouteFullPath Like #{testCaseRouteParentPath};
+	</select>
+	
+	<update id="updateRouteDate">
+		UPDATE testCaseRoute SET testCaseRouteDate = #{testCaseRouteDate} 
+		WHERE testCaseFormName = #{testCaseFormName}
+		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
+		AND testCaseRouteNote = #{testCaseRouteNote};
+	</update>
+	
+	<select id="testCaseConfirmed" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM testCaseRoute 
+		WHERE testCaseRouteCustomer = #{testCaseRouteCustomer}
+		AND testCaseRouteNote = #{testCaseRouteNote}
+		AND testCaseFormName = #{testCaseFormName};
+	</select>
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlTestCase">
+		<if test="testCaseRouteCustomer != null and testCaseRouteCustomer != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="testCaseRouteCustomerArr" item="arr">
+					OR testCaseRouteCustomer LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="testCaseRouteNote != null and testCaseRouteNote != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="testCaseRouteNoteArr" item="arr">
+					OR testCaseRouteNote LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="testCaseDateStart != null and testCaseDateStart != ''">
+			AND testCaseRouteDate BETWEEN #{testCaseDateStart} AND #{testCaseDateEnd}
+		</if>
+	</sql>
+	
 </mapper>

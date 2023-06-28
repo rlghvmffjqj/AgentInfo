@@ -3,6 +3,10 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+		<!-- dynatree -->
+		<script type="text/javascript" src="<c:url value='/js/dynatree/jquery.dynatree.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/skin-vista/ui.dynatree.css'/>">
+
 		<!-- SummerNote -->
 		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
@@ -20,20 +24,19 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사','비고','날짜'],
+					colNames:['고객사','비고','날짜'],
 					colModel:[
-						{name:'testCaseKeyNum', index:'testCaseKeyNum', align:'center', width: 35, hidden:true },
-						{name:'testCaseCustomer', index:'testCaseCustomer', align:'center', width: 200, formatter: linkFormatter},
-						{name:'testCaseNote', index:'testCaseNote', align:'center', width: 200},
-						{name:'testCaseDate', index:'testCaseDate', align:'center', width: 80},
+						{name:'testCaseRouteCustomer', index:'testCaseRouteCustomer', align:'center', width: 200, formatter: linkFormatter},
+						{name:'testCaseRouteNote', index:'testCaseRouteNote', align:'center', width: 300},
+						{name:'testCaseRouteDate', index:'testCaseRouteDate', align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'testCaseKeyNum',
+			        	id: 'testCaseRouteKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'testCaseKeyNum',	// 기본 정렬 
+			        sortname: 'testCaseRouteDate',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -45,7 +48,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','testCaseKeyNum');
+				loadColumns('#list','testCaseRouteKeyNum');
 			});
 			
 			$(window).on('resize.list', function () {
@@ -132,22 +135,23 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사</label>
-													<select class="form-control selectpicker" id="testCaseCustomerMulti" name="testCaseCustomerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${testCaseCustomer}">
+													<select class="form-control selectpicker" id="testCaseRouteCustomerMulti" name="testCaseRouteCustomerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${testCaseRouteCustomer}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
 													</select>
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">비고</label>
-													<select class="form-control selectpicker" id="testCaseNoteMulti" name="testCaseNoteMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${testCaseNote}">
+													<select class="form-control selectpicker" id="testCaseRouteNoteMulti" name="testCaseRouteNoteMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${testCaseRouteNote}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
 													</select>
 												</div>
-		                      					<input type="hidden" id="testCaseCustomer" name="testCaseCustomer" class="form-control">
-		                      					<input type="hidden" id="testCaseNote" name="testCaseNote" class="form-control">
+		                      					<input type="hidden" id="testCaseRouteCustomer" name="testCaseRouteCustomer" class="form-control">
+		                      					<input type="hidden" id="testCaseRouteNote" name="testCaseRouteNote" class="form-control">
+												<input type="hidden" id="selectTestCaseFormName" name="testCaseFormName" value="TOSMS" class="form-control">
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -158,59 +162,56 @@
 														</button>
 													</p>
 												</div>
-												</form>
-		                     				</div>
-	                     				 </div>
-										  <table style="width:100%">
+											</form>
+		                     			</div>
+	                     				</div>
+										<table style="width:100%">
 											<tbody>
 												<tr>
 													<td style="font-weight:bold;">테스트 케이스 타입 :
 														<sec:authorize access="hasAnyRole('ADMIN','QA')">
-															<button class="btn btn-outline-info-add myBtn" id="BtnInsertType">추가</button>
-															<button class="btn btn-outline-info-del myBtn" id="BtnDelectType">삭제</button>
-															<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdateType">수정</button>
+															<button class="btn btn-outline-info-add myBtn" id="BtnInsertForm">추가</button>
+															<button class="btn btn-outline-info-del myBtn" id="BtnDelectForm">삭제</button>
+															<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdateForm">수정</button>
 														</sec:authorize>
 													</td>
 												</tr>
 											</tbody>
 										</table>
-	                     				 <div class="ibox">
+	                     				<div class="ibox">
 	                     				 	<div class="searchbos" id="testCaseFormDiv">
-												<input type="hidden" id="selectTestCaseFormName" value="TOSMS" class="form-control">
 												<c:forEach var="testCaseForm" items="${testCaseFormList}">
 													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this)">${testCaseForm}</button>
 												</c:forEach>
 	                     				 	</div>
-	                     				 </div>
-			                           	 <table style="width:99%;">
+	                     				</div>
+										 
+										<table style="width:99%;">
 											<tbody>
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<table style="width:100%">
-															<tbody>
-																<tr>
-																	<td style="font-weight:bold;">테스트 케이스 관리 :
-																		<sec:authorize access="hasAnyRole('ADMIN','QA')">
-																			<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																			<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		</sec:authorize>
-																		<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'testCaseKeyNum');">컬럼 선택</button>
-																	</td>
-																</tr>
-																<tr>
-																	<td class="border1" colspan="2">
-																		<!------- Grid ------->
-																		<div class="jqGrid_wrapper">
-																			<table id="list"></table>
-																			<div id="pager"></div>
-																		</div>
-																		<!------- Grid ------->
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</td>
-												</tr>
+														<tbody>
+															<tr>
+																<td style="font-weight:bold;">테스트 케이스 관리 :
+																	<button class="btn btn-outline-info-add myBtn" id="BtnTestCaseInsert">추가</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnTestCaseDelete">삭제</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'testCase');">컬럼 선택</button>
+																</td>
+															</tr>
+															<tr>
+																<td class="border1" colspan="2">
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper">
+																		<table id="list"></table>
+																		<div id="pager"></div>
+																	</div>
+																	<!------- Grid ------->
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
 											</tbody>
 										</table>
 	                                </div>
@@ -221,6 +222,11 @@
 	            </div>
 	        </div>
 	    </div>
+		<form id="testCaseUpdateView" action="<c:url value='/testCase/updateTestCaseView'/>" method="POST">
+			<input type="hidden" id="testCaseFormNameView" name="testCaseFormNameView">
+			<input type="hidden" id="testCaseRouteCustomerView" name="testCaseRouteCustomerView">
+			<input type="hidden" id="testCaseRouteNoteView" name="testCaseRouteNoteView">
+		</form>
 	</body>
 
 	<script>
@@ -260,8 +266,8 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#testCaseCustomer').val($('#testCaseCustomerMulti').val().join());
-			$('#testCaseNote').val($('#testCaseNoteMulti').val().join());
+			$('#testCaseRouteCustomer').val($('#testCaseRouteCustomerMulti').val().join());
+			$('#testCaseRouteNote').val($('#testCaseRouteNoteMulti').val().join());
 			
 			var _postDate = $("#form").serializeObject();
 			
@@ -273,7 +279,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.testCaseKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.testCaseRouteCustomer+"'"+','+"'"+rowdata.testCaseRouteNote+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 		
 		
@@ -359,8 +365,13 @@
 		
 		
 		/* =========== 테스트 케이스 수정 Modal ========= */
-		function updateView(data) {
-			location.href="<c:url value='/testCase/updateView'/>?testCaseKeyNum="+data;
+		function updateView(testCaseRouteCustomer, testCaseRouteNote) {
+			var testCaseFormName = $('#selectTestCaseFormName').val();
+			$('#testCaseRouteCustomerView').val(testCaseRouteCustomer);
+			$('#testCaseRouteNoteView').val(testCaseRouteNote);
+			$('#testCaseFormNameView').val(testCaseFormName);
+			$("#testCaseUpdateView").submit();
+			//location.href="<c:url value='/testCase/updateView'/>?testCaseRouteKeyNum="+data;
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */
@@ -390,7 +401,7 @@
 
 	<script>
 		/* =========== 테스트 케이스 추가 Modal ========= */
-		$('#BtnInsertType').click(function() {
+		$('#BtnInsertForm').click(function() {
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/testCase/insertFormView'/>",
@@ -409,9 +420,10 @@
 		function btnTestCaseForm(obj) {
 			var testCaseFormName = $(obj).text();
 			$('#selectTestCaseFormName').val(testCaseFormName);
+			tableRefresh();
 		}
 		
-		$('#BtnDelectType').click(function() {
+		$('#BtnDelectForm').click(function() {
 			var testCaseFormName = $('#selectTestCaseFormName').val();
 			if(testCaseFormName==='TOSMS') {
 				Swal.fire({
@@ -460,7 +472,7 @@
 			});	
 		});	
 
-		$('#BtnUpdateType').click(function() {
+		$('#BtnUpdateForm').click(function() {
 			var testCaseFormName = $('#selectTestCaseFormName').val();
 			$.ajax({
 			    type: 'POST',
@@ -477,9 +489,16 @@
 			    }
 			});
 		});
+	</script>
+
+	<script>
+		$('#BtnTestCaseInsert').click(function() {
+			var testCaseFormName = $('#selectTestCaseFormName').val();
+			location.href="<c:url value='/testCase/insertTestCaseView'/>?testCaseFormName="+testCaseFormName;
+		});
 
 	</script>
-	
+
 	<style>
 		.formBtn {
 			width: auto;
