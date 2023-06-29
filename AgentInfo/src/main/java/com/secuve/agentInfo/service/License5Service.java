@@ -90,14 +90,18 @@ public class License5Service {
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
 		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
+		String ip = license5Dao.getRoute("licenseSettingIP", principal.getName());
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
+		}
+		if(ip == null || ip.equals("") || ip == "") {
+			return "NotIp";
 		}
 		license.setMacAddressView(license.getMacAddressView().replaceAll("-", ":"));
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				resault = LinuxLicenseIssued50(route, license).replaceAll("\"", "");
+				resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {
 				System.out.println(e);
@@ -126,6 +130,7 @@ public class License5Service {
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
 		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
+		String ip = license5Dao.getRoute("licenseSettingIP", principal.getName());
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
@@ -133,7 +138,7 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				resault = LinuxLicenseIssued50(route, license).replaceAll("\"", "");
+				resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {
 				LOGGER.debug("Agent 연결 실패");
@@ -158,8 +163,8 @@ public class License5Service {
 		return resault;
 	}
 	
-	public String LinuxLicenseIssued50(String route, License5 license) {
-		String url = "http://172.16.50.174:8080/linuxLicenseIssued50";
+	public String LinuxLicenseIssued50(String ip, String route, License5 license) {
+		String url = "http:/"+ip+":8080/linuxLicenseIssued50";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
@@ -213,7 +218,8 @@ public class License5Service {
 	}
 
 	public ResponseEntity<?> fileDownload(String licenseFilePath, Principal principal) {
-		String url = "http://172.16.50.174:8080/fileDownload";
+		String ip = license5Dao.getRoute("licenseSettingIP", principal.getName());
+		String url = "http://"+ip+":8080/fileDownload";
 		RestTemplate restTemplate = new RestTemplate();
 		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
 		String[] routeArr = route.split("/");

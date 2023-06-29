@@ -66,13 +66,14 @@
 		SET 
 			windowsLicenseRoute = #{windowsLicenseRoute},
 			linuxLicense20Route = #{linuxLicense20Route},
-			linuxLicense50Route = #{linuxLicense50Route}
+			linuxLicense50Route = #{linuxLicense50Route},
+			licenseSettingIP = #{licenseSettingIP}
 		WHERE employeeId = #{employeeId};
 	</update>
 	
 	<insert id="RouteInsert">
-		INSERT INTO licenseSetting(employeeId,windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route)
-		VALUES(#{employeeId},#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route});
+		INSERT INTO licenseSetting(employeeId,windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route,licenseSettingIP)
+		VALUES(#{employeeId},#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route},#{licenseSettingIP});
 	</insert>
 	
 	<update id="plusLicenseKeyNumOrigin">

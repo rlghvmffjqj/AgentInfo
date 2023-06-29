@@ -295,7 +295,7 @@
 			});
 		}
 
-		/* =========== 디렉토리에 해당하는 사용자 목록 요청 ========= */
+		/* =========== 디렉토리에 해당하는 데이터 목록 요청 ========= */
 		function reqMember(path)
 		{
 			var node = $("#tree").dynatree("getActiveNode");
@@ -304,11 +304,24 @@
 			$("#testCaseRouteName").val(title); //경로경로
 			$("#testCaseRouteFullPath").val(path); // 경로 풀 경로
 
-			var postData = $("#form").serializeObject();
-			var jqGrid = $("#list");
-			jqGrid.clearGridData();
-			jqGrid.setGridParam({ datatype: 'json', postData: postData });
-			jqGrid.trigger('reloadGrid');
+			console.log($("#tree"));
+			console.log(node);
+
+			// $.ajax({
+			// 	type: 'POST',
+			// 	url: "<c:url value='/testCase/testCaseContents'/>",
+			// 	data: {"testCaseRouteFullPath" : path},
+			// 	async: false,
+			// 	success: function (data) {
+			// 		if(data.indexOf("<!DOCTYPE html>") != -1) 
+			// 			location.reload();
+			// 		$.modal(data, 's'); //modal창 호출
+			// 	},
+			// 	error: function(e) {
+			// 		console.log(e);
+			// 	}
+			// });
+
 		}
 
 		/* =========== 경로 추가 ========= */

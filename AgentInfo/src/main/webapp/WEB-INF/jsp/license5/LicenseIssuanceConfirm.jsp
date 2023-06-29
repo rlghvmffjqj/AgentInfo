@@ -114,11 +114,11 @@
 						title: '실패!',
 						text: '라이선스 발급에 실패하였습니다.',
 					});
-				} else if(result.result == "NotRoute") {
+				} else if(result.result == "NotRoute" || result.result == "NotIp") {
 					Swal.fire({
 						icon: 'error',
 						title: '경로 설정!',
-						text: '경로 설정 후 라이선스 발급 바랍니다.',
+						text: '경로 및 IP 설정 후 라이선스 발급 바랍니다.',
 					});
 				} else if(result.result == "NOTCONNECT") {
 		        		Swal.fire({
@@ -181,11 +181,11 @@
 						title: '실패!',
 						text: '라이선스 발급에 실패하였습니다.',
 					});
-				} else if(result.result == "NotRoute") {
+				} else if(result.result == "NotRoute" || result.result == "NotIp") {
 					Swal.fire({
 						icon: 'error',
 						title: '경로 설정!',
-						text: '경로 설정 후 라이선스 발급 바랍니다.',
+						text: '경로 및 IP 설정 후 라이선스 발급 바랍니다.',
 					});
 				} else if(result.result == "NOTCONNECT") {
 		        		Swal.fire({
