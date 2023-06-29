@@ -89,8 +89,8 @@ public class License5Service {
 	
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
-		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
-		String ip = license5Dao.getRoute("licenseSettingIP", principal.getName());
+		String route = license5Dao.getRoute("linuxLicense50Route");
+		String ip = license5Dao.getRoute("licenseSettingIP");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
@@ -129,8 +129,8 @@ public class License5Service {
 	
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
-		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
-		String ip = license5Dao.getRoute("licenseSettingIP", principal.getName());
+		String route = license5Dao.getRoute("linuxLicense50Route");
+		String ip = license5Dao.getRoute("licenseSettingIP");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
@@ -217,11 +217,11 @@ public class License5Service {
         return jsonInString;
 	}
 
-	public ResponseEntity<?> fileDownload(String licenseFilePath, Principal principal) {
-		String ip = license5Dao.getRoute("licenseSettingIP", principal.getName());
+	public ResponseEntity<?> fileDownload(String licenseFilePath) {
+		String ip = license5Dao.getRoute("licenseSettingIP");
 		String url = "http://"+ip+":8080/fileDownload";
 		RestTemplate restTemplate = new RestTemplate();
-		String route = license5Dao.getRoute("linuxLicense50Route", principal.getName());
+		String route = license5Dao.getRoute("linuxLicense50Route");
 		String[] routeArr = route.split("/");
 		String routeStr = "";
 		for (int i=0; i<routeArr.length-1; i++) {

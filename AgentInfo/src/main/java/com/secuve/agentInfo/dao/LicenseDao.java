@@ -58,18 +58,17 @@ public class LicenseDao {
 		sqlSession.delete("license.delLicense", licenseKeyNum);
 	}
 
-	public LicenseSetting getlicenseSetting(String employeeId) {
-		return sqlSession.selectOne("license.getlicenseSetting", employeeId);
+	public LicenseSetting getlicenseSetting() {
+		return sqlSession.selectOne("license.getlicenseSetting");
 	}
 
 	public int RouteChange(LicenseSetting licenseSetting) {
 		return sqlSession.update("license.RouteChange", licenseSetting);
 	}
 
-	public String getRoute(String column, String employeeId) {
+	public String getRoute(String column) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("column", column);
-		parameters.put("employeeId", employeeId);
 		return sqlSession.selectOne("license.getRoute", parameters);
 	}
 
@@ -85,8 +84,8 @@ public class LicenseDao {
 		return sqlSession.update("license.RouteInsert", licenseSetting);
 	}
 
-	public int getSettingCount(String employeeId) {
-		return sqlSession.selectOne("license.getSettingCount", employeeId);
+	public int getSettingCount() {
+		return sqlSession.selectOne("license.getSettingCount");
 	}
 
 }

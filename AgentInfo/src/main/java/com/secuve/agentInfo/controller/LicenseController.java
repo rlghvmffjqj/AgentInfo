@@ -143,7 +143,7 @@ public class LicenseController {
 		license.setLicenseRegistrant(principal.getName());
 		license.setLicenseRegistrationDate(licenseService.nowDate());
 
-		int licenseKeyNum = licenseService.windowIssuedLicense(license, principal, request);
+		int licenseKeyNum = licenseService.windowIssuedLicense(license, request);
 		model.addAttribute("licenseKeyNum", licenseKeyNum).addAttribute("viewType", license.getViewType());
 		return "/license/LicenseWindowView";
 	}
@@ -204,9 +204,8 @@ public class LicenseController {
 	 * @return
 	 */
 	@PostMapping(value = "/license/setting")
-	public String LicenseSetting(Principal principal, String licenseVersion, Model model) {
-		String employeeId = principal.getName();
-		LicenseSetting licenseSetting = licenseService.getlicenseSetting(employeeId);
+	public String LicenseSetting(String licenseVersion, Model model) {
+		LicenseSetting licenseSetting = licenseService.getlicenseSetting();
 		model.addAttribute("licenseSetting", licenseSetting);
 		model.addAttribute("licenseVersion", licenseVersion);
 		return "/license/LicenseSetting";
@@ -227,8 +226,7 @@ public class LicenseController {
 	
 	@ResponseBody
 	@PostMapping(value = "/license/routeChange")
-	public String RouteChange(LicenseSetting licenseSetting, Principal principal, Model model) {
-		licenseSetting.setEmployeeId(principal.getName());
+	public String RouteChange(LicenseSetting licenseSetting, Model model) {
 		return licenseService.RouteChange(licenseSetting);
 	}
 	
@@ -260,8 +258,8 @@ public class LicenseController {
 	
 	@ResponseBody
 	@PostMapping(value = "/license/routeCheck")
-	public Map<String, String> RouteCheck(Principal principal) {
-		String result = licenseService.getRoute("windowsLicenseRoute", principal.getName());
+	public Map<String, String> RouteCheck() {
+		String result = licenseService.getRoute("windowsLicenseRoute");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("result", result);
 		return map;

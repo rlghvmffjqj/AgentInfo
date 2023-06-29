@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="getRoute" parameterType="string" resultType="string">
-		SELECT ${column} FROM licenseSetting WHERE employeeId = #{employeeId};
+		SELECT ${column} FROM licenseSetting;
 	</select>
 	
 	<insert id="issuedLicense">

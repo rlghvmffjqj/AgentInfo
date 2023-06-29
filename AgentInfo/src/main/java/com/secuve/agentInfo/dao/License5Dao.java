@@ -30,10 +30,9 @@ public class License5Dao {
 		return sqlSession.selectOne("license5.getLicenseOne", licenseKeyNum);
 	}
 	
-	public String getRoute(String column, String employeeId) {
+	public String getRoute(String column) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("column", column);
-		parameters.put("employeeId", employeeId);
 		return sqlSession.selectOne("license5.getRoute", parameters);
 	}
 

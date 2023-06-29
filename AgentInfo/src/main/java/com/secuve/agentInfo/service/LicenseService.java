@@ -96,7 +96,7 @@ public class LicenseService {
 		String answer = "";
 		String firstStr = license.getOsTypeView().toUpperCase()+" "+license.getOsVersionView()+" "+license.getKernelVersionView();
 		String lastStr = period(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf()))+" "+license.getMacUmlHostIdView();
-		String route = licenseDao.getRoute("linuxLicense20Route", principal.getName());
+		String route = licenseDao.getRoute("linuxLicense20Route");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
@@ -154,7 +154,7 @@ public class LicenseService {
 	public String linuxIssuedLicense50(License license, Principal principal) {
 		String resault = null;
 		String answer = "";
-		String route = licenseDao.getRoute("linuxLicense50Route", principal.getName());
+		String route = licenseDao.getRoute("linuxLicense50Route");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
@@ -302,7 +302,7 @@ public class LicenseService {
         return jsonInString;
 	}
 	
-	public int windowIssuedLicense(License license, Principal principal, HttpServletRequest request) {
+	public int windowIssuedLicense(License license, HttpServletRequest request) {
 		// 닫기 버튼으로 뒤로 이동한 경우 중첩 추가를 막기위해 삭제 후 추가한다.
 		if(license.getViewType() == "issuedback" || license.getViewType().equals("issuedback") || license.getViewType() == "copyback" || license.getViewType().equals("copyback")) {
 			licenseDao.licensCancel(license.getLicenseKeyNum());
@@ -312,7 +312,7 @@ public class LicenseService {
 		license.setLicenseIssueKey("none");
 		license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
 		int sucess = licenseDao.issuedLicense(license);
-		String route = licenseDao.getRoute("windowsLicenseRoute", principal.getName());
+		String route = licenseDao.getRoute("windowsLicenseRoute");
 		// 로그 기록
 		if (sucess > 0) {
 			WindowsLicenseIssued(request, route);
@@ -451,13 +451,13 @@ public class LicenseService {
 		return contents;
 	}
 
-	public LicenseSetting getlicenseSetting(String employeeId) {
-		return licenseDao.getlicenseSetting(employeeId);
+	public LicenseSetting getlicenseSetting() {
+		return licenseDao.getlicenseSetting();
 	}
 
 	public String RouteChange(LicenseSetting licenseSetting) {
 		int count = 0;
-		if(licenseDao.getSettingCount(licenseSetting.getEmployeeId()) > 0) {
+		if(licenseDao.getSettingCount() > 0) {
 			count = licenseDao.RouteChange(licenseSetting);
 		} else {
 			count = licenseDao.RouteInsert(licenseSetting);
@@ -473,8 +473,8 @@ public class LicenseService {
 		return licenseDao.getLicenseOne(licenseKeyNum);
 	}
 
-	public String getRoute(String column, String employeeId) {
-		String route = licenseDao.getRoute(column, employeeId);
+	public String getRoute(String column) {
+		String route = licenseDao.getRoute(column);
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}

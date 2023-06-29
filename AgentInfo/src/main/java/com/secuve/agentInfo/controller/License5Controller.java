@@ -201,8 +201,8 @@ public class License5Controller {
 	}
 	
 	@GetMapping(value = "/license5/fileDownload")
-	public ResponseEntity<?> fileDownload(String licenseFilePath, Principal principal) {
-		return license5Service.fileDownload(licenseFilePath, principal);
+	public ResponseEntity<?> fileDownload(String licenseFilePath) {
+		return license5Service.fileDownload(licenseFilePath);
 	}
 	
 	@ResponseBody

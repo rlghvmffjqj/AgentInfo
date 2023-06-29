@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString
 @Component
 public class LicenseSetting {
-	private String employeeId;
 	private String windowsLicenseRoute;
 	private String linuxLicense20Route;
 	private String linuxLicense50Route;
