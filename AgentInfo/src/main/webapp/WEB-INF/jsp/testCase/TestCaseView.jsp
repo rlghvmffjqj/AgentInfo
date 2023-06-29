@@ -79,7 +79,7 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">
-																	테스트 케이스 경로 :
+																	테스트 케이스 분류 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnRouteInsert" onClick="btnRouteInsert()">추가</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRouteUpdate" onClick="btnRouteUpdate()">수정</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnRouteDelect" onClick="btnRouteDelect()">삭제</button>
@@ -299,10 +299,10 @@
 		function reqMember(path)
 		{
 			var node = $("#tree").dynatree("getActiveNode");
-			var path = node.data.key; // 선택 경로 풀 경로
-			var title = node.data.title; // 선택 경로
-			$("#testCaseRouteName").val(title); //경로경로
-			$("#testCaseRouteFullPath").val(path); // 경로 풀 경로
+			var path = node.data.key; // 선택 분류 풀 분류
+			var title = node.data.title; // 선택 분류
+			$("#testCaseRouteName").val(title); //분류
+			$("#testCaseRouteFullPath").val(path); // 분류 풀 분류
 
 			console.log($("#tree"));
 			console.log(node);
@@ -324,7 +324,7 @@
 
 		}
 
-		/* =========== 경로 추가 ========= */
+		/* =========== 분류 추가 ========= */
 		function btnRouteInsert() {
 			var isReadonly = $('#testCaseRouteCustomer').prop('readonly');
 
@@ -355,7 +355,7 @@
 			});
 		}
 
-		/* =========== RouteFullPath 경로 가져오기 ========= */
+		/* =========== RouteFullPath 분류 가져오기 ========= */
 		function getCurrentPath() {
 			var node = $("#tree").dynatree("getActiveNode");
 			if (node != null )
@@ -375,13 +375,13 @@
 			}
 		}
 
-		/* =========== 경로 삭제 ========= */
+		/* =========== 분류 삭제 ========= */
 		function btnRouteDelect() {
 			var node = $("#tree").dynatree("getActiveNode");
 			var testCaseRouteFullPath = node.data.key;
 			Swal.fire({
 				  title: '삭제!',
-				  text: "선택한 경로를 삭제하시겠습니까?",
+				  text: "선택한 분류를 삭제하시겠습니까?",
 				  icon: 'warning',
 				  showCancelButton: true,
 				  confirmButtonColor: '#7066e0',
@@ -408,7 +408,7 @@
 								Swal.fire({
 									icon: 'error',
 									title: '실패!',
-									text: '하위경로가 존재합니다.',
+									text: '하위분류가 존재합니다.',
 								});
 							}
 						},
@@ -431,7 +431,7 @@
 			}
 		}
 
-		/* =========== 부모 경로 위치 ========= */
+		/* =========== 부모 분류 위치 ========= */
 		function getParentPath() {
 			var path = getCurrentPath();
 
@@ -444,7 +444,7 @@
 		}
 
 
-		/* =========== 경로 수정 ========= */
+		/* =========== 분류 수정 ========= */
 		function btnRouteUpdate() {
 			var path = getCurrentPath();
 

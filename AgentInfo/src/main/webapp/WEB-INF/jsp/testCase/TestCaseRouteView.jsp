@@ -5,10 +5,10 @@
 <div class="modelHead">
 	<c:choose>
 		<c:when test="${viewType eq 'insert'}">
-			<div class="modelHeadFont">경로 추가</div>
+			<div class="modelHeadFont">분류 추가</div>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<div class="modelHeadFont">경로 수정</div>
+			<div class="modelHeadFont">분류 수정</div>
 		</c:when>
 	</c:choose>
 </div>
@@ -18,18 +18,18 @@
 			<c:choose>
 				<c:when test="${viewType eq 'insert'}">
 					<tr class="hight60">
-						<td>경로 경로 :</td><td><span id="testCaseRouteParentPathView">${testCaseRouteFullPath}</span></td>
+						<td>분류 :</td><td><span id="testCaseRouteParentPathView">${testCaseRouteFullPath}</span></td>
 					</tr>
 					<tr>
-						<td style="width: 70px;">경로명 : </td><td><input type="text" id="testCaseRouteNameView" autofocus></td>
+						<td style="width: 70px;">분류명 : </td><td><input type="text" id="testCaseRouteNameView" autofocus></td>
 					</tr>
 				</c:when>
 				<c:when test="${viewType eq 'update'}">
 					<tr class="hight60">
-						<td>경로 경로 :</td><td><span id="testCaseRouteNameChangeView">${testCaseRouteFullPath}</span></td>	
+						<td>분류 :</td><td><span id="testCaseRouteNameChangeView">${testCaseRouteFullPath}</span></td>	
 					</tr>
 					<tr>
-						<td style="width: 70px;">경로명 변경 : </td><td><input type="text" id="testCaseRouteNameView" autofocus></td>											
+						<td style="width: 70px;">분류명 변경 : </td><td><input type="text" id="testCaseRouteNameView" autofocus></td>											
 					</tr>
 				</c:when>
 			</c:choose>
@@ -54,7 +54,7 @@
 	    $(this).find('[autofocus]').focus();
 	});
 
-	/* =========== 경로 추가 ========= */
+	/* =========== 분류 추가 ========= */
 	function BtnTestCaseRouteViewInsert() {
 		var testCaseRouteParentPath = getCurrentPath();
 		var testCaseRouteName = $('#testCaseRouteNameView').val();
@@ -90,13 +90,13 @@
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '해당 경로의 동일한 경로가 존재합니다.',
+						text: '해당 분류의 동일한 분류가 존재합니다.',
 					});
 				} else if(data.result == "Empty") {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '경로명을 입력해주세요.',
+						text: '분류명을 입력해주세요.',
 					});
 				}else{
 					Swal.fire({
@@ -112,11 +112,11 @@
 		});
 	}
 	
-	/* =========== 경로 수정 ========= */
+	/* =========== 분류 수정 ========= */
 	function BtnTestCaseRouteViewUpdate() {
 		var node = $("#tree").dynatree("getActiveNode");
-		var path = node.data.key; // 선택 경로 풀 경로
-		var title = node.data.title; // 선택 경로
+		var path = node.data.key; // 선택 분류 풀 분류
+		var title = node.data.title; // 선택 분류
 		var newtestCaseRouteName = $('#testCaseRouteNameView').val();
 		
 		$.ajax({
@@ -140,13 +140,13 @@
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '해당 경로의 동일한 경로가 존재합니다.',
+						text: '해당 분류의 동일한 분류가 존재합니다.',
 					});
 				} else if(data.result == "Empty") {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '경로명을 입력해주세요.',
+						text: '분류명을 입력해주세요.',
 					});
 				}else{
 					Swal.fire({
