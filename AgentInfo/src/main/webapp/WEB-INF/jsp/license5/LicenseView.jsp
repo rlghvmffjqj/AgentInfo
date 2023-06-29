@@ -20,7 +20,7 @@
 					<div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
+					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
@@ -31,11 +31,12 @@
 								</c:forEach>
 							</select>
 						</div>
+						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
 					 </div>
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-					  		<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
+					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
@@ -43,13 +44,14 @@
 						  		<option value=""></option>
 							</select>
 						</div>
+						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
 					 </div>
 	         	</c:when>
 	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 	         		<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
+					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
@@ -61,11 +63,12 @@
 								</c:forEach>
 							</select>
 						</div>
+						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
 			         </div>
 			         <div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">사업명</label>
-					  		<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
+					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
@@ -77,6 +80,7 @@
 								</c:forEach>
 							</select>
 						</div>
+						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
 			         </div>
 	         	</c:when>
 			 </c:choose>
@@ -125,7 +129,7 @@
 			         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
 		    				<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 		    			</div>
-		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
+		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
 			         	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
 			         		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
 			         	</div>
@@ -181,7 +185,7 @@
 			         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
 		    				<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 		    			</div>
-		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
+		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
 			         	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
 			         		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
 			         	</div>
@@ -642,7 +646,7 @@
 	};
 	
 	/* =========== 직접입력 <--> 선택입력 변경 ========= */
-	function selfInput(data) {
+	function selfInputCalendar(data) {
 		if(data == "expirationDaysChange") {
 			if($("#expirationDaysChange").text() == "달력") {
 				$('#expirationDaysViewSelf').show();
@@ -653,6 +657,34 @@
 				$('#expirationDaysViewSelf').hide();
 				$('#expirationDaysViewSelect').show();
 				$("#expirationDaysChange").text("달력");
+			}
+		}
+	}
+
+	function selfInput(data) {
+		if (data == "customerNameChange") {
+			if($('#customerNameChange').text() == "직접입력") {
+				$('#customerNameViewSelf').hide();
+				$('#customerNameSelf').attr('type','text');
+				$('#customerNameView').val('');	
+				$("#customerNameChange").text("선택입력");
+			} else if($('#customerNameChange').text() == "선택입력") {
+				$('#customerNameViewSelf').show();
+				$('#customerNameSelf').attr('type','hidden');
+				$('#customerNameSelf').val('');	
+				$("#customerNameChange").text("직접입력");
+			}
+		} else if (data == "businessNameChange") {
+			if($('#businessNameChange').text() == "직접입력") {
+				$('#businessNameViewSelf').hide();
+				$('#businessNameSelf').attr('type','text');
+				$('#businessNameView').val('');	
+				$("#businessNameChange").text("선택입력");
+			} else if($('#businessNameChange').text() == "선택입력") {
+				$('#businessNameViewSelf').show();
+				$('#businessNameSelf').attr('type','hidden');
+				$('#businessNameSelf').val('');	
+				$("#businessNameChange").text("직접입력");
 			}
 		}
 	}

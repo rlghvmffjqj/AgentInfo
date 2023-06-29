@@ -164,7 +164,7 @@ public class License5Service {
 	}
 	
 	public String LinuxLicenseIssued50(String ip, String route, License5 license) {
-		String url = "http:/"+ip+":8080/linuxLicenseIssued50";
+		String url = "http://"+ip+":8080/linuxLicenseIssued50";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
