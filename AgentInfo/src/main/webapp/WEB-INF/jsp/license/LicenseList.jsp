@@ -282,13 +282,11 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">라이선스 관리 :
-																	<sec:authorize access="hasRole('ADMIN')">
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
-																	</sec:authorize>
+																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
 															</tr>
