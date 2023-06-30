@@ -113,6 +113,8 @@ public class License5Service {
 		if(!resault.equals("FALSE")) {
 			license = licenseInputFormat(license);
 			int sucess = license5Dao.issuedLicense(license);
+			categoryCheck(license, principal);
+			categoryService.insertCustomerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
 		
 			// 로그 기록
 			if (sucess <= 0) {
@@ -149,6 +151,8 @@ public class License5Service {
 		if(!resault.equals("FALSE")) {
 			license = licenseInputFormat(license);
 			int sucess = license5Dao.updateLicense(license);
+			categoryCheck(license, principal);
+			categoryService.insertCustomerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
 		
 			// 로그 기록
 			if (sucess <= 0) {
@@ -352,6 +356,16 @@ public class License5Service {
 				 license.setDbmsCountView(line.replace("<limit_DBMS>", "").replace("</limit_DBMS>","").replace(" ", ""));
 			 if (line.contains("limit_Network")) 
 				 license.setNetworkCountView(line.replace("<limit_Network>", "").replace("</limit_Network>","").replace(" ", ""));
+			 if (line.contains("quantity_AIX")) 
+				 license.setAixCountView(Integer.parseInt(line.replace("<quantity_AIX>", "").replace("</quantity_AIX>","").replace(" ", "")));
+			 if (line.contains("quantity_HPUX")) 
+				 license.setHpuxCountView(Integer.parseInt(line.replace("<quantity_HPUX>", "").replace("</quantity_HPUX>","").replace(" ", "")));
+			 if (line.contains("quantity_Solaris")) 
+				 license.setSolarisCountView(Integer.parseInt(line.replace("<quantity_Solaris>", "").replace("</quantity_Solaris>","").replace(" ", "")));
+			 if (line.contains("quantity_Linux")) 
+				 license.setLinuxCountView(Integer.parseInt(line.replace("<quantity_Linux>", "").replace("</quantity_Linux>","").replace(" ", "")));
+			 if (line.contains("quantity_Windows")) 
+				 license.setWindowsCountView(Integer.parseInt(line.replace("<quantity_Windows>", "").replace("</quantity_Windows>","").replace(" ", "")));
 			}
 			file_reader.close();
 		} catch (Exception e) {

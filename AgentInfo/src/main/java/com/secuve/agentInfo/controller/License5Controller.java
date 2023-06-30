@@ -114,6 +114,11 @@ public class License5Controller {
 	
 	@PostMapping(value = "/license5/licenseIssuanceConfirm")
 	public String LicenseIssuanceConfirm(License5 license, Model model) {
+		if(license.getCustomerNameSelf().length() > 0)
+			license.setCustomerNameView(license.getCustomerNameSelf());
+		if(license.getBusinessNameSelf().length() > 0)
+			license.setBusinessNameView(license.getBusinessNameSelf());
+		
 		model.addAttribute("license", license);
 		model.addAttribute("viewType","issued");
 		return "/license5/LicenseIssuanceConfirm";
@@ -121,6 +126,11 @@ public class License5Controller {
 	
 	@PostMapping(value = "/license5/licenseUpdateConfirm")
 	public String licenseUpdateConfirm(License5 license, Model model) {
+		if(license.getCustomerNameSelf().length() > 0)
+			license.setCustomerNameView(license.getCustomerNameSelf());
+		if(license.getBusinessNameSelf().length() > 0)
+			license.setBusinessNameView(license.getBusinessNameSelf());
+		
 		model.addAttribute("license", license);
 		model.addAttribute("viewType","update");
 		return "/license5/LicenseIssuanceConfirm";

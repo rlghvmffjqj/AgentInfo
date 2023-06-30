@@ -79,6 +79,9 @@ public class License5 {
 	private String[] requesterArr;							// 요청자
 	private String[] countryArr;								// 국가
 	
+	private String customerNameSelf;
+	private String businessNameSelf;
+	
 	private String viewType;
 	private String btnType;
 	

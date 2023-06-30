@@ -20,6 +20,7 @@
 					<div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+							<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
 					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -31,11 +32,11 @@
 								</c:forEach>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
 					 </div>
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
+							<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
 					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -44,13 +45,13 @@
 						  		<option value=""></option>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
 					 </div>
 	         	</c:when>
 	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 	         		<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+							<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
 					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -63,11 +64,11 @@
 								</c:forEach>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial; float: right;">고객사명을 선택해주세요.</span>
 			         </div>
 			         <div class="pading5Width450">
 						<div>
-					  		<label class="labelFontSize">사업명</label>
+					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
+							<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
 					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
@@ -80,7 +81,6 @@
 								</c:forEach>
 							</select>
 						</div>
-						<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial; float: right;">사업명을 선택해주세요.</span>
 			         </div>
 	         	</c:when>
 			 </c:choose>
@@ -307,23 +307,23 @@
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCountView}">
+			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCount}">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="${license.hpuxCountView}">
+			         	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="${license.hpuxCount}">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="${license.solarisCountView}">
+			         	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="${license.solarisCount}">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="${license.linuxCountView}">
+			         	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="${license.linuxCount}">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="${license.windowsCountView}">
+			         	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="${license.windowsCount}">
 					</div>
 					<div class="pading5Width450">
 						<label class="labelFontSize">관리서버 OS</label><label class="colorRed">*</label>
@@ -455,24 +455,85 @@
 		}
 		
 		$("#customerNameView").change(function() {
-			var customerName = $('#customerNameView').val();
-			var businessName = $('#businessNameView').val();
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+
+		$("#customerNameSelf").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		});
 		
 		$("#businessNameView").change(function() {
-			var customerName = $('#customerNameView').val();
-			var businessName = $('#businessNameView').val();
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+
+		$("#businessNameSelf").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		});
 		
 		$("#issueDateView").change(function() {
-			var customerName = $('#customerNameView').val();
-			var businessName = $('#businessNameView').val();
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
@@ -549,7 +610,9 @@
 	
 	function existenceCheck() {
 		var customerName = $('#customerNameView').val();
+		var customerNameSelf = $('#customerNameSelf').val();
 		var businessName = $('#businessNameView').val();
+		var businessNameSelf = $('#businessNameSelf').val();
 		var macAddress = $('#macAddressView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productVersion = $('#productVersionView').val();
@@ -557,9 +620,9 @@
 		var viewType = $('#viewType').val();
 		
 		$('.licenseShow').hide();
-		if(customerName == "") {
+		if(customerName == "" && customerNameSelf == "") {
 			$('#NotCustomerName').show();
-		} else if(businessName == "") {
+		} else if(businessName == "" && businessNameSelf == "") {
 			$('#NotBusinessName').show();
 		} else if(macAddress == "") {
 			$('#NotMacAddress').show();			
