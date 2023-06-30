@@ -72,7 +72,7 @@
 		         		<option value=""></option>
 						<option value="연구원">연구원</option>
 						<option value="전임">전임</option>
-						<option value="인턴">선임</option>
+						<option value="선임">선임</option>
 						<option value="차장">차장</option>
 						<option value="책임">책임</option>
 						<option value="실장">실장</option>
@@ -121,7 +121,7 @@
 				        <c:if test="${packages.employeeRank eq ''}"><option value=""></option></c:if>
 						<option value="연구원" <c:if test="${employee.employeeRank eq '연구원'}">selected</c:if>>연구원</option>
 						<option value="전임" <c:if test="${employee.employeeRank eq '전임'}">selected</c:if>>전임</option>
-						<option value="인턴" <c:if test="${employee.employeeRank eq '선임'}">selected</c:if>>선임</option>
+						<option value="선임" <c:if test="${employee.employeeRank eq '선임'}">selected</c:if>>선임</option>
 						<option value="차장" <c:if test="${employee.employeeRank eq '차장'}">selected</c:if>>차장</option>
 						<option value="책임" <c:if test="${employee.employeeRank eq '책임'}">selected</c:if>>책임</option>
 						<option value="실장" <c:if test="${employee.employeeRank eq '실장'}">selected</c:if>>실장</option>

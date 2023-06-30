@@ -124,7 +124,7 @@
 		                      								<option value=""></option>
 															<option value="연구원">연구원</option>
 															<option value="전임">전임</option>
-															<option value="인턴">선임</option>
+															<option value="선임">선임</option>
 															<option value="차장">차장</option>
 															<option value="책임">책임</option>
 															<option value="실장">실장</option>
