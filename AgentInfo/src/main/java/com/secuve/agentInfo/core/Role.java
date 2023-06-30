@@ -14,6 +14,7 @@ public enum Role {
 	ADMIN("ROLE_ADMIN"),
 	MEMBER("ROLE_MEMBER"),
 	ENGINEER("ROLE_ENGINEER"),
+	LICENSE("ROLE_LICENSE"),
 	QA("ROLE_QA");
 	
 	private String value;

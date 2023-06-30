@@ -129,6 +129,7 @@
 															<option value="책임">책임</option>
 															<option value="실장">실장</option>
 															<option value="소장">소장</option>
+															<option value="본부장">본부장</option>
 															<option value="대표">대표</option>
 														</select>
 		                      						</div><br>
