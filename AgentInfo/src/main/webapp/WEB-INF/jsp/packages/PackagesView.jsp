@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 700px;">
+<div class="modal-body" style="width: 100%; height: 750px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name="packagesKeyNum" class="form-control viewForm" value="${packages.packagesKeyNum}">
 		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">
@@ -234,6 +234,10 @@
 					 </div>
 			    </c:when>
 			 </c:choose>
+			 <div class="pading5Width450">
+				<label class="labelFontSize">OS버전</label>
+				<input type="text" id="osVersionView" name="osVersionView" class="form-control viewForm" value="${packages.osVersion}">
+			</div>
 			 <div class="pading5Width450">
 	         	<label class="labelFontSize">패키지 상세버전</label>
 	         	<input type="text" id="osDetailVersionView" name="osDetailVersionView" class="form-control viewForm" value="${packages.osDetailVersion}">
