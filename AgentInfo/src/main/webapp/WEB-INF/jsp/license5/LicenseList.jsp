@@ -292,6 +292,7 @@
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload">다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">XML Import</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -518,6 +519,10 @@
 					console.log(error);
 				}
 			});
+		});
+
+		$('#BtnDownload').click(function() {
+			location.href="<c:url value='/license5/license5Download'/>";
 		});
 		
 		/* =========== 데이터 수정 Modal ========= */

@@ -1,7 +1,9 @@
 package com.secuve.agentInfo.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -10,7 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,14 +26,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.secuve.agentInfo.dao.License5FileJpaDao;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.License5Service;
 import com.secuve.agentInfo.vo.License5;
+import com.secuve.agentInfo.vo.License5File;
 
 @Controller
 public class License5Controller {
 	@Autowired License5Service license5Service;
 	@Autowired CategoryService categoryService;
+	@Autowired License5FileJpaDao license5FileJpaDao;
 	
 	@GetMapping(value = "/license5/issuance")
 	public String LicenseList(Model model) {
@@ -256,5 +264,27 @@ public class License5Controller {
 		license.setSerialNumber(license5Service.getLicenseOne(license.getLicenseKeyNum()).getSerialNumber());
 		return license5Service.existenceCheckUpdate(license);
 	}
+	
+	@GetMapping("/license5/license5Download")
+	public ResponseEntity<Resource> downloadFile() {
+	    String serialNumber = "20230703-20231001-ILT05020-85295556";
+	    License5File fileEntity = license5FileJpaDao.findBySerialNumber(serialNumber);
+
+	    ByteArrayResource resource = new ByteArrayResource(fileEntity.getFileData());
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	    try {
+	        String encodedFileName = URLEncoder.encode(fileEntity.getFileName(), StandardCharsets.UTF_8.toString());
+	        headers.setContentDispositionFormData("attachment", encodedFileName);
+	    } catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
+
+	    return ResponseEntity.ok()
+	            .headers(headers)
+	            .body(resource);
+	}
+
 
 }
