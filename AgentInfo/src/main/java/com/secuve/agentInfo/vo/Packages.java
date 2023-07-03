@@ -67,6 +67,7 @@ public class Packages {
 	private String osDetailVersionSelf;			// Self 패키지 상세버전
 	private String generalCustomSelf;			// Self 일반/커스텀
 	private String osTypeSelf;					// Self OS 종류
+	private String osVersionSelf;				// Self OS 버전
 	private String agentVerSelf;				// Self Agent ver
 	private String packageNameSelf;				// Self 패키지명
 	private String managerSelf;					// Self 담당자

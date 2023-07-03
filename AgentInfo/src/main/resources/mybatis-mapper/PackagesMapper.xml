@@ -146,9 +146,6 @@
 		UPDATE packages SET statusComment = #{statusComment}, state = #{stateView} WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
 	
-	<select id="getSelectList" parameterType="string" resultType="string">
-		SELECT DISTINCT(${column}) FROM packages WHERE ${column} != '';
-	</select>
 	
 	<!-- ==================================================================================== -->
 	

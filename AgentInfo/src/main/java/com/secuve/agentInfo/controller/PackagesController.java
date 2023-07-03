@@ -52,11 +52,11 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
-		List<String> osVersion = packagesService.getSelectList("osVersion");
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", categoryBusinessName);
@@ -118,6 +118,7 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -128,6 +129,7 @@ public class PackagesController {
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
+		model.addAttribute("osVersion", osVersion);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
@@ -173,6 +175,7 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -184,6 +187,7 @@ public class PackagesController {
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
+		model.addAttribute("osVersion", osVersion);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
@@ -316,6 +320,7 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
+		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -327,6 +332,7 @@ public class PackagesController {
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
+		model.addAttribute("osVersion", osVersion);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);

@@ -78,6 +78,14 @@ public class CategoryController {
 		return "category/CategoryList";
 	}
 	
+	@GetMapping(value = "/category/osVersion")
+	public String osVersion(Model model) {
+		List<String> categoryValue = categoryService.getSelectInput("osVersion");
+		model.addAttribute("categoryValue", categoryValue);
+		model.addAttribute("category", "osVersion");
+		return "category/CategoryList";
+	}
+	
 	/**
 	 * 요청 제품 구분
 	 * @param model

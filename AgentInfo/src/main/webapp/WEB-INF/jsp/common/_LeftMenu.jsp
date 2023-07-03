@@ -40,6 +40,10 @@
 			$('.agentOS').addClass('active');
 			$('.categroy').addClass('active');
 			$('.categroy').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'osVersion') {
+			$('.osVersion').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'log') {
 			$('.log').addClass('active');
 		} else if($.cookie('name') == 'customerName') {
@@ -612,70 +616,77 @@
 					                <span class="pcoded-mtext">고객사명</span>
 					                <span class="pcoded-mcaret"></span>
 					              </a>
-					        </li>
-					        <li class="businessName">
-					              <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">사업명</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					        </li>
-					        <li class="managementServer">
-					              <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">패키지 종류</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					         </li>
-					         <li class="existingNew">
-					              <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">기존/신규</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
-					    	<li class="generalCustom">
-					              <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">일반/커스텀</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
-					    	<li class="osType">
-					              <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">OS 종류</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
-					    	<li class="requestProductCategory">
-					              <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">요청 제품 구분</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
-					    	<li class="deliveryMethod">
-					              <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">전달 방법</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
-					    	<li class="agentVer">
-					              <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">Agent ver</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
-					    	<li class="agentOS">
-					              <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					                <span class="pcoded-mtext">Agent OS</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					    	</li>
+					        	</li>
+					        	<li class="businessName">
+					        	      <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">사업명</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					        	</li>
+					        	<li class="managementServer">
+					        	      <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">패키지 종류</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					        	 </li>
+					        	 <li class="existingNew">
+					        	      <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">기존/신규</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
+					    		<li class="generalCustom">
+					        	      <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">일반/커스텀</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
+					    		<li class="osType">
+					        	      <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">OS 종류</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
+								<li class="osVersion">
+									<a href="<c:url value='/category/osVersion'/>" class="waves-effect waves-dark">
+									  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									  <span class="pcoded-mtext">OS 버전</span>
+									  <span class="pcoded-mcaret"></span>
+									</a>
+							  </li>
+					    		<li class="requestProductCategory">
+					        	      <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">요청 제품 구분</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
+					    		<li class="deliveryMethod">
+					        	      <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">전달 방법</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
+					    		<li class="agentVer">
+					        	      <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">Agent ver</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
+					    		<li class="agentOS">
+					        	      <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
+					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+					        	        <span class="pcoded-mtext">Agent OS</span>
+					        	        <span class="pcoded-mcaret"></span>
+					        	      </a>
+					    		</li>
 			    	    	</ul>
 			    	    </li>
 			    	</ul>

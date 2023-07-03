@@ -91,7 +91,4 @@ public class PackagesDao {
 		return sqlSession.selectOne("packages.getPackagesKeyNumOrigin");
 	}
 	
-	public List<String> getSelectList(String column) {
-		return sqlSession.selectList("packages.getSelectList", column);
-	}
 }
