@@ -254,4 +254,5 @@ public class License5Controller {
 		license.setSerialNumber(license5Service.getLicenseOne(license.getLicenseKeyNum()).getSerialNumber());
 		return license5Service.existenceCheckUpdate(license);
 	}
+	
 }

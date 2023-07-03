@@ -236,4 +236,5 @@ public class CategoryService {
 	public List<String> getCategoryBusinessValue(String customerName) {
 		return categoryDao.getCategoryBusinessValue(customerName);
 	}
+
 }
