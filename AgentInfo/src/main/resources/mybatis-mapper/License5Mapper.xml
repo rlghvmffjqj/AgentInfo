@@ -65,6 +65,9 @@
 		AND serialNumber != #{serialNumber}
 	</select>
 	
+	<select id="serialNumberCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM license5 WHERE serialNumber = #{serialNumber};
+	</select>
 	
 	
 	<!-- ==================================================================================== -->

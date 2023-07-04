@@ -126,6 +126,12 @@
 							title: '연결 실패!',
 							text: '서버 연결에 실패하였습니다.',
 						});
+				} else if(result.result == "Duplication") {
+		        	Swal.fire({
+						icon: 'error',
+						title: '일련번호 중복!',
+						text: '일련번호가 동일한 데이터가 존재합니다.',
+					});
 				} else {
 					Swal.fire({
 						icon: 'success',
@@ -193,6 +199,12 @@
 							title: '연결 실패!',
 							text: '서버 연결에 실패하였습니다.',
 						});
+				} else if(result.result == "Duplication") {
+		        	Swal.fire({
+						icon: 'error',
+						title: '일련번호 중복!',
+						text: '일련번호가 동일한 데이터가 존재합니다.',
+					});
 				} else {
 					Swal.fire({
 						icon: 'success',

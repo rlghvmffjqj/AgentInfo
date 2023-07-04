@@ -214,21 +214,6 @@
 							</select>
 						</div>
 					 </div>
-					 <div class="pading5Width450">
-						<div>
-							 <label class="labelFontSize">OS버전</label>
-							 <a href="#" class="selfInput" id="osVersionChange" onclick="selfInput('osVersionChange');">직접입력</a>
-						 </div>
-						 <input type="hidden" id="osVersionSelf" name="osVersionSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						 <div id="osVersionViewSelf">
-						   <select class="form-control selectpicker selectForm" id="osVersionView" name="osVersionView" data-live-search="true" data-size="5">
-							   <option value=""></option>
-							   <c:forEach var="item" items="${osVersion}">
-								   <option value="${item}"><c:out value="${item}"/></option>
-							   </c:forEach>
-						   </select>
-					   </div>
-					</div>
 			 	</c:when>
 				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 			         <div class="pading5Width450">
@@ -247,22 +232,6 @@
 							</select>
 						</div>
 					 </div>
-					 <div class="pading5Width450">
-						<div>
-							 <label class="labelFontSize">OS버전</label>
-							 <a href="#" class="selfInput" id="osVersionChange" onclick="selfInput('osVersionChange');">직접입력</a>
-						 </div>
-						 <input type="hidden" id="osVersionSelf" name="osVersionSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						 <div id="osVersionViewSelf">
-						   <select class="form-control selectpicker selectForm" id="osVersionView" name="osVersionView" data-live-search="true" data-size="5">
-							   <c:if test="${packages.osVersion ne ''}"><option value=""></option></c:if>
-							   <c:if test="${packages.osVersion eq ''}"><option value=""></option></c:if>
-							   <c:forEach var="item" items="${osVersion}">
-								   <option value="${item}" <c:if test="${item eq packages.osVersion}">selected</c:if>><c:out value="${item}"/></option>
-							   </c:forEach>
-						   </select>
-					   </div>
-					</div>
 			    </c:when>
 			 </c:choose>
 			 <div class="pading5Width450">
@@ -565,18 +534,6 @@
 				$('#osTypeSelf').attr('type','hidden');
 				$('#osTypeSelf').val('');
 				$("#osTypeChange").text("직접입력");
-			}
-		} else if (data == "osVersionChange") {
-			if($('#osVersionChange').text() == "직접입력") {
-				$('#osVersionViewSelf').hide();
-				$('#osVersionSelf').attr('type','text');
-				$('#osVersionView').val('');
-				$("#osVersionChange").text("선택입력");
-			} else if($('#osVersionChange').text() == "선택입력") {
-				$('#osVersionViewSelf').show();
-				$('#osVersionSelf').attr('type','hidden');
-				$('#osVersionSelf').val('');
-				$("#osVersionChange").text("직접입력");
 			}
 		} else if (data == "agentOSChange") {
 			if($('#agentOSChange').text() == "직접입력") {

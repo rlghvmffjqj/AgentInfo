@@ -20,7 +20,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','OS버전','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
+					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','OS버전','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 					colModel:[
 						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 						/* {name:'packagesKeyNumOrigin', index:'packagesKeyNumOrigin', align:'center', width: 50, hidden:true }, */
@@ -36,7 +36,6 @@
 						{name:'packageName', index:'packageName', align:'center', width: 630},
 						{name:'manager', index:'manager', align:'center', width: 80},
 						{name:'osType', index:'osType', align:'center', width: 80},
-						{name:'osVersion', index:'osVersion', align:'center', width: 80},
 						{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 350},
 						{name:'agentOS', index:'agentOS', align:'center', width: 120},
 						{name:'existingNew', index:'existingNew', align:'center', width: 70},
@@ -221,19 +220,11 @@
 													</select>
 												</div>
 												<div class="col-lg-2">
-													<label class="labelFontSize">OS버전</label>
-												  <select class="form-control selectpicker" id="osVersionMulti" name="osVersionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-													  <c:forEach var="item" items="${osVersion}">
-														  <option value="${item}"><c:out value="${item}"/></option>
-													  </c:forEach>
-												  </select>
-											  </div>
-												<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지 상세버전</label>
 	                      							<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">Agent OS</label>
+	                      							<label class="labelFontSize">OS버전</label>
 													<select class="form-control selectpicker" id="agentOSMulti" name="agentOSMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${agentOS}">
 															<option value="${item}"><c:out value="${item}"/></option>
@@ -268,7 +259,6 @@
 		                      						<input type="hidden" id="generalCustom" name="generalCustom" class="form-control">
 		                      						<input type="hidden" id="agentVer" name="agentVer" class="form-control">
 		                      						<input type="hidden" id="osType" name="osType" class="form-control">
-													<input type="hidden" id="osVersion" name="osVersion" class="form-control">
 		                      						<input type="hidden" id="agentOS" name="agentOS" class="form-control">
 		                      						<input type="hidden" id="state" name="state" class="form-control">
 		                      						<input type="hidden" id="existingNew" name="existingNew" class="form-control">
@@ -408,7 +398,6 @@
 			$('#generalCustom').val($('#generalCustomMulti').val().join());
 			$('#agentVer').val($('#agentVerMulti').val().join());
 			$('#osType').val($('#osTypeMulti').val().join());
-			$('#osVersion').val($('#osVersionMulti').val().join());
 			$('#agentOS').val($('#agentOSMulti').val().join());
 			$('#state').val($('#stateMulti').val().join());
 			$('#existingNew').val($('#existingNewMulti').val().join());

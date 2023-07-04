@@ -922,27 +922,16 @@ public class PackagesService {
 					categoryService.setCategory("osType", cell.getStringCellValue(), principal.getName(), nowDate());
 				}
 			}
-			// 행의 13번째 열(OS버전)
+			// 행의 13번째 열(패키지 상세버전)
 			cell = row.getCell(12);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setOsVersionView(cell.getStringCellValue());
-				if (categoryService.getCategory("osVersion", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("osVersion", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 14번째 열(패키지 상세버전)
-			cell = row.getCell(13);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 				}
 				packages.setOsDetailVersionView(cell.getStringCellValue());
 			}
-			// 행의 15번째 열(Agent OS)
-			cell = row.getCell(14);
+			// 행의 14번째 열(Agent OS)
+			cell = row.getCell(13);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -952,8 +941,8 @@ public class PackagesService {
 					categoryService.setCategory("agentOS", cell.getStringCellValue(), principal.getName(), nowDate());
 				}
 			}
-			// 행의 16번째 열(기존/신규)
-			cell = row.getCell(15);
+			// 행의 15번째 열(기존/신규)
+			cell = row.getCell(14);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -963,8 +952,8 @@ public class PackagesService {
 					categoryService.setCategory("existingNew", cell.getStringCellValue(), principal.getName(), nowDate());
 				}
 			}
-			// 행의 17번째 열(요청 제품구분)
-			cell = row.getCell(16);
+			// 행의 16번째 열(요청 제품구분)
+			cell = row.getCell(15);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -974,8 +963,8 @@ public class PackagesService {
 					categoryService.setCategory("requestProductCategory", cell.getStringCellValue(), principal.getName(), nowDate());
 				}
 			}
-			// 행의 18번째 열(전달 방법)
-			cell = row.getCell(17);
+			// 행의 17번째 열(전달 방법)
+			cell = row.getCell(16);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -985,8 +974,8 @@ public class PackagesService {
 					categoryService.setCategory("deliveryMethod", cell.getStringCellValue(), principal.getName(), nowDate());
 				}
 			}
-			// 행의 19번째 열(비고)
-			cell = row.getCell(18);
+			// 행의 18번째 열(비고)
+			cell = row.getCell(17);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -994,8 +983,8 @@ public class PackagesService {
 				packages.setNoteView(cell.getStringCellValue());
 			}
 			
-			// 행의 20번째 열(상태변경의견)
-			cell = row.getCell(19);
+			// 행의 19번째 열(상태변경의견)
+			cell = row.getCell(18);
 			if (null != cell) {
 				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
@@ -1070,8 +1059,6 @@ public class PackagesService {
 			packages.setAgentVerView(packages.getAgentVerSelf());
 		if(packages.getOsTypeSelf().length() > 0)
 			packages.setOsTypeView(packages.getOsTypeSelf());
-		if(packages.getOsVersionSelf().length() > 0)
-			packages.setOsVersionView(packages.getOsVersionSelf());
 		if(packages.getAgentOSSelf().length() > 0)
 			packages.setAgentOSView(packages.getAgentOSSelf());
 		if(packages.getExistingNewSelf().length() > 0)
@@ -1105,9 +1092,6 @@ public class PackagesService {
 		}
 		if (categoryService.getCategory("osType", packages.getOsTypeView()) == 0) {
 			categoryService.setCategory("osType", packages.getOsTypeView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("osVersion", packages.getOsVersionView()) == 0) {
-			categoryService.setCategory("osVersion", packages.getOsVersionView(), principal.getName(), nowDate());
 		}
 		if (categoryService.getCategory("agentOS", packages.getAgentOSView()) == 0) {
 			categoryService.setCategory("agentOS", packages.getAgentOSView(), principal.getName(), nowDate());
@@ -1145,7 +1129,6 @@ public class PackagesService {
 		search.setOsDetailVersionArr(search.getOsDetailVersion().split(","));
 		search.setGeneralCustomArr(search.getGeneralCustom().split(","));
 		search.setOsTypeArr(search.getOsType().split(","));
-		search.setOsVersionArr(search.getOsVersion().split(","));
 		search.setAgentVerArr(search.getAgentVer().split(","));
 		search.setPackageNameArr(search.getPackageName().split(","));
 		search.setManagerArr(search.getManager().split(","));

@@ -25,7 +25,6 @@ public class Packages {
 	private String osDetailVersion = "";		// 패키지 상세버전
 	private String generalCustom = "";			// 일반/커스텀
 	private String osType = "";					// OS 종류
-	private String osVersion = "";
 	private String agentVer = "";				// Agent ver
 	private String packageName = "";			// 패키지명
 	private String manager = "";				// 담당자
@@ -44,7 +43,6 @@ public class Packages {
 	private String existingNewView;				// View 기존/신규
 	private String managementServerView;		// View 패키지 종류
 	private String agentOSView;					// View Agent OS
-	private String osVersionView;
 	private String osDetailVersionView;			// View 패키지 상세버전
 	private String generalCustomView;			// View 일반/커스텀
 	private String osTypeView;					// View OS 종류
@@ -67,7 +65,6 @@ public class Packages {
 	private String osDetailVersionSelf;			// Self 패키지 상세버전
 	private String generalCustomSelf;			// Self 일반/커스텀
 	private String osTypeSelf;					// Self OS 종류
-	private String osVersionSelf;				// Self OS 버전
 	private String agentVerSelf;				// Self Agent ver
 	private String packageNameSelf;				// Self 패키지명
 	private String managerSelf;					// Self 담당자
@@ -83,7 +80,6 @@ public class Packages {
 	private String[] existingNewArr;
 	private String[] managementServerArr;
 	private String[] agentOSArr;
-	private String[] osVersionArr;
 	private String[] osDetailVersionArr;
 	private String[] generalCustomArr;
 	private String[] osTypeArr;

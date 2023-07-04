@@ -52,7 +52,6 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -68,7 +67,6 @@ public class PackagesController {
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
-		model.addAttribute("osVersion", osVersion);
 
 		return "packages/PackagesList";
 	}
@@ -118,7 +116,6 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -129,7 +126,6 @@ public class PackagesController {
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
-		model.addAttribute("osVersion", osVersion);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
@@ -175,7 +171,6 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -187,7 +182,6 @@ public class PackagesController {
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
-		model.addAttribute("osVersion", osVersion);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
@@ -320,7 +314,6 @@ public class PackagesController {
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
 		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> osVersion = categoryService.getCategoryValue("osVersion");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
@@ -332,7 +325,6 @@ public class PackagesController {
 		model.addAttribute("managementServer", managementServer);
 		model.addAttribute("generalCustom", generalCustom);
 		model.addAttribute("osType", osType);
-		model.addAttribute("osVersion", osVersion);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);

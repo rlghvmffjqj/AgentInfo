@@ -40,10 +40,6 @@
 			$('.agentOS').addClass('active');
 			$('.categroy').addClass('active');
 			$('.categroy').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'osVersion') {
-			$('.osVersion').addClass('active');
-			$('.categroy').addClass('active');
-			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'log') {
 			$('.log').addClass('active');
 		} else if($.cookie('name') == 'customerName') {
@@ -652,13 +648,6 @@
 					        	        <span class="pcoded-mcaret"></span>
 					        	      </a>
 					    		</li>
-								<li class="osVersion">
-									<a href="<c:url value='/category/osVersion'/>" class="waves-effect waves-dark">
-									  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-									  <span class="pcoded-mtext">OS 버전</span>
-									  <span class="pcoded-mcaret"></span>
-									</a>
-							  </li>
 					    		<li class="requestProductCategory">
 					        	      <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
 					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>

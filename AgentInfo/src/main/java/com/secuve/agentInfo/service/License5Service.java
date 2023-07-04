@@ -3,23 +3,36 @@ package com.secuve.agentInfo.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -34,7 +47,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.AgentInfoApplication;
 import com.secuve.agentInfo.dao.License5Dao;
+import com.secuve.agentInfo.dao.License5FileJpaDao;
 import com.secuve.agentInfo.vo.License5;
+import com.secuve.agentInfo.vo.License5File;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
@@ -43,6 +58,7 @@ public class License5Service {
 	@Autowired License5Dao license5Dao;
 	@Autowired CategoryService categoryService;
 	@Autowired License5UidLogService license5UidLogService;
+	@Autowired License5FileJpaDao license5FileJpaDao;
 
 	public List<License5> getLicenseList(License5 search) {
 		return license5Dao.getLicenseList(licenseSearch(search));
@@ -111,6 +127,11 @@ public class License5Service {
 		}
 		
 		if(!resault.equals("FALSE")) {
+			int check = license5Dao.serialNumberCheck(license.getSerialNumberView());
+			if(check > 0) {
+				LOGGER.debug("시리얼 넘버 중복 ERROR");
+				return "Duplication";
+			}
 			license = licenseInputFormat(license);
 			int sucess = license5Dao.issuedLicense(license);
 			categoryCheck(license, principal);
@@ -149,6 +170,11 @@ public class License5Service {
 		}
 		
 		if(!resault.equals("FALSE")) {
+			int check = license5Dao.serialNumberCheck(license.getSerialNumberView());
+			if(check > 0) {
+				LOGGER.debug("시리얼 넘버 중복 ERROR");
+				return "Duplication";
+			}
 			license = licenseInputFormat(license);
 			int sucess = license5Dao.updateLicense(license);
 			categoryCheck(license, principal);
@@ -372,6 +398,11 @@ public class License5Service {
 			return 0;
 		}
 		license.setLicenseFilePathView(xmlFile.getOriginalFilename());
+		int check = license5Dao.serialNumberCheck(license.getSerialNumberView());
+		if(check > 0) {
+			LOGGER.debug("시리얼 넘버 중복 ERROR");
+			return -1;
+		}
 		return license5Dao.issuedLicense(license);
 	}
 
@@ -384,6 +415,10 @@ public class License5Service {
 			license.setLicenseIssuanceRegistrant(principal.getName());
 			license.setLicenseIssuanceRegistrationDate(nowDate());
 			sucess += licenseXmlInsert(license, xmlFile);
+			if(sucess == -1) {
+				map.put("result", "Duplication");
+				return map;
+			}
 		}
 		
 		if(sucess > 0) {
@@ -402,5 +437,93 @@ public class License5Service {
 	public List<String> existenceCheckUpdate(License5 license) {
 		return license5Dao.existenceCheckUpdate(license);
 	}
+
+	public List<String> getSeriaNumber(int[] licenseKeyNumList) {
+		List<String> list = new ArrayList<String>();
+		for (int licenseKeyNum : licenseKeyNumList) {
+			list.add(license5Dao.getLicenseOne(licenseKeyNum).getSerialNumber());
+		}
+		return list;
+	}
+
+	public ResponseEntity<Resource> singleDownLoad(List<String> serialNumber) {
+		License5File fileEntity = license5FileJpaDao.findBySerialNumber(serialNumber.get(0));
+
+	    ByteArrayResource resource = new ByteArrayResource(fileEntity.getFileData());
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	    try {
+	        String encodedFileName = URLEncoder.encode(fileEntity.getFileName(), StandardCharsets.UTF_8.toString());
+	        headers.setContentDispositionFormData("attachment", encodedFileName);
+	    } catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
+
+	    return ResponseEntity.ok().headers(headers).body(resource);
+	}
+	
+	public ResponseEntity<Resource> multiDownLoad(List<String> serialNumberList) {
+		List<License5File> fileEntities = new ArrayList<License5File>();
+		for(String serialNumber : serialNumberList) {
+			fileEntities.add(license5FileJpaDao.findBySerialNumber(serialNumber));
+		}
+		
+		for(License5File license5File : fileEntities) {
+			if (license5File == null) {
+		        // 파일이 존재하지 않을 경우 예외 처리
+		        // return ResponseEntity with error response
+				return null;
+		    }
+		}
+		
+
+	    // 임시 폴더 생성
+	    File tempFolder = new File("temp");
+	    tempFolder.mkdirs();
+
+	    try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("download.zip"))) {
+	        // 가져온 파일들을 임시 폴더에 저장하고 압축 파일에 추가
+	        for (License5File fileEntity : fileEntities) {
+	            String fileName = fileEntity.getFileName();
+	            byte[] fileData = fileEntity.getFileData();
+	            File tempFile = new File(tempFolder.getAbsolutePath() + File.separator + fileName);
+	            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+	                fos.write(fileData);
+	            }
+	            ZipEntry zipEntry = new ZipEntry(fileName);
+	            zos.putNextEntry(zipEntry);
+	            Files.copy(tempFile.toPath(), zos);
+	            zos.closeEntry();
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // 예외 처리
+	        // return ResponseEntity with error response
+	    }
+
+	    // 압축 파일을 리소스로 변환
+	    FileSystemResource resource = new FileSystemResource("download.zip");
+
+	    // 다운로드를 위한 헤더 설정
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	    headers.setContentDispositionFormData("attachment", "download.zip");
+
+	    // 압축 파일 다운로드 응답 반환
+	    return ResponseEntity.ok()
+	            .headers(headers)
+	            .body(resource);
+	}
+
+	public String downLoadCheck(int[] chkList) {
+		for (int licenseKeyNum : chkList) {
+			if(license5FileJpaDao.findBySerialNumber(license5Dao.getLicenseOne(licenseKeyNum).getSerialNumber()) == null) {
+				return "Empty";
+			}
+		}
+		return "OK";
+	}
+	
 }
 

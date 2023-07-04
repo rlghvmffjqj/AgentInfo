@@ -56,4 +56,8 @@ public class License5Dao {
 		return sqlSession.selectList("license5.existenceCheckUpdate", license);
 	}
 
+	public int serialNumberCheck(String serialNumber) {
+		return sqlSession.selectOne("license5.serialNumberCheck", serialNumber);
+	}
+
 }

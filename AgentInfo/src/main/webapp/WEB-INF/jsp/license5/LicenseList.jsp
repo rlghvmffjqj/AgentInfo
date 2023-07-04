@@ -292,7 +292,7 @@
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload">다운로드</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload">XML 다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport">XML Import</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -522,7 +522,43 @@
 		});
 
 		$('#BtnDownload').click(function() {
-			location.href="<c:url value='/license5/license5Download'/>";
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length === 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});  
+			} else {
+				$.ajax({
+					url: "<c:url value='/license5/license5DownLoadCheck'/>",
+					type: "POST",
+					data: {chkList: chkList},
+					traditional: true,
+					async: false,
+					success: function(result) {
+	            		if(result==="Empty") {
+							Swal.fire(
+							  '에러!',
+							  'XML 파일이 존재하지 않거나, <br>존재하지 않는 리스트가 포함되어 있습니다.',
+							  'error'
+							)
+						} else if(chkList.length === 1) {
+							location.href="<c:url value='/license5/license5SingleDownLoad'/>?licenseKeyNum="+chkList;
+						} else {
+							location.href="<c:url value='/license5/license5MultiDownLoad'/>?licenseKeyNum="+chkList;
+						}
+	            	},
+	            	error: function(e) {
+	            		Swal.fire(
+						  '에러!',
+						  '에러가 발생하였습니다.',
+						  'error'
+						)
+	            	}
+	       		});
+			}
+			
 		});
 		
 		/* =========== 데이터 수정 Modal ========= */
