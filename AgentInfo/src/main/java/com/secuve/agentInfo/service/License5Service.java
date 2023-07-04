@@ -171,9 +171,11 @@ public class License5Service {
 		
 		if(!resault.equals("FALSE")) {
 			int check = license5Dao.serialNumberCheck(license.getSerialNumberView());
-			if(check > 0) {
-				LOGGER.debug("시리얼 넘버 중복 ERROR");
-				return "Duplication";
+			if(!license5Dao.getLicenseOne(license.getLicenseKeyNum()).getSerialNumber().equals(license.getSerialNumberView())) {
+				if(check > 0) {
+					LOGGER.debug("시리얼 넘버 중복 ERROR");
+					return "Duplication";
+				}
 			}
 			license = licenseInputFormat(license);
 			int sucess = license5Dao.updateLicense(license);
