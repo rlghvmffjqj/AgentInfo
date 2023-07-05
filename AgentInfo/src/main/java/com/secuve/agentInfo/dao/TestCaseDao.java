@@ -92,4 +92,8 @@ public class TestCaseDao {
 		return sqlSession.selectList("testCase.getSearchValue", searchValue);
 	}
 
+	public TestCase getTestCaseContents(int testCaseRouteKeyNum) {
+		return sqlSession.selectOne("testCase.getTestCaseContents", testCaseRouteKeyNum);
+	}
+
 }

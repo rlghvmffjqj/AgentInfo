@@ -67,6 +67,7 @@
 													<button class="btn btn-outline-info-add myBtn" id="btnTestCaseConfirmed" style="float: right; height: 50px; width: 50px;">확정</button>
 												</c:if>
 			                     			</div>
+											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control">
 											<input type="hidden" id="testCaseRouteName" name="testCaseRouteName" class="form-control">
 											<input type="hidden" id="testCaseRouteFullPath" name="testCaseRouteFullPath" class="form-control">
 											<input type="hidden" id="testCaseFormName" name="testCaseFormName" class="form-control" value="${testCaseFormName}">
@@ -102,69 +103,14 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">테스트 케이스 내용 :
-																	<button class="btn btn-outline-info-add myBtn" id="BtnContentsInsert">추가</button>
-																	<button class="btn btn-outline-info-del myBtn" id="BtnContentsDelete">삭제</button>
+																	<button class="btn btn-outline-info-add myBtn" id="BtnContentsInsert" onclick="BtnContentsInsert()">추가</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnContentsDelete" onclick="BtnContentsDelete()">삭제</button>
 																</td>
 															</tr>
 															<tr>
 																<td class="border1" colspan="2" style="overflow: scroll;">
-																	<div class="testCaseContents">
-																		<table class='testCaseTable'>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>대메뉴</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMainMenu' name='testCaseContentsMainMenu'></td>
-																				<td class='testCaseMenu'>중메뉴</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMediumMenu' name='testCaseContentsMediumMenu'></td>
-																				<td class='testCaseMenu'>소메뉴</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsSmallMenu' name='testCaseContentsSmallMenu'></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>TC코드</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsTcCode' name='testCaseContentsTcCode'></td>
-																				<td class='testCaseMenu'>적용 분류코드</td>
-																				<td colspan="3" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsClassificationCode' name='testCaseContentsClassificationCode'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>테스트 목적</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPurpose' name='testCaseContentsPurpose'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>사전 테스트 준비</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPreparation' name='testCaseContentsPreparation'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>하위 테스트 항목</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsItem' name='testCaseContentsItem'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>테스트 절차</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsProcedure' name='testCaseContentsProcedure'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>예상테스트 결과</td>
-																				<td colspan="5"class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsExpectedResult' name='testCaseContentsExpectedResult'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>테스트 결과</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsTestResult' name='testCaseContentsTestResult'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>결과 코드</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsResultCode' name='testCaseContentsResultCode'></td>
-																				<td class='testCaseMenu'>영향도</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsInfluence' name='testCaseContentsInfluence'></td>
-																				<td class='testCaseMenu'>테스트 담당자</td>
-																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsManager' name='testCaseContentsManager'></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>오류 증상</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsError' name='testCaseContentsError'></textarea></td>
-																			</tr>
-																			<tr class='testCaseTr'>
-																				<td class='testCaseMenu'>비고</td>
-																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsNote' name='testCaseContentsNote'></textarea></td>
-																			</tr>
-																		</table>
+																	<div class="testCaseContents" id="testCaseContents">
+																		
 																	</div>
 																</td>
 															</tr>
@@ -307,7 +253,7 @@
 				dataType: "json",
 				async: false,
 				success: function(data)
-				{
+				{	
 					var tree = $("#tree").dynatree("getTree");
 					node.removeChildren();
 
@@ -323,6 +269,7 @@
 								title : data[i].testCaseRouteName,
 								tooltip : data[i].testCaseRouteName,
 								key : data[i].testCaseRouteFullPath,
+								KeyNum : data[i].testCaseRouteKeyNum,
 								children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
 								isFolder : true
 							});
@@ -353,26 +300,23 @@
 			var node = $("#tree").dynatree("getActiveNode");
 			var path = node.data.key; // 선택 분류 풀 분류
 			var title = node.data.title; // 선택 분류
+			var keyNum = node.data.KeyNum;
+			$("#testCaseRouteKeyNum").val(keyNum);
 			$("#testCaseRouteName").val(title); //분류
 			$("#testCaseRouteFullPath").val(path); // 분류 풀 분류
 
-			console.log($("#tree"));
-			console.log(node);
-
-			// $.ajax({
-			// 	type: 'POST',
-			// 	url: "<c:url value='/testCase/testCaseContents'/>",
-			// 	data: {"testCaseRouteFullPath" : path},
-			// 	async: false,
-			// 	success: function (data) {
-			// 		if(data.indexOf("<!DOCTYPE html>") != -1) 
-			// 			location.reload();
-			// 		$.modal(data, 's'); //modal창 호출
-			// 	},
-			// 	error: function(e) {
-			// 		console.log(e);
-			// 	}
-			// });
+			$.ajax({
+				type: 'POST',
+				url: "<c:url value='/testCase/testCaseContents'/>",
+				data: {"testCaseRouteKeyNum" : keyNum},
+				async: false,
+				success: function (data) {
+					console.log(data);
+				},
+				error: function(e) {
+					console.log(e);
+				}
+			});
 
 		}
 
@@ -595,6 +539,71 @@
 				}
 			});
 		}
+
+		function BtnContentsInsert() {
+			var table = $("#testCaseContents");
+			var rowItem = "<table class='testCaseTable'>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>대메뉴</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMainMenu' name='testCaseContentsMainMenu'></td>";
+			rowItem += "<td class='testCaseMenu'>중메뉴</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMediumMenu' name='testCaseContentsMediumMenu'></td>";
+			rowItem += "<td class='testCaseMenu'>소메뉴</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsSmallMenu' name='testCaseContentsSmallMenu'></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>TC코드</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsTcCode' name='testCaseContentsTcCode'></td>";
+			rowItem += "<td class='testCaseMenu'>적용 분류코드</td>";
+			rowItem += "<td colspan='3' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsClassificationCode' name='testCaseContentsClassificationCode'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>테스트 목적</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPurpose' name='testCaseContentsPurpose'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>사전 테스트 준비</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPreparation' name='testCaseContentsPreparation'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>하위 테스트 항목</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsItem' name='testCaseContentsItem'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>테스트 절차</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsProcedure' name='testCaseContentsProcedure'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>예상테스트 결과</td>";
+			rowItem += "<td colspan='5'class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsExpectedResult' name='testCaseContentsExpectedResult'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>테스트 결과</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsTestResult' name='testCaseContentsTestResult'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>결과 코드</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsResultCode' name='testCaseContentsResultCode'></td>";
+			rowItem += "<td class='testCaseMenu'>영향도</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsInfluence' name='testCaseContentsInfluence'></td>";
+			rowItem += "<td class='testCaseMenu'>테스트 담당자</td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsManager' name='testCaseContentsManager'></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>오류 증상</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsError' name='testCaseContentsError'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "<tr class='testCaseTr'>";
+			rowItem += "<td class='testCaseMenu'>비고</td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsNote' name='testCaseContentsNote'></textarea></td>";
+			rowItem += "</tr>";
+			rowItem += "</table>";
+			rowItem += "<div class='testCaseSaveDiv'>";
+			rowItem += "<button type='button' class='btn btn-default btn-outline-info-add' id='btnSave'>SAVE</button>";
+			rowItem += "</div>";
+			table.append(rowItem);
+			summernote();
+		}
 	</script>
 
 
@@ -636,6 +645,12 @@
 			padding: 1%;
     		width: 100%;
 			height: 100%;
+		}
+
+		.testCaseSaveDiv {
+			padding-top: 10px;
+    		padding-bottom: 10px;
+    		text-align: right;
 		}
 	</style>
 </html>

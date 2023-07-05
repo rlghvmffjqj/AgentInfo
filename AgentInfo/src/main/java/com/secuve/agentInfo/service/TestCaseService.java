@@ -170,5 +170,9 @@ public class TestCaseService {
 		return testCaseDao.getSearchValue(searchValue);
 	}
 
+	public TestCase getTestCaseContents(int testCaseRouteKeyNum) {
+		return testCaseDao.getTestCaseContents(testCaseRouteKeyNum);
+	}
+
 	
 }

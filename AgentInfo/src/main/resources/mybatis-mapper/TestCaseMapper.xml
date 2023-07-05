@@ -105,6 +105,11 @@
 		AND testCaseFormName = #{testCaseFormName};
 	</select>
 	
+	<!-- ======================================= -->
+	
+	<select id="getTestCaseContents" parameterType="_int" resultMap="testCase">
+		SELECT * FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

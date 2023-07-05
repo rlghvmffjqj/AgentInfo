@@ -164,4 +164,12 @@ public class TestCaseController {
 	public String testCaseConfirmed(TestCase testCase) {
 		return testCaseService.testCaseConfirmed(testCase);
 	}
+	
+	/* ==================================================================== */
+	
+	@ResponseBody
+	@PostMapping(value = "/testCase/testCaseContents")
+	public TestCase testCaseContents(int testCaseRouteKeyNum) {
+		return testCaseService.getTestCaseContents(testCaseRouteKeyNum);
+	}
 }
