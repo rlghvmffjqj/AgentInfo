@@ -405,7 +405,8 @@
 		}
 		
 		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
-			if($('#expirationDaysView').val() == "") {
+			console.log($('#expirationDaysView').val());
+			if($('#expirationDaysView').val() == "무제한") {
 				$('#chkExpirationDays').prop("checked",true);
 				$("#expirationDaysDay").val(90);
 				$("#expirationDaysCalender").attr("disabled",true);
@@ -422,7 +423,7 @@
 				$('#expirationDaysViewSelect').show();
 				$('#expirationDaysDay').val($('#expirationDaysView').val());
 			}
-			
+			console.log($('#igriffinAgentCountView').val());
 			if($('#igriffinAgentCountView').val() == "") {
 				$('#chkIGRIFFINAgentCount').prop("checked",true);
 				$("#igriffinAgentCountView").val(1);
