@@ -36,6 +36,28 @@ public class TestCase {
 	private String testCaseDateStart;
 	private String testCaseDateEnd;
 	
+	private int testCaseContentsKeyNum;
+	private String testCaseContentsMainMenu;
+	private String testCaseContentsMediumMenu;
+	private String testCaseContentsSmallMenu;
+	private String testCaseContentsTcCode;
+	private String testCaseContentsClassificationCode;
+	private String testCaseContentsPurpose;
+	private String testCaseContentsPreparation;
+	private String testCaseContentsItem;
+	private String testCaseContentsProcedure;
+	private String testCaseContentsExpectedResult;
+	private String testCaseContentsTestResult;
+	private String testCaseContentsResultCode;
+	private String testCaseContentsInfluence;
+	private String testCaseContentsManager;
+	private String testCaseContentsError;
+	private String testCaseContentsNote;
+	private String testCaseContentsRegistrant;
+	private String testCaseContentsRegistrationDate;
+	private String testCaseContentsModifier;
+	private String testCaseContentsModifiedDate;
+	
 	private String[] testCaseRouteCustomerArr;
 	private String[] testCaseRouteNoteArr;
 	

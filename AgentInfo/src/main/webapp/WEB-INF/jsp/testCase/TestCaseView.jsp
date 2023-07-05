@@ -107,13 +107,65 @@
 																</td>
 															</tr>
 															<tr>
-																<td class="border1" colspan="2">
-																	<!------- Grid ------->
-																	<div class="jqGrid_wrapper">
-																		<table id="list"></table>
-																		<div id="pager"></div>
+																<td class="border1" colspan="2" style="overflow: scroll;">
+																	<div class="testCaseContents">
+																		<table class='testCaseTable'>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>대메뉴</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMainMenu' name='testCaseContentsMainMenu'></td>
+																				<td class='testCaseMenu'>중메뉴</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMediumMenu' name='testCaseContentsMediumMenu'></td>
+																				<td class='testCaseMenu'>소메뉴</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsSmallMenu' name='testCaseContentsSmallMenu'></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>TC코드</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsTcCode' name='testCaseContentsTcCode'></td>
+																				<td class='testCaseMenu'>적용 분류코드</td>
+																				<td colspan="3" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsClassificationCode' name='testCaseContentsClassificationCode'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>테스트 목적</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPurpose' name='testCaseContentsPurpose'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>사전 테스트 준비</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPreparation' name='testCaseContentsPreparation'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>하위 테스트 항목</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsItem' name='testCaseContentsItem'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>테스트 절차</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsProcedure' name='testCaseContentsProcedure'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>예상테스트 결과</td>
+																				<td colspan="5"class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsExpectedResult' name='testCaseContentsExpectedResult'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>테스트 결과</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsTestResult' name='testCaseContentsTestResult'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>결과 코드</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsResultCode' name='testCaseContentsResultCode'></td>
+																				<td class='testCaseMenu'>영향도</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsInfluence' name='testCaseContentsInfluence'></td>
+																				<td class='testCaseMenu'>테스트 담당자</td>
+																				<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsManager' name='testCaseContentsManager'></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>오류 증상</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsError' name='testCaseContentsError'></textarea></td>
+																			</tr>
+																			<tr class='testCaseTr'>
+																				<td class='testCaseMenu'>비고</td>
+																				<td colspan="5" class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsNote' name='testCaseContentsNote'></textarea></td>
+																			</tr>
+																		</table>
 																	</div>
-																	<!------- Grid ------->
 																</td>
 															</tr>
 														</tbody>
@@ -517,10 +569,73 @@
 			
 		});
 	</script>
+	
+	<script>
+		$(function() {
+			summernote();
+		});
+
+		function summernote() {
+			$('.testCaseSummerNote').summernote({
+				minHeight:250,
+				placeholder:"",
+				callbacks: {
+					onKeyup: function(e) {
+						var pCount = e.currentTarget.childElementCount;
+						if(pCount > 41) {
+						    if (e.which != 8 && e.which != 46 && e.which != 37 && e.which != 38 && e.which != 39 && e.which != 40) {  
+								Swal.fire({
+									icon: 'error',
+									title: '범위 초과!',
+									text: '입력 범위를 초과하였습니다.',
+								});
+						    }
+						}
+				    }
+				}
+			});
+		}
+	</script>
 
 
 
 	<style>
+		.testCaseContents {
+			height: 655px;
+			margin: 2%;;
+		}
 
+		.testCaseMenu {
+			background-color: #A6A6A6;
+			width: 130px;
+    		text-align: center;
+    		color: white;
+			border: 1px solid #e7e7e7;
+		}
+
+		.testCaseTr {
+			height: 70px;
+		}
+
+		.testCaseTd {
+			border: 1px solid #e7e7e7;
+		}
+
+		.testCaseTable {
+			width: 100%;
+    		height: 100%;
+    		border: 1px solid #e7e7e7;
+		}
+
+		.testCaseInput {
+			text-align: center;
+    		width: 100%;
+		}
+
+		.testCaseTextarea {
+			padding: 1%;
+    		width: 100%;
+			height: 100%;
+		}
 	</style>
 </html>
