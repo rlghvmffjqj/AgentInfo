@@ -105,7 +105,11 @@ public class License5Service {
 	
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
-		String route = license5Dao.getRoute("linuxLicense50Route");
+		String route = "";
+		if(license.getLicenseType().equals("(신)"))
+			route = license5Dao.getRoute("linuxLicense50Route");
+		if(license.getLicenseType().equals("(구)"))
+			route = license5Dao.getRoute("linuxLicense50OldRoute");
 		String ip = license5Dao.getRoute("licenseSettingIP");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
@@ -117,7 +121,10 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
+				if(license.getLicenseType().equals("(신)"))
+					resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
+				if(license.getLicenseType().equals("(구)"))
+					resault = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {
 				System.out.println(e);
@@ -152,7 +159,11 @@ public class License5Service {
 	
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
-		String route = license5Dao.getRoute("linuxLicense50Route");
+		String route = "";
+		if(license.getLicenseType().equals("(신)"))
+			route = license5Dao.getRoute("linuxLicense50Route");
+		if(license.getLicenseType().equals("(구)"))
+			route = license5Dao.getRoute("linuxLicense50OldRoute");
 		String ip = license5Dao.getRoute("licenseSettingIP");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
@@ -161,7 +172,10 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
+				if(license.getLicenseType().equals("(신)"))
+					resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
+				if(license.getLicenseType().equals("(구)"))
+					resault = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {
 				LOGGER.debug("Agent 연결 실패");
@@ -248,12 +262,62 @@ public class License5Service {
         
         return jsonInString;
 	}
+	
+	public String LinuxLicenseIssued50Old(String ip, String route, License5 license) {
+		String url = "http://"+ip+":8080/linuxLicenseIssued50Old";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
 
-	public ResponseEntity<?> fileDownload(String licenseFilePath) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("route", route)
+        		.queryParam("productType", license.getProductTypeView())
+        		.queryParam("customerName", license.getCustomerNameView())
+        		.queryParam("macAddress", license.getMacAddressView())
+        		.queryParam("issueDate", license.getIssueDateView())
+        		.queryParam("expirationDays", license.getExpirationDaysView())
+        		.queryParam("igriffinAgentCount", license.getIgriffinAgentCountView())
+        		.queryParam("tos5AgentCount", license.getTos5AgentCountView())
+        		.queryParam("tos2AgentCount", license.getTos2AgentCountView())
+        		.queryParam("dbmsCount", license.getDbmsCountView())
+        		.queryParam("managerOsType", license.getManagerOsTypeView())
+        		.queryParam("managerDbmsType", license.getManagerDbmsTypeView())
+        		.queryParam("country", license.getCountryView())
+        		.queryParam("productVersion", license.getProductVersionView())
+        		.queryParam("licenseFilePath", license.getLicenseFilePathView())
+        		.build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return jsonInString;
+	}
+
+	public ResponseEntity<?> fileDownload(String licenseFilePath, String licenseType) {
 		String ip = license5Dao.getRoute("licenseSettingIP");
 		String url = "http://"+ip+":8080/fileDownload";
 		RestTemplate restTemplate = new RestTemplate();
-		String route = license5Dao.getRoute("linuxLicense50Route");
+		String route = "";
+		if(licenseType.equals("(신)"))
+			route = license5Dao.getRoute("linuxLicense50Route");
+		if(licenseType.equals("(구)"))
+			route = license5Dao.getRoute("linuxLicense50OldRoute");
 		String[] routeArr = route.split("/");
 		String routeStr = "";
 		for (int i=0; i<routeArr.length-1; i++) {

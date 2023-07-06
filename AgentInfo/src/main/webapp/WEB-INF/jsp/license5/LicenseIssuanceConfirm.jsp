@@ -2,10 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 600px;">
+<div class="modal-body" id="modalConfirm" style="width: 100%; height: 600px;">
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">고객사명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.customerNameView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
+	<div class="oldLicense">
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
+	</div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">제품유형 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.productTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">MAC주소 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.macAddressView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">시작일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>
@@ -14,12 +16,14 @@
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">TOS 5.0 Agent 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.tos5AgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.tos5AgentCountView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">TOS 2.0 Agent 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.tos2AgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.tos2AgentCountView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">DBMS 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.dbmsCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.dbmsCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Network 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.networkCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.networkCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">AIX(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.aixCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">HPUX(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.hpuxCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Solaris(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.solarisCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Linux(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.linuxCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Windows(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.windowsCountView}</span></div></div>
+	<div class="oldLicense">
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Network 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.networkCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.networkCountView}</span></div></div>
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">AIX(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.aixCountView}</span></div></div>
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">HPUX(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.hpuxCountView}</span></div></div>
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Solaris(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.solarisCountView}</span></div></div>
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Linux(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.linuxCountView}</span></div></div>
+		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">Windows(OS) 수량 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.windowsCountView}</span></div></div>
+	</div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">관리서버 OS : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.managerOsTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">관리서버 DBMS : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.managerDbmsTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">국가 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.countryView}</span></div></div>
@@ -54,24 +58,38 @@
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
 		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
+		<input type="hidden" id="licenseType" name="licenseType" value="${license.licenseType}">
 		<input type="hidden" id="viewType" name="viewType" value="issuedback">
-		
-		
 	</form>
 </div>
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'issued'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
+			<c:if test="${license.licenseType eq '(신)'}">
+				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
+			</c:if>
+			<c:if test="${license.licenseType eq '(구)'}">
+				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
+			</c:if>
 			<button class="btn btn-default btn-outline-info-nomal" onClick="BtnIssuedConfirmCancel()">닫기</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmUpdate()">발급</button>
+			<c:if test="${license.licenseType eq '(신)'}">
+				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmUpdate()">발급</button>
+			</c:if>
+			<c:if test="${license.licenseType eq '(구)'}">
+				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmUpdate()">발급</button>
+			</c:if>
 			<button class="btn btn-default btn-outline-info-nomal" onClick="BtnUpdateConfirmCancel()">닫기</button>
 		</c:when>
     </c:choose>
 </div>
-
+<script>
+	if("${license.licenseType}" == "(구)") {
+		$('.oldLicense').css("display","none");
+		$('#modalConfirm').css('height','420px');
+	}
+</script>
 <style>
 	.confirmTitle {
 		font-size : 12px;
@@ -102,6 +120,7 @@
 		var postData = $('#confirmForm').serializeObject();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var chkLicenseIssuance = $('#chkLicenseIssuance').val();
+		var licenseType = $('#licenseType').val();
 		$.ajax({
 			url: "<c:url value='/license5/linuxIssued50'/>",
 		    type: 'post',
@@ -141,7 +160,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		    		$('#modal').on('hidden.bs.modal', function () {
 		    			if(chkLicenseIssuance == "on")
-		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+licenseFilePath;
+		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+licenseFilePath+"&licenseType="+licenseType;
 		    			tableRefresh();
 		    		});
 				}
@@ -175,6 +194,7 @@
 		var postData = $('#confirmForm').serializeObject();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var chkLicenseIssuance = $('#chkLicenseIssuance').val();
+		var licenseType = $('#licenseType').val();
 		$.ajax({
 			url: "<c:url value='/license5/linuxUpdate50'/>",
 		    type: 'post',
@@ -214,7 +234,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		    		$('#modal').on('hidden.bs.modal', function () {
 		    			if(chkLicenseIssuance == "on")
-		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+licenseFilePath;
+		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+licenseFilePath+"&licenseType="+licenseType;
 		    			tableRefresh();
 		    		});
 				}
@@ -242,5 +262,9 @@
 		        // TODO 에러 화면
 		    }
 		});		
+	}
+
+	function BtnConfirmOldInsert() {
+		
 	}
 </script>

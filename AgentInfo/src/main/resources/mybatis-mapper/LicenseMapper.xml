@@ -67,12 +67,13 @@
 			windowsLicenseRoute = #{windowsLicenseRoute},
 			linuxLicense20Route = #{linuxLicense20Route},
 			linuxLicense50Route = #{linuxLicense50Route},
+			linuxLicense50OldRoute = #{linuxLicense50OldRoute},
 			licenseSettingIP = #{licenseSettingIP};
 	</update>
 	
 	<insert id="RouteInsert">
-		INSERT INTO licenseSetting(windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route,licenseSettingIP)
-		VALUES(#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route},#{licenseSettingIP});
+		INSERT INTO licenseSetting(windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route,linuxLicense50OldRoute,licenseSettingIP)
+		VALUES(#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route},#{linuxLicense50OldRoute},#{licenseSettingIP});
 	</insert>
 	
 	<update id="plusLicenseKeyNumOrigin">

@@ -94,9 +94,9 @@
 				<div class="pading5Width450">
 					<div>
 						<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					    <span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+					    <span class="colorRed fontSize10 licenseShow" id="NotCustomerNameOld" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
 					</div>
-					<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${license.customerName}">
+					<input type="text" id="customerNameOldView" name="customerNameOldView" class="form-control viewForm" value="${license.customerName}">
 				</div>
 			</div>
 	        <c:choose>
@@ -396,6 +396,7 @@
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
         <input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDays}">
+		<input type="hidden" id="licenseType" name="licenseType" value="${license.licenseType}">
 	</form>
 </div>
 <div class="modal-footer">
@@ -411,8 +412,10 @@
 
 <script>
 	$(function() {
-		if('${viewType}' == 'issued') {
+		if('${license.licenseType}' == '(구)') {
 			btnOldLicense();
+		} else {
+			btnNewLicense();
 		}
 
 		if($('#viewType').val() == 'issued') {
@@ -442,7 +445,7 @@
 				$('#expirationDaysViewSelect').show();
 				$('#expirationDaysDay').val($('#expirationDaysView').val());
 			}
-			console.log($('#igriffinAgentCountView').val());
+			
 			if($('#igriffinAgentCountView').val() == "") {
 				$('#chkIGRIFFINAgentCount').prop("checked",true);
 				$("#igriffinAgentCountView").val(1);
@@ -828,6 +831,7 @@
 		$('.newLicense').css("display","none");
 		$('#btnOldLicense').addClass('customerManagentActive');
 		$('#btnNewLicense').removeClass('customerManagentActive');
+		$('#licenseType').val("(구)");
 	}
 
 	function btnNewLicense() {
@@ -836,5 +840,42 @@
 		$('.oldLicense').css("display","none");
 		$('#btnNewLicense').addClass('customerManagentActive');
 		$('#btnOldLicense').removeClass('customerManagentActive');
+		$('#licenseType').val("(신)");
+	}
+
+	$("#customerNameOldView").change(function() {
+		var customerName = $('#customerNameOldView').val();
+		var issueDate = $('#issueDateView').val();
+		issueDate = issueDate.replace(/\-/g, '');
+		$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
+	});
+
+	function oldExistenceCheck() {
+		var customerName = $('#customerNameOldView').val();
+		var macAddress = $('#macAddressView').val();
+		var expirationDays = $('#expirationDaysView').val();
+		var productVersion = $('#productVersionView').val();
+		var licenseFilePath = $('#licenseFilePathView').val();
+		var viewType = $('#viewType').val();
+		
+		$('.licenseShow').hide();
+		if(customerName == "") {
+			$('#NotCustomerNameOld').show();
+		} else if(macAddress == "") {
+			$('#NotMacAddress').show();			
+		} else if(productVersion == "") {
+			$('#NotProductVersion').show();
+		} else if(licenseFilePath == "") {
+			$('#NotLicenseFilePath').show();
+		} else { 
+			<c:choose>
+				<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
+					BtnInsert();
+				</c:when>
+				<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
+					BtnUpdate();	
+				</c:when>
+		    </c:choose>
+		}
 	}
 </script>

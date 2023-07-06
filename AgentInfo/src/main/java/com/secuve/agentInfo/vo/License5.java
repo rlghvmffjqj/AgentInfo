@@ -67,6 +67,8 @@ public class License5 {
 	private String serialNumberView;						// 일련 번호
 	private String requesterView;							// 요청자
 	
+	private String customerNameOldView;
+	
 	private String[] productTypeArr;							// 제품 유형
 	private String[] customerNameArr;						// 고객사명
 	private String[] businessNameArr;						// 사업명

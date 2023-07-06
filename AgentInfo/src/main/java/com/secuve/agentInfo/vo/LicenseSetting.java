@@ -14,5 +14,6 @@ public class LicenseSetting {
 	private String windowsLicenseRoute;
 	private String linuxLicense20Route;
 	private String linuxLicense50Route;
+	private String linuxLicense50OldRoute;
 	private String licenseSettingIP;
 }

@@ -76,6 +76,7 @@ public class License5Controller {
 	@PostMapping(value = "/license5/issuedView")
 	public String InsertLicenseView(Integer licenseKeyNum, String viewType, Model model) {
 		License5 license = license5Service.insertLicenseView(licenseKeyNum);
+		license.setLicenseType("(구)");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		
 		model.addAttribute("customerName", customerName);
@@ -119,7 +120,9 @@ public class License5Controller {
 			license.setCustomerNameView(license.getCustomerNameSelf());
 		if(license.getBusinessNameSelf().length() > 0)
 			license.setBusinessNameView(license.getBusinessNameSelf());
-		
+		if(license.getLicenseType().equals("(구)")) 
+			license.setCustomerNameView(license.getCustomerNameOldView());
+			
 		model.addAttribute("license", license);
 		model.addAttribute("viewType","issued");
 		return "/license5/LicenseIssuanceConfirm";
@@ -131,6 +134,8 @@ public class License5Controller {
 			license.setCustomerNameView(license.getCustomerNameSelf());
 		if(license.getBusinessNameSelf().length() > 0)
 			license.setBusinessNameView(license.getBusinessNameSelf());
+		if(license.getLicenseType().equals("(구)")) 
+			license.setCustomerNameView(license.getCustomerNameOldView());
 		
 		model.addAttribute("license", license);
 		model.addAttribute("viewType","update");
@@ -212,8 +217,8 @@ public class License5Controller {
 	}
 	
 	@GetMapping(value = "/license5/fileDownload")
-	public ResponseEntity<?> fileDownload(String licenseFilePath) {
-		return license5Service.fileDownload(licenseFilePath);
+	public ResponseEntity<?> fileDownload(String licenseFilePath, String licenseType) {
+		return license5Service.fileDownload(licenseFilePath, licenseType);
 	}
 	
 	@ResponseBody
