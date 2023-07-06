@@ -53,7 +53,7 @@
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        rowList:[25,50,100],
-			        sortname: 'licenseKeyNum',	// 기본 정렬 
+			        sortname: 'issueDate',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -110,6 +110,13 @@
 	                                	<div class="ibox">
 							                <div class="searchbos">
 	                                			<form id="form" name="form" method ="post">
+													<div class="col-lg-2">
+														<label class="labelFontSize">구분</label>
+														<select class="form-control selectpicker" id="licenseTypeMulti" name="licenseTypeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														  <option value="(구)">(구)버전</option>
+														  <option value="(신)">(신)버전</option>
+													  </select>
+													</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">고객사명</label>
 														<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
@@ -257,6 +264,7 @@
 															</c:forEach>
 														</select>
 		                      						</div>
+													 	<input type="hidden" id="licenseType" name="licenseType" class="form-control">
 			                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
 			                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
 			                      						<input type="hidden" id="additionalInformation" name="additionalInformation" class="form-control">
@@ -457,6 +465,7 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
+			$('#licenseType').val($('#licenseTypeMulti').val().join());
 			$('#customerName').val($('#customerNameMulti').val().join());
 			$('#businessName').val($('#businessNameMulti').val().join());
 			$('#additionalInformation').val($('#additionalInformationMulti').val().join());

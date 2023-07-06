@@ -93,8 +93,8 @@
 			<div class="oldLicense">
 				<div class="pading5Width450">
 					<div>
-						<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					    <span class="colorRed fontSize10 licenseShow" id="NotCustomerNameOld" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+						<label class="labelFontSize">고객사명</label><label class="colorRed" style="font-size: 12px;">* (구) 버전 라이선스는 영문만 입력 가능합니다.</label>
+					    <span class="colorRed fontSize10 licenseShow" id="NotCustomerNameOld" style="display: none; line-height: initial; float: right;">고객사명을 입력해주세요.</span>
 					</div>
 					<input type="text" id="customerNameOldView" name="customerNameOldView" class="form-control viewForm" value="${license.customerName}">
 				</div>
@@ -396,7 +396,7 @@
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
         <input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDays}">
-		<input type="hidden" id="licenseType" name="licenseType" value="${license.licenseType}">
+		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseType}">
 	</form>
 </div>
 <div class="modal-footer">
@@ -831,7 +831,7 @@
 		$('.newLicense').css("display","none");
 		$('#btnOldLicense').addClass('customerManagentActive');
 		$('#btnNewLicense').removeClass('customerManagentActive');
-		$('#licenseType').val("(구)");
+		$('#licenseTypeView').val("(구)");
 	}
 
 	function btnNewLicense() {
@@ -840,7 +840,7 @@
 		$('.oldLicense').css("display","none");
 		$('#btnNewLicense').addClass('customerManagentActive');
 		$('#btnOldLicense').removeClass('customerManagentActive');
-		$('#licenseType').val("(신)");
+		$('#licenseTypeView').val("(신)");
 	}
 
 	$("#customerNameOldView").change(function() {
