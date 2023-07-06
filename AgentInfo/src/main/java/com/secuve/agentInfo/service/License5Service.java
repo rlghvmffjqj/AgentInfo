@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,18 @@ public class License5Service {
 	@Autowired License5FileJpaDao license5FileJpaDao;
 
 	public List<License5> getLicenseList(License5 search) {
-		return license5Dao.getLicenseList(licenseSearch(search));
+		List<License5> license5List = license5Dao.getLicenseList(licenseSearch(search));
+		for (License5 license5 : license5List) {
+			if(license5.getLicenseType().equals("(구)")) {
+				license5.setNetworkCount(null);
+				license5.setAixCount(null);
+				license5.setHpuxCount(null);
+				license5.setSolarisCount(null);
+				license5.setLinuxCount(null);
+				license5.setWindowsCount(null);
+			}
+		}
+		return license5List;
 	}
 
 	public int getLicenseListCount(License5 search) {
@@ -69,6 +81,7 @@ public class License5Service {
 	}
 	
 	public License5 licenseSearch(License5 search) {
+		search.setLicenseTypeArr(search.getLicenseType().split(","));
 		search.setCustomerNameArr(search.getCustomerName().split(","));
 		search.setBusinessNameArr(search.getBusinessName().split(","));
 		search.setRequesterArr(search.getRequester().split(","));;
@@ -106,9 +119,9 @@ public class License5Service {
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
 		String route = "";
-		if(license.getLicenseType().equals("(신)"))
+		if(license.getLicenseTypeView().equals("(신)"))
 			route = license5Dao.getRoute("linuxLicense50Route");
-		if(license.getLicenseType().equals("(구)"))
+		if(license.getLicenseTypeView().equals("(구)"))
 			route = license5Dao.getRoute("linuxLicense50OldRoute");
 		String ip = license5Dao.getRoute("licenseSettingIP");
 		if(route == null || route.equals("") || route == "") {
@@ -121,9 +134,9 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				if(license.getLicenseType().equals("(신)"))
+				if(license.getLicenseTypeView().equals("(신)"))
 					resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
-				if(license.getLicenseType().equals("(구)"))
+				if(license.getLicenseTypeView().equals("(구)"))
 					resault = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {
@@ -160,9 +173,9 @@ public class License5Service {
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
 		String route = "";
-		if(license.getLicenseType().equals("(신)"))
+		if(license.getLicenseTypeView().equals("(신)"))
 			route = license5Dao.getRoute("linuxLicense50Route");
-		if(license.getLicenseType().equals("(구)"))
+		if(license.getLicenseTypeView().equals("(구)"))
 			route = license5Dao.getRoute("linuxLicense50OldRoute");
 		String ip = license5Dao.getRoute("licenseSettingIP");
 		if(route == null || route.equals("") || route == "") {
@@ -172,9 +185,9 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				if(license.getLicenseType().equals("(신)"))
+				if(license.getLicenseTypeView().equals("(신)"))
 					resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
-				if(license.getLicenseType().equals("(구)"))
+				if(license.getLicenseTypeView().equals("(구)"))
 					resault = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
 				license.setSerialNumberView(resault);
 			} catch (Exception e) {

@@ -42,6 +42,7 @@ public class License5 {
 	private String licenseIssuanceModifier;
 	private String licenseIssuanceModifiedDate;
 	
+	private String licenseTypeView;
 	private String productTypeView;							// 제품 유형
 	private String customerNameView;						// 고객사명
 	private String businessNameView;						// 사업명
@@ -69,6 +70,7 @@ public class License5 {
 	
 	private String customerNameOldView;
 	
+	private String[] licenseTypeArr;
 	private String[] productTypeArr;							// 제품 유형
 	private String[] customerNameArr;						// 고객사명
 	private String[] businessNameArr;						// 사업명
@@ -92,6 +94,6 @@ public class License5 {
 	
 	private Integer page=1;							// 기본 페이지 번호
 	private Integer rows=25;						// 데이터 보여줄 갯수
-	private String sidx="licenseKeyNum";		// 정렬할 기준 데이터
+	private String sidx="issueDate";		// 정렬할 기준 데이터
 	private String sord;
 }

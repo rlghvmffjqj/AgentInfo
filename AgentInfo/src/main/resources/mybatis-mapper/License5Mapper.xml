@@ -38,7 +38,7 @@
 	
 	<insert id="issuedLicense">
 		INSERT INTO license5(licenseType, productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
-		VALUES(#{licenseType}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
+		VALUES(#{licenseTypeView}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
 	</insert>
 	
 	<delete id="delLicense" parameterType="_int">
@@ -46,7 +46,7 @@
 	</delete>
 	
 	<update id="updateLicense">
-		UPDATE license5 SET licenseType=#{licenseType}, productType=#{productTypeView}, customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, igriffinAgentCount=#{igriffinAgentCountView}, tos5AgentCount=#{tos5AgentCountView}, tos2AgentCount=#{tos2AgentCountView}, dbmsCount=#{dbmsCountView}, networkCount=#{networkCountView}, aixCount=#{aixCountView}, hpuxCount=#{hpuxCountView}, solarisCount=#{solarisCountView}, linuxCount=#{linuxCountView}, windowsCount=#{windowsCountView}, managerOsType=#{managerOsTypeView}, country=#{countryView}, productVersion=#{productVersionView}, licenseFilePath=#{licenseFilePathView}, serialNumber=#{serialNumberView}, requester=#{requesterView}, licenseIssuanceModifier=#{licenseIssuanceModifier}, licenseIssuanceModifiedDate=#{licenseIssuanceModifiedDate}     
+		UPDATE license5 SET licenseType=#{licenseTypeView}, productType=#{productTypeView}, customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, igriffinAgentCount=#{igriffinAgentCountView}, tos5AgentCount=#{tos5AgentCountView}, tos2AgentCount=#{tos2AgentCountView}, dbmsCount=#{dbmsCountView}, networkCount=#{networkCountView}, aixCount=#{aixCountView}, hpuxCount=#{hpuxCountView}, solarisCount=#{solarisCountView}, linuxCount=#{linuxCountView}, windowsCount=#{windowsCountView}, managerOsType=#{managerOsTypeView}, country=#{countryView}, productVersion=#{productVersionView}, licenseFilePath=#{licenseFilePathView}, serialNumber=#{serialNumberView}, requester=#{requesterView}, licenseIssuanceModifier=#{licenseIssuanceModifier}, licenseIssuanceModifiedDate=#{licenseIssuanceModifiedDate}     
 		WHERE licenseKeyNum = #{licenseKeyNum};
 	</update>
 	
@@ -74,6 +74,15 @@
 	
 	<sql id="sqlLicense">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="licenseType != null and licenseType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseTypeArr" item="arr">
+						OR licenseType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
 			<if test="customerName != null and customerName != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">

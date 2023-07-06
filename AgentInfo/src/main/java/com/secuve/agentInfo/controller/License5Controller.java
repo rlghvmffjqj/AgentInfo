@@ -120,7 +120,7 @@ public class License5Controller {
 			license.setCustomerNameView(license.getCustomerNameSelf());
 		if(license.getBusinessNameSelf().length() > 0)
 			license.setBusinessNameView(license.getBusinessNameSelf());
-		if(license.getLicenseType().equals("(구)")) 
+		if(license.getLicenseTypeView().equals("(구)")) 
 			license.setCustomerNameView(license.getCustomerNameOldView());
 			
 		model.addAttribute("license", license);
@@ -134,7 +134,7 @@ public class License5Controller {
 			license.setCustomerNameView(license.getCustomerNameSelf());
 		if(license.getBusinessNameSelf().length() > 0)
 			license.setBusinessNameView(license.getBusinessNameSelf());
-		if(license.getLicenseType().equals("(구)")) 
+		if(license.getLicenseTypeView().equals("(구)")) 
 			license.setCustomerNameView(license.getCustomerNameOldView());
 		
 		model.addAttribute("license", license);

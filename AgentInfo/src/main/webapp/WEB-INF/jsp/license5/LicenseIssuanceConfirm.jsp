@@ -58,26 +58,26 @@
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
 		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
-		<input type="hidden" id="licenseType" name="licenseType" value="${license.licenseType}">
+		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseTypeView}">
 		<input type="hidden" id="viewType" name="viewType" value="issuedback">
 	</form>
 </div>
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'issued'}">
-			<c:if test="${license.licenseType eq '(신)'}">
+			<c:if test="${license.licenseTypeView eq '(신)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
 			</c:if>
-			<c:if test="${license.licenseType eq '(구)'}">
+			<c:if test="${license.licenseTypeView eq '(구)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
 			</c:if>
 			<button class="btn btn-default btn-outline-info-nomal" onClick="BtnIssuedConfirmCancel()">닫기</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<c:if test="${license.licenseType eq '(신)'}">
+			<c:if test="${license.licenseTypeView eq '(신)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmUpdate()">발급</button>
 			</c:if>
-			<c:if test="${license.licenseType eq '(구)'}">
+			<c:if test="${license.licenseTypeView eq '(구)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmUpdate()">발급</button>
 			</c:if>
 			<button class="btn btn-default btn-outline-info-nomal" onClick="BtnUpdateConfirmCancel()">닫기</button>
@@ -85,7 +85,7 @@
     </c:choose>
 </div>
 <script>
-	if("${license.licenseType}" == "(구)") {
+	if("${license.licenseTypeView}" == "(구)") {
 		$('.oldLicense').css("display","none");
 		$('#modalConfirm').css('height','420px');
 	}
@@ -120,7 +120,7 @@
 		var postData = $('#confirmForm').serializeObject();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var chkLicenseIssuance = $('#chkLicenseIssuance').val();
-		var licenseType = $('#licenseType').val();
+		var licenseType = $('#licenseTypeView').val();
 		$.ajax({
 			url: "<c:url value='/license5/linuxIssued50'/>",
 		    type: 'post',
@@ -194,7 +194,7 @@
 		var postData = $('#confirmForm').serializeObject();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var chkLicenseIssuance = $('#chkLicenseIssuance').val();
-		var licenseType = $('#licenseType').val();
+		var licenseType = $('#licenseTypeView').val();
 		$.ajax({
 			url: "<c:url value='/license5/linuxUpdate50'/>",
 		    type: 'post',
