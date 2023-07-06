@@ -66,7 +66,19 @@ $.modal = function (modalContent, size) {
 		html += 		'<span>제품</span>';
 		html += 	'</button>';
 		html += '</div>';
-    } 
+    }
+    
+     if(size=='license5') {
+	    html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
+	    html += 	'<button class="btn btn-sales btnm customerManagentActive" type="button" style="height:40px;" id="btnOldLicense" onClick="btnOldLicense()">';
+		html += 		'<span>(구)라이선스</span>';
+		html += 	'</button>';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:40px;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<span>(신)라이선스</span>';
+		html += 	'</button>';
+		html += '</div>';
+    }
+     
     if(size=='customerLicense') {
         html += '		<div class="modal-content" style="border-top: 1px solid #dbdbdb!important; border-radius: 0;">';
     } else {

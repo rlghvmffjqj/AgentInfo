@@ -12,6 +12,7 @@ import lombok.ToString;
 @Component
 public class License5 {
 	private Integer licenseKeyNum;					// Key
+	private String licenseType;
 	private String productType;							// 제품 유형
 	private String customerName;						// 고객사명
 	private String businessName;						// 사업명

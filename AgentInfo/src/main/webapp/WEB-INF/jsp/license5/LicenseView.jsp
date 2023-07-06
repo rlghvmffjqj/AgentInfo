@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 820px;">
+<div class="modal-body" id="licenseModal" style="width: 100%; height: 820px;">
 	<form id="modalForm" name="form" method ="post">
 		<div style="width: 100%; height: 25px; border-bottom: dashed 1px silver; float:left">
 			<div style="width: 65%; float:left">
@@ -15,80 +15,91 @@
 		</div>
 		
 		<div class="leftDiv">
-			<c:choose>
-				<c:when test="${viewType eq 'issued'}">
-					<div class="pading5Width450">
-					 	<div>
-					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-							<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
-					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
-					  	</div>
-					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-					  	<div id="customerNameViewSelf">
-						  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
-						  		<option value=""></option>
-								<c:forEach var="item" items="${customerName}">
-									<option value="${item}"><c:out value="${item}"/></option>
-								</c:forEach>
-							</select>
-						</div>
-					 </div>
-					 <div class="pading5Width450">
-					 	<div>
-					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-							<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
-					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
-					  	</div>
-					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-					  	<div id="businessNameViewSelf">
-						  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
-						  		<option value=""></option>
-							</select>
-						</div>
-					 </div>
-	         	</c:when>
-	         	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
-	         		<div class="pading5Width450">
-						<div>
-					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-							<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
-					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
-					  	</div>
-					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-					  	<div id="customerNameViewSelf">
-				         	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
-				         		<c:if test="${license.customerName ne ''}"><option value=""></option></c:if>
-				         		<c:if test="${license.customerName eq ''}"><option value=""></option></c:if>
-				         		<c:forEach var="item" items="${customerName}">
-									<option value="${item}" <c:if test="${item eq license.customerName}">selected</c:if>><c:out value="${item}"/></option>
-								</c:forEach>
-							</select>
-						</div>
-			         </div>
-			         <div class="pading5Width450">
-						<div>
-					  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-							<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
-					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
-					  	</div>
-					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-					  	<div id="businessNameViewSelf">
-				         	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
-				         		<c:if test="${license.businessName ne ''}"><option value=""></option></c:if>
-				         		<c:if test="${license.businessName eq ''}"><option value=""></option></c:if>
-				         		<c:forEach var="item" items="${businessName}">
-									<option value="${item}" <c:if test="${item eq license.businessName}">selected</c:if>><c:out value="${item}"/></option>
-								</c:forEach>
-							</select>
-						</div>
-			         </div>
-	         	</c:when>
-			 </c:choose>
-	         <div class="pading5Width450">
-	         	<label class="labelFontSize">추가정보</label>
-	         	<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
-	         </div>
-	         <c:choose>
+			<div class="newLicense">
+				<c:choose>
+					<c:when test="${viewType eq 'issued'}">
+						<div class="pading5Width450">
+						 	<div>
+						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+								<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
+						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+						  	</div>
+						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+						  	<div id="customerNameViewSelf">
+							  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+							  		<option value=""></option>
+									<c:forEach var="item" items="${customerName}">
+										<option value="${item}"><c:out value="${item}"/></option>
+									</c:forEach>
+								</select>
+							</div>
+						 </div>
+						 <div class="pading5Width450">
+						 	<div>
+						  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
+								<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
+						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+						  	</div>
+						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+						  	<div id="businessNameViewSelf">
+							  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+							  		<option value=""></option>
+								</select>
+							</div>
+						 </div>
+	        	 	</c:when>
+	        	 	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+	        	 		<div class="pading5Width450">
+							<div>
+						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+								<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
+						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+						  	</div>
+						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+						  	<div id="customerNameViewSelf">
+					         	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+					         		<c:if test="${license.customerName ne ''}"><option value=""></option></c:if>
+					         		<c:if test="${license.customerName eq ''}"><option value=""></option></c:if>
+					         		<c:forEach var="item" items="${customerName}">
+										<option value="${item}" <c:if test="${item eq license.customerName}">selected</c:if>><c:out value="${item}"/></option>
+									</c:forEach>
+								</select>
+							</div>
+				         </div>
+				         <div class="pading5Width450">
+							<div>
+						  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
+								<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
+						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+						  	</div>
+						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+						  	<div id="businessNameViewSelf">
+					         	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+					         		<c:if test="${license.businessName ne ''}"><option value=""></option></c:if>
+					         		<c:if test="${license.businessName eq ''}"><option value=""></option></c:if>
+					         		<c:forEach var="item" items="${businessName}">
+										<option value="${item}" <c:if test="${item eq license.businessName}">selected</c:if>><c:out value="${item}"/></option>
+									</c:forEach>
+								</select>
+							</div>
+				         </div>
+	        	 	</c:when>
+				</c:choose>
+	        	<div class="pading5Width450">
+	        	 	<label class="labelFontSize">추가정보</label>
+	        	 	<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
+	        	</div>
+			</div>
+			<div class="oldLicense">
+				<div class="pading5Width450">
+					<div>
+						<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+					    <span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+					</div>
+					<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${license.customerName}">
+				</div>
+			</div>
+	        <c:choose>
 				<c:when test="${viewType eq 'issued'}">
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
@@ -111,17 +122,17 @@
 						</select>
 			         </div>
 		         </c:when>
-	         </c:choose>
-	         <div class="pading5Width450">
+	        </c:choose>
+	        <div class="pading5Width450">
 	         	<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
 	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요.</span>
 	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}">
-	         </div>
-	          <div class="pading5Width450">
+	        </div>
+	        <div class="pading5Width450">
 	         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
 	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
-	         </div>
-	         <c:choose>
+	        </div>
+	        <c:choose>
 				<c:when test="${viewType eq 'issued'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
@@ -225,39 +236,43 @@
 		    			</div>
 			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
 					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
-		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
+					<div class="newLicense">
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
+			        	 	<div class="floatRight">
+			        	 		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+		    					<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
+		    				</div>
+			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
+						</div>
 					</div>
 				</c:when>
-	         </c:choose>
+	        </c:choose>
 	    </div>
         <div class="rightDiv">
         	<c:choose>
 				<c:when test="${viewType eq 'issued'}">
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="0">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="0">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="0">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="0">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="0">
+					<div class="newLicense">
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="0">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="0">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="0">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="0">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="0">
+						</div>
 					</div>
 				    <div class="pading5Width450">
 						<label class="labelFontSize">관리서버 OS</label><label class="colorRed">*</label>
@@ -305,25 +320,27 @@
 			        </div>
 	       		</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
-		        	<div class="pading5Width450">
-			         	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCount}">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="${license.hpuxCount}">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="${license.solarisCount}">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="${license.linuxCount}">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
-			         	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="${license.windowsCount}">
+					<div class="newLicense">
+		        		<div class="pading5Width450">
+			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCount}">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">HPUX(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="hpuxCountView" name="hpuxCountView" class="form-control viewForm" value="${license.hpuxCount}">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Solaris(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="solarisCountView" name="solarisCountView" class="form-control viewForm" value="${license.solarisCount}">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Linux(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="linuxCountView" name="linuxCountView" class="form-control viewForm" value="${license.linuxCount}">
+						</div>
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Windows(OS) 수량</label><label class="colorRed">*</label>
+			        	 	<input type="number" id="windowsCountView" name="windowsCountView" class="form-control viewForm" value="${license.windowsCount}">
+						</div>
 					</div>
 					<div class="pading5Width450">
 						<label class="labelFontSize">관리서버 OS</label><label class="colorRed">*</label>
@@ -382,20 +399,22 @@
 	</form>
 </div>
 <div class="modal-footer">
-	<c:choose>
-		<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
-			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-		</c:when>
-		<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
-			<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
-			<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-		</c:when>
-    </c:choose>
+	<div class="newLicense">
+		<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
+		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+	</div>
+	<div class="oldLicense">
+		<button class="btn btn-default btn-outline-info-add" onClick="oldExistenceCheck()">발급</button>
+		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+	</div>
 </div>
 
 <script>
 	$(function() {
+		if('${viewType}' == 'issued') {
+			btnOldLicense();
+		}
+
 		if($('#viewType').val() == 'issued') {
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
@@ -801,5 +820,21 @@
 				console.log(error);
 			}
 		});
+	}
+
+	function btnOldLicense() {
+		$('#licenseModal').css('height','700px');
+		$('.oldLicense').css("display","block");
+		$('.newLicense').css("display","none");
+		$('#btnOldLicense').addClass('customerManagentActive');
+		$('#btnNewLicense').removeClass('customerManagentActive');
+	}
+
+	function btnNewLicense() {
+		$('#licenseModal').css('height','820px');
+		$('.newLicense').css("display","block");
+		$('.oldLicense').css("display","none");
+		$('#btnNewLicense').addClass('customerManagentActive');
+		$('#btnOldLicense').removeClass('customerManagentActive');
 	}
 </script>
