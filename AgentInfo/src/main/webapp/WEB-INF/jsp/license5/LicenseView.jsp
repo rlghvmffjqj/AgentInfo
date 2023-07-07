@@ -180,13 +180,15 @@
 		    			</div>
 			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
 					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
-		    				<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+					<div class="newLicense">
+						<div class="pading5Width450">
+			        	 	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
+			        	 	<div class="floatRight">
+			        	 		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+		    					<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
+		    				</div>
+			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+						</div>
 					</div>
 				</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
@@ -826,7 +828,7 @@
 	}
 
 	function btnOldLicense() {
-		$('#licenseModal').css('height','700px');
+		$('#licenseModal').css('height','650px');
 		$('.oldLicense').css("display","block");
 		$('.newLicense').css("display","none");
 		$('#btnOldLicense').addClass('customerManagentActive');
