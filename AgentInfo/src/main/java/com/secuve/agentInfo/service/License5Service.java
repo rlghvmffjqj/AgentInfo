@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -285,6 +284,21 @@ public class License5Service {
 
         HttpHeaders header = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        if(!license.getExpirationDaysView().isEmpty() && license.getExpirationDaysView().length() < 4) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			try {
+				cal.setTime(formatter.parse(license.getIssueDateView()));
+			} catch (ParseException e) {
+				System.out.println("만료일 날짜 변경 중 에러 발생!");
+				System.out.println(e);
+			}
+			cal.add(Calendar.DATE, Integer.parseInt(license.getExpirationDaysView()));
+			Date date = new Date(cal.getTimeInMillis());
+			
+			license.setExpirationDaysView(formatter.format(date));
+        }
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("route", route)

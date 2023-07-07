@@ -9,7 +9,7 @@
 		SELECT *
     	FROM
     	(
-    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, licenseKeyNum DESC) RowNo, a.*
     		FROM (
 				SELECT *
 				FROM license5
