@@ -191,13 +191,6 @@
 				</trim>
 				)
 			</if>
-			<if test="issueDate != null and issueDate != ''">
-				AND issueDate = #{issueDate}
-			</if>
-			<if test="expirationDays != null and expirationDays != ''">
-				AND expirationDays = #{expirationDays}
-			</if>
-			
 			<if test="igriffinAgentCount != null and igriffinAgentCount != ''">
 				AND igriffinAgentCount = #{igriffinAgentCount}
 			</if>
@@ -227,6 +220,12 @@
 			</if>
 			<if test="windowsCount != null and windowsCount != ''">
 				AND windowsCount = #{windowsCount}
+			</if>
+			<if test="issueDateStart != null and issueDateStart != ''">
+				AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+			</if>
+			<if test="expirationDaysStart != null and expirationDaysStart != ''">
+				AND expirationDays BETWEEN #{expirationDaysStart} AND #{expirationDaysEnd}
 			</if>
 		</trim>
 	</sql>

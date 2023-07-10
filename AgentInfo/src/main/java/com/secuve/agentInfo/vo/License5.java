@@ -92,6 +92,11 @@ public class License5 {
 	
 	private String chkLicenseIssuance;					// 라이선스 발급 여부
 	
+	private String issueDateStart;
+	private String issueDateEnd;
+	private String expirationDaysStart;
+	private String expirationDaysEnd;
+	
 	private Integer page=1;							// 기본 페이지 번호
 	private Integer rows=25;						// 데이터 보여줄 갯수
 	private String sidx="issueDate";		// 정렬할 기준 데이터

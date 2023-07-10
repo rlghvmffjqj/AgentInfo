@@ -110,6 +110,22 @@
 	                                	<div class="ibox">
 							                <div class="searchbos">
 	                                			<form id="form" name="form" method ="post">
+													<div style="padding-left:15px; width:33.2%; float: left;">
+														<label class="labelFontSize">시작일</label>
+														<div>
+														  <input class="form-control" style="width: 46%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
+														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
+														  <input class="form-control" style="width: 46%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
+													  	</div>
+													</div>
+													<div style="padding-left:15px; width:60%; float: left;">
+														<label class="labelFontSize">만료일</label>
+														<div>
+														  <input class="form-control" style="width: 25%; float: left;" type="date" id="expirationDaysStart" name="expirationDaysStart" max="9999-12-31">
+														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
+														  <input class="form-control" style="width: 25%; float: left;" type="date" id="expirationDaysEnd" name="expirationDaysEnd" max="9999-12-31">
+													  	</div>
+													</div>
 													<div class="col-lg-2">
 														<label class="labelFontSize">구분</label>
 														<select class="form-control selectpicker" id="licenseTypeMulti" name="licenseTypeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
@@ -165,15 +181,6 @@
 																<option value="${item}"><c:out value="${item}"/></option>
 															</c:forEach>
 														</select>
-													</div>
-													
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">시작일</label>
-														<input class="form-control" type="date" id="issueDate" name="issueDate" max="9999-12-31">
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">만료일</label>
-														<input class="form-control" type="date" id="expirationDays" name="expirationDays" max="9999-12-31">
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">iGRIFFIN Agent 수량</label>
@@ -415,16 +422,6 @@
 			}
 		});
 		
-		/* =========== 전달일자 라이오 버튼 클릭 ========= */
-		$(function() {
-			$('input[name="issueDate"]').click(function() {
-	            const value = $(this).val();
-	            if (value !== undefined) {
-	            	changeDate(value);
-	            }
-	        });
-		});
-		
 		/* =========== 라이선스 발급 Key 확인 버튼 ========= */
 		function licenseNumFormatter(value, options, row) {
 			var licenseKeyNum = row.licenseKeyNum;
@@ -510,7 +507,50 @@
 		
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
-			tableRefresh();	
+			var issueDateStart = $("#issueDateStart").val();
+			var issueDateEnd = $("#issueDateEnd").val();
+			var expirationDaysStart = $("#expirationDaysStart").val();
+			var expirationDaysEnd = $("#expirationDaysEnd").val();
+			
+			if(issueDateStart == "" && issueDateEnd != "") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '시작일의 시작날짜를 입력해주세요.',    
+					});
+			} else if(issueDateEnd == "" && issueDateStart != "") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '시작일의  종료 날짜를 입력해주세요.',    
+					});
+			} else if(issueDateStart > issueDateEnd) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '시작일의 시작 날짜가 종료 날짜 보다 큽니다.',    
+				}); 
+			} else if(expirationDaysStart == "" && expirationDaysEnd != "") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '만료일의 시작 날짜를 입력해주세요.',    
+					});
+			} else if(expirationDaysEnd == "" && expirationDaysStart != "") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '만료일의 종료 날짜를 입력해주세요.',    
+					});
+			} else if(expirationDaysStart > expirationDaysEnd) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '만료일의 시작 날짜가 종료 날짜 보다 큽니다.',    
+				}); 
+			} else {
+				tableRefresh();	
+			}
 		});
 		
 		
@@ -628,6 +668,10 @@
 				move = false;				
 			});
 		});
-		
 	</script>
+	<style>
+		.col-lg-2 {
+			max-width: 16.66%;
+		}
+	</style>
 </html>

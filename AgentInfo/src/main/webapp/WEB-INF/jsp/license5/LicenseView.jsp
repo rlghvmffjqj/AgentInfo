@@ -414,6 +414,22 @@
 
 <script>
 	$(function() {
+		var clientTime = new Date();
+		var options = {
+     	   year: 'numeric',
+     	   month: '2-digit',
+     	   day: '2-digit'
+   		};
+		var formattedTime = clientTime.toLocaleDateString('en-US', options);
+
+		if(formattedTime != "${ServerTime}") {
+			Swal.fire({               
+				icon: 'info',          
+				title: '시작일 확인!',           
+				text: '라이선스 발급서버 시간과 사용자PC 시간이 일치하지않습니다. 시작일이 올바르게 입력되었는지 확인 후 발급 진행 바랍니다.',    
+			});
+		}
+
 		if('${license.licenseType}' == '(구)') {
 			btnOldLicense();
 		} else {

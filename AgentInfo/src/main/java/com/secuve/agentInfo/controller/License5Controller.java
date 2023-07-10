@@ -3,6 +3,8 @@ package com.secuve.agentInfo.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,9 +81,13 @@ public class License5Controller {
 		license.setLicenseType("(구)");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		
+		LocalDateTime serverTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedTime = serverTime.format(formatter);
+		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("license", license).addAttribute("viewType", viewType);
-		
+		model.addAttribute("ServerTime",formattedTime);
 		return "/license5/LicenseView";
 	}
 	

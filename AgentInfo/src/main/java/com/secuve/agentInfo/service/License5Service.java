@@ -448,43 +448,71 @@ public class License5Service {
 			
 			BufferedReader file_reader = new BufferedReader(new InputStreamReader(new FileInputStream(newFileName), "utf-8"));
 			String line;
-			while ((line = file_reader.readLine()) != null) {
-			 if (line.contains("serialNumber")) 
-				 license.setSerialNumberView(line.replace("<serialNumber>", "").replace("</serialNumber>","").replace(" ", ""));
-			 if (line.contains("productType")) 
-				 license.setProductTypeView(line.replace("<productType>", "").replace("</productType>","").replace(" ", ""));
-			 if (line.contains("companyName")) 
-				 license.setCustomerNameView(line.replace("<companyName>", "").replace("</companyName>","").replace(" ", ""));
-			 if (line.contains("projectName")) 
-				 license.setBusinessNameView(line.replace("<projectName>", "").replace("</projectName>","").replace(" ", ""));
-			 if (line.contains("additional")) 
-				 license.setAdditionalInformationView(line.replace("<additional>", "").replace("</additional>","").replace(" ", ""));
-			 if (line.contains("system_MAC")) 
-				 license.setMacAddressView(line.replace("<system_MAC>", "").replace("</system_MAC>","").replace(" ", ""));
-			 if (line.contains("issueDate")) 
-				 license.setIssueDateView(line.replace("<issueDate>", "").replace("</issueDate>","").replace(" ", ""));
-			 if (line.contains("expireDate")) 
-				 license.setExpirationDaysView(line.replace("<expireDate>", "").replace("</expireDate>","").replace(" ", ""));
-			 if (line.contains("limit_iGRIFFIN")) 
-				 license.setIgriffinAgentCountView(line.replace("<limit_iGRIFFIN>", "").replace("</limit_iGRIFFIN>","").replace(" ", ""));
-			 if (line.contains("limit_TOS20")) 
-				 license.setTos2AgentCountView(line.replace("<limit_TOS20>", "").replace("</limit_TOS20>","").replace(" ", ""));
-			 if (line.contains("limit_TOS50")) 
-				 license.setTos5AgentCountView(line.replace("<limit_TOS50>", "").replace("</limit_TOS50>","").replace(" ", ""));
-			 if (line.contains("limit_DBMS")) 
-				 license.setDbmsCountView(line.replace("<limit_DBMS>", "").replace("</limit_DBMS>","").replace(" ", ""));
-			 if (line.contains("limit_Network")) 
-				 license.setNetworkCountView(line.replace("<limit_Network>", "").replace("</limit_Network>","").replace(" ", ""));
-			 if (line.contains("quantity_AIX")) 
-				 license.setAixCountView(Integer.parseInt(line.replace("<quantity_AIX>", "").replace("</quantity_AIX>","").replace(" ", "")));
-			 if (line.contains("quantity_HPUX")) 
-				 license.setHpuxCountView(Integer.parseInt(line.replace("<quantity_HPUX>", "").replace("</quantity_HPUX>","").replace(" ", "")));
-			 if (line.contains("quantity_Solaris")) 
-				 license.setSolarisCountView(Integer.parseInt(line.replace("<quantity_Solaris>", "").replace("</quantity_Solaris>","").replace(" ", "")));
-			 if (line.contains("quantity_Linux")) 
-				 license.setLinuxCountView(Integer.parseInt(line.replace("<quantity_Linux>", "").replace("</quantity_Linux>","").replace(" ", "")));
-			 if (line.contains("quantity_Windows")) 
-				 license.setWindowsCountView(Integer.parseInt(line.replace("<quantity_Windows>", "").replace("</quantity_Windows>","").replace(" ", "")));
+			file_reader.readLine();
+			if(file_reader.readLine().contains("<licenses>")) {
+				while ((line = file_reader.readLine()) != null) {
+					license.setLicenseTypeView("(신)");
+				 if (line.contains("serialNumber")) 
+					 license.setSerialNumberView(line.replace("<serialNumber>", "").replace("</serialNumber>","").replace(" ", ""));
+				 if (line.contains("productType")) 
+					 license.setProductTypeView(line.replace("<productType>", "").replace("</productType>","").replace(" ", ""));
+				 if (line.contains("companyName")) 
+					 license.setCustomerNameView(line.replace("<companyName>", "").replace("</companyName>","").replace(" ", ""));
+				 if (line.contains("projectName")) 
+					 license.setBusinessNameView(line.replace("<projectName>", "").replace("</projectName>","").replace(" ", ""));
+				 if (line.contains("additional")) 
+					 license.setAdditionalInformationView(line.replace("<additional>", "").replace("</additional>","").replace(" ", ""));
+				 if (line.contains("system_MAC")) 
+					 license.setMacAddressView(line.replace("<system_MAC>", "").replace("</system_MAC>","").replace(" ", ""));
+				 if (line.contains("issueDate")) 
+					 license.setIssueDateView(line.replace("<issueDate>", "").replace("</issueDate>","").replace(" ", ""));
+				 if (line.contains("expireDate")) 
+					 license.setExpirationDaysView(line.replace("<expireDate>", "").replace("</expireDate>","").replace(" ", ""));
+				 if (line.contains("limit_iGRIFFIN")) 
+					 license.setIgriffinAgentCountView(line.replace("<limit_iGRIFFIN>", "").replace("</limit_iGRIFFIN>","").replace(" ", ""));
+				 if (line.contains("limit_TOS20")) 
+					 license.setTos2AgentCountView(line.replace("<limit_TOS20>", "").replace("</limit_TOS20>","").replace(" ", ""));
+				 if (line.contains("limit_TOS50")) 
+					 license.setTos5AgentCountView(line.replace("<limit_TOS50>", "").replace("</limit_TOS50>","").replace(" ", ""));
+				 if (line.contains("limit_DBMS")) 
+					 license.setDbmsCountView(line.replace("<limit_DBMS>", "").replace("</limit_DBMS>","").replace(" ", ""));
+				 if (line.contains("limit_Network")) 
+					 license.setNetworkCountView(line.replace("<limit_Network>", "").replace("</limit_Network>","").replace(" ", ""));
+				 if (line.contains("quantity_AIX")) 
+					 license.setAixCountView(Integer.parseInt(line.replace("<quantity_AIX>", "").replace("</quantity_AIX>","").replace(" ", "")));
+				 if (line.contains("quantity_HPUX")) 
+					 license.setHpuxCountView(Integer.parseInt(line.replace("<quantity_HPUX>", "").replace("</quantity_HPUX>","").replace(" ", "")));
+				 if (line.contains("quantity_Solaris")) 
+					 license.setSolarisCountView(Integer.parseInt(line.replace("<quantity_Solaris>", "").replace("</quantity_Solaris>","").replace(" ", "")));
+				 if (line.contains("quantity_Linux")) 
+					 license.setLinuxCountView(Integer.parseInt(line.replace("<quantity_Linux>", "").replace("</quantity_Linux>","").replace(" ", "")));
+				 if (line.contains("quantity_Windows")) 
+					 license.setWindowsCountView(Integer.parseInt(line.replace("<quantity_Windows>", "").replace("</quantity_Windows>","").replace(" ", "")));
+				}
+			} else {
+				while ((line = file_reader.readLine()) != null) {
+					license.setLicenseTypeView("(구)");
+				 if (line.contains("serialNumber")) 
+					 license.setSerialNumberView(line.replace("<serialNumber>", "").replace("</serialNumber>","").replace(" ", ""));
+				 if (line.contains("productType")) 
+					 license.setProductTypeView(line.replace("<productType>", "").replace("</productType>","").replace(" ", ""));
+				 if (line.contains("companyName")) 
+					 license.setCustomerNameView(line.replace("<companyName>", "").replace("</companyName>","").replace(" ", ""));
+				 if (line.contains("system_MAC")) 
+					 license.setMacAddressView(line.replace("<system_MAC>", "").replace("</system_MAC>","").replace(" ", ""));
+				 if (line.contains("issueDate")) 
+					 license.setIssueDateView(line.replace("<issueDate>", "").replace("</issueDate>","").replace(" ", ""));
+				 if (line.contains("expireDate")) 
+					 license.setExpirationDaysView(line.replace("<expireDate>", "").replace("</expireDate>","").replace(" ", ""));
+				 if (line.contains("limit_iGRIFFIN")) 
+					 license.setIgriffinAgentCountView(line.replace("<limit_iGRIFFIN>", "").replace("</limit_iGRIFFIN>","").replace(" ", ""));
+				 if (line.contains("limit_TOS20")) 
+					 license.setTos2AgentCountView(line.replace("<limit_TOS20>", "").replace("</limit_TOS20>","").replace(" ", ""));
+				 if (line.contains("limit_TOS50")) 
+					 license.setTos5AgentCountView(line.replace("<limit_TOS50>", "").replace("</limit_TOS50>","").replace(" ", ""));
+				 if (line.contains("limit_DBMS")) 
+					 license.setDbmsCountView(line.replace("<limit_DBMS>", "").replace("</limit_DBMS>","").replace(" ", ""));
+				}
 			}
 			file_reader.close();
 		} catch (Exception e) {
