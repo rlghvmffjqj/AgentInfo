@@ -361,7 +361,7 @@
 				    <li class="testCase">
 				        <a href="<c:url value='/testCase/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-layout-media-overlay"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">테스트 케이스(개발 중)</span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">테스트 케이스</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				    </li>

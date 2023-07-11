@@ -56,7 +56,7 @@
 	        data: postData,
 	        async: false,
 	        success: function(result) {
-				if(result == "OK") {
+				if(result.result == "OK") {
 					Swal.fire({
 						icon: 'success',
 						title: '성공!',
@@ -65,7 +65,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		        	$('#modal').on('hidden.bs.modal', function () {
 		        		var table = $("#testCaseFormDiv");
-			            var rowItem = "<button type='button' class='btn btn-primary formBtn' id='"+testCaseFormName+"' style='box-shadow: 0px 3px 3px grey;' onClick='btnTestCaseForm(this)'>"+testCaseFormName+"</button>";
+			            var rowItem = "<button type='button' class='btn btn-primary formBtn' id='"+testCaseFormName+"' style='box-shadow: 0px 3px 3px grey;' onClick='btnTestCaseForm(this"+result.testCaseFormKeyNum+")'>"+testCaseFormName+"</button>";
 			            table.append(rowItem);
                         $('#selectTestCaseFormName').val(testCaseFormName);
 		        	});	

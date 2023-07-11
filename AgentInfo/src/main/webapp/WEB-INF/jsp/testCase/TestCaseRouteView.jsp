@@ -18,7 +18,7 @@
 			<c:choose>
 				<c:when test="${viewType eq 'insert'}">
 					<tr class="hight60">
-						<td>분류 :</td><td><span id="testCaseRouteParentPathView">${testCaseRouteFullPath}</span></td>
+						<td>분류 :</td><td><span id="testCaseRouteParentPathView">${testCase.testCaseRouteFullPath}</span></td>
 					</tr>
 					<tr>
 						<td style="width: 70px;">분류명 : </td><td><input type="text" id="testCaseRouteNameView" autofocus></td>
@@ -26,7 +26,7 @@
 				</c:when>
 				<c:when test="${viewType eq 'update'}">
 					<tr class="hight60">
-						<td>분류 :</td><td><span id="testCaseRouteNameChangeView">${testCaseRouteFullPath}</span></td>	
+						<td>분류 :</td><td><span id="testCaseRouteNameChangeView">${testCase.testCaseRouteFullPath}</span></td>	
 					</tr>
 					<tr>
 						<td style="width: 70px;">분류명 변경 : </td><td><input type="text" id="testCaseRouteNameView" autofocus></td>											
@@ -35,6 +35,8 @@
 			</c:choose>
 		</tbody>
 	</table>
+	<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control" value="${testCase.testCaseFormKeyNum}">
+	<input type="hidden" id="testCaseFormName" name="testCaseFormName" class="form-control" value="${testCase.testCaseFormName}">
 </div>
 <div class="modal-footer">
 	<c:choose>
@@ -61,6 +63,7 @@
 		var testCaseRouteCustomer = $('#testCaseRouteCustomer').val();
 		var testCaseRouteNote = $('#testCaseRouteNote').val();
 		var testCaseFormName = $('#testCaseFormName').val();
+		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 
 		$("#testCaseRouteFullPath").val(testCaseRouteParentPath);
 		$.ajax({
@@ -72,6 +75,7 @@
 					"testCaseRouteCustomer" : testCaseRouteCustomer,
 					"testCaseRouteNote" : testCaseRouteNote,
 					"testCaseFormName" : testCaseFormName,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
 				},
 			dataType: "json",
 			async: false,

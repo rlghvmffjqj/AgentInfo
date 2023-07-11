@@ -23,7 +23,7 @@ public class TestCaseController {
 	
 	@GetMapping(value = "/testCase/list")
 	public String TestCaseList(Model model) {
-		List<String> testCaseFormList = testCaseService.getTestCaseForm();
+		List<TestCase> testCaseFormList = testCaseService.getTestCaseForm();
 		List<String> testCaseRouteCustomer = testCaseService.getSearchValue("testCaseRouteCustomer");
 		List<String> testCaseRouteNote = testCaseService.getSearchValue("testCaseRouteNote");
 		
@@ -49,18 +49,24 @@ public class TestCaseController {
 	
 	@GetMapping(value = "/testCase/insertTestCaseView")
 	public String insertTestCaseView(TestCase testCase, Model model) {
+		testCase = testCaseService.getTestCaseFormOne(testCase);
+		
 		model.addAttribute("viewType", "insert");
-		model.addAttribute("testCaseFormName",testCase.getTestCaseFormName());
+		model.addAttribute("testCase",testCase);
 		return "testCase/TestCaseView";
 	}
 	
 	@PostMapping(value = "/testCase/updateTestCaseView")
-	public String updateTestCaseView(String testCaseRouteCustomerView, String testCaseRouteNoteView, String testCaseFormNameView, Model model) {
+	public String updateTestCaseView(TestCase testCase, Model model) {
 		model.addAttribute("viewType", "update");
-		model.addAttribute("testCaseFormName",testCaseFormNameView);
-		model.addAttribute("testCaseRouteNote",testCaseRouteNoteView);
-		model.addAttribute("testCaseRouteCustomer",testCaseRouteCustomerView);
+		model.addAttribute("testCase",testCase);
 		return "testCase/TestCaseView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/testCase/delete")
+	public String deleteTestCase(@RequestParam int[] chkList) {
+		return testCaseService.deleteTestCase(chkList);
 	}
 	
 	
@@ -74,7 +80,7 @@ public class TestCaseController {
 	
 	@ResponseBody
 	@PostMapping(value = "/testCase/insertForm")
-	public String insertTestCaseForm(TestCase testCase, Principal principal) {
+	public Map insertTestCaseForm(TestCase testCase, Principal principal) {
 		testCase.setTestCaseFormRegistrant(principal.getName());
 		testCase.setTestCaseFormRegistrationDate(testCaseService.nowDate());
 		return testCaseService.insertTestCaseForm(testCase);
@@ -111,8 +117,8 @@ public class TestCaseController {
 	}
 	
 	@PostMapping(value = "/testCase/insertRouteView")
-	public String insertRouteView(Model model, @RequestParam String testCaseRouteFullPath) {
-		model.addAttribute("viewType","insert").addAttribute("testCaseRouteFullPath", testCaseRouteFullPath);
+	public String insertRouteView(Model model, TestCase testCase) {
+		model.addAttribute("viewType","insert").addAttribute("testCase", testCase);
 		return "/testCase/TestCaseRouteView";
 	}
 	

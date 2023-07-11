@@ -56,21 +56,22 @@
 												<div class="col-lg-2">
 													<label class="labelFontSize">고객사</label>
 													<span class="colorRed" id="NotCustomer" style="display: none; line-height: initial;">고객사 입력 바랍니다.</span>
-													<input type="text" id="testCaseRouteCustomer" name="testCaseRouteCustomer" class="form-control viewForm" value="${testCaseRouteCustomer}" <c:if test="${viewType eq 'update'}">readonly</c:if>>
+													<input type="text" id="testCaseRouteCustomer" name="testCaseRouteCustomer" class="form-control viewForm" value="${testCase.testCaseRouteCustomerView}" <c:if test="${viewType eq 'update'}">readonly</c:if>>
 												</div>
 												<div class="col-lg-2">
 													<label class="labelFontSize">비고</label>
 													<span class="colorRed" id="NotNote" style="display: none; line-height: initial;">비고 입력 바랍니다.</span>
-													<input type="text" id="testCaseRouteNote" name="testCaseRouteNote" class="form-control viewForm" value="${testCaseRouteNote}" <c:if test="${viewType eq 'update'}">readonly</c:if>>
+													<input type="text" id="testCaseRouteNote" name="testCaseRouteNote" class="form-control viewForm" value="${testCase.testCaseRouteNoteView}" <c:if test="${viewType eq 'update'}">readonly</c:if>>
 												</div>
 												<c:if test="${viewType eq 'insert'}">
 													<button class="btn btn-outline-info-add myBtn" id="btnTestCaseConfirmed" style="float: right; height: 50px; width: 50px;">확정</button>
 												</c:if>
 			                     			</div>
+											<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control" value="${testCase.testCaseFormKeyNum}">
 											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control">
 											<input type="hidden" id="testCaseRouteName" name="testCaseRouteName" class="form-control">
 											<input type="hidden" id="testCaseRouteFullPath" name="testCaseRouteFullPath" class="form-control">
-											<input type="hidden" id="testCaseFormName" name="testCaseFormName" class="form-control" value="${testCaseFormName}">
+											<input type="hidden" id="testCaseFormName" name="testCaseFormName" class="form-control" value="${testCase.testCaseFormName}">
 		                     			</div>
 
 										 <table class="fullTable" style="width:100%; float:left">
@@ -239,7 +240,7 @@
 		function reqChildNode(node, path) {
 			var testCaseRouteCustomer = $('#testCaseRouteCustomer').val();
 			var testCaseRouteNote = $('#testCaseRouteNote').val();
-			var testCaseFormName = $('#testCaseFormName').val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 
 			$.ajax({
 				url: "<c:url value='/testCase/routeList'/>",
@@ -248,7 +249,7 @@
 					"testCaseRouteParentPath" : path,
 					"testCaseRouteCustomer" : testCaseRouteCustomer,
 					"testCaseRouteNote" : testCaseRouteNote,
-					"testCaseFormName" : testCaseFormName,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
 				},
 				dataType: "json",
 				async: false,
@@ -326,6 +327,7 @@
 		/* =========== 분류 추가 ========= */
 		function btnRouteInsert() {
 			var isReadonly = $('#testCaseRouteCustomer').prop('readonly');
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 
 			if (!isReadonly) {
 				Swal.fire({
@@ -341,7 +343,10 @@
 			$.ajax({
 				type: 'POST',
 				url: "<c:url value='/testCase/insertRouteView'/>",
-				data: {"testCaseRouteFullPath" : path},
+				data: {
+					"testCaseRouteFullPath" : path,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
+				},
 				async: false,
 				success: function (data) {
 					if(data.indexOf("<!DOCTYPE html>") != -1) 
@@ -653,9 +658,6 @@
 		function contentView(testCase) {
 			var table = $("#testCaseContents");
 			var rowItem = "<div id='testCaseContentsView'>";
-			rowItem += "<div class='testCaseSaveDiv'>";
-			rowItem += "<button type='button' class='btn btn-default btn-outline-info-add' id='btnContentSave' onclick='btnContentSave();'>SAVE</button>";
-			rowItem += "</div>";
 			rowItem += "<form id='contentsForm' name='form' method ='post'>";
 			rowItem += "<table class='testCaseTable'>";
 			rowItem += "<tr class='testCaseTr'>";
@@ -732,11 +734,12 @@
 		}
 
 		.testCaseMenu {
-			background-color: #A6A6A6;
+			background-color: #ad6868;
 			width: 130px;
     		text-align: center;
     		color: white;
-			border: 1px solid #e7e7e7;
+			font-weight: bold;
+			border: 1px solid #a97a7a;
 		}
 
 		.testCaseTr {
@@ -744,24 +747,27 @@
 		}
 
 		.testCaseTd {
-			border: 1px solid #e7e7e7;
+			border: 1px solid #a97a7a;
 		}
 
 		.testCaseTable {
 			width: 100%;
     		height: 100%;
-    		border: 1px solid #e7e7e7;
+    		border: 1px solid #a97a7a;
 		}
 
 		.testCaseInput {
 			text-align: center;
     		width: 100%;
+			height: 100%;
+			border: 0;
 		}
 
 		.testCaseTextarea {
 			padding: 1%;
     		width: 100%;
 			height: 100%;
+			border: 0;
 		}
 
 		.testCaseSaveDiv {

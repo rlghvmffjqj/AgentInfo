@@ -430,7 +430,7 @@
 			});
 		}
 
-		if('${license.licenseType}' == '(구)') {
+		if('${license.licenseType}' == '(구)' || '${license.licenseTypeView}' == '(구)') {
 			btnOldLicense();
 		} else {
 			btnNewLicense();

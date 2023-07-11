@@ -14,7 +14,7 @@ import com.secuve.agentInfo.vo.TestCase;
 public class TestCaseDao {
 	@Autowired SqlSessionTemplate sqlSession;
 
-	public List<String> getTestCaseForm() {
+	public List<TestCase> getTestCaseForm() {
 		return sqlSession.selectList("testCase.getTestCaseForm");
 	}
 
@@ -110,6 +110,14 @@ public class TestCaseDao {
 
 	public int testCaseContentsDelete(int testCaseRouteKeyNum) {
 		return sqlSession.delete("testCase.testCaseContentsDelete", testCaseRouteKeyNum);
+	}
+
+	public TestCase getTestCaseFormOne(TestCase testCase) {
+		return sqlSession.selectOne("testCase.getTestCaseFormOne", testCase);
+	}
+
+	public TestCase getTestCaseRouteOne(TestCase testCase) {
+		return sqlSession.selectOne("testCase.getTestCaseRouteOne", testCase);
 	}
 
 }

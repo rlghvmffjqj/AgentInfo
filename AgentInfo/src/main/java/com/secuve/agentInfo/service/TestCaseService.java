@@ -17,7 +17,7 @@ import com.secuve.agentInfo.vo.TestCase;
 public class TestCaseService {
 	@Autowired TestCaseDao testCaseDao;
 
-	public List<String> getTestCaseForm() {
+	public List<TestCase> getTestCaseForm() {
 		return testCaseDao.getTestCaseForm();
 	}
 	
@@ -27,13 +27,20 @@ public class TestCaseService {
 		return formatter.format(now);
 	}
 
-	public String insertTestCaseForm(TestCase testCase) {
-		if(testCaseDao.testCaseFormNameDuplication(testCase.getTestCaseFormName()) > 0) 
-			return "Duplication";
+	public Map insertTestCaseForm(TestCase testCase) {
+		Map map = new HashMap();
+		if(testCaseDao.testCaseFormNameDuplication(testCase.getTestCaseFormName()) > 0) {
+			map.put("result", "Duplication");
+			return map;
+		}
 		int sucess = testCaseDao.insertTestCaseForm(testCase);
-		if (sucess <= 0)
-			return "FALSE";
-		return "OK";
+		if (sucess <= 0) {
+			map.put("result", "FALSE");
+			return map;
+		}
+		map.put("result", "OK");
+		map.put("testCaseFormKeyNum", testCase.getTestCaseFormKeyNum());
+		return map;
 	}
 
 	public String delTestCaseForm(TestCase testCase) {
@@ -203,6 +210,19 @@ public class TestCaseService {
 			return "OK";
 		}
 		return "FALSE";
+	}
+
+	public String deleteTestCase(int[] chkList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TestCase getTestCaseFormOne(TestCase testCase) {
+		return testCaseDao.getTestCaseFormOne(testCase);
+	}
+
+	public TestCase getTestCaseRouteOne(TestCase testCase) {
+		return testCaseDao.getTestCaseRouteOne(testCase);
 	}
 
 	

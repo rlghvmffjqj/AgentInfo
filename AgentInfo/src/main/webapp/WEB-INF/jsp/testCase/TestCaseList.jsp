@@ -24,14 +24,15 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['고객사','비고','날짜'],
+					colNames:['key','고객사','비고','날짜'],
 					colModel:[
+						{name:'testCaseFormKeyNum', index:'testCaseFormKeyNum', align:'center', width: 35, hidden:true },
 						{name:'testCaseRouteCustomer', index:'testCaseRouteCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'testCaseRouteNote', index:'testCaseRouteNote', align:'center', width: 300},
 						{name:'testCaseRouteDate', index:'testCaseRouteDate', align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'testCaseRouteKeyNum',
+			        	id: 'testCaseFormKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
@@ -181,7 +182,7 @@
 	                     				<div class="ibox">
 	                     				 	<div class="searchbos" id="testCaseFormDiv">
 												<c:forEach var="testCaseForm" items="${testCaseFormList}">
-													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this)">${testCaseForm}</button>
+													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this,'${testCaseForm.testCaseFormKeyNum}')">${testCaseForm.testCaseFormName}</button>
 												</c:forEach>
 	                     				 	</div>
 	                     				</div>
@@ -196,6 +197,7 @@
 																<td style="font-weight:bold;">테스트 케이스 관리 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnTestCaseInsert">추가</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnTestCaseDelete">삭제</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnTestCaseCopy">복사</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'testCase');">컬럼 선택</button>
 																</td>
 															</tr>
@@ -223,18 +225,17 @@
 	        </div>
 	    </div>
 		<form id="testCaseUpdateView" action="<c:url value='/testCase/updateTestCaseView'/>" method="POST">
-			<input type="hidden" id="testCaseFormNameView" name="testCaseFormNameView">
+			<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control">
 			<input type="hidden" id="testCaseRouteCustomerView" name="testCaseRouteCustomerView">
 			<input type="hidden" id="testCaseRouteNoteView" name="testCaseRouteNoteView">
 		</form>
 	</body>
 
 	<script>
-		/* =========== 테스트 케이스 추가 Modal ========= */
-		$('#BtnInsert').click(function() {
-			location.href="<c:url value='/testCase/view'/>";		
+		$(function() {
+			$('#testCaseFormKeyNum').val(1);
 		});
-		
+
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
 			var testCaseDateStart = $("#testCaseDateStart").val();
@@ -366,12 +367,9 @@
 		
 		/* =========== 테스트 케이스 수정 Modal ========= */
 		function updateView(testCaseRouteCustomer, testCaseRouteNote) {
-			var testCaseFormName = $('#selectTestCaseFormName').val();
 			$('#testCaseRouteCustomerView').val(testCaseRouteCustomer);
 			$('#testCaseRouteNoteView').val(testCaseRouteNote);
-			$('#testCaseFormNameView').val(testCaseFormName);
 			$("#testCaseUpdateView").submit();
-			//location.href="<c:url value='/testCase/updateView'/>?testCaseRouteKeyNum="+data;
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */
@@ -417,7 +415,8 @@
 			});
 		});
 
-		function btnTestCaseForm(obj) {
+		function btnTestCaseForm(obj, keyNum) {
+			$('#testCaseFormKeyNum').val(keyNum);
 			var testCaseFormName = $(obj).text();
 			$('#selectTestCaseFormName').val(testCaseFormName);
 			tableRefresh();
@@ -493,8 +492,38 @@
 
 	<script>
 		$('#BtnTestCaseInsert').click(function() {
-			var testCaseFormName = $('#selectTestCaseFormName').val();
-			location.href="<c:url value='/testCase/insertTestCaseView'/>?testCaseFormName="+testCaseFormName;
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+			location.href="<c:url value='/testCase/insertTestCaseView'/>?testCaseFormKeyNum="+testCaseFormKeyNum;
+		});
+
+		$('#BtnTestCaseDelete').click(function() {
+			// var chkList = $("#list").getGridParam('selarrrow');
+			// $.ajax({
+			// 	url: "<c:url value='/testCase/delete'/>",
+			// 	type: "POST",
+			// 	data: {chkList: chkList},
+			// 	dataType: "text",
+			// 	traditional: true,
+			// 	async: false,
+			// 	success: function(data) {
+			// 		if(data == "OK")
+			// 			Swal.fire(
+			// 			  '성공!',
+			// 			  '삭제 완료하였습니다.',
+			// 			  'success'
+			// 			)
+			// 		else
+			// 			Swal.fire(
+			// 			  '실패!',
+			// 			  '삭제 실패하였습니다.',
+			// 			  'error'
+			// 			)
+			// 		tableRefresh();
+			// 	},
+			// 	error: function(error) {
+			// 		console.log(error);
+			// 	}
+			// });
 		});
 
 	</script>

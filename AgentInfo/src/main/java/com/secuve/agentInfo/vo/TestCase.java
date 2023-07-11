@@ -58,6 +58,9 @@ public class TestCase {
 	private String testCaseContentsModifier;
 	private String testCaseContentsModifiedDate;
 	
+	private String testCaseRouteCustomerView;
+	private String testCaseRouteNoteView;
+	
 	private String[] testCaseRouteCustomerArr;
 	private String[] testCaseRouteNoteArr;
 	

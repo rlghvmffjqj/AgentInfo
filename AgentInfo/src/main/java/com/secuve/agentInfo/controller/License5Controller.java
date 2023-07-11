@@ -178,6 +178,11 @@ public class License5Controller {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
 		
+		LocalDateTime serverTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedTime = serverTime.format(formatter);
+		
+		model.addAttribute("ServerTime",formattedTime);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
 		model.addAttribute("license", license).addAttribute("viewType", "issuedback");
@@ -215,6 +220,11 @@ public class License5Controller {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
 		
+		LocalDateTime serverTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedTime = serverTime.format(formatter);
+		
+		model.addAttribute("ServerTime",formattedTime);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
 		model.addAttribute("license", license).addAttribute("viewType", "updateback");
@@ -239,6 +249,11 @@ public class License5Controller {
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
 		
+		LocalDateTime serverTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedTime = serverTime.format(formatter);
+		
+		model.addAttribute("ServerTime",formattedTime);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
 		model.addAttribute("viewType", "update").addAttribute("license", license);
