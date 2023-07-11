@@ -3,7 +3,9 @@ package com.secuve.agentInfo.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -172,6 +174,35 @@ public class TestCaseService {
 
 	public TestCase getTestCaseContents(int testCaseRouteKeyNum) {
 		return testCaseDao.getTestCaseContents(testCaseRouteKeyNum);
+	}
+
+	public Map testCaseContentsInsert(TestCase testCase) {
+		Map map = new HashMap();
+		int sucess = testCaseDao.testCaseDoubleCheck(testCase.getTestCaseRouteKeyNum());
+		if(sucess > 0) {
+			map.put("result", "FALSE");
+			return map;
+		}
+		testCaseDao.testCaseContentsInsert(testCase);
+		map.put("result", "OK");
+		map.put("testCase", testCase);
+		return map;
+	}
+
+	public String testCaseContentsUpdate(TestCase testCase) {
+		int sucess = testCaseDao.testCaseContentsUpdate(testCase);
+		if(sucess > 0) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+
+	public String testCaseContentsDelete(int testCaseRouteKeyNum) {
+		int sucess = testCaseDao.testCaseContentsDelete(testCaseRouteKeyNum);
+		if(sucess > 0) {
+			return "OK";
+		}
+		return "FALSE";
 	}
 
 	

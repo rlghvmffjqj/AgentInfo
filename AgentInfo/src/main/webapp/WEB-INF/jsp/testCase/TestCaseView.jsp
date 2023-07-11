@@ -310,8 +310,11 @@
 				url: "<c:url value='/testCase/testCaseContents'/>",
 				data: {"testCaseRouteKeyNum" : keyNum},
 				async: false,
-				success: function (data) {
-					console.log(data);
+				success: function (testCase) {
+					$('#testCaseContentsView').remove();
+					if(testCase != "") {
+						contentView(testCase);
+					}
 				},
 				error: function(e) {
 					console.log(e);
@@ -392,7 +395,6 @@
 						dataType: "json",
 						async: false,
 						success: function(data) {
-							console.log("확인"+data.result);
 							if(data.result == "OK"){
 								Swal.fire({
 									icon: 'success',
@@ -493,7 +495,6 @@
 				},
 				async: false,
 				success: function (result) {
-					console.log(result);
 					if(result == "FALSE") {
 						Swal.fire({
 							icon: 'error',
@@ -541,65 +542,181 @@
 		}
 
 		function BtnContentsInsert() {
+			var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
+			var testCaseRouteName = $("#testCaseRouteName").val();
+			if(testCaseRouteName == "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '항목을 선택해주세요.',    
+				}); 
+				return false;
+			}
+
+			$.ajax({
+				type: 'POST',
+				url: "<c:url value='/testCase/testCaseContentsInsert'/>",
+				data: {
+					"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+				},
+				async: false,
+				success: function (result) {
+					if(result.result == "FALSE") {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '내용은 하나의 항목에 한개의 내용만 추가 가능합니다.',
+						});
+					} else {
+						contentView(result.testCase);
+					}
+				},
+				error: function(e) {
+					console.log(e);
+				}
+			});
+		}
+
+		function btnContentSave() {
+			var postData = $('#contentsForm').serializeArray();
+			postData.push({name : "testCaseRouteKeyNum", value : $('#testCaseRouteKeyNum').val()});
+			$.ajax({
+				url: "<c:url value='/testCase/testCaseContentsUpdate'/>",
+	        	type: 'post',
+	        	data: postData,
+	        	async: false,
+	        	success: function(result) {     	
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '저장 완료했습니다.',
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+	    	});
+		}
+
+		/* =========== Ctrl + S 사용시 저장 ========= */
+		document.onkeydown = function(e) {
+		    if (e.which == 17)  isCtrl = true;
+		    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
+		    	btnContentSave();
+		    	isCtrl = false;
+		    	return false;
+		    }
+		}
+		document.onkeyup = function(e) {
+			if (e.which == 17)  isCtrl = false;
+		}
+
+		function BtnContentsDelete() {
+			var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
+			$.ajax({
+				url: "<c:url value='/testCase/testCaseContentsDelete'/>",
+	        	type: 'post',
+	        	data: {
+					"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+				},
+	        	async: false,
+	        	success: function(result) {     	
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '삭제 완료했습니다.',
+						});
+						$('#testCaseContentsView').remove();
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+	    	});
+		}
+
+		function contentView(testCase) {
 			var table = $("#testCaseContents");
-			var rowItem = "<table class='testCaseTable'>";
+			var rowItem = "<div id='testCaseContentsView'>";
+			rowItem += "<div class='testCaseSaveDiv'>";
+			rowItem += "<button type='button' class='btn btn-default btn-outline-info-add' id='btnContentSave' onclick='btnContentSave();'>SAVE</button>";
+			rowItem += "</div>";
+			rowItem += "<form id='contentsForm' name='form' method ='post'>";
+			rowItem += "<table class='testCaseTable'>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>대메뉴</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMainMenu' name='testCaseContentsMainMenu'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMainMenu' name='testCaseContentsMainMenu' value='"+testCase.testCaseContentsMainMenu+"'></td>";
 			rowItem += "<td class='testCaseMenu'>중메뉴</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMediumMenu' name='testCaseContentsMediumMenu'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsMediumMenu' name='testCaseContentsMediumMenu' value='"+testCase.testCaseContentsMediumMenu+"'></td>";
 			rowItem += "<td class='testCaseMenu'>소메뉴</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsSmallMenu' name='testCaseContentsSmallMenu'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsSmallMenu' name='testCaseContentsSmallMenu' value='"+testCase.testCaseContentsSmallMenu+"'></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>TC코드</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsTcCode' name='testCaseContentsTcCode'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsTcCode' name='testCaseContentsTcCode' value='"+testCase.testCaseContentsTcCode+"'></td>";
 			rowItem += "<td class='testCaseMenu'>적용 분류코드</td>";
-			rowItem += "<td colspan='3' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsClassificationCode' name='testCaseContentsClassificationCode'></textarea></td>";
+			rowItem += "<td colspan='3' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsClassificationCode' name='testCaseContentsClassificationCode'>"+testCase.testCaseContentsClassificationCode+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>테스트 목적</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPurpose' name='testCaseContentsPurpose'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPurpose' name='testCaseContentsPurpose'>"+testCase.testCaseContentsPurpose+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>사전 테스트 준비</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPreparation' name='testCaseContentsPreparation'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsPreparation' name='testCaseContentsPreparation'>"+testCase.testCaseContentsPreparation+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>하위 테스트 항목</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsItem' name='testCaseContentsItem'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsItem' name='testCaseContentsItem'>"+testCase.testCaseContentsItem+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>테스트 절차</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsProcedure' name='testCaseContentsProcedure'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsProcedure' name='testCaseContentsProcedure'>"+testCase.testCaseContentsProcedure+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>예상테스트 결과</td>";
-			rowItem += "<td colspan='5'class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsExpectedResult' name='testCaseContentsExpectedResult'></textarea></td>";
+			rowItem += "<td colspan='5'class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsExpectedResult' name='testCaseContentsExpectedResult'>"+testCase.testCaseContentsExpectedResult+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>테스트 결과</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsTestResult' name='testCaseContentsTestResult'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseSummerNote' rows='5' id='testCaseContentsTestResult' name='testCaseContentsTestResult'>"+testCase.testCaseContentsTestResult+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>결과 코드</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsResultCode' name='testCaseContentsResultCode'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsResultCode' name='testCaseContentsResultCode' value='"+testCase.testCaseContentsResultCode+"'></td>";
 			rowItem += "<td class='testCaseMenu'>영향도</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsInfluence' name='testCaseContentsInfluence'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsInfluence' name='testCaseContentsInfluence' value='"+testCase.testCaseContentsInfluence+"'></td>";
 			rowItem += "<td class='testCaseMenu'>테스트 담당자</td>";
-			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsManager' name='testCaseContentsManager'></td>";
+			rowItem += "<td class='testCaseTd'><input class='testCaseInput' id='testCaseContentsManager' name='testCaseContentsManager' value='"+testCase.testCaseContentsManager+"'></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>오류 증상</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsError' name='testCaseContentsError'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsError' name='testCaseContentsError'>"+testCase.testCaseContentsError+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "<tr class='testCaseTr'>";
 			rowItem += "<td class='testCaseMenu'>비고</td>";
-			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsNote' name='testCaseContentsNote'></textarea></td>";
+			rowItem += "<td colspan='5' class='testCaseTd'><textarea class='testCaseTextarea' id='testCaseContentsNote' name='testCaseContentsNote'>"+testCase.testCaseContentsNote+"</textarea></td>";
 			rowItem += "</tr>";
 			rowItem += "</table>";
+			rowItem += "</form>";
 			rowItem += "<div class='testCaseSaveDiv'>";
-			rowItem += "<button type='button' class='btn btn-default btn-outline-info-add' id='btnSave'>SAVE</button>";
+			rowItem += "<button type='button' class='btn btn-default btn-outline-info-add' id='btnContentSave' onclick='btnContentSave();'>SAVE</button>";
+			rowItem += "</div>";
 			rowItem += "</div>";
 			table.append(rowItem);
 			summernote();

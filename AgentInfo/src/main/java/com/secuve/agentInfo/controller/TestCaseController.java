@@ -172,4 +172,26 @@ public class TestCaseController {
 	public TestCase testCaseContents(int testCaseRouteKeyNum) {
 		return testCaseService.getTestCaseContents(testCaseRouteKeyNum);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/testCase/testCaseContentsInsert")
+	public Map testCaseContentsInsert(TestCase testCase, Principal principal) {
+		testCase.setTestCaseContentsRegistrant(principal.getName());
+		testCase.setTestCaseContentsRegistrationDate(testCaseService.nowDate());
+		return testCaseService.testCaseContentsInsert(testCase);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/testCase/testCaseContentsUpdate")
+	public String testCaseContentsUpdate(TestCase testCase, Principal principal) {
+		testCase.setTestCaseContentsModifier(principal.getName());
+		testCase.setTestCaseContentsModifiedDate(testCaseService.nowDate());
+		return testCaseService.testCaseContentsUpdate(testCase);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/testCase/testCaseContentsDelete")
+	public String testCaseContentsDelete(int testCaseRouteKeyNum) {
+		return testCaseService.testCaseContentsDelete(testCaseRouteKeyNum);
+	}
 }

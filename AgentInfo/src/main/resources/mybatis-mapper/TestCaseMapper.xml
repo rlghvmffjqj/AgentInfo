@@ -111,6 +111,24 @@
 		SELECT * FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</select>
 	
+	<select id="testCaseDoubleCheck" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</select>
+	
+	<insert id="testCaseContentsInsert">
+		INSERT INTO testCaseContents(testCaseRouteKeyNum, testCaseContentsRegistrant, testCaseContentsRegistrationDate) 
+		VALUES(#{testCaseRouteKeyNum}, #{testCaseContentsRegistrant}, #{testCaseContentsRegistrationDate});
+	</insert>
+	
+	<update id="testCaseContentsUpdate">
+		UPDATE testCaseContents SET testCaseContentsMainMenu=#{testCaseContentsMainMenu}, testCaseContentsMediumMenu=#{testCaseContentsMediumMenu}, testCaseContentsSmallMenu=#{testCaseContentsSmallMenu}, testCaseContentsTcCode=#{testCaseContentsTcCode}, testCaseContentsClassificationCode=#{testCaseContentsClassificationCode}, testCaseContentsPurpose=#{testCaseContentsPurpose}, testCaseContentsPreparation=#{testCaseContentsPreparation}, testCaseContentsItem=#{testCaseContentsItem}, testCaseContentsProcedure=#{testCaseContentsProcedure}, testCaseContentsExpectedResult=#{testCaseContentsExpectedResult}, testCaseContentsTestResult=#{testCaseContentsTestResult}, testCaseContentsResultCode=#{testCaseContentsResultCode}, testCaseContentsInfluence=#{testCaseContentsInfluence}, testCaseContentsManager=#{testCaseContentsManager}, testCaseContentsError=#{testCaseContentsError}, testCaseContentsNote=#{testCaseContentsNote},  testCaseContentsModifier=#{testCaseContentsModifier}, testCaseContentsModifiedDate=#{testCaseContentsModifiedDate}
+		WHERE  testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</update>
+	
+	<delete id="testCaseContentsDelete" parameterType="_int">
+		DELETE FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</delete>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlTestCase">

@@ -96,4 +96,20 @@ public class TestCaseDao {
 		return sqlSession.selectOne("testCase.getTestCaseContents", testCaseRouteKeyNum);
 	}
 
+	public int testCaseDoubleCheck(int testCaseRouteKeyNum) {
+		return sqlSession.selectOne("testCase.testCaseDoubleCheck", testCaseRouteKeyNum);
+	}
+
+	public void testCaseContentsInsert(TestCase testCase) {
+		sqlSession.insert("testCase.testCaseContentsInsert", testCase);
+	}
+
+	public int testCaseContentsUpdate(TestCase testCase) {
+		return sqlSession.update("testCase.testCaseContentsUpdate", testCase);
+	}
+
+	public int testCaseContentsDelete(int testCaseRouteKeyNum) {
+		return sqlSession.delete("testCase.testCaseContentsDelete", testCaseRouteKeyNum);
+	}
+
 }

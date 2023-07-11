@@ -154,7 +154,7 @@
 			         		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
 		    				<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
-			         	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="1">
+			         	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="0">
 			         </div>
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 5.0 Agent 수량</label><label class="colorRed">*</label>
@@ -162,7 +162,7 @@
 			         		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
 		    				<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
-			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="1">
+			         	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="0">
 					 </div>
 					 <div class="pading5Width450">
 			         	<label class="labelFontSize">TOS 2.0 Agent 수량</label><label class="colorRed">*</label>
@@ -170,7 +170,7 @@
 			         		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
 		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
-			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="1">
+			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="0">
 					</div>
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
@@ -178,7 +178,7 @@
 			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
 		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
 		    			</div>
-			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
+			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
 					</div>
 					<div class="newLicense">
 						<div class="pading5Width450">
@@ -187,7 +187,7 @@
 			        	 		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
 		    					<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
 		    				</div>
-			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="0">
 						</div>
 					</div>
 				</c:when>
