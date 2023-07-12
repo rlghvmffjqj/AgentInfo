@@ -64,6 +64,7 @@
 		var testCaseRouteNote = $('#testCaseRouteNote').val();
 		var testCaseFormName = $('#testCaseFormName').val();
 		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+		var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
 
 		$("#testCaseRouteFullPath").val(testCaseRouteParentPath);
 		$.ajax({
@@ -76,6 +77,7 @@
 					"testCaseRouteNote" : testCaseRouteNote,
 					"testCaseFormName" : testCaseFormName,
 					"testCaseFormKeyNum" : testCaseFormKeyNum,
+					"testCaseRouteKeyNum" : testCaseRouteKeyNum,
 				},
 			dataType: "json",
 			async: false,
@@ -90,6 +92,7 @@
 					$('#modal').on('hidden.bs.modal', function () {
 						reloadView();
 					});
+					$('#testCaseRouteKeyNum').val(data.testCaseRouteKeyNum);
 				} else if(data.result == "Overlap") {
 					Swal.fire({
 						icon: 'error',
@@ -123,6 +126,7 @@
 		var title = node.data.title; // 선택 분류
 		var newtestCaseRouteName = $('#testCaseRouteNameView').val();
 		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+		var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
 		
 		$.ajax({
 			url: "<c:url value='/testCase/updateRoute'/>",
@@ -131,6 +135,7 @@
 				"testCaseRouteFullPath": path, 
 				"newTestCaseRouteName": newtestCaseRouteName,
 				"testCaseFormKeyNum" : testCaseFormKeyNum,
+				"testCaseRouteKeyNum" : testCaseRouteKeyNum,
 			},
 			dataType: "json",
 			async: false,

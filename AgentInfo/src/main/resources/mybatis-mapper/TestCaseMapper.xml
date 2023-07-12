@@ -4,15 +4,15 @@
 <mapper namespace="testCase">
 	<resultMap type="com.secuve.agentInfo.vo.TestCase" id="testCase"></resultMap>
 	
-	<select id="getTestCaseList" resultMap="testCase" parameterType="string">
-		SELECT DISTINCT testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate, testCaseRouteKeyNum
+	<select id="getTestCaseList" resultMap="testCase">
+		SELECT DISTINCT testCaseRouteKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT DISTINCT testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate, testCaseRouteKeyNum
+				SELECT DISTINCT testCaseRouteKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
 				FROM testCaseRoute
-				WHERE testCaseFormName = #{testCaseFormName}
+				WHERE testCaseFormKeyNum = #{testCaseFormKeyNum}
 					<include refid="sqlTestCase" />
 			) a
 		) b
@@ -20,8 +20,8 @@
 	</select>
 	
 	<select id="getTestCaseListCount" resultType="_int">
-		SELECT COUNT(DISTINCT testCaseRouteCustomer,testCaseRouteNote, testCaseRouteDate) FROM testCaseRoute
-		WHERE testCaseFormName = #{testCaseFormName}
+		SELECT COUNT(DISTINCT testCaseRouteKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate) FROM testCaseRoute
+		WHERE testCaseFormKeyNum = #{testCaseFormKeyNum}
 			<include refid="sqlTestCase" />
 	</select>
 	
@@ -82,12 +82,12 @@
 	</select>
 	
 	<insert id="insertRoute" parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
-		INSERT INTO testCaseRoute(testCaseRouteKeyNum,testCaseFormKeyNum,testCaseFormName,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
-		VALUES(#{testCaseRouteKeyNum},#{testCaseFormKeyNum},#{testCaseFormName},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
+		INSERT INTO testCaseRoute(testCaseRouteKeyNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
+		VALUES(#{testCaseRouteKeyNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
 	</insert>
 	
-	<select id="getTestCaseRouteFullPath" parameterType="string" resultMap="testCase">
-		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormName = #{testCaseFormName};
+	<select id="getTestCaseRouteFullPath" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormKeyNum = #{testCaseFormKeyNum};
 	</select>
 	
 	<select id="getTestCaseRouteParentPath" parameterType="string" resultMap="testCase">
@@ -110,25 +110,35 @@
 	
 	<update id="updateRouteDate">
 		UPDATE testCaseRoute SET testCaseRouteDate = #{testCaseRouteDate} 
-		WHERE testCaseFormName = #{testCaseFormName}
+		WHERE testCaseFormKeyNum = #{testCaseFormKeyNum}
 		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
 		AND testCaseRouteNote = #{testCaseRouteNote};
 	</update>
 	
-	<select id="testCaseConfirmed" parameterType="string" resultType="_int">
+	<select id="testCaseConfirmed" resultType="_int">
 		SELECT COUNT(*) FROM testCaseRoute 
 		WHERE testCaseRouteCustomer = #{testCaseRouteCustomer}
 		AND testCaseRouteNote = #{testCaseRouteNote}
-		AND testCaseFormName = #{testCaseFormName};
+		AND testCaseFormKeyNum = #{testCaseFormKeyNum};
 	</select>
 	
 	<select id="getTestCaseRouteOne" resultMap="testCase">
-		SELECT DISTINCT testCaseFormKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate FROM testcaseroute WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+		SELECT DISTINCT testCaseFormKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate FROM testCaseRoute WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</select>
 	
 	<select id="getMaxTestCaseRouteKeyNum" resultType="_int">
-		SELECT MAX(testCaseRouteKeyNum) FROM testcaseroute;
+		SELECT MAX(testCaseRouteKeyNum) FROM testCaseRoute;
 	</select>
+	
+	<delete id="deleteTestCase" parameterType="_int">
+		DELETE FROM testCaseRoute WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</delete>
+	
+	<delete id="deleteTestCaseRouteContents" parameterType="_int">
+		DELETE FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</delete>
+	
+	
 	
 	<!-- ======================================= -->
 	

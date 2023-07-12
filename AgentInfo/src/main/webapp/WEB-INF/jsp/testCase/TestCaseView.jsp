@@ -68,7 +68,7 @@
 												</c:if>
 			                     			</div>
 											<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control" value="${testCase.testCaseFormKeyNum}">
-											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control">
+											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control" value="0">
 											<input type="hidden" id="testCaseRouteName" name="testCaseRouteName" class="form-control">
 											<input type="hidden" id="testCaseRouteFullPath" name="testCaseRouteFullPath" class="form-control">
 											<input type="hidden" id="testCaseFormName" name="testCaseFormName" class="form-control" value="${testCase.testCaseFormName}">
@@ -473,7 +473,7 @@
 		$('#btnTestCaseConfirmed').click(function() {
 			var testCaseRouteCustomer = $('#testCaseRouteCustomer').val();
 			var testCaseRouteNote = $('#testCaseRouteNote').val();
-			var testCaseFormName = $('#testCaseFormName').val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 
 			if(testCaseRouteCustomer == "") {
 				$('#NotCustomer').show();
@@ -496,7 +496,7 @@
 				data: {
 					"testCaseRouteCustomer" : testCaseRouteCustomer,
 					"testCaseRouteNote" : testCaseRouteNote,
-					"testCaseFormName" : testCaseFormName,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
 				},
 				async: false,
 				success: function (result) {

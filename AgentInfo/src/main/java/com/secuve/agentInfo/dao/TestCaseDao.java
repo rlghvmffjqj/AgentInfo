@@ -136,4 +136,12 @@ public class TestCaseDao {
 		return sqlSession.selectOne("testCase.getMaxTestCaseRouteKeyNum");
 	}
 
+	public int deleteTestCase(int testCaseRouteKeyNum) {
+		return sqlSession.delete("testCase.deleteTestCase", testCaseRouteKeyNum);
+	}
+
+	public void deleteTestCaseRouteContents(int testCaseRouteKeyNum) {
+		sqlSession.delete("testCase.deleteTestCaseRouteContents", testCaseRouteKeyNum);
+	}
+
 }

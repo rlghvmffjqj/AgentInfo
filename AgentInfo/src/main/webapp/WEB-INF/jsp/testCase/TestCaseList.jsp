@@ -18,7 +18,9 @@
 		</script>
 		<script>
 			$(document).ready(function(){
+				$('#testCaseFormKeyNum').val(1);
 				var formData = $('#form').serializeObject();
+				formData.testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 				$("#list").jqGrid({
 					url: "<c:url value='/testCase'/>",
 					mtype: 'POST',
@@ -232,9 +234,6 @@
 	</body>
 
 	<script>
-		$(function() {
-			$('#testCaseFormKeyNum').val(1);
-		});
 
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
@@ -271,6 +270,7 @@
 			$('#testCaseRouteNote').val($('#testCaseRouteNoteMulti').val().join());
 			
 			var _postDate = $("#form").serializeObject();
+			_postDate.testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();

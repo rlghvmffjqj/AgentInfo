@@ -124,16 +124,17 @@ public class TestCaseController {
 	
 	@ResponseBody
 	@PostMapping(value = "/testCase/insertRoute")
-	public Map<String,String> insertRoute(TestCase testCase, Principal principal) {
+	public Map insertRoute(TestCase testCase, Principal principal) {
 		testCase.setTestCaseRouteRegistrant(principal.getName());
 		testCase.setTestCaseRouteRegistrationDate(testCaseService.nowDate());
 		testCase.setTestCaseRouteModifier(principal.getName());
 		testCase.setTestCaseRouteModifiedDate(testCaseService.nowDate());
 		testCase.setTestCaseRouteDate(testCaseService.nowDate());
 		
-		Map<String,String> map = new HashMap<String,String>();
+		Map map = new HashMap();
 		String result = testCaseService.insertRoute(testCase);
 		map.put("result", result);
+		map.put("testCaseRouteKeyNum", testCase.getTestCaseRouteKeyNum());
 		return map;
 	}
 	

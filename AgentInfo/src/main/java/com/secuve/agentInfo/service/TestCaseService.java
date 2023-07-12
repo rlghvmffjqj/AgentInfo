@@ -71,10 +71,14 @@ public class TestCaseService {
 	
 	public String insertRoute(TestCase testCase) {
 		int sucess = 0;
-		testCase.setTestCaseRouteKeyNum(0);
-		try {
-			testCase.setTestCaseRouteKeyNum(testCaseDao.getMaxTestCaseRouteKeyNum());
-		} catch (Exception e) {}
+		
+		if(testCase.getTestCaseRouteKeyNum() == 0) {
+			try {
+				testCase.setTestCaseRouteKeyNum(testCaseDao.getMaxTestCaseRouteKeyNum()+1);
+			} catch (Exception e) {
+				testCase.setTestCaseRouteKeyNum(1);
+			}
+		}
 		
 		if(testCase.getTestCaseRouteParentPath().equals("/")) {
 			testCase.setTestCaseRouteFullPath("/"+testCase.getTestCaseRouteName());
@@ -219,8 +223,13 @@ public class TestCaseService {
 	}
 
 	public String deleteTestCase(int[] chkList) {
-		// TODO Auto-generated method stub
-		return null;
+		for (int testCaseRouteKeyNum : chkList) {
+			int sucess = testCaseDao.deleteTestCase(testCaseRouteKeyNum);
+			if (sucess <= 0)
+				return "FALSE";
+			testCaseDao.deleteTestCaseRouteContents(testCaseRouteKeyNum);
+		}
+		return "OK";
 	}
 
 	public TestCase getTestCaseFormOne(TestCase testCase) {
