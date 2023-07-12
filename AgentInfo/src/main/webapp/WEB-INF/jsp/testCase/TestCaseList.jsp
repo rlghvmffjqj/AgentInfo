@@ -28,13 +28,13 @@
 					datatype: 'json',
 					colNames:['key','고객사','비고','날짜'],
 					colModel:[
-						{name:'testCaseRouteKeyNum', index:'testCaseRouteKeyNum', align:'center', width: 35, hidden:true },
+						{name:'testCaseRouteGroupNum', index:'testCaseRouteGroupNum', align:'center', width: 35, hidden:true },
 						{name:'testCaseRouteCustomer', index:'testCaseRouteCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'testCaseRouteNote', index:'testCaseRouteNote', align:'center', width: 300},
 						{name:'testCaseRouteDate', index:'testCaseRouteDate', align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'testCaseRouteKeyNum',
+			        	id: 'testCaseRouteGroupNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
@@ -51,7 +51,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','testCaseRouteKeyNum');
+				loadColumns('#list','testCaseRouteGroupNum');
 			});
 			
 			$(window).on('resize.list', function () {
@@ -511,32 +511,52 @@
 
 		$('#BtnTestCaseDelete').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
-			$.ajax({
-				url: "<c:url value='/testCase/delete'/>",
-				type: "POST",
-				data: {chkList: chkList},
-				dataType: "text",
-				traditional: true,
-				async: false,
-				success: function(data) {
-					if(data == "OK")
-						Swal.fire(
-						  '성공!',
-						  '삭제 완료하였습니다.',
-						  'success'
-						)
-					else
-						Swal.fire(
-						  '실패!',
-						  '삭제 실패하였습니다.',
-						  'error'
-						)
-					tableRefresh();
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			});
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 테스트 케이스를 삭제하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  	if (result.isConfirmed) {
+						$.ajax({
+							url: "<c:url value='/testCase/delete'/>",
+							type: "POST",
+							data: {chkList: chkList},
+							dataType: "text",
+							traditional: true,
+							async: false,
+							success: function(data) {
+								if(data == "OK")
+									Swal.fire(
+									  '성공!',
+									  '삭제 완료하였습니다.',
+									  'success'
+									)
+								else
+									Swal.fire(
+									  '실패!',
+									  '삭제 실패하였습니다.',
+									  'error'
+									)
+								tableRefresh();
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					}
+				})
+			}
 		});
 
 	</script>

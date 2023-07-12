@@ -134,7 +134,7 @@ public class TestCaseController {
 		Map map = new HashMap();
 		String result = testCaseService.insertRoute(testCase);
 		map.put("result", result);
-		map.put("testCaseRouteKeyNum", testCase.getTestCaseRouteKeyNum());
+		map.put("testCaseRouteGroupNum", testCase.getTestCaseRouteGroupNum());
 		return map;
 	}
 	
@@ -148,8 +148,8 @@ public class TestCaseController {
 	}
 	
 	@PostMapping(value = "/testCase/updateRouteView")
-	public String updateRouteView(Model model, @RequestParam String testCaseRouteFullPath) {
-		model.addAttribute("viewType","update").addAttribute("testCaseRouteFullPath", testCaseRouteFullPath);
+	public String updateRouteView(Model model, TestCase testCase) {
+		model.addAttribute("viewType","update").addAttribute("testCase", testCase);
 		return "/testCase/TestCaseRouteView";
 	}
 	

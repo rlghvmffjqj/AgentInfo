@@ -19,6 +19,7 @@ public class TestCase {
 	private String testCaseFormModifiedDate;
 	
 	private int testCaseRouteKeyNum;
+	private int testCaseRouteGroupNum;
 	private String testCaseRouteCustomer;
 	private String testCaseRouteNote;
 	private String testCaseRouteDate;

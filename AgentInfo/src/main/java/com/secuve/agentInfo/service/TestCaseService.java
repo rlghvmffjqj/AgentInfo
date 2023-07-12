@@ -58,7 +58,6 @@ public class TestCaseService {
 		int sucess = testCaseDao.updateTestCaseForm(testCase);
 		if (sucess <= 0)
 			return "FALSE";
-		testCaseDao.updateTestCaseFormRoute(testCase);
 		return "OK";
 	}
 	
@@ -72,11 +71,11 @@ public class TestCaseService {
 	public String insertRoute(TestCase testCase) {
 		int sucess = 0;
 		
-		if(testCase.getTestCaseRouteKeyNum() == 0) {
+		if(testCase.getTestCaseRouteGroupNum() == 0) {
 			try {
-				testCase.setTestCaseRouteKeyNum(testCaseDao.getMaxTestCaseRouteKeyNum()+1);
+				testCase.setTestCaseRouteGroupNum(testCaseDao.getMaxTestCaseRouteGroupNum()+1);
 			} catch (Exception e) {
-				testCase.setTestCaseRouteKeyNum(1);
+				testCase.setTestCaseRouteGroupNum(1);
 			}
 		}
 		
@@ -95,7 +94,10 @@ public class TestCaseService {
 		} else {
 			return "Overlap";
 		}
-		return resultReturn(sucess);
+		if(sucess > 0) {
+			return "OK";
+		}
+		return "FAIL";
 	}
 
 	public String deleteRoute(TestCase testCase) {
@@ -104,9 +106,13 @@ public class TestCaseService {
 		if(subTestCase.size() == 0) {
 			sucess = testCaseDao.deleteRoute(testCase);
 		} else {
-			return "SubTestCase";
+			return "SubRoute";
 		}
-		return resultReturn(sucess);
+		if(sucess > 0) {
+			testCaseDao.deleteTestCaseRouteContents(testCase.getTestCaseRouteKeyNum());
+			return "OK";
+		}
+		return "FAIL";
 	}
 	
 	public String updateRoute(TestCase testCase) {
@@ -120,7 +126,7 @@ public class TestCaseService {
 			testCase.setNewTestCaseRouteFullPath(ordTestCase.getTestCaseRouteParentPath()+"/"+testCase.getNewTestCaseRouteName());
 		}
 		
-		TestCase overlap = testCaseDao.getTestCaseRouteFullPath(testCase);
+		TestCase overlap = testCaseDao.getTestCaseRouteOverlap(testCase);
 		if(overlap == null) {
 			ArrayList<TestCase> testCaseFullPathList = new ArrayList<>(testCaseDao.getTestCaseRouteFullPathList(ordTestCase.getTestCaseRouteFullPath()));
 			for (TestCase newTestCase : testCaseFullPathList) {
@@ -156,12 +162,6 @@ public class TestCaseService {
 		return ordTestCase;
 	}
 	
-	public String resultReturn(int sucess) {
-		if(sucess > 0) {
-			return "OK";
-		}
-		return "FAIL";
-	}
 
 	public List<TestCase> getTestCaseList(TestCase search) {
 		return testCaseDao.getTestCaseList(testCaseSearch(search));
@@ -223,11 +223,14 @@ public class TestCaseService {
 	}
 
 	public String deleteTestCase(int[] chkList) {
-		for (int testCaseRouteKeyNum : chkList) {
-			int sucess = testCaseDao.deleteTestCase(testCaseRouteKeyNum);
+		for (int testCaseRouteGroupNum : chkList) {
+			List<TestCase> testCaseList = testCaseDao.getTestCaseRouteKeyNum(testCaseRouteGroupNum);
+			int sucess = testCaseDao.deleteTestCase(testCaseRouteGroupNum);
 			if (sucess <= 0)
 				return "FALSE";
-			testCaseDao.deleteTestCaseRouteContents(testCaseRouteKeyNum);
+			for (TestCase testCase : testCaseList) {
+				testCaseDao.deleteTestCaseRouteContents(testCase.getTestCaseRouteKeyNum());
+			}
 		}
 		return "OK";
 	}

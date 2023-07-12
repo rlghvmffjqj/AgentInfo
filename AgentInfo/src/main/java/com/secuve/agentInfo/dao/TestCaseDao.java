@@ -47,6 +47,10 @@ public class TestCaseDao {
 	public TestCase getTestCaseRouteFullPath(TestCase testCase) {
 		return sqlSession.selectOne("testCase.getTestCaseRouteFullPath",testCase);
 	}
+	
+	public TestCase getTestCaseRouteOverlap(TestCase testCase) {
+		return sqlSession.selectOne("testCase.getTestCaseRouteOverlap",testCase);
+	}
 
 	public List<TestCase> getTestCaseRouteParentPath(String testCaseRouteFullPath) {
 		return sqlSession.selectList("testCase.getTestCaseRouteParentPath",testCaseRouteFullPath);
@@ -128,20 +132,21 @@ public class TestCaseDao {
 		sqlSession.delete("testCase.delTestCaseFormContents", testCase);		
 	}
 
-	public void updateTestCaseFormRoute(TestCase testCase) {
-		sqlSession.update("testCase.updateTestCaseFormRoute", testCase);
+
+	public int getMaxTestCaseRouteGroupNum() {
+		return sqlSession.selectOne("testCase.getMaxTestCaseRouteGroupNum");
 	}
 
-	public int getMaxTestCaseRouteKeyNum() {
-		return sqlSession.selectOne("testCase.getMaxTestCaseRouteKeyNum");
+	public int deleteTestCase(int testCaseRouteGroupNum) {
+		return sqlSession.delete("testCase.deleteTestCase", testCaseRouteGroupNum);
 	}
 
-	public int deleteTestCase(int testCaseRouteKeyNum) {
-		return sqlSession.delete("testCase.deleteTestCase", testCaseRouteKeyNum);
+	public void deleteTestCaseRouteContents(int testCaseRouteGroupNum) {
+		sqlSession.delete("testCase.deleteTestCaseRouteContents", testCaseRouteGroupNum);
 	}
 
-	public void deleteTestCaseRouteContents(int testCaseRouteKeyNum) {
-		sqlSession.delete("testCase.deleteTestCaseRouteContents", testCaseRouteKeyNum);
+	public List<TestCase> getTestCaseRouteKeyNum(int testCaseRouteGroupNum) {
+		return sqlSession.selectList("testCase.getTestCaseRouteKeyNum", testCaseRouteGroupNum);
 	}
 
 }

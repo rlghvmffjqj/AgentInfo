@@ -68,7 +68,8 @@
 												</c:if>
 			                     			</div>
 											<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control" value="${testCase.testCaseFormKeyNum}">
-											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control" value="0">
+											<input type="hidden" id="testCaseRouteGroupNum" name="testCaseRouteGroupNum" class="form-control" value="0">
+											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control">
 											<input type="hidden" id="testCaseRouteName" name="testCaseRouteName" class="form-control">
 											<input type="hidden" id="testCaseRouteFullPath" name="testCaseRouteFullPath" class="form-control">
 											<input type="hidden" id="testCaseFormName" name="testCaseFormName" class="form-control" value="${testCase.testCaseFormName}">
@@ -187,12 +188,6 @@
 				})
 			}
 		});
-		
-		
-		/* =========== 테스트 케이스 수정 Modal ========= */
-		function updateView(data) {
-			location.href="<c:url value='/testCase/updateView'/>?testCaseKeyNum="+data;
-		}
 
 	</script>
 
@@ -383,6 +378,7 @@
 		function btnRouteDelect() {
 			var node = $("#tree").dynatree("getActiveNode");
 			var testCaseRouteFullPath = node.data.key;
+			var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
 			Swal.fire({
 				  title: '삭제!',
 				  text: "선택한 분류를 삭제하시겠습니까?",
@@ -392,11 +388,14 @@
 				  cancelButtonColor: '#FF99AB',
 				  confirmButtonText: 'OK'
 			}).then((result) => {
-			  if (result.isConfirmed) {
+			  	if (result.isConfirmed) {
 					$.ajax({
 						url: "<c:url value='/testCase/deleteRoute'/>",
 						type: "POST",
-						data: {"testCaseRouteFullPath" : testCaseRouteFullPath},
+						data: {
+							"testCaseRouteFullPath" : testCaseRouteFullPath,
+							"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+						},
 						dataType: "json",
 						async: false,
 						success: function(data) {
@@ -419,7 +418,7 @@
 							console.log(e);
 						}
 					});
-			  }
+			  	}
 			});
 		}
 
@@ -489,34 +488,48 @@
 				$('#NotNote').hide();
 			}
 
-			
-			$.ajax({
-				type: 'POST',
-				url: "<c:url value='/testCase/testCaseConfirmed'/>",
-				data: {
-					"testCaseRouteCustomer" : testCaseRouteCustomer,
-					"testCaseRouteNote" : testCaseRouteNote,
-					"testCaseFormKeyNum" : testCaseFormKeyNum,
-				},
-				async: false,
-				success: function (result) {
-					if(result == "FALSE") {
-						Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '중복된 고객사 및 비고가 존재합니다.',
-						});
-					} else {
-						$('#testCaseRouteCustomer').prop('readonly', true);
-						$('#testCaseRouteNote').prop('readonly', true);
-					}
-				},
-				error: function(e) {
-					console.log(e);
+			Swal.fire({
+				  title: '확정!',
+				  text: "확정 이후 변동이 불가능합니다. 계속 진행하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  	if (result.isConfirmed) {
+					$.ajax({
+						type: 'POST',
+						url: "<c:url value='/testCase/testCaseConfirmed'/>",
+						data: {
+							"testCaseRouteCustomer" : testCaseRouteCustomer,
+							"testCaseRouteNote" : testCaseRouteNote,
+							"testCaseFormKeyNum" : testCaseFormKeyNum,
+						},
+						async: false,
+						success: function (result) {
+							if(result == "FALSE") {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '중복된 고객사 및 비고가 존재합니다.',
+								});
+							} else {
+								$('#testCaseRouteCustomer').prop('readonly', true);
+								$('#testCaseRouteNote').prop('readonly', true);
+								Swal.fire({
+									icon: 'success',
+									title: '확정!',
+									text: '확정 되었습니다.',
+								});
+							}
+						},
+						error: function(e) {
+							console.log(e);
+						}
+					});
 				}
 			});
-
-			
 		});
 	</script>
 	
@@ -628,33 +641,45 @@
 
 		function BtnContentsDelete() {
 			var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
-			$.ajax({
-				url: "<c:url value='/testCase/testCaseContentsDelete'/>",
-	        	type: 'post',
-	        	data: {
-					"testCaseRouteKeyNum" : testCaseRouteKeyNum,
-				},
-	        	async: false,
-	        	success: function(result) {     	
-					if(result == "OK") {
-						Swal.fire({
-							icon: 'success',
-							title: '성공!',
-							text: '삭제 완료했습니다.',
-						});
-						$('#testCaseContentsView').remove();
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '작업을 실패하였습니다.',
-						});
-					}
-				},
-				error: function(error) {
-					console.log(error);
+			Swal.fire({
+				  title: '삭제!',
+				  text: "테스트 케이스 내용을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  	if (result.isConfirmed) {
+					$.ajax({
+						url: "<c:url value='/testCase/testCaseContentsDelete'/>",
+	        			type: 'post',
+	        			data: {
+							"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+						},
+	        			async: false,
+	        			success: function(result) {     	
+							if(result == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '성공!',
+									text: '삭제 완료했습니다.',
+								});
+								$('#testCaseContentsView').remove();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '작업을 실패하였습니다.',
+								});
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+	    			});
 				}
-	    	});
+			});
 		}
 
 		function contentView(testCase) {

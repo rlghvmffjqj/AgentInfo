@@ -64,7 +64,7 @@
 		var testCaseRouteNote = $('#testCaseRouteNote').val();
 		var testCaseFormName = $('#testCaseFormName').val();
 		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
-		var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
+		var testCaseRouteGroupNum = $('#testCaseRouteGroupNum').val();
 
 		$("#testCaseRouteFullPath").val(testCaseRouteParentPath);
 		$.ajax({
@@ -77,7 +77,7 @@
 					"testCaseRouteNote" : testCaseRouteNote,
 					"testCaseFormName" : testCaseFormName,
 					"testCaseFormKeyNum" : testCaseFormKeyNum,
-					"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+					"testCaseRouteGroupNum" : testCaseRouteGroupNum,
 				},
 			dataType: "json",
 			async: false,
@@ -92,7 +92,7 @@
 					$('#modal').on('hidden.bs.modal', function () {
 						reloadView();
 					});
-					$('#testCaseRouteKeyNum').val(data.testCaseRouteKeyNum);
+					$('#testCaseRouteGroupNum').val(data.testCaseRouteGroupNum);
 				} else if(data.result == "Overlap") {
 					Swal.fire({
 						icon: 'error',
@@ -124,18 +124,22 @@
 		var node = $("#tree").dynatree("getActiveNode");
 		var path = node.data.key; // 선택 분류 풀 분류
 		var title = node.data.title; // 선택 분류
-		var newtestCaseRouteName = $('#testCaseRouteNameView').val();
+		var newTestCaseRouteName = $('#testCaseRouteNameView').val();
 		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
-		var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
+		var testCaseRouteGroupNum = $('#testCaseRouteGroupNum').val();
+		var testCaseRouteCustomer = $('#testCaseRouteCustomer').val();
+		var testCaseRouteNote = $('#testCaseRouteNote').val();
 		
 		$.ajax({
 			url: "<c:url value='/testCase/updateRoute'/>",
 			type: "POST",
 			data: {
 				"testCaseRouteFullPath": path, 
-				"newTestCaseRouteName": newtestCaseRouteName,
+				"newTestCaseRouteName": newTestCaseRouteName,
 				"testCaseFormKeyNum" : testCaseFormKeyNum,
-				"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+				"testCaseRouteCustomer" : testCaseRouteCustomer,
+				"testCaseRouteNote" : testCaseRouteNote,
+				"testCaseRouteGroupNum" : testCaseRouteGroupNum,
 			},
 			dataType: "json",
 			async: false,
