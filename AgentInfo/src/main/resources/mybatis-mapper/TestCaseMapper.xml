@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.TestCase" id="testCase"></resultMap>
 	
 	<select id="getTestCaseList" resultMap="testCase" parameterType="string">
-		SELECT DISTINCT testCaseFormKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
+		SELECT DISTINCT testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate, testCaseRouteKeyNum
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT DISTINCT testCaseFormKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
+				SELECT DISTINCT testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate, testCaseRouteKeyNum
 				FROM testCaseRoute
 				WHERE testCaseFormName = #{testCaseFormName}
 					<include refid="sqlTestCase" />
@@ -45,16 +45,28 @@
 	</select>
 	
 	<delete id="delTestCaseForm">
-		DELETE FROM testCaseForm WHERE testCaseFormName = #{testCaseFormName};
+		DELETE FROM testCaseForm WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
 	</delete>
 	
 	<update id="updateTestCaseForm">
-		UPDATE testCaseForm SET testCaseFormName = #{testCaseFormName} WHERE testCaseFormName = #{testCaseFormNameOriginal};
+		UPDATE testCaseForm SET testCaseFormName = #{testCaseFormName} WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
 	</update>
 	
 	<select id="getTestCaseFormOne" resultMap="testCase">
 		SELECT * FROM testCaseForm WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
 	</select>
+	
+	<delete id="delTestCaseFormRoute">
+		DELETE FROM testCaseRoute WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</delete>
+	
+	<delete id="delTestCaseFormContents">
+		DELETE FROM testCaseContents WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</delete>
+	
+	<update id="updateTestCaseFormRoute">
+		UPDATE testCaseRoute SET testCaseFormName = #{testCaseFormName} WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</update>
 	
 	
 	<!-- ======================================= -->
@@ -69,9 +81,9 @@
 		ORDER BY testCaseRouteFullPath ASC;
 	</select>
 	
-	<insert id="insertRoute">
-		INSERT INTO testCaseRoute(testCaseFormKeyNum, testCaseFormName,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
-		VALUES(#{testCaseFormKeyNum},#{testCaseFormName},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
+	<insert id="insertRoute" parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
+		INSERT INTO testCaseRoute(testCaseRouteKeyNum,testCaseFormKeyNum,testCaseFormName,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
+		VALUES(#{testCaseRouteKeyNum},#{testCaseFormKeyNum},#{testCaseFormName},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
 	</insert>
 	
 	<select id="getTestCaseRouteFullPath" parameterType="string" resultMap="testCase">
@@ -114,6 +126,10 @@
 		SELECT DISTINCT testCaseFormKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate FROM testcaseroute WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</select>
 	
+	<select id="getMaxTestCaseRouteKeyNum" resultType="_int">
+		SELECT MAX(testCaseRouteKeyNum) FROM testcaseroute;
+	</select>
+	
 	<!-- ======================================= -->
 	
 	<select id="getTestCaseContents" parameterType="_int" resultMap="testCase">
@@ -125,8 +141,8 @@
 	</select>
 	
 	<insert id="testCaseContentsInsert">
-		INSERT INTO testCaseContents(testCaseRouteKeyNum, testCaseContentsRegistrant, testCaseContentsRegistrationDate) 
-		VALUES(#{testCaseRouteKeyNum}, #{testCaseContentsRegistrant}, #{testCaseContentsRegistrationDate});
+		INSERT INTO testCaseContents(testCaseFormKeyNum, testCaseRouteKeyNum, testCaseContentsRegistrant, testCaseContentsRegistrationDate) 
+		VALUES(#{testCaseFormKeyNum}, #{testCaseRouteKeyNum}, #{testCaseContentsRegistrant}, #{testCaseContentsRegistrationDate});
 	</insert>
 	
 	<update id="testCaseContentsUpdate">

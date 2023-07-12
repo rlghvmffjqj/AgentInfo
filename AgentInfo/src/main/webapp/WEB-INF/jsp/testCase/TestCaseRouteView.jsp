@@ -122,11 +122,16 @@
 		var path = node.data.key; // 선택 분류 풀 분류
 		var title = node.data.title; // 선택 분류
 		var newtestCaseRouteName = $('#testCaseRouteNameView').val();
+		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 		
 		$.ajax({
 			url: "<c:url value='/testCase/updateRoute'/>",
 			type: "POST",
-			data: {"testCaseRouteFullPath": path, "newTestCaseRouteName": newtestCaseRouteName},
+			data: {
+				"testCaseRouteFullPath": path, 
+				"newTestCaseRouteName": newtestCaseRouteName,
+				"testCaseFormKeyNum" : testCaseFormKeyNum,
+			},
 			dataType: "json",
 			async: false,
 			success: function(data) {

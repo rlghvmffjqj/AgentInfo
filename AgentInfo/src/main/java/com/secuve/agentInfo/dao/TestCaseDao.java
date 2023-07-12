@@ -120,4 +120,20 @@ public class TestCaseDao {
 		return sqlSession.selectOne("testCase.getTestCaseRouteOne", testCase);
 	}
 
+	public void delTestCaseFormRoute(TestCase testCase) {
+		sqlSession.delete("testCase.delTestCaseFormRoute", testCase);
+	}
+
+	public void delTestCaseFormContents(TestCase testCase) {
+		sqlSession.delete("testCase.delTestCaseFormContents", testCase);		
+	}
+
+	public void updateTestCaseFormRoute(TestCase testCase) {
+		sqlSession.update("testCase.updateTestCaseFormRoute", testCase);
+	}
+
+	public int getMaxTestCaseRouteKeyNum() {
+		return sqlSession.selectOne("testCase.getMaxTestCaseRouteKeyNum");
+	}
+
 }

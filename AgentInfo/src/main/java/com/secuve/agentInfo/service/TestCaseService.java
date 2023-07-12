@@ -47,6 +47,8 @@ public class TestCaseService {
 		int sucess = testCaseDao.delTestCaseForm(testCase);
 		if (sucess <= 0)
 			return "FALSE";
+		testCaseDao.delTestCaseFormRoute(testCase);
+		testCaseDao.delTestCaseFormContents(testCase);
 		return "OK";
 	}
 
@@ -56,6 +58,7 @@ public class TestCaseService {
 		int sucess = testCaseDao.updateTestCaseForm(testCase);
 		if (sucess <= 0)
 			return "FALSE";
+		testCaseDao.updateTestCaseFormRoute(testCase);
 		return "OK";
 	}
 	
@@ -68,6 +71,11 @@ public class TestCaseService {
 	
 	public String insertRoute(TestCase testCase) {
 		int sucess = 0;
+		testCase.setTestCaseRouteKeyNum(0);
+		try {
+			testCase.setTestCaseRouteKeyNum(testCaseDao.getMaxTestCaseRouteKeyNum());
+		} catch (Exception e) {}
+		
 		if(testCase.getTestCaseRouteParentPath().equals("/")) {
 			testCase.setTestCaseRouteFullPath("/"+testCase.getTestCaseRouteName());
 		} else {
@@ -119,8 +127,6 @@ public class TestCaseService {
 				// 경로 테이블 변경
 				testCaseDao.updateRoute(ordTestCaseFullPath, ordTestCase.getTestCaseRouteFullPath(), ordTestCase.getTestCaseRouteParentPath(), ordTestCase.getTestCaseRouteName());
 
-				// 해당 부서의 사원정보 모두 변경
-				//employeeDao.updateDept(ordTestCaseFullPath, ordTestCase.getTestCaseRouteFullPath(), ordTestCase.getTestCaseRouteParentPath(), ordTestCase.getTestCaseRouteName());
 			}
 			
 		} else {

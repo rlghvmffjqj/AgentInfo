@@ -549,6 +549,7 @@
 		function BtnContentsInsert() {
 			var testCaseRouteKeyNum = $('#testCaseRouteKeyNum').val();
 			var testCaseRouteName = $("#testCaseRouteName").val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 			if(testCaseRouteName == "") {
 				Swal.fire({               
 					icon: 'error',          
@@ -563,6 +564,7 @@
 				url: "<c:url value='/testCase/testCaseContentsInsert'/>",
 				data: {
 					"testCaseRouteKeyNum" : testCaseRouteKeyNum,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
 				},
 				async: false,
 				success: function (result) {

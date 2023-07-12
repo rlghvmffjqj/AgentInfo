@@ -26,13 +26,13 @@
 					datatype: 'json',
 					colNames:['key','고객사','비고','날짜'],
 					colModel:[
-						{name:'testCaseFormKeyNum', index:'testCaseFormKeyNum', align:'center', width: 35, hidden:true },
+						{name:'testCaseRouteKeyNum', index:'testCaseRouteKeyNum', align:'center', width: 35, hidden:true },
 						{name:'testCaseRouteCustomer', index:'testCaseRouteCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'testCaseRouteNote', index:'testCaseRouteNote', align:'center', width: 300},
 						{name:'testCaseRouteDate', index:'testCaseRouteDate', align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'testCaseFormKeyNum',
+			        	id: 'testCaseRouteKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
@@ -152,7 +152,7 @@
 												</div>
 		                      					<input type="hidden" id="testCaseRouteCustomer" name="testCaseRouteCustomer" class="form-control">
 		                      					<input type="hidden" id="testCaseRouteNote" name="testCaseRouteNote" class="form-control">
-												<input type="hidden" id="selectTestCaseFormName" name="testCaseFormName" value="TOSMS" class="form-control">
+												<input type="hidden" id="testCaseFormName" name="testCaseFormName" value="TOSMS" class="form-control">
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -182,7 +182,7 @@
 	                     				<div class="ibox">
 	                     				 	<div class="searchbos" id="testCaseFormDiv">
 												<c:forEach var="testCaseForm" items="${testCaseFormList}">
-													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this,'${testCaseForm.testCaseFormKeyNum}')">${testCaseForm.testCaseFormName}</button>
+													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm.testCaseFormName}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this,'${testCaseForm.testCaseFormKeyNum}')">${testCaseForm.testCaseFormName}</button>
 												</c:forEach>
 	                     				 	</div>
 	                     				</div>
@@ -418,12 +418,13 @@
 		function btnTestCaseForm(obj, keyNum) {
 			$('#testCaseFormKeyNum').val(keyNum);
 			var testCaseFormName = $(obj).text();
-			$('#selectTestCaseFormName').val(testCaseFormName);
+			$('#testCaseFormName').val(testCaseFormName);
 			tableRefresh();
 		}
 		
 		$('#BtnDelectForm').click(function() {
-			var testCaseFormName = $('#selectTestCaseFormName').val();
+			var testCaseFormName = $('#testCaseFormName').val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 			if(testCaseFormName==='TOSMS') {
 				Swal.fire({
 					icon: 'error',
@@ -446,7 +447,7 @@
 					    type: 'POST',
 					    url: "<c:url value='/testCase/delTestCaseForm'/>",
 					    async: false,
-						data: { "testCaseFormName":testCaseFormName },
+						data: { "testCaseFormKeyNum":testCaseFormKeyNum },
 					    success: function (result) {
 							if(result == "OK") {
 								Swal.fire({
@@ -472,11 +473,23 @@
 		});	
 
 		$('#BtnUpdateForm').click(function() {
-			var testCaseFormName = $('#selectTestCaseFormName').val();
+			var testCaseFormName = $('#testCaseFormName').val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+			if(testCaseFormName==='TOSMS') {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: 'TOSMS는 수정이 불가능 합니다.',
+				});
+				return false;
+			}
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/testCase/updateFormView'/>",
-				data: {"testCaseFormName":testCaseFormName},
+				data: {
+					"testCaseFormName":testCaseFormName,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
+				},
 			    async: false,
 			    success: function (data) {
 					if(data.indexOf("<!DOCTYPE html>") != -1) 
@@ -497,33 +510,33 @@
 		});
 
 		$('#BtnTestCaseDelete').click(function() {
-			// var chkList = $("#list").getGridParam('selarrrow');
-			// $.ajax({
-			// 	url: "<c:url value='/testCase/delete'/>",
-			// 	type: "POST",
-			// 	data: {chkList: chkList},
-			// 	dataType: "text",
-			// 	traditional: true,
-			// 	async: false,
-			// 	success: function(data) {
-			// 		if(data == "OK")
-			// 			Swal.fire(
-			// 			  '성공!',
-			// 			  '삭제 완료하였습니다.',
-			// 			  'success'
-			// 			)
-			// 		else
-			// 			Swal.fire(
-			// 			  '실패!',
-			// 			  '삭제 실패하였습니다.',
-			// 			  'error'
-			// 			)
-			// 		tableRefresh();
-			// 	},
-			// 	error: function(error) {
-			// 		console.log(error);
-			// 	}
-			// });
+			var chkList = $("#list").getGridParam('selarrrow');
+			$.ajax({
+				url: "<c:url value='/testCase/delete'/>",
+				type: "POST",
+				data: {chkList: chkList},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK")
+						Swal.fire(
+						  '성공!',
+						  '삭제 완료하였습니다.',
+						  'success'
+						)
+					else
+						Swal.fire(
+						  '실패!',
+						  '삭제 실패하였습니다.',
+						  'error'
+						)
+					tableRefresh();
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 
 	</script>

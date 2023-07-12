@@ -13,14 +13,13 @@
     </c:choose>
 </div>
 <div class="modal-body modalBody" style="width: 100%; height: 100px;">
-    <form id="modalForm" name="form" method ="post">
-        <table style="margin:20px">
-            <tbody>
-                <input type="text" id="testCaseFormName" name="testCaseFormName" style="width: 310px; margin-top: 8%;" value="${testCaseFormName}" placeholder="제품 이름" autofocus>
-                <input type="hidden" id="testCaseFormNameOriginal" name="testCaseFormNameOriginal" value="${testCaseFormName}">
-            </tbody>
-        </table>
-    </form>
+    <table style="margin:20px">
+        <tbody>
+            <input type="text" id="testCaseFormNameView" name="testCaseFormNameView" style="width: 310px; margin-top: 8%;" value="${testCase.testCaseFormName}" placeholder="제품 이름" autofocus>
+            <input type="hidden" id="testCaseFormNameOriginal" name="testCaseFormNameOriginal" value="${testCase.testCaseFormName}">
+			<input type="hidden" id="testCaseFormKeyNumView" name="testCaseFormKeyNumView" value="${testCase.testCaseFormKeyNum}">
+        </tbody>
+    </table>
 </div>
 <div class="modal-footer">
     <c:choose>
@@ -48,12 +47,13 @@
 	});
 
     $('#insertFormBtn').click(function() {
-        var postData = $('#modalForm').serializeObject();
-        var testCaseFormName = $('#testCaseFormName').val();
+        var testCaseFormName = $('#testCaseFormNameView').val();
 		$.ajax({
 			url: "<c:url value='/testCase/insertForm'/>",
 	        type: 'post',
-	        data: postData,
+	        data: {
+				"testCaseFormName" : testCaseFormName,
+			},
 	        async: false,
 	        success: function(result) {
 				if(result.result == "OK") {
@@ -65,9 +65,9 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		        	$('#modal').on('hidden.bs.modal', function () {
 		        		var table = $("#testCaseFormDiv");
-			            var rowItem = "<button type='button' class='btn btn-primary formBtn' id='"+testCaseFormName+"' style='box-shadow: 0px 3px 3px grey;' onClick='btnTestCaseForm(this"+result.testCaseFormKeyNum+")'>"+testCaseFormName+"</button>";
+			            var rowItem = "<button type='button' class='btn btn-primary formBtn' id='"+testCaseFormName+"' style='box-shadow: 0px 3px 3px grey;' onClick='btnTestCaseForm(this,"+result.testCaseFormKeyNum+")'>"+testCaseFormName+"</button>";
 			            table.append(rowItem);
-                        $('#selectTestCaseFormName').val(testCaseFormName);
+                        $('#testCaseFormName').val(testCaseFormName);
 		        	});	
                 } else if(result == "Duplication") {
                     Swal.fire({
@@ -90,13 +90,16 @@
 	});
 	
     $('#updateFormBtn').click(function() {
-        var postData = $('#modalForm').serializeObject();
-        var testCaseFormName = $('#testCaseFormName').val();
+        var testCaseFormName = $('#testCaseFormNameView').val();
         var testCaseFormNameOriginal = $('#testCaseFormNameOriginal').val();
+		var testCaseFormKeyNum = $('#testCaseFormKeyNumView').val();
         $.ajax({
 			url: "<c:url value='/testCase/updateForm'/>",
 	        type: 'post',
-	        data: postData,
+	        data: {
+				"testCaseFormName" : testCaseFormName,
+				"testCaseFormKeyNum" : testCaseFormKeyNum,
+			},
 	        async: false,
 	        success: function(result) {
 				if(result == "OK") {
@@ -107,7 +110,7 @@
 					});
 					$('#modal').modal("hide"); // 모달 닫기
 		        	$('#modal').on('hidden.bs.modal', function () {
-                        $('#selectTestCaseFormName').val(testCaseFormName);
+                        $('#testCaseFormName').val(testCaseFormName);
                         $('#'+testCaseFormNameOriginal).text(testCaseFormName);
                         $("#"+testCaseFormNameOriginal).attr("id", testCaseFormName);
 		        	});	

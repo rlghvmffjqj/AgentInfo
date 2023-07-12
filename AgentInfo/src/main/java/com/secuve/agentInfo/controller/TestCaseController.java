@@ -93,9 +93,9 @@ public class TestCaseController {
 	}
 	
 	@PostMapping(value = "/testCase/updateFormView")
-	public String updateFormView(String testCaseFormName, Model model) {
+	public String updateFormView(TestCase testCase, Model model) {
 		model.addAttribute("viewType", "update");
-		model.addAttribute("testCaseFormName", testCaseFormName);
+		model.addAttribute("testCase", testCase);
 		return "/testCase/TestCaseFormView";
 	}
 	
