@@ -78,7 +78,7 @@
 		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
 		AND testCaseRouteNote = #{testCaseRouteNote}
 		AND testCaseFormKeyNum = #{testCaseFormKeyNum}
-		ORDER BY testCaseRouteFullPath ASC;
+		ORDER BY testCaseRouteKeyNum ASC;
 	</select>
 	
 	<insert id="insertRoute">

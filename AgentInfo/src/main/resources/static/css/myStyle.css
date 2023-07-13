@@ -1070,3 +1070,6 @@ input:focus+.labl::before{
     font-size: 14px;
 }
 
+.col-lg-2 {
+	max-width: 16.66%;
+}

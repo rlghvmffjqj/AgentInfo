@@ -68,7 +68,7 @@
 												</c:if>
 			                     			</div>
 											<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control" value="${testCase.testCaseFormKeyNum}">
-											<input type="hidden" id="testCaseRouteGroupNum" name="testCaseRouteGroupNum" class="form-control" value="0">
+											<input type="hidden" id="testCaseRouteGroupNum" name="testCaseRouteGroupNum" class="form-control" value="${testCase.testCaseRouteGroupNum}">
 											<input type="hidden" id="testCaseRouteKeyNum" name="testCaseRouteKeyNum" class="form-control">
 											<input type="hidden" id="testCaseRouteName" name="testCaseRouteName" class="form-control">
 											<input type="hidden" id="testCaseRouteFullPath" name="testCaseRouteFullPath" class="form-control">

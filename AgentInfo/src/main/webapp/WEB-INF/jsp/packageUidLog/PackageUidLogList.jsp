@@ -96,9 +96,9 @@
 		                      						<div style="padding-left:15px; width:100%; float: left;">
 		                      							<label class="labelFontSize">시간</label>
 		                      							<div>
-															<input class="form-control" style="width: 18.3%; float: left;" type="date" id="uidDateStart" name="uidDateStart" max="9999-12-31">
+															<input class="form-control" style="width: 14.9%; float: left;" type="date" id="uidDateStart" name="uidDateStart" max="9999-12-31">
 															<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-															<input class="form-control" style="width: 18.3%; float: left;" type="date" id="uidDateEnd" name="uidDateEnd" max="9999-12-31">
+															<input class="form-control" style="width: 14.9%; float: left;" type="date" id="uidDateEnd" name="uidDateEnd" max="9999-12-31">
 														</div>
 														<div style="padding-left: 50px; float: left;">
 															<div class="form-check radioDate">

@@ -99,9 +99,9 @@
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">날짜</label>
 	                      							<div>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="testCaseDateStart" name="testCaseDateStart" max="9999-12-31">
+														<input class="form-control" style="width: 14.9%; float: left;" type="date" id="testCaseDateStart" name="testCaseDateStart" max="9999-12-31">
 														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="testCaseDateEnd" name="testCaseDateEnd" max="9999-12-31">
+														<input class="form-control" style="width: 14.9%; float: left;" type="date" id="testCaseDateEnd" name="testCaseDateEnd" max="9999-12-31">
 													</div>
 													<div style="padding-left: 50px; float: left;">
 														<div class="form-check radioDate">
@@ -228,6 +228,7 @@
 	    </div>
 		<form id="testCaseUpdateView" action="<c:url value='/testCase/updateTestCaseView'/>" method="POST">
 			<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control">
+			<input type="hidden" id="testCaseRouteGroupNum" name="testCaseRouteGroupNum" class="form-control">
 			<input type="hidden" id="testCaseRouteCustomerView" name="testCaseRouteCustomerView">
 			<input type="hidden" id="testCaseRouteNoteView" name="testCaseRouteNoteView">
 		</form>
@@ -280,7 +281,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.testCaseRouteCustomer+"'"+','+"'"+rowdata.testCaseRouteNote+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.testCaseRouteCustomer+"'"+','+"'"+rowdata.testCaseRouteNote+"'"+','+"'"+rowdata.testCaseRouteGroupNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 		
 		
@@ -366,9 +367,10 @@
 		
 		
 		/* =========== 테스트 케이스 수정 Modal ========= */
-		function updateView(testCaseRouteCustomer, testCaseRouteNote) {
+		function updateView(testCaseRouteCustomer, testCaseRouteNote, testCaseRouteGroupNum) {
 			$('#testCaseRouteCustomerView').val(testCaseRouteCustomer);
 			$('#testCaseRouteNoteView').val(testCaseRouteNote);
+			$('#testCaseRouteGroupNum').val(testCaseRouteGroupNum);
 			$("#testCaseUpdateView").submit();
 		}
 		
