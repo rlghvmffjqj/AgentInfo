@@ -669,9 +669,4 @@
 			});
 		});
 	</script>
-	<style>
-		.col-lg-2 {
-			max-width: 16.66%;
-		}
-	</style>
 </html>
