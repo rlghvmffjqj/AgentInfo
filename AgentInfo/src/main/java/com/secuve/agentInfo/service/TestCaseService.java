@@ -243,5 +243,24 @@ public class TestCaseService {
 		return testCaseDao.getTestCaseRouteOne(testCase);
 	}
 
+	public String testCaseCopy(TestCase testCase) {
+		int count = testCaseDao.testCaseConfirmed(testCase);
+		if(count > 0) {
+			return "Duplication";
+		}
+		int maxRouteGroutNum = testCaseDao.getMaxTestCaseRouteGroupNum()+1;
+		List<TestCase> routeList = testCaseDao.getTestCaseRouteList(testCase);
+		for(TestCase testCaseRoute : routeList) {
+			testCaseRoute.setTestCaseRouteGroupNum(maxRouteGroutNum);
+			testCaseRoute.setTestCaseRouteCustomer(testCase.getTestCaseRouteCustomer());
+			testCaseRoute.setTestCaseRouteNote(testCase.getTestCaseRouteNote());
+			testCaseDao.insertRoute(testCaseRoute);
+			testCase = testCaseDao.getTestCaseContents(testCaseRoute.getTestCaseRouteKeyNum());
+			testCase.setTestCaseRouteKeyNum(testCaseRoute.getTestCaseRouteKeyNum());
+			testCaseDao.testCaseContentsInsert(testCase);
+		}
+		return "OK";
+	}
+
 	
 }

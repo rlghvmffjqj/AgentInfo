@@ -100,7 +100,7 @@
 		                                				<input class="form-control" type="text" id="issueWas" name="issueWas" placeholder='WAS'>
 		                                			</div>
 		                                		</div>
-		                                		<div class="searchbos">
+		                                		<div class="searchbos issueStyle">
 			                                		<div class="plus">
 				                                		<div class="issue">
 				                                			<div style="margin-bottom: 5px;">
@@ -363,4 +363,11 @@
 			}
 		});
 	</script>
+	<style>
+		.issueStyle {
+			background: #fdf4e2;
+    		font-weight: bold;
+    		font-family: math;
+		}
+	</style>
 </html>

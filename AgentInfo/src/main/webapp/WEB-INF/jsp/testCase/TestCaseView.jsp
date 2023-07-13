@@ -195,7 +195,20 @@
 		/* =========== Tree 시작 ========= */
 		$(document).ready(function() {
 			createTree();
+			remakeIcon();
 		});
+
+		$('#tree').click(function() {
+			setTimeout(function() {
+				remakeIcon();
+			}, 0);
+		});
+
+		function remakeIcon() {
+			$('.dynatree-icon').addClass('dynatree-icon-remake');
+			$('.dynatree-icon').removeClass('dynatree-icon');
+			$('.dynatree-icon-remake').text('●');
+		}
 
 		/* =========== 트리 컨트롤러 생성 ========= */
 		function createTree()
@@ -316,7 +329,6 @@
 					console.log(e);
 				}
 			});
-
 		}
 
 		/* =========== 분류 추가 ========= */
@@ -469,6 +481,8 @@
 	</script>
 
 	<script>
+		
+
 		$('#btnTestCaseConfirmed').click(function() {
 			var testCaseRouteCustomer = $('#testCaseRouteCustomer').val();
 			var testCaseRouteNote = $('#testCaseRouteNote').val();
@@ -801,6 +815,10 @@
 			padding-top: 10px;
     		padding-bottom: 10px;
     		text-align: right;
+		}
+
+		ul.dynatree-container li {
+			padding: 5% !important;
 		}
 	</style>
 </html>

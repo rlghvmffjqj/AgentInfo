@@ -110,6 +110,18 @@ public class TestCaseController {
 	
 	/* ==================================================================== */
 	
+	@PostMapping(value = "/testCase/updateCopyView")
+	public String updateCopyView(@RequestParam int[] chkList, Model model) {
+		model.addAttribute("testCaseRouteGroupNum", chkList[0]);
+		return "/testCase/TestCaseCopyView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/testCase/copy")
+	public String testCaseCopy(TestCase testCase) {
+		return testCaseService.testCaseCopy(testCase);
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/testCase/routeList")
 	public Object routeList(TestCase testCase) {

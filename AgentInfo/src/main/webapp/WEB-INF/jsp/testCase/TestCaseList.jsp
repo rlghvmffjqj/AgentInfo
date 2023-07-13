@@ -511,6 +511,42 @@
 			location.href="<c:url value='/testCase/insertTestCaseView'/>?testCaseFormKeyNum="+testCaseFormKeyNum;
 		});
 
+		$('#BtnTestCaseCopy').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+						
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+				return false;
+			} else if(chkList.length > 1) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '한 행만 선택 가능합니다.',    
+				});
+				return false;
+			}
+
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/testCase/updateCopyView'/>",
+			    async: false,
+				traditional: true,
+				data: {chkList: chkList},
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'testCaseForm'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		});
+
 		$('#BtnTestCaseDelete').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList == 0) {

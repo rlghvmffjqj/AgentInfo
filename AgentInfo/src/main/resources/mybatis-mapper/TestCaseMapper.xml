@@ -81,7 +81,7 @@
 		ORDER BY testCaseRouteKeyNum ASC;
 	</select>
 	
-	<insert id="insertRoute">
+	<insert id="insertRoute"  parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
 		INSERT INTO testCaseRoute(testCaseRouteGroupNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
 		VALUES(#{testCaseRouteGroupNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
 	</insert>
@@ -141,6 +141,10 @@
 	<delete id="deleteTestCaseRouteContents" parameterType="_int">
 		DELETE FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</delete>
+	
+	<select id="getTestCaseRouteList" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
+	</select>
 	
 	
 	<!-- ======================================= -->

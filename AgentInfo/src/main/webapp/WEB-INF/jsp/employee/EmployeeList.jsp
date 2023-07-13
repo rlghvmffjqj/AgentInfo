@@ -132,7 +132,7 @@
 															<option value="본부장">본부장</option>
 															<option value="대표">대표</option>
 														</select>
-		                      						</div><br>
+		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">상태</label>
 		                      							<select class="form-control selectpicker" id="employeeStatus" name="employeeStatus" data-live-search="true" data-size="5">

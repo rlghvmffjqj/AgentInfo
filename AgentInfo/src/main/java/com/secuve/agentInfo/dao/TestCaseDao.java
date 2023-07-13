@@ -149,4 +149,8 @@ public class TestCaseDao {
 		return sqlSession.selectList("testCase.getTestCaseRouteKeyNum", testCaseRouteGroupNum);
 	}
 
+	public List<TestCase> getTestCaseRouteList(TestCase testCase) {
+		return sqlSession.selectList("testCase.getTestCaseRouteList", testCase);
+	}
+
 }
