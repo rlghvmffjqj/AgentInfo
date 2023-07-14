@@ -118,8 +118,8 @@ public class TestCaseController {
 	
 	@ResponseBody
 	@PostMapping(value = "/testCase/copy")
-	public String testCaseCopy(TestCase testCase) {
-		return testCaseService.testCaseCopy(testCase);
+	public String testCaseCopy(TestCase testCase, Principal principal) {
+		return testCaseService.testCaseCopy(testCase, principal);
 	}
 	
 	@ResponseBody

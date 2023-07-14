@@ -153,4 +153,8 @@ public class TestCaseDao {
 		return sqlSession.selectList("testCase.getTestCaseRouteList", testCase);
 	}
 
+	public void testCaseContentsCopyInsert(TestCase testCaseContents) {
+		sqlSession.insert("testCase.testCaseContentsCopyInsert", testCaseContents);
+	}
+
 }

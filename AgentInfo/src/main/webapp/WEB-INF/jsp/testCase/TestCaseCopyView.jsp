@@ -37,44 +37,75 @@
         var testCaseRouteCustomer = $('#testCaseRouteCustomerView').val();
 		var testCaseRouteNote = $('#testCaseRouteNoteView').val();
 		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
-        $.ajax({
-			url: "<c:url value='/testCase/copy'/>",
-	        type: 'post',
-	        data: {
-				"testCaseRouteGroupNum" : testCaseRouteGroupNum,
-				"testCaseRouteCustomer" : testCaseRouteCustomer,
-				"testCaseRouteNote" : testCaseRouteNote,
-				"testCaseFormKeyNum" : testCaseFormKeyNum,
-			},
-	        async: false,
-	        success: function(result) {
-				if(result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					$('#modal').modal("hide"); // 모달 닫기
-		        	$('#modal').on('hidden.bs.modal', function () {
-                        tableRefresh();
-		        	});	
-                } else if(result == "Duplication") {
-                    Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '동일한 고객사 및 비고가 존재합니다.',
-					});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '작업을 실패하였습니다.',
-					});
-				}
-			},
-			error: function(error) {
-				console.log(error);
+
+		if(testCaseRouteCustomer == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '고객사를 입력해주세요.',
+			});
+			return false;
+		}
+
+		if(testCaseRouteNote == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '비고를 입력해주세요.',
+			});
+			return false;
+		}
+
+		Swal.fire({
+			  title: '복사!',
+			  text: "복사 이후 고객사 및 비고를 변동 할 수 없습니다. 계속 진행하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#7066e0',
+			  cancelButtonColor: '#FF99AB',
+			  confirmButtonText: 'OK'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+        		$.ajax({
+					url: "<c:url value='/testCase/copy'/>",
+	    		    type: 'post',
+	    		    data: {
+						"testCaseRouteGroupNum" : testCaseRouteGroupNum,
+						"testCaseRouteCustomer" : testCaseRouteCustomer,
+						"testCaseRouteNote" : testCaseRouteNote,
+						"testCaseFormKeyNum" : testCaseFormKeyNum,
+					},
+	    		    async: false,
+	    		    success: function(result) {
+						if(result == "OK") {
+							Swal.fire({
+								icon: 'success',
+								title: '성공!',
+								text: '작업을 완료했습니다.',
+							});
+							$('#modal').modal("hide"); // 모달 닫기
+				        	$('#modal').on('hidden.bs.modal', function () {
+        		                tableRefresh();
+				        	});	
+        		        } else if(result == "Duplication") {
+        		            Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '동일한 고객사 및 비고가 존재합니다.',
+							});
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '작업을 실패하였습니다.',
+							});
+						}
+					},
+					error: function(error) {
+						console.log(error);
+					}
+	    		});
 			}
-	    });
+		});
     });
 </script>

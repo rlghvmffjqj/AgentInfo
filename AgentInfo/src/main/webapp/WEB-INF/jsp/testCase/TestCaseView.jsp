@@ -418,6 +418,7 @@
 									text: '작업을 완료했습니다.',
 								});
 								reloadParent();
+								remakeIcon();
 							} else if(data.result == "SubRoute") {
 								Swal.fire({
 									icon: 'error',
@@ -481,8 +482,6 @@
 	</script>
 
 	<script>
-		
-
 		$('#btnTestCaseConfirmed').click(function() {
 			var testCaseRouteCustomer = $('#testCaseRouteCustomer').val();
 			var testCaseRouteNote = $('#testCaseRouteNote').val();

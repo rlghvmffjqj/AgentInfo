@@ -91,6 +91,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 					$('#modal').on('hidden.bs.modal', function () {
 						reloadView();
+						remakeIcon();
 					});
 					$('#testCaseRouteGroupNum').val(data.testCaseRouteGroupNum);
 				} else if(data.result == "Overlap") {
@@ -153,6 +154,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 					$('#modal').on('hidden.bs.modal', function () {
 						reloadParent();
+						remakeIcon();
 					});
 				} else if(data.result == "Overlap") {
 					Swal.fire({

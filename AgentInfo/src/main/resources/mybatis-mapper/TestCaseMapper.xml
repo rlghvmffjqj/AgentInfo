@@ -82,8 +82,8 @@
 	</select>
 	
 	<insert id="insertRoute"  parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
-		INSERT INTO testCaseRoute(testCaseRouteGroupNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
-		VALUES(#{testCaseRouteGroupNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
+		INSERT INTO testCaseRoute(testCaseRouteGroupNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteDate,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
+		VALUES(#{testCaseRouteGroupNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteDate},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
 	</insert>
 	
 	<select id="getTestCaseRouteFullPath" resultMap="testCase">
@@ -170,6 +170,11 @@
 	<delete id="testCaseContentsDelete" parameterType="_int">
 		DELETE FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</delete>
+	
+	<insert id="testCaseContentsCopyInsert">
+		INSERT INTO testCaseContents(testCaseFormKeyNum,testCaseRouteKeyNum,testCaseContentsMainMenu,testCaseContentsMediumMenu,testCaseContentsSmallMenu,testCaseContentsTcCode,testCaseContentsClassificationCode,testCaseContentsPurpose,testCaseContentsPreparation,testCaseContentsItem,testCaseContentsProcedure,testCaseContentsExpectedResult,testCaseContentsTestResult,testCaseContentsResultCode,testCaseContentsInfluence,testCaseContentsManager,testCaseContentsError,testCaseContentsNote,testCaseContentsRegistrant,testCaseContentsRegistrationDate)
+		VALUES(#{testCaseFormKeyNum},#{testCaseRouteKeyNum},#{testCaseContentsMainMenu},#{testCaseContentsMediumMenu},#{testCaseContentsSmallMenu},#{testCaseContentsTcCode},#{testCaseContentsClassificationCode},#{testCaseContentsPurpose},#{testCaseContentsPreparation},#{testCaseContentsItem},#{testCaseContentsProcedure},#{testCaseContentsExpectedResult},#{testCaseContentsTestResult},#{testCaseContentsResultCode},#{testCaseContentsInfluence},#{testCaseContentsManager},#{testCaseContentsError},#{testCaseContentsNote},#{testCaseContentsRegistrant},#{testCaseContentsRegistrationDate});
+	</insert>
 	
 	<!-- ==================================================================================== -->
 	

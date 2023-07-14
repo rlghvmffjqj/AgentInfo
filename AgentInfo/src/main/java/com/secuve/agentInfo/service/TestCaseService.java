@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.service;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -243,21 +244,34 @@ public class TestCaseService {
 		return testCaseDao.getTestCaseRouteOne(testCase);
 	}
 
-	public String testCaseCopy(TestCase testCase) {
+	public String testCaseCopy(TestCase testCase, Principal principal) {
 		int count = testCaseDao.testCaseConfirmed(testCase);
 		if(count > 0) {
 			return "Duplication";
 		}
 		int maxRouteGroutNum = testCaseDao.getMaxTestCaseRouteGroupNum()+1;
-		List<TestCase> routeList = testCaseDao.getTestCaseRouteList(testCase);
-		for(TestCase testCaseRoute : routeList) {
+		List<TestCase> testCaseRouteList = new ArrayList<TestCase>();
+		TestCase testCaseContents = new TestCase();
+		testCaseRouteList = testCaseDao.getTestCaseRouteList(testCase);
+		testCaseContents = testCase;
+		int testCaseRouteKeyNum;
+		for(TestCase testCaseRoute : testCaseRouteList) {
 			testCaseRoute.setTestCaseRouteGroupNum(maxRouteGroutNum);
 			testCaseRoute.setTestCaseRouteCustomer(testCase.getTestCaseRouteCustomer());
 			testCaseRoute.setTestCaseRouteNote(testCase.getTestCaseRouteNote());
+			testCaseRoute.setTestCaseRouteDate(nowDate());
+			testCaseRoute.setTestCaseRouteRegistrant(principal.getName());
+			testCaseRoute.setTestCaseRouteRegistrationDate(nowDate());
+			testCaseRouteKeyNum = testCaseRoute.getTestCaseRouteKeyNum();
 			testCaseDao.insertRoute(testCaseRoute);
-			testCase = testCaseDao.getTestCaseContents(testCaseRoute.getTestCaseRouteKeyNum());
-			testCase.setTestCaseRouteKeyNum(testCaseRoute.getTestCaseRouteKeyNum());
-			testCaseDao.testCaseContentsInsert(testCase);
+			try {
+				testCaseContents = testCaseDao.getTestCaseContents(testCaseRouteKeyNum);
+				testCaseContents.setTestCaseRouteKeyNum(testCaseRoute.getTestCaseRouteKeyNum());
+				testCaseContents.setTestCaseContentsRegistrant(principal.getName());
+				testCaseContents.setTestCaseContentsRegistrationDate(nowDate());
+				testCaseDao.testCaseContentsCopyInsert(testCaseContents);
+			} catch (Exception e) {
+			}
 		}
 		return "OK";
 	}
