@@ -265,6 +265,7 @@ public class TestCaseService {
 			testCaseRoute.setTestCaseRouteRegistrationDate(nowDate());
 			testCaseRouteKeyNum = testCaseRoute.getTestCaseRouteKeyNum();
 			testCaseDao.insertRoute(testCaseRoute);
+			testCaseDao.updateRouteSortNum(testCaseRoute.getTestCaseRouteKeyNum());
 			try {
 				testCaseContents = testCaseDao.getTestCaseContents(testCaseRouteKeyNum);
 				testCaseContents.setTestCaseRouteKeyNum(testCaseRoute.getTestCaseRouteKeyNum());
@@ -280,9 +281,13 @@ public class TestCaseService {
 	public void testCaseRouteMove(TestCase testCase) {
 		if(testCase.getHitMode().equals("before")) {			
 			testCaseDao.testCaseRouteMovePlus(testCase.getEndTestCaseRouteSortNum() - 1);
+			if(testCase.getStartTestCaseRouteSortNum() > testCase.getEndTestCaseRouteSortNum())
+				testCase.setStartTestCaseRouteSortNum(testCase.getStartTestCaseRouteSortNum() + 1);
 			testCaseDao.testCaseRouteMove(testCase);
 		} else if(testCase.getHitMode().equals("after")) {
 			testCaseDao.testCaseRouteMovePlus(testCase.getEndTestCaseRouteSortNum());
+			if(testCase.getStartTestCaseRouteSortNum() > testCase.getEndTestCaseRouteSortNum()) 
+				testCase.setStartTestCaseRouteSortNum(testCase.getStartTestCaseRouteSortNum() + 1);
 			testCase.setEndTestCaseRouteSortNum(testCase.getEndTestCaseRouteSortNum() + 1);
 			testCaseDao.testCaseRouteMove(testCase);
 		}
