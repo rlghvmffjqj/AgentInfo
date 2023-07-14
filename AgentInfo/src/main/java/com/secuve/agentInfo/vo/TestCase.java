@@ -19,6 +19,7 @@ public class TestCase {
 	private String testCaseFormModifiedDate;
 	
 	private int testCaseRouteKeyNum;
+	private int testCaseRouteSortNum;
 	private int testCaseRouteGroupNum;
 	private String testCaseRouteCustomer;
 	private String testCaseRouteNote;
@@ -69,4 +70,9 @@ public class TestCase {
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="testCaseRouteDate";		// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
+	
+	
+	private int startTestCaseRouteSortNum;
+	private int endTestCaseRouteSortNum;
+	private String hitMode;
 }

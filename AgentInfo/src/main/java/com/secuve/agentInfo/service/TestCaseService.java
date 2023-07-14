@@ -91,6 +91,7 @@ public class TestCaseService {
 		}
 		if(overlap == null) {
 			sucess = testCaseDao.insertRoute(testCase);
+			testCaseDao.updateRouteSortNum(testCase.getTestCaseRouteKeyNum());
 			testCaseDao.updateRouteDate(testCase);
 		} else {
 			return "Overlap";
@@ -274,6 +275,18 @@ public class TestCaseService {
 			}
 		}
 		return "OK";
+	}
+
+	public void testCaseRouteMove(TestCase testCase) {
+		if(testCase.getHitMode().equals("before")) {			
+			testCaseDao.testCaseRouteMovePlus(testCase.getEndTestCaseRouteSortNum() - 1);
+			testCaseDao.testCaseRouteMove(testCase);
+		} else if(testCase.getHitMode().equals("after")) {
+			testCaseDao.testCaseRouteMovePlus(testCase.getEndTestCaseRouteSortNum());
+			testCase.setEndTestCaseRouteSortNum(testCase.getEndTestCaseRouteSortNum() + 1);
+			testCaseDao.testCaseRouteMove(testCase);
+		}
+		
 	}
 
 	

@@ -29,8 +29,6 @@
 		SELECT DISTINCT ${searchValue} FROM testCaseRoute;
 	</select>
 	
-	<!-- ======================================= -->
-	
 	<select id="getTestCaseForm" resultMap="testCase">
 		SELECT * FROM testCaseForm;
 	</select>
@@ -68,8 +66,13 @@
 		SELECT * FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
 	</select>
 	
+	<update id="testCaseRouteMovePlus">
+		UPDATE testCaseRoute SET testCaseRouteSortNum = testCaseRouteSortNum + 1 WHERE testCaseRouteSortNum > #{endTestCaseRouteSortNum};
+	</update>
 	
-	<!-- ======================================= -->
+	<update id="testCaseRouteMove">
+		UPDATE testCaseRoute SET testCaseRouteSortNum = #{endTestCaseRouteSortNum} WHERE testCaseRouteSortNum = #{startTestCaseRouteSortNum};
+	</update>
 	
 	<select id="getRouteList" resultMap="testCase">
 		SELECT *
@@ -78,7 +81,7 @@
 		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
 		AND testCaseRouteNote = #{testCaseRouteNote}
 		AND testCaseFormKeyNum = #{testCaseFormKeyNum}
-		ORDER BY testCaseRouteKeyNum ASC;
+		ORDER BY testCaseRouteSortNum ASC;
 	</select>
 	
 	<insert id="insertRoute"  parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
@@ -146,9 +149,6 @@
 		SELECT * FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
 	</select>
 	
-	
-	<!-- ======================================= -->
-	
 	<select id="getTestCaseContents" parameterType="_int" resultMap="testCase">
 		SELECT * FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</select>
@@ -175,6 +175,10 @@
 		INSERT INTO testCaseContents(testCaseFormKeyNum,testCaseRouteKeyNum,testCaseContentsMainMenu,testCaseContentsMediumMenu,testCaseContentsSmallMenu,testCaseContentsTcCode,testCaseContentsClassificationCode,testCaseContentsPurpose,testCaseContentsPreparation,testCaseContentsItem,testCaseContentsProcedure,testCaseContentsExpectedResult,testCaseContentsTestResult,testCaseContentsResultCode,testCaseContentsInfluence,testCaseContentsManager,testCaseContentsError,testCaseContentsNote,testCaseContentsRegistrant,testCaseContentsRegistrationDate)
 		VALUES(#{testCaseFormKeyNum},#{testCaseRouteKeyNum},#{testCaseContentsMainMenu},#{testCaseContentsMediumMenu},#{testCaseContentsSmallMenu},#{testCaseContentsTcCode},#{testCaseContentsClassificationCode},#{testCaseContentsPurpose},#{testCaseContentsPreparation},#{testCaseContentsItem},#{testCaseContentsProcedure},#{testCaseContentsExpectedResult},#{testCaseContentsTestResult},#{testCaseContentsResultCode},#{testCaseContentsInfluence},#{testCaseContentsManager},#{testCaseContentsError},#{testCaseContentsNote},#{testCaseContentsRegistrant},#{testCaseContentsRegistrationDate});
 	</insert>
+	
+	<update id="updateRouteSortNum">
+		UPDATE testCaseRoute SET testCaseRouteSortNum = #{testCaseRouteKeyNum} WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</update>
 	
 	<!-- ==================================================================================== -->
 	

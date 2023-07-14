@@ -184,6 +184,13 @@ public class TestCaseController {
 		return testCaseService.testCaseConfirmed(testCase);
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/testCase/testCaseRouteMove")
+	public String testCaseRouteMove(TestCase testCase) {	
+		testCaseService.testCaseRouteMove(testCase);
+		return "OK";
+	}
+	
 	/* ==================================================================== */
 	
 	@ResponseBody

@@ -4,8 +4,8 @@
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<!-- dynatree -->
-		<script type="text/javascript" src="<c:url value='/js/dynatree/jquery.dynatree.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/skin-vista/ui.dynatree.css'/>">
+		<script type="text/javascript" src="<c:url value='/js/dynatree/src/jquery.dynatree.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/src/skin-vista/ui.dynatree.css'/>">
 
 		<!-- SummerNote -->
 		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
@@ -213,6 +213,7 @@
 		/* =========== 트리 컨트롤러 생성 ========= */
 		function createTree()
 		{
+			var startTestCaseRouteSortNum;
 			$("#tree").dynatree({
 				onActivate: function(node) {
 					var path = node.data.key;
@@ -222,7 +223,41 @@
 					if(flag) {
 						$('#tree').dynatree('getTree').activateKey(node.data.key);
 					}
-				}
+				},
+				dnd: {
+					autoExpandMS: 1000,
+    				preventVoidMoves: true, 
+      				onDragStart: function(node) {			
+						startTestCaseRouteSortNum = node.data.SortNum;
+      					return true;
+      				},
+      				onDragEnter: function(node, sourceNode) {
+      					if(node.parent !== sourceNode.parent){
+      						return false;
+      					}
+      					return ["before", "after"];
+      				},
+      				onDrop: function(node, sourceNode, hitMode, ui, draggable) {
+		   				sourceNode.move(node, hitMode);
+						$.ajax({
+							type: 'POST',
+							url: "<c:url value='/testCase/testCaseRouteMove'/>",
+							data: {
+								"startTestCaseRouteSortNum" : startTestCaseRouteSortNum,
+								"endTestCaseRouteSortNum" : node.data.SortNum,
+								"hitMode" : hitMode,
+							},
+							async: false,
+							success: function (result) {
+								
+							},
+							error: function(e) {
+								console.log(e);
+							}
+						});
+						remakeIcon();
+      				}
+    			}
 			});
 		
 			var root = $("#tree").dynatree("getRoot");
@@ -279,6 +314,7 @@
 								tooltip : data[i].testCaseRouteName,
 								key : data[i].testCaseRouteFullPath,
 								KeyNum : data[i].testCaseRouteKeyNum,
+								SortNum : data[i].testCaseRouteSortNum,
 								children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
 								isFolder : true
 							});
@@ -818,6 +854,7 @@
 
 		ul.dynatree-container li {
 			padding: 5% !important;
+			font-size: 16px !important;
 		}
 	</style>
 </html>

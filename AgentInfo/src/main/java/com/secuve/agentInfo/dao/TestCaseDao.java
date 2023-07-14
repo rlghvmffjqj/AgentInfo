@@ -157,4 +157,16 @@ public class TestCaseDao {
 		sqlSession.insert("testCase.testCaseContentsCopyInsert", testCaseContents);
 	}
 
+	public void testCaseRouteMovePlus(int endTestCaseRouteKeyNum) {
+		sqlSession.update("testCase.testCaseRouteMovePlus", endTestCaseRouteKeyNum);
+	}
+
+	public void testCaseRouteMove(TestCase testCase) {
+		sqlSession.update("testCase.testCaseRouteMove", testCase);
+	}
+
+	public void updateRouteSortNum(int testCaseRouteKeyNum) {
+		sqlSession.update("testCase.updateRouteSortNum", testCaseRouteKeyNum);
+	}
+
 }
