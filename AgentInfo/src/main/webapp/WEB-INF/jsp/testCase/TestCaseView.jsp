@@ -214,6 +214,9 @@
 		function createTree()
 		{
 			var startTestCaseRouteSortNum;
+			var startTestCaseRouteFullPath;
+			var startTestCaseRouteParentPath;
+			var testCaseRouteName;
 			$("#tree").dynatree({
 				onActivate: function(node) {
 					var path = node.data.key;
@@ -227,29 +230,48 @@
 				dnd: {
 					autoExpandMS: 1000,
     				preventVoidMoves: true, 
-      				onDragStart: function(node) {			
-						startTestCaseRouteSortNum = node.data.SortNum;
+      				onDragStart: function(node) {
+						console.log(node);		
+						startTestCaseRouteSortNum = node.data.sortNum;
+						startTestCaseRouteFullPath = node.data.key;
+						startTestCaseRouteParentPath = node.data.parentPath;
+						testCaseRouteName = node.data.title;
       					return true;
       				},
+					autoExpandMS: 1000,
+      				preventVoidMoves: true,
       				onDragEnter: function(node, sourceNode) {
-      					if(node.parent !== sourceNode.parent){
-      						return false;
-      					}
-      					return ["before", "after"];
+      					// if(node.parent !== sourceNode.parent){
+      					// 	return false;
+      					// }
+      					// return ["before", "after"];
+						return true;
       				},
       				onDrop: function(node, sourceNode, hitMode, ui, draggable) {
-		   				sourceNode.move(node, hitMode);
 						$.ajax({
 							type: 'POST',
 							url: "<c:url value='/testCase/testCaseRouteMove'/>",
 							data: {
 								"startTestCaseRouteSortNum" : startTestCaseRouteSortNum,
-								"endTestCaseRouteSortNum" : node.data.SortNum,
+								"endTestCaseRouteSortNum" : node.data.sortNum,
 								"hitMode" : hitMode,
+								"testCaseRouteFullPath" : node.data.key,
+								"testCaseRouteName" : testCaseRouteName,
+								"testCaseRouteParentPath" : node.data.parentPath,
+								"startTestCaseRouteFullPath" : startTestCaseRouteFullPath,
+								"startTestCaseRouteParentPath" : startTestCaseRouteParentPath,
 							},
 							async: false,
 							success: function (result) {
-								
+								if(result === "RouteFALSE") {
+									Swal.fire({
+										icon: 'error',
+										title: '실패!',
+										text: '/ 경로 위치로 이동이 불가능합니다.',
+									});
+								} else {
+									sourceNode.move(node, hitMode);
+								}
 							},
 							error: function(e) {
 								console.log(e);
@@ -314,7 +336,8 @@
 								tooltip : data[i].testCaseRouteName,
 								key : data[i].testCaseRouteFullPath,
 								KeyNum : data[i].testCaseRouteKeyNum,
-								SortNum : data[i].testCaseRouteSortNum,
+								sortNum : data[i].testCaseRouteSortNum,
+								parentPath : data[i].testCaseRouteParentPath,
 								children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
 								isFolder : true
 							});

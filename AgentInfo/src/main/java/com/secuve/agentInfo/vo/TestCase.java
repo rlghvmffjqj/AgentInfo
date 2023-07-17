@@ -75,4 +75,6 @@ public class TestCase {
 	private int startTestCaseRouteSortNum;
 	private int endTestCaseRouteSortNum;
 	private String hitMode;
+	private String startTestCaseRouteFullPath;
+	private String startTestCaseRouteParentPath;
 }

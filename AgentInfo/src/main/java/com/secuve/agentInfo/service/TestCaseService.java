@@ -3,6 +3,7 @@ package com.secuve.agentInfo.service;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,12 +74,11 @@ public class TestCaseService {
 		int sucess = 0;
 		
 		if(testCase.getTestCaseRouteGroupNum() == 0) {
-			try {
-				testCase.setTestCaseRouteGroupNum(testCaseDao.getMaxTestCaseRouteGroupNum()+1);
-			} catch (Exception e) {
-				testCase.setTestCaseRouteGroupNum(1);
-			}
+			try { testCase.setTestCaseRouteGroupNum(testCaseDao.getMaxTestCaseRouteGroupNum()+1); } 
+			catch (Exception e) { testCase.setTestCaseRouteGroupNum(1);	}
 		}
+		try { testCase.setTestCaseRouteSortNum(testCaseDao.getMaxTestCaseRouteSortNum()+1); } 
+		catch (Exception e) { testCase.setTestCaseRouteSortNum(1);	}
 		
 		if(testCase.getTestCaseRouteParentPath().equals("/")) {
 			testCase.setTestCaseRouteFullPath("/"+testCase.getTestCaseRouteName());
@@ -91,7 +91,6 @@ public class TestCaseService {
 		}
 		if(overlap == null) {
 			sucess = testCaseDao.insertRoute(testCase);
-			testCaseDao.updateRouteSortNum(testCase.getTestCaseRouteKeyNum());
 			testCaseDao.updateRouteDate(testCase);
 		} else {
 			return "Overlap";
@@ -264,8 +263,8 @@ public class TestCaseService {
 			testCaseRoute.setTestCaseRouteRegistrant(principal.getName());
 			testCaseRoute.setTestCaseRouteRegistrationDate(nowDate());
 			testCaseRouteKeyNum = testCaseRoute.getTestCaseRouteKeyNum();
+			testCaseRoute.setTestCaseRouteSortNum(testCaseDao.getMaxTestCaseRouteSortNum()+1); 
 			testCaseDao.insertRoute(testCaseRoute);
-			testCaseDao.updateRouteSortNum(testCaseRoute.getTestCaseRouteKeyNum());
 			try {
 				testCaseContents = testCaseDao.getTestCaseContents(testCaseRouteKeyNum);
 				testCaseContents.setTestCaseRouteKeyNum(testCaseRoute.getTestCaseRouteKeyNum());
@@ -278,7 +277,45 @@ public class TestCaseService {
 		return "OK";
 	}
 
-	public void testCaseRouteMove(TestCase testCase) {
+	public String testCaseRouteMove(TestCase testCase) {
+		if(testCase.getTestCaseRouteFullPath().equals("/")) {
+			return "RouteFALSE";
+		} 
+		
+		if(testCase.getHitMode().equals("over")) {
+			List<TestCase> testCaseList = testCaseDao.getTestCaseRouteFullPathMoveList(testCase.getStartTestCaseRouteFullPath()+"/");
+			for (TestCase testCaseSub : testCaseList) {
+				String[] testCaseFullPathSubArr = testCaseSub.getTestCaseRouteFullPath().split("/");
+				String[] testCaseParentPathSubArr = testCaseSub.getTestCaseRouteParentPath().split("/");
+				List<String> testCaseFullPathSubList = Arrays.asList(testCaseFullPathSubArr);
+				int index = testCaseFullPathSubList.indexOf(testCase.getTestCaseRouteName());
+				testCaseSub.setStartTestCaseRouteSortNum(testCaseSub.getTestCaseRouteSortNum());
+				testCaseSub.setEndTestCaseRouteSortNum(testCaseSub.getTestCaseRouteSortNum());
+				testCaseSub.setTestCaseRouteFullPath(testCase.getTestCaseRouteFullPath());
+				testCaseSub.setTestCaseRouteParentPath(testCase.getTestCaseRouteFullPath());
+				for(int i=index; i < testCaseFullPathSubArr.length; i++) {
+					testCaseSub.setTestCaseRouteFullPath(testCaseSub.getTestCaseRouteFullPath() + "/" + testCaseFullPathSubArr[i]);
+				}
+				for(int i=index; i < testCaseParentPathSubArr.length; i++) {
+					testCaseSub.setTestCaseRouteParentPath(testCaseSub.getTestCaseRouteParentPath() + "/" + testCaseParentPathSubArr[i]);
+				}
+				testCaseDao.testCaseRouteMove(testCaseSub);
+			}
+			testCase.setTestCaseRouteParentPath(testCase.getTestCaseRouteFullPath());
+			testCase.setTestCaseRouteFullPath(testCase.getTestCaseRouteFullPath() + "/" + testCase.getTestCaseRouteName());
+			testCase.setEndTestCaseRouteSortNum(testCaseDao.getMaxTestCaseRouteSortNum()+1);
+			testCaseDao.testCaseRouteMove(testCase);
+		} else {
+			String[] testCaseRouteFullPathArr = testCase.getTestCaseRouteFullPath().split("/");
+			testCaseRouteFullPathArr[testCaseRouteFullPathArr.length-1] = testCase.getTestCaseRouteName();
+			
+			String testCaseRouteFullPath = "";
+			for(String str : testCaseRouteFullPathArr) {
+				testCaseRouteFullPath += str + "/";
+			}
+			testCase.setTestCaseRouteFullPath(testCaseRouteFullPath.substring(0, testCaseRouteFullPath.length() - 1));
+		}
+		
 		if(testCase.getHitMode().equals("before")) {			
 			testCaseDao.testCaseRouteMovePlus(testCase.getEndTestCaseRouteSortNum() - 1);
 			if(testCase.getStartTestCaseRouteSortNum() > testCase.getEndTestCaseRouteSortNum())
@@ -291,6 +328,7 @@ public class TestCaseService {
 			testCase.setEndTestCaseRouteSortNum(testCase.getEndTestCaseRouteSortNum() + 1);
 			testCaseDao.testCaseRouteMove(testCase);
 		}
+		return "OK";
 		
 	}
 

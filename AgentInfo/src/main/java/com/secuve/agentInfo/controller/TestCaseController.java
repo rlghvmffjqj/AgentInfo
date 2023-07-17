@@ -187,8 +187,7 @@ public class TestCaseController {
 	@ResponseBody
 	@PostMapping(value = "/testCase/testCaseRouteMove")
 	public String testCaseRouteMove(TestCase testCase) {	
-		testCaseService.testCaseRouteMove(testCase);
-		return "OK";
+		return testCaseService.testCaseRouteMove(testCase);
 	}
 	
 	/* ==================================================================== */

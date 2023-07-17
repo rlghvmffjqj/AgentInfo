@@ -71,7 +71,8 @@
 	</update>
 	
 	<update id="testCaseRouteMove">
-		UPDATE testCaseRoute SET testCaseRouteSortNum = #{endTestCaseRouteSortNum} WHERE testCaseRouteSortNum = #{startTestCaseRouteSortNum};
+		UPDATE testCaseRoute SET testCaseRouteSortNum = #{endTestCaseRouteSortNum}, testCaseRouteName = #{testCaseRouteName}, testCaseRouteFullPath = #{testCaseRouteFullPath}, testCaseRouteParentPath = #{testCaseRouteParentPath}
+		WHERE testCaseRouteSortNum = #{startTestCaseRouteSortNum};
 	</update>
 	
 	<select id="getRouteList" resultMap="testCase">
@@ -85,8 +86,8 @@
 	</select>
 	
 	<insert id="insertRoute"  parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
-		INSERT INTO testCaseRoute(testCaseRouteGroupNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteDate,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
-		VALUES(#{testCaseRouteGroupNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteDate},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
+		INSERT INTO testCaseRoute(testCaseRouteSortNum,testCaseRouteGroupNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteDate,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
+		VALUES(#{testCaseRouteSortNum},#{testCaseRouteGroupNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteDate},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
 	</insert>
 	
 	<select id="getTestCaseRouteFullPath" resultMap="testCase">
@@ -137,6 +138,15 @@
 		SELECT MAX(testCaseRouteGroupNum) FROM testCaseRoute;
 	</select>
 	
+	<select id="getMaxTestCaseRouteSortNum" resultType="_int">
+		SELECT MAX(testCaseRouteSortNum) FROM testCaseRoute;
+	</select>
+	
+	<select id="getTestCaseRouteFullPathMoveList" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath LIKE CONCAT('%',#{testCaseRouteFullPath},'%');
+	</select>
+	
+	
 	<delete id="deleteTestCase" parameterType="_int">
 		DELETE FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
 	</delete>
@@ -175,10 +185,6 @@
 		INSERT INTO testCaseContents(testCaseFormKeyNum,testCaseRouteKeyNum,testCaseContentsMainMenu,testCaseContentsMediumMenu,testCaseContentsSmallMenu,testCaseContentsTcCode,testCaseContentsClassificationCode,testCaseContentsPurpose,testCaseContentsPreparation,testCaseContentsItem,testCaseContentsProcedure,testCaseContentsExpectedResult,testCaseContentsTestResult,testCaseContentsResultCode,testCaseContentsInfluence,testCaseContentsManager,testCaseContentsError,testCaseContentsNote,testCaseContentsRegistrant,testCaseContentsRegistrationDate)
 		VALUES(#{testCaseFormKeyNum},#{testCaseRouteKeyNum},#{testCaseContentsMainMenu},#{testCaseContentsMediumMenu},#{testCaseContentsSmallMenu},#{testCaseContentsTcCode},#{testCaseContentsClassificationCode},#{testCaseContentsPurpose},#{testCaseContentsPreparation},#{testCaseContentsItem},#{testCaseContentsProcedure},#{testCaseContentsExpectedResult},#{testCaseContentsTestResult},#{testCaseContentsResultCode},#{testCaseContentsInfluence},#{testCaseContentsManager},#{testCaseContentsError},#{testCaseContentsNote},#{testCaseContentsRegistrant},#{testCaseContentsRegistrationDate});
 	</insert>
-	
-	<update id="updateRouteSortNum">
-		UPDATE testCaseRoute SET testCaseRouteSortNum = #{testCaseRouteKeyNum} WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
-	</update>
 	
 	<!-- ==================================================================================== -->
 	

@@ -165,8 +165,12 @@ public class TestCaseDao {
 		sqlSession.update("testCase.testCaseRouteMove", testCase);
 	}
 
-	public void updateRouteSortNum(int testCaseRouteKeyNum) {
-		sqlSession.update("testCase.updateRouteSortNum", testCaseRouteKeyNum);
+	public int getMaxTestCaseRouteSortNum() {
+		return sqlSession.selectOne("testCase.getMaxTestCaseRouteSortNum");
+	}
+
+	public List<TestCase> getTestCaseRouteFullPathMoveList(String testCaseRouteFullPath) {
+		return sqlSession.selectList("testCase.getTestCaseRouteFullPathMoveList",testCaseRouteFullPath);
 	}
 
 }
