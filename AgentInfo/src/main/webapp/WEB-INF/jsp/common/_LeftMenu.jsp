@@ -184,7 +184,8 @@
 			$('.functionTest').addClass('active');
 		} else if($.cookie('name') == 'testCase') {
 			$('.testCase').addClass('active');
-		}
+		}  else if($.cookie('name') == 'customerConsolidation') {
+			$('.customerConsolidation').addClass('active');
 		
 	});
 </script>
@@ -261,6 +262,15 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
+			<ul class="pcoded-item pcoded-left-item">
+				<li class="customerConsolidation">
+					<a href="<c:url value='/customerConsolidation/list'/>" class="waves-effect waves-dark">
+						<span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
+						<span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 통합관리</span>
+						<span class="pcoded-mcaret"></span>
+					</a>
+				</li>
+			</ul>
 			<ul class="pcoded-item pcoded-left-item">
 				<li class="customerLicense pcoded-hasmenu">
 					<a href="#!" class="waves-effect waves-dark">
