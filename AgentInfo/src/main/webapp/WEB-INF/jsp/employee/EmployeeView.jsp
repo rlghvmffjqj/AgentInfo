@@ -104,6 +104,8 @@
 						<option value="ADMIN">관리자</option>
 						<option value="LICENSE">라이선스 관리자</option>
 						<option value="ENGINEER">엔지니어</option>
+						<option value="ENGINEERLEADER">엔지니어 팀장</option>
+						<option value="SALES">영업</option>
 						<option value="QA">QA</option>
 					</select>
 		         </div>
@@ -153,6 +155,8 @@
 						<option value="ADMIN" <c:if test="${employee.usersRole eq 'ADMIN'}">selected</c:if>>관리자</option>
 						<option value="LICENSE" <c:if test="${employee.usersRole eq 'LICENSE'}">selected</c:if>>라이선스 관리자</option>
 						<option value="ENGINEER" <c:if test="${employee.usersRole eq 'ENGINEER'}">selected</c:if>>엔지니어</option>
+						<option value="ENGINEERLEADER" <c:if test="${employee.usersRole eq 'ENGINEERLEADER'}">selected</c:if>>엔지니어 팀장</option>
+						<option value="SALES" <c:if test="${employee.usersRole eq 'SALES'}">selected</c:if>>영업</option>
 						<option value="QA" <c:if test="${employee.usersRole eq 'QA'}">selected</c:if>>QA</option>
 					</select>
 		         </div>

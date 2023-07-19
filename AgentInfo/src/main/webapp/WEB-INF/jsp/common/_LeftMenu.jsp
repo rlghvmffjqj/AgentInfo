@@ -186,6 +186,7 @@
 			$('.testCase').addClass('active');
 		}  else if($.cookie('name') == 'customerConsolidation') {
 			$('.customerConsolidation').addClass('active');
+		}
 		
 	});
 </script>
@@ -213,7 +214,7 @@
 		        </li>
 		    </ul>
 		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
-			<sec:authorize access="hasAnyRole('ADMIN','MEMBER','ENGINEER','QA')">
+			<sec:authorize access="hasAnyRole('ADMIN','MEMBER','ENGINEER','QA','ENGINEERLEADER','SALES')">
 		    	<ul class="pcoded-item pcoded-left-item">
 		    	    <li class="packages">
 		    	        <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
@@ -262,49 +263,52 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
-			<ul class="pcoded-item pcoded-left-item">
-				<li class="customerConsolidation">
-					<a href="<c:url value='/customerConsolidation/list'/>" class="waves-effect waves-dark">
-						<span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
-						<span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 통합관리</span>
-						<span class="pcoded-mcaret"></span>
-					</a>
-				</li>
-			</ul>
-			<ul class="pcoded-item pcoded-left-item">
-				<li class="customerLicense pcoded-hasmenu">
-					<a href="#!" class="waves-effect waves-dark">
-			            <span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
-			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 & 라이선스<br>(개발 중)</span>
-			            <span class="pcoded-mcaret"></span>
-			        </a>
-			        <ul class="pcoded-submenu" style="display: block;">
-			         	<li class="customerLicenseManagement">
-							<a href="<c:url value='/customerLicense/customerLicenseManagement/list'/>" class="waves-effect waves-dark">
-								<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-								<span class="pcoded-mtext" style="font-size: 13px;">고객사 & 라이선스 관리</span>
-								<span class="pcoded-mcaret"></span>
-							</a>
-				     	</li>
-						 <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
-					    	<li class="engineerUnassigned">
-					    	       <a href="<c:url value='/customerLicense/engineerUnassigned/list'/>" class="waves-effect waves-dark">
-					    	         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					    	         <span class="pcoded-mtext" style="font-size: 13px;">엔지니어 미배정 사업 목록</span>
-					    	         <span class="pcoded-mcaret"></span>
-					    	       </a>
-					    	</li>
-						</sec:authorize>
-					    <li class="unissuedLicense">
-					           <a href="<c:url value='/customerLicense/unissuedLicense/list'/>" class="waves-effect waves-dark">
-					             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					             <span class="pcoded-mtext" style="font-size: 13px;">미발급 라이선스 요청 목록</span>
-					             <span class="pcoded-mcaret"></span>
-					           </a>
-					    </li>
-				  	</ul>
-			    </li>
-			</ul>
+			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','LICENSE','SALES')">
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="customerConsolidation">
+						<a href="<c:url value='/customerConsolidation/list'/>" class="waves-effect waves-dark">
+							<span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 통합관리</span>
+							<span class="pcoded-mcaret"></span>
+						</a>
+					</li>
+				</ul>
+			
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="customerLicense pcoded-hasmenu">
+						<a href="#!" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 & 라이선스<br>(개발 중)</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				        <ul class="pcoded-submenu" style="display: block;">
+				         	<li class="customerLicenseManagement">
+								<a href="<c:url value='/customerLicense/customerLicenseManagement/list'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext" style="font-size: 13px;">고객사 & 라이선스 관리</span>
+									<span class="pcoded-mcaret"></span>
+								</a>
+					     	</li>
+							 <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+						    	<li class="engineerUnassigned">
+						    	       <a href="<c:url value='/customerLicense/engineerUnassigned/list'/>" class="waves-effect waves-dark">
+						    	         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						    	         <span class="pcoded-mtext" style="font-size: 13px;">엔지니어 미배정 사업 목록</span>
+						    	         <span class="pcoded-mcaret"></span>
+						    	       </a>
+						    	</li>
+							</sec:authorize>
+						    <li class="unissuedLicense">
+						           <a href="<c:url value='/customerLicense/unissuedLicense/list'/>" class="waves-effect waves-dark">
+						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+						             <span class="pcoded-mtext" style="font-size: 13px;">미발급 라이선스 요청 목록</span>
+						             <span class="pcoded-mcaret"></span>
+						           </a>
+						    </li>
+					  	</ul>
+				    </li>
+				</ul>
+			</sec:authorize>
 		    <%-- <ul class="pcoded-item pcoded-left-item">
 		        <li class="customer">
 		            <a href="<c:url value='/customer/list'/>" class="waves-effect waves-dark">
@@ -439,7 +443,7 @@
 				    </li>
 			    </ul> --%>
 		    </sec:authorize>
-		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER')">
+		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">
 					<li class="releaseNotes pcoded-hasmenu">
