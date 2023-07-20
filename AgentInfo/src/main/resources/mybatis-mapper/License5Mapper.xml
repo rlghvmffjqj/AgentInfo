@@ -69,6 +69,10 @@
 		SELECT COUNT(*) FROM license5 WHERE serialNumber = #{serialNumber};
 	</select>
 	
+	<select id="getCustomerConsolidationList" resultMap="license">
+		SELECT * FROM license5 WHERE customerName = #{customerConsolidationCustomer} AND businessName = #{customerConsolidationBusiness} AND additionalInformation = #{customerConsolidationLocation};
+	</select>
+	
 	
 	<!-- ==================================================================================== -->
 	

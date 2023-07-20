@@ -3,6 +3,7 @@ package com.secuve.agentInfo.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CustomerConsolidationService;
+import com.secuve.agentInfo.service.License5Service;
 import com.secuve.agentInfo.vo.CustomerConsolidation;
+import com.secuve.agentInfo.vo.License5;
 
 @Controller
 public class CustomerConsolidationController {
 	@Autowired CustomerConsolidationService customerConsolidationService;
+	@Autowired License5Service license5Service;
 
 	@GetMapping(value = "/customerConsolidation/list")
 	public String customerConsolidationList(Model model) {
@@ -170,6 +174,14 @@ public class CustomerConsolidationController {
 		model.addAttribute("customerConsolidation", customerConsolidation);
 		model.addAttribute("role", "Engineer");
 		return "/customerConsolidation/CustomerConsolidationView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/customerConsolidation/licenseList")
+	public List<License5> licenseList(int customerConsolidationKeyNum) {
+		CustomerConsolidation customerConsolidation = customerConsolidationService.getCustomerConsolidationOne(customerConsolidationKeyNum);
+		List<License5> license5 = license5Service.getCustomerConsolidationList(customerConsolidation);
+		return license5;
 	}
 	
 	

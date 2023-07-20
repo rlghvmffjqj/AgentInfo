@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.secuve.agentInfo.vo.CustomerConsolidation;
 import com.secuve.agentInfo.vo.License5;
 
 @Repository
@@ -58,6 +59,10 @@ public class License5Dao {
 
 	public int serialNumberCheck(String serialNumber) {
 		return sqlSession.selectOne("license5.serialNumberCheck", serialNumber);
+	}
+
+	public List<License5> getCustomerConsolidationList(CustomerConsolidation customerConsolidation) {
+		return sqlSession.selectList("license5.getCustomerConsolidationList", customerConsolidation);
 	}
 
 }

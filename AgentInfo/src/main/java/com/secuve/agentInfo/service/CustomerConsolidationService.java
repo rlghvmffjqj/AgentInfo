@@ -187,7 +187,7 @@ public class CustomerConsolidationService {
 		if (sucess <= 0)
 			return "FALSE";
 		
-		if(customerConsolidation.getCustomerConsolidationEngineerIdView().equals(customerConsolidationOne.getCustomerConsolidationEngineerId())) {
+		if(!customerConsolidation.getCustomerConsolidationEngineerIdView().equals(customerConsolidationOne.getCustomerConsolidationEngineerId())) {
 			try {
 				String customer = customerConsolidationOne.getCustomerConsolidationCustomer();
 				String engineerNew = customerConsolidation.getCustomerConsolidationEngineerView();

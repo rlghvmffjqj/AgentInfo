@@ -695,25 +695,27 @@
 			    	</ul>
 				</sec:authorize>
 		    </sec:authorize>
-		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">request</div>
-			<ul class="pcoded-item pcoded-left-item">
-			    <li class="requests">
-			        <a href="<c:url value='/requests/list'/>" class="waves-effect waves-dark">
-			            <span class="pcoded-micon"><i class="ti-view-list"></i><b>FC</b></span>
-			            <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 사항</span>
-			            <span class="pcoded-mcaret"></span>
-			        </a>
-			    </li>
-			</ul>
-		    <ul class="pcoded-item pcoded-left-item">
-		        <li class="requestsWrite">
-		            <a href="<c:url value='/requestsWrite/list'/>" class="waves-effect waves-dark">
-		                <span class="pcoded-micon"><i class="ti-write"></i><b>FC</b></span>
-		                <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 작성</span>
-		                <span class="pcoded-mcaret"></span>
-		            </a>
-		        </li>
-		    </ul>
+			<sec:authorize access="hasRole('ADMIN')">
+		    	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">request</div>
+				<ul class="pcoded-item pcoded-left-item">
+				    <li class="requests">
+				        <a href="<c:url value='/requests/list'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-view-list"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 사항</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				    </li>
+				</ul>
+		    	<ul class="pcoded-item pcoded-left-item">
+		    	    <li class="requestsWrite">
+		    	        <a href="<c:url value='/requestsWrite/list'/>" class="waves-effect waves-dark">
+		    	            <span class="pcoded-micon"><i class="ti-write"></i><b>FC</b></span>
+		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">요청 작성</span>
+		    	            <span class="pcoded-mcaret"></span>
+		    	        </a>
+		    	    </li>
+		    	</ul>
+			</sec:authorize>
 		    <sec:authorize access="hasRole('ADMIN')">
 				<div class="pcoded-navigation-label" data-i18n="nav.category.forms">admin</div>
 			    <ul class="pcoded-item pcoded-left-item">

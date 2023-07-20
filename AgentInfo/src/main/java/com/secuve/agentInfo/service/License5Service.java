@@ -48,6 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.AgentInfoApplication;
 import com.secuve.agentInfo.dao.License5Dao;
 import com.secuve.agentInfo.dao.License5FileJpaDao;
+import com.secuve.agentInfo.vo.CustomerConsolidation;
 import com.secuve.agentInfo.vo.License5;
 import com.secuve.agentInfo.vo.License5File;
 
@@ -644,6 +645,10 @@ public class License5Service {
 			}
 		}
 		return "OK";
+	}
+
+	public List<License5> getCustomerConsolidationList(CustomerConsolidation customerConsolidation) {
+		return license5Dao.getCustomerConsolidationList(customerConsolidation);
 	}
 	
 }

@@ -216,8 +216,8 @@
 												</div>
 												</form>
 		                     				</div>
-	                     				 </div>
-			                           	 <table style="width:100%;">
+	                     				</div>
+			                           	<table style="width:100%;">
 											<tbody>
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
@@ -258,6 +258,28 @@
 												</td>
 											</tbody>
 										</table>
+										<div class="searchbos" style="margin-top: 1%; background: white;">
+											<table style="width:100%">
+												<tr id="licenseTr" style="border-bottom: 1px solid #cba7a7;">
+													<th class="licenseTh"><span class="licenseSpan">일련번호</span></th>
+													<th class="licenseTh"><span class="licenseSpan">시작일</span></th>
+													<th class="licenseTh"><span class="licenseSpan">만료일</span></th>
+													<th class="licenseTh"><span class="licenseSpan">MAC주소</span></th>
+													<th class="licenseTh"><span class="licenseSpan">제품유형</span></th>
+													<th class="licenseTh"><span class="licenseSpan">iGRIFFIN Agent수량</span></th>
+													<th class="licenseTh"><span class="licenseSpan">TOS 5.0 Agent 수량</span></th>
+													<th class="licenseTh"><span class="licenseSpan">TOS 2.0 Agent 수량</span></th>
+													<th class="licenseTh"><span class="licenseSpan">관리서버 OS</span></th>
+													<th class="licenseTh"><span class="licenseSpan">관리서버 DBMS</span></th>
+													<th class="licenseTh"><span class="licenseSpan">국가</span></th>
+													<th class="licenseTh"><span class="licenseSpan">제품버전</span></th>
+													<th class="licenseTh"><span class="licenseSpan">라이선스 파일명</span></th>
+													<th class="licenseTh"><span class="licenseSpan">발급 상태</span></th>
+												</tr>
+												
+											</table>
+											</div>
+										</div>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -506,10 +528,66 @@
 			}
 		});
 
+		// 클릭한 행의 데이터 가져오기
+		$("#list").on("click", "tr.jqgrow", function() {
+    		var rowData = $("#list").jqGrid("getRowData", $(this).attr("id"));
+
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/customerConsolidation/licenseList'/>",
+			    async: false,
+				data: {"customerConsolidationKeyNum" : rowData.customerConsolidationKeyNum},
+			    success: function (result) {
+					$('.licenseData').remove();
+			    	result.forEach(function(license, index) {
+						console.log(license);
+						var table = $("#licenseTr");
+						var rowItem = "<tr class='licenseData'>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.serialNumber+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.issueDate+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.expirationDays+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.macAddress+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.productType+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.igriffinAgentCount+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.tos2AgentCount+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.tos5AgentCount+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.managerOsType+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.managerDbmsType+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.country+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.productVersion+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.licenseFilePath+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>요청</span></td>";
+						rowItem += "</tr>";
+						table.after(rowItem);
+					});
+			    },
+			    error: function(e) {
+			        console.log(e);
+			    }
+			});
+
+    	});
+
 		
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function periodFormatter(value, options, row) {
 			return row.customerConsolidationBusinessPeriodStart + '~' + row.customerConsolidationBusinessPeriodEnd;
 		}
 	</script>
+
+	<style>
+		.licenseSpan {
+			font-size: 12px;
+		}
+
+		.licenseTd {
+			padding-top: 5px;
+			text-align: center;
+		}
+
+		.licenseTh {
+			padding-bottom: 10px;
+			text-align: center;
+		}
+	</style>
 </html>
