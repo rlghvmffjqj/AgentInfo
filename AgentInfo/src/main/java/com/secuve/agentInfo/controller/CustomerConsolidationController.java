@@ -113,7 +113,9 @@ public class CustomerConsolidationController {
 	}
 	
 	@PostMapping(value = "/customerConsolidation/engineerSearchView")
-	public String engineerSearchView(Model model) {
+	public String engineerSearchView(CustomerConsolidation customerConsolidation, String viewType, Model model) {
+		model.addAttribute("customerConsolidation", customerConsolidation);
+		model.addAttribute("viewType", viewType);
 		return "/customerConsolidation/EngineerSearchView";
 	}
 	
@@ -130,4 +132,46 @@ public class CustomerConsolidationController {
 		map.put("rows", list);
 		return map;
 	}
+	
+	@PostMapping(value = "/customerConsolidation/insertEngineerLeaderSearchView")
+	public String insertEngineerLeaderSearchView(CustomerConsolidation customerConsolidation, Model model) {
+		CustomerConsolidation customerConsolidationOne = customerConsolidationService.getCustomerConsolidationOne(customerConsolidation.getCustomerConsolidationKeyNum());
+		customerConsolidationOne.setCustomerConsolidationLocation(customerConsolidation.getCustomerConsolidationLocationView());
+		customerConsolidationOne.setCustomerConsolidationEngineer(customerConsolidation.getCustomerConsolidationEngineerView());
+		customerConsolidationOne.setCustomerConsolidationEngineerId(customerConsolidation.getCustomerConsolidationEngineerIdView());
+		customerConsolidationOne.setCustomerConsolidationCustomerManager(customerConsolidation.getCustomerConsolidationCustomerManagerView());
+		customerConsolidationOne.setCustomerConsolidationEmail(customerConsolidation.getCustomerConsolidationEmailView());
+		customerConsolidationOne.setCustomerConsolidationContact(customerConsolidation.getCustomerConsolidationContactView());
+		model.addAttribute("viewType", "insert");
+		model.addAttribute("customerConsolidation", customerConsolidationOne);
+		model.addAttribute("role", "EngineerLeader");
+		return "/customerConsolidation/CustomerConsolidationView";
+	}
+	
+	@PostMapping(value = "/customerConsolidation/updateEngineerLeaderSearchView")
+	public String updateEngineerLeaderSearchView(CustomerConsolidation customerConsolidation, Authentication authorities, Model model) {
+		CustomerConsolidation customerConsolidationOne = customerConsolidationService.getCustomerConsolidationOne(customerConsolidation.getCustomerConsolidationKeyNum());
+		customerConsolidationOne.setCustomerConsolidationLocation(customerConsolidation.getCustomerConsolidationLocationView());
+		customerConsolidationOne.setCustomerConsolidationEngineer(customerConsolidation.getCustomerConsolidationEngineerView());
+		customerConsolidationOne.setCustomerConsolidationEngineerId(customerConsolidation.getCustomerConsolidationEngineerIdView());
+		customerConsolidationOne.setCustomerConsolidationCustomerManager(customerConsolidation.getCustomerConsolidationCustomerManagerView());
+		customerConsolidationOne.setCustomerConsolidationEmail(customerConsolidation.getCustomerConsolidationEmailView());
+		customerConsolidationOne.setCustomerConsolidationContact(customerConsolidation.getCustomerConsolidationContactView());
+		model.addAttribute("viewType", "update");
+		model.addAttribute("customerConsolidation",customerConsolidationOne);
+		model.addAttribute("role", customerConsolidationService.getRole(authorities));
+		return "/customerConsolidation/CustomerConsolidationView";
+	}
+	
+	@PostMapping(value = "/customerConsolidation/insertEngineerView")
+	public String insertEngineerView(int customerConsolidationKeyNum, Model model) {
+		CustomerConsolidation customerConsolidation = customerConsolidationService.getCustomerConsolidationOne(customerConsolidationKeyNum);
+		model.addAttribute("viewType", "insert");
+		model.addAttribute("customerConsolidation", customerConsolidation);
+		model.addAttribute("role", "Engineer");
+		return "/customerConsolidation/CustomerConsolidationView";
+	}
+	
+	
+	
 }

@@ -39,7 +39,7 @@
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
-			        rowNum: 25,					// 보여중 행의 수
+			        rowNum: 11,					// 보여중 행의 수
 			        sortname: 'customerConsolidationKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
@@ -47,7 +47,7 @@
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
-			        height : '300',
+			        height : '303',
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
@@ -217,7 +217,7 @@
 												</form>
 		                     				</div>
 	                     				 </div>
-			                           	 <table style="width:99%;">
+			                           	 <table style="width:100%;">
 											<tbody>
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
@@ -411,7 +411,8 @@
 			}
 		});
 
-		$('#BtnLicenseInsert').click(function() {
+
+		$('#BtnEngineerInsert').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			var customerConsolidationKeyNum = chkList[0];
 			if(chkList.length == 0) {
@@ -423,8 +424,9 @@
 			} else if(chkList.length == 1) {
 				$.ajax({
 				    type: 'POST',
-				    url: "<c:url value='/customerConsolidation/insertView'/>",
+				    url: "<c:url value='/customerConsolidation/insertEngineerView'/>",
 				    async: false,
+					data: {"customerConsolidationKeyNum" : customerConsolidationKeyNum},
 				    success: function (data) {
 				    	$.modal(data, 'customerConsolidation'); 
 				    },
@@ -440,6 +442,7 @@
 				}); 
 			}
 		});
+
 
 
 		$('#BtnDelect').click(function() {
@@ -503,8 +506,7 @@
 			}
 		});
 
-
-
+		
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function periodFormatter(value, options, row) {
 			return row.customerConsolidationBusinessPeriodStart + '~' + row.customerConsolidationBusinessPeriodEnd;

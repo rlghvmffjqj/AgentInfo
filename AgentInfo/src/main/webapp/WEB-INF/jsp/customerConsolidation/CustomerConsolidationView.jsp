@@ -109,6 +109,7 @@
 				    <div class="pading5Width450">
 				    	<label class="labelFontSize">담당 엔지니어</label>
 			    		<input type="text" id="customerConsolidationEngineerView" name="customerConsolidationEngineerView" class="form-control viewForm" style="width: 93%;	float: left;" value="${customerConsolidation.customerConsolidationEngineer}" readonly>
+						<input type="hidden" id="customerConsolidationEngineerIdView" name="customerConsolidationEngineerIdView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationEngineerId}" readonly>
 						<button class="searchBtn" type="button" onclick="engineerSearch();"><img class="img-fluid" src="/AgentInfo/images/search.png" style="width: 100%;"></button>
 				    </div>
 				    <div class="pading5Width450">
@@ -523,7 +524,7 @@
 			}
 			btnSales();
 		}
-		if("EngineerLeader" == "${role}") {
+		if("EngineerLeader" == "${role}" || "Engineer" == "${role}") {
 			btnSecurity();
 		}
 
@@ -563,7 +564,12 @@
 		$('#btnSales').removeClass('customerConsolidationActive');
 		$('#btnSecurity').addClass('customerConsolidationActive');
 		$('#btnEvaluation').removeClass('customerConsolidationActive');
-		defaultInfo();
+		
+		if("Engineer" == "${role}") {
+			licenseInfo();
+		} else {
+			defaultInfo();
+		}
 	}
 	
 	function btnEvaluation() {
@@ -864,8 +870,12 @@
 	}
 
 	function engineerSearch() {
+		var postData = $('#modalFormEngineerLeader').serializeArray();
+		postData.push({name : "customerConsolidationKeyNum", value : $('#customerConsolidationKeyNum').val()});
+		postData.push({name : "viewType", value : "${viewType}"});
 		$.ajax({
 		    type: 'POST',
+			data: postData,
 		    url: "<c:url value='/customerConsolidation/engineerSearchView'/>",
 		    async: false,
 		    success: function (data) {

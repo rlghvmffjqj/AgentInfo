@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
-<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>   
+
 <script>
 	$(document).ready(function(){
 		var formData = $('#modalFormSearch').serializeObject();
@@ -39,11 +39,17 @@
 </script>
 
 
-<div class="modal-body" style="width: 100%; height: 500px;">	
-	<input type="hidden" id="customerConsolidationKeyNum" name="customerConsolidationKeyNum" class="form-control viewForm" value="${customerConsolidation.customerConsolidationKeyNum}">
-	<form id="modalFormSearch" name="form" method ="post">
+<div class="modal-body" style="width: 100%; height: 425px;">	
+	<form id="modalFormSearch" name="modalFormSearch" method ="post">
+		<input type="hidden" id="customerConsolidationKeyNum" name="customerConsolidationKeyNum" class="form-control viewForm" value="${customerConsolidation.customerConsolidationKeyNum}" readonly>
+		<input type="hidden" id="customerConsolidationLocationView" name="customerConsolidationLocationView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationLocationView}" readonly>
+		<input type="hidden" id="customerConsolidationEngineerIdView" name="customerConsolidationEngineerIdView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationEngineerIdView}" readonly>
+		<input type="hidden" id="customerConsolidationEngineerView" name="customerConsolidationEngineerView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationEngineerView}" readonly>
+		<input type="hidden" id="customerConsolidationCustomerManagerView" name="customerConsolidationCustomerManagerView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationCustomerManagerView}" readonly>
+		<input type="hidden" id="customerConsolidationEmailView" name="customerConsolidationEmailView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationEmailView}" readonly>
+		<input type="hidden" id="customerConsolidationContactView" name="customerConsolidationContactView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationContactView}" readonly>
 		<input class="form-control" type="text" style="width: 90%; float: left;" id="employeeName" name="employeeName"> 
-		<button style="width: 10%; float: right; height: 33px; background: #ffd493; border: 1px solid #c3c3c3; font-family: emoji;">검색</button>
+		<button type="button" style="width: 10%; float: right; height: 33px; background: #ffd493; border: 1px solid #c3c3c3; font-family: emoji;" onclick="employeeNameSearch();">검색</button>
 
 		<table style="width:100%;">
 			<tbody>
@@ -76,6 +82,100 @@
 
 <script>
 	function engineerSelectClose() {
-		$('#modal').modal("hide"); // 모달 닫기
+		if("insert" == "${viewType}") {
+			var urlRoute = "<c:url value='/customerConsolidation/insertEngineerLeaderSearchView'/>";
+		} else {
+			var urlRoute = "<c:url value='/customerConsolidation/updateEngineerLeaderSearchView'/>";
+		}
+		var postData = $('#modalFormSearch').serializeArray();
+
+		$.ajax({
+		    type: 'POST',
+		    url: urlRoute,
+		    async: false,
+			data: postData,
+		    success: function (data) {
+				$('#modal').modal("hide"); // 모달 닫기
+				setTimeout(function() {
+		    		$.modal(data, 'customerConsolidation'); 
+				},300)
+		    },
+		    error: function(e) {
+		        alert(e);
+		    }
+		});
 	}
+
+	function employeeNameSearch() {
+		var _postDateSearch = $("#modalFormSearch").serializeObject();
+			
+		var jqGridSearch = $("#listSearch");
+		jqGridSearch.clearGridData();
+		jqGridSearch.setGridParam({ postData: _postDateSearch });
+		jqGridSearch.trigger('reloadGrid');
+	}
+
+	
+
+	function engineerSelect() {
+		var jqGridSearch = $("#listSearch");
+		var selectedRowId = jqGridSearch.jqGrid('getGridParam', 'selrow');
+
+		$('#customerConsolidationEngineerView').val(jqGridSearch.getRowData(selectedRowId).employeeName);
+		$('#customerConsolidationEngineerIdView').val(jqGridSearch.getRowData(selectedRowId).employeeId);
+
+		if("insert" == "${viewType}") {
+			var urlRoute = "<c:url value='/customerConsolidation/insertEngineerLeaderSearchView'/>";
+		} else {
+			var urlRoute = "<c:url value='/customerConsolidation/updateEngineerLeaderSearchView'/>";
+		}
+		var postData = $('#modalFormSearch').serializeArray();
+
+		$.ajax({
+		    type: 'POST',
+		    url: urlRoute,
+		    async: false,
+			data: postData,
+		    success: function (data) {
+				$('#modal').modal("hide"); // 모달 닫기
+				setTimeout(function() {
+		    		$.modal(data, 'customerConsolidation'); 
+				},300)
+		    },
+		    error: function(e) {
+		        alert(e);
+		    }
+		});
+	}
+
+	/* =========== Enter 검색 ========= */
+	$("input[type=text]").keypress(function(event) {
+		if (window.event.keyCode == 13) {
+			employeeNameSearch();
+		}
+	});
 </script>
+
+<style>
+	.ui-jqgrid {
+		width: 100% !important;
+	}
+
+	.ui-jqgrid-view {
+		width: 100% !important;
+	}
+
+	.ui-jqgrid-hdiv{
+		width: 100% !important;
+	}
+
+	.ui-jqgrid-bdiv {
+		width: 100% !important;
+		height: 100%;
+	}
+
+	.ui-jqgrid-pager {
+		width: 100% !important;
+	}
+
+</style>
