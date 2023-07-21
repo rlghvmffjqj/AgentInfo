@@ -40,6 +40,10 @@ public class EmployeeService {
 				employee.setUsersRole("QA");
 			} else if(employee.getUsersRole().equals("LICENSE")) {
 				employee.setUsersRole("라이선스 관리자");
+			} else if(employee.getUsersRole().equals("ENGINEERLEADER")) {
+				employee.setUsersRole("엔지니어 팀장");
+			} else if(employee.getUsersRole().equals("SALES")) {
+				employee.setUsersRole("영업");
 			} else {
 				employee.setUsersRole("일반 사용자");
 			} 

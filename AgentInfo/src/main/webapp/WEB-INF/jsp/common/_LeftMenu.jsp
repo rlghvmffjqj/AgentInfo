@@ -259,6 +259,13 @@
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
+							<li class="license2">
+								<a href="#" class="waves-effect waves-dark">
+								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								  <span class="pcoded-mtext">라이선스 발급 요청</span>
+								  <span class="pcoded-mcaret"></span>
+								</a>
+						 </li>
 					  	</ul>
 				    </li>
 			    </ul>
