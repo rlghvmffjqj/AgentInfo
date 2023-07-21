@@ -130,6 +130,7 @@
 	        </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
+				 <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
 	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 	        </div>
 	        <c:choose>
@@ -445,7 +446,6 @@
 		}
 		
 		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
-			console.log($('#expirationDaysView').val());
 			if($('#expirationDaysView').val() == "무제한") {
 				$('#chkExpirationDays').prop("checked",true);
 				$("#expirationDaysDay").val(90);
@@ -655,6 +655,7 @@
 		var businessName = $('#businessNameView').val();
 		var businessNameSelf = $('#businessNameSelf').val();
 		var macAddress = $('#macAddressView').val();
+		var issueDate = $('#issueDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
@@ -671,6 +672,8 @@
 			$('#NotProductVersion').show();
 		} else if(licenseFilePath == "") {
 			$('#NotLicenseFilePath').show();
+		} else if(issueDate == "") {
+			$('#NotIssueDate').show();
 		} else { 
 			var postData = $('#modalForm').serializeObject();
 			var swalText = "<span style='font-weight: 600;'>라이선스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";
@@ -871,6 +874,7 @@
 	function oldExistenceCheck() {
 		var customerName = $('#customerNameOldView').val();
 		var macAddress = $('#macAddressView').val();
+		var issueDate = $('#issueDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
@@ -885,6 +889,8 @@
 			$('#NotProductVersion').show();
 		} else if(licenseFilePath == "") {
 			$('#NotLicenseFilePath').show();
+		} else if(issueDate == "") {
+			$('#NotIssueDate').show();
 		} else { 
 			<c:choose>
 				<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">

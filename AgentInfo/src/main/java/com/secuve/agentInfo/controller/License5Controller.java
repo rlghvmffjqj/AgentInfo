@@ -299,5 +299,11 @@ public class License5Controller {
 	public String downLoadCheck(@RequestParam int[] chkList) {
 		return license5Service.downLoadCheck(chkList);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/license5IssuedRequest")
+	public String issuedRequest(License5 license) throws ParseException {
+		return license5Service.issuedRequest(license);
+	}
 
 }

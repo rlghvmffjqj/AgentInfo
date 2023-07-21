@@ -143,16 +143,16 @@ public class CustomerConsolidationService {
 		int sucess = customerConsolidationDao.insertSecurityInfo(customerConsolidation);
 		if (sucess <= 0)
 			return "FALSE";
-		try {
-			String customer = customerConsolidationOne.getCustomerConsolidationCustomer();
-			String engineer = customerConsolidation.getCustomerConsolidationEngineerView();
-			String business = customerConsolidation.getCustomerConsolidationBusinessView();
-			String location = customerConsolidation.getCustomerConsolidationLocationView();
-			String content = customer+" 담당 엔지니어 배정 안내드립니다. \n\n\n 고객사 : "+customer+ "\n 사업명 : "+business+"\n 사용처 : "+location+"\n 담당 엔지니어 : " +engineer+"\n\n\n 위와 같이 배정되었습니다.";
-			mailService.sendNotiMail(customerConsolidation.getCustomerConsolidationEngineerIdView()+"@secuve.com", customer+" 담당 엔지니어 배정", content);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			String customer = customerConsolidationOne.getCustomerConsolidationCustomer();
+//			String engineer = customerConsolidation.getCustomerConsolidationEngineerView();
+//			String business = customerConsolidation.getCustomerConsolidationBusinessView();
+//			String location = customerConsolidation.getCustomerConsolidationLocationView();
+//			String content = customer+" 담당 엔지니어 배정 안내드립니다. \n\n\n 고객사 : "+customer+ "\n 사업명 : "+business+"\n 사용처 : "+location+"\n 담당 엔지니어 : " +engineer+"\n\n\n 위와 같이 배정되었습니다.";
+//			mailService.sendNotiMail(customerConsolidation.getCustomerConsolidationEngineerIdView()+"@secuve.com", customer+" 담당 엔지니어 배정", content);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return "OK";
 	}
 
@@ -187,19 +187,19 @@ public class CustomerConsolidationService {
 		if (sucess <= 0)
 			return "FALSE";
 		
-		if(!customerConsolidation.getCustomerConsolidationEngineerIdView().equals(customerConsolidationOne.getCustomerConsolidationEngineerId())) {
-			try {
-				String customer = customerConsolidationOne.getCustomerConsolidationCustomer();
-				String engineerNew = customerConsolidation.getCustomerConsolidationEngineerView();
-				String engineerOld = customerConsolidationOne.getCustomerConsolidationEngineer();
-				String business = customerConsolidationOne.getCustomerConsolidationBusiness();
-				String location = customerConsolidation.getCustomerConsolidationLocationView();
-				String content = customer+" 담당 엔지니어 변경 안내드립니다. \n\n\n 고객사 : "+customer+ "\n 사업명 : "+business+"\n 사용처 : "+location+"\n 담당 엔지니어 : "+engineerNew+"\n\n\n 변경 전 : "+engineerOld+ "\n 변경 후 : "+engineerNew+"\n\n\n 위와 같이 변경되었습니다.";
-				mailService.sendNotiMail(customerConsolidation.getCustomerConsolidationEngineerIdView()+"@secuve.com", customer+" 담당 엔지니어 변경", content);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+//		if(!customerConsolidation.getCustomerConsolidationEngineerIdView().equals(customerConsolidationOne.getCustomerConsolidationEngineerId())) {
+//			try {
+//				String customer = customerConsolidationOne.getCustomerConsolidationCustomer();
+//				String engineerNew = customerConsolidation.getCustomerConsolidationEngineerView();
+//				String engineerOld = customerConsolidationOne.getCustomerConsolidationEngineer();
+//				String business = customerConsolidationOne.getCustomerConsolidationBusiness();
+//				String location = customerConsolidation.getCustomerConsolidationLocationView();
+//				String content = customer+" 담당 엔지니어 변경 안내드립니다. \n\n\n 고객사 : "+customer+ "\n 사업명 : "+business+"\n 사용처 : "+location+"\n 담당 엔지니어 : "+engineerNew+"\n\n\n 변경 전 : "+engineerOld+ "\n 변경 후 : "+engineerNew+"\n\n\n 위와 같이 변경되었습니다.";
+//				mailService.sendNotiMail(customerConsolidation.getCustomerConsolidationEngineerIdView()+"@secuve.com", customer+" 담당 엔지니어 변경", content);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		return "OK";
 	}
 

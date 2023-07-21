@@ -46,6 +46,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.AgentInfoApplication;
+import com.secuve.agentInfo.dao.CustomerConsolidationDao;
 import com.secuve.agentInfo.dao.License5Dao;
 import com.secuve.agentInfo.dao.License5FileJpaDao;
 import com.secuve.agentInfo.vo.CustomerConsolidation;
@@ -60,6 +61,7 @@ public class License5Service {
 	@Autowired CategoryService categoryService;
 	@Autowired License5UidLogService license5UidLogService;
 	@Autowired License5FileJpaDao license5FileJpaDao;
+	@Autowired CustomerConsolidationDao customerConsolidationDao;
 
 	public List<License5> getLicenseList(License5 search) {
 		List<License5> license5List = license5Dao.getLicenseList(licenseSearch(search));
@@ -153,6 +155,7 @@ public class License5Service {
 				return "Duplication";
 			}
 			license = licenseInputFormat(license);
+			license.setLicenseState("issued");
 			int sucess = license5Dao.issuedLicense(license);
 			categoryCheck(license, principal);
 			categoryService.insertCustomerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
@@ -379,7 +382,7 @@ public class License5Service {
 	}
 	
 	public License5 licenseInputFormat(License5 license) throws ParseException {
-		if(license.getExpirationDaysView().isEmpty()) {
+		if(license.getExpirationDaysView() == "" || license.getExpirationDaysView() == null) {
 			license.setExpirationDaysView("무제한");
 		} else {
 			if(license.getExpirationDaysView().length() < 4) {
@@ -393,23 +396,23 @@ public class License5Service {
 			}
 		}
 		
-		if(license.getExpirationDaysView().isEmpty()) {
+		if(license.getExpirationDaysView() == "" || license.getExpirationDaysView() == null) {
 			license.setExpirationDaysView("무제한");
 		}
 		
-		if(license.getIgriffinAgentCountView().isEmpty()) {
+		if(license.getIgriffinAgentCountView() == "" || license.getIgriffinAgentCountView() == null) {
 			license.setIgriffinAgentCountView("무제한");
 		}
-		if(license.getTos5AgentCountView().isEmpty()) {
+		if(license.getTos5AgentCountView() == "" || license.getTos5AgentCountView() == null) {
 			license.setTos5AgentCountView("무제한");
 		}
-		if(license.getTos2AgentCountView().isEmpty()) {
+		if(license.getTos2AgentCountView() == "" || license.getTos2AgentCountView() == null) {
 			license.setTos2AgentCountView("무제한");
 		}
-		if(license.getDbmsCountView().isEmpty()) {
+		if(license.getDbmsCountView() == "" || license.getDbmsCountView() == null) {
 			license.setDbmsCountView("무제한");
 		}
-		if(license.getNetworkCountView().isEmpty()) {
+		if(license.getNetworkCountView() == "" || license.getNetworkCountView() == null) {
 			license.setNetworkCountView("무제한");
 		}
 		
@@ -649,6 +652,22 @@ public class License5Service {
 
 	public List<License5> getCustomerConsolidationList(CustomerConsolidation customerConsolidation) {
 		return license5Dao.getCustomerConsolidationList(customerConsolidation);
+	}
+
+	public String issuedRequest(License5 license) throws ParseException {
+		CustomerConsolidation customerConsolidation = customerConsolidationDao.getCustomerConsolidationOne(license.getCustomerConsolidationKeyNum());
+		license.setCustomerNameView(customerConsolidation.getCustomerConsolidationCustomer());
+		license.setBusinessNameView(customerConsolidation.getCustomerConsolidationBusiness());
+		license.setAdditionalInformationView(customerConsolidation.getCustomerConsolidationLocation());
+		license.setSerialNumberView("");
+		license.setLicenseFilePathView("");
+		license.setLicenseState("request");
+		license = licenseInputFormat(license);
+		int sucess = license5Dao.issuedLicense(license);
+		if (sucess <= 0) {
+			return "FALSE";
+		}
+		return "OK";
 	}
 	
 }

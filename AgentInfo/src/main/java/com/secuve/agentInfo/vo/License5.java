@@ -37,6 +37,7 @@ public class License5 {
 	private String licenseFilePath;						// 라이선스 파일명
 	private String serialNumber;						// 일련 번호
 	private String requester;							// 요청자
+	private String licenseState;
 	private String licenseIssuanceRegistrant;
 	private String licenseIssuanceRegistrationDate;
 	private String licenseIssuanceModifier;
@@ -96,6 +97,8 @@ public class License5 {
 	private String issueDateEnd;
 	private String expirationDaysStart;
 	private String expirationDaysEnd;
+	
+	private int customerConsolidationKeyNum;
 	
 	private Integer page=1;							// 기본 페이지 번호
 	private Integer rows=25;						// 데이터 보여줄 갯수

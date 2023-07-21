@@ -13,6 +13,7 @@
     		FROM (
 				SELECT *
 				FROM license5
+				WHERE licenseState = 'issued'
 					<include refid="sqlLicense" />
 			) a
 		) b
@@ -21,6 +22,7 @@
 	
 	<select id="getLicenseListCount" resultType="_int">
 		SELECT COUNT(*) FROM license5
+		WHERE licenseState = 'issued'
 			<include refid="sqlLicense" />
 	</select>
 	
@@ -37,8 +39,8 @@
 	</select>
 	
 	<insert id="issuedLicense">
-		INSERT INTO license5(licenseType, productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
-		VALUES(#{licenseTypeView}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
+		INSERT INTO license5(licenseType, productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, licenseState, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
+		VALUES(#{licenseTypeView}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{licenseState}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
 	</insert>
 	
 	<delete id="delLicense" parameterType="_int">
@@ -77,161 +79,159 @@
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlLicense">
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="licenseType != null and licenseType != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="licenseTypeArr" item="arr">
-						OR licenseType LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="customerName != null and customerName != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="customerNameArr" item="arr">
-						OR customerName LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="businessName != null and businessName != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="businessNameArr" item="arr">
-						OR businessName LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="requester != null and requester != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="requesterArr" item="arr">
-						OR requester LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="productType != null and productType != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="productTypeArr" item="arr">
-						OR productType LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="additionalInformation != null and additionalInformation != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="additionalInformationArr" item="arr">
-						OR additionalInformation LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="macAddress != null and macAddress != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="macAddressArr" item="arr">
-						OR macAddress LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="managerOsType != null and managerOsType != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="managerOsTypeArr" item="arr">
-						OR managerOsType LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="managerDbmsType != null and managerDbmsType != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="managerDbmsTypeArr" item="arr">
-						OR managerDbmsType LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="productVersion != null and productVersion != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="productVersionArr" item="arr">
-						OR productVersion LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="licenseFilePath != null and licenseFilePath != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="licenseFilePathArr" item="arr">
-						OR licenseFilePath LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="serialNumber != null and serialNumber != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="serialNumberArr" item="arr">
-						OR serialNumber LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="country != null and country != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="countryArr" item="arr">
-						OR country LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="igriffinAgentCount != null and igriffinAgentCount != ''">
-				AND igriffinAgentCount = #{igriffinAgentCount}
-			</if>
-			<if test="tos5AgentCount != null and tos5AgentCount != ''">
-				AND tos5AgentCount = #{tos5AgentCount}
-			</if>
-			<if test="tos2AgentCount != null and tos2AgentCount != ''">
-				AND tos2AgentCount = #{tos2AgentCount}
-			</if>
-			<if test="dbmsCount != null and dbmsCount != ''">
-				AND dbmsCount = #{dbmsCount}
-			</if>
-			<if test="networkCount != null and networkCount != ''">
-				AND networkCount = #{networkCount}
-			</if>
-			<if test="aixCount != null and aixCount != ''">
-				AND aixCount = #{aixCount}
-			</if>
-			<if test="hpuxCount != null and hpuxCount != ''">
-				AND hpuxCount = #{hpuxCount}
-			</if>
-			<if test="solarisCount != null and solarisCount != ''">
-				AND solarisCount = #{solarisCount}
-			</if>
-			<if test="linuxCount != null and linuxCount != ''">
-				AND linuxCount = #{linuxCount}
-			</if>
-			<if test="windowsCount != null and windowsCount != ''">
-				AND windowsCount = #{windowsCount}
-			</if>
-			<if test="issueDateStart != null and issueDateStart != ''">
-				AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
-			</if>
-			<if test="expirationDaysStart != null and expirationDaysStart != ''">
-				AND expirationDays BETWEEN #{expirationDaysStart} AND #{expirationDaysEnd}
-			</if>
-		</trim>
+		<if test="licenseType != null and licenseType != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="licenseTypeArr" item="arr">
+					OR licenseType LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="customerName != null and customerName != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="customerNameArr" item="arr">
+					OR customerName LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="businessName != null and businessName != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="businessNameArr" item="arr">
+					OR businessName LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="requester != null and requester != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="requesterArr" item="arr">
+					OR requester LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="productType != null and productType != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="productTypeArr" item="arr">
+					OR productType LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="additionalInformation != null and additionalInformation != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="additionalInformationArr" item="arr">
+					OR additionalInformation LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="macAddress != null and macAddress != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="macAddressArr" item="arr">
+					OR macAddress LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="managerOsType != null and managerOsType != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="managerOsTypeArr" item="arr">
+					OR managerOsType LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="managerDbmsType != null and managerDbmsType != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="managerDbmsTypeArr" item="arr">
+					OR managerDbmsType LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="productVersion != null and productVersion != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="productVersionArr" item="arr">
+					OR productVersion LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="licenseFilePath != null and licenseFilePath != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="licenseFilePathArr" item="arr">
+					OR licenseFilePath LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="serialNumber != null and serialNumber != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="serialNumberArr" item="arr">
+					OR serialNumber LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="country != null and country != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="countryArr" item="arr">
+					OR country LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="igriffinAgentCount != null and igriffinAgentCount != ''">
+			AND igriffinAgentCount = #{igriffinAgentCount}
+		</if>
+		<if test="tos5AgentCount != null and tos5AgentCount != ''">
+			AND tos5AgentCount = #{tos5AgentCount}
+		</if>
+		<if test="tos2AgentCount != null and tos2AgentCount != ''">
+			AND tos2AgentCount = #{tos2AgentCount}
+		</if>
+		<if test="dbmsCount != null and dbmsCount != ''">
+			AND dbmsCount = #{dbmsCount}
+		</if>
+		<if test="networkCount != null and networkCount != ''">
+			AND networkCount = #{networkCount}
+		</if>
+		<if test="aixCount != null and aixCount != ''">
+			AND aixCount = #{aixCount}
+		</if>
+		<if test="hpuxCount != null and hpuxCount != ''">
+			AND hpuxCount = #{hpuxCount}
+		</if>
+		<if test="solarisCount != null and solarisCount != ''">
+			AND solarisCount = #{solarisCount}
+		</if>
+		<if test="linuxCount != null and linuxCount != ''">
+			AND linuxCount = #{linuxCount}
+		</if>
+		<if test="windowsCount != null and windowsCount != ''">
+			AND windowsCount = #{windowsCount}
+		</if>
+		<if test="issueDateStart != null and issueDateStart != ''">
+			AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+		</if>
+		<if test="expirationDaysStart != null and expirationDaysStart != ''">
+			AND expirationDays BETWEEN #{expirationDaysStart} AND #{expirationDaysEnd}
+		</if>
 	</sql>
 	
 </mapper>

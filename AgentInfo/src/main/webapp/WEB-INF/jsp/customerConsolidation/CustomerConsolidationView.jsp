@@ -159,13 +159,19 @@
 					<div class="pading5Width450">
 						<div>
 					 		<label class="labelFontSize">고객사</label><label class="colorRed">*</label>
-					 		<input type="text" id="" name="customerConsolidationCustomerView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationCustomer}" disabled="disabled">
+					 		<input type="text" id="" name="" class="form-control viewForm" value="${customerConsolidation.customerConsolidationCustomer}" disabled="disabled">
 					 	</div>
 					</div>
 					<div class="pading5Width450">
 						<div>
 					 		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-					 		<input type="text" id="" name="customerConsolidationBusinessView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationBusiness}" disabled="disabled">
+					 		<input type="text" id="" name="" class="form-control viewForm" value="${customerConsolidation.customerConsolidationBusiness}" disabled="disabled">
+						</div>
+					</div>
+					<div class="pading5Width450">
+						<div>
+					 		<label class="labelFontSize">사용처</label><label class="colorRed">*</label>
+					 		<input type="text" id="" name="" class="form-control viewForm" value="${customerConsolidation.customerConsolidationLocation}" disabled="disabled">
 						</div>
 					</div>
 					<div class="pading5Width450">
@@ -184,6 +190,7 @@
 			         </div>
 			          <div class="pading5Width450">
 			         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
+						 <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
 			         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 			         </div>
 			         <div class="pading5Width450">
@@ -192,7 +199,7 @@
 				      		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
 			    			<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 			    		</div>
-			    		<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
+			    		<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
 				      	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
 				      		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
 				      	</div>
@@ -206,7 +213,7 @@
 				      		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
 			    			<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
 			    		</div>
-				      	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="1">
+				      	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="0">
 				      </div>
 				      <div class="pading5Width450">
 				      	<label class="labelFontSize">TOS 5.0 Agent 수량</label><label class="colorRed">*</label>
@@ -214,7 +221,7 @@
 				      		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
 			    			<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 			    		</div>
-				      	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="1">
+				      	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="0">
 					 </div>
 					 <div class="pading5Width450">
 				      	<label class="labelFontSize">TOS 2.0 Agent 수량</label><label class="colorRed">*</label>
@@ -222,7 +229,7 @@
 				      		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
 			    			<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
 			    		</div>
-				      	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="1">
+				      	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="0">
 					</div>
 					<div class="pading5Width450">
 				      	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
@@ -230,18 +237,18 @@
 				      		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
 			    			<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
 			    		</div>
-				      	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
-					</div>
-					<div class="pading5Width450">
-				      	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
-				      	<div class="floatRight">
-				      		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
-			    			<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
-			    		</div>
-				       	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+				      	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
 					</div>
 				</div>
 				<div class="rightDiv">
+					<div class="pading5Width450">
+						<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
+						<div class="floatRight">
+							<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
+						  <label for="chkNetworkCount"></label><span class="margin17">무제한</span>
+					  	</div>
+						<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="0">
+				    </div>
 				    <div class="pading5Width450">
 				     	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
 				     	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="0">
@@ -301,11 +308,7 @@
 							<option value="5.0.19">5.0.19</option>
 						</select>
 					</div>
-					<div class="pading5Width450">
-				     	<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
-				     	<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-				     	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
-				    </div>
+					<input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDays}">
 				</div>
 			</div>
 		</form>
@@ -315,20 +318,22 @@
 			<div class="leftDiv">
 				<div class="pading5Width450">
 					<div>
-				 		<label class="labelFontSize">고객사</label><label class="colorRed">*</label>
-				 		<input type="text" id="" name="customerConsolidationCustomerView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationCustomer}" disabled="disabled">
-				 	</div>
+						 <label class="labelFontSize">고객사</label><label class="colorRed">*</label>
+						 <input type="text" id="" name="" class="form-control viewForm" value="${customerConsolidation.customerConsolidationCustomer}" disabled="disabled">
+					 </div>
 				</div>
 				<div class="pading5Width450">
 					<div>
-				 		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-				 		<input type="text" id="" name="customerConsolidationBusinessView" class="form-control viewForm" value="${customerConsolidation.customerConsolidationBusiness}" disabled="disabled">
+						 <label class="labelFontSize">사업명</label><label class="colorRed">*</label>
+						 <input type="text" id="" name="" class="form-control viewForm" value="${customerConsolidation.customerConsolidationBusiness}" disabled="disabled">
 					</div>
 				</div>
 				<div class="pading5Width450">
-	         		<label class="labelFontSize">하위사업구분</label>
-	         		<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
-	         	</div>
+					<div>
+						 <label class="labelFontSize">사용처</label><label class="colorRed">*</label>
+						 <input type="text" id="" name="" class="form-control viewForm" value="${customerConsolidation.customerConsolidationLocation}" disabled="disabled">
+					</div>
+				</div>
 				<div class="pading5Width450">
 			    	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			    	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
@@ -345,6 +350,7 @@
 			     </div>
 			      <div class="pading5Width450">
 			     	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
+					 <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
 			     	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 			     </div>
 			     <div class="pading5Width450">
@@ -353,7 +359,7 @@
 			      		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
 						<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 					</div>
-					<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInput('expirationDaysChange');">달력</a>
+					<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
 			      	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
 			      		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
 			      	</div>
@@ -367,7 +373,7 @@
 			      		<input class="cssCheck" type="checkbox" id="chkIGRIFFINAgentCount" name="chkIGRIFFINAgentCount" value="무제한">
 						<label for="chkIGRIFFINAgentCount"></label><span class="margin17">무제한</span>
 					</div>
-			      	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="1">
+			      	<input type="number" id="igriffinAgentCountView" name="igriffinAgentCountView" class="form-control viewForm" value="0">
 			      </div>
 			      <div class="pading5Width450">
 			      	<label class="labelFontSize">TOS 5.0 Agent 수량</label><label class="colorRed">*</label>
@@ -375,7 +381,7 @@
 			      		<input class="cssCheck" type="checkbox" id="chkTos5AgentCount" name="chkTos5AgentCount" value="무제한">
 						<label for="chkTos5AgentCount"></label><span class="margin17">무제한</span>
 					</div>
-			      	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="1">
+			      	<input type="number" id="tos5AgentCountView" name="tos5AgentCountView" class="form-control viewForm" value="0">
 				 </div>
 				 <div class="pading5Width450">
 			      	<label class="labelFontSize">TOS 2.0 Agent 수량</label><label class="colorRed">*</label>
@@ -383,7 +389,7 @@
 			      		<input class="cssCheck" type="checkbox" id="chkTos2AgentCount" name="chkTos2AgentCount" value="무제한">
 						<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
 					</div>
-			      	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="1">
+			      	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="0">
 				</div>
 				<div class="pading5Width450">
 			      	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
@@ -391,7 +397,7 @@
 			      		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
 						<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
 					</div>
-			      	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="1">
+			      	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
 				</div>
 				<div class="pading5Width450">
 			      	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
@@ -399,7 +405,7 @@
 			      		<input class="cssCheck" type="checkbox" id="chkNetworkCount" name="chkNetworkCount" value="무제한">
 						<label for="chkNetworkCount"></label><span class="margin17">무제한</span>
 					</div>
-			       	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="1">
+			       	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="0">
 				</div>
 			</div>
 			<div class="rightDiv">
@@ -462,7 +468,7 @@
 						<option value="5.0.19">5.0.19</option>
 					</select>
 				</div>
-				<div class="pading5Width450">
+				<div class="pading5Width450" >
 			     	<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 			     	<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
 			     	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
@@ -888,6 +894,291 @@
 		        alert(e);
 		    }
 		});
+	}
+</script>
+
+<!-- 라이선스 요청 -->
+<script>
+	$(function() {
+		if("${viewType}" == 'insert') {
+			var customerName = $('#customerNameView').val();
+			var businessName = $('#businessNameView').val();
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		}
+		
+		if("${viewType}" == 'update' || "${viewType}" == 'issuedback') {
+			if($('#expirationDaysView').val() == "무제한") {
+				$('#chkExpirationDays').prop("checked",true);
+				$("#expirationDaysDay").val(90);
+				$("#expirationDaysCalender").attr("disabled",true);
+				$("#expirationDaysDay").attr("disabled",true);
+				$("#expirationDaysView").attr("disabled",true);
+			} else if($('#expirationDaysView').val().length > 4) {
+				$("#expirationDaysChange").text("Day");
+				$('#expirationDaysViewSelf').show();
+				$('#expirationDaysViewSelect').hide();
+				$('#expirationDaysCalender').val($('#expirationDaysView').val());
+			} else {
+				$("#expirationDaysChange").text("달력");
+				$('#expirationDaysViewSelf').hide();
+				$('#expirationDaysViewSelect').show();
+				$('#expirationDaysDay').val($('#expirationDaysView').val());
+			}
+			
+			if($('#igriffinAgentCountView').val() == "") {
+				$('#chkIGRIFFINAgentCount').prop("checked",true);
+				$("#igriffinAgentCountView").val(1);
+				$("#igriffinAgentCountView").attr("disabled",true);
+			}
+			
+			if($('#tos5AgentCountView').val() == "") {
+				$('#chkTos5AgentCount').prop("checked",true);
+				$("#tos5AgentCountView").val(1);
+				$("#tos5AgentCountView").attr("disabled",true);
+			}
+			
+			if($('#tos2AgentCountView').val() == "") {
+				$('#chkTos2AgentCount').prop("checked",true);
+				$("#tos2AgentCountView").val(1);
+				$("#tos2AgentCountView").attr("disabled",true);
+			}
+			
+			if($('#dbmsCountView').val() == "") {
+				$('#chkDbmsCount').prop("checked",true);
+				$("#dbmsCountView").val(1);
+				$("#dbmsCountView").attr("disabled",true);
+			}
+			
+			if($('#networkCountView').val() == "") {
+				$('#chkNetworkCount').prop("checked",true);
+				$("#networkCountView").val(1);
+				$("#networkCountView").attr("disabled",true);
+			}
+		}
+		
+		$("#customerNameView").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+
+		$("#customerNameSelf").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+		
+		$("#businessNameView").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+
+		$("#businessNameSelf").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+		
+		$("#issueDateView").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		});
+		
+		$('#chkExpirationDays').change(function() {
+			if($("#chkExpirationDays").is(":checked")){
+				$("#expirationDaysCalender").attr("disabled",true);
+				$("#expirationDaysDay").attr("disabled",true);
+				$("#expirationDaysView").attr("disabled",true);
+			} else {
+				$("#expirationDaysCalender").attr("disabled",false);
+				$("#expirationDaysDay").attr("disabled",false);
+				$("#expirationDaysView").attr("disabled",false);
+			}
+		});
+		
+		$('#chkIGRIFFINAgentCount').change(function() {
+			if($("#chkIGRIFFINAgentCount").is(":checked")){
+				$("#igriffinAgentCountView").attr("disabled",true);
+			} else {
+				$("#igriffinAgentCountView").attr("disabled",false);
+			}
+		});
+		
+		$('#chkTos5AgentCount').change(function() {
+			if($("#chkTos5AgentCount").is(":checked")){
+				$("#tos5AgentCountView").attr("disabled",true);
+			} else {
+				$("#tos5AgentCountView").attr("disabled",false);
+			}
+		});
+		
+		$('#chkTos2AgentCount').change(function() {
+			if($("#chkTos2AgentCount").is(":checked")){
+				$("#tos2AgentCountView").attr("disabled",true);
+			} else {
+				$("#tos2AgentCountView").attr("disabled",false);
+			}
+		});
+		
+		$('#chkDbmsCount').change(function() {
+			if($("#chkDbmsCount").is(":checked")){
+				$("#dbmsCountView").attr("disabled",true);
+			} else {
+				$("#dbmsCountView").attr("disabled",false);
+			}
+		});
+		
+		$('#chkNetworkCount').change(function() {
+			if($("#chkNetworkCount").is(":checked")){
+				$("#networkCountView").attr("disabled",true);
+			} else {
+				$("#networkCountView").attr("disabled",false);
+			}
+		});
+		
+		$('#chkLicenseIssuance').change(function() {
+			if($("#chkLicenseIssuance").is(":checked")){
+				$("#serialNumberView").css("display","none");
+			} else {
+				$("#serialNumberView").css("display","block");
+			}
+		});
+		
+	});
+
+	function selfInputCalendar(data) {
+		if(data == "expirationDaysChange") {
+			if($("#expirationDaysChange").text() == "달력") {
+				$('#expirationDaysViewSelf').show();
+				$('#expirationDaysViewSelect').hide();
+				$('#expirationDaysView').val('');
+				$("#expirationDaysChange").text("Day");
+			} else if($("#expirationDaysChange").text() == "Day") {
+				$('#expirationDaysViewSelf').hide();
+				$('#expirationDaysViewSelect').show();
+				$("#expirationDaysChange").text("달력");
+			}
+		}
+	}
+
+	if("${viewType}" == "insert") {
+		document.getElementById('issueDateView').valueAsDate = new Date();
+		document.getElementById('expirationDaysCalender').valueAsDate = new Date();
+	}
+
+	function insertEngineerBtn() {
+		if($("#expirationDaysChange").text() == "Day") {
+			var calender = $("#expirationDaysCalender").val();
+			$("#expirationDaysView").val(calender);
+		} else if($("#expirationDaysChange").text() == "달력") {
+			var day = $("#expirationDaysDay").val();
+			$("#expirationDaysView").val(day);
+		}
+		
+		var macAddress = $('#macAddressView').val();
+		var expirationDays = $('#expirationDaysView').val();
+		var issueDate = $('#issueDateView').val();
+		var productVersion = $('#productVersionView').val();
+
+		$('.licenseShow').hide();
+		if(macAddress == "") {
+			$('#NotMacAddress').show();			
+		} else if(productVersion == "") {
+			$('#NotProductVersion').show();
+		} else if(issueDate == "") {
+			$('#NotIssueDate').show();
+		} else { 
+			var postData = $('#modalFormSecurityLicense').serializeArray();
+			postData.push({name : "customerConsolidationKeyNum", value : $('#customerConsolidationKeyNum').val()});
+			$.ajax({
+			    type: 'POST',
+				data: postData,
+			    url: "<c:url value='/license5/license5IssuedRequest'/>",
+			    async: false,
+			    success: function (result) {
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '라이선스 요청 하였습니다.',
+						});
+						$('#modal').modal("hide"); // 모달 닫기
+			        	$('#modal').on('hidden.bs.modal', function () {
+			        		tableRefresh();
+			        	});
+
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		}
 	}
 </script>
 

@@ -549,8 +549,8 @@
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.macAddress+"</span></td>";
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.productType+"</span></td>";
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.igriffinAgentCount+"</span></td>";
-						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.tos2AgentCount+"</span></td>";
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.tos5AgentCount+"</span></td>";
+						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.tos2AgentCount+"</span></td>";
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.managerOsType+"</span></td>";
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.managerDbmsType+"</span></td>";
 						rowItem += "<td	class='licenseTd'><span class='licenseSpan'>"+license.country+"</span></td>";
