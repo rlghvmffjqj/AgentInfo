@@ -274,7 +274,7 @@
 					</li>
 				</ul>
 			
-				<ul class="pcoded-item pcoded-left-item">
+				<!-- <ul class="pcoded-item pcoded-left-item">
 					<li class="customerLicense pcoded-hasmenu">
 						<a href="#!" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
@@ -307,7 +307,7 @@
 						    </li>
 					  	</ul>
 				    </li>
-				</ul>
+				</ul> -->
 			</sec:authorize>
 		    <%-- <ul class="pcoded-item pcoded-left-item">
 		        <li class="customer">
