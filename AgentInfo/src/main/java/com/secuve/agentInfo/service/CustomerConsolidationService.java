@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.core.MailService;
 import com.secuve.agentInfo.dao.CustomerConsolidationDao;
+import com.secuve.agentInfo.dao.License5Dao;
 import com.secuve.agentInfo.vo.CustomerConsolidation;
 
 
@@ -21,6 +22,7 @@ import com.secuve.agentInfo.vo.CustomerConsolidation;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class CustomerConsolidationService {
 	@Autowired CustomerConsolidationDao customerConsolidationDao;
+	@Autowired License5Dao license5Dao;
 	@Autowired MailService mailService;
 
 	public List<CustomerConsolidation> getCustomerConsolidationList(CustomerConsolidation search) {
@@ -86,6 +88,8 @@ public class CustomerConsolidationService {
 		int sucess = customerConsolidationDao.updateSales(customerConsolidation);
 		if (sucess <= 0)
 			return "FALSE";
+		customerConsolidationDao.updateSalesSecurity(customerConsolidation, customerConsolidationOne);
+		license5Dao.updateSalesLicense(customerConsolidation, customerConsolidationOne);
 		return "OK";
 	}
 

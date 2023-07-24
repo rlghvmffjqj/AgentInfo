@@ -66,7 +66,7 @@ public class License5Service {
 	public List<License5> getLicenseList(License5 search) {
 		List<License5> license5List = license5Dao.getLicenseList(licenseSearch(search));
 		for (License5 license5 : license5List) {
-			if(license5.getLicenseType().equals("(구)")) {
+			if("(구)".equals(license5.getLicenseType())) {
 				license5.setNetworkCount(null);
 				license5.setAixCount(null);
 				license5.setHpuxCount(null);

@@ -106,6 +106,10 @@
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
 			$('.license2').addClass('active');
+		} else if($.cookie('name') == 'licenseRequest') {
+			$('.license').addClass('active');
+			$('.license').addClass('pcoded-trigger');
+			$('.licenseRequest').addClass('active');
 		} else if($.cookie('name') == 'externalEquipment') {
 			$('.externalEquipment').addClass('active');
 			$('.serverList').addClass('active');
@@ -259,8 +263,8 @@
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
-							<li class="license2">
-								<a href="#" class="waves-effect waves-dark">
+							<li class="licenseRequest">
+								<a href="<c:url value='/license5/request'/>" class="waves-effect waves-dark">
 								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 								  <span class="pcoded-mtext">라이선스 발급 요청</span>
 								  <span class="pcoded-mcaret"></span>

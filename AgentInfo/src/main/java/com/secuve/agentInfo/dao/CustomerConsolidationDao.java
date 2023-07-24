@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,15 @@ public class CustomerConsolidationDao {
 
 	public int getEngineerCount(CustomerConsolidation search) {
 		return sqlSession.selectOne("customerConsolidation.getEngineerCount", search);
+	}
+
+	public void updateSalesSecurity(CustomerConsolidation customerConsolidation, CustomerConsolidation customerConsolidationOne) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("customerConsolidationCustomerOrd", customerConsolidationOne.getCustomerConsolidationCustomer());
+		parameters.put("customerConsolidationBusinessOrd", customerConsolidationOne.getCustomerConsolidationBusiness());
+		parameters.put("customerConsolidationCustomerNew", customerConsolidation.getCustomerConsolidationCustomerView());
+		parameters.put("customerConsolidationBusinessNew", customerConsolidation.getCustomerConsolidationBusinessView());
+		sqlSession.update("customerConsolidation.updateSalesSecurity", parameters);
 	}
 
 }

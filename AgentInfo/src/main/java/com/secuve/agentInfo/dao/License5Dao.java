@@ -65,4 +65,13 @@ public class License5Dao {
 		return sqlSession.selectList("license5.getCustomerConsolidationList", customerConsolidation);
 	}
 
+	public void updateSalesLicense(CustomerConsolidation customerConsolidation,	CustomerConsolidation customerConsolidationOne) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("customerConsolidationCustomerOrd", customerConsolidationOne.getCustomerConsolidationCustomer());
+		parameters.put("customerConsolidationBusinessOrd", customerConsolidationOne.getCustomerConsolidationBusiness());
+		parameters.put("customerConsolidationCustomerNew", customerConsolidation.getCustomerConsolidationCustomerView());
+		parameters.put("customerConsolidationBusinessNew", customerConsolidation.getCustomerConsolidationBusinessView());
+		sqlSession.update("license5.updateSalesLicense", parameters);
+	}
+
 }

@@ -13,7 +13,7 @@
     		FROM (
 				SELECT *
 				FROM license5
-				WHERE licenseState = 'issued'
+				WHERE licenseState = #{licenseState}
 					<include refid="sqlLicense" />
 			) a
 		) b
@@ -22,7 +22,7 @@
 	
 	<select id="getLicenseListCount" resultType="_int">
 		SELECT COUNT(*) FROM license5
-		WHERE licenseState = 'issued'
+		WHERE licenseState = #{licenseState}
 			<include refid="sqlLicense" />
 	</select>
 	
@@ -74,6 +74,11 @@
 	<select id="getCustomerConsolidationList" resultMap="license">
 		SELECT * FROM license5 WHERE customerName = #{customerConsolidationCustomer} AND businessName = #{customerConsolidationBusiness} AND additionalInformation = #{customerConsolidationLocation};
 	</select>
+	
+	<update id="updateSalesLicense">
+		UPDATE license5 SET customerName = #{customerConsolidationCustomerNew}, businessName = #{customerConsolidationBusinessNew}
+		WHERE customerName = #{customerConsolidationCustomerOrd} AND businessName = #{customerConsolidationBusinessOrd};
+	</update>
 	
 	
 	<!-- ==================================================================================== -->

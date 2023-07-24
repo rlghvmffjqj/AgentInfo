@@ -87,6 +87,11 @@
 		</if>
 	</select>
 	
+	<update id="updateSalesSecurity">
+		UPDATE customerConsolidation SET customerConsolidationCustomer = #{customerConsolidationCustomerNew}, customerConsolidationBusiness = #{customerConsolidationBusinessNew}
+		WHERE customerConsolidationCustomer = #{customerConsolidationCustomerOrd} AND customerConsolidationBusiness = #{customerConsolidationBusinessOrd};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlCustomerConsolidation">

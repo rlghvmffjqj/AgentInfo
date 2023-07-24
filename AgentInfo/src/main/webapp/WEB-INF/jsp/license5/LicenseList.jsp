@@ -241,10 +241,10 @@
 													<div class="col-lg-2">
 			                      						<label class="labelFontSize">국가</label>
 			                      						<select class="form-control selectpicker" id="countryMulti" name="countryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<option value="메일">메일</option>
-															<option value="대용량 메일">대용량 메일</option>
-															<option value="CD">CD</option>
-															<option value="점프호스트">점프호스트</option>
+															<option value="KR">KR</option>
+															<option value="JP">JP</option>
+															<option value="US">US</option>
+															<option value="CN">CN</option>
 														</select>
 			                      					</div>
 			                      					<div class="col-lg-2">

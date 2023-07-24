@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.secuve.agentInfo.service.CategoryService;
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.License5Service;
 import com.secuve.agentInfo.vo.License5;
 
@@ -30,6 +31,7 @@ import com.secuve.agentInfo.vo.License5;
 public class License5Controller {
 	@Autowired License5Service license5Service;
 	@Autowired CategoryService categoryService;
+	@Autowired EmployeeService employeeService;
 	
 	@GetMapping(value = "/license5/issuance")
 	public String LicenseList(Model model) {
@@ -65,6 +67,7 @@ public class License5Controller {
 	@PostMapping(value = "/license5")
 	public Map<String, Object> Licens(License5 search) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		search.setLicenseState("issued");
 		ArrayList<License5> list = new ArrayList<>(license5Service.getLicenseList(search));
 
 		int totalCount = license5Service.getLicenseListCount(search);
@@ -302,8 +305,53 @@ public class License5Controller {
 	
 	@ResponseBody
 	@PostMapping(value = "/license5/license5IssuedRequest")
-	public String issuedRequest(License5 license) throws ParseException {
+	public String issuedRequest(License5 license, Principal principal) throws ParseException {
+		license.setRequesterView(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		return license5Service.issuedRequest(license);
 	}
+	
+	@GetMapping(value = "/license5/request")
+	public String requestList(Model model) {
+		List<String> customerName = license5Service.getSelectInput("customerName");
+		List<String> businessName = license5Service.getSelectInput("businessName");
+		List<String> additionalInformation = license5Service.getSelectInput("additionalInformation");
+		List<String> productType = license5Service.getSelectInput("productType");
+		List<String> macAddress = license5Service.getSelectInput("macAddress");
+		List<String> managerOsType = license5Service.getSelectInput("managerOsType");
+		List<String> managerDbmsType = license5Service.getSelectInput("managerDbmsType");
+		List<String> productVersion = license5Service.getSelectInput("productVersion");
+		List<String> country = license5Service.getSelectInput("country");
+		List<String> requester = license5Service.getSelectInput("requester");
+		
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("businessName", businessName);
+		model.addAttribute("additionalInformation", additionalInformation);
+		model.addAttribute("productType", productType);
+		model.addAttribute("macAddress", macAddress);
+		model.addAttribute("managerOsType", managerOsType);
+		model.addAttribute("managerDbmsType", managerDbmsType);
+		model.addAttribute("productVersion", productVersion);
+		model.addAttribute("country", country);
+		model.addAttribute("requester", requester);
+		return "/license5/RequestList";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/licenseRequest")
+	public Map<String, Object> licenseRequest(License5 search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		search.setLicenseState("request");
+		search.setSerialNumber("");
+		search.setLicenseFilePath("");
+		ArrayList<License5> list = new ArrayList<>(license5Service.getLicenseList(search));
+
+		int totalCount = license5Service.getLicenseListCount(search);
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
+	}
+	
 
 }
