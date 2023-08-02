@@ -454,6 +454,15 @@
 				    </li>
 			    </ul> --%>
 		    </sec:authorize>
+			<ul class="pcoded-item pcoded-left-item">
+				<li class="faqList">
+					<a href="<c:url value='/faq/faqList'/>" class="waves-effect waves-dark">
+						<span class="pcoded-micon"><i class="ti-receipt"></i><b>FC</b></span>
+						<span class="pcoded-mtext" data-i18n="nav.form-components.main">FAQ(개발중)</span>
+						<span class="pcoded-mcaret"></span>
+					</a>
+				</li>
+			</ul>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">

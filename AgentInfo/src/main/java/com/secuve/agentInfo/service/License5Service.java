@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -119,6 +121,9 @@ public class License5Service {
 	}
 	
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
+		if(!isValidMacAddress(license.getMacAddressView())) {
+			return "NotMacAddress";
+		}
 		String resault = "OK";
 		String route = "";
 		if(license.getLicenseTypeView().equals("(신)"))
@@ -172,6 +177,17 @@ public class License5Service {
 		}
 		return resault;
 	}
+	
+	public static boolean isValidMacAddress(String macAddress) {
+        // MAC 주소의 패턴을 정의합니다. 콜론(:) 또는 하이픈(-)으로 구분된 12자리의 16진수 패턴입니다.
+        String macPattern = "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$";
+
+        // 정규 표현식을 이용하여 패턴 검사를 수행합니다.
+        Pattern pattern = Pattern.compile(macPattern);
+        Matcher matcher = pattern.matcher(macAddress);
+
+        return matcher.matches();
+    }
 	
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
 		String resault = "OK";
