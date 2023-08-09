@@ -252,6 +252,8 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.exten
       resizeFull: 'Resize full',
       resizeFullHalf: 'Resize fullHalf',
       resizeHalf: 'Resize half',
+      resizeFourty: 'Resize fourty',
+      resizeThirtyFive: 'Resize thirtyFive',
       resizeQuarter: 'Resize quarter',
       resizeNone: 'Original size',
       floatLeft: 'Float Left',
@@ -7889,6 +7891,20 @@ var Buttons_Buttons = /*#__PURE__*/function () {
           click: _this3.context.createInvokeHandler('editor.resize', '0.5')
         }).render();
       });
+      this.context.memo('button.resizeFourty', function () {
+        return _this3.button({
+          contents: '<span class="note-fontsize-10">40%</span>',
+          tooltip: _this3.lang.image.resizeFourty,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.40')
+        }).render();
+      });
+      this.context.memo('button.resizeThirtyFive', function () {
+        return _this3.button({
+          contents: '<span class="note-fontsize-10">35%</span>',
+          tooltip: _this3.lang.image.resizeThirtyFive,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.35')
+        }).render();
+      });
       this.context.memo('button.resizeQuarter', function () {
         return _this3.button({
           contents: '<span class="note-fontsize-10">25%</span>',
@@ -9813,7 +9829,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
     // popover
     popatmouse: true,
     popover: {
-      image: [['resize', ['resizeFull','resizeFullHalf', 'resizeHalf', 'resizeQuarter', 'resizeNone']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']],['border']],
+      image: [['resize', ['resizeFull','resizeFullHalf', 'resizeHalf', 'resizeFourty', 'resizeThirtyFive', 'resizeQuarter', 'resizeNone']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']],['border']],
       link: [['link', ['linkDialogShow', 'unlink']]],
       table: [['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']], ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]],
       air: [['color', ['color']], ['font', ['bold', 'underline', 'clear']], ['para', ['ul', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture']], ['view', ['fullscreen', 'codeview']]]
