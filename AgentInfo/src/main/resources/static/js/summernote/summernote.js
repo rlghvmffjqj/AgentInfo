@@ -7896,7 +7896,7 @@ var Buttons_Buttons = /*#__PURE__*/function () {
           contents: '<span class="note-fontsize-10">40%</span>',
           tooltip: _this3.lang.image.resizeFourty,
           click: _this3.context.createInvokeHandler('editor.resize', '0.40')
-        }).render();
+        }).render(); 
       });
       this.context.memo('button.resizeThirtyFive', function () {
         return _this3.button({
