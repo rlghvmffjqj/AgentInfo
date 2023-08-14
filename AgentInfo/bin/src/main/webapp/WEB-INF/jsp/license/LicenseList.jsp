@@ -104,9 +104,9 @@
 		                      						<div style="padding-left:15px; width:100%; float: left;">
 		                      							<label class="labelFontSize">발급일자</label>
 		                      							<div>
-															<input class="form-control" style="width: 18.3%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
+															<input class="form-control" style="width: 14.9%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
 															<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-															<input class="form-control" style="width: 18.3%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
+															<input class="form-control" style="width: 14.9%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
 														</div>
 														<div style="padding-left: 50px; float: left;">
 															<div class="form-check radioDate">
@@ -282,13 +282,11 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">라이선스 관리 :
-																	<sec:authorize access="hasRole('ADMIN')">
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
-																	</sec:authorize>
+																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
 															</tr>

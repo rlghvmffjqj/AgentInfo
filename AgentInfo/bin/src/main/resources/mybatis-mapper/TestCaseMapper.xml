@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="testCase">
+	<resultMap type="com.secuve.agentInfo.vo.TestCase" id="testCase"></resultMap>
+	
+	<select id="getTestCaseList" resultMap="testCase">
+		SELECT DISTINCT testCaseRouteGroupNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT DISTINCT testCaseRouteGroupNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate
+				FROM testCaseRoute
+				WHERE testCaseFormKeyNum = #{testCaseFormKeyNum}
+					<include refid="sqlTestCase" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getTestCaseListCount" resultType="_int">
+		SELECT COUNT(DISTINCT testCaseRouteGroupNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate) FROM testCaseRoute
+		WHERE testCaseFormKeyNum = #{testCaseFormKeyNum}
+			<include refid="sqlTestCase" />
+	</select>
+	
+	<select id="getSearchValue" parameterType="string" resultType="string">
+		SELECT DISTINCT ${searchValue} FROM testCaseRoute;
+	</select>
+	
+	<select id="getTestCaseForm" resultMap="testCase">
+		SELECT * FROM testCaseForm;
+	</select>
+	
+	<insert id="insertTestCaseForm" parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseFormKeyNum">
+		INSERT INTO testCaseForm(testCaseFormName,testCaseFormRegistrant,testCaseFormRegistrationDate)
+		VALUES(#{testCaseFormName},#{testCaseFormRegistrant},#{testCaseFormRegistrationDate});
+	</insert>
+	
+	<select id="testCaseFormNameDuplication" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM testCaseForm WHERE testCaseFormName = #{testCaseFormName};
+	</select>
+	
+	<delete id="delTestCaseForm">
+		DELETE FROM testCaseForm WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</delete>
+	
+	<update id="updateTestCaseForm">
+		UPDATE testCaseForm SET testCaseFormName = #{testCaseFormName} WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</update>
+	
+	<select id="getTestCaseFormOne" resultMap="testCase">
+		SELECT * FROM testCaseForm WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</select>
+	
+	<delete id="delTestCaseFormRoute">
+		DELETE FROM testCaseRoute WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</delete>
+	
+	<delete id="delTestCaseFormContents">
+		DELETE FROM testCaseContents WHERE testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</delete>
+	
+	<select id="getTestCaseRouteKeyNum" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
+	</select>
+	
+	<update id="testCaseRouteMovePlus">
+		UPDATE testCaseRoute SET testCaseRouteSortNum = testCaseRouteSortNum + 1 WHERE testCaseRouteSortNum > #{endTestCaseRouteSortNum};
+	</update>
+	
+	<update id="testCaseRouteMove">
+		UPDATE testCaseRoute SET testCaseRouteSortNum = #{endTestCaseRouteSortNum}, testCaseRouteName = #{testCaseRouteName}, testCaseRouteFullPath = #{testCaseRouteFullPath}, testCaseRouteParentPath = #{testCaseRouteParentPath}
+		WHERE testCaseRouteSortNum = #{startTestCaseRouteSortNum};
+	</update>
+	
+	<select id="getRouteList" resultMap="testCase">
+		SELECT *
+		FROM testCaseRoute
+		WHERE testCaseRouteParentPath = #{testCaseRouteParentPath}
+		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
+		AND testCaseRouteNote = #{testCaseRouteNote}
+		AND testCaseFormKeyNum = #{testCaseFormKeyNum}
+		ORDER BY testCaseRouteSortNum ASC;
+	</select>
+	
+	<insert id="insertRoute"  parameterType="testCase" useGeneratedKeys="true" keyProperty="testCaseRouteKeyNum">
+		INSERT INTO testCaseRoute(testCaseRouteSortNum,testCaseRouteGroupNum,testCaseFormKeyNum,testCaseRouteCustomer,testCaseRouteNote,testCaseRouteDate,testCaseRouteFullPath,testCaseRouteParentPath,testCaseRouteName,testCaseRouteRegistrant,testCaseRouteRegistrationDate,testCaseRouteModifier,testCaseRouteModifiedDate) 
+		VALUES(#{testCaseRouteSortNum},#{testCaseRouteGroupNum},#{testCaseFormKeyNum},#{testCaseRouteCustomer},#{testCaseRouteNote},#{testCaseRouteDate},#{testCaseRouteFullPath},#{testCaseRouteParentPath},#{testCaseRouteName},#{testCaseRouteRegistrant},#{testCaseRouteRegistrationDate},#{testCaseRouteModifier},#{testCaseRouteModifiedDate});
+	</insert>
+	
+	<select id="getTestCaseRouteFullPath" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</select>
+	
+	<select id="getTestCaseRouteOverlap" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormKeyNum = #{testCaseFormKeyNum} AND testCaseRouteName = #{newTestCaseRouteName};
+	</select>
+	
+	<select id="getTestCaseRouteParentPath" parameterType="string" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteParentPath = #{testCaseRouteParentPath};
+	</select>
+	
+	<delete id="deleteRoute">
+		DELETE FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath};
+	</delete>
+	
+	<update id="updateRoute">
+		UPDATE testCaseRoute SET testCaseRouteFullPath = #{testCaseRouteFullPath}, testCaseRouteParentPath = #{testCaseRouteParentPath}, testCaseRouteName = #{testCaseRouteName} 
+		WHERE testCaseRouteFullPath = #{ordTestCaseFullPath};
+	</update>
+	
+	<select id="getTestCaseRouteFullPathList" resultMap="testCase" parameterType="string">
+		SELECT * FROM testCaseRoute 
+		WHERE testCaseRouteFullPath = #{testCaseRouteFullPath} OR testCaseRouteFullPath Like #{testCaseRouteParentPath};
+	</select>
+	
+	<update id="updateRouteDate">
+		UPDATE testCaseRoute SET testCaseRouteDate = #{testCaseRouteDate} 
+		WHERE testCaseFormKeyNum = #{testCaseFormKeyNum}
+		AND testCaseRouteCustomer = #{testCaseRouteCustomer}
+		AND testCaseRouteNote = #{testCaseRouteNote};
+	</update>
+	
+	<select id="testCaseConfirmed" resultType="_int">
+		SELECT COUNT(*) FROM testCaseRoute 
+		WHERE testCaseRouteCustomer = #{testCaseRouteCustomer}
+		AND testCaseRouteNote = #{testCaseRouteNote}
+		AND testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</select>
+	
+	<select id="getTestCaseRouteOne" resultMap="testCase">
+		SELECT DISTINCT testCaseFormKeyNum, testCaseRouteCustomer, testCaseRouteNote, testCaseRouteDate FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
+	</select>
+	
+	<select id="getMaxTestCaseRouteGroupNum" resultType="_int">
+		SELECT MAX(testCaseRouteGroupNum) FROM testCaseRoute;
+	</select>
+	
+	<select id="getMaxTestCaseRouteSortNum" resultType="_int">
+		SELECT MAX(testCaseRouteSortNum) FROM testCaseRoute;
+	</select>
+	
+	<select id="getTestCaseRouteFullPathMoveList" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath LIKE CONCAT('%',#{testCaseRouteFullPath},'%');
+	</select>
+	
+	
+	<delete id="deleteTestCase" parameterType="_int">
+		DELETE FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
+	</delete>
+	
+	<delete id="deleteTestCaseRouteContents" parameterType="_int">
+		DELETE FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</delete>
+	
+	<select id="getTestCaseRouteList" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteGroupNum = #{testCaseRouteGroupNum};
+	</select>
+	
+	<select id="getTestCaseContents" parameterType="_int" resultMap="testCase">
+		SELECT * FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</select>
+	
+	<select id="testCaseDoubleCheck" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</select>
+	
+	<insert id="testCaseContentsInsert">
+		INSERT INTO testCaseContents(testCaseFormKeyNum, testCaseRouteKeyNum, testCaseContentsRegistrant, testCaseContentsRegistrationDate) 
+		VALUES(#{testCaseFormKeyNum}, #{testCaseRouteKeyNum}, #{testCaseContentsRegistrant}, #{testCaseContentsRegistrationDate});
+	</insert>
+	
+	<update id="testCaseContentsUpdate">
+		UPDATE testCaseContents SET testCaseContentsMainMenu=#{testCaseContentsMainMenu}, testCaseContentsMediumMenu=#{testCaseContentsMediumMenu}, testCaseContentsSmallMenu=#{testCaseContentsSmallMenu}, testCaseContentsTcCode=#{testCaseContentsTcCode}, testCaseContentsClassificationCode=#{testCaseContentsClassificationCode}, testCaseContentsPurpose=#{testCaseContentsPurpose}, testCaseContentsPreparation=#{testCaseContentsPreparation}, testCaseContentsItem=#{testCaseContentsItem}, testCaseContentsProcedure=#{testCaseContentsProcedure}, testCaseContentsExpectedResult=#{testCaseContentsExpectedResult}, testCaseContentsTestResult=#{testCaseContentsTestResult}, testCaseContentsResultCode=#{testCaseContentsResultCode}, testCaseContentsInfluence=#{testCaseContentsInfluence}, testCaseContentsManager=#{testCaseContentsManager}, testCaseContentsError=#{testCaseContentsError}, testCaseContentsNote=#{testCaseContentsNote},  testCaseContentsModifier=#{testCaseContentsModifier}, testCaseContentsModifiedDate=#{testCaseContentsModifiedDate}
+		WHERE  testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</update>
+	
+	<delete id="testCaseContentsDelete" parameterType="_int">
+		DELETE FROM testCaseContents WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
+	</delete>
+	
+	<insert id="testCaseContentsCopyInsert">
+		INSERT INTO testCaseContents(testCaseFormKeyNum,testCaseRouteKeyNum,testCaseContentsMainMenu,testCaseContentsMediumMenu,testCaseContentsSmallMenu,testCaseContentsTcCode,testCaseContentsClassificationCode,testCaseContentsPurpose,testCaseContentsPreparation,testCaseContentsItem,testCaseContentsProcedure,testCaseContentsExpectedResult,testCaseContentsTestResult,testCaseContentsResultCode,testCaseContentsInfluence,testCaseContentsManager,testCaseContentsError,testCaseContentsNote,testCaseContentsRegistrant,testCaseContentsRegistrationDate)
+		VALUES(#{testCaseFormKeyNum},#{testCaseRouteKeyNum},#{testCaseContentsMainMenu},#{testCaseContentsMediumMenu},#{testCaseContentsSmallMenu},#{testCaseContentsTcCode},#{testCaseContentsClassificationCode},#{testCaseContentsPurpose},#{testCaseContentsPreparation},#{testCaseContentsItem},#{testCaseContentsProcedure},#{testCaseContentsExpectedResult},#{testCaseContentsTestResult},#{testCaseContentsResultCode},#{testCaseContentsInfluence},#{testCaseContentsManager},#{testCaseContentsError},#{testCaseContentsNote},#{testCaseContentsRegistrant},#{testCaseContentsRegistrationDate});
+	</insert>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlTestCase">
+		<if test="testCaseRouteCustomer != null and testCaseRouteCustomer != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="testCaseRouteCustomerArr" item="arr">
+					OR testCaseRouteCustomer LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="testCaseRouteNote != null and testCaseRouteNote != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="testCaseRouteNoteArr" item="arr">
+					OR testCaseRouteNote LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="testCaseDateStart != null and testCaseDateStart != ''">
+			AND testCaseRouteDate BETWEEN #{testCaseDateStart} AND #{testCaseDateEnd}
+		</if>
+	</sql>
+	
+</mapper>

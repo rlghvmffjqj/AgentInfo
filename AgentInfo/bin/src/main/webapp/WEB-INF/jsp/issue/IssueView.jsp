@@ -187,7 +187,7 @@
 		                                		<div style='text-align:right;'>
 					                              	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 					                            </div>
-		                                		<div class="searchbos">
+		                                		<div class="searchbos issueStyle">
 			                                		<div class="plus">
 			                                			<div><div><div id="blank"></div></div></div>
 			                                			<c:forEach var="list" items="${issue}">
@@ -1151,4 +1151,11 @@
 			}
 		}
 	</script>
+	<style>
+		.issueStyle {
+			background: #f5e6d3bd;
+    		font-weight: bold;
+    		font-family: math;
+		}
+	</style>
 </html>

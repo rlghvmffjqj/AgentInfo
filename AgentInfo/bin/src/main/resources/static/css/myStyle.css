@@ -224,7 +224,7 @@ p {
 }
 
 .modal-license5 {
-	top: 0%;
+	top: -2%;
     width: 1000px;
 	max-width: 1500px;
 }
@@ -233,6 +233,18 @@ p {
 	top: -1%;
     width: 1000px;
 	max-width: 1500px;
+}
+
+.modal-customerConsolidation {
+	top: -1%;
+    width: 1000px;
+	max-width: 1500px;
+}
+
+.modal-customerConsolidationSearch {
+	top: 10%;
+    width: 700px;
+	max-width: 700px;
 }
 
 .modal-notice {
@@ -246,6 +258,11 @@ p {
 }
 
 .modal-engineerUnassigned {
+	top: 30%;
+    max-width: 350px;
+}
+
+.modal-testCaseForm {
 	top: 30%;
     max-width: 350px;
 }
@@ -1048,6 +1065,18 @@ input:focus+.labl::before{
 	color: white !important;
 }
 
+.customerConsolidationActive {
+	background: burlywood !important;
+	font-weight: bold !important;
+	color: white !important;
+}
+
+.customerConsolidationActiveSub {
+	background: #b9a183 !important;
+	font-weight: bold !important;
+	color: white !important;
+}
+
 .hoverBtn:hover {
 	font-weight: bold;
 }
@@ -1065,3 +1094,24 @@ input:focus+.labl::before{
     font-size: 14px;
 }
 
+.col-lg-2 {
+	max-width: 16.66%;
+}
+
+a {
+    color: #0000EE;
+    text-decoration: none;
+    cursor: pointer; /* 기본 커서로 설정 */
+}
+
+a:hover {
+    cursor: pointer; 
+}
+
+.searchBtn {
+	float: right;
+    width: 30px;
+    height: 35px;
+    background: white;
+    border: 1px solid #c7c7c7;
+}

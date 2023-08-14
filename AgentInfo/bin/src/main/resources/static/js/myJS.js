@@ -26,12 +26,38 @@ $.modal = function (modalContent, size) {
     if(size=='license5') html += ' modal-license5';
     if(size=='customerLicense') html += ' modal-customerLicense';
     if(size=='engineerUnassigned') html += ' modal-engineerUnassigned';
-
+	if(size=='testCaseForm') html += ' modal-testCaseForm';
+	if(size=='customerConsolidation') html += ' modal-customerConsolidation';
+	if(size=='customerConsolidationSearch') html += ' modal-customerConsolidationSearch';
     
     
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';
     html += '" role="document">';
+    
+    if(size=='customerConsolidation') {
+	    html += '<div style="display: flex; width: 100%;">';
+		html += 	'<button class="btn btn-sales btnm customerConsolidationActive" type="button" id="btnSales" onClick="btnSales();">';
+		html += 		'<span>영업본부</span>';
+		html += 	'</button>';
+		html += 	'<button class="btn btn-security btnm" type="button" id="btnSecurity" onClick="btnSecurity();">';
+		html += 		'<span>보안기술사업본부</span>';
+        html += 	'</button>';
+        html += 	'<button class="btn btn-evaluation btnm" type="button" id="btnEvaluation" onClick="btnEvaluation();">';
+		html += 		'<span>평가 인증실</span>';
+		html += 	'</button>';
+        html += '</div>';
+        html += '<div id="securitySub" style="height: 30px; background: white; display: flex; width: 100%; display: none;">';
+        html +=     '<div class="btn-securitySub">';
+        html +=     '</div>';
+        html +=     '<div class="btn-securitySub">';
+        html +=        '<button class="hoverBtn customerConsolidationActiveSub" id="defaultInfo" style="height: 30px; border: none; width: 50%; background: white;" onClick="defaultInfo();">사업기본정보</button>'
+        html +=        '<button class="hoverBtn" id="licenseInfo" style="height: 30px; border: none; width: 50%; background: white; border-left: 1px solid #dbdbdb;" onClick="licenseInfo();">라이선스 발급 정보</button>'
+        html +=     '</div>';
+        html +=     '<div class="btn-securitySub">';
+        html +=     '</div>';
+        html += '</div>';
+	} 
 
     if(size=='customerLicense') {
 	    html += '<div style="display: flex; width: 100%;">';
@@ -66,7 +92,19 @@ $.modal = function (modalContent, size) {
 		html += 		'<span>제품</span>';
 		html += 	'</button>';
 		html += '</div>';
-    } 
+    }
+    
+     if(size=='license5') {
+	    html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
+	    html += 	'<button class="btn btn-sales btnm customerManagentActive" type="button" style="height:40px;" id="btnOldLicense" onClick="btnOldLicense()">';
+		html += 		'<span>(구)라이선스</span>';
+		html += 	'</button>';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:40px;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<span>(신)라이선스</span>';
+		html += 	'</button>';
+		html += '</div>';
+    }
+     
     if(size=='customerLicense') {
         html += '		<div class="modal-content" style="border-top: 1px solid #dbdbdb!important; border-radius: 0;">';
     } else {

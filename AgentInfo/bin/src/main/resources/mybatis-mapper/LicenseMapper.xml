@@ -58,7 +58,7 @@
 	</update>
 	
 	<select id="getlicenseSetting" resultMap="licenseStting">
-		SELECT * FROM licenseSetting WHERE employeeId = #{employeeId};
+		SELECT * FROM licenseSetting;
 	</select>
 	
 	<update id="RouteChange">
@@ -66,13 +66,14 @@
 		SET 
 			windowsLicenseRoute = #{windowsLicenseRoute},
 			linuxLicense20Route = #{linuxLicense20Route},
-			linuxLicense50Route = #{linuxLicense50Route}
-		WHERE employeeId = #{employeeId};
+			linuxLicense50Route = #{linuxLicense50Route},
+			linuxLicense50OldRoute = #{linuxLicense50OldRoute},
+			licenseSettingIP = #{licenseSettingIP};
 	</update>
 	
 	<insert id="RouteInsert">
-		INSERT INTO licenseSetting(employeeId,windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route)
-		VALUES(#{employeeId},#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route});
+		INSERT INTO licenseSetting(windowsLicenseRoute,linuxLicense20Route,linuxLicense50Route,linuxLicense50OldRoute,licenseSettingIP)
+		VALUES(#{windowsLicenseRoute},#{linuxLicense20Route},#{linuxLicense50Route},#{linuxLicense50OldRoute},#{licenseSettingIP});
 	</insert>
 	
 	<update id="plusLicenseKeyNumOrigin">
@@ -80,11 +81,11 @@
 	</update>
 	
 	<select id="getRoute" parameterType="string" resultType="string">
-		SELECT ${column} FROM licenseSetting WHERE employeeId = #{employeeId};
+		SELECT ${column} FROM licenseSetting;
 	</select>
 	
-	<select id="getSettingCount" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM licenseSetting WHERE employeeId = #{employeeId};
+	<select id="getSettingCount" resultType="_int">
+		SELECT COUNT(*) FROM licenseSetting;
 	</select>
 	
 	<!-- ==================================================================================== -->

@@ -166,7 +166,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		    		$('#modal').on('hidden.bs.modal', function () {
 		    			if(chkLicenseIssuance == "on")
-		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+licenseFilePath+"&licenseType="+licenseType;
+		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+encodeURIComponent(licenseFilePath)+"&licenseType="+licenseType;
 		    			tableRefresh();
 		    		});
 				}
@@ -240,7 +240,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		    		$('#modal').on('hidden.bs.modal', function () {
 		    			if(chkLicenseIssuance == "on")
-		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+licenseFilePath+"&licenseType="+licenseType;
+		    				location.href="<c:url value='/license5/fileDownload'/>?licenseFilePath="+encodeURIComponent(licenseFilePath)+"&licenseType="+licenseType;
 		    			tableRefresh();
 		    		});
 				}

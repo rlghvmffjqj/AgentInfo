@@ -146,6 +146,7 @@
 		UPDATE packages SET statusComment = #{statusComment}, state = #{stateView} WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
 	
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlPackages">

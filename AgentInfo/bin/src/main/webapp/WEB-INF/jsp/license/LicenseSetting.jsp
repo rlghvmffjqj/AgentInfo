@@ -5,9 +5,12 @@
 <div class="modelHead">
 	<div class="modelHeadFont">License Issued 경로 설정</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 155px;">
+<div class="modal-body modalBody" style="width: 100%; height: 250px;">
 	<table style="margin:20px">
 		<tbody>
+			<tr><td style="font-weight: bolder;">IP</td></tr>
+				<tr><td><input type="text" class="width380" id="licenseSettingIP" value="${licenseSetting.licenseSettingIP}" placeholder="172.16.50.91" autofocus></td></tr>
+				<tr class="height15"></tr>
 			<c:choose>
 				<c:when test="${licenseVersion eq '2'}">
 					<tr><td style="font-weight: bolder;">WINDOWS</td></tr>
@@ -18,7 +21,10 @@
 				</c:when>
 	         	<c:when test="${licenseVersion eq '5'}">
 					<tr class="height15"></tr>
-					<tr><td style="font-weight: bolder;">LINUX 5.0</td></tr>
+					<tr><td style="font-weight: bolder;">(구)LINUX 5.0</td></tr>
+					<tr><td><input type="text" class="width380" id="linuxLicense50OldRoute" value="${licenseSetting.linuxLicense50OldRoute}" placeholder="루트경로 + 실행파일"></td></tr>
+					<tr class="height15"></tr>
+					<tr><td style="font-weight: bolder;">(신)LINUX 5.0</td></tr>
 					<tr><td><input type="text" class="width380" id="linuxLicense50Route" value="${licenseSetting.linuxLicense50Route}" placeholder="루트경로 + 실행파일"></td></tr>
 				</c:when>
 			</c:choose>
@@ -48,6 +54,8 @@
 		var windowsLicenseRoute = $('#windowsLicenseRoute').val();
 		var linuxLicense20Route = $('#linuxLicense20Route').val();
 		var linuxLicense50Route = $('#linuxLicense50Route').val();
+		var linuxLicense50OldRoute = $('#linuxLicense50OldRoute').val();
+		var licenseSettingIP = $('#licenseSettingIP').val();
 		$.ajax({
 			url: "<c:url value='/license/routeChange'/>",
 			type: "POST",
@@ -55,6 +63,8 @@
 					"windowsLicenseRoute": windowsLicenseRoute,
 					"linuxLicense20Route": linuxLicense20Route,
 					"linuxLicense50Route": linuxLicense50Route,
+					"linuxLicense50OldRoute": linuxLicense50OldRoute,
+					"licenseSettingIP": licenseSettingIP,
 				},
 			dataType: "text",
 			async: false,

@@ -20,7 +20,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
+					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','OS버전','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 					colModel:[
 						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 						/* {name:'packagesKeyNumOrigin', index:'packagesKeyNumOrigin', align:'center', width: 50, hidden:true }, */
@@ -110,9 +110,9 @@
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">전달일자</label>
 	                      							<div>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDateStart" name="deliveryDateStart" max="9999-12-31">
+														<input class="form-control" style="width: 14.9%; float: left;" type="date" id="deliveryDateStart" name="deliveryDateStart" max="9999-12-31">
 														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="deliveryDateEnd" name="deliveryDateEnd" max="9999-12-31">
+														<input class="form-control" style="width: 14.9%; float: left;" type="date" id="deliveryDateEnd" name="deliveryDateEnd" max="9999-12-31">
 													</div>
 													<div style="padding-left: 50px; float: left;">
 														<div class="form-check radioDate">
@@ -224,7 +224,7 @@
 	                      							<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
 	                      						</div>
 	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">Agent OS</label>
+	                      							<label class="labelFontSize">OS버전</label>
 													<select class="form-control selectpicker" id="agentOSMulti" name="agentOSMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${agentOS}">
 															<option value="${item}"><c:out value="${item}"/></option>

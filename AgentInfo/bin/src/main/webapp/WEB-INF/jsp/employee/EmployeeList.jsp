@@ -4,8 +4,8 @@
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<!-- dynatree -->
-		<script type="text/javascript" src="<c:url value='/js/dynatree/jquery.dynatree.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/skin-vista/ui.dynatree.css'/>">
+		<script type="text/javascript" src="<c:url value='/js/dynatree/src/jquery.dynatree.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/src/skin-vista/ui.dynatree.css'/>">
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
@@ -124,14 +124,15 @@
 		                      								<option value=""></option>
 															<option value="연구원">연구원</option>
 															<option value="전임">전임</option>
-															<option value="인턴">선임</option>
+															<option value="선임">선임</option>
 															<option value="차장">차장</option>
 															<option value="책임">책임</option>
 															<option value="실장">실장</option>
 															<option value="소장">소장</option>
+															<option value="본부장">본부장</option>
 															<option value="대표">대표</option>
 														</select>
-		                      						</div><br>
+		                      						</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">상태</label>
 		                      							<select class="form-control selectpicker" id="employeeStatus" name="employeeStatus" data-live-search="true" data-size="5">

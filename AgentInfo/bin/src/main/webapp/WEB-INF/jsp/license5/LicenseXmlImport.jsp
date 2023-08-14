@@ -70,6 +70,12 @@
 		       		$('#modal').on('hidden.bs.modal', function () {
 		       			tableRefresh();
 		       		});
+				} else if(result.result == "Duplication") {
+					Swal.fire({
+						icon: 'error',
+						title: '일련번호 중복!',
+						text: '일련번호가 동일한 데이터가 존재합니다.',
+					});
 				} else {
 					Swal.fire({
 						icon: 'error',

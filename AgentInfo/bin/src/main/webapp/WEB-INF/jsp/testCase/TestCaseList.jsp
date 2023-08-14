@@ -3,6 +3,10 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+		<!-- dynatree -->
+		<script type="text/javascript" src="<c:url value='/js/dynatree/src/jquery.dynatree.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/src/skin-vista/ui.dynatree.css'/>">
+
 		<!-- SummerNote -->
 		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
@@ -14,26 +18,28 @@
 		</script>
 		<script>
 			$(document).ready(function(){
+				$('#testCaseFormKeyNum').val(1);
 				var formData = $('#form').serializeObject();
+				formData.testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 				$("#list").jqGrid({
 					url: "<c:url value='/testCase'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사','비고','날짜'],
+					colNames:['key','고객사','비고','날짜'],
 					colModel:[
-						{name:'testCaseKeyNum', index:'testCaseKeyNum', align:'center', width: 35, hidden:true },
-						{name:'testCaseCustomer', index:'testCaseCustomer', align:'center', width: 200, formatter: linkFormatter},
-						{name:'testCaseNote', index:'testCaseNote', align:'center', width: 200},
-						{name:'testCaseDate', index:'testCaseDate', align:'center', width: 80},
+						{name:'testCaseRouteGroupNum', index:'testCaseRouteGroupNum', align:'center', width: 35, hidden:true },
+						{name:'testCaseRouteCustomer', index:'testCaseRouteCustomer', align:'center', width: 200, formatter: linkFormatter},
+						{name:'testCaseRouteNote', index:'testCaseRouteNote', align:'center', width: 300},
+						{name:'testCaseRouteDate', index:'testCaseRouteDate', align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'testCaseKeyNum',
+			        	id: 'testCaseRouteGroupNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'testCaseKeyNum',	// 기본 정렬 
+			        sortname: 'testCaseRouteDate',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -45,7 +51,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','testCaseKeyNum');
+				loadColumns('#list','testCaseRouteGroupNum');
 			});
 			
 			$(window).on('resize.list', function () {
@@ -93,9 +99,9 @@
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">날짜</label>
 	                      							<div>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="testCaseDateStart" name="testCaseDateStart" max="9999-12-31">
+														<input class="form-control" style="width: 14.9%; float: left;" type="date" id="testCaseDateStart" name="testCaseDateStart" max="9999-12-31">
 														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 18.3%; float: left;" type="date" id="testCaseDateEnd" name="testCaseDateEnd" max="9999-12-31">
+														<input class="form-control" style="width: 14.9%; float: left;" type="date" id="testCaseDateEnd" name="testCaseDateEnd" max="9999-12-31">
 													</div>
 													<div style="padding-left: 50px; float: left;">
 														<div class="form-check radioDate">
@@ -132,22 +138,23 @@
 	                      						</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사</label>
-													<select class="form-control selectpicker" id="testCaseCustomerMulti" name="testCaseCustomerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${testCaseCustomer}">
+													<select class="form-control selectpicker" id="testCaseRouteCustomerMulti" name="testCaseRouteCustomerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${testCaseRouteCustomer}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
 													</select>
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">비고</label>
-													<select class="form-control selectpicker" id="testCaseNoteMulti" name="testCaseNoteMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${testCaseNote}">
+													<select class="form-control selectpicker" id="testCaseRouteNoteMulti" name="testCaseRouteNoteMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${testCaseRouteNote}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
 													</select>
 												</div>
-		                      					<input type="hidden" id="testCaseCustomer" name="testCaseCustomer" class="form-control">
-		                      					<input type="hidden" id="testCaseNote" name="testCaseNote" class="form-control">
+		                      					<input type="hidden" id="testCaseRouteCustomer" name="testCaseRouteCustomer" class="form-control">
+		                      					<input type="hidden" id="testCaseRouteNote" name="testCaseRouteNote" class="form-control">
+												<input type="hidden" id="testCaseFormName" name="testCaseFormName" value="TOSMS" class="form-control">
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -158,57 +165,57 @@
 														</button>
 													</p>
 												</div>
-												</form>
-		                     				</div>
-	                     				 </div>
-	                     				 <div class="ibox">
-	                     				 	<div class="searchbos">
-	                     				 		<div class='testCaseForm'>
-						                    		<div class='testCaseCommand'>
-						                    			<button class='btn btn-primary formBtn' onClick="testCaseSettingForm(${testCaseSettingFormList.testCaseSettingFormKeyNum})">${testCaseSettingFormList.testCaseSettingFormName}</button>
-						                    			<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${testCaseSettingFormList.testCaseSettingFormKeyNum})'><span class='testCaseFont'>제거</span></button></div>
-						                    			<div style='width: 80%; display: inline-block;'>
-							                				<div class='input-group'>
-																<input type='text' class='form-control' id='inputChange' placeholder='이름'>
-																<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,${testCaseSettingFormList.testCaseSettingFormKeyNum})'>변경</button>
-															</div>
-														</div>
-						                    		</div>
-						                    		<div class='testCasePlus'>
-						                    			<button class='formPlus' onClick='formPlus(this,${testCaseSettingFormList.testCaseSettingFormKeyNum})'><span class='testCaseFont'>추가</span></button>
-						                    		</div>
-						                    	</div>
+											</form>
+		                     			</div>
+	                     				</div>
+										<table style="width:100%">
+											<tbody>
+												<tr>
+													<td style="font-weight:bold;">테스트 케이스 타입 :
+														<sec:authorize access="hasAnyRole('ADMIN','QA')">
+															<button class="btn btn-outline-info-add myBtn" id="BtnInsertForm">추가</button>
+															<button class="btn btn-outline-info-del myBtn" id="BtnDelectForm">삭제</button>
+															<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdateForm">수정</button>
+														</sec:authorize>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+	                     				<div class="ibox">
+	                     				 	<div class="searchbos" id="testCaseFormDiv">
+												<c:forEach var="testCaseForm" items="${testCaseFormList}">
+													<button type="button" class='btn btn-primary formBtn' id="${testCaseForm.testCaseFormName}" style="box-shadow: 0px 3px 3px grey;" onClick="btnTestCaseForm(this,'${testCaseForm.testCaseFormKeyNum}')">${testCaseForm.testCaseFormName}</button>
+												</c:forEach>
 	                     				 	</div>
-	                     				 </div>
-			                           	 <table style="width:99%;">
+	                     				</div>
+										 
+										<table style="width:99%;">
 											<tbody>
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<table style="width:100%">
-															<tbody>
-																<tr>
-																	<td style="font-weight:bold;">테스트 케이스 관리 :
-																		<sec:authorize access="hasAnyRole('ADMIN','QA')">
-																			<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																			<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		</sec:authorize>
-																		<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'testCaseKeyNum');">컬럼 선택</button>
-																	</td>
-																</tr>
-																<tr>
-																	<td class="border1" colspan="2">
-																		<!------- Grid ------->
-																		<div class="jqGrid_wrapper">
-																			<table id="list"></table>
-																			<div id="pager"></div>
-																		</div>
-																		<!------- Grid ------->
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</td>
-												</tr>
+														<tbody>
+															<tr>
+																<td style="font-weight:bold;">테스트 케이스 관리 :
+																	<button class="btn btn-outline-info-add myBtn" id="BtnTestCaseInsert">추가</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnTestCaseDelete">삭제</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnTestCaseCopy">복사</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'testCase');">컬럼 선택</button>
+																</td>
+															</tr>
+															<tr>
+																<td class="border1" colspan="2">
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper">
+																		<table id="list"></table>
+																		<div id="pager"></div>
+																	</div>
+																	<!------- Grid ------->
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
 											</tbody>
 										</table>
 	                                </div>
@@ -219,14 +226,16 @@
 	            </div>
 	        </div>
 	    </div>
+		<form id="testCaseUpdateView" action="<c:url value='/testCase/updateTestCaseView'/>" method="POST">
+			<input type="hidden" id="testCaseFormKeyNum" name="testCaseFormKeyNum" class="form-control">
+			<input type="hidden" id="testCaseRouteGroupNum" name="testCaseRouteGroupNum" class="form-control">
+			<input type="hidden" id="testCaseRouteCustomerView" name="testCaseRouteCustomerView">
+			<input type="hidden" id="testCaseRouteNoteView" name="testCaseRouteNoteView">
+		</form>
 	</body>
 
 	<script>
-		/* =========== 테스트 케이스 추가 Modal ========= */
-		$('#BtnInsert').click(function() {
-			location.href="<c:url value='/testCase/view'/>";		
-		});
-		
+
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
 			var testCaseDateStart = $("#testCaseDateStart").val();
@@ -258,10 +267,11 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#testCaseCustomer').val($('#testCaseCustomerMulti').val().join());
-			$('#testCaseNote').val($('#testCaseNoteMulti').val().join());
+			$('#testCaseRouteCustomer').val($('#testCaseRouteCustomerMulti').val().join());
+			$('#testCaseRouteNote').val($('#testCaseRouteNoteMulti').val().join());
 			
 			var _postDate = $("#form").serializeObject();
+			_postDate.testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();
@@ -271,7 +281,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.testCaseKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.testCaseRouteCustomer+"'"+','+"'"+rowdata.testCaseRouteNote+"'"+','+"'"+rowdata.testCaseRouteGroupNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 		
 		
@@ -357,8 +367,11 @@
 		
 		
 		/* =========== 테스트 케이스 수정 Modal ========= */
-		function updateView(data) {
-			location.href="<c:url value='/testCase/updateView'/>?testCaseKeyNum="+data;
+		function updateView(testCaseRouteCustomer, testCaseRouteNote, testCaseRouteGroupNum) {
+			$('#testCaseRouteCustomerView').val(testCaseRouteCustomer);
+			$('#testCaseRouteNoteView').val(testCaseRouteNote);
+			$('#testCaseRouteGroupNum').val(testCaseRouteGroupNum);
+			$("#testCaseUpdateView").submit();
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */
@@ -385,47 +398,215 @@
 	        });
 		});
 	</script>
-	
+
+	<script>
+		/* =========== 테스트 케이스 추가 Modal ========= */
+		$('#BtnInsertForm').click(function() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/testCase/insertFormView'/>",
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'testCaseForm'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		});
+
+		function btnTestCaseForm(obj, keyNum) {
+			$('#testCaseFormKeyNum').val(keyNum);
+			var testCaseFormName = $(obj).text();
+			$('#testCaseFormName').val(testCaseFormName);
+			tableRefresh();
+		}
+		
+		$('#BtnDelectForm').click(function() {
+			var testCaseFormName = $('#testCaseFormName').val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+			if(testCaseFormName==='TOSMS') {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: 'TOSMS는 삭제가 불가능 합니다.',
+				});
+				return false;
+			}
+			Swal.fire({
+				  title: '삭제!',
+				  text: "제품("+testCaseFormName+")을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+					    type: 'POST',
+					    url: "<c:url value='/testCase/delTestCaseForm'/>",
+					    async: false,
+						data: { "testCaseFormKeyNum":testCaseFormKeyNum },
+					    success: function (result) {
+							if(result == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '삭제!',
+									text: '삭제을 완료했습니다.',
+								});
+								$('#'+testCaseFormName).remove();
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '작업을 실패하였습니다.',
+								});
+							}
+					    },
+					    error: function(e) {
+					        alert(e);
+					    }
+					});
+				}
+			});	
+		});	
+
+		$('#BtnUpdateForm').click(function() {
+			var testCaseFormName = $('#testCaseFormName').val();
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+			if(testCaseFormName==='TOSMS') {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: 'TOSMS는 수정이 불가능 합니다.',
+				});
+				return false;
+			}
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/testCase/updateFormView'/>",
+				data: {
+					"testCaseFormName":testCaseFormName,
+					"testCaseFormKeyNum" : testCaseFormKeyNum,
+				},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'testCaseForm'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		});
+	</script>
+
+	<script>
+		$('#BtnTestCaseInsert').click(function() {
+			var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
+			location.href="<c:url value='/testCase/insertTestCaseView'/>?testCaseFormKeyNum="+testCaseFormKeyNum;
+		});
+
+		$('#BtnTestCaseCopy').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+						
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+				return false;
+			} else if(chkList.length > 1) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '한 행만 선택 가능합니다.',    
+				});
+				return false;
+			}
+
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/testCase/updateCopyView'/>",
+			    async: false,
+				traditional: true,
+				data: {chkList: chkList},
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'testCaseForm'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		});
+
+		$('#BtnTestCaseDelete').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 테스트 케이스를 삭제하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  	if (result.isConfirmed) {
+						$.ajax({
+							url: "<c:url value='/testCase/delete'/>",
+							type: "POST",
+							data: {chkList: chkList},
+							dataType: "text",
+							traditional: true,
+							async: false,
+							success: function(data) {
+								if(data == "OK")
+									Swal.fire(
+									  '성공!',
+									  '삭제 완료하였습니다.',
+									  'success'
+									)
+								else
+									Swal.fire(
+									  '실패!',
+									  '삭제 실패하였습니다.',
+									  'error'
+									)
+								tableRefresh();
+							},
+							error: function(error) {
+								console.log(error);
+							}
+						});
+					}
+				})
+			}
+		});
+
+	</script>
+
 	<style>
-		.testCaseForm {
-			display: inline-block;
-		}
-		
-		.testCaseCommand {
-		    text-align: center;
-		    height: 100%;
-		    padding-top: 10px;
-		    float: left;
-		}
-		
 		.formBtn {
-			 min-width: 70%;
-			 width: auto; 
-			 height: 50px;
-		}
-		
-		.formPlus {
-			background: #cfcff7;
-		    border: 1px solid #b7bbf1;
-		    height: 30px;
-		}
-		
-		.formMinus {
-			background: #f7cfcf;
-		    border: 1px solid #efa8a8;
-		    width: 40px;
-		}
-		
-		.testCaseFont {
-			font-size: 12px;
-    		font-family: monospace;
-		}
-		
-		.testCasePlus {
-		    text-align: center;
-		    height: 100%;
-		    padding-top: 25%;
-		    float: left;
+			width: auto;
+    		min-width: 140px;
+		    font-weight: bold;
+		    font-size: 14px;
+		    height: 55px;
+			margin: 5px;
 		}
 	</style>
 </html>

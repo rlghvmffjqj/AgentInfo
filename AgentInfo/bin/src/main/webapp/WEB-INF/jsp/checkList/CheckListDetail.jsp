@@ -39,6 +39,14 @@
 		    font-size: 18px;
 		    font-weight: 700;
 		}
+
+		img {
+			border: 1px solid black !important;
+		}
+
+		p {
+			color: black !important;
+		}
 	</style>
 	
 	

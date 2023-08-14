@@ -72,11 +72,12 @@
 		         		<option value=""></option>
 						<option value="연구원">연구원</option>
 						<option value="전임">전임</option>
-						<option value="인턴">선임</option>
+						<option value="선임">선임</option>
 						<option value="차장">차장</option>
 						<option value="책임">책임</option>
 						<option value="실장">실장</option>
 						<option value="소장">소장</option>
+						<option value="본부장">본부장</option>
 						<option value="대표">대표</option>
 					</select>
 		         </div>
@@ -101,7 +102,10 @@
 		         	<select class="form-control viewForm selectpicker" id="usersRole" name="usersRole" data-live-search="true" data-size="5">
 						<option value="USER">일반사용자</option>
 						<option value="ADMIN">관리자</option>
+						<option value="LICENSE">라이선스 관리자</option>
 						<option value="ENGINEER">엔지니어</option>
+						<option value="ENGINEERLEADER">엔지니어 팀장</option>
+						<option value="SALES">영업</option>
 						<option value="QA">QA</option>
 					</select>
 		         </div>
@@ -119,11 +123,12 @@
 				        <c:if test="${packages.employeeRank eq ''}"><option value=""></option></c:if>
 						<option value="연구원" <c:if test="${employee.employeeRank eq '연구원'}">selected</c:if>>연구원</option>
 						<option value="전임" <c:if test="${employee.employeeRank eq '전임'}">selected</c:if>>전임</option>
-						<option value="인턴" <c:if test="${employee.employeeRank eq '선임'}">selected</c:if>>선임</option>
+						<option value="선임" <c:if test="${employee.employeeRank eq '선임'}">selected</c:if>>선임</option>
 						<option value="차장" <c:if test="${employee.employeeRank eq '차장'}">selected</c:if>>차장</option>
 						<option value="책임" <c:if test="${employee.employeeRank eq '책임'}">selected</c:if>>책임</option>
 						<option value="실장" <c:if test="${employee.employeeRank eq '실장'}">selected</c:if>>실장</option>
 						<option value="소장" <c:if test="${employee.employeeRank eq '소장'}">selected</c:if>>소장</option>
+						<option value="본부장" <c:if test="${employee.employeeRank eq '본부장'}">selected</c:if>>본부장</option>
 						<option value="대표" <c:if test="${employee.employeeRank eq '대표'}">selected</c:if>>대표</option>
 					</select>
 		         </div>
@@ -148,7 +153,10 @@
 		         	<select class="form-control viewForm selectpicker" id="usersRole" name="usersRole" data-live-search="true" data-size="5">
 						<option value="USER" <c:if test="${employee.usersRole eq 'USER'}">selected</c:if>>일반사용자</option>
 						<option value="ADMIN" <c:if test="${employee.usersRole eq 'ADMIN'}">selected</c:if>>관리자</option>
+						<option value="LICENSE" <c:if test="${employee.usersRole eq 'LICENSE'}">selected</c:if>>라이선스 관리자</option>
 						<option value="ENGINEER" <c:if test="${employee.usersRole eq 'ENGINEER'}">selected</c:if>>엔지니어</option>
+						<option value="ENGINEERLEADER" <c:if test="${employee.usersRole eq 'ENGINEERLEADER'}">selected</c:if>>엔지니어 팀장</option>
+						<option value="SALES" <c:if test="${employee.usersRole eq 'SALES'}">selected</c:if>>영업</option>
 						<option value="QA" <c:if test="${employee.usersRole eq 'QA'}">selected</c:if>>QA</option>
 					</select>
 		         </div>
