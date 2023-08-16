@@ -660,6 +660,25 @@
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var viewType = $('#viewType').val();
+		var additionalInformation = $('#additionalInformationView').val();
+
+		if(customerName.includes("\"") || customerNameSelf.includes("\"") || businessName.includes("\"") || businessNameSelf.includes("\"") || additionalInformation.includes("\"") || licenseFilePath.includes("\"") || customerName.includes("/") || customerNameSelf.includes("/") || businessName.includes("/") || businessNameSelf.includes("/") || additionalInformation.includes("/") || licenseFilePath.includes("/") || customerName.includes("\\") || customerNameSelf.includes("\\") || businessName.includes("\\") || businessNameSelf.includes("\\") || additionalInformation.includes("\\") || licenseFilePath.includes("\\")) {
+			Swal.fire(
+			  '특수 문자 사용 불가!',
+			  '특수문자 : \", \/, \\',
+			  'error'
+			)
+			return false;
+		}
+
+		if(customerName.charAt(0) === "\-" || customerNameSelf.charAt(0) === "\-" || businessName.charAt(0) === "\-" || businessNameSelf.charAt(0) === "\-" || additionalInformation.charAt(0) === "\-" || licenseFilePath.charAt(0) === "\-") {
+			Swal.fire(
+			  '사용 불가!',
+			  '첫글자 \- 입력이 불가능합니다.',
+			  'error'
+			)
+			return false;
+		}
 		
 		$('.licenseShow').hide();
 		if(customerName == "" && customerNameSelf == "") {
@@ -677,15 +696,14 @@
 		} else { 
 			var postData = $('#modalForm').serializeObject();
 			var swalText = "<span style='font-weight: 600;'>라이선스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";
+			if("${viewType}" == "issued" || "${viewType}" == "issuedback") {
+				var urlRoute = "<c:url value='/license5/existenceCheckInsert'/>";
+			}
+			if("${viewType}" == "update" || "${viewType}" == "updateback") {
+				var urlRoute = "<c:url value='/license5/existenceCheckUpdate'/>";
+			}
 			$.ajax({
-				<c:choose>
-					<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
-						url: "<c:url value='/license5/existenceCheckInsert'/>",
-					</c:when>
-					<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
-						url: "<c:url value='/license5/existenceCheckUpdate'/>",
-					</c:when>
-		    	</c:choose>
+				url : urlRoute,				
 		        type: 'post',
 		        data: postData,
 		        async: false,
@@ -871,6 +889,11 @@
 		$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
 	});
 
+	function isKoreanCharacter(char) {
+	    var unicode = char.charCodeAt(0);
+	    return unicode >= 44032 && unicode <= 55203; // 가(44032) ~ 힣(55203)
+	}
+
 	function oldExistenceCheck() {
 		var customerName = $('#customerNameOldView').val();
 		var macAddress = $('#macAddressView').val();
@@ -879,6 +902,42 @@
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var viewType = $('#viewType').val();
+
+		var containsOnlyKorean = true;
+
+		for (var i = 0; i < customerName.length; i++) {
+		    if (isKoreanCharacter(customerName[i])) {
+		        containsOnlyKorean = false;
+		        break;
+		    }
+		}
+
+		if(!containsOnlyKorean) {
+		    Swal.fire(
+			  '한글 입력 불가!',
+			  '(구) 버전의 경우 고객사명 한글 입력이 불가능 합니다.',
+			  'error'
+			)
+			return false;
+		}
+
+		if(customerName.includes("\"") || licenseFilePath.includes("\"") || customerName.includes("/") || licenseFilePath.includes("/") || customerName.includes("\\") || licenseFilePath.includes("\\")) {
+			Swal.fire(
+			  '특수 문자 사용 불가!',
+			  '특수문자 : \", \/, \\',
+			  'error'
+			)
+			return false;
+		}
+
+		if(customerName.charAt(0) === "\-" || licenseFilePath.charAt(0) === "\-") {
+			Swal.fire(
+			  '사용 불가!',
+			  '첫글자 \- 입력이 불가능합니다.',
+			  'error'
+			)
+			return false;
+		}
 		
 		$('.licenseShow').hide();
 		if(customerName == "") {

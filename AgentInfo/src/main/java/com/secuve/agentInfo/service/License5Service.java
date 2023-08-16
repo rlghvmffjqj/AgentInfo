@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -121,12 +122,12 @@ public class License5Service {
 	}
 	
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
-		if(!isValidMacAddress(license.getMacAddressView())) {
-			return "NotMacAddress";
-		}
 		String resault = "OK";
 		String route = "";
 		if(license.getLicenseTypeView().equals("(신)"))
+			if(!isValidMacAddress(license.getMacAddressView())) {
+				return "NotMacAddress";
+			}
 			route = license5Dao.getRoute("linuxLicense50Route");
 		if(license.getLicenseTypeView().equals("(구)"))
 			route = license5Dao.getRoute("linuxLicense50OldRoute");
@@ -241,7 +242,7 @@ public class License5Service {
 		return resault;
 	}
 	
-	public String LinuxLicenseIssued50(String ip, String route, License5 license) {
+	public String LinuxLicenseIssued50(String ip, String route, License5 license) throws UnsupportedEncodingException {
 		String url = "http://"+ip+":8080/linuxLicenseIssued50";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
@@ -254,9 +255,9 @@ public class License5Service {
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("route", route)
         		.queryParam("productType", license.getProductTypeView())
-        		.queryParam("customerName", license.getCustomerNameView())
-        		.queryParam("businessName", license.getBusinessNameView())
-        		.queryParam("additionalInformation", license.getAdditionalInformationView())
+        		.queryParam("customerName", URLEncoder.encode(license.getCustomerNameView(), "UTF-8"))
+        		.queryParam("businessName", URLEncoder.encode(license.getBusinessNameView(), "UTF-8"))
+        		.queryParam("additionalInformation", URLEncoder.encode(license.getAdditionalInformationView(), "UTF-8"))
         		.queryParam("macAddress", license.getMacAddressView())
         		.queryParam("issueDate", license.getIssueDateView())
         		.queryParam("expirationDays", license.getExpirationDaysView())
@@ -274,7 +275,7 @@ public class License5Service {
         		.queryParam("managerDbmsType", license.getManagerDbmsTypeView())
         		.queryParam("country", license.getCountryView())
         		.queryParam("productVersion", license.getProductVersionView())
-        		.queryParam("licenseFilePath", license.getLicenseFilePathView())
+        		.queryParam("licenseFilePath", URLEncoder.encode(license.getLicenseFilePathView(), "UTF-8"))
         		.build();
 
         ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
@@ -295,7 +296,7 @@ public class License5Service {
         return jsonInString;
 	}
 	
-	public String LinuxLicenseIssued50Old(String ip, String route, License5 license) {
+	public String LinuxLicenseIssued50Old(String ip, String route, License5 license) throws UnsupportedEncodingException {
 		String url = "http://"+ip+":8080/linuxLicenseIssued50Old";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
@@ -323,7 +324,7 @@ public class License5Service {
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("route", route)
         		.queryParam("productType", license.getProductTypeView())
-        		.queryParam("customerName", license.getCustomerNameView())
+        		.queryParam("customerName", URLEncoder.encode(license.getCustomerNameView(), "UTF-8"))
         		.queryParam("macAddress", license.getMacAddressView())
         		.queryParam("issueDate", license.getIssueDateView())
         		.queryParam("expirationDays", license.getExpirationDaysView())
@@ -335,7 +336,7 @@ public class License5Service {
         		.queryParam("managerDbmsType", license.getManagerDbmsTypeView())
         		.queryParam("country", license.getCountryView())
         		.queryParam("productVersion", license.getProductVersionView())
-        		.queryParam("licenseFilePath", license.getLicenseFilePathView())
+        		.queryParam("licenseFilePath", URLEncoder.encode(license.getLicenseFilePathView(), "UTF-8"))
         		.build();
 
         ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
@@ -356,7 +357,7 @@ public class License5Service {
         return jsonInString;
 	}
 
-	public ResponseEntity<?> fileDownload(String licenseFilePath, String licenseType) {
+	public ResponseEntity<?> fileDownload(String licenseFilePath, String licenseType) throws UnsupportedEncodingException {
 		String ip = license5Dao.getRoute("licenseSettingIP");
 		String url = "http://"+ip+":8080/fileDownload";
 		RestTemplate restTemplate = new RestTemplate();
@@ -372,8 +373,8 @@ public class License5Service {
 		}
 		
 		UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
-				.queryParam("fileName", licenseFilePath)
-				.queryParam("filePath", routeStr)
+				.queryParam("fileName", URLEncoder.encode(licenseFilePath, "UTF-8"))
+				.queryParam("filePath", URLEncoder.encode(routeStr, "UTF-8"))
         		.build();
 		HttpHeaders header = new HttpHeaders();
 		HttpEntity<?> entity = new HttpEntity<>(header);

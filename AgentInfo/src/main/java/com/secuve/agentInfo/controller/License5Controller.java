@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -236,7 +237,7 @@ public class License5Controller {
 	}
 	
 	@GetMapping(value = "/license5/fileDownload")
-	public ResponseEntity<?> fileDownload(String licenseFilePath, String licenseType) {
+	public ResponseEntity<?> fileDownload(String licenseFilePath, String licenseType) throws UnsupportedEncodingException {
 		return license5Service.fileDownload(licenseFilePath, licenseType);
 	}
 	
@@ -274,7 +275,6 @@ public class License5Controller {
 	@ResponseBody
 	@PostMapping(value = "/license5/existenceCheckInsert")
 	public List<String> existenceCheckInsert(License5 license, Principal principal) throws IllegalStateException, IOException {
-		
 		return license5Service.existenceCheckInsert(license);
 	}
 	
