@@ -67,12 +67,13 @@ public class TestCaseDao {
 		return sqlSession.selectList("testCase.getTestCaseRouteFullPathList", parameters);
 	}
 
-	public int updateRoute(String ordTestCaseFullPath, String testCaseRouteFullPath, String testCaseRouteParentPath, String testCaseRouteName) {
+	public int updateRoute(int testCaseRouteKeyNum, String ordTestCaseFullPath, String testCaseRouteFullPath, String testCaseRouteParentPath, String testCaseRouteName) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("ordTestCaseFullPath", ordTestCaseFullPath);
 		parameters.put("testCaseRouteFullPath", testCaseRouteFullPath);
 		parameters.put("testCaseRouteParentPath", testCaseRouteParentPath);
 		parameters.put("testCaseRouteName", testCaseRouteName);
+		parameters.put("testCaseRouteKeyNum", testCaseRouteKeyNum);
 		return sqlSession.insert("testCase.updateRoute", parameters);
 	}
 
@@ -169,8 +170,12 @@ public class TestCaseDao {
 		return sqlSession.selectOne("testCase.getMaxTestCaseRouteSortNum");
 	}
 
-	public List<TestCase> getTestCaseRouteFullPathMoveList(String testCaseRouteFullPath) {
-		return sqlSession.selectList("testCase.getTestCaseRouteFullPathMoveList",testCaseRouteFullPath);
+	public List<TestCase> getTestCaseRouteFullPathMoveList(TestCase testCase) {
+		return sqlSession.selectList("testCase.getTestCaseRouteFullPathMoveList",testCase);
+	}
+
+	public TestCase getMoveOverlap(TestCase testCase) {
+		return sqlSession.selectOne("testCase.getMoveOverlap", testCase);
 	}
 
 }

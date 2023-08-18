@@ -77,4 +77,5 @@ public class TestCase {
 	private String hitMode;
 	private String startTestCaseRouteFullPath;
 	private String startTestCaseRouteParentPath;
+	private String ovelapTestCase;
 }

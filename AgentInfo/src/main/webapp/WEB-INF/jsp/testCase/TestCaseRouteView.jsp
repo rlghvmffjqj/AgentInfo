@@ -125,6 +125,7 @@
 		var node = $("#tree").dynatree("getActiveNode");
 		var path = node.data.key; // 선택 분류 풀 분류
 		var title = node.data.title; // 선택 분류
+		var testCaseRouteKeyNum = node.data.KeyNum;
 		var newTestCaseRouteName = $('#testCaseRouteNameView').val();
 		var testCaseFormKeyNum = $('#testCaseFormKeyNum').val();
 		var testCaseRouteGroupNum = $('#testCaseRouteGroupNum').val();
@@ -141,6 +142,7 @@
 				"testCaseRouteCustomer" : testCaseRouteCustomer,
 				"testCaseRouteNote" : testCaseRouteNote,
 				"testCaseRouteGroupNum" : testCaseRouteGroupNum,
+				"testCaseRouteKeyNum" : testCaseRouteKeyNum,
 			},
 			dataType: "json",
 			async: false,

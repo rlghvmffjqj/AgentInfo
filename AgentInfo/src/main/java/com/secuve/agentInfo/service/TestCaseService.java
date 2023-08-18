@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.secuve.agentInfo.dao.TestCaseDao;
 import com.secuve.agentInfo.vo.TestCase;
 
+import jdk.internal.org.jline.terminal.TerminalBuilder.SystemOutput;
+
 @Service
 public class TestCaseService {
 	@Autowired TestCaseDao testCaseDao;
@@ -136,7 +138,7 @@ public class TestCaseService {
 				ordTestCase = parseFullPath(newTestCaseFullPath, ordTestCase);
 				
 				// 경로 테이블 변경
-				testCaseDao.updateRoute(ordTestCaseFullPath, ordTestCase.getTestCaseRouteFullPath(), ordTestCase.getTestCaseRouteParentPath(), ordTestCase.getTestCaseRouteName());
+				testCaseDao.updateRoute(testCase.getTestCaseRouteKeyNum(), ordTestCaseFullPath, ordTestCase.getTestCaseRouteFullPath(), ordTestCase.getTestCaseRouteParentPath(), ordTestCase.getTestCaseRouteName());
 
 			}
 			
@@ -282,23 +284,25 @@ public class TestCaseService {
 			return "RouteFALSE";
 		} 
 		
+		if(testCase.getTestCaseRouteFullPath().contains(testCase.getStartTestCaseRouteFullPath())) {
+			return "Including";
+		}
+		
 		if(testCase.getHitMode().equals("over")) {
-			List<TestCase> testCaseList = testCaseDao.getTestCaseRouteFullPathMoveList(testCase.getStartTestCaseRouteFullPath()+"/");
+			testCase.setOvelapTestCase(testCase.getTestCaseRouteFullPath()+"/"+testCase.getTestCaseRouteName());
+			if(testCaseDao.getMoveOverlap(testCase) != null) {
+				return "Overlap";
+			}
+			
+			List<TestCase> testCaseList = testCaseDao.getTestCaseRouteFullPathMoveList(testCase);
 			for (TestCase testCaseSub : testCaseList) {
-				String[] testCaseFullPathSubArr = testCaseSub.getTestCaseRouteFullPath().split("/");
-				String[] testCaseParentPathSubArr = testCaseSub.getTestCaseRouteParentPath().split("/");
-				List<String> testCaseFullPathSubList = Arrays.asList(testCaseFullPathSubArr);
-				int index = testCaseFullPathSubList.indexOf(testCase.getTestCaseRouteName());
+				testCaseSub.setTestCaseRouteFullPath(testCaseSub.getTestCaseRouteFullPath().substring(testCase.getStartTestCaseRouteFullPath().length() - testCase.getTestCaseRouteName().length()-1));
+				if(testCase.getStartTestCaseRouteParentPath().length() != 1)
+					testCaseSub.setTestCaseRouteParentPath(testCaseSub.getTestCaseRouteParentPath().substring(testCase.getStartTestCaseRouteParentPath().length()));
 				testCaseSub.setStartTestCaseRouteSortNum(testCaseSub.getTestCaseRouteSortNum());
 				testCaseSub.setEndTestCaseRouteSortNum(testCaseSub.getTestCaseRouteSortNum());
-				testCaseSub.setTestCaseRouteFullPath(testCase.getTestCaseRouteFullPath());
-				testCaseSub.setTestCaseRouteParentPath(testCase.getTestCaseRouteFullPath());
-				for(int i=index; i < testCaseFullPathSubArr.length; i++) {
-					testCaseSub.setTestCaseRouteFullPath(testCaseSub.getTestCaseRouteFullPath() + "/" + testCaseFullPathSubArr[i]);
-				}
-				for(int i=index; i < testCaseParentPathSubArr.length; i++) {
-					testCaseSub.setTestCaseRouteParentPath(testCaseSub.getTestCaseRouteParentPath() + "/" + testCaseParentPathSubArr[i]);
-				}
+				testCaseSub.setTestCaseRouteFullPath(testCase.getTestCaseRouteFullPath() + testCaseSub.getTestCaseRouteFullPath());
+				testCaseSub.setTestCaseRouteParentPath(testCase.getTestCaseRouteFullPath() + testCaseSub.getTestCaseRouteParentPath());
 				testCaseDao.testCaseRouteMove(testCaseSub);
 			}
 			testCase.setTestCaseRouteParentPath(testCase.getTestCaseRouteFullPath());
@@ -306,14 +310,28 @@ public class TestCaseService {
 			testCase.setEndTestCaseRouteSortNum(testCaseDao.getMaxTestCaseRouteSortNum()+1);
 			testCaseDao.testCaseRouteMove(testCase);
 		} else {
-			String[] testCaseRouteFullPathArr = testCase.getTestCaseRouteFullPath().split("/");
-			testCaseRouteFullPathArr[testCaseRouteFullPathArr.length-1] = testCase.getTestCaseRouteName();
-			
-			String testCaseRouteFullPath = "";
-			for(String str : testCaseRouteFullPathArr) {
-				testCaseRouteFullPath += str + "/";
+			testCase.setOvelapTestCase(testCase.getTestCaseRouteParentPath()+"/"+testCase.getTestCaseRouteName());
+			if(testCaseDao.getMoveOverlap(testCase) != null) {
+				return "Overlap";
 			}
-			testCase.setTestCaseRouteFullPath(testCaseRouteFullPath.substring(0, testCaseRouteFullPath.length() - 1));
+			
+ 			List<TestCase> testCaseList = testCaseDao.getTestCaseRouteFullPathMoveList(testCase);
+ 			for (TestCase testCaseSub : testCaseList) {
+				testCaseSub.setTestCaseRouteFullPath(testCaseSub.getTestCaseRouteFullPath().substring(testCase.getStartTestCaseRouteFullPath().length() - testCase.getTestCaseRouteName().length()-1));
+				if(testCase.getStartTestCaseRouteParentPath().length() != 1)
+					testCaseSub.setTestCaseRouteParentPath(testCaseSub.getTestCaseRouteParentPath().substring(testCase.getStartTestCaseRouteParentPath().length()));
+				testCaseSub.setStartTestCaseRouteSortNum(testCaseSub.getTestCaseRouteSortNum());
+				testCaseSub.setEndTestCaseRouteSortNum(testCaseSub.getTestCaseRouteSortNum());
+				if(!testCase.getTestCaseRouteParentPath().equals("/")) {
+					testCaseSub.setTestCaseRouteFullPath(testCase.getTestCaseRouteParentPath() + testCaseSub.getTestCaseRouteFullPath());
+					testCaseSub.setTestCaseRouteParentPath(testCase.getTestCaseRouteParentPath() + testCaseSub.getTestCaseRouteParentPath());
+				}
+				testCaseDao.testCaseRouteMove(testCaseSub);
+			}
+ 			if(!testCase.getTestCaseRouteParentPath().equals("/"))
+ 				testCase.setTestCaseRouteFullPath(testCase.getTestCaseRouteParentPath() + "/" + testCase.getTestCaseRouteName());
+ 			else
+ 				testCase.setTestCaseRouteFullPath(testCase.getTestCaseRouteParentPath() + testCase.getTestCaseRouteName());
 		}
 		
 		if(testCase.getHitMode().equals("before")) {			

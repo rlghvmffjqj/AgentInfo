@@ -217,6 +217,9 @@
 			var startTestCaseRouteFullPath;
 			var startTestCaseRouteParentPath;
 			var testCaseRouteName;
+			var testCaseRouteCustomer;
+			var testCaseRouteNote;
+			var testCaseFormKeyNum;
 			$("#tree").dynatree({
 				onActivate: function(node) {
 					var path = node.data.key;
@@ -236,6 +239,9 @@
 						startTestCaseRouteFullPath = node.data.key;
 						startTestCaseRouteParentPath = node.data.parentPath;
 						testCaseRouteName = node.data.title;
+						testCaseRouteCustomer = node.data.customer;
+						testCaseRouteNote = node.data.note;
+						testCaseFormKeyNum = node.data.formKeyNum;
       					return true;
       				},
 					autoExpandMS: 1000,
@@ -260,6 +266,9 @@
 								"testCaseRouteParentPath" : node.data.parentPath,
 								"startTestCaseRouteFullPath" : startTestCaseRouteFullPath,
 								"startTestCaseRouteParentPath" : startTestCaseRouteParentPath,
+								"testCaseRouteCustomer" : testCaseRouteCustomer,
+								"testCaseRouteNote" : testCaseRouteNote,
+								"testCaseFormKeyNum" : testCaseFormKeyNum,
 							},
 							async: false,
 							success: function (result) {
@@ -268,6 +277,18 @@
 										icon: 'error',
 										title: '실패!',
 										text: '/ 경로 위치로 이동이 불가능합니다.',
+									});
+								} else if(result === "Including") {
+									Swal.fire({
+										icon: 'error',
+										title: '실패!',
+										text: '부모 노드가 자식 노드로 이동 할 수 없습니다.',
+									});
+								} else if(result === "Overlap") {
+									Swal.fire({
+										icon: 'error',
+										title: '실패!',
+										text: '동일한 경로의 동일한 이름이 존재합니다.',
 									});
 								} else {
 									sourceNode.move(node, hitMode);
@@ -338,6 +359,9 @@
 								KeyNum : data[i].testCaseRouteKeyNum,
 								sortNum : data[i].testCaseRouteSortNum,
 								parentPath : data[i].testCaseRouteParentPath,
+								customer : data[i].testCaseRouteCustomer,
+								note : data[i].testCaseRouteNote,
+								formKeyNum : data[i].testCaseFormKeyNum,
 								children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
 								isFolder : true
 							});

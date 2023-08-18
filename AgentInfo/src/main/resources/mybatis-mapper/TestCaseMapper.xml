@@ -103,12 +103,12 @@
 	</select>
 	
 	<delete id="deleteRoute">
-		DELETE FROM testCaseRoute WHERE testCaseRouteFullPath = #{testCaseRouteFullPath};
+		DELETE FROM testCaseRoute WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</delete>
 	
 	<update id="updateRoute">
 		UPDATE testCaseRoute SET testCaseRouteFullPath = #{testCaseRouteFullPath}, testCaseRouteParentPath = #{testCaseRouteParentPath}, testCaseRouteName = #{testCaseRouteName} 
-		WHERE testCaseRouteFullPath = #{ordTestCaseFullPath};
+		WHERE testCaseRouteKeyNum = #{testCaseRouteKeyNum};
 	</update>
 	
 	<select id="getTestCaseRouteFullPathList" resultMap="testCase" parameterType="string">
@@ -143,7 +143,7 @@
 	</select>
 	
 	<select id="getTestCaseRouteFullPathMoveList" resultMap="testCase">
-		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath LIKE CONCAT('%',#{testCaseRouteFullPath},'%');
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath LIKE CONCAT(#{startTestCaseRouteFullPath},'/%')  AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormKeyNum = #{testCaseFormKeyNum};
 	</select>
 	
 	
@@ -185,6 +185,10 @@
 		INSERT INTO testCaseContents(testCaseFormKeyNum,testCaseRouteKeyNum,testCaseContentsMainMenu,testCaseContentsMediumMenu,testCaseContentsSmallMenu,testCaseContentsTcCode,testCaseContentsClassificationCode,testCaseContentsPurpose,testCaseContentsPreparation,testCaseContentsItem,testCaseContentsProcedure,testCaseContentsExpectedResult,testCaseContentsTestResult,testCaseContentsResultCode,testCaseContentsInfluence,testCaseContentsManager,testCaseContentsError,testCaseContentsNote,testCaseContentsRegistrant,testCaseContentsRegistrationDate)
 		VALUES(#{testCaseFormKeyNum},#{testCaseRouteKeyNum},#{testCaseContentsMainMenu},#{testCaseContentsMediumMenu},#{testCaseContentsSmallMenu},#{testCaseContentsTcCode},#{testCaseContentsClassificationCode},#{testCaseContentsPurpose},#{testCaseContentsPreparation},#{testCaseContentsItem},#{testCaseContentsProcedure},#{testCaseContentsExpectedResult},#{testCaseContentsTestResult},#{testCaseContentsResultCode},#{testCaseContentsInfluence},#{testCaseContentsManager},#{testCaseContentsError},#{testCaseContentsNote},#{testCaseContentsRegistrant},#{testCaseContentsRegistrationDate});
 	</insert>
+	
+	<select id="getMoveOverlap" resultMap="testCase">
+		SELECT * FROM testCaseRoute WHERE testCaseRouteFullPath = #{ovelapTestCase} AND testCaseRouteCustomer = #{testCaseRouteCustomer} AND testCaseRouteNote = #{testCaseRouteNote} AND testCaseFormKeyNum = #{testCaseFormKeyNum};
+	</select>
 	
 	<!-- ==================================================================================== -->
 	
