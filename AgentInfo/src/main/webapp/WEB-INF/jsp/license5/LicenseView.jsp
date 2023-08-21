@@ -708,7 +708,13 @@
 		        data: postData,
 		        async: false,
 		        success: function(items) {
-		        	if(items.length != 0) {
+					if(items[0] == "NotMacAddress") {
+		        		Swal.fire({
+							icon: 'error',
+							title: 'MAC 주소 확인!',
+							text: 'MAC주소가 형식에 어긋납니다.',
+						});
+					} else if(items.length != 0) {
 			        	$.each(items, function (i, item) {
 			        		swalText += "일련번호 : "+item+"<br>";
 			        	});
@@ -770,7 +776,7 @@
 		});
 	};
 	
-	/* =========== 직접입력 <--> 선택입력 변경 ========= */
+	/* =========== 직접입력 <> 선택입력 변경 ========= */
 	function selfInputCalendar(data) {
 		if(data == "expirationDaysChange") {
 			if($("#expirationDaysChange").text() == "달력") {

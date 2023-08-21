@@ -194,6 +194,9 @@ public class License5Service {
 		String resault = "OK";
 		String route = "";
 		if(license.getLicenseTypeView().equals("(신)"))
+			if(!isValidMacAddress(license.getMacAddressView())) {
+				return "NotMacAddress";
+			}
 			route = license5Dao.getRoute("linuxLicense50Route");
 		if(license.getLicenseTypeView().equals("(구)"))
 			route = license5Dao.getRoute("linuxLicense50OldRoute");
@@ -573,11 +576,23 @@ public class License5Service {
 	}
 
 	public List<String> existenceCheckInsert(License5 license) {
-		return license5Dao.existenceCheckInsert(license);
+		List<String> list = new ArrayList<String>();
+		if(!isValidMacAddress(license.getMacAddressView())) {
+			list.add("NotMacAddress");
+			return list;
+		}
+		list = license5Dao.existenceCheckInsert(license);
+		return list;
 	}
 
 	public List<String> existenceCheckUpdate(License5 license) {
-		return license5Dao.existenceCheckUpdate(license);
+		List<String> list = new ArrayList<String>();
+		if(!isValidMacAddress(license.getMacAddressView())) {
+			list.add("NotMacAddress");
+			return list;
+		}
+		list = license5Dao.existenceCheckUpdate(license);
+		return list;
 	}
 
 	public List<String> getSeriaNumber(int[] licenseKeyNumList) {
