@@ -250,11 +250,15 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.exten
       image: 'Picture',
       insert: 'Insert Image',
       resizeFull: 'Resize full',
-      resizeFullHalf: 'Resize fullHalf',
-      resizeHalf: 'Resize half',
+      resizeNinety: 'Resize Ninety',
+      resizeEight: 'Resize Eight',
+      resizeSeventy: 'Resize Seventy',
+      resizeSixty: 'Resize Sixty',
+      resizeFifty: 'Resize Fifty',
       resizeFourty: 'Resize fourty',
       resizeThirtyFive: 'Resize thirtyFive',
       resizeQuarter: 'Resize quarter',
+      resizeTen: 'Resize Ten',
       resizeNone: 'Original size',
       floatLeft: 'Float Left',
       floatRight: 'Float Right',
@@ -7858,7 +7862,7 @@ var Buttons_Buttons = /*#__PURE__*/function () {
     }
     /**
      * image: [
-     *   ['imageResize', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+     *   ['imageResize', ['resizeFull', 'resizeEight', 'resizeQuarter', 'resizeNone']],
      *   ['float', ['floatLeft', 'floatRight', 'floatNone']],
      *   ['remove', ['removeMedia']],
      * ],
@@ -7877,17 +7881,38 @@ var Buttons_Buttons = /*#__PURE__*/function () {
           click: _this3.context.createInvokeHandler('editor.resize', '1')
         }).render();
       });
-      this.context.memo('button.resizeFullHalf', function () {
+      this.context.memo('button.resizeNinety', function () {
         return _this3.button({
-          contents: '<span class="note-fontsize-10">75%</span>',
-          tooltip: _this3.lang.image.resizeFullHalf,
-          click: _this3.context.createInvokeHandler('editor.resize', '0.75')
+          contents: '<span class="note-fontsize-10">90%</span>',
+          tooltip: _this3.lang.image.resizeNinety,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.9')
         }).render();
       });
-      this.context.memo('button.resizeHalf', function () {
+      this.context.memo('button.resizeEight', function () {
+        return _this3.button({
+          contents: '<span class="note-fontsize-10">80%</span>',
+          tooltip: _this3.lang.image.resizeEight,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.8')
+        }).render();
+      });
+      this.context.memo('button.resizeSeventy', function () {
+        return _this3.button({
+          contents: '<span class="note-fontsize-10">70%</span>',
+          tooltip: _this3.lang.image.resizeSeventy,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.7')
+        }).render();
+      });
+      this.context.memo('button.resizeSixty', function () {
+        return _this3.button({
+          contents: '<span class="note-fontsize-10">60%</span>',
+          tooltip: _this3.lang.image.resizeSixty,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.6')
+        }).render();
+      });
+      this.context.memo('button.resizeFifty', function () {
         return _this3.button({
           contents: '<span class="note-fontsize-10">50%</span>',
-          tooltip: _this3.lang.image.resizeHalf,
+          tooltip: _this3.lang.image.resizeFifty,
           click: _this3.context.createInvokeHandler('editor.resize', '0.5')
         }).render();
       });
@@ -7910,6 +7935,13 @@ var Buttons_Buttons = /*#__PURE__*/function () {
           contents: '<span class="note-fontsize-10">25%</span>',
           tooltip: _this3.lang.image.resizeQuarter,
           click: _this3.context.createInvokeHandler('editor.resize', '0.25')
+        }).render();
+      });
+      this.context.memo('button.resizeTen', function () {
+        return _this3.button({
+          contents: '<span class="note-fontsize-10">10%</span>',
+          tooltip: _this3.lang.image.resizeTen,
+          click: _this3.context.createInvokeHandler('editor.resize', '0.1')
         }).render();
       });
       this.context.memo('button.resizeNone', function () {
@@ -9829,7 +9861,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
     // popover
     popatmouse: true,
     popover: {
-      image: [['resize', ['resizeFull','resizeFullHalf', 'resizeHalf', 'resizeFourty', 'resizeThirtyFive', 'resizeQuarter', 'resizeNone']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']],['border']],
+      image: [['resize', ['resizeFull','resizeNinety', 'resizeEight', 'resizeSeventy', 'resizeSixty', 'resizeFifty', 'resizeFourty', 'resizeThirtyFive', 'resizeQuarter', 'resizeTen', 'resizeNone']], ['float', ['floatLeft', 'floatRight', 'floatNone']], ['remove', ['removeMedia']],['border']],
       link: [['link', ['linkDialogShow', 'unlink']]],
       table: [['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']], ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]],
       air: [['color', ['color']], ['font', ['bold', 'underline', 'clear']], ['para', ['ul', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture']], ['view', ['fullscreen', 'codeview']]]
