@@ -48,6 +48,8 @@ public class FunctionTestService {
 		functionTest.setFunctionTestKeyNum(FunctionTestKeyNum(functionTest.getFunctionTestKeyNum()));
 		map.put("functionTestKeyNum", functionTest.getFunctionTestKeyNum());
 		
+		functionTestDao.delFunctionTest(functionTest.getFunctionTestKeyNum());
+		
 		int sucess = 1;
 		functionTest = oneDate(functionTest);
 		for(int i=0; i < functionTest.getFunctionTestSubCategoryStateList().size(); i++) {
