@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="questionAnswer">
+	<resultMap type="com.secuve.agentInfo.vo.QuestionAnswer" id="questionAnswer"></resultMap>
+	
+	<select id="getQuestionAnswerList" resultMap="questionAnswer" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT q.*, e.employeeName
+				FROM questionAnswer q, Employee e
+				WHERE q.employeeId = e.employeeId
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getQuestionAnswerListCount" resultType="_int">
+		SELECT COUNT(*) FROM questionAnswer q, Employee e WHERE q.employeeId = e.employeeId;
+	</select>
+	
+	<insert id="insertQuestionAnswer">
+		INSERT INTO questionAnswer(questionAnswerTitle, questionAnswerDetail, employeeId, questionAnswerDate, questionAnswerCount, questionAnswerState, questionAnswerRegistrant, questionAnswerRegistrationDate)
+		VALUES(#{questionAnswerTitle}, #{questionAnswerDetail}, #{employeeId}, #{questionAnswerDate}, 0, 'N', #{questionAnswerRegistrant}, #{questionAnswerRegistrationDate});
+	</insert>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlQuestionAnswer">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="managementServer != null and managementServer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="managementServerArr" item="arr">
+						OR managementServer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="osType != null and osType != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="osTypeArr" item="arr">
+						OR osType LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="agentVer != null and agentVer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="agentVerArr" item="arr">
+						OR agentVer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+		</trim>
+	</sql>
+</mapper>

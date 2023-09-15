@@ -381,6 +381,7 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
+			<div class="pcoded-navigation-label" data-i18n="nav.category.forms">sub Main</div>
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 		    	<ul class="pcoded-item pcoded-left-item">
 				    <li class="testCase">
@@ -391,7 +392,7 @@
 				        </a>
 				    </li>
 				</ul>
-				<ul class="pcoded-item pcoded-left-item">
+				<!-- <ul class="pcoded-item pcoded-left-item">
 				    <li class="checkList">
 				        <a href="<c:url value='/checkList/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-check-box"></i><b>FC</b></span>
@@ -399,12 +400,12 @@
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				    </li>
-				</ul>
+				</ul> -->
 				<ul class="pcoded-item pcoded-left-item">
 					<li class="functionTest pcoded-hasmenu">
 						<a href="#!" class="waves-effect waves-dark">
-				            <span class="pcoded-micon"><i class="ti-desktop"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">기능 테스트</span>
+				            <span class="pcoded-micon"><i class="ti-check-box"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">기능 체크 리스트</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				        <ul class="pcoded-submenu" style="display: block;">
@@ -455,10 +456,10 @@
 			    </ul> --%>
 		    </sec:authorize>
 			<ul class="pcoded-item pcoded-left-item">
-				<li class="faqList">
-					<a href="<c:url value='/faq/faqList'/>" class="waves-effect waves-dark">
-						<span class="pcoded-micon"><i class="ti-receipt"></i><b>FC</b></span>
-						<span class="pcoded-mtext" data-i18n="nav.form-components.main">FAQ(개발중)</span>
+				<li class="questionAnswerList">
+					<a href="<c:url value='/questionAnswer/list'/>" class="waves-effect waves-dark">
+						<span class="pcoded-micon"><i class="ti-help"></i><b>FC</b></span>
+						<span class="pcoded-mtext" data-i18n="nav.form-components.main">Q & A(개발중)</span>
 						<span class="pcoded-mcaret"></span>
 					</a>
 				</li>

@@ -129,4 +129,9 @@ public class IndividualNoteController {
 		return individualNoteService.fileDelete(individualNoteKeyNum, individualNoteFileName);
 	}
 	
+	@PostMapping(value = "/individualNote/explanationView")
+	public String ExplanationView() {
+		return "/individualNote/ExplanationView";
+	}
+	
 }

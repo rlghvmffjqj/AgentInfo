@@ -138,6 +138,7 @@
 																<td style="font-weight:bold;">노트 관리 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert" onclick="addWidget()">추가</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnSave" onclick="BtnSave()">저장</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExplanation" onclick="BtnExplanation()">사용 설명서</button>
 																</td>
 															</tr>
 															<tr>
@@ -406,6 +407,23 @@
 		$("select").change(function() {
 			stackRefresh();
 		});
+
+		/* =========== 사용 설명서 ========= */
+		function BtnExplanation() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/individualNote/explanationView'/>",
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'explanation'); //modal창 호출
+			    },
+			    error: function(e) {
+			    	console.log(e);
+			    }
+			});
+		}
 	</script>
 	
 	<script>

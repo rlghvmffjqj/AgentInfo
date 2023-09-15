@@ -29,6 +29,7 @@ $.modal = function (modalContent, size) {
 	if(size=='testCaseForm') html += ' modal-testCaseForm';
 	if(size=='customerConsolidation') html += ' modal-customerConsolidation';
 	if(size=='customerConsolidationSearch') html += ' modal-customerConsolidationSearch';
+	if(size=='explanation') html += ' modal-explanation';
     
     
     if(size=='r') html += ' modal-r';
