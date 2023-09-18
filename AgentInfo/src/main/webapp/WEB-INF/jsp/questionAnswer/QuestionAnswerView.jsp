@@ -4,6 +4,10 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+
+		<!-- SummerNote -->
+		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 	
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
@@ -50,8 +54,15 @@
 											<table style="width:100%; background: white; border-top: 3px solid #999999; text-align: center;">
 												<tbody>
 													<tr>
-														<td colspan="6" style="background: #ffe08738;">
-															<input class="questionAnswerTitle" id="questionAnswerTitle" name="questionAnswerTitle" placeholder="제목 입력">
+														<td colspan="6" style="background: #ffe08738; height: 70px;">
+															<c:choose>
+																<c:when test="${viewType eq 'insert'}">
+																	<input class="questionTitle" id="questionTitle" name="questionTitle" placeholder="제목 입력">
+																</c:when>
+																<c:when test="${viewType eq 'view'}">
+																	<span class="questionTitle">${question.questionTitle}</span>
+																</c:when>
+															</c:choose>
 														</td>
 													</tr>
 													<tr>
@@ -59,31 +70,67 @@
 															작성자
 														</td>
 														<td class="qnatda">
-															${employeeName}
+															${question.employeeName}
 														</td>
 														<td class="qnatdq">
 															등록일
 														</td>
 														<td class="qnatda">
-															${questionAnswerDate}
+															${question.questionDate}
 														</td>
 														<td class="qnatdq">
 															조회수
 														</td>
 														<td class="qnatda" style="border-right: none;">
-															0
+															<c:choose>
+																<c:when test="${viewType eq 'insert'}">
+																	0
+																</c:when>
+																<c:when test="${viewType eq 'view'}">
+																	${question.questionCount}
+																</c:when>
+															</c:choose>
 														</td>
 													</tr>
 													<tr>
-														<td colspan="6">
-															<textarea class="questionAnswerDetail" id="questionAnswerDetail" name="questionAnswerDetail" placeholder="내용 입력"></textarea>
+														<td colspan="6" style="text-align: left;">
+															<c:choose>
+																<c:when test="${viewType eq 'insert'}">
+																	<div id="questionDiv">
+																		<textarea class="questionDetail summerNoteQuestion" id="questionDetail" name="questionDetail" placeholder="내용 입력"></textarea>
+																	</div>
+																</c:when>
+																<c:when test="${viewType eq 'view'}">
+																	<label class="questionDetailView">${question.questionDetail}</label>
+																</c:when>
+															</c:choose>
 														</td>
 													</tr>
 												</tbody>
 											</table>
 										</form>
-										<button class="btn btn-outline-info-nomal myBtn questionAnswerWrite" id="listBtn" onclick="listBtn();">목록</button>
-										<button class="btn btn-outline-info-add myBtn questionAnswerWrite" id="insertBtn" onclick="insertBtn()">답변 요청</button>
+										<sec:authorize access="hasRole('ADMIN')">
+											<c:if test="${viewType eq 'view'}">
+												<div id="answerDiv" style="margin-top: 10px;">
+													<textarea class="answer summerNoteAnswer" id="answer" rows="5" placeholder="답변 작성 바랍니다.">${answer.answerDetail}</textarea>
+												</div>
+											</c:if>
+										</sec:authorize>
+										<label class="answer" id="answerView" style="display: none;">${answer.answerDetail}</label>
+										<label>답변 : ${answer.employeeName}, </label>
+										<label>시간 : ${answer.answerDate}</label>
+										<button class="btn btn-outline-info-nomal myBtn questionWrite" id="listBtn" onclick="listBtn();">목록</button>
+										<c:choose>
+											<c:when test="${viewType eq 'insert'}">
+												<button class="btn btn-outline-info-add myBtn questionWrite" id="insertBtn" onclick="insertBtn()">질문 하기</button>
+											</c:when>
+											<c:when test="${viewType eq 'view'}">
+												<sec:authorize access="hasRole('ADMIN')">
+													<button class="btn btn-outline-info-add myBtn questionWrite" id="answerBtn" onclick="answerBtn()">답변 하기</button>
+													<button class="btn btn-outline-info-add myBtn questionWrite" id="answerUpdateBtn" onclick="answerUpdateBtn()" style="display: none;">답변 수정 하기</button>
+												</sec:authorize>
+											</c:when>
+										</c:choose>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -95,6 +142,28 @@
 	</body>
 	
 	<script>
+		$(document).ready(function() {
+			/* =========== 섬머노트 ========= */
+			$('.summerNoteAnswer').summernote({
+				minHeight:150,
+				placeholder:"여기에 내용을 입력 주세요."
+			});
+
+			$('.summerNoteQuestion').summernote({
+				minHeight:300,
+				placeholder:"여기에 내용을 입력 주세요."
+			});
+
+			
+
+			if($('#answerView').text() != "") {
+				$('#answerDiv').hide();
+				$('#answerView').show();
+				$('#answerBtn').hide();
+				$('#answerUpdateBtn').show();
+			}
+		});
+
 		function listBtn() {
 			location.href="<c:url value='/questionAnswer/list'/>";
 		}
@@ -102,7 +171,7 @@
 		function insertBtn() {
 			var postData = $('#formView').serializeObject();
 			$.ajax({
-				url: "<c:url value='/questionAnswer/insert'/>",
+				url: "<c:url value='/question/insert'/>",
 			    type: 'post',
 			    data: postData,
 			    async: false,
@@ -148,6 +217,52 @@
 			});
 
 		}
+
+		function answerBtn() {
+			var questionKeyNum = "${question.questionKeyNum}";
+			var answerDetail = $('#answer').val();
+			$.ajax({
+		        type: 'post',
+		        url: "<c:url value='/answer/insert'/>",
+		        async: false,
+		        data: {
+					"questionKeyNum": questionKeyNum,
+					"answerDetail": answerDetail
+				},
+		        success: function (result) {
+					if(result.result == "OK") {
+		        		$('#answerDiv').hide();
+						$('#answerView').text(result.detail);
+						$('#answerView').show();
+						$('#answerBtn').hide();
+						$('#answerUpdateBtn').show();
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '답변 작성 완료하였습니다.',
+						})
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+		        },
+		    });
+		}
+
+		function answerUpdateBtn() {
+			$('#answerDiv').show();
+			$('#answerView').hide();
+			$('#answerBtn').show();
+			$('#answerUpdateBtn').hide();
+			Swal.fire({
+				icon: 'success',
+				title: '답변 수정!',
+				text: '답변 수정 후 답변 하기 버튼 입력 바랍니다.',
+			})
+		}
 			
 	</script>
 
@@ -161,7 +276,7 @@
 			border-right: none;
 		}
 
-		.questionAnswerInsert {
+		.questionInsert {
 			float: right;
 			width: 100px;
 			height: 40px;
@@ -172,16 +287,17 @@
 			border-bottom: 1px solid #9f510029;
 		}
 
-		.questionAnswerTitle {
+		.questionTitle {
 			width: 100%;
     		text-align: center;
     		height: 70px;
     		font-size: 20px;
 			border: none;
 			color: black;
+			font-weight: bold;
 		}
 
-		.questionAnswerDetail {
+		.questionDetail {
 			width: 100%;
     		height: 400px;
     		border: none;
@@ -205,11 +321,34 @@
 			color: black;
 		}
 
-		.questionAnswerWrite{
+		.questionWrite{
 			float: right;
     		margin-top: 5px;
     		width: 100px;
     		height: 40px;
 		}
+
+		.questionDetailView {
+			text-align: left;
+    		padding: 15px;
+    		min-height: 200px;
+    		color: black;
+    		width: 100%;
+			height: auto;
+		}
+
+		.answer {
+			margin-top: 10px;
+    		width: 100%;
+    		min-height: 100px;
+			padding: 10px;
+    		border: 1px solid #bbbbbb;
+			background: white;
+		}
+
+		.note-editor {
+			border: none !important;
+		}
+
 	</style>
 </html>

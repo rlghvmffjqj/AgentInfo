@@ -15,25 +15,26 @@
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/questionAnswer'/>",
+					url: "<c:url value='/question'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','제목','이름','날짜','조회'],
+					colNames:['Key','제목','상태','이름','날짜','조회'],
 					colModel:[
-						{name:'questionAnswerKeyNum', index:'questionAnswerKeyNum', align:'center', width: 35, hidden:true },
-						{name:'questionAnswerTitle', index:'questionAnswerTitle', align:'center', width: 600, formatter: linkFormatter},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'questionAnswerDate', index:'questionAnswerDate', align:'center', width: 150},
-						{name:'questionAnswerCount', index:'questionAnswerCount', align:'center', width: 150},
+						{name:'questionKeyNum', index:'questionKeyNum', align:'center', width: 35, hidden:true },
+						{name:'questionTitle', index:'questionTitle', align:'center', width: 600, align:'left', formatter: linkFormatter},
+						{name:'questionState', index:'questionState', align:'center', width: 150},
+						{name:'employeeName', index:'employeeName', align:'center', width: 150, formatter: nameFormatter},
+						{name:'questionDate', index:'questionDate', align:'center', width: 150},
+						{name:'questionCount', index:'questionCount', align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'questionAnswerKeyNum',
+			        	id: 'questionKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'questionAnswerCount',	// 기본 정렬 
+			        sortname: 'questionCount',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			    
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
@@ -121,7 +122,7 @@
 																</tr>
 																<tr>
 																	<td>
-																		<button class="btn btn-outline-info-add myBtn questionAnswerWrite" id="btnInsert" onclick="btnInsert()">글쓰기</button>
+																		<button class="btn btn-outline-info-add myBtn questionWrite" id="btnInsert" onclick="btnInsert()">글쓰기</button>
 																	</td>
 																</tr>
 															</tbody>
@@ -160,7 +161,7 @@
 		
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.questionAnswerKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.questionKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 				
 		/* =========== Enter 검색 ========= */
@@ -171,7 +172,36 @@
 		});
 
 		function btnInsert() {
-			location.href="<c:url value='/questionAnswer/write'/>";
+			location.href="<c:url value='/question/write'/>";
+		}
+
+		function updateView(keyNum) {
+			var form = document.createElement("form");
+  			form.method = "POST";
+  			form.action = "<c:url value='/question/view'/>"; // 이동할 페이지의 URL을 지정
+
+  			// 폼에 값을 추가
+  			var input1 = document.createElement("input");
+  			input1.type = "hidden"; // 숨겨진 필드로 설정
+  			input1.name = "questionKeyNum"; // 서버에서 사용할 파라미터 이름
+  			input1.value = keyNum; // 전달할 값
+  			form.appendChild(input1);
+
+  			// 폼을 문서에 추가하고 자동으로 제출
+  			document.body.appendChild(form);
+  			form.submit();
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function nameFormatter(value, options, row) {
+			var employeeId = row.employeeId;
+			if("${writer}" == "admin") {
+				return row.employeeName;
+			}
+			if("${writer}" != employeeId) {
+				return "***";
+			}
+			return row.employeeName;
 		}
 			
 	</script>
@@ -186,7 +216,7 @@
 			border-right: none;
 		}
 
-		.questionAnswerWrite {
+		.questionWrite {
 			float: right;
 			width: 100px;
 			height: 40px;

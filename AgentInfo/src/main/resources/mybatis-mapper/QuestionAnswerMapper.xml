@@ -2,30 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="questionAnswer">
-	<resultMap type="com.secuve.agentInfo.vo.QuestionAnswer" id="questionAnswer"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.Question" id="question"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.Answer" id="answer"></resultMap>
 	
-	<select id="getQuestionAnswerList" resultMap="questionAnswer" parameterType="string">
+	<select id="getQuestionAnswerList" resultMap="question" parameterType="string">
 		SELECT *
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
 				SELECT q.*, e.employeeName
-				FROM questionAnswer q, Employee e
+				FROM question q, Employee e
 				WHERE q.employeeId = e.employeeId
+				ORDER BY questionCount DESC
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getQuestionAnswerListCount" resultType="_int">
-		SELECT COUNT(*) FROM questionAnswer q, Employee e WHERE q.employeeId = e.employeeId;
+		SELECT COUNT(*) FROM question q, Employee e WHERE q.employeeId = e.employeeId;
 	</select>
 	
-	<insert id="insertQuestionAnswer">
-		INSERT INTO questionAnswer(questionAnswerTitle, questionAnswerDetail, employeeId, questionAnswerDate, questionAnswerCount, questionAnswerState, questionAnswerRegistrant, questionAnswerRegistrationDate)
-		VALUES(#{questionAnswerTitle}, #{questionAnswerDetail}, #{employeeId}, #{questionAnswerDate}, 0, 'N', #{questionAnswerRegistrant}, #{questionAnswerRegistrationDate});
+	<insert id="insertQuestion">
+		INSERT INTO question(questionTitle, questionDetail, employeeId, questionDate, questionCount, questionState, questionRegistrant, questionRegistrationDate)
+		VALUES(#{questionTitle}, #{questionDetail}, #{employeeId}, #{questionDate}, 0, '답변 대기', #{questionRegistrant}, #{questionRegistrationDate});
 	</insert>
+	
+	<select id="getQuestionOne" parameterType="_int" resultMap="question">
+		SELECT * FROM question q, Employee e WHERE q.employeeId = e.employeeId AND questionKeyNum = #{questionKeyNum};
+	</select>
+	
+	<update id="questionAnswerCountPlus" parameterType="_int">
+		UPDATE question SET questionCount = questionCount + 1 WHERE questionKeyNum = #{questionKeyNum};
+	</update>
+	
+	<insert id="insertAnswer">
+		INSERT INTO answer(questionKeyNum, answerDetail, answerDate, employeeId, answerRegistrant, answerRegistrationDate)
+		VALUES(#{questionKeyNum}, #{answerDetail}, #{answerDate}, #{employeeId}, #{answerRegistrant}, #{answerRegistrationDate});
+	</insert>
+	
+	<select id="getAnswerOne" parameterType="_int" resultMap="answer">
+		SELECT * FROM answer a, Employee e WHERE a.employeeId = e.employeeId AND questionKeyNum = #{questionKeyNum};
+	</select>
+	
+	<delete id="deleteAnswer">
+		DELETE FROM answer WHERE questionKeyNum = #{questionKeyNum};
+	</delete>
+	
+	<update id="updateQuestionState">
+		UPDATE question SET questionState = '답변 완료' WHERE questionKeyNum = #{questionKeyNum};
+	</update>
 	
 	<!-- ==================================================================================== -->
 	

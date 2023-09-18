@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.QuestionAnswerService;
-import com.secuve.agentInfo.vo.Employee;
-import com.secuve.agentInfo.vo.QuestionAnswer;
+import com.secuve.agentInfo.vo.Answer;
+import com.secuve.agentInfo.vo.Question;
 
 @Controller
 public class QuestionAnswerController {
@@ -25,47 +25,83 @@ public class QuestionAnswerController {
 	@Autowired EmployeeService employeeService;
 	
 	@GetMapping(value = "/questionAnswer/list")
-	public String QuestionAnswerList(Model model) {
+	public String QuestionAnswerList(Model model, Principal principal) {
+		model.addAttribute("writer", principal.getName());
 		return "questionAnswer/QuestionAnswerList";
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/questionAnswer")
-	public Map<String, Object> QuestionAnswer(QuestionAnswer search) {
+	@PostMapping(value = "/question")
+	public Map<String, Object> Question(Question search) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<QuestionAnswer> list = new ArrayList<>(questionAnswerService.getQuestionAnswerList(search));
+		ArrayList<Question> list = new ArrayList<>(questionAnswerService.getQuestionAnswerList(search));
 
 		int totalCount = questionAnswerService.getQuestionAnswerListCount(search);
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float) totalCount / search.getRows()));
 		map.put("records", totalCount);
 		map.put("rows", list);
+		
 		return map;
 	}
 	
-	@GetMapping(value = "/questionAnswer/write")
-	public String QuestionAnswerView(Principal principal, Model model) {
+	@GetMapping(value = "/question/write")
+	public String QuestionWriteView(Principal principal, Model model) {
+		Question question = new Question();
+		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
-		model.addAttribute("employeeName", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
-		model.addAttribute("questionAnswerDate", formatter.format(now));
+		question.setEmployeeName(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
+		question.setQuestionDate(formatter.format(now));
+		
+		model.addAttribute("question", question);
+		model.addAttribute("viewType", "insert");
+		
 		return "questionAnswer/QuestionAnswerView";
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/questionAnswer/insert")
-	public String InsertQuestionAnswer(QuestionAnswer questionAnswer, Principal principal) {
-		questionAnswer.setQuestionAnswerRegistrant(principal.getName());
+	@PostMapping(value = "/question/insert")
+	public String InsertQuestion(Question question, Principal principal) {
+		question.setQuestionRegistrant(principal.getName());
 		// Date formatter 현재 시간
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
-		questionAnswer.setQuestionAnswerRegistrationDate(formatter.format(now));
-		questionAnswer.setQuestionAnswerDate(formatter2.format(now));
-		questionAnswer.setEmployeeId(principal.getName());
+		question.setQuestionRegistrationDate(formatter.format(now));
+		question.setQuestionDate(formatter2.format(now));
+		question.setEmployeeId(principal.getName());
+		question.setQuestionRegistrant(principal.getName());
 
-		return questionAnswerService.insertQuestionAnswer(questionAnswer);
+		return questionAnswerService.insertQuestion(question);
+	}
+	
+	@PostMapping(value = "/question/view")
+	public String QuestionView(int questionKeyNum, Model model) {
+		questionAnswerService.questionAnswerCountPlus(questionKeyNum);
+		Question question = questionAnswerService.getQuestionOne(questionKeyNum);
+		Answer answer = questionAnswerService.getAnswerOne(questionKeyNum);
+		
+		model.addAttribute("question", question);
+		model.addAttribute("answer", answer);
+		model.addAttribute("viewType", "view");
+		return "questionAnswer/QuestionAnswerView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/answer/insert")
+	public Map<String, String> InsertAnswer(Answer answer, Principal principal) {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		answer.setAnswerDate(formatter2.format(now));
+		answer.setAnswerRegistrant(principal.getName());
+		answer.setAnswerRegistrationDate(formatter.format(now));
+		answer.setEmployeeId(principal.getName());
+		
+		return questionAnswerService.insertAnswer(answer);
 	}
 
 }
