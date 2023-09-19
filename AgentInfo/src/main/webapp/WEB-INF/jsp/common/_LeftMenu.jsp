@@ -461,7 +461,7 @@
 				<li class="questionAnswer">
 					<a href="<c:url value='/questionAnswer/list'/>" class="waves-effect waves-dark">
 						<span class="pcoded-micon"><i class="ti-help"></i><b>FC</b></span>
-						<span class="pcoded-mtext" data-i18n="nav.form-components.main">Q & A(개발중)</span>
+						<span class="pcoded-mtext" data-i18n="nav.form-components.main">Q & A</span>
 						<span class="pcoded-mcaret"></span>
 					</a>
 				</li>
