@@ -24,6 +24,9 @@ public class Question {
 	private String questionModifiedDate;
 	
 	private String employeeName;
+	private String search;
+	private String searchInput;
+	private String usersRole;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

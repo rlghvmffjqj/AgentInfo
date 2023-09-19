@@ -33,14 +33,14 @@
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
-			        rowNum: 25,					// 보여중 행의 수
+			        rowNum: 15,					// 보여중 행의 수
 			        sortname: 'questionCount',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			    
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
-			        height : '620',
+			        height : '570',
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
@@ -96,17 +96,19 @@
 																<tr>
 																	<td>
 																		<div>
-																			<div style="width: 100px; float: left; padding-right: 5px; margin-top: -1px;">
-																		  		<select class="form-control selectpicker" id="search" name="search" data-size="5" data-actions-box="true">
-																				  	<option value="글제목">글제목</option>
-																				  	<option value="글제목내용">글제목+내용</option>
-																					<option value="이름">이름</option>
-																		  		</select>
-																			</div>
-																		  	<input type="text" id="searchInput" name="searchInput" class="form-control" style="float: left; width: 250px;">
-																		  	<button class="btn btn-primary btnm" type="button" id="btnSearch" style="float: left; min-width: 0px !important; height: 32px">
-																				<i class="fa fa-search"></i>&nbsp;<span>검색</span>
-																			</button>
+																			<form id="form" name="form" method ="post">
+																				<div style="width: 100px; float: left; padding-right: 5px; margin-top: -1px;">
+																		  			<select class="form-control selectpicker" id="search" name="search" data-size="5" data-actions-box="true">
+																					  	<option value="글제목">글제목</option>
+																					  	<option value="글제목내용">글제목+내용</option>
+																						<option value="이름">이름</option>
+																		  			</select>
+																				</div>
+																		  		<input type="text" id="searchInput" name="searchInput" class="form-control" style="float: left; width: 250px;">
+																		  		<button class="btn btn-primary btnm" type="button" id="btnSearch" style="float: left; min-width: 0px !important; height: 32px">
+																					<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+																				</button>
+																			</form>
 																	  </div>
 																	</td>
 																</tr>
@@ -167,6 +169,7 @@
 		/* =========== Enter 검색 ========= */
 		$("input[type=text]").keypress(function(event) {
 			if (window.event.keyCode == 13) {
+				event.preventDefault();
 				tableRefresh();
 			}
 		});
@@ -195,7 +198,7 @@
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function nameFormatter(value, options, row) {
 			var employeeId = row.employeeId;
-			if("${writer}" == "admin") {
+			if("${role}" == "ADMIN") {
 				return row.employeeName;
 			}
 			if("${writer}" != employeeId) {

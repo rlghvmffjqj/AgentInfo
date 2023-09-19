@@ -14,6 +14,7 @@
 				SELECT q.*, e.employeeName
 				FROM question q, Employee e
 				WHERE q.employeeId = e.employeeId
+					<include refid="sqlQuestionAnswer" />
 				ORDER BY questionCount DESC
 			) a
 		) b
@@ -21,7 +22,9 @@
 	</select>
 	
 	<select id="getQuestionAnswerListCount" resultType="_int">
-		SELECT COUNT(*) FROM question q, Employee e WHERE q.employeeId = e.employeeId;
+		SELECT COUNT(*) FROM question q, Employee e
+		WHERE q.employeeId = e.employeeId
+		<include refid="sqlQuestionAnswer" />
 	</select>
 	
 	<insert id="insertQuestion">
@@ -37,7 +40,7 @@
 		UPDATE question SET questionCount = questionCount + 1 WHERE questionKeyNum = #{questionKeyNum};
 	</update>
 	
-	<insert id="insertAnswer">
+	<insert id="insertAnswer" parameterType="answer" useGeneratedKeys="true" keyProperty="answerKeyNum">
 		INSERT INTO answer(questionKeyNum, answerDetail, answerDate, employeeId, answerRegistrant, answerRegistrationDate)
 		VALUES(#{questionKeyNum}, #{answerDetail}, #{answerDate}, #{employeeId}, #{answerRegistrant}, #{answerRegistrationDate});
 	</insert>
@@ -54,55 +57,32 @@
 		UPDATE question SET questionState = '답변 완료' WHERE questionKeyNum = #{questionKeyNum};
 	</update>
 	
+	<delete id="deleteQuestion">
+		DELETE FROM question WHERE questionKeyNum = #{questionKeyNum};
+	</delete>
+	
+	<update id="updateQuestion">
+		UPDATE question SET questionDetail = #{questionDetail}, questionState = #{questionState}, questionDate = #{questionDate} WHERE questionKeyNum = #{questionKeyNum};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlQuestionAnswer">
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="customerName != null and customerName != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="customerNameArr" item="arr">
-						OR customerName LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
+		<if test="searchInput != null and searchInput != ''">
+			<if test="search == '글제목'">
+				AND questionTitle LIKE CONCAT('%',#{searchInput},'%')
 			</if>
-			<if test="businessName != null and businessName != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="businessNameArr" item="arr">
-						OR businessName LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
+			<if test="search == '글제목내용'">
+				AND questionTitle LIKE CONCAT('%',#{searchInput},'%')
+				OR q.employeeId = e.employeeId
+				AND questionDetail LIKE CONCAT('%',#{searchInput},'%')
 			</if>
-			<if test="managementServer != null and managementServer != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="managementServerArr" item="arr">
-						OR managementServer LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="osType != null and osType != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="osTypeArr" item="arr">
-						OR osType LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="agentVer != null and agentVer != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="agentVerArr" item="arr">
-						OR agentVer LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-		</trim>
+			<if test="search == '이름'">
+				AND employeeName LIKE CONCAT('%',#{searchInput},'%')
+				<if test="usersRole != 'ADMIN'">
+					AND q.employeeId = #{employeeId}
+				</if>
+			</if> 
+		</if>
 	</sql>
 </mapper>

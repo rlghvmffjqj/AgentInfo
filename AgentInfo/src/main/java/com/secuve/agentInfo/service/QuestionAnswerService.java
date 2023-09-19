@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.QuestionAnswerDao;
 import com.secuve.agentInfo.vo.Answer;
 import com.secuve.agentInfo.vo.Question;
@@ -14,6 +15,7 @@ import com.secuve.agentInfo.vo.Question;
 @Service
 public class QuestionAnswerService {
 	@Autowired QuestionAnswerDao questionAnswerDao;
+	@Autowired EmployeeDao employeeDao;
 
 	public List<Question> getQuestionAnswerList(Question search) {
 		return questionAnswerDao.getQuestionAnswerList(search);
@@ -24,10 +26,10 @@ public class QuestionAnswerService {
 	}
 
 	public String insertQuestion(Question question) {
-		if(question.getQuestionTitle() == null) {
+		if(question.getQuestionTitle() == null || question.getQuestionTitle() == "") {
 			return "NotTitle";
 		}
-		if(question.getQuestionDetail() == null) {
+		if(question.getQuestionDetail() == null || question.getQuestionDetail() == "") {
 			return "NotDetail";
 		}
 		
@@ -52,6 +54,8 @@ public class QuestionAnswerService {
 		if (sucess <= 0)
 			map.put("result", "FALSE") ;
 		questionAnswerDao.updateQuestionState(answer);
+		map.put("employeeName", employeeDao.getEmployeeOne(answer.getEmployeeId()).getEmployeeName());
+		map.put("answerDate", answer.getAnswerDate());
 		map.put("result", "OK");
 		map.put("detail", answer.getAnswerDetail());
 		return map;
@@ -59,6 +63,28 @@ public class QuestionAnswerService {
 
 	public Answer getAnswerOne(int questionKeyNum) {
 		return questionAnswerDao.getAnswerOne(questionKeyNum);
+	}
+
+	public String deleteQuestion(Question question) {
+		int sucess = questionAnswerDao.deleteQuestion(question);
+		if (sucess <= 0)
+			return "FALSE";
+		return "OK";
+	}
+
+	public Map<String, String> updateQuestion(Question question) {
+		Map<String, String> map = new HashMap<String, String>();
+		if(questionAnswerDao.getAnswerOne(question.getQuestionKeyNum()) == null) {
+			question.setQuestionState("답변 대기");
+		} else {
+			question.setQuestionState("재 답변 요청");
+		}
+		int sucess = questionAnswerDao.updateQuestion(question);
+		if (sucess <= 0)
+			map.put("result", "FALSE") ;
+		map.put("result", "OK");
+		map.put("detail", question.getQuestionDetail());
+		return map;
 	}
 
 }

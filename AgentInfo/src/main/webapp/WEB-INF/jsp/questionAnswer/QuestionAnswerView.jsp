@@ -54,7 +54,7 @@
 											<table style="width:100%; background: white; border-top: 3px solid #999999; text-align: center;">
 												<tbody>
 													<tr>
-														<td colspan="6" style="background: #ffe08738; height: 70px;">
+														<td colspan="8" style="background: #ffe08738; height: 70px;">
 															<c:choose>
 																<c:when test="${viewType eq 'insert'}">
 																	<input class="questionTitle" id="questionTitle" name="questionTitle" placeholder="제목 입력">
@@ -70,7 +70,8 @@
 															작성자
 														</td>
 														<td class="qnatda">
-															${question.employeeName}
+															<c:if test="${writer eq question.employeeId || role eq 'ADMIN'}">${question.employeeName}</c:if>
+															<c:if test="${writer ne question.employeeId && role ne 'ADMIN'}">***</c:if>
 														</td>
 														<td class="qnatdq">
 															등록일
@@ -91,17 +92,26 @@
 																</c:when>
 															</c:choose>
 														</td>
+														<td class="qnatdq">
+															상태
+														</td>
+														<td class="qnatda">
+															${question.questionState}
+														</td>
 													</tr>
 													<tr>
-														<td colspan="6" style="text-align: left;">
+														<td colspan="8" style="text-align: left;">
 															<c:choose>
 																<c:when test="${viewType eq 'insert'}">
 																	<div id="questionDiv">
-																		<textarea class="questionDetail summerNoteQuestion" id="questionDetail" name="questionDetail" placeholder="내용 입력"></textarea>
+																		<textarea class="questionDetail summerNoteQuestion" id="questionDetail" name="questionDetail" placeholder="내용 입력">${question.questionDetail}</textarea>
 																	</div>
 																</c:when>
 																<c:when test="${viewType eq 'view'}">
-																	<label class="questionDetailView">${question.questionDetail}</label>
+																	<div id="questionDiv" style="display: none;">
+																		<textarea class="questionDetail summerNoteQuestion" id="questionDetail" name="questionDetail" placeholder="내용 입력">${question.questionDetail}</textarea>
+																	</div>
+																	<label class="questionDetailView" id="questionDetailView">${question.questionDetail}</label>
 																</c:when>
 															</c:choose>
 														</td>
@@ -116,15 +126,27 @@
 												</div>
 											</c:if>
 										</sec:authorize>
-										<label class="answer" id="answerView" style="display: none;">${answer.answerDetail}</label>
-										<label>답변 : ${answer.employeeName}, </label>
-										<label>시간 : ${answer.answerDate}</label>
+										<div class="answer" id="answerView" style="display: none;">${answer.answerDetail}</div>
+										<label id="employeeName">답변 : ${answer.employeeName}, </label>
+										<label id="answerDate">시간 : ${answer.answerDate}</label>
 										<button class="btn btn-outline-info-nomal myBtn questionWrite" id="listBtn" onclick="listBtn();">목록</button>
 										<c:choose>
 											<c:when test="${viewType eq 'insert'}">
 												<button class="btn btn-outline-info-add myBtn questionWrite" id="insertBtn" onclick="insertBtn()">질문 하기</button>
 											</c:when>
 											<c:when test="${viewType eq 'view'}">
+												<c:if test="${identityCheck eq 'adminOff'}">
+													<button class="btn btn-outline-info-del myBtn questionWrite" id="deleteBtn" onclick="deleteBtn()" style="width: 120px;">게시글 삭제 하기</button>
+												</c:if>
+												<c:if test="${identityCheck eq 'on'}">
+													<button class="btn btn-outline-info-add myBtn questionWrite" id="updateBtn" onclick="updateBtn()" style="width: 120px;">게시글 수정 하기</button>
+													<button class="btn btn-outline-info-add myBtn questionWrite" id="questionBtn" onclick="questionBtn()" style="display: none;">질문 하기</button>
+												</c:if>
+												<c:if test="${identityCheck eq 'adminOn'}">
+													<button class="btn btn-outline-info-del myBtn questionWrite" id="deleteBtn" onclick="deleteBtn()" style="width: 120px;">게시글 삭제 하기</button>
+													<button class="btn btn-outline-info-add myBtn questionWrite" id="updateBtn" onclick="updateBtn()" style="width: 120px;">게시글 수정 하기</button>
+													<button class="btn btn-outline-info-add myBtn questionWrite" id="questionBtn" onclick="questionBtn()" style="display: none;">질문 하기</button>
+												</c:if>
 												<sec:authorize access="hasRole('ADMIN')">
 													<button class="btn btn-outline-info-add myBtn questionWrite" id="answerBtn" onclick="answerBtn()">답변 하기</button>
 													<button class="btn btn-outline-info-add myBtn questionWrite" id="answerUpdateBtn" onclick="answerUpdateBtn()" style="display: none;">답변 수정 하기</button>
@@ -202,7 +224,6 @@
 						}).then((result) => {
 							location.href="<c:url value='/questionAnswer/list'/>";
 						});
-						
 					} else {
 						Swal.fire({
 							icon: 'error',
@@ -232,10 +253,14 @@
 		        success: function (result) {
 					if(result.result == "OK") {
 		        		$('#answerDiv').hide();
-						$('#answerView').text(result.detail);
+						$("#answerView").empty();
+						var table = $('#answerView');
+						table.append(result.detail);
 						$('#answerView').show();
 						$('#answerBtn').hide();
 						$('#answerUpdateBtn').show();
+						$('#employeeName').text("답변 : "+result.employeeName+",");
+						$('#answerDate').text("시간 : "+result.answerDate);
 						Swal.fire({
 							icon: 'success',
 							title: '성공!',
@@ -257,13 +282,100 @@
 			$('#answerView').hide();
 			$('#answerBtn').show();
 			$('#answerUpdateBtn').hide();
+			// Swal.fire({
+			// 	icon: 'success',
+			// 	title: '답변 수정!',
+			// 	text: '답변 수정 후 답변 하기 버튼 입력 바랍니다.',
+			// })
+		}
+
+		function deleteBtn() {
+			var questionKeyNum = "${question.questionKeyNum}";
 			Swal.fire({
-				icon: 'success',
-				title: '답변 수정!',
-				text: '답변 수정 후 답변 하기 버튼 입력 바랍니다.',
+				  title: '삭제!',
+				  text: "게시글을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  	$.ajax({
+						url: "<c:url value='/question/delete'/>",
+						type: "POST",
+						data: {"questionKeyNum": questionKeyNum},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '성공!',
+									text: '삭제 완료했습니다.',
+								}).then((result) => {
+									location.href="<c:url value='/questionAnswer/list'/>";
+								});
+							} else {
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							}
+						},
+						error: function(error) {
+							console.log(error);
+						}
+				  	});
+			  	}	
 			})
 		}
-			
+		
+		function updateBtn() {
+			$('#questionDetailView').hide();
+			$('#questionDiv').show();
+			$('#questionBtn').show();
+			$('#updateBtn').hide();
+		}
+
+		function questionBtn() {
+			var questionKeyNum = "${question.questionKeyNum}";
+			var questionDetail = $('#questionDetail').val();
+			$.ajax({
+		        type: 'post',
+		        url: "<c:url value='/question/update'/>",
+		        async: false,
+		        data: {
+					"questionKeyNum": questionKeyNum,
+					"questionDetail": questionDetail
+				},
+		        success: function (result) {
+					if(result.result == "OK") {
+		        		$("#questionDetailView").empty();
+						$('#questionDetailView').show();
+						$('#questionDiv').hide();
+						$('#questionBtn').hide();
+						$('#updateBtn').show();
+						var table = $('#questionDetailView');
+						table.append(result.detail);
+						
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '게시글 수정 완료하였습니다.',
+						})
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+		        },
+		    });
+		}
 	</script>
 
 	<style>
@@ -308,7 +420,7 @@
 		.qnatdq {
 			border-right: 1px solid #9f510029;
 			height: 50px;
-			width: 14%;
+			width: 10%;
 			font-weight: bold;
 			background: #ffe08738;
 			color: black;
@@ -317,7 +429,7 @@
 		.qnatda {
 			border-right: 1px solid #9f510029;
 			height: 50px;
-			width: 20%;
+			width: 15%;
 			color: black;
 		}
 
@@ -340,7 +452,7 @@
 		.answer {
 			margin-top: 10px;
     		width: 100%;
-    		min-height: 100px;
+    		min-height: 150px;
 			padding: 10px;
     		border: 1px solid #bbbbbb;
 			background: white;
@@ -348,6 +460,10 @@
 
 		.note-editor {
 			border: none !important;
+		}
+
+		.answer > p {
+			color: black;
 		}
 
 	</style>

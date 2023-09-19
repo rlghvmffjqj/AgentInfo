@@ -50,4 +50,12 @@ public class QuestionAnswerDao {
 		sqlSession.update("questionAnswer.updateQuestionState", answer);
 	}
 
+	public int deleteQuestion(Question question) {
+		return sqlSession.delete("questionAnswer.deleteQuestion", question);
+	}
+
+	public int updateQuestion(Question question) {
+		return sqlSession.update("questionAnswer.updateQuestion", question);
+	}
+
 }
