@@ -190,6 +190,8 @@
 			$('.testCase').addClass('active');
 		}  else if($.cookie('name') == 'customerConsolidation') {
 			$('.customerConsolidation').addClass('active');
+		} else if($.cookie('name') == 'questionAnswer') {
+			$('.questionAnswer').addClass('active');
 		}
 		
 	});
@@ -456,7 +458,7 @@
 			    </ul> --%>
 		    </sec:authorize>
 			<ul class="pcoded-item pcoded-left-item">
-				<li class="questionAnswerList">
+				<li class="questionAnswer">
 					<a href="<c:url value='/questionAnswer/list'/>" class="waves-effect waves-dark">
 						<span class="pcoded-micon"><i class="ti-help"></i><b>FC</b></span>
 						<span class="pcoded-mtext" data-i18n="nav.form-components.main">Q & A(개발중)</span>
@@ -786,13 +788,13 @@
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				        <ul class="pcoded-submenu" style="display: block;">
-					        <li class="checkListSetting">
+					        <!-- <li class="checkListSetting">
 					            <a href="<c:url value='/checkListSetting/setting'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
 				            		<span class="pcoded-mtext" data-i18n="nav.form-components.main">체크 리스트 설정</span>
 				            		<span class="pcoded-mcaret"></span>
 					            </a>
-					        </li>
+					        </li> -->
 					        <li class="functionTestSetting">
 					            <a href="<c:url value='/functionTestSetting/setting'/>" class="waves-effect waves-dark">
 					                <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
