@@ -54,7 +54,7 @@
 											<table style="width:100%; background: white; border-top: 3px solid #999999; text-align: center;">
 												<tbody>
 													<tr>
-														<td colspan="8" style="background: #ffe08738; height: 70px;">
+														<td colspan="8" style="background: #ffe0871a; height: 70px;">
 															<c:choose>
 																<c:when test="${viewType eq 'insert'}">
 																	<input class="questionTitle" id="questionTitle" name="questionTitle" placeholder="제목 입력">
@@ -82,7 +82,7 @@
 														<td class="qnatdq">
 															조회수
 														</td>
-														<td class="qnatda" style="border-right: none;">
+														<td class="qnatda">
 															<c:choose>
 																<c:when test="${viewType eq 'insert'}">
 																	0
@@ -95,7 +95,7 @@
 														<td class="qnatdq">
 															상태
 														</td>
-														<td class="qnatda">
+														<td class="qnatda" style="border-right: none;">
 															${question.questionState}
 														</td>
 													</tr>
@@ -396,7 +396,7 @@
 		}
 
 		tr {
-			border-bottom: 1px solid #9f510029;
+			border-bottom: 1px solid #9f510069;
 		}
 
 		.questionTitle {
@@ -418,16 +418,16 @@
 		}
 
 		.qnatdq {
-			border-right: 1px solid #9f510029;
+			border-right: 1px solid #9f510069;
 			height: 50px;
 			width: 10%;
 			font-weight: bold;
-			background: #ffe08738;
+			background: #ffe0871a;
 			color: black;
 		}
 
 		.qnatda {
-			border-right: 1px solid #9f510029;
+			border-right: 1px solid #9f510069;
 			height: 50px;
 			width: 15%;
 			color: black;
