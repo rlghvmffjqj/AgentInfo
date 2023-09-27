@@ -11,13 +11,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.itextpdf.text.log.SysoCounter;
 import com.secuve.agentInfo.dao.TestCaseDao;
 import com.secuve.agentInfo.vo.TestCase;
 
 import jdk.internal.org.jline.terminal.TerminalBuilder.SystemOutput;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class TestCaseService {
 	@Autowired TestCaseDao testCaseDao;
 
@@ -122,24 +127,20 @@ public class TestCaseService {
 		if(testCase.getNewTestCaseRouteName() == "" || testCase.getNewTestCaseRouteName() == null) {
 			return "Empty";
 		}
-		TestCase ordTestCase = (TestCase) testCaseDao.getTestCaseRouteFullPath(testCase);
-		if(ordTestCase.getTestCaseRouteParentPath().equals("/")) {
-			testCase.setNewTestCaseRouteFullPath("/"+testCase.getNewTestCaseRouteName());
-		} else {
-			testCase.setNewTestCaseRouteFullPath(ordTestCase.getTestCaseRouteParentPath()+"/"+testCase.getNewTestCaseRouteName());
-		}
 		
+		TestCase ordTestCase = (TestCase) testCaseDao.getTestCaseRouteFullPath(testCase);
+		String newFullPath = ordTestCase.getTestCaseRouteFullPath().replaceFirst(ordTestCase.getTestCaseRouteName(), testCase.getNewTestCaseRouteName());
+		testCase.setTestCaseRouteFullPath(newFullPath);
 		TestCase overlap = testCaseDao.getTestCaseRouteOverlap(testCase);
 		if(overlap == null) {
+			testCaseDao.updateRoute(testCase.getTestCaseRouteKeyNum(), newFullPath, testCase.getNewTestCaseRouteName());
+		
 			ArrayList<TestCase> testCaseFullPathList = new ArrayList<>(testCaseDao.getTestCaseRouteFullPathList(ordTestCase.getTestCaseRouteFullPath()));
 			for (TestCase newTestCase : testCaseFullPathList) {
-				String ordTestCaseFullPath = newTestCase.getTestCaseRouteFullPath();
-				String newTestCaseFullPath = ordTestCaseFullPath.replaceFirst(testCase.getTestCaseRouteFullPath(), testCase.getNewTestCaseRouteFullPath());
-				ordTestCase = parseFullPath(newTestCaseFullPath, ordTestCase);
+				String newTestCaseFullPath =  newTestCase.getTestCaseRouteFullPath().replaceFirst(ordTestCase.getTestCaseRouteFullPath(), newFullPath);
+				String newTestCaseParentPath = newTestCase.getTestCaseRouteParentPath().replaceFirst(ordTestCase.getTestCaseRouteFullPath(), newFullPath);
 				
-				// 경로 테이블 변경
-				testCaseDao.updateRoute(testCase.getTestCaseRouteKeyNum(), ordTestCaseFullPath, ordTestCase.getTestCaseRouteFullPath(), ordTestCase.getTestCaseRouteParentPath(), ordTestCase.getTestCaseRouteName());
-
+				testCaseDao.updateSubRoute(newTestCase.getTestCaseRouteKeyNum(), newTestCaseFullPath, newTestCaseParentPath);
 			}
 			
 		} else {
@@ -149,23 +150,6 @@ public class TestCaseService {
 		return "OK";
 	}
 	
-	public TestCase parseFullPath(String newTestCaseFullPath, TestCase ordTestCase) {
-		if (newTestCaseFullPath.startsWith("/")) {
-			ordTestCase.setTestCaseRouteFullPath(newTestCaseFullPath);
-			int pos = newTestCaseFullPath.lastIndexOf('/');
-			if (pos > 0) {
-				ordTestCase.setTestCaseRouteParentPath(newTestCaseFullPath.substring(0, pos));
-				ordTestCase.setTestCaseRouteName(newTestCaseFullPath.substring(pos + 1));
-			} else {
-				ordTestCase.setTestCaseRouteParentPath("/");
-				ordTestCase.setTestCaseRouteName(newTestCaseFullPath.substring(pos + 1));
-			}
-		} else {
-		}
-		return ordTestCase;
-	}
-	
-
 	public List<TestCase> getTestCaseList(TestCase search) {
 		return testCaseDao.getTestCaseList(testCaseSearch(search));
 	}
@@ -290,7 +274,7 @@ public class TestCaseService {
 		
 		if(testCase.getHitMode().equals("over")) {
 			testCase.setOvelapTestCase(testCase.getTestCaseRouteFullPath()+"/"+testCase.getTestCaseRouteName());
-			if(testCaseDao.getMoveOverlap(testCase) != null) {
+			if(testCaseDao.getMoveOverlap(testCase) != null && !testCaseDao.getMoveOverlap(testCase).getTestCaseRouteFullPath().equals(testCase.getStartTestCaseRouteFullPath())) {
 				return "Overlap";
 			}
 			
@@ -311,7 +295,7 @@ public class TestCaseService {
 			testCaseDao.testCaseRouteMove(testCase);
 		} else {
 			testCase.setOvelapTestCase(testCase.getTestCaseRouteParentPath()+"/"+testCase.getTestCaseRouteName());
-			if(testCaseDao.getMoveOverlap(testCase) != null) {
+			if(testCaseDao.getMoveOverlap(testCase) != null && !testCaseDao.getMoveOverlap(testCase).getTestCaseRouteFullPath().equals(testCase.getStartTestCaseRouteFullPath())) {
 				return "Overlap";
 			}
 			

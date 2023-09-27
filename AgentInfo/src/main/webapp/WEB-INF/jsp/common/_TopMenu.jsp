@@ -69,6 +69,58 @@
 </nav>
 
 <script>
+    $.ajax({
+		url: "<c:url value='/users/alarm'/>",
+	    type: 'post',
+	    async: false,
+	    success: function(result) {
+            // $.each(result, function(index, item) {
+            //     console.log(item);
+            // });
+            var table = $(".nav-right");
+
+            if(result.length > 0) {
+                var rowItem = "<ul class='nav-right'>";
+                rowItem += "<li class='user-profile header-notification'>";
+                rowItem += "<a href='#!' class='waves-effect waves-light'>";
+                rowItem += "<img src='/AgentInfo/images/ExclamationMarkRed.png' class='img-radius' alt='User-Profile-Image' style='width: 50px; height: 40px;'>";
+                rowItem += "</a>";
+                rowItem += "<ul class='show-notification profile-notification'>";
+                $.each(result, function(index, item) {
+                    console.log(item);
+                    rowItem += "<li class='waves-effect waves-light'>";
+                    rowItem += "<a href='#' onclick='alarmClick("+item.userAlarmURL+")'>";
+                    rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                    rowItem += "</a>";
+                    rowItem += "</li>";
+                });
+                rowItem += "</ul>";
+                rowItem += "</li>";
+                rowItem += "</ul>";
+                table.after(rowItem);
+            } else {
+                var rowItem = "<ul class='nav-right'>";
+                rowItem += "<li class='user-profile header-notification'>";
+                rowItem += "<a href='#!' class='waves-effect waves-light'>";
+                rowItem += "<img src='/AgentInfo/images/ExclamationMarkBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 50px; height: 40px;'>";
+                rowItem += "</a>";
+                rowItem += "<ul class='show-notification profile-notification'>";
+                rowItem += "<li class='waves-effect waves-light'>";
+                rowItem += "표시할 알림이 존재 하지 않습니다.";
+                rowItem += "</li>";
+                rowItem += "</ul>";
+                rowItem += "</li>";
+                rowItem += "</ul>";
+                table.after(rowItem);
+            }
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	});
+</script>
+
+<script>
 /* =========== 프로필 조회 ========= */
 function profileView() {	
 	$.ajax({
@@ -124,5 +176,9 @@ function customerSwitch(result) {
 		$('.customerLog').hide();
 		$('.customerInfoSwitch').hide();
 	}
+}
+
+function alarmClick(userAlarmURL) {
+
 }
 </script>

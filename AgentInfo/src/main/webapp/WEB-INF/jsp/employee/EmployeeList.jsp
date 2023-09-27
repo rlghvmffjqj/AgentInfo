@@ -510,6 +510,16 @@
 		function btnDepartmentDelect() {
 			var node = $("#tree").dynatree("getActiveNode");
 			var departmentFullPath = node.data.key;
+			
+			if(departmentFullPath == "/") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '루트 경로는 삭제가 불가능합니다.',
+				});
+				return false;
+			}
+
 			Swal.fire({
 				  title: '삭제!',
 				  text: "선택한 부서를 삭제하시겠습니까?",
@@ -578,6 +588,15 @@
 		/* =========== 부서 수정 ========= */
 		function btnDepartmentUpdate() {
 			var path = getCurrentPath();
+
+			if(path == "/") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '루트 경로는 수정이 불가능합니다.',
+				});
+				return false;
+			}
 	
 			$.ajax({
 			    type: 'POST',

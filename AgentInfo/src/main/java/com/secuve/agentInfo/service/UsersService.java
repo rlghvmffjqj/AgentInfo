@@ -23,6 +23,7 @@ import com.secuve.agentInfo.core.Role;
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.UsersJpaDao;
 import com.secuve.agentInfo.vo.LoginSession;
+import com.secuve.agentInfo.vo.UserAlarm;
 import com.secuve.agentInfo.vo.Users;
 
 @Service
@@ -141,5 +142,9 @@ public class UsersService implements UserDetailsService{
 			return employeeDao.pwdCheck(usersId);
 		}
 		return "FALSE";
+	}
+
+	public List<UserAlarm> getUserAlarm(String userAlarmEmployeeId) {
+		return employeeDao.getUserAlarm(userAlarmEmployeeId);
 	}
 }

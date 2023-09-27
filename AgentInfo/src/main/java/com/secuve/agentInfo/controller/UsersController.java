@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.UsersService;
 import com.secuve.agentInfo.vo.Employee;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Controller
 @RequestMapping(value = "/")
@@ -155,5 +157,11 @@ public class UsersController {
 	@PostMapping(value = "/users/pwdChange")
 	public String PwdChange(String oldPwd, String changePwd, String confirmPwd, String usersId) {
 		return usersService.updateUsersPwd(oldPwd, changePwd, confirmPwd, usersId);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/users/alarm")
+	public List<UserAlarm> Alarm(Principal principal) {
+		return usersService.getUserAlarm(principal.getName());
 	}
 }

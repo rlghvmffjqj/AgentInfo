@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.secuve.agentInfo.vo.Employee;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Repository
 public class EmployeeDao {
@@ -119,5 +120,9 @@ public class EmployeeDao {
 
 	public List<Employee> getDepartmentEmail(String departmentName) {
 		return sqlSession.selectList("employee.getDepartmentEmail", departmentName);
+	}
+
+	public List<UserAlarm> getUserAlarm(String userAlarmEmployeeId) {
+		return sqlSession.selectList("employee.getUserAlarm", userAlarmEmployeeId);
 	}
 }

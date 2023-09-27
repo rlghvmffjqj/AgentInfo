@@ -3,6 +3,7 @@
         
 <mapper namespace="employee">
 	<resultMap type="com.secuve.agentInfo.vo.Employee" id="employee"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.UserAlarm" id="userAlarm"></resultMap>
 	
 	<select id="getEmployee" resultMap="employee" parameterType="string">
 		SELECT *
@@ -106,6 +107,10 @@
 	
 	<select id="getDepartmentEmail" resultMap="employee">
 		SELECT * FROM employee WHERE departmentName = #{departmentName};
+	</select>
+	
+	<select id="getUserAlarm" parameterType="string" resultMap="userAlarm">
+		SELECT * FROM userAlarm WHERE userAlarmEmployeeId = #{userAlarmEmployeeId};
 	</select>
 	
 	<!-- ==================================================================================== -->
