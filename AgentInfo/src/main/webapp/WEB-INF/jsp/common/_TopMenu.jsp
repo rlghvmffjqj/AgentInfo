@@ -74,9 +74,6 @@
 	    type: 'post',
 	    async: false,
 	    success: function(result) {
-            // $.each(result, function(index, item) {
-            //     console.log(item);
-            // });
             var table = $(".nav-right");
 
             if(result.length > 0) {
@@ -85,13 +82,21 @@
                 rowItem += "<a href='#!' class='waves-effect waves-light'>";
                 rowItem += "<img src='/AgentInfo/images/ExclamationMarkRed.png' class='img-radius' alt='User-Profile-Image' style='width: 50px; height: 40px;'>";
                 rowItem += "</a>";
-                rowItem += "<ul class='show-notification profile-notification' style='min-width: 230px; max-width: 350px; width: max-content;'>";
+                rowItem += "<ul class='show-notification profile-notification' style='min-width: 230px; max-width: 350px; width: max-content; max-height: 380px; overflow: auto;'>";
                 $.each(result, function(index, item) {
-                    rowItem += "<li class='waves-effect waves-light'>";
-                    rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
-                    rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
-                    rowItem += "</a>";
-                    rowItem += "</li>";
+                    if(item.questionKeyNum) {
+                        rowItem += "<li class='waves-effect waves-light'>";
+                        rowItem += "<a href='#' onclick='questionClick("+'"'+item.questionKeyNum+'"'+")'>";
+                        rowItem += "<i class='ti-bell'></i>"+item.questionTitle;
+                        rowItem += "</a>";
+                        rowItem += "</li>";
+                    } else {
+                        rowItem += "<li class='waves-effect waves-light'>";
+                        rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                        rowItem += "</a>";
+                        rowItem += "</li>";
+                    }
                 });
                 rowItem += "</ul>";
                 rowItem += "</li>";
@@ -103,7 +108,7 @@
                 rowItem += "<a href='#!' class='waves-effect waves-light'>";
                 rowItem += "<img src='/AgentInfo/images/ExclamationMarkBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 50px; height: 40px;'>";
                 rowItem += "</a>";
-                rowItem += "<ul class='show-notification profile-notification' style='width: 260px !important;'>";
+                rowItem += "<ul class='show-notification profile-notification' style='width: 260px !important; max-height: 380px; overflow: auto;'>";
                 rowItem += "<li class='waves-effect waves-light'>";
                 rowItem += "표시할 알림이 존재 하지 않습니다.";
                 rowItem += "</li>";
@@ -178,11 +183,26 @@ function customerSwitch(result) {
 }
 
 function alarmClick(userAlarmURL, keyNum) {
-    location.href="<c:url value='"+userAlarmURL+"'/>";
-
     var form = document.createElement("form");
   	form.method = "POST";
   	form.action = "<c:url value='"+userAlarmURL+"'/>"; // 이동할 페이지의 URL을 지
+
+  	// 폼에 값을 추가
+  	var input1 = document.createElement("input");
+  	input1.type = "hidden"; // 숨겨진 필드로 설정
+  	input1.name = "questionKeyNum"; // 서버에서 사용할 파라미터 이름
+  	input1.value = keyNum; // 전달할 값
+  	form.appendChild(input1)
+
+  	// 폼을 문서에 추가하고 자동으로 제출
+  	document.body.appendChild(form);
+  	form.submit();
+}
+
+function questionClick(keyNum) {
+    var form = document.createElement("form");
+  	form.method = "POST";
+  	form.action = "<c:url value='/question/view'/>"; // 이동할 페이지의 URL을 지
 
   	// 폼에 값을 추가
   	var input1 = document.createElement("input");

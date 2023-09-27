@@ -34,7 +34,7 @@
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 15,					// 보여중 행의 수
-			        sortname: 'questionCount',	// 기본 정렬 
+			        sortname: 'questionKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			    
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시

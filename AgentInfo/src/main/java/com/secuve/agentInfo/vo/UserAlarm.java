@@ -22,4 +22,6 @@ public class UserAlarm {
 	private String userAlarmRegistrationDate;
 	private String userAlarmModifier;
 	private String userAlarmModifiedDate;
+	
+	private String role;
 }

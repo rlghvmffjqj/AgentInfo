@@ -120,4 +120,8 @@ public class QuestionAnswerService {
 		}
 	}
 
+	public List<Question> getQuestionAnswerAlarm() {
+		return questionAnswerDao.getQuestionAnswerAlarm();
+	}
+
 }

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.QuestionAnswerService;
 import com.secuve.agentInfo.service.UsersService;
 import com.secuve.agentInfo.vo.Employee;
-import com.secuve.agentInfo.vo.UserAlarm;
 
 @Controller
 @RequestMapping(value = "/")
@@ -25,6 +25,7 @@ public class UsersController {
 	private static final Logger LOGGER = LogManager.getLogger(UsersController.class);
 	@Autowired UsersService usersService;
 	@Autowired EmployeeService employeeService;
+	@Autowired QuestionAnswerService questionAnswerService;
 	
 	/**
 	 * 인덱스
@@ -161,7 +162,11 @@ public class UsersController {
 	
 	@ResponseBody
 	@PostMapping(value = "/users/alarm")
-	public List<UserAlarm> Alarm(Principal principal) {
+	public List Alarm(Principal principal) {
+		String role = employeeService.getUsersRole(principal.getName());
+		if(role.equals("ADMIN")) {
+			return questionAnswerService.getQuestionAnswerAlarm();
+		}
 		return usersService.getUserAlarm(principal.getName());
 	}
 }

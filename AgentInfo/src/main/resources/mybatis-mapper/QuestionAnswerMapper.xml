@@ -15,7 +15,7 @@
 				FROM question q, Employee e
 				WHERE q.employeeId = e.employeeId
 					<include refid="sqlQuestionAnswer" />
-				ORDER BY questionCount DESC
+				ORDER BY questionKeyNum DESC
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
@@ -64,6 +64,10 @@
 	<update id="updateQuestion">
 		UPDATE question SET questionDetail = #{questionDetail}, questionState = #{questionState}, questionDate = #{questionDate} WHERE questionKeyNum = #{questionKeyNum};
 	</update>
+	
+	<select id="getQuestionAnswerAlarm" resultMap="question">
+		SELECT * FROM question WHERE questionState = '답변 대기';
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

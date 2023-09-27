@@ -58,4 +58,8 @@ public class QuestionAnswerDao {
 		return sqlSession.update("questionAnswer.updateQuestion", question);
 	}
 
+	public List<Question> getQuestionAnswerAlarm() {
+		return sqlSession.selectList("questionAnswer.getQuestionAnswerAlarm");
+	}
+
 }
