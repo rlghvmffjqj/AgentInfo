@@ -125,4 +125,16 @@ public class EmployeeDao {
 	public List<UserAlarm> getUserAlarm(String userAlarmEmployeeId) {
 		return sqlSession.selectList("employee.getUserAlarm", userAlarmEmployeeId);
 	}
+
+	public void setUserAlarm(UserAlarm userAlarm) {
+		sqlSession.insert("employee.setUserAlarm", userAlarm);
+	}
+
+	public void delUserAlarm(int questionKeyNum) {
+		sqlSession.delete("employee.delUserAlarm", questionKeyNum);
+	}
+
+	public void updateUserAlarm(UserAlarm userAlarm) {
+		sqlSession.update("employee.updateUserAlarm", userAlarm);
+	}
 }

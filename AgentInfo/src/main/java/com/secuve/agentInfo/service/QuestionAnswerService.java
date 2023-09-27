@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.QuestionAnswerDao;
 import com.secuve.agentInfo.vo.Answer;
 import com.secuve.agentInfo.vo.Question;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Service
 public class QuestionAnswerService {
@@ -54,6 +57,23 @@ public class QuestionAnswerService {
 		if (sucess <= 0)
 			map.put("result", "FALSE") ;
 		questionAnswerDao.updateQuestionState(answer);
+		
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		Question question = questionAnswerDao.getQuestionOne(answer.getQuestionKeyNum());
+		UserAlarm userAlarm = new UserAlarm();
+		userAlarm.setUserAlarmParameter(question.getQuestionKeyNum());
+		userAlarm.setUserAlarmEmployeeId(question.getEmployeeId());
+		userAlarm.setUserAlarmTitle(question.getQuestionTitle());
+		userAlarm.setUserAlarmDate(formatter.format(now));
+		userAlarm.setUserAlarmRegistrant(answer.getAnswerRegistrant());
+		userAlarm.setUserAlarmRegistrationDate(answer.getAnswerRegistrationDate());
+		userAlarm.setUserAlarmURL("/AgentInfo/question/view");
+		
+		employeeDao.delUserAlarm(answer.getQuestionKeyNum());
+		employeeDao.setUserAlarm(userAlarm);
+		
 		map.put("employeeName", employeeDao.getEmployeeOne(answer.getEmployeeId()).getEmployeeName());
 		map.put("answerDate", answer.getAnswerDate());
 		map.put("result", "OK");
@@ -85,6 +105,19 @@ public class QuestionAnswerService {
 		map.put("result", "OK");
 		map.put("detail", question.getQuestionDetail());
 		return map;
+	}
+
+	public void updateUserAlarm(Question question, String employeeId) {
+		if(question.getEmployeeId().equals(employeeId)) {
+			Date now = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			UserAlarm userAlarm = new UserAlarm();
+			userAlarm.setUserAlarmModifier(employeeId);
+			userAlarm.setUserAlarmModifiedDate(formatter.format(now));
+			userAlarm.setUserAlarmParameter(question.getQuestionKeyNum());
+			employeeDao.updateUserAlarm(userAlarm);
+		}
 	}
 
 }

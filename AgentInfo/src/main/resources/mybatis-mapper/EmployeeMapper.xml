@@ -110,8 +110,21 @@
 	</select>
 	
 	<select id="getUserAlarm" parameterType="string" resultMap="userAlarm">
-		SELECT * FROM userAlarm WHERE userAlarmEmployeeId = #{userAlarmEmployeeId};
+		SELECT * FROM userAlarm WHERE userAlarmEmployeeId = #{userAlarmEmployeeId} AND userAlarmState = 'N';
 	</select>
+	
+	<insert id="setUserAlarm">
+		INSERT INTO userAlarm(userAlarmEmployeeId, userAlarmTitle, userAlarmDate, userAlarmState, userAlarmURL, userAlarmParameter, userAlarmRegistrant, userAlarmRegistrationDate)
+		VALUES(#{userAlarmEmployeeId},#{userAlarmTitle},#{userAlarmDate},'N',#{userAlarmURL},#{userAlarmParameter},#{userAlarmRegistrant},#{userAlarmRegistrationDate}); 
+	</insert>
+	
+	<delete id="delUserAlarm" parameterType="_int">
+		DELETE FROM userAlarm WHERE userAlarmParameter = #{questionKeyNum};
+	</delete>
+	
+	<update id="updateUserAlarm">
+		UPDATE userAlarm SET userAlarmState = 'R', userAlarmModifier = #{userAlarmModifier}, userAlarmModifiedDate = #{userAlarmModifiedDate} WHERE userAlarmParameter = #{userAlarmParameter};
+	</update>
 	
 	<!-- ==================================================================================== -->
 	

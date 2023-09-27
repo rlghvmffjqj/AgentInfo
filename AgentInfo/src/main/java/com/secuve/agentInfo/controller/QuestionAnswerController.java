@@ -98,6 +98,8 @@ public class QuestionAnswerController {
 			identityCheck = "adminOn";
 		}
 		
+		questionAnswerService.updateUserAlarm(question, principal.getName());
+		
 		model.addAttribute("question", question);
 		model.addAttribute("answer", answer);
 		model.addAttribute("viewType", "view");
