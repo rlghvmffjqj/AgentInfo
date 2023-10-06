@@ -197,7 +197,7 @@
 	});
 </script>
 <nav class="pcoded-navbar">
-	<div class="sidebar_toggle"><a href="#!"><i class="icon-close icons"></i></a></div>
+	
 	<div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px);"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="background-color: lightgray; position: relative; top: 0px; left: 0px; width: 100%; height: 100%" dir="ltr">
 		<div class="height-100">
 			<div class="main-menu-header page-header height-100">

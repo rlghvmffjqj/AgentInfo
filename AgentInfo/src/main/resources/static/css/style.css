@@ -342,7 +342,7 @@ b, strong {
   color: #fff; }
   .page-header:before {
     content: "";
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(250, 150, 10, 0.5);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -6302,9 +6302,11 @@ table tbody .border-bottom-info td {
   -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
           box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08); }
 .pcoded .pcoded-header {
-  position: relative;
+  position: fixed;
+  width: 100%;
   display: block; }
 .pcoded .pcoded-navbar {
+	position: fixed;
   display: block;
   -webkit-box-shadow: 1px 0px 20px 0px rgba(69, 90, 100, 0.08);
           box-shadow: 1px 0px 20px 0px rgba(69, 90, 100, 0.08); }
@@ -6353,7 +6355,13 @@ table tbody .border-bottom-info td {
       text-decoration: none;
       position: relative;
       -webkit-transition: all 0.3s ease-in-out;
-      transition: all 0.3s ease-in-out; }
+      transition: all 0.3s ease-in-out; 
+      text-align: left;
+      border-radius: 5px;   
+      padding: 5px 10px;
+      margin: 0 10px;
+      color: #666;   
+      }
       .pcoded .pcoded-navbar .pcoded-item > li > a.disabled {
         opacity: 0.5;
         cursor: not-allowed !important; }

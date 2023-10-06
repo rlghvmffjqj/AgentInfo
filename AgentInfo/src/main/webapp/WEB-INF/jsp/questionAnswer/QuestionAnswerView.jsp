@@ -466,7 +466,7 @@
 			color: black;
 		}
 
-		img {
+		p > img {
 			border: 1px solid black;
 		}
 
