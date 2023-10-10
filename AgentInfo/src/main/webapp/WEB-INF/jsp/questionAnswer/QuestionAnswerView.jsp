@@ -242,6 +242,16 @@
 		function answerBtn() {
 			var questionKeyNum = "${question.questionKeyNum}";
 			var answerDetail = $('#answer').val();
+			var answer = $('#answer').val();
+
+			if(answer == null || answer == "") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '답변 내용을 작성해 주세요.',
+				});
+				return false;
+			}
 			$.ajax({
 		        type: 'post',
 		        url: "<c:url value='/answer/insert'/>",
