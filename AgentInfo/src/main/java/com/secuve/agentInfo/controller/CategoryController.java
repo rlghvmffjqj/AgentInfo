@@ -139,8 +139,10 @@ public class CategoryController {
 	@GetMapping(value = "/category/customerName")
 	public String customerName(Model model) {
 		List<String> categoryValue = categoryService.getSelectInput("customerName");
+		List<String> customerId = categoryService.getCategoryKeyNum();
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "customerName");
+		model.addAttribute("customerId", customerId);
 		return "category/CategoryList";
 	}
 	

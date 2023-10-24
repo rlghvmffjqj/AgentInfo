@@ -20,10 +20,11 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key',/* 'OriginKey', */'고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','OS버전','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
+					colNames:['Key',/* 'OriginKey', */'고객사ID','고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','OS버전','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
 					colModel:[
 						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 						/* {name:'packagesKeyNumOrigin', index:'packagesKeyNumOrigin', align:'center', width: 50, hidden:true }, */
+						{name:'categoryKeyNum', index:'categoryKeyNum', align:'center', width: 70, formatter: strFormatter },
 						{name:'customerName', index:'customerName', align:'center', width: 200, formatter: linkFormatter},
 						{name:'businessName', index:'businessName', align:'center', width: 180},
 						{name:'networkClassification', index:'networkClassification', align:'center', width: 70},
@@ -147,6 +148,14 @@
 														</div>
 													</div>
 	                      						</div>
+												  <div class="col-lg-2">
+													<label class="labelFontSize">고객사ID</label>
+													  <select class="form-control selectpicker" id="customerIdMulti" name="customerIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														  <c:forEach var="item" items="${customerId}">
+															  <option value="${item}"><c:out value="${item}"/></option>
+														  </c:forEach>
+													  </select>
+												  </div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사명</label>
 													<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
@@ -266,6 +275,7 @@
 		                      						<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
 		                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
 		                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
+													<input type="hidden" id="customerId" name="customerId" class="form-control">
 		                      						<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -405,6 +415,7 @@
 			$('#deliveryMethod').val($('#deliveryMethodMulti').val().join());
 			$('#customerName').val($('#customerNameMulti').val().join());
 			$('#businessName').val($('#businessNameMulti').val().join());
+			$('#customerId').val($('#customerIdMulti').val().join());
 			
 			var _postDate = $("#form").serializeObject();
 			
@@ -615,5 +626,14 @@
 	            }
 	        });
 		});
+
+		function strFormatter(cellValue, options, rowdata, action) {
+			var code = "S_";
+			for(var i=cellValue.toString().length; i < 5; i++) {
+				code = code + "0";
+			}
+			return code + cellValue;
+		}
+
 	</script>
 </html>

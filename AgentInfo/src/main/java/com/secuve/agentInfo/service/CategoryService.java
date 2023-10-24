@@ -34,6 +34,12 @@ public class CategoryService {
 	
 	public Category categroySearch(Category search) {
 		search.setCategoryValueArr(search.getCategoryValue().split(","));
+		search.setCustomerIdArr(search.getCustomerId().split(","));
+		if(search.getCustomerId() != "" && search.getCustomerId() != null) {
+			for(int i=0; i<search.getCustomerIdArr().length; i++) {
+				search.getCustomerIdArr()[i] = String.valueOf(Integer.parseInt(search.getCustomerIdArr()[i].substring(2)));
+			}
+		}
 		return search;
 	}
 
@@ -235,6 +241,20 @@ public class CategoryService {
 
 	public List<String> getCategoryBusinessValue(String customerName) {
 		return categoryDao.getCategoryBusinessValue(customerName);
+	}
+
+	public List<String> getCategoryKeyNum() {
+		List<Integer> categoryKeyNumList = categoryDao.getCategoryKeyNum();
+		List<String> customerIdList = new ArrayList<String>();
+		String customerId = "S_";
+		for(int i=0; i<categoryKeyNumList.size(); i++) {
+			for(int j=categoryKeyNumList.get(i).toString().length(); j<5; j++) {
+				customerId += "0";
+			}
+			customerIdList.add(customerId + categoryKeyNumList.get(i).toString());
+			customerId = "S_";
+		}
+		return customerIdList;
 	}
 
 }

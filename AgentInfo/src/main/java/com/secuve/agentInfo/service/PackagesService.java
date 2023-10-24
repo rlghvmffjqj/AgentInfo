@@ -1134,6 +1134,12 @@ public class PackagesService {
 		search.setManagerArr(search.getManager().split(","));
 		search.setRequestProductCategoryArr(search.getRequestProductCategory().split(","));
 		search.setDeliveryMethodArr(search.getDeliveryMethod().split(","));
+		if(search.getCustomerId() != "" && search.getCustomerId() != null) {
+			search.setCustomerIdArr(search.getCustomerId().split(","));
+			for(int i=0; i<search.getCustomerIdArr().length; i++) {
+				search.getCustomerIdArr()[i] = String.valueOf(Integer.parseInt(search.getCustomerIdArr()[i].substring(2)));
+			}
+		}
 		
 		return search;
 	}

@@ -88,6 +88,7 @@ public class Packages {
 	private String[] managerArr;
 	private String[] requestProductCategoryArr;
 	private String[] deliveryMethodArr;
+	private String[] customerIdArr;
 	
 	private String deliveryDateStart;			// 전달일자  시작일
 	private String deliveryDateEnd;				// 전달일자  종료일
@@ -106,6 +107,9 @@ public class Packages {
 	
 	private String chartName;					// 차트 키
 	private int chartCount;						// 차트 값
+	
+	private int categoryKeyNum;
+	private String customerId;
 	
 	private int chartColumn1;					// 차트 값1
 	private int chartColumn2;					// 차트 값2

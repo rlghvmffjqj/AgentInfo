@@ -110,4 +110,8 @@ public class CategoryDao {
 		return sqlSession.selectList("category.getCategoryBusinessValue", customerName);
 	}
 
+	public List<Integer> getCategoryKeyNum() {
+		return sqlSession.selectList("category.getCategoryKeyNum");
+	}
+
 }

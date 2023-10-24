@@ -31,6 +31,15 @@
 						</trim>
 					)
 				</if>
+				<if test="customerId != null and customerId != ''">
+					AND(
+						<trim prefix="" prefixOverrides="OR">
+							<foreach collection="customerIdArr" item="arr">
+								OR categorykeyNum = #{arr}
+							</foreach>
+						</trim>
+					)
+				</if>
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
@@ -44,6 +53,15 @@
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="categoryValueArr" item="arr">
 						OR categoryValue LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="customerId != null and customerId != ''">
+			AND(
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerIdArr" item="arr">
+						OR categorykeyNum = #{arr}
 					</foreach>
 				</trim>
 			)
@@ -179,4 +197,8 @@
 	<select id="getCategoryBusinessValue" parameterType="string" resultType="string">
 		SELECT categoryBusinessName FROM categoryBusiness WHERE categoryCustomerName = #{customerName};
 	</select>
+	
+	<select id="getCategoryKeyNum" resultType="_int">
+		SELECT categoryKeyNum FROM category WHERE categoryName = 'customerName';
+	</select> 
 </mapper>

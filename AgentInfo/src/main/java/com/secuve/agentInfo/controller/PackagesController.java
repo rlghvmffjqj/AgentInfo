@@ -56,6 +56,7 @@ public class PackagesController {
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
+		List<String> customerId = categoryService.getCategoryKeyNum();
 		
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", categoryBusinessName);
@@ -67,6 +68,7 @@ public class PackagesController {
 		model.addAttribute("deliveryMethod", deliveryMethod);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
+		model.addAttribute("customerId", customerId);
 
 		return "packages/PackagesList";
 	}

@@ -11,6 +11,10 @@
 		    });
 	    </script>
 		<script>
+			var hiddenType = true;
+			if("${category}"=="customerName") {
+				hiddenType = false;
+			}
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
@@ -18,9 +22,9 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','카테고리','이름'],
+					colNames:['고객사ID','카테고리','이름'],
 					colModel:[
-						{name:'categoryKeyNum', index:'categoryKeyNum', align:'center', width: 100, hidden:true },
+						{name:'categoryKeyNum', index:'categoryKeyNum', align:'center', width: 70, hidden:hiddenType, formatter: strFormatter },
 						{name:'categoryName', index:'categoryName', align:'center' ,width: 200, hidden:true},
 						{name:'categoryValue', index:'categoryValue', align:'center', width: 500, formatter: linkFormatter},
 					],
@@ -86,6 +90,17 @@
 	                                	<div class="ibox">
 	                                		<div class="searchbos">
 		                                		<form id="form" name="form" method ="post" onSubmit="return false;">
+													<c:if test="${category eq 'customerName'}">
+														<div class="col-lg-2">
+															<label class="labelFontSize">고객사ID</label>
+															<!-- <input type="text" id="customerId" name="customerId" class="form-control"> -->
+														  	<select class="form-control selectpicker" id="customerIdMulti" name="customerIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															  	<c:forEach var="item" items="${customerId}">
+																	  <option value="${item}"><c:out value="${item}"/></option>
+															  	</c:forEach>
+														  	</select>
+												  		</div>
+													</c:if>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">이름</label>
 														<!-- <input type="text" id="categoryValue" name="categoryValue" class="form-control"> -->
@@ -95,6 +110,7 @@
 															</c:forEach>
 														</select>
 													</div>
+													<input type="hidden" id="customerId" name="customerId" class="form-control">
 													<input type="hidden" id="categoryValue" name="categoryValue" class="form-control">
 		                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
@@ -172,6 +188,7 @@
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#categoryValue').val($('#categoryValueMulti').val().join());
+			$('#customerId').val($('#customerIdMulti').val().join());
 			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();
@@ -182,6 +199,15 @@
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="updateView('+"'"+rowdata.categoryKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+
+
+		function strFormatter(cellValue, options, rowdata, action) {
+			var code = "S_";
+			for(var i=cellValue.toString().length; i < 5; i++) {
+				code = code + "0";
+			}
+			return code + cellValue;
 		}
 		
 		/* =========== 삭제 ========= */
@@ -282,5 +308,6 @@
 		$("select").change(function() {
 			tableRefresh();
 		});
+
 	</script>
 </html>

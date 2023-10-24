@@ -19,6 +19,7 @@ public class Category {
 	private String categoryValueSelect;
 	
 	private String[] categoryValueArr;
+	private String[] customerIdArr;
 	
 	private String categoryRegistrant;			// 데이터 추가 사용자
 	private String categoryRegistrationDate;	// 데이터 추가 날짜
@@ -29,4 +30,6 @@ public class Category {
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="categoryName";			// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
+	
+	private String customerId;
 }
