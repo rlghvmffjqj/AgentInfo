@@ -188,7 +188,10 @@
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#categoryValue').val($('#categoryValueMulti').val().join());
-			$('#customerId').val($('#customerIdMulti').val().join());
+			
+			if("${category}" == "customerName") {
+				$('#customerId').val($('#customerIdMulti').val().join());
+			}
 			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();

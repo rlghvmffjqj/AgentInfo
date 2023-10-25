@@ -73,7 +73,8 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">카테고리</a>
+									            <li class="breadcrumb-item">
+													<a href="#!">카테고리</a>
 									            </li>
 									        </ul>
 									    </div>

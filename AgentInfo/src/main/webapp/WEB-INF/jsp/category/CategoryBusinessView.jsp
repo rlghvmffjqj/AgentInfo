@@ -74,15 +74,15 @@
 		$(".businessCheck").hide();
 		var postData = $('#modalForm').serializeObject();
 		var swalText = "<span style='font-weight: 600;'>카테고리 목록에 유사한 데이터가 존재합니다.</span> <br><br>";
+		var urlType = "";
+		if("${viewType}" == "insert") {
+			urlType = "<c:url value='/categoryBusiness/existenceCheckInsert'/>";
+		}
+		if("${viewType}" == "update") {
+			urlType = "<c:url value='/categoryBusiness/existenceCheckUpdate'/>";
+		}
 		$.ajax({
-			<c:choose>
-				<c:when test="${viewType eq 'insert'}">
-					url: "<c:url value='/categoryBusiness/existenceCheckInsert'/>",
-				</c:when>
-				<c:when test="${viewType eq 'update'}">
-					url: "<c:url value='/categoryBusiness/existenceCheckUpdate'/>",
-				</c:when>
-	    	</c:choose>
+			url: urlType,
 	        type: 'post',
 	        data: postData,
 	        async: false,
