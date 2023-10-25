@@ -30,6 +30,7 @@ $.modal = function (modalContent, size) {
 	if(size=='customerConsolidation') html += ' modal-customerConsolidation';
 	if(size=='customerConsolidationSearch') html += ' modal-customerConsolidationSearch';
 	if(size=='explanation') html += ' modal-explanation';
+	if(size=='merge') html += ' modal-merge';
     
     
     if(size=='r') html += ' modal-r';

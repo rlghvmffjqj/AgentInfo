@@ -82,7 +82,7 @@
 	</select>
 	
 	<update id="updateCategory">
-		UPDATE category SET categoryValue = #{categoryValueView}, categoryModifier = #{categoryModifier}, categoryModifiedDate = #{categoryModifiedDate}
+		UPDATE category SET categoryValue = #{categoryValueView}, categoryNote = #{categoryNoteView}, categoryModifier = #{categoryModifier}, categoryModifiedDate = #{categoryModifiedDate}
 		WHERE categoryKeyNum = #{categoryKeyNum};
 	</update>
 	
@@ -170,7 +170,7 @@
 	</insert>
 	
 	<update id="updateCategoryBusiness">
-		UPDATE categoryBusiness SET categoryCustomerName=#{categoryCustomerNameView}, categoryBusinessName=#{categoryBusinessNameView}, categoryBusinessModifier=#{categoryBusinessModifier}, categoryBusinessModifiedDate=#{categoryBusinessModifiedDate}
+		UPDATE categoryBusiness SET categoryCustomerName=#{categoryCustomerNameView}, categoryBusinessName=#{categoryBusinessNameView}, categoryBusinessNote=#{categoryBusinessNoteView}, categoryBusinessModifier=#{categoryBusinessModifier}, categoryBusinessModifiedDate=#{categoryBusinessModifiedDate}
 		WHERE categoryBusinessKeyNum = #{categoryBusinessKeyNum};
 	</update>
 	
@@ -205,5 +205,13 @@
 	<update id="updateCategoryBusinessAll">
 		UPDATE categoryBusiness SET categoryCustomerName = #{categoryValueNew} WHERE categoryCustomerName = #{categoryValue};
 	</update>
+	
+	<select id="getCategoryKeyNumOne" parameterType="string" resultType="_int">
+		SELECT categoryKeyNum FROM category WHERE categoryName = #{categoryName} AND categoryValue = #{categoryValueView};
+	</select>
+	
+	<select id="getCategoryBusinessKeyNumOne" parameterType="string" resultType="_int">
+		SELECT categoryBusinessKeyNum FROM categoryBusiness WHERE categoryCustomerName = #{categoryCustomerName} AND categoryBusinessName = #{categoryBusinessNameView};
+	</select>
 	
 </mapper>

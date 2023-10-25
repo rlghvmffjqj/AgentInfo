@@ -122,4 +122,18 @@ public class CategoryDao {
 		
 	}
 
+	public int getCategoryKeyNumOne(String categoryName, String categoryValueView) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("categoryName", categoryName);
+		map.put("categoryValueView", categoryValueView);
+		return sqlSession.selectOne("category.getCategoryKeyNumOne", map);
+	}
+
+	public int getCategoryBusinessKeyNumOne(String categoryCustomerName, String categoryBusinessNameView) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("categoryCustomerName", categoryCustomerName);
+		map.put("categoryBusinessNameView", categoryBusinessNameView);
+		return sqlSession.selectOne("category.getCategoryBusinessKeyNumOne", map);
+	}
+
 }

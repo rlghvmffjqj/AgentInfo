@@ -14,9 +14,11 @@ public class Category {
 	private int categoryKeyNum;					// 번호
 	private String categoryName;				// 키
 	private String categoryValue;				// 값
+	private String categoryNote;
 	
 	private String categoryValueView;				// 값
 	private String categoryValueSelect;
+	private String categoryNoteView;
 	
 	private String[] categoryValueArr;
 	private String[] customerIdArr;

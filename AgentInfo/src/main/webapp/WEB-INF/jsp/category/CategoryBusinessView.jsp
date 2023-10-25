@@ -2,7 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 170px;">
+<c:if test="${viewType eq 'insert'}">
+	<div class="modal-body" style="width: 100%; height: 170px;">
+</c:if>
+<c:if test="${viewType eq 'update'}">
+	<div class="modal-body" style="width: 100%; height: 280px;">
+</c:if>
 	<form id="modalForm" name="form" method ="post">
 		<c:choose>
 			<c:when test="${viewType eq 'insert'}">
@@ -40,6 +45,12 @@
 					<input type="text" id="categoryBusinessNameView" name="categoryBusinessNameView" class="form-control viewForm" value="${category.categoryBusinessName}" autofocus>
 					<span class="colorRed businessCheck" id="NotCategoryBusinessName" style="display: none; font-size: 12px;">사업명을 입력해주세요.</span>
 				</div>
+				<c:if test="${viewType eq 'update'}">
+					<div class="pading5">
+						<label class="labelFontSize">비고</label>
+						<textarea type="text" id="categoryBusinessNoteView" name="categoryBusinessNoteView" class="form-control" style="height:100px;">${category.categoryBusinessNote}</textarea>
+					</div>
+				</c:if>
 			</c:when>
 		</c:choose>
 	</form>

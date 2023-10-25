@@ -18,11 +18,12 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','사업명'],
+					colNames:['Key','고객사명','사업명','비고'],
 					colModel:[
 						{name:'categoryBusinessKeyNum', index:'categoryBusinessKeyNum', align:'center', width: 100, hidden:true },
 						{name:'categoryCustomerName', index:'categoryCustomerName', align:'center' ,width: 400},
 						{name:'categoryBusinessName', index:'categoryBusinessName', align:'center', width: 400, formatter: linkFormatter},
+						{name:'categoryBusinessNote', index:'categoryBusinessNote', align:'center' ,width: 600},
 					],
 					jsonReader : {
 			        	id: 'categoryBusinessKeyNum',
@@ -128,6 +129,7 @@
 																	<td style="font-weight:bold;">카테고리 관리 :
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button>
 																	</td>
 																</tr>
 																<tr>
@@ -291,5 +293,62 @@
 		$("select").change(function() {
 			tableRefresh();
 		});
+
+		/* =========== 카테고리 병합 ========= */
+		$('#BtnMerge').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length < 2) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '두개 이상의 행 선택 바랍니다.',    
+				});    
+			} else {
+				$.ajax({
+					url: "<c:url value='/categoryBusiness/mergeCheck'/>",
+	    		    type: 'post',
+	    		    data: {
+						chkList: chkList,
+					},
+	    		    async: false,
+					traditional: true,
+	    		    success: function(result) {
+						if(result == "OK") {
+							merge();
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '사업명 병합 시 선택한 행의 고객사명이 일치해야 합니다.',
+							});
+						}
+					},
+					error: function(error) {
+						console.log(error);
+					}
+	    		});
+			}
+		});
+
+		function merge() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/categoryBusiness/mergeView'/>",
+				data: {
+					chkList: chkList,
+				},
+		        async: false,
+				traditional: true,
+		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+		            $.modal(data, 'merge'); //modal창 호출
+		        },
+		        error: function(e) {
+		            // TODO 에러 화면
+		        }
+		    });
+		}
 	</script>
 </html>

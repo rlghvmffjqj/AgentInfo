@@ -81,8 +81,10 @@ public class CategoryService {
 		
 		if(category.getCategoryValueView().equals("") || category.getCategoryValueView() == "") 
 			return "NotCategory";
-		if(categoryDao.getCategoryCheck(category) != null)
-			return "duplicateCheck";
+		if(!categoryValueNew.equals(categoryValue)) {
+			if(categoryDao.getCategoryCheck(category) != null)
+				return "duplicateCheck";
+		}
 		int sucess = categoryDao.updateCategory(category);
 		
 		if(sucess <= 0) 
@@ -208,8 +210,10 @@ public class CategoryService {
 			return "NotCategoryCustomerName";
 		if(category.getCategoryBusinessNameView().equals("") || category.getCategoryBusinessNameView() == "") 
 			return "NotCategoryBusinessName";
-		if(categoryDao.getCategoryBusinessCheck(category) != null)
-			return "duplicateCheck";
+		if(!categoryBusinessNameNew.equals(categoryBusinessName)) {
+			if(categoryDao.getCategoryBusinessCheck(category) != null)
+				return "duplicateCheck";
+		}
 		
 		int sucess = categoryDao.updateCategoryBusiness(category);
 		
@@ -269,6 +273,67 @@ public class CategoryService {
 			customerId = "S_";
 		}
 		return customerIdList;
+	}
+
+	public List<String> getCategoryMergeList(int[] chkList) {
+		List<String> categoryMergeList = new ArrayList<String>();
+		for(int categoryKeyNum : chkList) {
+			categoryMergeList.add(categoryDao.getCategoryOne(categoryKeyNum).getCategoryValue());
+		}
+		return categoryMergeList;
+	}
+
+	public String updateMerge(int[] chkList, String categoryName, String categoryValueView) {
+		int sucess = 1;
+		String categoryValue = "";
+		int selectCategoryKeyNum = categoryDao.getCategoryKeyNumOne(categoryName, categoryValueView);
+		for(int categoryKeyNum: chkList) {
+			if(selectCategoryKeyNum != categoryKeyNum) {
+				categoryValue = categoryDao.getCategoryOne(categoryKeyNum).getCategoryValue();
+				packagesDao.updateCategoryNameAll(categoryName, categoryValue, categoryValueView);
+				categoryDao.updateCategoryBusinessAll(categoryValue, categoryValueView);
+				
+				sucess *= categoryDao.delCategory(categoryKeyNum);
+			}
+		}
+		if(sucess <= 0) 
+			return "FALSE";
+		return "OK";
+	}
+
+	public List<String> getCategoryBusinessMergeList(int[] chkList) {
+		List<String> categoryBusinessMergeList = new ArrayList<String>();
+		for(int categoryBusinessKeyNum : chkList) {
+			categoryBusinessMergeList.add(categoryDao.getCategoryBusinessOne(categoryBusinessKeyNum).getCategoryBusinessName());
+		}
+		return categoryBusinessMergeList;
+	}
+
+	public String updateBusinessMerge(int[] chkList, String categoryBusinessNameView) {
+		int sucess = 1;
+		String categoryBusinessName = "";
+		String categoryCustomerName = categoryDao.getCategoryBusinessOne(chkList[0]).getCategoryCustomerName();
+		int selectCategoryBusinessKeyNum = categoryDao.getCategoryBusinessKeyNumOne(categoryCustomerName, categoryBusinessNameView);
+		for(int categoryBusinessKeyNum: chkList) {
+			if(selectCategoryBusinessKeyNum != categoryBusinessKeyNum) {
+				categoryBusinessName = categoryDao.getCategoryBusinessOne(categoryBusinessKeyNum).getCategoryBusinessName();
+				packagesDao.updateBussinessNameAll(categoryCustomerName, categoryBusinessName, categoryBusinessNameView);
+				sucess *= categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
+			}
+		}
+		if(sucess <= 0) 
+			return "FALSE";
+		return "OK";
+	}
+
+	public String mergeCheck(int[] chkList) {
+		String categoryCustomerName = categoryDao.getCategoryBusinessOne(chkList[0]).getCategoryCustomerName();
+		for(int categoryBusinessKeyNum : chkList) {
+			if(!categoryCustomerName.equals(categoryDao.getCategoryBusinessOne(categoryBusinessKeyNum).getCategoryCustomerName())) {
+				return "FALSE";
+			}
+		}
+		return "OK";
 	}
 
 }

@@ -22,11 +22,12 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['고객사ID','카테고리','이름'],
+					colNames:['고객사ID','카테고리','이름','비고'],
 					colModel:[
 						{name:'categoryKeyNum', index:'categoryKeyNum', align:'center', width: 70, hidden:hiddenType, formatter: strFormatter },
 						{name:'categoryName', index:'categoryName', align:'center' ,width: 200, hidden:true},
-						{name:'categoryValue', index:'categoryValue', align:'center', width: 500, formatter: linkFormatter},
+						{name:'categoryValue', index:'categoryValue', align:'center', width: 400, formatter: linkFormatter},
+						{name:'categoryNote', index:'categoryNote', align:'center' ,width: 600},
 					],
 					jsonReader : {
 			        	id: 'categoryKeyNum',
@@ -136,6 +137,7 @@
 																	<td style="font-weight:bold;">카테고리 관리 :
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button>
 																	</td>
 																</tr>
 																<tr>
@@ -310,6 +312,37 @@
 		/* =========== Select Box 선택 ========= */
 		$("select").change(function() {
 			tableRefresh();
+		});
+
+		/* =========== 카테고리 병합 ========= */
+		$('#BtnMerge').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length < 2) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '두개 이상의 행 선택 바랍니다.',    
+				});    
+			} else {
+				$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/category/mergeView'/>",
+					data: {
+						chkList: chkList,
+						"categoryName":"${category}",
+					},
+		            async: false,
+					traditional: true,
+		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+		                $.modal(data, 'merge'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+		        });
+			}
 		});
 
 	</script>

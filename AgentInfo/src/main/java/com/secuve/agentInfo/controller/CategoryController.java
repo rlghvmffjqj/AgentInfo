@@ -364,4 +364,38 @@ public class CategoryController {
 	public String CategoryBusinessDelete(@RequestParam int[] chkList) {
 		return categoryService.delCategoryBusiness(chkList);
 	}
+	
+	
+	@PostMapping(value = "/category/mergeView")
+	public String MergeView(@RequestParam int[] chkList, String categoryName, Model model) {
+		List<String> categoryMergeList = categoryService.getCategoryMergeList(chkList);
+		model.addAttribute("categoryMergeList",categoryMergeList);
+		model.addAttribute("categoryName", categoryName);
+		return "/category/MergeView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/category/merge")
+	public String Merge(@RequestParam int[] chkList, String categoryName, String categoryValueView) {
+		return categoryService.updateMerge(chkList, categoryName, categoryValueView);
+	}
+	
+	@PostMapping(value = "/categoryBusiness/mergeView")
+	public String BusinessMergeView(@RequestParam int[] chkList, Model model) {
+		List<String> categoryBusinessMergeList = categoryService.getCategoryBusinessMergeList(chkList);
+		model.addAttribute("categoryBusinessMergeList",categoryBusinessMergeList);
+		return "/category/BusinessMergeView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/merge")
+	public String BusinessMerge(@RequestParam int[] chkList, String categoryBusinessNameView) {
+		return categoryService.updateBusinessMerge(chkList, categoryBusinessNameView);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/categoryBusiness/mergeCheck")
+	public String MergeCheck(@RequestParam int[] chkList) {
+		return categoryService.mergeCheck(chkList);
+	}
 }

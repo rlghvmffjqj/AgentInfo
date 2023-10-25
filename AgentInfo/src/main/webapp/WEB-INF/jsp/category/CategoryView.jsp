@@ -2,7 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 170px;">
+<c:if test="${viewType eq 'insert'}">
+	<div class="modal-body" style="width: 100%; height: 170px;">
+</c:if>
+<c:if test="${viewType eq 'update'}">
+	<div class="modal-body" style="width: 100%; height: 280px;">
+</c:if>
 	<form id="modalForm" name="form" method ="post"> 
 		<input type="hidden" id="categoryKeyNum" name=categoryKeyNum class="form-control viewForm" value="${category.categoryKeyNum}">
 		<div class="pading5">
@@ -14,6 +19,12 @@
 			<input type="text" id="categoryValueView" name="categoryValueView" class="form-control viewForm" value="${category.categoryValue}" autofocus>
 			<span class="colorRed" id="NotCategory" style="display: none; font-size: 12px;">카테고리 이름을 입력해주세요.</span>
 		</div>
+		<c:if test="${viewType eq 'update'}">
+			<div class="pading5">
+				<label class="labelFontSize">비고</label>
+				<textarea type="text" id="categoryNoteView" name="categoryNoteView" class="form-control" style="height:100px;">${category.categoryNote}</textarea>
+			</div>
+		</c:if>
 	</form>
 </div>
 <div class="modal-footer">
