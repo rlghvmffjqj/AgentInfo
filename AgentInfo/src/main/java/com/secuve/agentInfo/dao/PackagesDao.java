@@ -90,5 +90,24 @@ public class PackagesDao {
 	public int getPackagesKeyNumOrigin() {
 		return sqlSession.selectOne("packages.getPackagesKeyNumOrigin");
 	}
+
+	public void updateCategoryNameAll(String categoryName, String categoryValue, String categoryValueNew) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("categoryName", categoryName);
+		parameters.put("categoryValue", categoryValue);
+		parameters.put("categoryValueNew", categoryValueNew);
+		
+		sqlSession.update("packages.updateCategoryNameAll", parameters);
+	}
+
+	public void updateBussinessNameAll(String categoryCustomerName, String categoryBusinessName, String categoryBusinessNameNew) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("categoryCustomerName", categoryCustomerName);
+		parameters.put("categoryBusinessName", categoryBusinessName);
+		parameters.put("categoryBusinessNameNew", categoryBusinessNameNew);
+		
+		sqlSession.update("packages.updateBussinessNameAll", parameters);
+		
+	}
 	
 }

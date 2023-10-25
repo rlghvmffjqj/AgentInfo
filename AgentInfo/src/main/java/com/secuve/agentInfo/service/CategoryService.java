@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.CategoryDao;
+import com.secuve.agentInfo.dao.PackagesDao;
 import com.secuve.agentInfo.vo.Category;
 import com.secuve.agentInfo.vo.CategoryBusiness;
 
@@ -17,8 +18,8 @@ import com.secuve.agentInfo.vo.CategoryBusiness;
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class CategoryService {
 	
-	@Autowired
-	CategoryDao categoryDao;
+	@Autowired CategoryDao categoryDao;
+	@Autowired PackagesDao packagesDao;
 	
 	public List<String> getCategoryValue(String categoryName) {
 		return categoryDao.getCategoryValue(categoryName);
@@ -74,6 +75,10 @@ public class CategoryService {
 	}
 
 	public String updateCategory(Category category) {
+		String categoryName = category.getCategoryName();
+		String categoryValueNew = category.getCategoryValueView();
+		String categoryValue = categoryDao.getCategoryOne(category.getCategoryKeyNum()).getCategoryValue();
+		
 		if(category.getCategoryValueView().equals("") || category.getCategoryValueView() == "") 
 			return "NotCategory";
 		if(categoryDao.getCategoryCheck(category) != null)
@@ -82,6 +87,9 @@ public class CategoryService {
 		
 		if(sucess <= 0) 
 			return "FALSE";
+		
+		categoryDao.updateCategoryBusinessAll(categoryValue, categoryValueNew);
+		packagesDao.updateCategoryNameAll(categoryName, categoryValue, categoryValueNew);
 		return "OK";
 	}
 	
@@ -192,6 +200,10 @@ public class CategoryService {
 	}
 
 	public String updateCategoryBusiness(CategoryBusiness category) {
+		String categoryCustomerName = category.getCategoryCustomerNameView();
+		String categoryBusinessNameNew = category.getCategoryBusinessNameView();
+		String categoryBusinessName = categoryDao.getCategoryBusinessOne(category.getCategoryBusinessKeyNum()).getCategoryBusinessName();
+		
 		if(category.getCategoryCustomerNameView().equals("") || category.getCategoryCustomerNameView() == "") 
 			return "NotCategoryCustomerName";
 		if(category.getCategoryBusinessNameView().equals("") || category.getCategoryBusinessNameView() == "") 
@@ -203,6 +215,8 @@ public class CategoryService {
 		
 		if(sucess <= 0) 
 			return "FALSE";
+		
+		packagesDao.updateBussinessNameAll(categoryCustomerName, categoryBusinessName, categoryBusinessNameNew);
 		return "OK";
 	}
 

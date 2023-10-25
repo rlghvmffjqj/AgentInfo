@@ -151,6 +151,14 @@
 		UPDATE packages SET statusComment = #{statusComment}, state = #{stateView} WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
 	
+	<update id="updateCategoryNameAll">
+		UPDATE packages SET ${categoryName} = #{categoryValueNew} WHERE ${categoryName} = #{categoryValue};
+	</update>
+	
+	<update id="updateBussinessNameAll">
+		UPDATE packages SET businessName = #{categoryBusinessNameNew} WHERE customerName = #{categoryCustomerName} AND businessName = #{categoryBusinessName};
+	</update>
+	
 	
 	<!-- ==================================================================================== -->
 	

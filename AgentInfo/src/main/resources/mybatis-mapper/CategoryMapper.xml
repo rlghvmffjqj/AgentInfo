@@ -201,4 +201,9 @@
 	<select id="getCategoryKeyNum" resultType="_int">
 		SELECT categoryKeyNum FROM category WHERE categoryName = 'customerName';
 	</select> 
+	
+	<update id="updateCategoryBusinessAll">
+		UPDATE categoryBusiness SET categoryCustomerName = #{categoryValueNew} WHERE categoryCustomerName = #{categoryValue};
+	</update>
+	
 </mapper>

@@ -114,4 +114,12 @@ public class CategoryDao {
 		return sqlSession.selectList("category.getCategoryKeyNum");
 	}
 
+	public void updateCategoryBusinessAll(String categoryValue, String categoryValueNew) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("categoryValue", categoryValue);
+		map.put("categoryValueNew", categoryValueNew);
+		sqlSession.update("category.updateCategoryBusinessAll", map);
+		
+	}
+
 }
