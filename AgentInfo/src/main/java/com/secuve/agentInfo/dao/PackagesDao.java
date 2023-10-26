@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.secuve.agentInfo.vo.Category;
+import com.secuve.agentInfo.vo.CategoryBusiness;
 import com.secuve.agentInfo.vo.Packages;
 
 @Repository
@@ -108,6 +110,14 @@ public class PackagesDao {
 		
 		sqlSession.update("packages.updateBussinessNameAll", parameters);
 		
+	}
+
+	public List<String> getCategoryCustomerNameList(Category category) {
+		return sqlSession.selectList("packages.getCategoryCustomerNameList", category);
+	}
+
+	public List<String> getCategoryBusinessCustomerNameList(CategoryBusiness categoryBusiness) {
+		return sqlSession.selectList("packages.getCategoryBusinessCustomerNameList", categoryBusiness);
 	}
 	
 }

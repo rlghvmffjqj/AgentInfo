@@ -250,7 +250,13 @@
 								  '삭제 완료하였습니다.',
 								  'success'
 								)
-							else
+							else if(data == "VALIDATION")
+								Swal.fire(
+								  '실패!',
+								  '배포 내용에 해당 카테고리가 사용되고 있습니다.',
+								  'error'
+								)
+							else 
 								Swal.fire(
 								  '실패!',
 								  '삭제 실패하였습니다.',

@@ -159,6 +159,14 @@
 		UPDATE packages SET businessName = #{categoryBusinessNameNew} WHERE customerName = #{categoryCustomerName} AND businessName = #{categoryBusinessName};
 	</update>
 	
+	<select id="getCategoryCustomerNameList" resultType="string">
+		SELECT ${categoryName} FROM packages WHERE ${categoryName} = #{categoryValue};
+	</select>
+	
+	<select id="getCategoryBusinessCustomerNameList" resultType="string"> 
+		SELECT businessName FROM packages WHERE customerName = #{categoryCustomerName} AND businessName = #{categoryBusinessName};
+	</select>
+	
 	
 	<!-- ==================================================================================== -->
 	

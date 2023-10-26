@@ -50,6 +50,14 @@ public class CategoryService {
 
 	public String delCategory(int[] chkList) {
 		for(int categoryKeyNum: chkList) {
+			Category category = categoryDao.getCategoryOne(categoryKeyNum);
+			List<String> packagesOneList = packagesDao.getCategoryCustomerNameList(category);
+			if(packagesOneList.size() > 0) {
+				return "VALIDATION";
+			}
+		}
+		
+		for(int categoryKeyNum: chkList) {
 			int sucess = categoryDao.delCategory(categoryKeyNum);
 			if(sucess <= 0) 
 				return "FALSE";
@@ -229,6 +237,14 @@ public class CategoryService {
 	}
 
 	public String delCategoryBusiness(int[] chkList) {
+		for(int categoryBusinessKeyNum: chkList) {
+			CategoryBusiness categoryBusiness = categoryDao.getCategoryBusinessOne(categoryBusinessKeyNum);
+			List<String> packagesOneList = packagesDao.getCategoryBusinessCustomerNameList(categoryBusiness);
+			if(packagesOneList.size() > 0) {
+				return "VALIDATION";
+			}
+		}
+		
 		for(int categoryBusinessKeyNum: chkList) {
 			int sucess = categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
 			if(sucess <= 0) 
