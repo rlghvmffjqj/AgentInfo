@@ -278,7 +278,9 @@ public class PackagesController {
 	@PostMapping(value = "/packages/export")
 	public void exportServerList(@ModelAttribute Packages packages, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
+		String[] columnList = {"customerName", "businessName", "networkClassification", "requestDate", "deliveryData", "state", "managementServer", "generalCustom", "agentVer", "packageName", "manager", "osType", "osDetailVersion", "agentOS", "existingNew", "requestProductCategory", "deliveryMethod", "note", "statusComment"};
+		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String filename = "Package Deployment Data - " + formatter.format(now) + ".csv";
@@ -295,7 +297,7 @@ public class PackagesController {
 				filename = "전달일자 범위 오류.csv";
 				list = new ArrayList<Object>();
 			}
-			Util.exportExcelFile(response, filename, list, columns, headers);
+			Util.exportExcelFile(response, filename, list, columnList, headers);
 		} catch (Exception e) {
 			System.out.println("FAIL: Export failed.\n" + e.toString());
 		}
