@@ -27,6 +27,7 @@ public class FunctionTestSettingController {
 		model.addAttribute("functionTestSettingFormAgent",functionTestSettingFormAgent);
 		model.addAttribute("functionTestSettingCategory",functionTestSettingCategory);
 		model.addAttribute("functionTestSettingSubCategory",functionTestSettingSubCategory);
+		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin());
 		return "/functionTestSetting/FunctionTestSetting";
 	}
 	

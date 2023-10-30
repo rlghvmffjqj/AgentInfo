@@ -241,6 +241,7 @@
 		    <version>2.0.2</version>
 		</dependency>
 		
+		
 		<!-- Gson 사용 -->
 		<dependency>
             <groupId>com.google.code.gson</groupId>

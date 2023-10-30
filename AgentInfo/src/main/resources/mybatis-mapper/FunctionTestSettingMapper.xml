@@ -166,6 +166,10 @@
 		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategorySort = functionTestSettingSubCategorySort + 1 WHERE functionTestSettingSubCategorySort >= #{functionTestSettingSubCategorySort};
 	</update>
 	
+	<select id="getFunctionTestSettingFormKeyNumMin" resultType="_int">
+		SELECT MIN(functionTestSettingFormKeyNum) FROM functionTestSettingForm;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlFunctionTestSetting">

@@ -79,7 +79,7 @@
 					                    			<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'TOSMS'}">
 						                    			<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
 							                    			<div class='functionTestCommand'>
-							                    				<button type="button" class='btn btn-primary formBtn' onClick="functionTestForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${functionTestSettingFormList.functionTestSettingFormName}</button>
+							                    				<button type="button" class="btn btn-primary formBtn functionBck functionTest${functionTestSettingFormList.functionTestSettingFormKeyNum}" onClick="functionTestForm('${functionTestSettingFormList.functionTestSettingFormKeyNum}')" style="box-shadow: 0px 3px 3px grey;">${functionTestSettingFormList.functionTestSettingFormName}</button>
 							                    			</div>
 							                    		</div>
 							                    	</c:if>
@@ -141,7 +141,7 @@
 															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
 															                	</c:if>
 															                </c:if>
-														                	<button type="button" class='subCategoryDetail' onClick='subCategoryDetail(${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+														                	<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>!</span></button>
 										                				</div>
 										                			</c:if>
 									                			</c:forEach>
@@ -172,7 +172,7 @@
 					                    			<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'Agent'}">
 						                    			<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
 							                    			<div class='functionTestCommand'>
-							                    				<button type="button" class='btn btn-primary formBtn' onClick="functionTestForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})" style="box-shadow: 0px 3px 3px grey;">${functionTestSettingFormList.functionTestSettingFormName}</button>
+							                    				<button type="button" class='btn btn-primary formBtn functionBck functionTest${functionTestSettingFormList.functionTestSettingFormKeyNum}' onClick="functionTestForm('${functionTestSettingFormList.functionTestSettingFormKeyNum}')" style="box-shadow: 0px 3px 3px grey;">${functionTestSettingFormList.functionTestSettingFormName}</button>
 							                    			</div>
 							                    		</div>
 							                    	</c:if>
@@ -234,7 +234,7 @@
 															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
 															                	</c:if>
 															                </c:if>
-														                	<button type="button" class='subCategoryDetail' onClick='subCategoryDetail(${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+														                	<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>!</span></button>
 										                				</div>
 										                			</c:if>
 									                			</c:forEach>
@@ -291,6 +291,12 @@
 			$('.categorySmallDiv').show();
 			$('.categoryDiv').hide();
 			$('#categoryDiv_'+number).show();
+
+			$(".functionBck").css("background-color", "#C99751");	
+			$(".functionBck").css("color", "white");	
+			$(".functionTest"+number).css("background-color", "#915F19");
+			$(".functionTest"+number).css("color", "#fbfb59");
+			
 		}
 		
 		function subCategoryDetail(number) {
@@ -454,6 +460,11 @@
 		document.onkeyup = function(e) {
 			if (e.which == 17)  isCtrl = false;
 		}
+
+		$(function () {
+			functionTestForm("${functionTestSettingFormKeyNumMin}");
+		})
+		
 	</script>
 	<script>
 		$(function () {
@@ -619,6 +630,12 @@
 		
 		.custom-checkbox.empty + .checkmark::after {
 			display: none;
+		}
+
+
+		.functionBck {
+			background :#C99751;
+			border :#C99751;
 		}
 	</style>
 </html>

@@ -64,17 +64,17 @@
 				                    				<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'TOSMS'}">
 					                    				<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
 						                    				<div class='functionTestCommand'>
-						                    					<button class='btn btn-primary formBtn' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})">${functionTestSettingFormList.functionTestSettingFormName}</button>
-						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>제거</span></button></div>
+						                    					<button class='btn btn-primary formBtn functionBck functionTest${functionTestSettingFormList.functionTestSettingFormKeyNum}' onClick="functionTestSettingForm('${functionTestSettingFormList.functionTestSettingFormKeyNum}')">${functionTestSettingFormList.functionTestSettingFormName}</button>
+						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick="formMinus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}')"><span class='functionTestFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
 																		<input type='text' class='form-control' id='inputChange' placeholder='이름'>
-																		<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'>변경</button>
+																		<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick="formChange(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}')">변경</button>
 																	</div>
 																</div>
 						                    				</div>
 						                    				<div class='functionTestPlus'>
-						                    					<button class='formPlus' onClick='formPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>추가</span></button>
+						                    					<button class='formPlus' onClick="formPlus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}')"><span class='functionTestFont'>추가</span></button>
 						                    				</div>
 						                    			</div>
 						                    		</c:if>
@@ -89,9 +89,9 @@
 						                    				<div class='categorySmallDiv'>
 						                    					<div style='height: 30px;'>
 								                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;' value="${functionTestSettingCategoryList.functionTestSettingCategoryName}">
-								                    				<button class='categorySave' onClick='categorySave(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
-								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
-								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
+								                    				<button class='categorySave' onClick="categorySave(this,'${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}')"><span class='functionTestFont'>저장</span></button>
+								                    				<button class='categoryPlus' onClick="categoryPlus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}','${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}')"><span class='functionTestFont'>추가</span></button>
+								                    				<button class='categoryMinus' onClick="categoryMinus(this,'${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}')"><span class='functionTestFont'>제거</span></button>
 								                    			</div>
 								                    			<div style="margin-bottom: -15px; margin-top: 10px;">
 								                    				<span class="checkTortalSpan">전수</span><span class="checkBasicSpan">기본</span><span class="checkFoundationSpan">기초</span>
@@ -101,27 +101,27 @@
 									                    				<div class='subCategoryDiv'>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}" onClick='functionTestSettingSubCategoryCheck(this,"tortal",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}" onClick="functionTestSettingSubCategoryCheck(this,'tortal','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')" value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}" onClick='functionTestSettingSubCategoryCheck(this,"basic",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}" onClick="functionTestSettingSubCategoryCheck(this,'basic','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')" value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}" onClick='functionTestSettingSubCategoryCheck(this,"foundation",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}" onClick="functionTestSettingSubCategoryCheck(this,'foundation','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')" value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}">
-									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
-									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
-									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
-									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(${functionTestSettingCategoryList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+									                    					<button class='subCategorySave' onClick="subCategorySave(this,'${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='functionTestFont'>저장</span></button>
+									                    					<button class='subCategoryPlus' onClick="subCategoryPlus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}','${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='functionTestFont'>추가</span></button>
+									                    					<button class='subCategoryMinus' onClick="subCategoryMinus(this,'${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='functionTestFont'>제거</span></button>
+									                    					<button class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingCategoryList.functionTestSettingFormKeyNum}','${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>!</span></button>
 									                    				</div>
 									                    			</c:if>
 								                    			</c:forEach>
@@ -153,17 +153,17 @@
 				                    				<c:if test="${functionTestSettingFormList.functionTestSettingDivision eq 'Agent'}">
 					                    				<div class='functionTestForm' id='form_${functionTestSettingFormList.functionTestSettingFormKeyNum}'>
 						                    				<div class='functionTestCommand'>
-						                    					<button class='btn btn-primary formBtn' onClick="functionTestSettingForm(${functionTestSettingFormList.functionTestSettingFormKeyNum})">${functionTestSettingFormList.functionTestSettingFormName}</button>
-						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>제거</span></button></div>
+						                    					<button class='btn btn-primary formBtn functionBck functionTest${functionTestSettingFormList.functionTestSettingFormKeyNum}' onClick="functionTestSettingForm('${functionTestSettingFormList.functionTestSettingFormKeyNum}')">${functionTestSettingFormList.functionTestSettingFormName}</button>
+						                    					<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick="formMinus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}')"><span class='functionTestFont'>제거</span></button></div>
 						                    					<div style='width: 80%; display: inline-block;'>
 							                						<div class='input-group'>
 																		<input type='text' class='form-control' id='inputChange' placeholder='이름'>
-																		<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick='formChange(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'>변경</button>
+																		<button class='btn btn-primary' style='background: dimgray; border-color: black;' onClick="formChange(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}')">변경</button>
 																	</div>
 																</div>
 						                    				</div>
 						                    				<div class='functionTestPlus'>
-						                    					<button class='formPlus' onClick='formPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum})'><span class='functionTestFont'>추가</span></button>
+						                    					<button class='formPlus' onClick="formPlus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}')"><span class='functionTestFont'>추가</span></button>
 						                    				</div>
 						                    			</div>
 						                    		</c:if>
@@ -178,9 +178,9 @@
 						                    				<div class='categorySmallDiv'>
 						                    					<div style='height: 30px;'>
 								                    				<input class='form-control' placeholder='Category' style='width: 40%; float: left;' value="${functionTestSettingCategoryList.functionTestSettingCategoryName}">
-								                    				<button class='categorySave' onClick='categorySave(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
-								                    				<button class='categoryPlus' onClick='categoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
-								                    				<button class='categoryMinus' onClick='categoryMinus(this,${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
+								                    				<button class='categorySave' onClick="categorySave(this,'${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}')"><span class='functionTestFont'>저장</span></button>
+								                    				<button class='categoryPlus' onClick="categoryPlus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}','${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}')"><span class='functionTestFont'>추가</span></button>
+								                    				<button class='categoryMinus' onClick="categoryMinus(this,'${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}')"><span class='functionTestFont'>제거</span></button>
 								                    			</div>
 								                    			<div style="margin-bottom: -15px; margin-top: 10px;">
 								                    				<span class="checkTortalSpan">전수</span><span class="checkBasicSpan">기본</span><span class="checkFoundationSpan">기초</span>
@@ -190,27 +190,27 @@
 									                    				<div class='subCategoryDiv'>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}" onClick='functionTestSettingSubCategoryCheck(this,"tortal",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryTortal" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}" onClick="functionTestSettingSubCategoryCheck(this,'tortal','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')" value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryTortal}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}" onClick='functionTestSettingSubCategoryCheck(this,"basic",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryBasic" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}" onClick="functionTestSettingSubCategoryCheck(this,'basic','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')" value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryBasic}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<div class="checkbox-group">
 									                    						<label>
-										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}" onClick='functionTestSettingSubCategoryCheck(this,"foundation",${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})' value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}'>
+										                    						<input type="checkbox" name="functionTestSettingSubCategoryFoundation" class="custom-checkbox ${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}" onClick="functionTestSettingSubCategoryCheck(this,'foundation','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')" value='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryFoundation}'>
 										                    						<span class="checkmark"></span>
 									                    						</label>
 									                    					</div>
 									                    					<input class='form-control' placeholder='Sub Category' style='width: 40%; float: left;' value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}">
-									                    					<button class='subCategorySave' onClick='subCategorySave(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>저장</span></button>
-									                    					<button class='subCategoryPlus' onClick='subCategoryPlus(this,${functionTestSettingFormList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>추가</span></button>
-									                    					<button class='subCategoryMinus' onClick='subCategoryMinus(this,${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='functionTestFont'>제거</span></button>
-									                    					<button class='subCategoryDetail' onClick='subCategoryDetail(${functionTestSettingCategoryList.functionTestSettingFormKeyNum},${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum},${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum})'><span class='subCategoryDetailFont'>!</span></button>
+									                    					<button class='subCategorySave' onClick="subCategorySave(this,'${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='functionTestFont'>저장</span></button>
+									                    					<button class='subCategoryPlus' onClick="subCategoryPlus(this,'${functionTestSettingFormList.functionTestSettingFormKeyNum}','${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='functionTestFont'>추가</span></button>
+									                    					<button class='subCategoryMinus' onClick="subCategoryMinus(this,'${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='functionTestFont'>제거</span></button>
+									                    					<button class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingCategoryList.functionTestSettingFormKeyNum}','${functionTestSettingCategoryList.functionTestSettingCategoryKeyNum}','${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>!</span></button>
 									                    				</div>
 									                    			</c:if>
 								                    			</c:forEach>
@@ -299,7 +299,7 @@
 			var table = $(obj).parent().parent();
 			var rowItem = "<div class='functionTestForm' id='form_"+number+"'>";
 			rowItem += "<div class='functionTestCommand'>";
-			rowItem += "<button class='btn btn-primary formBtn' onClick='functionTestSettingForm("+number+")'>미지정</button>";
+			rowItem += "<button class='btn btn-primary formBtn functionBck functionTest"+number+"' onClick='functionTestSettingForm("+number+")'>미지정</button>";
 			rowItem += "<div style='height: 30px; padding-top: 5px;'><button class='formMinus' onClick='formMinus(this,"+number+")'><span class='functionTestFont'>제거</span></button></div>";
 			rowItem += "<div style='width: 80%; display: inline-block;'>";
 			rowItem += "<div class='input-group'>";
@@ -689,11 +689,20 @@
 			$('.categoryDiv').hide();
 			$('#categoryDiv_1').show();
 		});
+
+		$(function () {
+			functionTestSettingForm("${functionTestSettingFormKeyNumMin}");
+		})
 		
 		function functionTestSettingForm(number) {
 			$('.categorySmallDiv').show();
 			$('.categoryDiv').hide();
 			$('#categoryDiv_'+number).show();
+
+			$(".functionBck").css("background-color", "#C99751");	
+			$(".functionBck").css("color", "white");
+			$(".functionTest"+number).css("background-color", "#915F19");
+			$(".functionTest"+number).css("color", "#fbfb59");
 		}
 		
 		function subCategoryDetail(number, number2, number3) {

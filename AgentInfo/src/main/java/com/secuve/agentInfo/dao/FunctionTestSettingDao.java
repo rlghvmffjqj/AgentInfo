@@ -144,4 +144,8 @@ public class FunctionTestSettingDao {
 		sqlSession.update("functionTestSetting.getFunctionTestSettingSubCategorySortPlus",functionTestSetting);
 	}
 
+	public int getFunctionTestSettingFormKeyNumMin() {
+		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingFormKeyNumMin");
+	}
+
 }

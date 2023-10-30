@@ -182,4 +182,8 @@ public class FunctionTestSettingService {
 		if(functionTestSetting.getFunctionTestSettingSubCategoryType() == "foundation" || functionTestSetting.getFunctionTestSettingSubCategoryType().equals("foundation"))
 			functionTestSettingDao.updateFunctionTestSettingFoundationCheck(functionTestSetting);
 	}
+
+	public int getFunctionTestSettingFormKeyNumMin() {
+		return functionTestSettingDao.getFunctionTestSettingFormKeyNumMin();
+	}
 }

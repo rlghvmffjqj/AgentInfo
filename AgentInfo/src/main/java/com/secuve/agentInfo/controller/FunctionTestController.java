@@ -60,6 +60,7 @@ public class FunctionTestController {
 		model.addAttribute("viewType","insert");
 		model.addAttribute("functionTestTitle",functionTest);
 		model.addAttribute("functionTestType",functionTestType);
+		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin());
 		return "/functionTest/FunctionTestView";
 	}
 	
@@ -100,6 +101,7 @@ public class FunctionTestController {
 		model.addAttribute("functionTest",functionTest);
 		model.addAttribute("functionTestFunctionTestSettingSubCategoryKeyNum", functionTestFunctionTestSettingSubCategoryKeyNum);
 		model.addAttribute("functionTestType",functionTestType);
+		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin());
 		return "functionTest/FunctionTestView";
 	}
 	
