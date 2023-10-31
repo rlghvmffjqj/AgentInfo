@@ -11,13 +11,30 @@
 		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 	</head>
-	<body>
+	<body style="background-color: #fff0db;">
 		<form id="form">
 			<input type="hidden" name='functionTestSettingFormKeyNum' value='${functionTestSetting.functionTestSettingFormKeyNum}'>
 			<input type="hidden" name='functionTestSettingCategoryKeyNum' value='${functionTestSetting.functionTestSettingCategoryKeyNum}'>
 			<input type="hidden" name='functionTestSettingSubCategoryKeyNum' value='${functionTestSetting.functionTestSettingSubCategoryKeyNum}'>
 			<input type="hidden" name='functionTestSettingDetailKeyNum' value='${functionTestSettingDetail.functionTestSettingDetailKeyNum}'>
-			<textarea class="summerNoteSize" rows="5" id="functionTestSettingDetailMethod" name="functionTestSettingDetailMethod">${functionTestSettingDetail.functionTestSettingDetailMethod}</textarea>
+			<div class="functionSpanDiv">
+				<span class="functionSpan">- 사전 테스트 준비 -</span>
+			</div>
+			<div>
+				<textarea class="textNoteSize" id="functionTestSettingDetailProcedure" name="functionTestSettingDetailProcedure" placeholder="사전 테스트 준비 내용을 입력해주세요.">${functionTestSettingDetail.functionTestSettingDetailProcedure}</textarea>
+			</div>
+			<div class="functionSpanDiv">
+				<span class="functionSpan">- 테스트 절차 -</span>
+			</div>
+			<div>
+				<textarea class="summerNoteSize" rows="5" id="functionTestSettingDetailMethod" name="functionTestSettingDetailMethod">${functionTestSettingDetail.functionTestSettingDetailMethod}</textarea>
+			</div>
+			<div class="functionSpanDiv">
+				<span class="functionSpan">- 예상 테스트 결과 -</span>
+			</div>
+			<div>
+				<textarea class="summerNoteSize" rows="5" id="functionTestSettingDetailExpectation" name="functionTestSettingDetailExpectation">${functionTestSettingDetail.functionTestSettingDetailExpectation}</textarea>
+			</div>
 			<div class='detailSaveDiv'><button class="btn btn-outline-info-add myBtn" onClick="btnSave();">저장</button></div>
 		</form>
 	</body>
@@ -25,9 +42,14 @@
 	<script>
 		$(function (){
 			/* =========== 섬머노트 ========= */
-			$('.summerNoteSize').summernote({
-				minHeight:690,
-				placeholder:"여기에 내용을 입력 주세요."
+			$('#functionTestSettingDetailMethod').summernote({
+				minHeight:300,
+				placeholder:"테스트 절차를 입력해주세요."
+			});
+
+			$('#functionTestSettingDetailExpectation').summernote({
+				minHeight:300,
+				placeholder:"예상 테스트 결과를 입력해주세요."
 			});
 		});
 		
@@ -67,6 +89,25 @@
 			width: 100%;
 		    text-align: center;
 		    padding-top: 10px;
+			padding-bottom: 10px;
+		}
+
+		.functionSpanDiv {
+			padding: 15px;
+			background: #fff0db;
+		}
+
+		.functionSpan {
+			font-size: 15px;
+    		font-weight: bold;
+    		color: #a75d28;
+		}
+
+		.textNoteSize {
+			width: 100%; 
+			height: 100px; 
+			border: 1px solid #c5c5c5; 
+			padding: 10px;
 		}
 	</style>
 

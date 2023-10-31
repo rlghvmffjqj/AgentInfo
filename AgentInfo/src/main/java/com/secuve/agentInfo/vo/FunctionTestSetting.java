@@ -42,7 +42,9 @@ public class FunctionTestSetting {
 	private String functionTestSettingSubCategoryModifiedDate;
 
 	private Integer functionTestSettingDetailKeyNum;
+	private String functionTestSettingDetailProcedure;
 	private String functionTestSettingDetailMethod;
+	private String functionTestSettingDetailExpectation;
 	private String functionTestSettingDetailRegistrant;
 	private String functionTestSettingDetailRegistrationDate;
 	private String functionTestSettingDetailModifier;

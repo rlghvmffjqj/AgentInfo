@@ -948,36 +948,48 @@
 		
 		/* =========== 이슈 히스토리 제거 ========= */
 		function issueHistoryMinus(issueHistoryPdf) {
-			$.ajax({
-	            type: 'POST',
-	            url: "<c:url value='/issueHistory/issueHistoryDelete'/>",
-	            data: {"issueHistoryPdf" : issueHistoryPdf},
-	            async: false,
-	            success: function (data) {
-	            	if(data.result == "OK") {
-		            	Swal.fire(
-						  '처리완료!',
-						  '처리 완료하였습니다.',
-						  'success'
-						)
-	            	} else {
-	            		Swal.fire(
-	  					  '실패!',
-	  					  '처리 실패하였습니다.',
-	  					  'error'
-	  					)
-	            	}
-	            	tableRefresh();
-	            },
-	            error: function(e) {
-	            	Swal.fire(
-					  '에러!',
-					  '에러가 발생하였습니다.',
-					  'error'
-					)
-	            }
-	        });
-			fileDeleteHistory(issueHistoryPdf);
+			Swal.fire({
+				  title: '삭제!',
+				  text: "히스토리 삭제 하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: '예'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+	        		    type: 'POST',
+	        		    url: "<c:url value='/issueHistory/issueHistoryDelete'/>",
+	        		    data: {"issueHistoryPdf" : issueHistoryPdf},
+	        		    async: false,
+	        		    success: function (data) {
+	        		    	if(data.result == "OK") {
+		    		        	Swal.fire(
+								  '처리완료!',
+								  '처리 완료하였습니다.',
+								  'success'
+								)
+	        		    	} else {
+	        		    		Swal.fire(
+	  							  '실패!',
+	  							  '처리 실패하였습니다.',
+	  							  'error'
+	  							)
+	        		    	}
+	        		    	tableRefresh();
+	        		    },
+	        		    error: function(e) {
+	        		    	Swal.fire(
+							  '에러!',
+							  '에러가 발생하였습니다.',
+							  'error'
+							)
+	        		    }
+	        		});
+					fileDeleteHistory(issueHistoryPdf);
+				}
+			})
 		}
 		
 		/* =========== 이슈 히스토리 추가 ========= */

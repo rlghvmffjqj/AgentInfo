@@ -1125,3 +1125,7 @@ a:hover {
     background: white;
     border: 1px solid #c7c7c7;
 }
+
+.tooltip {
+	display: none;
+}

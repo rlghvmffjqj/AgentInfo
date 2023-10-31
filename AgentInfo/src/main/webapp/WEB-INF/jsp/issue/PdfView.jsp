@@ -256,6 +256,7 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
+											<div class="pageBreak"></div>
 					 						<div class="obstacleText">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
@@ -281,7 +282,7 @@
       		  var img = $(this);
       			if (img.height() >= 350) {
       				// 이미지 높이가 500px 이상인 경우
-      				img.after("<div class='pageBreak'></div>");
+      				img.before("<div class='pageBreak'></div>");
       			}
       		});
 			var obj = $('textarea');

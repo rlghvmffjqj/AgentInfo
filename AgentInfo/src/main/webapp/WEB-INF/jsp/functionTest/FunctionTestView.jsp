@@ -71,6 +71,12 @@
 				                    	</div>
 				                    </div>
 				                </div>
+								<div style="margin-left: 1.1%;">
+									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnPdf">전체 PDF Download</button>
+									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnErrorPpt">에러 PDF Download</button>
+									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnWord">전체 Word Download</button>
+									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnErrorWord">에러 Word Download</button>
+								</div>
 				                <div class='main-body' id='main-TOSMS'>
 				                    <div class='page-wrapper'>
 				                    	<div class='ibox'>
@@ -127,7 +133,7 @@
 																			<input type="hidden" value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}" name="functionTestSettingSubCategoryKeyNumList">
 																			<span class="subCategorySpan">${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}</span>
 																			<c:if test="${viewType eq 'insert'}">
-																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 70%; float: left;'>
 																			</c:if>
 																			<c:if test="${viewType eq 'update'}">
 																				<c:forEach var='functionTestList' items='${functionTest}'>
@@ -468,26 +474,46 @@
 	</script>
 	<script>
 		$(function () {
-		const checkboxes = document.querySelectorAll('.custom-checkbox');
-	
-		checkboxes.forEach(function(checkbox) {
-			checkbox.addEventListener('click', function() {
-				if (this.value == 'empty') {
-					this.classList.remove('failure', 'empty');
-					this.classList.add('success');
-					$(this).val('success');
-				} else if (this.value == 'success') {
-					this.classList.remove('success', 'empty');
-					this.classList.add('failure');
-					$(this).val('failure');
-				}else if (this.value == 'failure') {
-					this.classList.remove('success', 'failure');
-					this.classList.add('empty');
-					$(this).val('empty');
-				}
+			const checkboxes = document.querySelectorAll('.custom-checkbox');
+			
+			checkboxes.forEach(function(checkbox) {
+				checkbox.addEventListener('click', function() {
+					if (this.value == 'empty') {
+						this.classList.remove('failure', 'empty');
+						this.classList.add('success');
+						$(this).val('success');
+					} else if (this.value == 'success') {
+						this.classList.remove('success', 'empty');
+						this.classList.add('failure');
+						$(this).val('failure');
+					}else if (this.value == 'failure') {
+						this.classList.remove('success', 'failure');
+						this.classList.add('empty');
+						$(this).val('empty');
+					}
+				});
 			});
-		});
 		})
+
+		/* =========== PDF 전체 서버 PC 다운로드  ========= */
+		$('#BtnPdf').click(function() {
+			var btnType = $('#issueBtnType').val();
+			var resault;
+	    	if(btnType == "copy") {
+	    		resault = automaticCopy();
+	    	} else {
+	    		resault = automaticUpdate();
+	    	}
+	    	if(resault == "OK") {
+				var frmData = document.form;
+				var url = "<c:url value='/issue/pdfView'/>";
+				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+				frmData.action = url; 
+				frmData.method="post";
+				frmData.target="form";
+				frmData.submit();
+	    	}
+		});
 	</script>
 	
 	<style>
@@ -570,7 +596,7 @@
 			font-size: 15px;
 			padding: 10px;
     		float: left;
-    		min-width: 50%;
+    		min-width: 30%;
 		}
 	</style>
 	
@@ -636,6 +662,10 @@
 		.functionBck {
 			background :#C99751;
 			border :#C99751;
+		}
+
+		.fontFamilyRl {
+			font-family: revert-layer;
 		}
 	</style>
 </html>

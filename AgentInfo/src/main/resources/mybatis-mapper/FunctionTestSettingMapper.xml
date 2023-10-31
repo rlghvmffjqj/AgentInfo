@@ -106,12 +106,12 @@
 	</select>
 	
 	<insert id="functionTestSettingDetailInsert">
-		INSERT INTO functionTestSettingDetail(functionTestSettingFormKeyNum,functionTestSettingCategoryKeyNum,functionTestSettingSubCategoryKeyNum,functionTestSettingDetailMethod,functionTestSettingDetailRegistrant,functionTestSettingDetailRegistrationDate)
-		VALUES(#{functionTestSettingFormKeyNum},#{functionTestSettingCategoryKeyNum},#{functionTestSettingSubCategoryKeyNum},#{functionTestSettingDetailMethod},#{functionTestSettingDetailRegistrant},#{functionTestSettingDetailRegistrationDate});
+		INSERT INTO functionTestSettingDetail(functionTestSettingFormKeyNum,functionTestSettingCategoryKeyNum,functionTestSettingSubCategoryKeyNum,functionTestSettingDetailProcedure,functionTestSettingDetailMethod,functionTestSettingDetailExpectation,functionTestSettingDetailRegistrant,functionTestSettingDetailRegistrationDate)
+		VALUES(#{functionTestSettingFormKeyNum},#{functionTestSettingCategoryKeyNum},#{functionTestSettingSubCategoryKeyNum},#{functionTestSettingDetailProcedure},#{functionTestSettingDetailMethod},#{functionTestSettingDetailExpectation},#{functionTestSettingDetailRegistrant},#{functionTestSettingDetailRegistrationDate});
 	</insert>
 	
 	<update id="functionTestSettingDetailUpdate">
-		UPDATE functionTestSettingDetail SET functionTestSettingDetailMethod = #{functionTestSettingDetailMethod}, functionTestSettingDetailModifier = #{functionTestSettingDetailModifier}, functionTestSettingDetailModifiedDate = #{functionTestSettingDetailModifiedDate}
+		UPDATE functionTestSettingDetail SET functionTestSettingDetailProcedure = #{functionTestSettingDetailProcedure}, functionTestSettingDetailMethod = #{functionTestSettingDetailMethod}, functionTestSettingDetailExpectation = #{functionTestSettingDetailExpectation}, functionTestSettingDetailModifier = #{functionTestSettingDetailModifier}, functionTestSettingDetailModifiedDate = #{functionTestSettingDetailModifiedDate}
 		WHERE functionTestSettingDetailKeyNum = #{functionTestSettingDetailKeyNum};
 	</update>
 	
