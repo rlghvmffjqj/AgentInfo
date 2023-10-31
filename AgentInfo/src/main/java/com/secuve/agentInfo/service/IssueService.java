@@ -58,10 +58,6 @@ public class IssueService {
 	    document.setMargins(0, 0, 0, 0); // 페이지 여백 설정 (상, 우, 하, 좌)
 	    
 	    
-	    // 페이지 크기 조정 (예: A4)
-	    //document.getPage().getPageSize().setWidth(UnitValue.createPointValue(595)); // 폭 설정
-        //document.getPage().getPageSize().setHeight(UnitValue.createPointValue(842)); // 높이 설정
-	    
 	    // 변환된 IElement 목록을 문서에 추가
 	    for (IElement element : elements) {
 	        document.add((IBlockElement) element);

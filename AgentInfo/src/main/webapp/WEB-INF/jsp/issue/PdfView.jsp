@@ -141,6 +141,10 @@
 				margin-bottom: 50px;
 				text-align: center;
 			}
+
+			.pageBreak {
+				page-break-before: always;
+			}
 		</style>
 	</head>
 	<body>
@@ -252,8 +256,7 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-					 						<%-- <textarea class="summerNoteSize" rows="5" id="issueObstacleList" name="issueObstacleList" onkeydown="resize(this)" onkeyup="resize(this)">${list.issueObstacle}</textarea> --%>
-					 						<div class="obstacleText" style="width:100%">${list.issueObstacle}</div>
+					 						<div class="obstacleText">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
 					 				<tr>
@@ -274,6 +277,13 @@
 	</body>
 	<script>
 		$(function() {
+			$("img").each(function() {
+      		  var img = $(this);
+      			if (img.height() >= 350) {
+      				// 이미지 높이가 500px 이상인 경우
+      				img.after("<div class='pageBreak'></div>");
+      			}
+      		});
 			var obj = $('textarea');
 			for(var i=0; i<obj.length; i++) {
 				obj[i].style.height = '1px';
