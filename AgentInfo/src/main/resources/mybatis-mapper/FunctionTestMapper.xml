@@ -50,6 +50,15 @@
 		SELECT functionTestSettingSubCategoryKeyNum FROM functionTest WHERE functionTestKeyNum = #{functionTestKeyNum};
 	</select>
 	
+	<select id="getFunctionTestPDFTitle" resultMap="functionTest">
+		SELECT DISTINCT ft.functionTestCustomer, ft.functionTestTitle, ft.functionTestDate, ftsf.functionTestSettingDivision
+		FROM functiontest ft 
+			INNER JOIN functiontestsettingsubcategory ftssc ON ft.functionTestSettingSubCategoryKeyNum = ftssc.functionTestSettingSubCategoryKeyNum
+			INNER JOIN functiontestsettingform ftsf ON ftssc.functionTestSettingFormKeyNum = ftsf.functionTestSettingFormKeyNum
+		WHERE ft.functionTestKeyNum = #{functionTestKeyNum}
+		AND ftsf.functionTestSettingDivision = #{functionTestSettingDivision};
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlFunctionTest">

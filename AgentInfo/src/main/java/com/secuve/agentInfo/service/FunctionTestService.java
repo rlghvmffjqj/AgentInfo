@@ -15,12 +15,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.FunctionTestDao;
+import com.secuve.agentInfo.dao.FunctionTestSettingDao;
 import com.secuve.agentInfo.vo.FunctionTest;
+import com.secuve.agentInfo.vo.FunctionTestSetting;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class FunctionTestService {
 	@Autowired FunctionTestDao functionTestDao;
+	@Autowired FunctionTestSettingDao functionTestSettingDao;
 
 	public List<FunctionTest> getFunctionTest(FunctionTest search) {
 		return functionTestDao.getFunctionTest(functionTestSearch(search));
@@ -123,6 +126,19 @@ public class FunctionTestService {
 
 	public List<Integer> functionTestFunctionTestSettingSubCategoryKeyNum(int functionTestKeyNum) {
 		return functionTestDao.functionTestFunctionTestSettingSubCategoryKeyNum(functionTestKeyNum);
+	}
+
+	public List<FunctionTestSetting> getFunctionTestSettingPDFList(FunctionTest functionTest) {
+		List<FunctionTestSetting> functionTestSettingList = functionTestSettingDao.getFunctionTestSettingPDFList(functionTest);
+		
+//		for(FunctionTest functionTest : functionTestList) {
+//			functionTestSettingList.add(functionTestSettingDao.getFunctionTestSettingOne(functionTest.getFunctionTestSettingSubCategoryKeyNum()));
+//		}
+		return functionTestSettingList;
+	}
+
+	public FunctionTest getFunctionTestPDFTitle(FunctionTest functionTest) {
+		return functionTestDao.getFunctionTestPDFTitle(functionTest);
 	}
 
 }

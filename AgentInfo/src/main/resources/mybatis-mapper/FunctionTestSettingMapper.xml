@@ -166,8 +166,19 @@
 		UPDATE functionTestSettingSubCategory SET functionTestSettingSubCategorySort = functionTestSettingSubCategorySort + 1 WHERE functionTestSettingSubCategorySort >= #{functionTestSettingSubCategorySort};
 	</update>
 	
-	<select id="getFunctionTestSettingFormKeyNumMin" resultType="_int">
-		SELECT MIN(functionTestSettingFormKeyNum) FROM functionTestSettingForm;
+	<select id="getFunctionTestSettingFormKeyNumMin" parameterType="string" resultType="_int">
+		SELECT MIN(functionTestSettingFormKeyNum) FROM functionTestSettingForm WHERE functionTestSettingDivision = #{functionTestSettingDivision};
+	</select>
+	
+	<select id="getFunctionTestSettingPDFList" resultMap="functionTestSetting">
+		SELECT ftsf.functionTestSettingFormName, 	ftsc.functionTestSettingCategoryName, ftssc.functionTestSettingSubCategoryName, ft.functionTestSubCategoryState, ft.functionTestSubCategoryFailReason, ftsd.functionTestSettingDetailMethod, ftsd.functionTestSettingDetailProcedure, ftsd.functionTestSettingDetailExpectation
+		FROM functiontest ft 
+			INNER JOIN functiontestsettingsubcategory ftssc ON ft.functionTestSettingSubCategoryKeyNum = ftssc.functionTestSettingSubCategoryKeyNum
+			INNER JOIN functiontestsettingform ftsf ON ftssc.functionTestSettingFormKeyNum = ftsf.functionTestSettingFormKeyNum
+			INNER JOIN functiontestsettingcategory ftsc ON ftssc.functionTestSettingCategoryKeyNum = ftsc.functionTestSettingCategoryKeyNum
+			LEFT JOIN functiontestsettingdetail ftsd ON ftsc.functionTestSettingCategoryKeyNum = ftsd.functionTestSettingSubCategoryKeyNum
+		WHERE ftsf.functionTestSettingDivision = #{functionTestSettingDivision}
+		AND ft.functionTestKeyNum = #{functionTestKeyNum};
 	</select>
 	
 	<!-- ==================================================================================== -->

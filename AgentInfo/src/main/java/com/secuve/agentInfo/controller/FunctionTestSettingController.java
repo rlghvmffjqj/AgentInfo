@@ -27,7 +27,11 @@ public class FunctionTestSettingController {
 		model.addAttribute("functionTestSettingFormAgent",functionTestSettingFormAgent);
 		model.addAttribute("functionTestSettingCategory",functionTestSettingCategory);
 		model.addAttribute("functionTestSettingSubCategory",functionTestSettingSubCategory);
-		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin());
+		try {
+			model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin("TOSMS"));
+		} catch (Exception e) {
+			model.addAttribute("functionTestSettingFormKeyNumMin", 0);
+		}
 		return "/functionTestSetting/FunctionTestSetting";
 	}
 	
@@ -119,6 +123,16 @@ public class FunctionTestSettingController {
 	@PostMapping(value = "/functionTestSetting/check")
 	public void FunctionTestCheck(FunctionTestSetting functionTestSetting) {
 		functionTestSettingService.updateFunctionTestSettingCheck(functionTestSetting);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/functionTestSetting/division")
+	public int Division(String functionTestSettingDivision) {
+		try {
+			return functionTestSettingService.getFunctionTestSettingFormKeyNumMin(functionTestSettingDivision);
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 	
 }

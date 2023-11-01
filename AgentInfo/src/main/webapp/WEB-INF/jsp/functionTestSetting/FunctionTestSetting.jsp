@@ -42,8 +42,8 @@
 							</div>
 						</div>
 			                <div>
-			                	<button class='btn btn-secondary divisionActive' id='TOSMS' style='float: left;'>TOSMS</button>
-			                	<button class='btn btn-secondary' id='Agent'>Agent</button>
+			                	<button class='btn btn-secondary divisionActive' id='TOSMS' style='float: left;'>통합관리</button>
+			                	<button class='btn btn-secondary' id='Agent'>정책관리</button>
 			                	<input type='hidden' id='functionTestSettingDivision' name='functionTestSettingDivision' value='TOSMS'>
 			                </div>
 			                <div class='main-body' id='main-TOSMS'>
@@ -236,6 +236,21 @@
 			$('#functionTestSettingDivision').val('TOSMS');
 			$('#main-TOSMS').show();
 			$('#main-Agent').hide();
+
+			$.ajax({
+				url: "<c:url value='/functionTestSetting/division'/>",
+				type: "POST",
+				data: {
+					"functionTestSettingDivision": "TOSMS",
+				},
+				async: false,
+				success: function(resault) {
+					functionTestSettingForm(resault);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 		
 		$('#Agent').click(function() {
@@ -244,6 +259,21 @@
 			$('#functionTestSettingDivision').val('Agent');
 			$('#main-TOSMS').hide();
 			$('#main-Agent').show();
+
+			$.ajax({
+				url: "<c:url value='/functionTestSetting/division'/>",
+				type: "POST",
+				data: {
+					"functionTestSettingDivision": "Agent",
+				},
+				async: false,
+				success: function(resault) {
+					functionTestSettingForm(resault);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 		
 		function formChange(obj, number) {
@@ -384,6 +414,7 @@
 			table2.after(rowItem2);
 			
 			$('#functionTestPlusOne').hide();
+			functionTestSettingForm(number);
 		}
 		
 		function formMinus(obj, number) {
@@ -701,6 +732,7 @@
 
 			$(".functionBck").css("background-color", "#C99751");	
 			$(".functionBck").css("color", "white");
+			$(".functionBck").css("font-weight", "bold");
 			$(".functionTest"+number).css("background-color", "#915F19");
 			$(".functionTest"+number).css("color", "#fbfb59");
 		}

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.secuve.agentInfo.vo.FunctionTest;
 import com.secuve.agentInfo.vo.FunctionTestSetting;
 
 @Repository
@@ -144,8 +145,16 @@ public class FunctionTestSettingDao {
 		sqlSession.update("functionTestSetting.getFunctionTestSettingSubCategorySortPlus",functionTestSetting);
 	}
 
-	public int getFunctionTestSettingFormKeyNumMin() {
-		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingFormKeyNumMin");
+	public int getFunctionTestSettingFormKeyNumMin(String functionTestSettingDivision) {
+		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingFormKeyNumMin", functionTestSettingDivision);
+	}
+
+	public FunctionTestSetting getFunctionTestSettingOne(int functionTestSettingSubCategoryKeyNum) {
+		return sqlSession.selectOne("functionTestSetting.getFunctionTestSettingOne", functionTestSettingSubCategoryKeyNum);
+	}
+
+	public List<FunctionTestSetting> getFunctionTestSettingPDFList(FunctionTest functionTest) {
+		return sqlSession.selectList("functionTestSetting.getFunctionTestSettingPDFList",functionTest);
 	}
 
 }

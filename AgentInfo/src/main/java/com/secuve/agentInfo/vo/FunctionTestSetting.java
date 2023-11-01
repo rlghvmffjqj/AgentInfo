@@ -52,4 +52,7 @@ public class FunctionTestSetting {
 	
 	private String functionTestSettingSubCategoryType;
 	private String functionTestSettingSubCategoryCheck;
+	
+	private String functionTestSubCategoryState;
+	private String functionTestSubCategoryFailReason;
 }

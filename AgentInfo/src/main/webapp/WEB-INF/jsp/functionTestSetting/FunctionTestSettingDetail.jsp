@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 	</head>
-	<body style="background-color: #fff0db;">
+	<body style="background: white">
 		<form id="form">
 			<input type="hidden" name='functionTestSettingFormKeyNum' value='${functionTestSetting.functionTestSettingFormKeyNum}'>
 			<input type="hidden" name='functionTestSettingCategoryKeyNum' value='${functionTestSetting.functionTestSettingCategoryKeyNum}'>
@@ -94,7 +94,7 @@
 
 		.functionSpanDiv {
 			padding: 15px;
-			background: #fff0db;
+			background: white;
 		}
 
 		.functionSpan {

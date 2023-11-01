@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html style="background-color: #fff0db;">
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<title>체크리스트 테스트 방법</title>
 		
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 	</head>
-	<body>
+	<body style="background: white">
 		<c:if test="${functionTestSettingDetail.functionTestSettingDetailMethod eq null && functionTestSettingDetail.functionTestSettingDetailProcedure eq null && functionTestSettingDetail.functionTestSettingDetailExpectation eq null}">
 			<div class='noneDetail'>테스트 방법이 작성 되지 않았습니다.</div>
 		</c:if>
@@ -47,7 +47,7 @@
 		    text-align: center;
 		    padding-top: 10px;
 		    padding-top: 5%;
-			background-color: #fff0db;
+			background-color: white;
 		}
 		
 		.noneDetail {
@@ -57,7 +57,7 @@
 		    padding-top: 100px;
 		    font-size: 18px;
 		    font-weight: 700;
-			background-color: #fff0db;
+			background-color: white;
 		}
 
 		img {
@@ -77,7 +77,7 @@
 
 		.functionSpanDiv {
 			padding: 15px;
-			background: #fff0db;
+			background: white;
 		}
 
 		.functionSpan {

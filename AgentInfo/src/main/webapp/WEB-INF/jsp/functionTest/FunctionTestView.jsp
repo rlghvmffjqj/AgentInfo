@@ -45,12 +45,12 @@
 							    </div>
 							</div>
 						</div>
-			                <div>
-			                	<button class='btn btn-secondary divisionActive' id='TOSMS' style='float: left;'>TOSMS</button>
-			                	<button class='btn btn-secondary' id='Agent'>Agent</button>
-			                	<input type='hidden' id='functionTestSettingDivision' name='functionTestSettingDivision' value='TOSMS'>
-			                </div>
-			                <form id="form" name="form" method ="post">
+							<form id="form" name="form" method ="post">
+			                	<div>
+			                		<button class='btn btn-secondary divisionActive' type="button" id='TOSMS' style='float: left;'>통합관리</button>
+			                		<button class='btn btn-secondary' type="button"  id='Agent'>정책관리</button>
+			                		<input type='hidden' id='functionTestSettingDivision' name='functionTestSettingDivision' value='TOSMS'>
+			                	</div>
 				                <div class='main-body'>
 				                    <div class='page-wrapper'>
 				                    	<div class='ibox'>
@@ -283,6 +283,21 @@
 			$('#functionTestSettingDivision').val('TOSMS');
 			$('#main-TOSMS').show();
 			$('#main-Agent').hide();
+
+			$.ajax({
+				url: "<c:url value='/functionTestSetting/division'/>",
+				type: "POST",
+				data: {
+					"functionTestSettingDivision": "TOSMS",
+				},
+				async: false,
+				success: function(resault) {
+					functionTestForm(resault);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 		
 		$('#Agent').click(function() {
@@ -291,6 +306,21 @@
 			$('#functionTestSettingDivision').val('Agent');
 			$('#main-TOSMS').hide();
 			$('#main-Agent').show();
+
+			$.ajax({
+				url: "<c:url value='/functionTestSetting/division'/>",
+				type: "POST",
+				data: {
+					"functionTestSettingDivision": "Agent",
+				},
+				async: false,
+				success: function(resault) {
+					functionTestForm(resault);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 		
 		function functionTestForm(number) {
@@ -311,7 +341,7 @@
 			window.open(url, '_blank', windowFeatures);
 		}
 		
-		function btnSave() {
+		function btnSave(pdf) {
 			const values = $('.custom-checkbox').map(function() {
 				if(this.value=='empty')
 					return 'empty';
@@ -346,24 +376,30 @@
 			        	$('#functionTestKeyNum').val(result.functionTestKeyNum);
 			        	var functionTestKeyNum = $('#functionTestKeyNum').val();
 			        	if(result.result == "OK") {
-			        		Swal.fire({
-								  title: '저장 완료!',
-								  text: "기능 테스트 목록으로 이동하시겠습니까?",
-								  icon: 'success',
-								  showCancelButton: true,
-								  confirmButtonColor: '#7066e0',
-								  cancelButtonColor: '#FF99AB',
-								  confirmButtonText: '이동',
-								  cancelButtonText: '저장',
-							}).then((result) => {
-								if (result.isConfirmed) {
-									location.href="<c:url value='/functionTest/list'/>?functionTestType=${functionTestType}";
-								} else {
-									$('#save').hide();
-									$('#update').show();
-									$('#functionTestBtnType').val("update");
-								}
-							})
+							if(pdf == null) {
+			        			Swal.fire({
+									  title: '저장 완료!',
+									  text: "기능 테스트 목록으로 이동하시겠습니까?",
+									  icon: 'success',
+									  showCancelButton: true,
+									  confirmButtonColor: '#7066e0',
+									  cancelButtonColor: '#FF99AB',
+									  confirmButtonText: '이동',
+									  cancelButtonText: '저장',
+								}).then((result) => {
+									if (result.isConfirmed) {
+										location.href="<c:url value='/functionTest/list'/>?functionTestType=${functionTestType}";
+									} else {
+										$('#save').hide();
+										$('#update').show();
+										$('#functionTestBtnType').val("update");
+									}
+								})
+							} else {
+								$('#save').hide();
+								$('#update').show();
+								$('#functionTestBtnType').val("update");
+							}
 						} else {
 							Swal.fire({
 								icon: 'error',
@@ -381,7 +417,7 @@
 		
 		
 		/* =========== 업데이트 버튼 ========= */
-		function btnUpdate() {
+		function btnUpdate(pdf) {
 			const values = $('.custom-checkbox').map(function() {
 				if(this.value=='empty')
 					return 'empty';
@@ -414,23 +450,28 @@
 			        async: false,
 			        success: function(result) {
 			        	if(result.result == "OK") {
-			        		Swal.fire({
-								  title: '저장 완료!',
-								  text: "기능 테스트 목록으로 이동하시겠습니까?",
-								  icon: 'success',
-								  showCancelButton: true,
-								  confirmButtonColor: '#7066e0',
-								  cancelButtonColor: '#FF99AB',
-								  confirmButtonText: '이동',
-								  cancelButtonText: '저장',
-							}).then((result2) => {
-								if (result2.isConfirmed) {
-									location.href="<c:url value='/functionTest/list'/>?functionTestType=${functionTestType}";
-								} else {
-									$('#functionTestKeyNum').val(result.functionTestKeyNum);
-									$('#downloadBtn').show();
-								}
-							})
+							if(pdf == null) {
+			        			Swal.fire({
+									  title: '저장 완료!',
+									  text: "기능 테스트 목록으로 이동하시겠습니까?",
+									  icon: 'success',
+									  showCancelButton: true,
+									  confirmButtonColor: '#7066e0',
+									  cancelButtonColor: '#FF99AB',
+									  confirmButtonText: '이동',
+									  cancelButtonText: '저장',
+								}).then((result2) => {
+									if (result2.isConfirmed) {
+										location.href="<c:url value='/functionTest/list'/>?functionTestType=${functionTestType}";
+									} else {
+										$('#functionTestKeyNum').val(result.functionTestKeyNum);
+										$('#downloadBtn').show();
+									}
+								})
+							} else {
+								$('#functionTestKeyNum').val(result.functionTestKeyNum);
+								$('#downloadBtn').show();
+							}
 						} else {
 							Swal.fire({
 								icon: 'error',
@@ -497,23 +538,68 @@
 
 		/* =========== PDF 전체 서버 PC 다운로드  ========= */
 		$('#BtnPdf').click(function() {
-			var btnType = $('#issueBtnType').val();
-			var resault;
-	    	if(btnType == "copy") {
-	    		resault = automaticCopy();
-	    	} else {
-	    		resault = automaticUpdate();
-	    	}
-	    	if(resault == "OK") {
+			var btnType = $('#functionTestBtnType').val();	
+			var functionTestCustomer = $('#functionTestCustomer').val();
+			var functionTestTitle = $('#functionTestTitle').val();
+			var functionTestDate = $('#functionTestDate').val();
+			console.log(functionTestCustomer);
+
+		    if(btnType == "insert") {
+		    	btnSave("pdf");
+		    } else {
+		    	btnUpdate("pdf");
+		    }
+
+			if(functionTestCustomer != "" && functionTestTitle != "" && functionTestDate !="") {
 				var frmData = document.form;
-				var url = "<c:url value='/issue/pdfView'/>";
+				var url = "<c:url value='/functionTest/pdfView'/>";
 				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
 				frmData.action = url; 
 				frmData.method="post";
 				frmData.target="form";
 				frmData.submit();
-	    	}
+			}
 		});
+
+		/* =========== PDF 로컬 PC 다운로드(자식창에서 호출) ========= */
+		function pdfDown(fileName) {
+			window.location ="<c:url value='/functionTest/fileDownload?fileName="+fileName+"'/>";
+			setTimeout(function() {
+				fileDelete(fileName);
+			},300);
+		}
+
+		/* =========== PDF 로컬 PC 삭제 ========= */
+		function fileDelete(fileName) {
+			$.ajax({
+				url: "<c:url value='/functionTest/fileDelete'/>",
+				type: "POST",
+				data: {
+						"fileName": fileName,
+					},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: 'PDF다운로드 완료되었습니다.'
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: 'PDF파일이 존재하지 않습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			  });
+		}
 	</script>
 	
 	<style>

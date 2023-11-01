@@ -26,6 +26,8 @@ public class FunctionTest {
 	private String functionTestModifier;
 	private String functionTestModifiedDate;
 	
+	private String functionTestSettingDivision;
+	
 	private List<Integer> functionTestSettingSubCategoryKeyNumList;
 	private List<String> functionTestSubCategoryStateList;
 	private List<String> functionTestSubCategoryFailReasonList;

@@ -60,4 +60,8 @@ public class FunctionTestDao {
 	public List<Integer> functionTestFunctionTestSettingSubCategoryKeyNum(int functionTestKeyNum) {
 		return sqlSession.selectList("functionTest.functionTestFunctionTestSettingSubCategoryKeyNum",functionTestKeyNum);
 	}
+
+	public FunctionTest getFunctionTestPDFTitle(FunctionTest functionTest) {
+		return sqlSession.selectOne("functionTest.getFunctionTestPDFTitle",functionTest);
+	}
 }

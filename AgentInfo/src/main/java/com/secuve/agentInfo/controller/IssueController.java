@@ -1,7 +1,6 @@
 package com.secuve.agentInfo.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,20 +19,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.core.PDFDownlod;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
 
 import kr.dogfoot.hwplib.object.HWPFile;
 import kr.dogfoot.hwplib.object.bodytext.Section;
 import kr.dogfoot.hwplib.object.bodytext.paragraph.Paragraph;
-import kr.dogfoot.hwplib.writer.HWPWriter;
 import kr.dogfoot.hwplib.tool.blankfilemaker.BlankFileMaker;
+import kr.dogfoot.hwplib.writer.HWPWriter;
 
 
 
 @Controller
 public class IssueController {
 	@Autowired IssueService issueService;
+	@Autowired PDFDownlod pdfDownlod;
 	
 	@GetMapping(value = "/issue/issueList")
 	public String IssueList(Model model) {
@@ -180,7 +181,7 @@ public class IssueController {
 
 		// html to pdf
 		try {
-			issueService.makepdf(BODY, filePath + "\\" + fileName);
+			pdfDownlod.makepdf(BODY, filePath + "\\" + fileName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -203,7 +204,7 @@ public class IssueController {
 
 		// html to pdf
 		try {
-			issueService.makepdf(BODY, filePath + "\\" + fileName);
+			pdfDownlod.makepdf(BODY, filePath + "\\" + fileName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.View;
 
+import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.core.PDFDownlod;
 import com.secuve.agentInfo.service.FunctionTestService;
 import com.secuve.agentInfo.service.FunctionTestSettingService;
 import com.secuve.agentInfo.vo.FunctionTest;
@@ -23,6 +29,7 @@ import com.secuve.agentInfo.vo.FunctionTestSetting;
 public class FunctionTestController {
 	@Autowired FunctionTestService functionTestService;
 	@Autowired FunctionTestSettingService functionTestSettingService;
+	@Autowired PDFDownlod pdfDownlod;
 	
 	@GetMapping(value = "/functionTest/list")
 	public String functionTestList(String functionTestType, Model model) {
@@ -60,7 +67,11 @@ public class FunctionTestController {
 		model.addAttribute("viewType","insert");
 		model.addAttribute("functionTestTitle",functionTest);
 		model.addAttribute("functionTestType",functionTestType);
-		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin());
+		try {
+			model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin("TOSMS"));
+		} catch (Exception e) {
+			model.addAttribute("functionTestSettingFormKeyNumMin", 0);
+		}
 		return "/functionTest/FunctionTestView";
 	}
 	
@@ -101,7 +112,7 @@ public class FunctionTestController {
 		model.addAttribute("functionTest",functionTest);
 		model.addAttribute("functionTestFunctionTestSettingSubCategoryKeyNum", functionTestFunctionTestSettingSubCategoryKeyNum);
 		model.addAttribute("functionTestType",functionTestType);
-		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin());
+		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin("TOSMS"));
 		return "functionTest/FunctionTestView";
 	}
 	
@@ -119,5 +130,64 @@ public class FunctionTestController {
 		
 		Map result = functionTestService.updateFunctionTest(functionTest, principal);
 		return result;
+	}
+	
+	@RequestMapping(value = "/functionTest/pdfView", method = RequestMethod.POST)
+	public String PdfView(Model model, FunctionTest functionTest, FunctionTestSetting functionTestSetting) {
+		FunctionTest functionTestTitle = functionTestService.getFunctionTestPDFTitle(functionTest);
+		List<FunctionTestSetting> functionTestSettingList = functionTestService.getFunctionTestSettingPDFList(functionTest);
+		
+		model.addAttribute("functionTestTitle",functionTestTitle);
+		model.addAttribute("functionTestSettingList",functionTestSettingList);
+		return "functionTest/PdfView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/functionTest/pdf")
+	public String PDF(String jsp, String functionTestCustomer, String functionTestTitle, String functionTestDate, Principal principal, Model model) {
+		StringBuilder html = new StringBuilder();
+		String body = jsp;
+		
+		html.append(body);
+		String filePath = "C:\\AgentInfo\\functionTestDownload";
+		String fileName = functionTestCustomer + "_" + functionTestTitle + "_" + functionTestDate + ".pdf";
+
+		String BODY = body.toString();
+
+		// html to pdf
+		try {
+			pdfDownlod.makepdf(BODY, filePath + "\\" + fileName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "FALSE";
+		}
+		return "OK"; 
+	}
+	
+	@GetMapping(value = "/functionTest/fileDownload")
+	public View FileDownload(@RequestParam String fileName, Model model) throws Exception {
+		String filePath = "C:\\AgentInfo\\functionTestDownload";
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);  		 // 출력할 파일 이름
+	
+		return new FileDownloadView();
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/functionTest/fileDelete")
+	public String FileDelete(String fileName, Principal principal, Model model) {
+		//파일 경로 지정
+		String path = "C:\\AgentInfo\\functionTestDownload";
+				
+		//현재 게시판에 존재하는 파일객체를 만듬
+		File file = new File(path + "\\" + fileName);
+			
+		if(file.exists()) { // 파일이 존재하면
+			file.delete(); // 파일 삭제
+			return "OK"; 
+		}
+		return "NotFile";
 	}
 }

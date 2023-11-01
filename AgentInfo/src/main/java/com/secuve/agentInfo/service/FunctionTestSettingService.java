@@ -183,7 +183,7 @@ public class FunctionTestSettingService {
 			functionTestSettingDao.updateFunctionTestSettingFoundationCheck(functionTestSetting);
 	}
 
-	public int getFunctionTestSettingFormKeyNumMin() {
-		return functionTestSettingDao.getFunctionTestSettingFormKeyNumMin();
+	public int getFunctionTestSettingFormKeyNumMin(String functionTestSettingDivision) {
+		return functionTestSettingDao.getFunctionTestSettingFormKeyNumMin(functionTestSettingDivision);
 	}
 }
