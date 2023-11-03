@@ -209,7 +209,7 @@
 					<div class="searchbos">
 				    	<div class="issue">
 							<div style="margin-bottom: 5px;">
-								<span style="float:left; margint-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}"></div>
+								<span style="float:left; margin-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}"></div>
 							</div>
 					   		<table style="width:100%">
 					   			<tbody>

@@ -178,7 +178,15 @@
 			INNER JOIN functiontestsettingcategory ftsc ON ftssc.functionTestSettingCategoryKeyNum = ftsc.functionTestSettingCategoryKeyNum
 			LEFT JOIN functiontestsettingdetail ftsd ON ftsc.functionTestSettingCategoryKeyNum = ftsd.functionTestSettingSubCategoryKeyNum
 		WHERE ftsf.functionTestSettingDivision = #{functionTestSettingDivision}
-		AND ft.functionTestKeyNum = #{functionTestKeyNum};
+		AND ft.functionTestKeyNum = #{functionTestKeyNum}
+		AND (
+			ftsf.functionTestSettingFormName = '홈'
+			OR
+			ftsf.functionTestSettingFormName = '사용자관리'
+			OR
+			ftsf.functionTestSettingFormName = '서버관리(서버관리)'
+		);
+		
 	</select>
 	
 	<!-- ==================================================================================== -->

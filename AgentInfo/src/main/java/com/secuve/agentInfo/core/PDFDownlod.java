@@ -16,6 +16,8 @@ import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.font.FontProvider;
 
+
+
 @Service
 public class PDFDownlod {
 	public void makepdf(String BODY, String dest) throws Exception {
@@ -46,5 +48,31 @@ public class PDFDownlod {
 	    }
 	    
 	    document.close(); // 문서 닫기
+	}
+	
+	public void makeAndMergePdf(List<String> htmlBodies, String dest) throws Exception {
+	    String FONT = "C:\\AgentInfo\\font\\NanumBarunGothic.ttf";
+	    
+	    // ConverterProperties: HTML 변환 속성 설정
+	    ConverterProperties properties = new ConverterProperties();
+	    FontProvider fontProvider = new DefaultFontProvider(false, false, false);
+
+	    // 지정한 폰트를 폰트 공급자에 추가
+	    FontProgram fontProgram = FontProgramFactory.createFont(FONT);
+	    fontProvider.addFont(fontProgram);
+	    properties.setFontProvider(fontProvider);
+	    
+	    PdfDocument mergedPdf = new PdfDocument(new PdfWriter(dest));
+	    Document document = new Document(mergedPdf);
+
+	    for (String htmlBody : htmlBodies) {
+	        List<IElement> elements = HtmlConverter.convertToElements(htmlBody, properties);
+	        
+	        for (IElement element : elements) {
+	            document.add((IBlockElement) element);
+	        }
+	    }
+
+	    document.close();
 	}
 }

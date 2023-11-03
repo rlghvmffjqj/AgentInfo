@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -145,20 +146,12 @@ public class FunctionTestController {
 	@ResponseBody
 	@PostMapping(value = "/functionTest/pdf")
 	public String PDF(String jsp, String functionTestCustomer, String functionTestTitle, String functionTestDate, Principal principal, Model model) {
-		StringBuilder html = new StringBuilder();
-		String body = jsp;
-		
-		html.append(body);
 		String filePath = "C:\\AgentInfo\\functionTestDownload";
 		String fileName = functionTestCustomer + "_" + functionTestTitle + "_" + functionTestDate + ".pdf";
 
-		String BODY = body.toString();
-
-		// html to pdf
 		try {
-			pdfDownlod.makepdf(BODY, filePath + "\\" + fileName);
+			pdfDownlod.makepdf(jsp, filePath + "\\" + fileName);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "FALSE";
 		}
