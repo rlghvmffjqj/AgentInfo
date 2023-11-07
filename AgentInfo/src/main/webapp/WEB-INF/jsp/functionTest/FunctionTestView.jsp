@@ -226,6 +226,8 @@
 																			</div>
 																			<input type="hidden" value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}" name="functionTestSettingSubCategoryKeyNumList">
 																			<span class="subCategorySpan">${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}</span>
+																			<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>절차</span></button>
+																			<button type="button" class='subCategoryResult' onClick="subCategoryResult('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>결과</span></button>
 																			<c:if test="${viewType eq 'insert'}">
 																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;'>
 																			</c:if>
@@ -241,8 +243,6 @@
 															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;'>
 															                	</c:if>
 															                </c:if>
-														                	<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>절차</span></button>
-																			<button type="button" class='subCategoryResult' onClick="subCategoryResult('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>결과</span></button>
 										                				</div>
 										                			</c:if>
 									                			</c:forEach>
@@ -267,6 +267,7 @@
 			                    <input class="form-control" type="hidden" id="functionTestType" name="functionTestType" value="${functionTestType}">
 			                    <input class="form-control" type="hidden" id="functionTestBtnType" name="functionTestBtnType" value="${viewType}">
 			                    <input class="form-control" type="hidden" id="functionTestKeyNum" name="functionTestKeyNum" value="${functionTestTitle.functionTestKeyNum}">
+								<input class="form-control" type="hidden" id="functionTestPdfType" name="functionTestPdfType" value="">
 							</form> 
 	                    </div>
 	                </div>
@@ -559,6 +560,32 @@
 			var functionTestCustomer = $('#functionTestCustomer').val();
 			var functionTestTitle = $('#functionTestTitle').val();
 			var functionTestDate = $('#functionTestDate').val();
+			$('#functionTestPdfType').val('All');
+
+		    if(btnType == "insert") {
+		    	btnSave("pdf");
+		    } else {
+		    	btnUpdate("pdf");
+		    }
+
+			if(functionTestCustomer != "" && functionTestTitle != "" && functionTestDate !="") {
+				var frmData = document.form;
+				var url = "<c:url value='/functionTest/pdfView'/>";
+				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+				frmData.action = url; 
+				frmData.method="post";
+				frmData.target="form";
+				frmData.submit();
+			}
+		});
+
+		
+		$('#BtnErrorPpt').click(function() {
+			var btnType = $('#functionTestBtnType').val();	
+			var functionTestCustomer = $('#functionTestCustomer').val();
+			var functionTestTitle = $('#functionTestTitle').val();
+			var functionTestDate = $('#functionTestDate').val();
+			$('#functionTestPdfType').val('Error');
 
 		    if(btnType == "insert") {
 		    	btnSave("pdf");
