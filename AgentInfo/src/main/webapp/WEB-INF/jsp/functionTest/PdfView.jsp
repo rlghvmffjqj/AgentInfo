@@ -11,8 +11,6 @@
 
 		<script type="text/javascript" src="<c:url value='/js/jquery-3.3.1.slim.min.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/js/jquery/jquery.min.js'/>"></script>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 	</head>
 	<body>
 		<div class="title">
@@ -53,7 +51,6 @@
 				    	</c:forEach>
 				    </ol>
 			    </div>
-				<div class="pageBreak"></div>
 			   
 			    <% int num = 1; %>
 			    <c:forEach var="list" items="${functionTestSettingList}">
@@ -107,14 +104,43 @@
 	</body>
 	<script>
 		$(document).ready(function() {
-		    const jsp = document.body;
-		    html2pdf().from(jsp).set({
-				margin: 10,
-				filename: 'filename.pdf',
-				html2canvas: { scale: 1, logging: true },
-				jsPDF: {orientation: 'landscape', unit: 'mm', format: 'a4', compressPDF: true},
-				image: { type: 'jpeg', quality: 1 }	
-			}).save();
+			$("img").each(function() {
+      		  var img = $(this);
+      			if (img.height() >= 240) {
+      				// 이미지 높이가 500px 이상인 경우
+      				img.after("<div class='pageBreak'></div>");
+      			}
+      		});
+		    var jsp = document.documentElement.innerHTML;
+			var functionTestCustomer = $('#functionTestCustomer').val();
+			var functionTestTitle = $('#functionTestTitle').val();
+			var functionTestDate = $('#functionTestDate').val();
+			$.ajax({
+				url: "<c:url value='/functionTest/pdf'/>",
+				type: "POST",
+				data: {
+						"jsp": jsp,
+						"functionTestCustomer":functionTestCustomer,
+						"functionTestTitle":functionTestTitle,
+						"functionTestDate":functionTestDate,
+					},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK") {
+						var fileName = functionTestCustomer + "_" + functionTestTitle + "_" + functionTestDate + ".pdf";
+						opener.pdfDown(fileName);
+						window.close();
+					} else {
+						alert("PDF Download Error!\n관리자에게 문의 바랍니다.");
+						window.close();
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 		});
 	</script>
 	<style>
@@ -240,7 +266,7 @@
 		}
 
 		.pageBreak {
-			page-break-before: always;
+			page-break-after: always;
 		}
 
 		tr {

@@ -132,22 +132,23 @@
 																			</div>
 																			<input type="hidden" value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}" name="functionTestSettingSubCategoryKeyNumList">
 																			<span class="subCategorySpan">${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}</span>
+																			<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>절차</span></button>
+																			<button type="button" class='subCategoryResult' onClick="subCategoryResult('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>결과</span></button>
 																			<c:if test="${viewType eq 'insert'}">
-																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 70%; float: left;'>
+																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 70%; float: left;'>
 																			</c:if>
 																			<c:if test="${viewType eq 'update'}">
 																				<c:forEach var='functionTestList' items='${functionTest}'>
 																					<c:if test='${functionTestList.functionTestKeyNum eq functionTestTitle.functionTestKeyNum}'>
 																						<c:if test='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum eq functionTestList.functionTestSettingSubCategoryKeyNum}'>
-																                			<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;' value="${functionTestList.functionTestSubCategoryFailReason}">
+																                			<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;' value="${functionTestList.functionTestSubCategoryFailReason}">
 																                		</c:if>
 																                	</c:if>
 															                	</c:forEach>
 															                	<c:if test='${not functionTestFunctionTestSettingSubCategoryKeyNum.contains(functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum)}'>
-															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;'>
 															                	</c:if>
 															                </c:if>
-														                	<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>!</span></button>
 										                				</div>
 										                			</c:if>
 									                			</c:forEach>
@@ -226,21 +227,22 @@
 																			<input type="hidden" value="${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}" name="functionTestSettingSubCategoryKeyNumList">
 																			<span class="subCategorySpan">${functionTestSettingSubCategoryList.functionTestSettingSubCategoryName}</span>
 																			<c:if test="${viewType eq 'insert'}">
-																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+																				<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;'>
 																			</c:if>
 																			<c:if test="${viewType eq 'update'}">
 																				<c:forEach var='functionTestList' items='${functionTest}'>
 																					<c:if test='${functionTestList.functionTestKeyNum eq functionTestTitle.functionTestKeyNum}'>
 																						<c:if test='${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum eq functionTestList.functionTestSettingSubCategoryKeyNum}'>
-																                			<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;' value="${functionTestList.functionTestSubCategoryFailReason}">
+																                			<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;' value="${functionTestList.functionTestSubCategoryFailReason}">
 																                		</c:if>
 																                	</c:if>
 															                	</c:forEach>
 															                	<c:if test='${not functionTestFunctionTestSettingSubCategoryKeyNum.contains(functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum)}'>
-															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='Note' style='width: 53%; float: left;'>
+															                		<input class='form-control' name="functionTestSubCategoryFailReasonList" placeholder='비고' style='width: 53%; float: left;'>
 															                	</c:if>
 															                </c:if>
-														                	<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>!</span></button>
+														                	<button type="button" class='subCategoryDetail' onClick="subCategoryDetail('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>절차</span></button>
+																			<button type="button" class='subCategoryResult' onClick="subCategoryResult('${functionTestSettingSubCategoryList.functionTestSettingSubCategoryKeyNum}')"><span class='subCategoryDetailFont'>결과</span></button>
 										                				</div>
 										                			</c:if>
 									                			</c:forEach>
@@ -340,6 +342,22 @@
 			var windowFeatures = 'width=1000,height=800';
 			window.open(url, '_blank', windowFeatures);
 		}
+
+		function subCategoryResult(number2) {			
+			var functionTestKeyNum = $('#functionTestKeyNum').val();
+			if("${viewType}" == "insert")
+				btnSave("save");
+			if("${viewType}" == "update")
+				btnUpdate("save");
+			var number = $('#functionTestKeyNum').val();
+			var functionTestCustomer = $('#functionTestCustomer').val();
+			var functionTestTitle = $('#functionTestTitle').val();
+			if(functionTestCustomer != "" && functionTestTitle !="") {
+				var url = "<c:url value='/functionTest/resultView?functionTestKeyNum="+number+"&functionTestSettingSubCategoryKeyNum="+number2+"'/>";
+				var windowFeatures = 'width=1000,height=800';
+				window.open(url, '_blank', windowFeatures);
+			}
+		}
 		
 		function btnSave(pdf) {
 			const values = $('.custom-checkbox').map(function() {
@@ -374,7 +392,6 @@
 			        async: false,
 			        success: function(result) {
 			        	$('#functionTestKeyNum').val(result.functionTestKeyNum);
-			        	var functionTestKeyNum = $('#functionTestKeyNum').val();
 			        	if(result.result == "OK") {
 							if(pdf == null) {
 			        			Swal.fire({
@@ -542,7 +559,6 @@
 			var functionTestCustomer = $('#functionTestCustomer').val();
 			var functionTestTitle = $('#functionTestTitle').val();
 			var functionTestDate = $('#functionTestDate').val();
-			console.log(functionTestCustomer);
 
 		    if(btnType == "insert") {
 		    	btnSave("pdf");
@@ -637,14 +653,23 @@
 		
 		.subCategoryDetail {
 			height: 33px;
-			width: 33px;
+			width: 50px;
 			background: #e4cff7;
 			border: 1px solid #c7a8ef;
 			margin-left: 1%;
 		}
+
+		.subCategoryResult {
+			height: 33px;
+			width: 50px;
+			background: #f7cfcf;
+			border: 1px solid #f99494;
+			margin-left: 1%;
+			margin-right: 1%;
+		}
 		
 		.subCategoryDetailFont {
-			font-size: 14px;
+			font-size: 12px;
     		font-family: monospace;
 		}
 		
@@ -682,7 +707,7 @@
 			font-size: 15px;
 			padding: 10px;
     		float: left;
-    		min-width: 30%;
+    		min-width: 40%;
 		}
 	</style>
 	

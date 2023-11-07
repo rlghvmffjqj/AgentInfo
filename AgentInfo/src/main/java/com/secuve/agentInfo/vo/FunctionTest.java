@@ -13,13 +13,14 @@ import lombok.ToString;
 @ToString
 @Component
 public class FunctionTest {
-	private int functionTestKeyNum;
+	private Integer functionTestKeyNum;
 	private Integer functionTestSettingSubCategoryKeyNum;
 	private String functionTestCustomer;
 	private String functionTestTitle;
 	private String functionTestDate;
 	private String functionTestSubCategoryState;
 	private String functionTestSubCategoryFailReason;
+	private String functionTestResult;
 	private String functionTestType;
 	private String functionTestRegistrant;
 	private String functionTestRegistrationDate;

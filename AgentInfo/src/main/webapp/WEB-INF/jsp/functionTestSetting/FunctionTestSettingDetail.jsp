@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>체크리스트 테스트 방법</title>
+		<title>기능 테스트 방법</title>
 		
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<!-- SummerNote -->

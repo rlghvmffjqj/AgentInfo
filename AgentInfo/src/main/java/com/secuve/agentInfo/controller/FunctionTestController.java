@@ -83,6 +83,13 @@ public class FunctionTestController {
 		return "/functionTest/FunctionTestDetail";
 	}
 	
+	@GetMapping(value = "/functionTest/resultView")
+	public String resultView(FunctionTest functionTest, Model model) {
+		FunctionTest functionTestDelicacy = functionTestService.getFunctionTestDelicacy(functionTest);
+		model.addAttribute("functionTest", functionTestDelicacy);
+		return "/functionTest/FunctionTestResult";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/functionTest/functionTestSave")
 	public Map FunctionTestSave(FunctionTest functionTest, Principal principal) {
@@ -114,6 +121,7 @@ public class FunctionTestController {
 		model.addAttribute("functionTestFunctionTestSettingSubCategoryKeyNum", functionTestFunctionTestSettingSubCategoryKeyNum);
 		model.addAttribute("functionTestType",functionTestType);
 		model.addAttribute("functionTestSettingFormKeyNumMin", functionTestSettingService.getFunctionTestSettingFormKeyNumMin("TOSMS"));
+		model.addAttribute("functionTestKeyNum", functionTestKeyNum);
 		return "functionTest/FunctionTestView";
 	}
 	
@@ -145,12 +153,13 @@ public class FunctionTestController {
 	
 	@ResponseBody
 	@PostMapping(value = "/functionTest/pdf")
-	public String PDF(String jsp, String functionTestCustomer, String functionTestTitle, String functionTestDate, Principal principal, Model model) {
+	public String PDF(StringBuffer jsp, String functionTestCustomer, String functionTestTitle, String functionTestDate, Principal principal, Model model) {
 		String filePath = "C:\\AgentInfo\\functionTestDownload";
 		String fileName = functionTestCustomer + "_" + functionTestTitle + "_" + functionTestDate + ".pdf";
 
+		
 		try {
-			pdfDownlod.makepdf(jsp, filePath + "\\" + fileName);
+			pdfDownlod.makepdf(jsp.toString(), filePath + "\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "FALSE";
@@ -182,5 +191,11 @@ public class FunctionTestController {
 			return "OK"; 
 		}
 		return "NotFile";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/functionTest/resultSave")
+	public String resultSave(FunctionTest functionTest, Principal principal) {
+		return functionTestService.resultSave(functionTest);
 	}
 }

@@ -28,12 +28,12 @@
 	</select>
 	
 	<insert id="insertFunctionTest">
-		INSERT INTO functionTest(functionTestKeyNum,functionTestCustomer,functionTestTitle,functionTestDate,functionTestSettingSubCategoryKeyNum,functionTestSubCategoryState,functionTestSubCategoryFailReason,functionTestType,functionTestRegistrant,functionTestRegistrationDate,functionTestModifier,functionTestModifiedDate)
-		VALUES(#{functionTestKeyNum},#{functionTestCustomer},#{functionTestTitle},#{functionTestDate},#{functionTestSettingSubCategoryKeyNum},#{functionTestSubCategoryState},#{functionTestSubCategoryFailReason},#{functionTestType},#{functionTestRegistrant},#{functionTestRegistrationDate},#{functionTestModifier},#{functionTestModifiedDate});
+		INSERT INTO functionTest(functionTestKeyNum,functionTestCustomer,functionTestTitle,functionTestDate,functionTestSettingSubCategoryKeyNum,functionTestSubCategoryState,functionTestSubCategoryFailReason,functionTestResult,functionTestType,functionTestRegistrant,functionTestRegistrationDate,functionTestModifier,functionTestModifiedDate)
+		VALUES(#{functionTestKeyNum},#{functionTestCustomer},#{functionTestTitle},#{functionTestDate},#{functionTestSettingSubCategoryKeyNum},#{functionTestSubCategoryState},#{functionTestSubCategoryFailReason},#{functionTestResult},#{functionTestType},#{functionTestRegistrant},#{functionTestRegistrationDate},#{functionTestModifier},#{functionTestModifiedDate});
 	</insert>
 	
 	<select id="getFunctionTestOneTitle" resultMap="functionTest" parameterType="_int">
-		SELECT DISTINCT functionTestKeyNum, functionTestCustomer, functionTestTitle, functionTestDate 
+		SELECT DISTINCT functionTestKeyNum, functionTestCustomer, functionTestTitle, functionTestDate
 		FROM functionTest 
 		WHERE functionTestKeyNum = #{functionTestKeyNum};
 	</select>
@@ -57,6 +57,18 @@
 			INNER JOIN functiontestsettingform ftsf ON ftssc.functionTestSettingFormKeyNum = ftsf.functionTestSettingFormKeyNum
 		WHERE ft.functionTestKeyNum = #{functionTestKeyNum}
 		AND ftsf.functionTestSettingDivision = #{functionTestSettingDivision};
+	</select>
+	
+	<update id="resultSave">
+		UPDATE functiontest SET functionTestResult = #{functionTestResult} WHERE functionTestKeyNum = #{functionTestKeyNum} AND functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
+	</update>
+	
+	<select id="getFunctionTestDelicacy" resultMap="functionTest">
+		SELECT * FROM functiontest WHERE functionTestKeyNum = #{functionTestKeyNum} AND functionTestSettingSubCategoryKeyNum = #{functionTestSettingSubCategoryKeyNum};
+	</select>
+	
+	<select id="getFunctionTestResult" parameterType="_int" resultType="string">
+		SELECT functionTestResult FROM functiontest WHERE functionTestKeyNum = #{functionTestKeyNum};
 	</select>
 	
 	<!-- ==================================================================================== -->

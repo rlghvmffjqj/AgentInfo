@@ -25,7 +25,7 @@ public class FunctionTestDao {
 	}
 
 	public int insertFunctionTest(Integer functionTestKeyNum, String functionTestCustomer, String functionTestTitle,
-			String functionTestDate, Integer functionTestSettingSubCategoryKeyNum, String functionTestSubCategoryState, String functionTestSubCategoryFailReason, String functionTestType, String functionTestRegistrant,
+			String functionTestDate, Integer functionTestSettingSubCategoryKeyNum, String functionTestSubCategoryState, String functionTestSubCategoryFailReason, String functionTestResult, String functionTestType, String functionTestRegistrant,
 			String functionTestRegistrationDate, String functionTestModifier, String functionTestModifiedDate) {
 
 		FunctionTest functionTest = new FunctionTest();
@@ -41,6 +41,7 @@ public class FunctionTestDao {
 		functionTest.setFunctionTestRegistrationDate(functionTestRegistrationDate);
 		functionTest.setFunctionTestModifier(functionTestModifier);
 		functionTest.setFunctionTestModifiedDate(functionTestModifiedDate);
+		functionTest.setFunctionTestResult(functionTestResult);
 		
 		return sqlSession.insert("functionTest.insertFunctionTest", functionTest);
 	}
@@ -63,5 +64,17 @@ public class FunctionTestDao {
 
 	public FunctionTest getFunctionTestPDFTitle(FunctionTest functionTest) {
 		return sqlSession.selectOne("functionTest.getFunctionTestPDFTitle",functionTest);
+	}
+
+	public int resultSave(FunctionTest functionTest) {
+		return sqlSession.update("functionTest.resultSave",functionTest);
+	}
+
+	public FunctionTest getFunctionTestDelicacy(FunctionTest functionTest) {
+		return sqlSession.selectOne("functionTest.getFunctionTestDelicacy",functionTest);
+	}
+
+	public List<String> getFunctionTestResult(Integer functionTestKeyNum) {
+		return sqlSession.selectList("functionTest.getFunctionTestResult",functionTestKeyNum);
 	}
 }

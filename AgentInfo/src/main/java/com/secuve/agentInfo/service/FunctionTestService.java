@@ -51,18 +51,24 @@ public class FunctionTestService {
 		functionTest.setFunctionTestKeyNum(FunctionTestKeyNum(functionTest.getFunctionTestKeyNum()));
 		map.put("functionTestKeyNum", functionTest.getFunctionTestKeyNum());
 		
+		List<String> functionTestResultList = functionTestDao.getFunctionTestResult(functionTest.getFunctionTestKeyNum());
+		
 		functionTestDao.delFunctionTest(functionTest.getFunctionTestKeyNum());
 		
 		int sucess = 1;
 		functionTest = oneDate(functionTest);
 		for(int i=0; i < functionTest.getFunctionTestSubCategoryStateList().size(); i++) {
-			sucess *= functionTestDao.insertFunctionTest(functionTest.getFunctionTestKeyNum(), functionTest.getFunctionTestCustomer(), functionTest.getFunctionTestTitle(), functionTest.getFunctionTestDate(), functionTest.getFunctionTestSettingSubCategoryKeyNumList().get(i), functionTest.getFunctionTestSubCategoryStateList().get(i), functionTest.getFunctionTestSubCategoryFailReasonList().get(i), functionTest.getFunctionTestType(), functionTest.getFunctionTestRegistrant(), functionTest.getFunctionTestRegistrationDate(), functionTest.getFunctionTestModifier(), functionTest.getFunctionTestModifiedDate());
+			try {
+				functionTestResultList.get(i);
+			} catch (Exception e) {
+				functionTestResultList.add(null);
+			}
+			sucess *= functionTestDao.insertFunctionTest(functionTest.getFunctionTestKeyNum(), functionTest.getFunctionTestCustomer(), functionTest.getFunctionTestTitle(), functionTest.getFunctionTestDate(), functionTest.getFunctionTestSettingSubCategoryKeyNumList().get(i), functionTest.getFunctionTestSubCategoryStateList().get(i), functionTest.getFunctionTestSubCategoryFailReasonList().get(i), functionTestResultList.get(i), functionTest.getFunctionTestType(), functionTest.getFunctionTestRegistrant(), functionTest.getFunctionTestRegistrationDate(), functionTest.getFunctionTestModifier(), functionTest.getFunctionTestModifiedDate());
 		}
 		if (sucess <= 0) {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");
-			map.put("functionTestKeyNum", functionTest.getFunctionTestKeyNum());
 		}
 		return map;
 	}
@@ -115,12 +121,12 @@ public class FunctionTestService {
 	}
 
 	public Map updateFunctionTest(FunctionTest functionTest, Principal principal) {
-		Map map = new HashMap();
-		int count = functionTestDao.delFunctionTest(functionTest.getFunctionTestKeyNum());
-		if(count == 0 && functionTest.getFunctionTestKeyNum() != 0) {
-			map.put("result", "FALSE");
-			return map;
-		}
+//		Map map = new HashMap();
+//		int count = functionTestDao.delFunctionTest(functionTest.getFunctionTestKeyNum());
+//		if(count == 0 && functionTest.getFunctionTestKeyNum() != 0) {
+//			map.put("result", "FALSE");
+//			return map;
+//		}
 		return insertFunctionTest(functionTest, principal);
 	}
 
@@ -139,6 +145,18 @@ public class FunctionTestService {
 
 	public FunctionTest getFunctionTestPDFTitle(FunctionTest functionTest) {
 		return functionTestDao.getFunctionTestPDFTitle(functionTest);
+	}
+
+	public String resultSave(FunctionTest functionTest) {
+		int sucess = functionTestDao.resultSave(functionTest);
+		if(sucess > 0) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+
+	public FunctionTest getFunctionTestDelicacy(FunctionTest functionTest) {
+		return functionTestDao.getFunctionTestDelicacy(functionTest);
 	}
 
 }
