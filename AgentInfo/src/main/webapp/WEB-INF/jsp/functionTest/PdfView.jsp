@@ -71,12 +71,15 @@
 					   				<td class="alignCenter">소항목</td>
 					   				<td><input class="form-control" type="text" id="functionTestSettingSubCategoryName" name="functionTestSettingSubCategoryName" value="${list.functionTestSettingSubCategoryName}"></td>
 					   				<td class="alignCenter">테스트 결과</td>
-					   				<td><input class="form-control" type="text" id="functionTestSubCategoryState" name="functionTestSubCategoryState" value="${list.functionTestSubCategoryState}"></td>
+					   				<td>
+										<c:if test="${list.functionTestSubCategoryState eq 'success'}">
+											<input class="form-control" type="text" id="functionTestSubCategoryState" name="functionTestSubCategoryState" value="정상">
+										</c:if>
+										<c:if test="${list.functionTestSubCategoryState eq 'failure'}">
+											<input class="form-control" type="text" id="functionTestSubCategoryState" name="functionTestSubCategoryState" value="에러">
+										</c:if>
+									</td>
 					   			</tr>
-								<tr>
-									<td class="alignCenter">에러 & 개선 사유</td>
-					 				<td colspan='3'><input class="form-control" type="text" id="functionTestSubCategoryFailReason" name="functionTestSubCategoryFailReason" value="${list.functionTestSubCategoryFailReason}"></td>
-					 			</tr>
 					 			<tr>
 									<td class="alignCenter">사전 테스트 준비</td>
 					 				<td colspan='3'><input class="form-control" type="text" id="functionTestSettingDetailProcedure" name="functionTestSettingDetailProcedure" value="${list.functionTestSettingDetailProcedure}"></td>
@@ -84,14 +87,24 @@
 								 <tr>
 									<td class="alignCenter">테스트 절차</td>
 					 				<td colspan='3'>
-					 					<div class="obstacleText">${list.functionTestSettingDetailMethod}</div>
+					 					<div class="obstacleText1">${list.functionTestSettingDetailMethod}</div>
 									</td>
 					 			</tr>
 								<tr>
 									<td class="alignCenter">예상 테스트 결과</td>
 					 				<td colspan='3'>
-					 					<div class="obstacleText">${list.functionTestSettingDetailExpectation}</div>
+					 					<div class="obstacleText2">${list.functionTestSettingDetailExpectation}</div>
 					 				</td>
+					 			</tr>
+								<tr>
+									<td class="alignCenter">테스트 결과</td>
+					 				<td colspan='3'>
+					 					<div class="obstacleText3">${list.functionTestResult}</div>
+					 				</td>
+					 			</tr>
+								<tr>
+									<td class="alignCenter">비고</td>
+					 				<td colspan='3'><input class="form-control" type="text" id="functionTestSubCategoryFailReason" name="functionTestSubCategoryFailReason" value="${list.functionTestSubCategoryFailReason}"></td>
 					 			</tr>
 					 		</tbody>
 					 	</table>
@@ -104,13 +117,53 @@
 	</body>
 	<script>
 		$(document).ready(function() {
-			$("img").each(function() {
-      		  var img = $(this);
-      			if (img.height() >= 240) {
-      				// 이미지 높이가 500px 이상인 경우
-      				img.after("<div class='pageBreak'></div>");
-      			}
-      		});
+			// obstacleText 요소 선택
+			var $obstacleText1 = $('.obstacleText1');
+
+			// 원하는 높이 (예: 300px) 설정
+			var desiredHeight = 800;
+
+			// obstacleText 요소의 높이 가져오기
+			var obstacleTextHeight1 = $obstacleText1.height();
+
+			// 300px 위치에 pageBreak 요소를 삽입
+			if (obstacleTextHeight1 >= desiredHeight) {
+			  // <p> 태그 아래에 pageBreak 요소를 삽입
+			  var $paragraphs1 = $obstacleText1.find('p');
+			  $paragraphs1.first().before("<div class='pageBreak'></div>");
+			}
+
+			// ================
+
+			// obstacleText 요소 선택
+			var $obstacleText2 = $('.obstacleText2');
+
+			// obstacleText 요소의 높이 가져오기
+			var obstacleTextHeight2 = $obstacleText2.height();
+
+			// 300px 위치에 pageBreak 요소를 삽입
+			if (obstacleTextHeight2 >= desiredHeight) {
+			  // <p> 태그 아래에 pageBreak 요소를 삽입
+			  var $paragraphs2 = $obstacleText2.find('p');
+			  $paragraphs2.first().before("<div class='pageBreak'></div>");
+			}
+
+			// ================
+
+			// obstacleText 요소 선택
+			var $obstacleText3 = $('.obstacleText3');
+
+			// obstacleText 요소의 높이 가져오기
+			var obstacleTextHeight3 = $obstacleText3.height();
+
+			// 300px 위치에 pageBreak 요소를 삽입
+			if (obstacleTextHeight3 >= desiredHeight) {
+			  // <p> 태그 아래에 pageBreak 요소를 삽입
+			  var $paragraphs3 = $obstacleText3.find('p');
+			  $paragraphs3.first().before("<div class='pageBreak'></div>");
+			}
+
+
 		    var jsp = document.documentElement.innerHTML;
 			var functionTestCustomer = $('#functionTestCustomer').val();
 			var functionTestTitle = $('#functionTestTitle').val();
@@ -158,17 +211,6 @@
 		  border-left: none;
 		}
 		
-		.col-lg-4 {
-			float: left;
-			max-width: 29%;
-			height: 55px;
-			position: relative;
-			width: 100%;
-			min-height: 1px;
-			padding-right: 15px;
-			padding-left: 15px;
-		}
-		
 		.col-lg-3 {
 			float: left;
 			max-width: 29%;
@@ -196,7 +238,7 @@
 			border-top: 1px solid #0A8FFF;
 			padding: 10px;
 			/* display: inline-block; */
-			width: 100%;
+			width: 98%;
 			box-shadow: 5px 5px 5px darkgrey;
 		}
 		.alignCenter {
@@ -235,7 +277,7 @@
 			margin-block-end: 0px !important;
 			margin: 0px 0px 0px;
 		}
-		.obstacleText {
+		.obstacleText1, obstacleText2, obstacleText3 {
 			font-size: 11px;
 			background:white; 
 			outline: 1px solid lightgray; 

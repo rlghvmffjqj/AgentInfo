@@ -136,10 +136,6 @@ public class FunctionTestService {
 
 	public List<FunctionTestSetting> getFunctionTestSettingPDFList(FunctionTest functionTest) {
 		List<FunctionTestSetting> functionTestSettingList = functionTestSettingDao.getFunctionTestSettingPDFList(functionTest);
-		
-//		for(FunctionTest functionTest : functionTestList) {
-//			functionTestSettingList.add(functionTestSettingDao.getFunctionTestSettingOne(functionTest.getFunctionTestSettingSubCategoryKeyNum()));
-//		}
 		return functionTestSettingList;
 	}
 

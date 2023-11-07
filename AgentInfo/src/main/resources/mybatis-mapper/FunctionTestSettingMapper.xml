@@ -171,7 +171,7 @@
 	</select>
 	
 	<select id="getFunctionTestSettingPDFList" resultMap="functionTestSetting">
-		SELECT ftsf.functionTestSettingFormName, 	ftsc.functionTestSettingCategoryName, ftssc.functionTestSettingSubCategoryName, ft.functionTestSubCategoryState, ft.functionTestSubCategoryFailReason, ftsd.functionTestSettingDetailMethod, ftsd.functionTestSettingDetailProcedure, ftsd.functionTestSettingDetailExpectation
+		SELECT ftsf.functionTestSettingFormName, ftsc.functionTestSettingCategoryName, ftssc.functionTestSettingSubCategoryName, ft.functionTestSubCategoryState, ft.functionTestSubCategoryFailReason, ftsd.functionTestSettingDetailMethod, ftsd.functionTestSettingDetailProcedure, ftsd.functionTestSettingDetailExpectation, ft.functionTestResult
 		FROM functiontest ft 
 			INNER JOIN functiontestsettingsubcategory ftssc ON ft.functionTestSettingSubCategoryKeyNum = ftssc.functionTestSettingSubCategoryKeyNum
 			INNER JOIN functiontestsettingform ftsf ON ftssc.functionTestSettingFormKeyNum = ftsf.functionTestSettingFormKeyNum
@@ -179,6 +179,9 @@
 			LEFT JOIN functiontestsettingdetail ftsd ON ftssc.functionTestSettingSubCategoryKeyNum = ftsd.functionTestSettingSubCategoryKeyNum
 		WHERE ftsf.functionTestSettingDivision = #{functionTestSettingDivision}
 		AND ft.functionTestKeyNum = #{functionTestKeyNum}
+		<if test="functionTestPdfType == 'Error'">
+			AND ft.functionTestSubCategoryState = 'failure'
+		</if>
 		ORDER BY ftsf.functionTestSettingFormName DESC, ftssc.functionTestSettingSubCategorySort DESC;
 	</select>
 	

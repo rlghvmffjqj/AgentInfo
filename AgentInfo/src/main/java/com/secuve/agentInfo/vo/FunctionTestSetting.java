@@ -55,4 +55,5 @@ public class FunctionTestSetting {
 	
 	private String functionTestSubCategoryState;
 	private String functionTestSubCategoryFailReason;
+	private String functionTestResult;
 }

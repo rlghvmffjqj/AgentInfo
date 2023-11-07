@@ -203,6 +203,7 @@
 				    	</c:forEach>
 				    </ol>
 			    </div>
+				<div class='pageBreak'></div>
 			   
 			    <% int num = 1; %>
 			    <c:forEach var="list" items="${issue}">
@@ -278,13 +279,22 @@
 	</body>
 	<script>
 		$(function() {
-			$("img").each(function() {
-      		  var img = $(this);
-      			if (img.height() >= 350) {
-      				// 이미지 높이가 500px 이상인 경우
-      				img.before("<div class='pageBreak'></div>");
-      			}
-      		});
+			// obstacleText 요소 선택
+ 			var $obstacleText = $('.obstacleText');
+
+			// 원하는 높이 (예: 300px) 설정
+			var desiredHeight = 800;
+
+			// obstacleText 요소의 높이 가져오기
+			var obstacleTextHeight = $obstacleText.height();
+
+			// 300px 위치에 pageBreak 요소를 삽입
+			if (obstacleTextHeight >= desiredHeight) {
+			  // <p> 태그 아래에 pageBreak 요소를 삽입
+			  var $paragraphs = $obstacleText.find('p');
+			  $paragraphs.first().before("<div class='pageBreak'></div>");
+			}
+
 			var obj = $('textarea');
 			for(var i=0; i<obj.length; i++) {
 				obj[i].style.height = '1px';

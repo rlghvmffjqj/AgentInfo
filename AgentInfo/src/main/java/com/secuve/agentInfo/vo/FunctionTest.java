@@ -28,6 +28,7 @@ public class FunctionTest {
 	private String functionTestModifiedDate;
 	
 	private String functionTestSettingDivision;
+	private String functionTestPdfType;
 	
 	private List<Integer> functionTestSettingSubCategoryKeyNumList;
 	private List<String> functionTestSubCategoryStateList;
