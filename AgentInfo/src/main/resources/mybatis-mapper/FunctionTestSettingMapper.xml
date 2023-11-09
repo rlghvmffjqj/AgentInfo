@@ -182,6 +182,7 @@
 		<if test="functionTestPdfType == 'Error'">
 			AND ft.functionTestSubCategoryState = 'failure'
 		</if>
+		AND ftsf.functionTestSettingFormName = '홈'
 		ORDER BY ftsf.functionTestSettingFormName DESC, ftssc.functionTestSettingSubCategorySort DESC;
 	</select>
 	

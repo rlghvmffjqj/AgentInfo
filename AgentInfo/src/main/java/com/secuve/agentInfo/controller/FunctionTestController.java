@@ -20,6 +20,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
+import com.secuve.agentInfo.core.WordDownload;
 import com.secuve.agentInfo.service.FunctionTestService;
 import com.secuve.agentInfo.service.FunctionTestSettingService;
 import com.secuve.agentInfo.vo.FunctionTest;
@@ -30,6 +31,7 @@ public class FunctionTestController {
 	@Autowired FunctionTestService functionTestService;
 	@Autowired FunctionTestSettingService functionTestSettingService;
 	@Autowired PDFDownlod pdfDownlod;
+	@Autowired WordDownload wordDownload;
 	
 	@GetMapping(value = "/functionTest/list")
 	public String functionTestList(String functionTestType, Model model) {
@@ -150,15 +152,37 @@ public class FunctionTestController {
 		return "functionTest/PdfView";
 	}
 	
+	@RequestMapping(value = "/functionTest/wordView", method = RequestMethod.POST)
+	public String WordView(Model model, FunctionTest functionTest, FunctionTestSetting functionTestSetting) {
+		FunctionTest functionTestTitle = functionTestService.getFunctionTestPDFTitle(functionTest);
+		List<FunctionTestSetting> functionTestSettingList = functionTestService.getFunctionTestSettingPDFList(functionTest);
+		
+		model.addAttribute("functionTestTitle",functionTestTitle);
+		model.addAttribute("functionTestSettingList",functionTestSettingList);
+		return "functionTest/WordView";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/functionTest/pdf")
 	public String PDF(StringBuffer jsp, String functionTestCustomer, String functionTestTitle, String functionTestDate, Principal principal, Model model) {
 		String filePath = "C:\\AgentInfo\\functionTestDownload";
 		String fileName = functionTestCustomer + "_" + functionTestTitle + "_" + functionTestDate + ".pdf";
-
-		
 		try {
 			pdfDownlod.makepdf(jsp.toString(), filePath + "\\" + fileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "FALSE";
+		}
+		return "OK"; 
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/functionTest/word")
+	public String Word(StringBuffer jsp, Principal principal, Model model) {
+		String filePath = "C:\\AgentInfo\\functionTestDownload";
+		String fileName = "document.docx";
+		try {
+			wordDownload.makeWord(jsp.toString(), filePath + "\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "FALSE";

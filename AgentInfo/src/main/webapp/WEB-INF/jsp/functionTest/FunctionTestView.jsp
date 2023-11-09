@@ -604,6 +604,31 @@
 			}
 		});
 
+		$('#BtnWord').click(function() {
+			var btnType = $('#functionTestBtnType').val();	
+			var functionTestCustomer = $('#functionTestCustomer').val();
+			var functionTestTitle = $('#functionTestTitle').val();
+			var functionTestDate = $('#functionTestDate').val();
+			$('#functionTestPdfType').val('All');
+
+		    if(btnType == "insert") {
+		    	btnSave("pdf");
+		    } else {
+		    	btnUpdate("pdf");
+		    }
+
+			if(functionTestCustomer != "" && functionTestTitle != "" && functionTestDate !="") {
+				var frmData = document.form;
+				var url = "<c:url value='/functionTest/wordView'/>";
+				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+				frmData.action = url; 
+				frmData.method="post";
+				frmData.target="form";
+				frmData.submit();
+			}
+		});
+		
+
 		/* =========== PDF 로컬 PC 다운로드(자식창에서 호출) ========= */
 		function pdfDown(fileName) {
 			window.location ="<c:url value='/functionTest/fileDownload?fileName="+fileName+"'/>";
