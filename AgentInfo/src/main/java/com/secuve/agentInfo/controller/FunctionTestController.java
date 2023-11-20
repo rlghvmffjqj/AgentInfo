@@ -178,11 +178,14 @@ public class FunctionTestController {
 	
 	@ResponseBody
 	@PostMapping(value = "/functionTest/word")
-	public String Word(StringBuffer jsp, Principal principal, Model model) {
+	public String Word(FunctionTest functionTest, FunctionTestSetting functionTestSetting) {
 		String filePath = "C:\\AgentInfo\\functionTestDownload";
 		String fileName = "document.docx";
+		
+		FunctionTest functionTestTitle = functionTestService.getFunctionTestPDFTitle(functionTest);
+		List<FunctionTestSetting> functionTestSettingList = functionTestService.getFunctionTestSettingPDFList(functionTest);
 		try {
-			wordDownload.makeWord(jsp.toString(), filePath + "\\" + fileName);
+			wordDownload.makeWord(functionTestSettingList, filePath + "\\" + fileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "FALSE";

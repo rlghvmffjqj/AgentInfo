@@ -277,6 +277,11 @@ p {
     max-width: 400px;
 }
 
+.modal-packageAnalysis {
+	top: 5%;
+    max-width: 1200px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

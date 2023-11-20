@@ -164,6 +164,12 @@
 	        <version>3.17</version>
 	    </dependency>
 	    
+	    <dependency>
+		    <groupId>com.github.jtidy</groupId>
+		    <artifactId>jtidy-java6</artifactId>
+		    <version>1.0.4</version>
+		</dependency>
+	    
         <!-- 파일 업로드 기능 을 제공 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -292,6 +298,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+        
+        <dependency>
+		    <groupId>io.github.java-diff-utils</groupId>
+		    <artifactId>java-diff-utils</artifactId>
+		    <version>4.12</version>
+		</dependency>
 	</dependencies>
 	
 	<build>

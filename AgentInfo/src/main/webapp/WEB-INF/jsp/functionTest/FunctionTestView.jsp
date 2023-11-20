@@ -612,19 +612,42 @@
 			$('#functionTestPdfType').val('All');
 
 		    if(btnType == "insert") {
-		    	btnSave("pdf");
+		    	//btnSave("pdf");
 		    } else {
-		    	btnUpdate("pdf");
+		    	//btnUpdate("pdf");
 		    }
 
 			if(functionTestCustomer != "" && functionTestTitle != "" && functionTestDate !="") {
+				// var frmData = document.form;
+				// var url = "<c:url value='/functionTest/wordView'/>";
+				// window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+				// frmData.action = url; 
+				// frmData.method="post";
+				// frmData.target="form";
+				// frmData.submit();
 				var frmData = document.form;
-				var url = "<c:url value='/functionTest/wordView'/>";
-				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
-				frmData.action = url; 
-				frmData.method="post";
-				frmData.target="form";
-				frmData.submit();
+				var postData = $('#form').serializeArray();
+				$.ajax({
+					url: "<c:url value='/functionTest/word'/>",
+					type: "POST",
+					data: postData,
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK") {
+							var fileName = "document.docx";
+							pdfDown(fileName);
+							//window.close();
+						} else {
+							alert("PDF Download Error!\n관리자에게 문의 바랍니다.");
+							//window.close();
+						}
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				});
 			}
 		});
 		
