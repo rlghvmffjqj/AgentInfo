@@ -56,7 +56,7 @@
 													<div class="drop-area" id="drop-area1">
 														<span class="dropSpan">수정 전 패키지 파일 Drag & Drop</span>
 													</div>
-													<div class="drop-area" id="drop-area2">
+													<div class="drop-area" id="drop-area2" style="border-left: none;">
 														<span class="dropSpan">수정 후 패키지 파일 Drag & Drop</span>
 													</div>
 													<input type="file" id="file-input1" name="file1" style="display: none;">
@@ -66,6 +66,7 @@
 														<button class="btn btn-default btn-outline-info-add" type="button" id="sendButton">분석</button>
 													</div>
 												</div>
+												<span id="resultSpan" style="padding-left: 30px; font-weight: bold; font-size: 1.1rem; display: none;">패키지 분석 결과</span>
 												<div class="card-block" id="resultFile">
 													
 												</div>
@@ -152,17 +153,20 @@
         $(document).ready(function () {
             $('.drop-area').on('dragover', function (e) {
                 e.preventDefault();
-                $(this).css('border', '2px dashed #000');
+                $(this).css('border', '3px dashed #000');
             });
 
             $('.drop-area').on('dragleave', function (e) {
                 e.preventDefault();
-                $(this).css('border', '2px dashed #ccc');
+                $(this).css('border', '3px dashed #ccc');
+				$('#drop-area2').css('border-left', 'none');
+				
             });
 
             $('.drop-area').on('drop', function (e) {
                 e.preventDefault();
-                $(this).css('border', '2px dashed #ccc');
+                $(this).css('border', '3px dashed #ccc');
+				$('#drop-area2').css('border-left', 'none');
 
                 var files = e.originalEvent.dataTransfer.files;
                 var areaId = $(this).attr('id');
@@ -241,6 +245,7 @@
             	        	var item = data[i];
 							var listItem = "<div class='hover-div' onmouseover='changeBackgroundColor(this)' onmouseout='restoreBackgroundColor(this)' onclick='changFileRute(this)'><p>"+item+"</p></div>";
                     		$("#resultFile").append(listItem);	
+							$("#resultSpan").show();
             	    	}
 						$('.modal-backdrop').hide();
             	    },
@@ -294,7 +299,7 @@
 			height: 200px;
 			float: left;
 			text-align: center;
-			border: 2px dashed #ccc;
+			border: 3px dashed #ccc;
             padding-top: 5%;
             text-align: center;
             cursor: pointer;
