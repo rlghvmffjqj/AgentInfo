@@ -7,7 +7,7 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','requestsWrite');
+		    	$.cookie('name','packageAnalysisSimple');
 		    });
 	    </script>
 	</head>
@@ -54,10 +54,10 @@
 												<div class="card-block">
 													
 													<div class="drop-area" id="drop-area1">
-														<span class="dropSpan">패키지 수정 전 파일 Drag & Drop</span>
+														<span class="dropSpan">수정 전 패키지 파일 Drag & Drop</span>
 													</div>
 													<div class="drop-area" id="drop-area2">
-														<span class="dropSpan">패키지 수정 후 파일 Drag & Drop</span>
+														<span class="dropSpan">수정 후 패키지 파일 Drag & Drop</span>
 													</div>
 													<input type="file" id="file-input1" name="file1" style="display: none;">
 													<input type="file" id="file-input2" name="file2" style="display: none;">

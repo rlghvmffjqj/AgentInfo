@@ -74,8 +74,8 @@
 								<div style="margin-left: 1.1%;">
 									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnPdf">전체 PDF Download</button>
 									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnErrorPpt">에러 PDF Download</button>
-									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnWord">전체 Word Download</button>
-									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnErrorWord">에러 Word Download</button>
+									<!-- <button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnWord">전체 Word Download</button>
+									<button type="button" class="btn btn-outline-info-nomal myBtn fontFamilyRl" id="BtnErrorWord">에러 Word Download</button> -->
 								</div>
 				                <div class='main-body' id='main-TOSMS'>
 				                    <div class='page-wrapper'>

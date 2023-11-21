@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -80,14 +81,22 @@ public class PackageAnalysisController {
         Map<String, Long> fileSizes1 = getFileSizes(file1);
         Map<String, Long> fileSizes2 = getFileSizes(file2);
         
-        for (String fileName : fileSizes1.keySet()) {
-            if (fileSizes2.containsKey(fileName)) {
+        for (String fileName : fileSizes2.keySet()) {
+            if (fileSizes1.containsKey(fileName)) {
                 long size1 = fileSizes1.get(fileName);
                 long size2 = fileSizes2.get(fileName);
 
                 if (size1 != size2) {
                     differentFiles.add(fileName);
                 }
+            } else {
+            	differentFiles.add(fileName);
+            }
+        }
+        
+        for (String fileName : fileSizes1.keySet()) {
+            if (!fileSizes2.containsKey(fileName)) {
+            	differentFiles.add(fileName);
             }
         }
 
@@ -98,46 +107,69 @@ public class PackageAnalysisController {
         Map<String, Long> fileSizes = new HashMap<>();
 
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(warFile))) {
-
             ZipEntry entry;
+            byte[] buffer = new byte[1024];
+            
             while ((entry = zipInputStream.getNextEntry()) != null) {
                 if (!entry.isDirectory()) {
-                    fileSizes.put(entry.getName(), entry.getSize());
+                    if (entry.getSize() == -1) {
+                        // Size is unknown, decompress to calculate size
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        int len;
+                        while ((len = zipInputStream.read(buffer)) > 0) {
+                            baos.write(buffer, 0, len);
+                        }
+                        fileSizes.put(entry.getName(), (long) baos.size());
+                    } else {
+                        // Size is known, use it directly
+                        fileSizes.put(entry.getName(), entry.getSize());
+                    }
                 }
             }
         } catch (Exception e) {
-			System.out.println(e);
-		}
+            System.out.println(e);
+        }
 
         return fileSizes;
     }
     
     public void extractAndSaveFile(File  file, String tempDir) throws IOException {
     	try (ZipInputStream zipInputStream = new ZipInputStream(Files.newInputStream(file.toPath()))) {
-    		String route = tempDir+File.separator+file.getName()+"Folder";
-    		Path path = Paths.get(route);
-    		try {
+            String route = tempDir + File.separator + file.getName() + "Folder";
+            Path path = Paths.get(route);
+            try {
                 // Use Files.createDirectories to create the directory and its parent directories if they don't exist
                 Files.createDirectories(path);
             } catch (IOException e) {
-            	System.out.println(e);
+                System.out.println(e);
             }
+
             ZipEntry entry;
             while ((entry = zipInputStream.getNextEntry()) != null) {
                 String entryName = entry.getName();
-                File entryFile = new File(tempDir+File.separator+file.getName()+"Folder", entryName);
+                File entryFile = new File(tempDir + File.separator + file.getName() + "Folder", entryName);
+
                 if (entry.isDirectory()) {
                     entryFile.mkdirs();
                 } else {
+                    // Check if the parent directory exists before creating the file
+                    File parentDir = entryFile.getParentFile();
+                    if (!parentDir.exists()) {
+                        Files.createDirectories(parentDir.toPath());
+                    }
+
                     try (FileOutputStream fos = new FileOutputStream(entryFile)) {
                         StreamUtils.copy(zipInputStream, fos);
                     } catch (Exception e) {
-						System.out.println(e);
-					}
+                        System.out.println(e);
+                    }
                 }
+
                 zipInputStream.closeEntry();
             }
-        }
+        } catch (Exception e) {
+			System.out.println(e);
+		}
     }
     
     @PostMapping(value = "/packageAnalysis/changContentView")

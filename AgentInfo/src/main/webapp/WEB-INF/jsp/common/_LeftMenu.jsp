@@ -192,7 +192,13 @@
 			$('.customerConsolidation').addClass('active');
 		} else if($.cookie('name') == 'questionAnswer') {
 			$('.questionAnswer').addClass('active');
-		} else if($.cookie('name') == 'packageAnalysis') {
+		} else if($.cookie('name') == 'packageAnalysisSimple') {
+			$('.packageAnalysisSimple').addClass('active');
+			$('.packageAnalysis').addClass('pcoded-trigger');
+			$('.packageAnalysis').addClass('active');
+		} else if($.cookie('name') == 'packageAnalysisDetail') {
+			$('.packageAnalysisDetail').addClass('active');
+			$('.packageAnalysis').addClass('pcoded-trigger');
 			$('.packageAnalysis').addClass('active');
 		}
 	});
@@ -272,7 +278,7 @@
 								  <span class="pcoded-mtext">라이선스 발급 요청</span>
 								  <span class="pcoded-mcaret"></span>
 								</a>
-						 </li>
+						 	</li>
 					  	</ul>
 				    </li>
 			    </ul>
@@ -387,12 +393,28 @@
 			<div class="pcoded-navigation-label" data-i18n="nav.category.forms">sub Main</div>
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 				<ul class="pcoded-item pcoded-left-item">
-				    <li class="packageAnalysis">
-				        <a href="<c:url value='/packageAnalysis/upload'/>" class="waves-effect waves-dark">
+					<li class="packageAnalysis pcoded-hasmenu">
+						<a href="#!" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 분석</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
+				        <ul class="pcoded-submenu" style="display: block;">
+				         	<li class="packageAnalysisSimple">
+								<a href="<c:url value='/packageAnalysis/upload'/>" class="waves-effect waves-dark">
+				        		    <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+				        		    <span class="pcoded-mtext" data-i18n="nav.form-components.main">간편 패키지 분석</span>
+				        		    <span class="pcoded-mcaret"></span>
+				        		</a>
+					     	</li>
+						    <li class="packageAnalysisDetail">
+								<a href="<c:url value='/packageAnalysis/upload'/>" class="waves-effect waves-dark">
+				        		    <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
+				        		    <span class="pcoded-mtext" data-i18n="nav.form-components.main">정밀 패키지 분석</span>
+				        		    <span class="pcoded-mcaret"></span>
+				        		</a>
+						    </li>
+					  	</ul>
 				    </li>
 				</ul>
 		    	<ul class="pcoded-item pcoded-left-item">
