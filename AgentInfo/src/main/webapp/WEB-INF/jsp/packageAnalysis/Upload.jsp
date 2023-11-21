@@ -7,7 +7,7 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','packageAnalysisSimple');
+		    	$.cookie('name','packageAnalysis');
 		    });
 	    </script>
 	</head>
@@ -49,7 +49,7 @@
 											<div class="card">
 												<div class="card-header">
 													<h4>War 파일 업로드</h4>
-													<h5 class="colorRed">서로 다른 War파일 업로드 하여 크기가 다른 파일을 조회 합니다.</h5>
+													<h5 class="colorRed">서로 다른 War파일 업로드 하여 해시 값이 다른 파일을 조회 합니다.</h5>
 												</div>
 												<div class="card-block">
 													

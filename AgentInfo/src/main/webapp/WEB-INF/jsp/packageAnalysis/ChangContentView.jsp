@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <div class="modal-body" style="width: 100%; height: 750px; overflow: scroll;">
+	<div style="float: left; font-weight: bold; color: #012181;">${fileRute}</div>
 	<div class="checkSelect">
 		<input class="cssCheck" type="checkbox" id="ChkTotal">
     	<label for="ChkTotal"></label><span class="margin17">ALL</span>
@@ -16,7 +17,7 @@
     	<label for="ChkInsert"></label><span class="margin17">INSERT</span>
 	</div>
 	<c:forEach var="diffRow" items="${diffRows}">
-		<c:if test="${diffRow.oldLine ne '' && diffRow.newLine ne ''}">
+		<c:if test="${not empty diffRow.oldLine or not empty diffRow.newLine}">
 			<div class="checkDiv ${diffRow.tag == 'CHANGE' ? 'changeDiv' : (diffRow.tag == 'DELETE' ? 'deleteDiv' : (diffRow.tag == 'EQUAL' ? 'equalDiv' : (diffRow.tag == 'INSERT' ? 'insertDiv' : '')))}">
         		<span class="changeType">
 					<c:if test="${diffRow.tag eq 'INSERT'}">INSERT</c:if>

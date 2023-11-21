@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,16 +80,17 @@ public class PackageAnalysisController {
     private List<String> compareFileSizes(File file1, File file2) throws IOException {
         List<String> differentFiles = new ArrayList<>();
 
-        Map<String, Long> fileSizes1 = getFileSizes(file1);
-        Map<String, Long> fileSizes2 = getFileSizes(file2);
+        Map<String, String> fileSizes1 = getFileSizes(file1);
+        Map<String, String> fileSizes2 = getFileSizes(file2);
         
         for (String fileName : fileSizes2.keySet()) {
             if (fileSizes1.containsKey(fileName)) {
-                long size1 = fileSizes1.get(fileName);
-                long size2 = fileSizes2.get(fileName);
+                String size1 = fileSizes1.get(fileName);
+                String size2 = fileSizes2.get(fileName);
 
-                if (size1 != size2) {
-                    differentFiles.add(fileName);
+                if (!size1.equals(size2)) {
+                	if(!fileName.contains("$"))
+                		differentFiles.add(fileName);
                 }
             } else {
             	differentFiles.add(fileName);
@@ -103,34 +106,54 @@ public class PackageAnalysisController {
         return differentFiles;
     }
 
-    private Map<String, Long> getFileSizes(File warFile) throws IOException {
-        Map<String, Long> fileSizes = new HashMap<>();
+    private static final int BUFFER_SIZE = 1024;
+    private Map<String, String> getFileSizes(File warFile) throws IOException {
+    	Map<String, String> fileHashes = new HashMap<String, String>();
+    	try {
+            fileHashes = getFileHashes(warFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileHashes;
+    }
+    
+    public static Map<String, String> getFileHashes(File warFile) throws IOException {
+        Map<String, String> fileHashes = new HashMap<>();
 
         try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(warFile))) {
             ZipEntry entry;
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[BUFFER_SIZE];
             
             while ((entry = zipInputStream.getNextEntry()) != null) {
                 if (!entry.isDirectory()) {
-                    if (entry.getSize() == -1) {
-                        // Size is unknown, decompress to calculate size
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        int len;
-                        while ((len = zipInputStream.read(buffer)) > 0) {
-                            baos.write(buffer, 0, len);
-                        }
-                        fileSizes.put(entry.getName(), (long) baos.size());
-                    } else {
-                        // Size is known, use it directly
-                        fileSizes.put(entry.getName(), entry.getSize());
-                    }
+                    // 각 파일의 해시 값을 계산합니다.
+                    String hash = calculateFileHash(zipInputStream, buffer);
+                    fileHashes.put(entry.getName(), hash);
                 }
             }
         } catch (Exception e) {
             System.out.println(e);
         }
 
-        return fileSizes;
+        return fileHashes;
+    }
+    
+    private static String calculateFileHash(InputStream inputStream, byte[] buffer) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        int len;
+        
+        while ((len = inputStream.read(buffer)) > 0) {
+            digest.update(buffer, 0, len);
+        }
+
+        // 바이트 배열을 16진수 문자열로 변환합니다.
+        StringBuilder hashStringBuilder = new StringBuilder();
+        for (byte b : digest.digest()) {
+            hashStringBuilder.append(String.format("%02x", b));
+        }
+
+        return hashStringBuilder.toString();
     }
     
     public void extractAndSaveFile(File  file, String tempDir) throws IOException {
@@ -173,13 +196,24 @@ public class PackageAnalysisController {
     }
     
     @PostMapping(value = "/packageAnalysis/changContentView")
-	public String ChangContentView(Model model, String file1, String file2, String fileRute) {
-    	String fileFullRute1 = "C:\\AgentInfo\\packageAnalysis\\before\\"+file1+"Folder\\"+fileRute;
-    	String fileFullRute2 = "C:\\AgentInfo\\packageAnalysis\\after\\"+file2+"Folder\\"+fileRute;
-    	
-    	try {
-            List<String> lines1 = Files.readAllLines(new File(fileFullRute1).toPath());
-            List<String> lines2 = Files.readAllLines(new File(fileFullRute2).toPath());
+    public String ChangContentView(Model model, String file1, String file2, String fileRute) {
+        String fileFullRute1 = "C:\\AgentInfo\\packageAnalysis\\before\\" + file1 + "Folder\\" + fileRute;
+        String fileFullRute2 = "C:\\AgentInfo\\packageAnalysis\\after\\" + file2 + "Folder\\" + fileRute;
+
+        List<String> lines1 = new ArrayList<String>();
+        List<String> lines2 = new ArrayList<String>();
+
+        try {
+            try {
+                lines1 = Files.readAllLines(new File(fileFullRute1).toPath());
+            } catch (Exception e) {
+                lines1.add("");
+            }
+            try {
+                lines2 = Files.readAllLines(new File(fileFullRute2).toPath());
+            } catch (Exception e) {
+                lines2.add("");
+            }
 
             DiffRowGenerator generator = DiffRowGenerator.create()
                     .showInlineDiffs(true)
@@ -189,13 +223,28 @@ public class PackageAnalysisController {
 
             Patch<String> patch = DiffUtils.diff(lines1, lines2);
             List<DiffRow> diffRows = generator.generateDiffRows(lines1, lines2);
-            model.addAttribute("diffRows", diffRows);
 
-            // 이제 diffRows를 JSP에 전달하고, JSP에서 변경된 부분을 표시
-        } catch (IOException e) {
+            // 파일이 누락된 경우 추가 또는 삭제된 라인을 나타내는 정보 추가
+            List<DiffRow> modifiedDiffRows = new ArrayList<>();
+            for (DiffRow row : diffRows) {
+                if (row.getTag() == DiffRow.Tag.DELETE) {
+                    modifiedDiffRows.add(new DiffRow(DiffRow.Tag.DELETE, row.getOldLine(), ""));
+                } else if (row.getTag() == DiffRow.Tag.INSERT) {
+                    modifiedDiffRows.add(new DiffRow(DiffRow.Tag.INSERT, "", row.getNewLine()));
+                } else {
+                    modifiedDiffRows.add(row);
+                }
+            }
+
+            model.addAttribute("diffRows", modifiedDiffRows);
+            model.addAttribute("fileRute",fileRute);
+
+            // 이제 modifiedDiffRows를 JSP에 전달하고, JSP에서 변경된 부분을 표시
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    	return "/packageAnalysis/ChangContentView";
+        return "/packageAnalysis/ChangContentView";
     }
+
     
 }
