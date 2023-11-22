@@ -251,6 +251,11 @@
 		    <version>1.14.3</version> <!-- 현재 버전 확인 필요 -->
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.benf</groupId>
+		    <artifactId>cfr</artifactId>
+		    <version>0.151</version> <!-- Replace with the latest version -->
+		</dependency>
 		
 		            
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/html2pdf -->

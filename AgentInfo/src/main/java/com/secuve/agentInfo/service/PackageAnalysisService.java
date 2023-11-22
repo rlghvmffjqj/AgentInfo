@@ -10,12 +10,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.benf.cfr.reader.api.CfrDriver;
+import org.benf.cfr.reader.api.OutputSinkFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
@@ -48,16 +51,23 @@ public class PackageAnalysisService {
                 String size2 = fileSizes2.get(fileName);
 
                 if (!size1.equals(size2)) {
-                	if(!fileName.contains("$"))
+                	if(!fileName.contains("$")) {
+                		if(fileName.contains(".class"))
+                			fileName = fileName.replace(".class", ".java");
                 		differentFiles.add(fileName);
+                	}
                 }
             } else {
+            	if(fileName.contains(".class"))
+        			fileName = fileName.replace(".class", ".java");
             	differentFiles.add(fileName);
             }
         }
         
         for (String fileName : fileSizes1.keySet()) {
             if (!fileSizes2.containsKey(fileName)) {
+            	if(fileName.contains(".class"))
+        			fileName = fileName.replace(".class", ".java");
             	differentFiles.add(fileName);
             }
         }
@@ -130,7 +140,6 @@ public class PackageAnalysisService {
             while ((entry = zipInputStream.getNextEntry()) != null) {
                 String entryName = entry.getName();
                 File entryFile = new File(tempDir + File.separator + file.getName() + "Folder", entryName);
-
                 if (entry.isDirectory()) {
                     entryFile.mkdirs();
                 } else {
@@ -139,12 +148,18 @@ public class PackageAnalysisService {
                     if (!parentDir.exists()) {
                         Files.createDirectories(parentDir.toPath());
                     }
-
+                    
                     try (FileOutputStream fos = new FileOutputStream(entryFile)) {
-                        StreamUtils.copy(zipInputStream, fos);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
+	                    StreamUtils.copy(zipInputStream, fos);
+	                } catch (Exception e) {
+	                    System.out.println(e);
+	                }
+
+                    if (entryName.endsWith(".class")) {
+                        decompileAndSaveClassFile(entryFile, route);
+                    } 
+	                
+                    
                 }
 
                 zipInputStream.closeEntry();
@@ -153,5 +168,56 @@ public class PackageAnalysisService {
 			System.out.println(e);
 		}
     }
+    
+    private static void decompileAndSaveClassFile(File classFile, String route) throws IOException {
+        String outputPath = classFile.getPath().replace(".class", ".java");
+
+        // Use CFR to decompile the class file
+        CfrDriver cfr = new CfrDriver.Builder().withOutputSink(new FileOutputSinkFactory(new File(outputPath))).build();
+        List<String> arguments = new ArrayList<>();
+        arguments.add(classFile.getAbsolutePath());
+
+        try {
+            cfr.analyse(arguments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static class FileOutputSinkFactory implements OutputSinkFactory {
+        private final File outputFile;
+
+        public FileOutputSinkFactory(File outputFile) {
+            this.outputFile = outputFile;
+        }
+
+        @Override
+        public List<SinkClass> getSupportedSinks(SinkType sinkType, Collection<SinkClass> collection) {
+            return null;
+        }
+
+        @Override
+        public <T> Sink<T> getSink(SinkType sinkType, SinkClass sinkClass) {
+            return new FileSink<>(outputFile);
+        }
+
+        private static class FileSink<T> implements Sink<T> {
+            private final File outputFile;
+
+            public FileSink(File outputFile) {
+                this.outputFile = outputFile;
+            }
+
+            @Override
+            public void write(T t) {
+                try {
+                    Files.write(Paths.get(outputFile.toURI()), t.toString().getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
 }
