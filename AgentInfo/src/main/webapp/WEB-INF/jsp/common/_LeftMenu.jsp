@@ -226,7 +226,7 @@
 		    	    <li class="packages">
 		    	        <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
-		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 내용</span>
+		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 관리</span>
 		    	            <span class="pcoded-mcaret"></span>
 		    	        </a>
 		    	    </li>
@@ -266,7 +266,7 @@
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
-							<li class="licenseRequest">
+							<li class="licenseRequest menuSwitch" style="display: none;">
 								<a href="<c:url value='/license5/request'/>" class="waves-effect waves-dark">
 								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 								  <span class="pcoded-mtext">라이선스 발급 요청</span>
@@ -278,7 +278,7 @@
 			    </ul>
 		    </sec:authorize>
 			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','LICENSE','SALES')">
-				<ul class="pcoded-item pcoded-left-item">
+				<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 					<li class="customerConsolidation">
 						<a href="<c:url value='/customerConsolidation/list'/>" class="waves-effect waves-dark">
 							<span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
@@ -341,7 +341,7 @@
 		            </a>
 		        </li>
 		    </ul> --%>
-		    <ul class="pcoded-item pcoded-left-item customerInfoSwitch" style="display: none;">
+		    <ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 		        <li class="customerInfo">
 		            <a href="<c:url value='/customerInfo/search'/>" class="waves-effect waves-dark">
 		                <span class="pcoded-micon"><i class="ti-clipboard"></i><b>FC</b></span>
@@ -395,7 +395,8 @@
 				        </a>
 				    </li>
 				</ul>
-		    	<ul class="pcoded-item pcoded-left-item">
+				<!-- 테스트 케이스의 경우 폴더 이동 시 DB가 꼬이는 현상을 아직 수정하지 못함. -->
+		    	<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 				    <li class="testCase">
 				        <a href="<c:url value='/testCase/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-layout-media-overlay"></i><b>FC</b></span>
@@ -417,7 +418,7 @@
 					<li class="functionTest pcoded-hasmenu">
 						<a href="#!" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-check-box"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">기능 체크 리스트</span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">기능 테스트</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				        <ul class="pcoded-submenu" style="display: block;">
@@ -467,15 +468,6 @@
 				    </li>
 			    </ul> --%>
 		    </sec:authorize>
-			<ul class="pcoded-item pcoded-left-item">
-				<li class="questionAnswer">
-					<a href="<c:url value='/questionAnswer/list'/>" class="waves-effect waves-dark">
-						<span class="pcoded-micon"><i class="ti-help"></i><b>FC</b></span>
-						<span class="pcoded-mtext" data-i18n="nav.form-components.main">Q & A</span>
-						<span class="pcoded-mcaret"></span>
-					</a>
-				</li>
-			</ul>
 		    <sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">
@@ -564,6 +556,15 @@
 					</ul>
 				</li>
 			</ul>
+			<ul class="pcoded-item pcoded-left-item">
+				<li class="questionAnswer">
+					<a href="<c:url value='/questionAnswer/list'/>" class="waves-effect waves-dark">
+						<span class="pcoded-micon"><i class="ti-help"></i><b>FC</b></span>
+						<span class="pcoded-mtext" data-i18n="nav.form-components.main">Q & A</span>
+						<span class="pcoded-mcaret"></span>
+					</a>
+				</li>
+			</ul>
 			<sec:authorize access="hasAnyRole('ADMIN','LICENSE')">
 		 		<div class="pcoded-navigation-label" data-i18n="nav.category.forms">Log</div>
 			    <ul class="pcoded-item pcoded-left-item">
@@ -624,113 +625,20 @@
 					</li>
 			    </ul>
 				<sec:authorize access="hasAnyRole('ADMIN')">
-		        	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">user</div>
-		        	<ul class="pcoded-item pcoded-left-item">
-			    	    <li class="employee">
-			    	        <a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
-			    	            <span class="pcoded-micon"><i class="ti-user"></i><b>FC</b></span>
-			    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
-			    	            <span class="pcoded-mcaret"></span>
-			    	        </a>
-			    	    </li>
-		        	</ul>
-			    	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">trash</div>
 			    	<ul class="pcoded-item pcoded-left-item">
 			    	    <li class="trash">
 			    	        <a href="<c:url value='/trash/list'/>" class="waves-effect waves-dark">
 			    	            <span class="pcoded-micon"><i class="ti-trash"></i><b>FC</b></span>
-			    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">삭제 이력</span>
+			    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 삭제 이력</span>
 			    	            <span class="pcoded-mcaret"></span>
 			    	        </a>
-			    	    </li>
-			    	</ul>
-			    	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">category</div>
-			    	<ul class="pcoded-item pcoded-left-item">
-			    	    <li class="categroy pcoded-hasmenu">
-			    	        <a href="#!" class="waves-effect waves-dark">
-			    	            <span class="pcoded-micon"><i class="ti-view-grid"></i><b>FC</b></span>
-			    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">카테고리</span>
-			    	            <span class="pcoded-mcaret"></span>
-			    	        </a>
-			    	        <ul class="pcoded-submenu" style="display: block;">
-			    	        	<li class="customerName">
-			    	               <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
-					                <span class="pcoded-micon"><i class="ti-angle-right"></i><b>FC</b></span>
-					                <span class="pcoded-mtext">고객사명</span>
-					                <span class="pcoded-mcaret"></span>
-					              </a>
-					        	</li>
-					        	<li class="businessName">
-					        	      <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">사업명</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					        	</li>
-					        	<li class="managementServer">
-					        	      <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">패키지 종류</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					        	 </li>
-					        	 <li class="existingNew">
-					        	      <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">기존/신규</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-					    		<li class="generalCustom">
-					        	      <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">일반/커스텀</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-					    		<li class="osType">
-					        	      <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">OS 종류</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-					    		<li class="requestProductCategory">
-					        	      <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">요청 제품 구분</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-					    		<li class="deliveryMethod">
-					        	      <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">전달 방법</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-					    		<li class="agentVer">
-					        	      <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">Agent ver</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-					    		<li class="agentOS">
-					        	      <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
-					        	        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-					        	        <span class="pcoded-mtext">Agent OS</span>
-					        	        <span class="pcoded-mcaret"></span>
-					        	      </a>
-					    		</li>
-			    	    	</ul>
 			    	    </li>
 			    	</ul>
 				</sec:authorize>
 		    </sec:authorize>
 			<sec:authorize access="hasRole('ADMIN')">
-		    	<div class="pcoded-navigation-label" data-i18n="nav.category.forms">request</div>
-				<ul class="pcoded-item pcoded-left-item">
+		    	<div class="pcoded-navigation-label menuSwitch" style="display: none;" data-i18n="nav.category.forms">request</div>
+				<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 				    <li class="requests">
 				        <a href="<c:url value='/requests/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-view-list"></i><b>FC</b></span>
@@ -739,7 +647,7 @@
 				        </a>
 				    </li>
 				</ul>
-		    	<ul class="pcoded-item pcoded-left-item">
+		    	<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 		    	    <li class="requestsWrite">
 		    	        <a href="<c:url value='/requestsWrite/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-write"></i><b>FC</b></span>
@@ -751,6 +659,96 @@
 			</sec:authorize>
 		    <sec:authorize access="hasRole('ADMIN')">
 				<div class="pcoded-navigation-label" data-i18n="nav.category.forms">admin</div>
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="employee">
+						<a href="<c:url value='/employee/list'/>" class="waves-effect waves-dark">
+							<span class="pcoded-micon"><i class="ti-user"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">사용자 정보</span>
+							<span class="pcoded-mcaret"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="categroy pcoded-hasmenu">
+						<a href="#!" class="waves-effect waves-dark">
+							<span class="pcoded-micon"><i class="ti-view-grid"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">카테고리</span>
+							<span class="pcoded-mcaret"></span>
+						</a>
+						<ul class="pcoded-submenu" style="display: block;">
+							<li class="customerName">
+							   <a href="<c:url value='/category/customerName'/>" class="waves-effect waves-dark">
+								<span class="pcoded-micon"><i class="ti-angle-right"></i><b>FC</b></span>
+								<span class="pcoded-mtext">고객사명</span>
+								<span class="pcoded-mcaret"></span>
+							  </a>
+							</li>
+							<li class="businessName">
+								  <a href="<c:url value='/category/businessName'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">사업명</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="managementServer">
+								  <a href="<c:url value='/category/managementServer'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">패키지 종류</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							 </li>
+							 <li class="existingNew">
+								  <a href="<c:url value='/category/existingNew'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">기존/신규</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="generalCustom">
+								  <a href="<c:url value='/category/generalCustom'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">일반/커스텀</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="osType">
+								  <a href="<c:url value='/category/osType'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">OS 종류</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="requestProductCategory">
+								  <a href="<c:url value='/category/requestProductCategory'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">요청 제품 구분</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="deliveryMethod">
+								  <a href="<c:url value='/category/deliveryMethod'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">전달 방법</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="agentVer">
+								  <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">Agent ver</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+							<li class="agentOS">
+								  <a href="<c:url value='/category/agentOS'/>" class="waves-effect waves-dark">
+									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+									<span class="pcoded-mtext">Agent OS</span>
+									<span class="pcoded-mcaret"></span>
+								  </a>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			    <ul class="pcoded-item pcoded-left-item">
 			        <li class="loginSession">
 			            <a href="<c:url value='/loginSession/list'/>" class="waves-effect waves-dark">

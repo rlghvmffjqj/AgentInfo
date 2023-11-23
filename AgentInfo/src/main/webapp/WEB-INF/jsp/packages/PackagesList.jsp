@@ -86,8 +86,8 @@
 							    <div class="row align-items-center">
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
-							                <h5 class="m-b-10">패키지 배포 내용</h5>
-							                <p class="m-b-0">Package deployment content</p>
+							                <h5 class="m-b-10">패키지 배포 관리</h5>
+							                <p class="m-b-0">Package Deployment Management</p>
 							            </div>
 							        </div>
 							        <div class="col-md-4">
@@ -95,7 +95,7 @@
 							                <li class="breadcrumb-item">
 							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 							                </li>
-							                <li class="breadcrumb-item"><a href="#!">패키지 배포 내용</a>
+							                <li class="breadcrumb-item"><a href="#!">패키지 배포 관리</a>
 							                </li>
 							            </ul>
 							        </div>

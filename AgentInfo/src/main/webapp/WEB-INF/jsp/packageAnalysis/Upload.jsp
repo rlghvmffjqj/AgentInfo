@@ -47,26 +47,41 @@
 									<div class="page-wrapper">
 										<div>
 											<div class="card">
-												<div class="card-header">
-													<h4>War 파일 업로드</h4>
-													<h5 class="colorRed">서로 다른 War파일 업로드 하여 해시 값이 다른 파일을 조회 합니다.</h5>
+												<div class="card-header" style="float: left;">
+													<div style="float: left;">
+														<h4>War 파일 업로드</h4>
+														<h5 class="colorRed">서로 다른 War파일 업로드 하여 해시 값이 다른 파일을 조회 합니다.</h5>
+													</div>
+													<div style="float: right;">
+														<select class="form-control selectpicker" id="packgeCount" name="packgeCount" data-size="5" data-actions-box="true">
+															<option value="2" selected>2개</option>
+															<option value="3">3개</option>
+															<option value="4">4개</option>
+														</select>
+													</div>
 												</div>
 												<div class="card-block">
-													
-													<div class="drop-area" id="drop-area1">
-														<span class="dropSpan">수정 전 패키지 파일 Drag & Drop</span>
-													</div>
-													<div class="drop-area" id="drop-area2" style="border-left: none;">
-														<span class="dropSpan">수정 후 패키지 파일 Drag & Drop</span>
+														<div style="width: 100%; height: 200px;">
+														<div class="drop-area" id="drop-area1" style="width: 100%;">
+															<span class="dropSpan">기존 패키지 파일 Drag & Drop</span>
+														</div>
+														<div class="drop-area updatePackageFile" id="drop-area2" style="width: 100%;">
+															<span class="dropSpan">수정 패키지 파일1 Drag & Drop</span>
+														</div>
+														<div class="drop-area updatePackageFile" id="drop-area3" style="display: none; border-left: none;">
+															<span class="dropSpan">수정 패키지 파일2 Drag & Drop</span>
+														</div>
+														<div class="drop-area updatePackageFile" id="drop-area4" style="display: none; border-left: none;">
+															<span class="dropSpan">수정 패키지 파일3 Drag & Drop</span>
+														</div>
 													</div>
 													<input type="file" id="file-input1" name="file1" style="display: none;">
 													<input type="file" id="file-input2" name="file2" style="display: none;">
-													
-													<div class="requestsBtn">
-														<button class="btn btn-default btn-outline-info-add" type="button" id="sendButton">분석</button>
-													</div>
+													<input type="file" id="file-input3" name="file3" style="display: none;">
+													<input type="file" id="file-input4" name="file4" style="display: none;">
+													<button class="btn btn-default btn-outline-info-add" type="button" id="sendButton" style="width: 100%;">분석</button>
 												</div>
-												<span id="resultSpan" style="padding-left: 30px; font-weight: bold; font-size: 1.1rem; display: none;">패키지 분석 결과</span>
+												<span id="resultSpan" style="padding-left: 30px; font-weight: bold; font-size: 1.1rem; border-top: 1px solid #ababab; padding-top: 20px; display: none;">패키지 분석 결과</span>
 												<div class="card-block" id="resultFile">
 													
 												</div>
@@ -131,6 +146,16 @@
 	        	dataTransfer.items.add(file);
         		$('#file-input2')[0].files = dataTransfer.files;
 			}
+			if(area == "drop-area3") {
+				var dataTransfer = new DataTransfer();
+	        	dataTransfer.items.add(file);
+        		$('#file-input3')[0].files = dataTransfer.files;
+			}
+			if(area == "drop-area4") {
+				var dataTransfer = new DataTransfer();
+	        	dataTransfer.items.add(file);
+        		$('#file-input4')[0].files = dataTransfer.files;
+			}
 
             // 해당 영역에 따라 파일 정보를 저장
             if (area === 1) {
@@ -159,14 +184,16 @@
             $('.drop-area').on('dragleave', function (e) {
                 e.preventDefault();
                 $(this).css('border', '3px dashed #ccc');
-				$('#drop-area2').css('border-left', 'none');
+				$('#drop-area3').css('border-left', 'none');
+				$('#drop-area4').css('border-left', 'none');
 				
             });
 
             $('.drop-area').on('drop', function (e) {
                 e.preventDefault();
                 $(this).css('border', '3px dashed #ccc');
-				$('#drop-area2').css('border-left', 'none');
+				$('#drop-area3').css('border-left', 'none');
+				$('#drop-area4').css('border-left', 'none');
 
                 var files = e.originalEvent.dataTransfer.files;
                 var areaId = $(this).attr('id');
@@ -174,6 +201,7 @@
             });
 
             $('#sendButton').on('click', function () {
+				var packgeCount = $('#packgeCount :selected').val();
                 var formData = new FormData();
 
 				 /* progressbar 정보 */
@@ -183,12 +211,14 @@
 
 				var files1 = $('#file-input1')[0].files;
 				var files2 = $('#file-input2')[0].files;
+				var files3 = $('#file-input3')[0].files;
+				var files4 = $('#file-input4')[0].files;
 
 				if(files1.length == 0) {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '패키지 수정 전 파일 업로드 해주세요.',
+						text: '기존 패키지 파일 업로드 해주세요.',
 					});
 					return false;
 				}
@@ -197,13 +227,37 @@
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '패키지 수정 후 파일 업로드 해주세요.',
+						text: '수정 패키지 파일1 업로드 해주세요.',
 					});
 					return false;
 				}
 
+				if(packgeCount >= 3) {
+					if(files3.length == 0) {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '수정 패키지 파일2 업로드 해주세요.',
+						});
+						return false;
+					}
+				}
+
+				if(packgeCount == 4) {
+					if(files4.length == 0) {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '수정 패키지 파일3 업로드 해주세요.',
+						});
+						return false;
+					}
+				}
+
 				formData.append('file1', files1[0]);
 				formData.append('file2', files2[0]);
+				formData.append('file3', files3[0]);
+				formData.append('file4', files4[0]);
 
             	$.ajax({
 					xhr: function() {
@@ -265,14 +319,24 @@
 		}
 
 		function changFileRute(element) {
+			var packgeCount = $('#packgeCount :selected').val();
 			var fileRute = element.innerText;
 			var formData = new FormData();
 
 			var files1 = $('#file-input1')[0].files;
 			var files2 = $('#file-input2')[0].files;
+			var files3 = $('#file-input3')[0].files;
+			var files4 = $('#file-input4')[0].files;
 
 			formData.append('file1', files1[0].name);
 			formData.append('file2', files2[0].name);
+
+			if(packgeCount >= 3) {
+				formData.append('file3', files3[0].name);
+			}
+			if(packgeCount == 4) {
+				formData.append('file4', files4[0].name);
+			}
 			formData.append('fileRute',fileRute);
 
 			$.ajax({
@@ -292,6 +356,23 @@
 			    }
 			});	
 		}
+
+		$("#packgeCount").change(function() {
+			var count = $(this).val();
+			if(count == 2) {
+				$(".updatePackageFile").css("width","100%");
+				$("#drop-area3").hide();
+				$("#drop-area4").hide();
+			} else if(count == 3) {
+				$(".updatePackageFile").css("width","50%");
+				$("#drop-area3").show();
+				$("#drop-area4").hide();
+			} else if(count == 4) {
+				$(".updatePackageFile").css("width","33.33%");
+				$("#drop-area3").show();
+				$("#drop-area4").show();
+			}
+		});
     </script>
 	<style>
 		.drop-area {
@@ -306,12 +387,7 @@
             margin-bottom: 20px;
 		}
 
-		.differentLi {
-			padding: 13px;
-    		font-size: 15px;
-		}
-
-		.bar {
+		.bar {	
 			background: #5858fd;
 		}
 

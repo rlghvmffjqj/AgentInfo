@@ -146,11 +146,11 @@ function profileView() {
 function toggle(element) {
     if(element.checked) {
     	$('.customerLog').show();
-    	$('.customerInfoSwitch').show();
+    	$('.menuSwitch').show();
     	$.cookie('customerSwitch','on',{path:'/'});
     } else {
     	$('.customerLog').hide();
-    	$('.customerInfoSwitch').hide();
+    	$('.menuSwitch').hide();
     	$.cookie('customerSwitch','off',{path:'/'});
     }
     /* location.reload(); */
@@ -175,10 +175,10 @@ $(function() {
 function customerSwitch(result) {
 	if(result) {
 		$('.customerLog').show();
-		$('.customerInfoSwitch').show();
+		$('.menuSwitch').show();
 	} else {
 		$('.customerLog').hide();
-		$('.customerInfoSwitch').hide();
+		$('.menuSwitch').hide();
 	}
 }
 

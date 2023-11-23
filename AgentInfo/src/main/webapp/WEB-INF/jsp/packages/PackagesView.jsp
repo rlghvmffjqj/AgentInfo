@@ -374,7 +374,7 @@
 	         </div>
 	         <div style="background: chocolate; height: 1px; margin: 5px;"></div>
 	         <div style="float: right;">
-	         	<input class="cssCheck" type="checkbox" id="chkEssential" checked>
+	         	<input class="cssCheck" type="checkbox" id="chkEssential">
 			 	<label for="chkEssential"></label><span class="margin17">필수</span>
 			 </div>
 	         <div class="pading5Width450">

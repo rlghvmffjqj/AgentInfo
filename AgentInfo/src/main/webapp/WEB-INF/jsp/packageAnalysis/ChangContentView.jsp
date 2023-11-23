@@ -17,18 +17,22 @@
     	<label for="ChkInsert"></label><span class="margin17">INSERT</span>
 	</div>
 	<c:forEach var="diffRow" items="${diffRows}">
-		<c:if test="${not empty diffRow.oldLine or not empty diffRow.newLine}">
-			<div class="checkDiv ${diffRow.tag == 'CHANGE' ? 'changeDiv' : (diffRow.tag == 'DELETE' ? 'deleteDiv' : (diffRow.tag == 'EQUAL' ? 'equalDiv' : (diffRow.tag == 'INSERT' ? 'insertDiv' : '')))}">
+		<c:if test="${not empty diffRow.oldLine1 or not empty diffRow.newLine1}">
+			<div class="checkDiv ${diffRow.tag1 == 'CHANGE' ? 'changeDiv' : (diffRow.tag1 == 'DELETE' ? 'deleteDiv' : (diffRow.tag1 == 'EQUAL' ? 'equalDiv' : (diffRow.tag1 == 'INSERT' ? 'insertDiv' : '')))}">
         		<span class="changeType">
-					<c:if test="${diffRow.tag eq 'INSERT'}">INSERT</c:if>
-					<c:if test="${diffRow.tag eq 'CHANGE'}">UPDATE</c:if>
-					<c:if test="${diffRow.tag eq 'DELETE'}">DELETE</c:if>
-					<c:if test="${diffRow.tag eq 'EQUAL'}">NORMAL</c:if>
+					<c:if test="${diffRow.tag1 eq 'INSERT'}">INSERT</c:if>
+					<c:if test="${diffRow.tag1 eq 'CHANGE'}">UPDATE</c:if>
+					<c:if test="${diffRow.tag1 eq 'DELETE'}">DELETE</c:if>
+					<c:if test="${diffRow.tag1 eq 'EQUAL'}">NORMAL</c:if>
 				</span>
 				<br>
-        		<span class="${diffRow.tag == 'CHANGE' ? 'change' : (diffRow.tag == 'DELETE' ? 'delete' : (diffRow.tag == 'EQUAL' ? 'equal' : (diffRow.tag == 'INSERT' ? 'insert' : '')))}">${diffRow.oldLine}</span>
+        		<label class="resultLabel">기존 패키지 &nbsp;&nbsp;: &nbsp;</label><span class="${diffRow.tag1 == 'CHANGE' ? 'change' : (diffRow.tag1 == 'DELETE' ? 'delete' : (diffRow.tag1 == 'EQUAL' ? 'equal' : (diffRow.tag1 == 'INSERT' ? 'insert' : '')))}">${diffRow.oldLine1}</span>
 				<br>
-        		<span class="${diffRow.tag == 'CHANGE' ? 'change' : (diffRow.tag == 'DELETE' ? 'delete' : (diffRow.tag == 'EQUAL' ? 'equal' : (diffRow.tag == 'INSERT' ? 'insert' : '')))}">${diffRow.newLine}</span>
+        		<label class="resultLabel">변경 패키지1 : &nbsp;</label><span class="${diffRow.tag1 == 'CHANGE' ? 'change' : (diffRow.tag1 == 'DELETE' ? 'delete' : (diffRow.tag1 == 'EQUAL' ? 'equal' : (diffRow.tag1 == 'INSERT' ? 'insert' : '')))}">${diffRow.newLine1}</span>
+				<br>
+				<label class="resultLabel">변경 패키지2 : &nbsp;</label><span class="${diffRow.tag2 == 'CHANGE' ? 'change' : (diffRow.tag2 == 'DELETE' ? 'delete' : (diffRow.tag2 == 'EQUAL' ? 'equal' : (diffRow.tag2 == 'INSERT' ? 'insert' : '')))}">${diffRow.newLine2}</span>
+				<br>
+				<label class="resultLabel">변경 패키지3 : &nbsp;</label><span class="${diffRow.tag3 == 'CHANGE' ? 'change' : (diffRow.tag3 == 'DELETE' ? 'delete' : (diffRow.tag3 == 'EQUAL' ? 'equal' : (diffRow.tag3 == 'INSERT' ? 'insert' : '')))}">${diffRow.newLine3}</span>
 				<br><br><br>
 			</div>
 		</c:if>
@@ -123,5 +127,11 @@
     	border-bottom: 1px dashed;
     	text-align: right;
     	margin-bottom: 10px;
+	}
+
+	.resultLabel {
+		margin-bottom: 0;
+		margin-top: 3px;
+		color: black;
 	}
 </style>
