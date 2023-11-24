@@ -331,17 +331,23 @@
 			formData.append('file1', files1[0].name);
 			formData.append('file2', files2[0].name);
 
+			console.log(formData);
+
 			if(packgeCount >= 3) {
 				formData.append('file3', files3[0].name);
+			} else {
+				formData.append('file3', "");
 			}
 			if(packgeCount == 4) {
 				formData.append('file4', files4[0].name);
+			} else {
+				formData.append('file4', "");
 			}
 			formData.append('fileRute',fileRute);
-
+			
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/packageAnalysis/changContentView'/>",
+			    url: "<c:url value='/packageAnalysis/packageAnalysisResult'/>",
 				data: formData,
 				async: false,
             	processData: false,
@@ -409,6 +415,10 @@
 		
 		.hover-div:hover {
 		    background-color: #b598d77a;
+		}
+
+		.btn-outline-info-add {
+			background: #bfc6ff4f;
 		}
 
 	</style>

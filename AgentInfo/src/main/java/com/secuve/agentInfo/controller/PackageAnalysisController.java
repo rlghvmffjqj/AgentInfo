@@ -2,11 +2,12 @@ package com.secuve.agentInfo.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +25,9 @@ import com.secuve.agentInfo.vo.DiffInfo;
 public class PackageAnalysisController {
 	@Autowired PackageAnalysisService packageAnalysisService;
 	
-	@GetMapping(value = "/packageAnalysis/upload")
-	public String upload(Model model) {
-		return "/packageAnalysis/Upload";
+	@GetMapping(value = "/packageAnalysis/packageAnalysisUpload")
+	public String PackageAnalysisUpload(Model model) {
+		return "/packageAnalysis/PackageAnalysisUpload";
 	}
 	
 	@ResponseBody
@@ -69,129 +70,45 @@ public class PackageAnalysisController {
         }
 	}
 	
-    @PostMapping(value = "/packageAnalysis/changContentView")
-    public String ChangContentView(@RequestParam(value = "file1", required = true) String file1,
-            @RequestParam(value = "file2", required = true) String file2,
-            @RequestParam(value = "file3", required = true) String file3,
-            @RequestParam(value = "file4", required = true) String file4, Model model, String fileRute) {
-        String fileFullRute1 = "C:\\AgentInfo\\packageAnalysis\\existing\\" + file1 + "Folder\\" + fileRute;
-        String fileFullRute2 = "C:\\AgentInfo\\packageAnalysis\\package1\\" + file2 + "Folder\\" + fileRute;
-        String fileFullRute3 = "C:\\AgentInfo\\packageAnalysis\\package2\\" + file3 + "Folder\\" + fileRute;
-        String fileFullRute4 = "C:\\AgentInfo\\packageAnalysis\\package3\\" + file4 + "Folder\\" + fileRute;
+	@PostMapping(value = "/packageAnalysis/packageAnalysisResult")
+	public String packageAnalysisResult(
+	        @RequestParam(value = "file1", required = true) String file1,
+	        @RequestParam(value = "file2", required = true) String file2,
+	        @RequestParam(value = "file3", required = true) String file3,
+	        @RequestParam(value = "file4", required = true) String file4,
+	        Model model,
+	        @RequestParam(value = "fileRute") String fileRute) {
 
-        List<String> lines1 = new ArrayList<String>();
-        List<String> lines2 = new ArrayList<String>();
-        List<String> lines3 = new ArrayList<String>();
-        List<String> lines4 = new ArrayList<String>();
+	    List<String> lines1 = packageAnalysisService.readLines(packageAnalysisService.buildFilePath("existing", file1, fileRute));
+	    List<String> lines2 = packageAnalysisService.readLines(packageAnalysisService.buildFilePath("package1", file2, fileRute));
+	    List<String> lines3 = packageAnalysisService.readLines(packageAnalysisService.buildFilePath("package2", file3, fileRute));
+	    List<String> lines4 = packageAnalysisService.readLines(packageAnalysisService.buildFilePath("package3", file4, fileRute));
 
-        try {
-            try {
-                lines1 = Files.readAllLines(new File(fileFullRute1).toPath());
-            } catch (Exception e) {
-                lines1.add("");
-            }
-            try {
-                lines2 = Files.readAllLines(new File(fileFullRute2).toPath());
-            } catch (Exception e) {
-                lines2.add("");
-            }
-            try {
-                lines3 = Files.readAllLines(new File(fileFullRute3).toPath());
-            } catch (Exception e) {
-                lines3.add("");
-            }
-            try {
-                lines4 = Files.readAllLines(new File(fileFullRute4).toPath());
-            } catch (Exception e) {
-                lines4.add("");
-            }
+	    DiffRowGenerator generator = DiffRowGenerator.create()
+	            .showInlineDiffs(true)
+	            .inlineDiffByWord(true)
+	            .ignoreWhiteSpaces(true)
+	            .build();
 
-            DiffRowGenerator generator = DiffRowGenerator.create()
-                    .showInlineDiffs(true)
-                    .inlineDiffByWord(true)
-                    .ignoreWhiteSpaces(true)
-                    .build();
+	    List<DiffRow> diffRows1 = generator.generateDiffRows(lines1, lines2);
+	    List<DiffRow> diffRows2 = generator.generateDiffRows(lines1, lines3);
+	    List<DiffRow> diffRows3 = generator.generateDiffRows(lines1, lines4);
 
-            //Patch<String> patch = DiffUtils.diff(lines1, lines2);
-            List<DiffRow> diffRows1 = generator.generateDiffRows(lines1, lines2);
-            List<DiffRow> diffRows2 = generator.generateDiffRows(lines1, lines3);
-            List<DiffRow> diffRows3 = generator.generateDiffRows(lines1, lines4);
+	    List<DiffInfo> modifiedDiffRows = packageAnalysisService.createModifiedDiffRows(diffRows1, diffRows2, diffRows3);
 
-            List<DiffInfo> modifiedDiffRows = new ArrayList<>();
+	    model.addAttribute("diffRows", modifiedDiffRows);
+	    model.addAttribute("fileRute", fileRute);
 
-            DiffInfo diffInfo;
-	         for (int i = 0; i < Math.max(diffRows1.size(), Math.max(diffRows2.size(), diffRows3.size())); i++) {
-	        	 diffInfo = new DiffInfo();
-	             if (i < diffRows1.size()) {
-	                 DiffRow row1 = diffRows1.get(i);
-	                 if (row1.getTag() == DiffRow.Tag.DELETE) {
-	                	 DiffRow diff = new DiffRow(DiffRow.Tag.DELETE, row1.getOldLine(), "");
-	                     diffInfo.setTag1(diff.getTag());
-	                     diffInfo.setOldLine1(diff.getOldLine());
-	                     diffInfo.setNewLine1(diff.getNewLine());
-	                 } else if (row1.getTag() == DiffRow.Tag.INSERT) {
-	                	 DiffRow diff = new DiffRow(DiffRow.Tag.INSERT, "", row1.getNewLine());
-	                	 diffInfo.setTag1(diff.getTag());
-	                     diffInfo.setOldLine1(diff.getOldLine());
-	                     diffInfo.setNewLine1(diff.getNewLine());
-	                 } else {
-	                	 DiffRow diff = row1;
-	                	 diffInfo.setTag1(diff.getTag());
-	                     diffInfo.setOldLine1(diff.getOldLine());
-	                     diffInfo.setNewLine1(diff.getNewLine());
-	                 }
-	             }
-	
-	             if (i < diffRows2.size()) {
-	                 DiffRow row2 = diffRows2.get(i);
-	                 if (row2.getTag() == DiffRow.Tag.DELETE) {
-	                	 DiffRow diff = new DiffRow(DiffRow.Tag.DELETE, row2.getOldLine(), "");
-	                	 diffInfo.setTag2(diff.getTag());
-	                	 diffInfo.setOldLine2(diff.getOldLine());
-	                     diffInfo.setNewLine2(diff.getNewLine());
-	                 } else if (row2.getTag() == DiffRow.Tag.INSERT) {
-	                	 DiffRow diff = new DiffRow(DiffRow.Tag.INSERT, "", row2.getNewLine());
-	                	 diffInfo.setTag2(diff.getTag());
-	                	 diffInfo.setOldLine2(diff.getOldLine());
-	                     diffInfo.setNewLine2(diff.getNewLine());
-	                 } else {
-	                	 DiffRow diff = row2;
-	                	 diffInfo.setTag2(diff.getTag());
-	                	 diffInfo.setOldLine2(diff.getOldLine());
-	                     diffInfo.setNewLine2(diff.getNewLine());
-	                 }
-	             }
-	
-	             if (i < diffRows3.size()) {
-	                 DiffRow row3 = diffRows3.get(i);
-	                 if (row3.getTag() == DiffRow.Tag.DELETE) {
-	                	 DiffRow diff = new DiffRow(DiffRow.Tag.DELETE, row3.getOldLine(), "");
-	                	 diffInfo.setTag3(diff.getTag());
-	                	 diffInfo.setOldLine3(diff.getOldLine());
-	                     diffInfo.setNewLine3(diff.getNewLine());
-	                 } else if (row3.getTag() == DiffRow.Tag.INSERT) {
-	                	 DiffRow diff = new DiffRow(DiffRow.Tag.INSERT, "", row3.getNewLine());
-	                	 diffInfo.setTag3(diff.getTag());
-	                	 diffInfo.setOldLine3(diff.getOldLine());
-	                     diffInfo.setNewLine3(diff.getNewLine());
-	                 } else {
-	                	 DiffRow diff = row3;
-	                	 diffInfo.setTag3(diff.getTag());
-	                	 diffInfo.setOldLine3(diff.getOldLine());
-	                     diffInfo.setNewLine3(diff.getNewLine());
-	                 }
-	             }
-	             modifiedDiffRows.add(diffInfo);
-	         }
-
-            model.addAttribute("diffRows", modifiedDiffRows);
-            model.addAttribute("fileRute",fileRute);
-
-            // 이제 modifiedDiffRows를 JSP에 전달하고, JSP에서 변경된 부분을 표시
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "/packageAnalysis/ChangContentView";
+	    return "/packageAnalysis/PackageAnalysisResult";
+	}
+    
+    @Async
+	@Scheduled(cron="0 0 1 * * ?")
+	public void cronScheduler() throws IOException {
+    	packageAnalysisService.fileFolderDelete("C:\\AgentInfo\\packageAnalysis\\existing","existing");
+    	packageAnalysisService.fileFolderDelete("C:\\AgentInfo\\packageAnalysis\\package1","package1");
+    	packageAnalysisService.fileFolderDelete("C:\\AgentInfo\\packageAnalysis\\package2","package2");
+    	packageAnalysisService.fileFolderDelete("C:\\AgentInfo\\packageAnalysis\\package3","package3");
     }
     
 }

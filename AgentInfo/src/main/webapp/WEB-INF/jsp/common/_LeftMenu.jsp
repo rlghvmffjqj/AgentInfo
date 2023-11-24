@@ -388,7 +388,7 @@
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 				<ul class="pcoded-item pcoded-left-item">
 				    <li class="packageAnalysis">
-				        <a href="<c:url value='/packageAnalysis/upload'/>" class="waves-effect waves-dark">
+				        <a href="<c:url value='/packageAnalysis/packageAnalysisUpload'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-files"></i><b>FC</b></span>
 				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 분석</span>
 				            <span class="pcoded-mcaret"></span>

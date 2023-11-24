@@ -5,12 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,19 +23,20 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import java.nio.file.FileVisitOption;
+import java.util.EnumSet;
+
 import org.benf.cfr.reader.api.CfrDriver;
 import org.benf.cfr.reader.api.OutputSinkFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.secuve.agentInfo.dao.PackageAnalysisDao;
+import com.github.difflib.text.DiffRow;
+import com.secuve.agentInfo.vo.DiffInfo;
 
 @Service
 public class PackageAnalysisService {
-	@Autowired
-	PackageAnalysisDao packageAnalysisDao;
 	
 	public File saveUploadedFile(MultipartFile file, String tempDir) throws IOException {
         String originalFileName = file.getOriginalFilename();
@@ -221,9 +226,79 @@ public class PackageAnalysisService {
         }
     }
     
+    public List<String> readLines(String filePath) {
+        try {
+            return Files.readAllLines(Paths.get(filePath));
+        } catch (Exception e) {
+            // 예외가 발생하면 로그에 남기고 빈 리스트 반환
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
+    public String buildFilePath(String subfolder, String fileName, String fileRute) {
+        String fileSeparator = File.separator;
+        String baseDirectory = "C:" + fileSeparator + "AgentInfo" + fileSeparator + "packageAnalysis";
+        return Paths.get(baseDirectory, subfolder, fileName + "Folder", fileRute).toString();
+    }
+
+    public List<DiffInfo> createModifiedDiffRows(List<DiffRow> diffRows1, List<DiffRow> diffRows2, List<DiffRow> diffRows3) {
+        List<DiffInfo> modifiedDiffRows = new ArrayList<>();
+        for (int i = 0; i < Math.max(diffRows1.size(), Math.max(diffRows2.size(), diffRows3.size())); i++) {
+            DiffInfo diffInfo = new DiffInfo();
+            createDiffInfo(diffRows1, i, diffInfo, 1);
+            createDiffInfo(diffRows2, i, diffInfo, 2);
+            createDiffInfo(diffRows3, i, diffInfo, 3);
+            modifiedDiffRows.add(diffInfo);
+        }
+        return modifiedDiffRows;
+    }
+
+    public void createDiffInfo(List<DiffRow> diffRows, int index, DiffInfo diffInfo, int tagIndex) {
+        if (index < diffRows.size()) {
+            DiffRow diffRow = diffRows.get(index);
+            diffInfo.setTag(tagIndex, diffRow.getTag());
+            diffInfo.setOldLine(tagIndex, diffRow.getOldLine());
+            diffInfo.setNewLine(tagIndex, diffRow.getNewLine());
+        }
+    }
+    
     public <T> List<T> removeDuplicates(List<T> list) {
         Set<T> set = new HashSet<>(list);
         return new ArrayList<>(set);
+    }
+
+    public void fileFolderDelete(String folderPath, String excludedFolderName) throws IOException {
+    	Path rootPath = Paths.get(folderPath);
+
+        if (Files.exists(rootPath)) {
+            Files.walkFileTree(rootPath, EnumSet.noneOf(FileVisitOption.class), Integer.MAX_VALUE, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    if (exc == null) {
+                        if (!dir.getFileName().toString().equals(excludedFolderName)) {
+                            Files.delete(dir);
+                        }
+                        return FileVisitResult.CONTINUE;
+                    } else {
+                        throw exc;
+                    }
+                }
+            });
+        } else {
+            System.out.println("Directory does not exist: " + folderPath);
+        }
     }
 
 }
