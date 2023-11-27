@@ -436,7 +436,6 @@ public class License5Service {
 			license.setNetworkCountView("무제한");
 		}
 		
-		
 		return license;
 	}
 	
