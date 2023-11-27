@@ -13,7 +13,7 @@
 				<% int num = 1; %>
 				<c:forEach var="favoritePage" items="${favoritePageList}">
 					<a href="${favoritePage.favoritePageUrl}" id="appr" style="text-decoration:none;color:#000000;">
-						<span class="cnt"><%= num %>. ${favoritePage.favoritePageName}</span>
+						<span class="cnt"><span style="color: #ff8f00;">★</span> ${favoritePage.favoritePageName}</span>
 					</a>
 					<br><br>
 					<% num++; %>
@@ -40,7 +40,6 @@
 <style>
 	.cnt {
 		font-size: 20px;
-		border-bottom: 1px solid;
 		color: #2671ff;
 	}
 </style>

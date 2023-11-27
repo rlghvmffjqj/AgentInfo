@@ -194,6 +194,8 @@
 			$('.questionAnswer').addClass('active');
 		} else if($.cookie('name') == 'packageAnalysis') {
 			$('.packageAnalysis').addClass('active');
+		} else if($.cookie('name') == 'serviceControl') {
+			$('.serviceControl').addClass('active');
 		}
 	});
 </script>
@@ -479,6 +481,15 @@
 				        <a href="<c:url value='/issue/issueList'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-receipt"></i><b>FC</b></span>
 				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">이슈 목록</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				    </li>
+				</ul>
+				<ul class="pcoded-item pcoded-left-item">
+				    <li class="serviceControl">
+				        <a href="<c:url value='/serviceControl/list'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-target"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">서비스 제어</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				    </li>
