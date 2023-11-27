@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,19 +19,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.Employee;
 
 @Controller
 public class EmployeeController {
 	@Autowired EmployeeService employeeService;
 	@Autowired Employee employee;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 사원 리스트 페이지 이동
 	 * @return
 	 */
 	@GetMapping(value = "/employee/list")
-	public String EmployeeList() {
+	public String EmployeeList(Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "사용자 정보");
 		return "employee/EmployeeList";
 	}
 	

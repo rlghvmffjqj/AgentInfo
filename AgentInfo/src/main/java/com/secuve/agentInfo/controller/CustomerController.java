@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.CustomerService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.Customer;
 
 @Controller
 public class CustomerController {
 	@Autowired CustomerService customerService;
 	@Autowired CategoryService categoryService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 고객사 리스트 페이지 이동
@@ -29,7 +33,9 @@ public class CustomerController {
 	 * @return
 	 */
 	@GetMapping(value = "/customer/list")
-	public String CustomerList(Model model) {
+	public String CustomerList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "릴리즈 노트 - 커스텀 패키지");
+		
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		

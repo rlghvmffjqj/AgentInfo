@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
 
@@ -35,9 +38,12 @@ import kr.dogfoot.hwplib.writer.HWPWriter;
 public class IssueController {
 	@Autowired IssueService issueService;
 	@Autowired PDFDownlod pdfDownlod;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/issue/issueList")
-	public String IssueList(Model model) {
+	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "이슈 목록");
+		
 		List<String> issueCustomer = issueService.getSelectInput("issueCustomer");
 		List<String> issueTitle = issueService.getSelectInput("issueTitle");
 		List<String> issueTosms = issueService.getSelectInput("issueTosms");

@@ -63,7 +63,14 @@
 	    left: 1360px;
 	    opacity: 1;
 	}
-	
+
+	.hashTag {
+	    display: inline-block;
+	    background-color: #f0f0f0;
+	    padding: 5px;
+	    border-radius: 5px;
+	}
+
 </style>
 
 <div class="modal-body" style="width: 100%; height: 800px;">
@@ -122,7 +129,7 @@
 		 		<label class="labelFontSize">Hash Tag</label>
 		 	</div>
 		 	<div>
-		 		<input class="form-control" type="text" style="width:85%; float: left;" id="individualNoteHashTagView" name="individualNoteHashTagView" placeholder='해시 태그 ※(#해시태그1 해시태그2)' value="${individualNote.individualNoteHashTag}">
+		 		<input class="form-control hashTag" type="text" style="width:85%; float: left;" id="individualNoteHashTagView" name="individualNoteHashTagView" placeholder='해시 태그 ※(#해시태그1 해시태그2)' value="${individualNote.individualNoteHashTag}">
 		 		<span style="float: right; font-size: 11px;" id="individualNoteModifiedDate">마지막 수정일 : ${individualNote.individualNoteModifiedDate}</span>
 		 	</div>
 		</div>
@@ -364,6 +371,10 @@
 	
 	/* =========== Ctrl + S 사용시 저장 ========= */
 	document.onkeydown = function(e) {
+		if(e.which == 27) {
+			Swal.close();
+    	}
+
 	    if (e.which == 17)  isCtrl = true;
 	    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
 	    	var postData = new FormData($('#modalForm')[0]);
@@ -386,6 +397,7 @@
 								title: '성공!',
 								text: '작업을 완료했습니다.',
 							});
+							
 							result.fileName.forEach(function(fileName) {
 								var rowItem = "<div class='attachmentsDiv'>";
 								rowItem += "<a href='#' class='attachmentsA' onclick='fileDownload("+'"'+fileName+'"'+")'>";

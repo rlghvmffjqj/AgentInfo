@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.License5Service;
 import com.secuve.agentInfo.vo.License5;
 
@@ -33,9 +36,12 @@ public class License5Controller {
 	@Autowired License5Service license5Service;
 	@Autowired CategoryService categoryService;
 	@Autowired EmployeeService employeeService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/license5/issuance")
-	public String LicenseList(Model model) {
+	public String LicenseList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "라이선스 관리 - 라이선스 5.0");
+
 		List<String> customerName = license5Service.getSelectInput("customerName");
 		List<String> businessName = license5Service.getSelectInput("businessName");
 		List<String> additionalInformation = license5Service.getSelectInput("additionalInformation");

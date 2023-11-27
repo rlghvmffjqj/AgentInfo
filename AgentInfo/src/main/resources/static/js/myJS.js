@@ -32,6 +32,7 @@ $.modal = function (modalContent, size) {
 	if(size=='explanation') html += ' modal-explanation';
 	if(size=='merge') html += ' modal-merge';
 	if(size=='packageAnalysis') html += ' modal-packageAnalysis';
+	if(size=='favorite') html += ' modal-favorite';
     
     
     if(size=='r') html += ' modal-r';

@@ -1,10 +1,13 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;
@@ -16,12 +19,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.LoginSession;
 
 @Controller
 public class LoginSessionController {
-	@Autowired
-	private SessionRegistry sessionRegistry;
+	@Autowired private SessionRegistry sessionRegistry;
+	@Autowired FavoritePageService favoritePageService;
+	
 	public void setSessionRegistry(SessionRegistry sessionRegistry) {
 		this.sessionRegistry = sessionRegistry;
 	}
@@ -35,7 +40,8 @@ public class LoginSessionController {
 	 * @return
 	 */
 	@GetMapping(value = "/loginSession/list")
-	public String getAdminSessionListGet() {
+	public String getAdminSessionListGet(Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "접속 세션 목록");
 		return "/loginSession/LoginSessionList";
 	}
 	

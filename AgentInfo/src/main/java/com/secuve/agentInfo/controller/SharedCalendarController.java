@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.SharedCalendarService;
 import com.secuve.agentInfo.vo.SharedCalendar;
 
@@ -22,9 +25,11 @@ import com.secuve.agentInfo.vo.SharedCalendar;
 public class SharedCalendarController {
 	@Autowired SharedCalendarService sharedCalendarService;
 	@Autowired EmployeeService employeeService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/sharedCalendar/list")
-	public String SharedCalendarList(Model model, Principal principal) {
+	public String SharedCalendarList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "일정 - 부서 일정");
 		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
 		ArrayList<SharedCalendar> sharedCalendarList = new ArrayList<>(sharedCalendarService.getSharedCalendarList(principal.getName(), departmentName));
 		ArrayList<SharedCalendar> sharedCalendar = new ArrayList<>(sharedCalendarService.getSharedCalendar(departmentName));

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.CategoryService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.SendPackageService;
 import com.secuve.agentInfo.vo.SendPackage;
 
@@ -30,6 +33,7 @@ import com.secuve.agentInfo.vo.SendPackage;
 public class SendPackageController {
 	@Autowired SendPackageService sendPackageService;
 	@Autowired CategoryService categoryService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 파일 저장 경로(application.properties 설정 정보)
@@ -38,7 +42,8 @@ public class SendPackageController {
 	String filePath;
 
 	@GetMapping(value = "/sendPackage/list")
-	public String SendPackageList(Model model) {
+	public String SendPackageList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "패키지 전송");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");

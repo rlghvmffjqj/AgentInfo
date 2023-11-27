@@ -3,6 +3,8 @@ package com.secuve.agentInfo.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,15 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.FunctionTestSettingService;
 import com.secuve.agentInfo.vo.FunctionTestSetting;
 
 @Controller
 public class FunctionTestSettingController {
 	@Autowired FunctionTestSettingService functionTestSettingService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/functionTestSetting/setting")
-	public String CustomerList(Model model) {
+	public String CustomerList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "설정 - 기능 테스트 설정");
+		
 		List<FunctionTestSetting> functionTestSettingFormTOSMS = functionTestSettingService.functionTestSettingForm("TOSMS");
 		List<FunctionTestSetting> functionTestSettingFormAgent = functionTestSettingService.functionTestSettingForm("Agent");
 		List<FunctionTestSetting> functionTestSettingCategory = functionTestSettingService.functionTestSettingCategory();

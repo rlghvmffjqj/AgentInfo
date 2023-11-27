@@ -1,8 +1,11 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.ScheduleJobService;
 import com.secuve.agentInfo.vo.ScheduleJob;
 
 @Controller
 public class ScheduleJobController {
 	@Autowired ScheduleJobService scheduleJobService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 스케줄러 페이지 이동
@@ -26,7 +31,8 @@ public class ScheduleJobController {
 	 * @return
 	 */
 	@GetMapping(value = "/schedule/list")
-	public String ScheduleJobList(Model model) {
+	public String ScheduleJobList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "스케쥴 목록");
 		
 		return "/schedule/ScheduleJobList";
 	}

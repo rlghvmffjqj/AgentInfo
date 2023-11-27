@@ -21,15 +21,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.core.Util;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.ServerListService;
 import com.secuve.agentInfo.vo.ServerList;
 
 @Controller
 public class ServerListController {
 	@Autowired ServerListService serverListService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/serverList/list")
-	public String ServerLists(Model model, String serverListType) {
+	public String ServerLists(Model model, String serverListType, Principal principal, HttpServletRequest req) {
+		String pageName = "서버 목록 - ";
+		if(serverListType.equals("externalEquipment"))
+			pageName += "외부망 장비";
+		else if(serverListType.equals("internalEquipment"))
+			pageName += "내부망 장비";
+		else if(serverListType.equals("hyperV"))
+			pageName += "Hyper-V";	
+		favoritePageService.insertFavoritePage(principal, req, pageName);
+		
 		List<String> serverListIp = serverListService.getSelectInput(serverListType, "serverListIp");
 		List<String> serverListMac = serverListService.getSelectInput(serverListType, "serverListMac");
 		List<String> serverListAssetNum = serverListService.getSelectInput(serverListType, "serverListAssetNum");

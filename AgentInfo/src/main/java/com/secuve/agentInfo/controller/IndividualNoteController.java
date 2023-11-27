@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,15 +23,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.IndividualNoteService;
 import com.secuve.agentInfo.vo.IndividualNote;
 
 @Controller
 public class IndividualNoteController {
 	@Autowired IndividualNoteService individualNoteService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/individualNote/list")
-	public ModelAndView IndividualNoteList(ModelAndView mav, Principal principal) {
+	public ModelAndView IndividualNoteList(ModelAndView mav, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "노트 - 개인 노트");
 		ArrayList<IndividualNote> list = new ArrayList<>(individualNoteService.getIndividualNote(principal.getName()));
 		List<String> individualNoteTitle = individualNoteService.getIndividualNoteTitle(principal.getName());
 		List<String> individualNoteHashTag = individualNoteService.getIndividualNoteHashTag(principal.getName());

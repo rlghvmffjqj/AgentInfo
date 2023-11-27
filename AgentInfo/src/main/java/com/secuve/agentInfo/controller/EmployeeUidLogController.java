@@ -1,9 +1,12 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmployeeUidLogService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.EmployeeUidLog;
 
 @Controller
 public class EmployeeUidLogController {
 	@Autowired EmployeeUidLogService employeeUidLogService;
+	@Autowired FavoritePageService favoritePageService;
 
 	/**
 	 * 사용자 접속 로그 페이지 호출
@@ -26,7 +31,8 @@ public class EmployeeUidLogController {
 	 * @return
 	 */
 	@GetMapping(value = "/employeeUidLog/list")
-	public String EmployeeUidLogList(Model model) {
+	public String EmployeeUidLogList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "로그 정보 - 사용자 접속 정보 로그");
 		List<String> employeeId = employeeUidLogService.getEmployeeId();
 		
 		model.addAttribute("employeeId", employeeId);

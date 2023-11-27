@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.CategoryService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.Category;
 import com.secuve.agentInfo.vo.CategoryBusiness;
 
 @Controller
 public class CategoryController {
 	@Autowired CategoryService categoryService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 기존/신규
@@ -32,7 +36,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/existingNew")
-	public String ExistingNew(Model model) {
+	public String ExistingNew(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 기존/신규");
 		List<String> categoryValue = categoryService.getSelectInput("existingNew");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "existingNew");
@@ -45,7 +50,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/managementServer")
-	public String managementServer(Model model) {
+	public String managementServer(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 패키지 종류");
 		List<String> categoryValue = categoryService.getSelectInput("managementServer");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "managementServer");
@@ -58,7 +64,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/generalCustom")
-	public String generalCustom(Model model) {
+	public String generalCustom(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 일반/커스텀");
 		List<String> categoryValue = categoryService.getSelectInput("generalCustom");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "generalCustom");
@@ -71,7 +78,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/osType")
-	public String osType(Model model) {
+	public String osType(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - OS종류");
 		List<String> categoryValue = categoryService.getSelectInput("osType");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "osType");
@@ -85,7 +93,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/requestProductCategory")
-	public String requestProductCategory(Model model) {
+	public String requestProductCategory(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 요청 제품 구분");
 		List<String> categoryValue = categoryService.getSelectInput("requestProductCategory");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "requestProductCategory");
@@ -98,7 +107,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/deliveryMethod")
-	public String deliveryMethod(Model model) {
+	public String deliveryMethod(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 전달방법");
 		List<String> categoryValue = categoryService.getSelectInput("deliveryMethod");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "deliveryMethod");
@@ -111,7 +121,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/agentVer")
-	public String agentVer(Model model) {
+	public String agentVer(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - Agent Ver");
 		List<String> categoryValue = categoryService.getSelectInput("agentVer");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "agentVer");
@@ -124,7 +135,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/agentOS")
-	public String agentOS(Model model) {
+	public String agentOS(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - Agent OS");
 		List<String> categoryValue = categoryService.getSelectInput("agentOS");
 		model.addAttribute("categoryValue", categoryValue);
 		model.addAttribute("category", "agentOS");
@@ -137,7 +149,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/customerName")
-	public String customerName(Model model) {
+	public String customerName(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 고객사명");
 		List<String> categoryValue = categoryService.getSelectInput("customerName");
 		List<String> customerId = categoryService.getCategoryKeyNum();
 		model.addAttribute("categoryValue", categoryValue);
@@ -166,7 +179,8 @@ public class CategoryController {
 	 * @return
 	 */
 	@GetMapping(value = "/category/businessName")
-	public String businessName(Model model) {
+	public String businessName(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 사업명");
 		List<String> categoryCustomerName = categoryService.getSelectInput("customerName");
 		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		model.addAttribute("category", "businessName");

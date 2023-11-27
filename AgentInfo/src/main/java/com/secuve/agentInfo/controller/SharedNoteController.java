@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.SharedNoteService;
 import com.secuve.agentInfo.vo.SharedNote;
 
@@ -29,9 +32,11 @@ import com.secuve.agentInfo.vo.SharedNote;
 public class SharedNoteController {
 	@Autowired SharedNoteService sharedNoteService;
 	@Autowired EmployeeService employeeService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/sharedNote/list")
-	public ModelAndView SharedNoteList(ModelAndView mav, Principal principal) {
+	public ModelAndView SharedNoteList(ModelAndView mav, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "노트 - 부서 노트");
 		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
 		ArrayList<SharedNote> list = new ArrayList<>(sharedNoteService.getSharedNote(departmentName));
 		List<String> sharedNoteTitle = sharedNoteService.getSharedNoteTitle(departmentName);

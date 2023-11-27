@@ -1,9 +1,12 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,15 +15,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.License5UidLogService;
 import com.secuve.agentInfo.vo.License5UidLog;
 
 @Controller
 public class License5UidLogController {
 	@Autowired License5UidLogService license5UidLogService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/license5UidLog/list")
-	public String License5UidLogList(Model model) {
+	public String License5UidLogList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "로그 정보 - 라이선스 5.0 관리 로그");
+		
 		List<String> customerName = license5UidLogService.getSelectInput("customerName");
 		List<String> businessName = license5UidLogService.getSelectInput("businessName");
 		List<String> additionalInformation = license5UidLogService.getSelectInput("additionalInformation");

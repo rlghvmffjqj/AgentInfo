@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.QuestionAnswerService;
 import com.secuve.agentInfo.vo.Answer;
 import com.secuve.agentInfo.vo.Question;
@@ -23,9 +26,11 @@ import com.secuve.agentInfo.vo.Question;
 public class QuestionAnswerController {
 	@Autowired QuestionAnswerService questionAnswerService;
 	@Autowired EmployeeService employeeService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/questionAnswer/list")
-	public String QuestionAnswerList(Model model, Principal principal) {
+	public String QuestionAnswerList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "Q & A");
 		model.addAttribute("writer", principal.getName());
 		model.addAttribute("role",employeeService.getEmployeeOne(principal.getName()).getUsersRole());
 		return "questionAnswer/QuestionAnswerList";

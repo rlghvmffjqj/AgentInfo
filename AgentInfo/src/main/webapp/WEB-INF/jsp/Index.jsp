@@ -752,6 +752,25 @@
 	//		}
 	//	</sec:authorize>
 	//});
+
+	/* =========== 즐겨찾기 Modal ========= */
+	$(function() {
+		if(!$.cookie('favorite')) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/favoritePage/favorite'/>",
+		        async: false,
+		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+		            $.modal(data, 'favorite'); //modal창 호출
+		        },
+		        error: function(e) {
+		            // TODO 에러 화면
+		        }
+		    });
+		}
+	});
 </script>
 
 </html>

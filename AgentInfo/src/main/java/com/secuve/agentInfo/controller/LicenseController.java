@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.LicenseService;
 import com.secuve.agentInfo.vo.License;
 import com.secuve.agentInfo.vo.LicenseSetting;
@@ -25,6 +26,7 @@ import com.secuve.agentInfo.vo.LicenseSetting;
 @Controller
 public class LicenseController {
 	@Autowired LicenseService licenseService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 라이선스 발급 페이지 이동
@@ -32,7 +34,9 @@ public class LicenseController {
 	 * @return
 	 */
 	@GetMapping(value = "/license/issuance")
-	public String LicenseList(Model model) {
+	public String LicenseList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "라이선스 관리 - 라이선스 2.0");
+		
 		List<String> customerName = licenseService.getSelectInput("customerName");
 		List<String> businessName = licenseService.getSelectInput("businessName");
 		List<String> requester = licenseService.getSelectInput("requester");

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.ServerCalendarService;
 import com.secuve.agentInfo.vo.ServerCalendar;
 
@@ -24,9 +25,11 @@ import com.secuve.agentInfo.vo.ServerCalendar;
 public class ServerCalendarController {
 	@Autowired ServerCalendarService serverCalendarService;
 	@Autowired EmployeeService employeeService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/serverCalendar/list")
-	public String ServerCalendarList(Model model, Principal principal) {
+	public String ServerCalendarList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "일정 - 장비대여 일정");
 		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
 		ArrayList<ServerCalendar> serverCalendarList = new ArrayList<>(serverCalendarService.getServerCalendarList(principal.getName(), departmentName));
 		ArrayList<ServerCalendar> serverCalendar = new ArrayList<>(serverCalendarService.getServerCalendar(departmentName));

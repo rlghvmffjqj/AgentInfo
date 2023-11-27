@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.CategoryService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.PackagesService;
 import com.secuve.agentInfo.service.SendPackageService;
 import com.secuve.agentInfo.vo.Packages;
@@ -37,6 +38,8 @@ public class PackagesController {
 	@Autowired PackagesService packagesService;
 	@Autowired CategoryService categoryService;
 	@Autowired SendPackageService sendPackageService;
+	@Autowired FavoritePageService favoritePageService;
+	
 
 	/**
 	 * 패키지 리스트 이동
@@ -45,7 +48,9 @@ public class PackagesController {
 	 * @return
 	 */
 	@GetMapping(value = "/packages/list")
-	public String PackagesList(Model model) {
+	public String PackagesList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "패키지 배포 관리");
+		
 		List<String> customerName = categoryService.getCategoryValue("customerName");
 		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
 		List<String> existingNew = categoryService.getCategoryValue("existingNew");

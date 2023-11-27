@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.View;
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
 import com.secuve.agentInfo.core.WordDownload;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.FunctionTestService;
 import com.secuve.agentInfo.service.FunctionTestSettingService;
 import com.secuve.agentInfo.vo.FunctionTest;
@@ -32,9 +35,19 @@ public class FunctionTestController {
 	@Autowired FunctionTestSettingService functionTestSettingService;
 	@Autowired PDFDownlod pdfDownlod;
 	@Autowired WordDownload wordDownload;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/functionTest/list")
-	public String functionTestList(String functionTestType, Model model) {
+	public String functionTestList(String functionTestType, Model model, Principal principal, HttpServletRequest req) {
+		String pageName = "기능 테스트 - ";
+		if(functionTestType.equals("tortal"))
+			pageName += "전수 테스트";
+		else if(functionTestType.equals("basic"))
+			pageName += "기본 테스트";
+		else if(functionTestType.equals("foundation"))
+			pageName += "기초 테스트";
+		favoritePageService.insertFavoritePage(principal, req, pageName);
+		
 		model.addAttribute("functionTestType",functionTestType);
 		return "functionTest/FunctionTest";
 	}

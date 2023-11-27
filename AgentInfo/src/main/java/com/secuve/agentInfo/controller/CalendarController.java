@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,15 +18,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.secuve.agentInfo.service.CalendarService;
 import com.secuve.agentInfo.service.EmployeeService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.Calendar;
 
 @Controller
 public class CalendarController {
 	@Autowired CalendarService calendarService;
 	@Autowired EmployeeService employeeService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/calendar/list")
-	public String CustomerList(Model model, Principal principal) {
+	public String CustomerList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "일정 - 개인 일정");
 		ArrayList<Calendar> calendarList = new ArrayList<>(calendarService.getCalendarList(principal.getName()));
 		ArrayList<Calendar> calendar = new ArrayList<>(calendarService.getCalendar(principal.getName()));
 		model.addAttribute("calendarList", calendarList);

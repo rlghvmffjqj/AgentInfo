@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.CategoryService;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.GeneralPackageService;
 import com.secuve.agentInfo.vo.GeneralPackage;
 
@@ -34,13 +37,16 @@ import com.secuve.agentInfo.vo.GeneralPackage;
 public class GeneralPackageController {
 	@Autowired GeneralPackageService generalPackageService;
 	@Autowired CategoryService categoryService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 일반 패키지 이동
 	 * @return
 	 */
 	@GetMapping(value = "/generalPackage/List")
-	public String GeneralPackageList(Model model) {
+	public String GeneralPackageList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "릴리즈노트 - 일반패키지");
+		
 		List<String> managementServer = categoryService.getCategoryValue("managementServer");
 		List<String> osType = categoryService.getCategoryValue("osType");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");

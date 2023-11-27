@@ -155,10 +155,15 @@ public class IndividualNoteService {
 		List<String> list = new ArrayList<String>();
 		individualNoteHashTag = individualNoteDao.getIndividualNoteHashTag(individualNoteRegistrant);
 		for(int i=0; i<individualNoteHashTag.size(); i++) {
-			str = individualNoteHashTag.get(i).split(" ");
+			str = individualNoteHashTag.get(i).split(" #");
 			for(int j=0; j<str.length; j++) {
-				if(!list.contains(str[j]))
-					list.add(str[j]);
+				if(j == 0) {
+					if(!list.contains(str[j]))
+						list.add(str[j]);
+				} else {
+					if(!list.contains(str[j]))
+						list.add("#"+str[j]);
+				}
 			}
 		}
 		return list;

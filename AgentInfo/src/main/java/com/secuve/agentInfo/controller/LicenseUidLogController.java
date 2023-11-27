@@ -1,9 +1,12 @@
 package com.secuve.agentInfo.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +16,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.LicenseUidLogService;
 import com.secuve.agentInfo.vo.LicenseUidLog;
 
 @Controller
 public class LicenseUidLogController {
 	@Autowired LicenseUidLogService licenseUidLogService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	/**
 	 * 라이선스 발급 로그 페이지 이동
@@ -26,7 +31,9 @@ public class LicenseUidLogController {
 	 * @return
 	 */
 	@GetMapping(value = "/licenseUidLog/list")
-	public String LicenseUidLogList(Model model) {
+	public String LicenseUidLogList(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "로그 정보 - 라이선스 2.0 관리 로그");
+		
 		List<String> licenseUidLogCustomerName = licenseUidLogService.getSelectInput("licenseUidLogCustomerName");
 		List<String> licenseUidLogBusinessName = licenseUidLogService.getSelectInput("licenseUidLogBusinessName");
 		List<String> licenseUidLogRequester = licenseUidLogService.getSelectInput("licenseUidLogRequester");

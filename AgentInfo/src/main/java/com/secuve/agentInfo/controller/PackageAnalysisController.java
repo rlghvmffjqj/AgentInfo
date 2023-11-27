@@ -2,8 +2,11 @@ package com.secuve.agentInfo.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -18,12 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
+import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.PackageAnalysisService;
 import com.secuve.agentInfo.vo.DiffInfo;
 
 @Controller
 public class PackageAnalysisController {
 	@Autowired PackageAnalysisService packageAnalysisService;
+	@Autowired FavoritePageService favoritePageService;
 	
 	@GetMapping(value = "/packageAnalysis/packageAnalysisUpload")
 	public String PackageAnalysisUpload(Model model) {
@@ -36,7 +41,10 @@ public class PackageAnalysisController {
     		@RequestParam(value = "file1", required = true) MultipartFile file1,
             @RequestParam(value = "file2", required = true) MultipartFile file2,
             @RequestParam(value = "file3", required = false) MultipartFile file3,
-            @RequestParam(value = "file4", required = false) MultipartFile file4) {
+            @RequestParam(value = "file4", required = false) MultipartFile file4, 
+            Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "패키지 분석");
+		
 		List<String> list = new ArrayList<String>();
 		List<String> differentFiles =  new ArrayList<String>();
         try {
