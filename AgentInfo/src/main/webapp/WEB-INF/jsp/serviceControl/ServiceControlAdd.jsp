@@ -3,76 +3,59 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="noticeStyle">
-<div class="modal-body" style="width: 100%; height: 590px;">
+<div class="modal-body" style="width: 100%; height: 400px; padding-top: 10%;">
 	<div class="card-block margin10">
-		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">
-			<input type="hidden" id="requestsKeyNum" name="requestsKeyNum" class="form-control" value="${requests.requestsKeyNum}">
+		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">	
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="requestsDate" name="requestsDate" class="form-control" required="" value="${requests.requestsDate}" disabled>
+			    <input type="text" id="employeeId" name="employeeId" class="form-control" value="" placeholder="고객사 전용">
 			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">날짜</label>
+			    <label class="float-label headLabel">사용 목적</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="employeeId" name="employeeId" class="form-control" required="" value="${requests.employeeId}" disabled>
+			    <input type="text" id="employeeName" name="employeeName" class="form-control" value="" placeholder="172.16.0.0">
 			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">사용자ID</label>
+			    <label class="float-label headLabel">서버 IP</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="employeeName" name="employeeName" class="form-control" required="" value="${requests.employeeName}" disabled>
+			    <input type="text" id="employeeName" name="employeeName" class="form-control" value="/usr/local/secuve">
 			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">사원명</label>
+			    <label class="float-label headLabel">서비스 설치 경로(LogServer, ScvEA, scvca, TOSSuite)</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="requestsTitle" name="requestsTitle" class="form-control" required="" value="${requests.requestsTitle}" disabled>
+			    <input type="text" id="employeeName" name="employeeName" class="form-control" value="/sw/tomcat">
 			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">제목</label>
+			    <label class="float-label headLabel">Tomcat 설치 경로</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <textarea id="requestsDetail" name="requestsDetail" class="form-control view" required="" style="height:190px !important" disabled>${requests.requestsDetail}</textarea>
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">내용</label>
+				<select class="form-control" id="requestsState" name="requestsState">
+					<option value="none">미설치</option>
+					<option value="tibero">Tibero</option>
+					<option value="oracle">Oracle</option>
+					<option value="mysql">Mysql</option>
+					<option value="mariaDB">MariaDB</option>
+					<option value="mssql">MSSQL</option>
+					<option value="db2">DB2</option>
+				</select>
+				<span class="form-bar"></span>
+				<label class="float-label headLabel">DB 구분</label>
 			</div>
-			<sec:authorize access="hasAnyRole('MEMBER','ENGINEER')">
-				<div class="form-group form-default form-static-label">
-				    <input type="text" id="requestsState" name="requestsState" class="form-control" required="" value="${requests.requestsState}" disabled>
-				    <span class="form-bar"></span>
-				    <label class="float-label headLabel">상태</label>
-				</div>
-			</sec:authorize>
-			
-			<sec:authorize access="hasRole('ADMIN')">
-				<div class="form-group form-default form-static-label">
-				    <select class="form-control" id="requestsState" name="requestsState">
-				     <option value="요청" <c:if test="${'요청' eq requests.requestsState}">selected</c:if>>요청</option>
-				     <option value="확인" <c:if test="${'확인' eq requests.requestsState}">selected</c:if>>확인</option>
-				     <option value="대기" <c:if test="${'대기' eq requests.requestsState}">selected</c:if>>대기</option>
-				    </select>
-				    <span class="form-bar"></span>
-				    <label class="float-label headLabel">상태</label>
-				</div>
-			</sec:authorize>
 		 </form>
      </div>
 </div>
 <div class="modal-footer">
-	<sec:authorize access="hasRole('ADMIN')">
-		<button class="btn btn-default btn-outline-info-add" id="updateBtn">상태 변경</button>
-	</sec:authorize>
+	<button class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
-</div>
 </div>
 
 <script>
-	$('#updateBtn').click(function() {
+	$('#insertBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
-			url: "<c:url value='/requests/update'/>",
+			url: "<c:url value='/serviceControl/insert'/>",
 	        type: 'post',
 	        data: postData,
 	        async: false,
 	        success: function(result) {
-	        	console.log(result);
 				if(result == "OK") {
 					Swal.fire({
 						icon: 'success',

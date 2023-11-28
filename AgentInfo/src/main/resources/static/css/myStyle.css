@@ -287,6 +287,11 @@ p {
     max-width: 500px;
 }
 
+.modal-serviceControl {
+	top: 25%;
+    max-width: 500px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

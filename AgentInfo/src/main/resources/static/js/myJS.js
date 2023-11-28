@@ -33,8 +33,8 @@ $.modal = function (modalContent, size) {
 	if(size=='merge') html += ' modal-merge';
 	if(size=='packageAnalysis') html += ' modal-packageAnalysis';
 	if(size=='favorite') html += ' modal-favorite';
-    
-    
+	if(size=='serviceControl') html += ' modal-serviceControl';
+	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';
     html += '" role="document">';

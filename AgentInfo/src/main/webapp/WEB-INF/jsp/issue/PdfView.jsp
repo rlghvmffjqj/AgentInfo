@@ -257,7 +257,6 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-											<div class="pageBreak"></div>
 					 						<div class="obstacleText">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
@@ -273,6 +272,7 @@
 				    </div>
 				    <div style="width: 100%; height:30px;"></div>
 				    <% num++; %>
+					<div class="pageBreak"></div>
 			 	</c:forEach>
 			</div>
 		</div>

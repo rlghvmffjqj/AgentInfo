@@ -49,10 +49,11 @@
 	</update>
 	
 	<select id="getPackagesListAll" resultMap="packages" parameterType="string">
-		SELECT p.* FROM packages p, category c
+		SELECT c.categoryKeyNum, p.* FROM packages p, category c
 		WHERE c.categoryName = 'customerName'
 		AND c.categoryValue = p.customerName
 			<include refid="sqlPackages" />
+		ORDER BY p.packagesKeyNumOrigin DESC;
 	</select>
 	
 	<select id="getPackagesAll" resultMap="packages">

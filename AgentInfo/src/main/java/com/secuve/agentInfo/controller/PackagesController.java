@@ -284,7 +284,7 @@ public class PackagesController {
 	public void exportServerList(@ModelAttribute Packages packages, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String[] columnList = {"customerName", "businessName", "networkClassification", "requestDate", "deliveryData", "state", "managementServer", "generalCustom", "agentVer", "packageName", "manager", "osType", "osDetailVersion", "agentOS", "existingNew", "requestProductCategory", "deliveryMethod", "note", "statusComment"};
+		String[] columnList = {"categoryKeyNum","customerName", "businessName", "networkClassification", "requestDate", "deliveryData", "state", "managementServer", "generalCustom", "agentVer", "packageName", "manager", "osType", "osDetailVersion", "agentOS", "existingNew", "requestProductCategory", "deliveryMethod", "note", "statusComment"};
 		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

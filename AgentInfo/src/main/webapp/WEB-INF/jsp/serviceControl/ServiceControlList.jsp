@@ -18,10 +18,13 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA','Agent','DB','Disk','Memory','방화벽'],
+					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA','Agent','DB','Disk','Memory','방화벽','서비스 설치 경로','Tomcat 설치 경로','DB 구분'],
 					colModel:[
 						{name:'requestsKeyNum', index:'requestsKeyNum', align:'center', width: 40, hidden:true },
 						{name:'employeeId', index:'employeeId', align:'center', width: 150, formatter: linkFormatter},
+						{name:'employeeName', index:'employeeName', align:'center', width: 150},
+						{name:'employeeName', index:'employeeName', align:'center', width: 150},
+						{name:'employeeName', index:'employeeName', align:'center', width: 150},
 						{name:'employeeName', index:'employeeName', align:'center', width: 150},
 						{name:'employeeName', index:'employeeName', align:'center', width: 150},
 						{name:'employeeName', index:'employeeName', align:'center', width: 150},
@@ -76,7 +79,6 @@
 								            <div class="page-header-title" >
 								                <h5 class="m-b-10">서비스 제어</h5>
 								                <p class="m-b-0">Service Control</p>
-												<p class="m-b-0" style="color: red;">TOSMS 동작 시 사용 하는 서비스를 컨트롤 합니다.</p>
 								            </div>
 								        </div>
 								        <div class="col-md-4">
@@ -175,6 +177,21 @@
 	    </div>
 	</body>
 	<script>
+		/* =========== 패키지 추가 Modal ========= */
+		$('#BtnInsert').click(function() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/serviceControl/insertView'/>",
+			    async: false,
+			    success: function (data) {
+			    	$.modal(data, 'serviceControl'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});			
+		});
+
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="updateView('+"'"+rowdata.requestsKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
@@ -206,10 +223,8 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			<sec:authorize access="hasRole('ADMIN')">
-				$('#employeeId').val($('#employeeIdMulti').val().join());
-				$('#employeeName').val($('#employeeNameMulti').val().join());
-			</sec:authorize>
+			$('#employeeId').val($('#employeeIdMulti').val().join());
+			$('#employeeName').val($('#employeeNameMulti').val().join());
 			$('#requestsState').val($('#requestsStateMulti').val().join());
 			
 			var jqGrid = $("#list");
@@ -241,107 +256,7 @@
 		});
 		
 		
-		/* =========== 일괄 확인 ========= */
-		function bntConfirm() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				Swal.fire({
-					  title: '상태 변경!',
-					  text: "선택한 요청을 확인으로 변경하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/requests/confirm'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '작업이 정상적으로 처리되었습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '작업이 실패 하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
-				  	}
-				})
-			}
-		};
 		
-		/* =========== 일괄 대기 ========= */
-		function btnWait() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				Swal.fire({
-					  title: '상태 변경!',
-					  text: "선택한 요청을 대기로 변경하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/requests/wait'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '작업이 정상적으로 처리되었습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '작업이 실패 하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
-				  	}
-				})
-			}
-		};
 		
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function stateFormatter(value, options, row) {
