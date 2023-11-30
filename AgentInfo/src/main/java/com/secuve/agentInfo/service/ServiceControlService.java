@@ -1,7 +1,10 @@
 package com.secuve.agentInfo.service;
 
+import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,18 +16,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.secuve.agentInfo.dao.ServiceControlDao;
+import com.secuve.agentInfo.vo.ServiceControl;
 
 @Service
 public class ServiceControlService {
+	@Autowired ServiceControlDao serviceControlDao;
 
-	public String serviceControlInsert() {
-		restAPIColl();
-		return "하하";
+	public String serviceControlInsert(ServiceControl serviceControl) {
+		return insertSync(serviceControl);
 	}
 	
-	public void restAPIColl() {
-		String ip = "172.16.50.182";
-		String url = "http://"+ip+":8081/serviceStatus";
+	public String insertSync(ServiceControl serviceControl) {
+		String url = "http://"+serviceControl.getServiceControlIp()+":8081/serviceControlAgent";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
@@ -34,10 +38,11 @@ public class ServiceControlService {
         HttpEntity<?> entity = new HttpEntity<>(header);
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
-        		.queryParam("serviceControlPurpose", "Love")
-        		.queryParam("serviceControlServicePath", "/usr/local/secuve")
-        		.queryParam("serviceControlIp", "Happy")
-        		.queryParam("serviceControlDbType", "mariaDB")
+        		.queryParam("serviceControlPurpose", serviceControl.getServiceControlPurpose())
+        		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
+        		.queryParam("serviceControlServicePath", serviceControl.getServiceControlServicePath())
+        		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
+        		.queryParam("serviceControlDbType", serviceControl.getServiceControlDbType())
         		.build();
 
         ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
@@ -55,7 +60,47 @@ public class ServiceControlService {
 			e.printStackTrace();
 		}
         
-        System.out.println(jsonInString);
+        return jsonInString;
+	}
+
+	public List<ServiceControl> getServiceControlList(ServiceControl search) {
+		return serviceControlDao.getServiceControlList(serviceControlSearch(search));
+	}
+
+	public int getServiceControlListCount(ServiceControl search) {
+		return serviceControlDao.getServiceControlListCount(serviceControlSearch(search));
+	}
+	
+	public ServiceControl serviceControlSearch(ServiceControl search) {
+		search.setServiceControlPurposeArr(search.getServiceControlPurposeSearch().split(","));
+		search.setServiceControlIpArr(search.getServiceControlIpSearch().split(","));
+		return search;
+	}
+
+	public String delServiceControl(int[] chkList, Principal principal) {
+		for (int serviceControlKeyNum : chkList) {
+			int sucess = serviceControlDao.delServiceControl(serviceControlKeyNum);
+			if (sucess <= 0)
+				return "FALSE";
+		}
+		return "OK";
+	}
+
+	public ServiceControl getServiceControlOne(String serviceControlIp) {
+		return serviceControlDao.getServiceControlOne(serviceControlIp);
+	}
+
+	public String serviceControlSynchronization() {
+		List<ServiceControl> serviceControlList = serviceControlDao.serviceControlAll();
+		serviceControlDao.delServiceControlAll();
+		try {
+			for(ServiceControl serviceControl : serviceControlList) {
+				insertSync(serviceControl);
+			}
+		} catch (Exception e) {
+			return "FALSE";
+		}
+		return "OK";
 	}
 
 }

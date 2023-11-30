@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="serviceControl">
+	<resultMap type="com.secuve.agentInfo.vo.ServiceControl" id="serviceControl"></resultMap>
+	
+	<select id="getServiceControlList" resultMap="serviceControl" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM serviceControl
+					<include refid="sqlServiceControl" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getServiceControlListCount" resultType="_int">
+		SELECT COUNT(*) FROM serviceControl
+			<include refid="sqlServiceControl" />
+	</select>
+	
+	<delete id="delServiceControl" parameterType="_int">
+		DELETE FROM serviceControl WHERE serviceControlKeyNum = #{serviceControlKeyNum};
+	</delete>
+	
+	<select id="getServiceControlOne" resultMap="serviceControl" parameterType="string">
+		SELECT * FROM serviceControl WHERE serviceControlIp = #{serviceControlIp};
+	</select>
+	
+	<select id="serviceControlAll" resultMap="serviceControl">
+		SELECT * FROM serviceControl;
+	</select>
+	
+	<delete id="delServiceControlAll">
+		DELETE FROM serviceControl;
+	</delete>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlServiceControl">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="serviceControlPurpose != null and serviceControlPurpose != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlPurposeArr" item="arr">
+						OR serviceControlPurpose LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serviceControlIp != null and serviceControlIp != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlIpArr" item="arr">
+						OR serviceControlIp LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serviceControlTomcat != null and serviceControlTomcat != ''">
+				AND serviceControlTomcat = #{serviceControlTomcat}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

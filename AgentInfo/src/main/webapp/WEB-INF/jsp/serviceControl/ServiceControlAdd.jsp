@@ -7,27 +7,27 @@
 	<div class="card-block margin10">
 		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">	
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="employeeId" name="employeeId" class="form-control" value="" placeholder="고객사 전용">
+			    <input type="text" id="serviceControlPurpose" name="serviceControlPurpose" class="form-control" value="" placeholder="고객사 전용">
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">사용 목적</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="employeeName" name="employeeName" class="form-control" value="" placeholder="172.16.0.0">
+			    <input type="text" id="serviceControlIp" name="serviceControlIp" class="form-control" value="" placeholder="172.16.0.0">
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">서버 IP</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="employeeName" name="employeeName" class="form-control" value="/usr/local/secuve">
+			    <input type="text" id="serviceControlServicePath" name="serviceControlServicePath" class="form-control" value="/usr/local/secuve">
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">서비스 설치 경로(LogServer, ScvEA, scvca, TOSSuite)</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="employeeName" name="employeeName" class="form-control" value="/sw/tomcat">
+			    <input type="text" id="serviceControlTomcatPath" name="serviceControlTomcatPath" class="form-control" value="/sw/tomcat">
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">Tomcat 설치 경로</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-				<select class="form-control" id="requestsState" name="requestsState">
+				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">
 					<option value="none">미설치</option>
 					<option value="tibero">Tibero</option>
 					<option value="oracle">Oracle</option>
@@ -56,7 +56,7 @@
 	        data: postData,
 	        async: false,
 	        success: function(result) {
-				if(result == "OK") {
+				if(result === '"OK"') {
 					Swal.fire({
 						icon: 'success',
 						title: '성공!',
@@ -66,15 +66,26 @@
 	        		$('#modal').on('hidden.bs.modal', function () {
 	        			tableRefresh();
 	        		});
+				} else if(result == "duplication") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: "동일한 서버가 존재 합니다.",
+					});
 				} else {
 					Swal.fire({
 						icon: 'error',
 						title: '실패!',
-						text: '작업을 실패하였습니다.',
+						text: "작업 실패 하였습니다.",
 					});
 				}
 			},
 			error: function(error) {
+				Swal.fire({
+					icon: 'error',
+					title: '에러!',
+					text: "작업 처리 중 에러가 발생하였습니다. 관리자에게 문의 바랍니다.",
+				})
 				console.log(error);
 			}
 	    });

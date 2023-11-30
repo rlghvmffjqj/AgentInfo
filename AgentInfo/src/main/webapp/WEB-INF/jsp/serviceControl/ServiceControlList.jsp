@@ -18,31 +18,31 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA','Agent','DB','Disk','Memory','방화벽','서비스 설치 경로','Tomcat 설치 경로','DB 구분'],
+					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA','Agent','DB','Disk(%)','Memory(%)','방화벽','서비스 설치 경로','Tomcat 설치 경로','DB 구분'],
 					colModel:[
-						{name:'requestsKeyNum', index:'requestsKeyNum', align:'center', width: 40, hidden:true },
-						{name:'employeeId', index:'employeeId', align:'center', width: 150, formatter: linkFormatter},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'employeeName', index:'employeeName', align:'center', width: 150},
-						{name:'requestsTitle', index:'requestsTitle', align:'center', width: 150},
-						{name:'requestsDetail', index:'requestsDetail', align:'left', width: 150},
-						{name:'requestsState', index:'requestsState',align:'center', width: 150, formatter: stateFormatter},
-						{name:'requestsDate', index:'requestsDate',align:'center', width: 150},
+						{name:'serviceControlKeyNum', index:'serviceControlKeyNum', align:'center', width: 40, hidden:true },
+						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150},
+						{name:'serviceControlIp', index:'serviceControlIp', align:'center', width: 100, formatter: linkFormatter},
+						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 100, formatter: tomcatFormatter},
+						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 100, formatter: logServerFormatter},
+						{name:'serviceControlScvEA', index:'serviceControlScvEA', align:'center', width: 100, formatter: scvEAFormatter},
+						{name:'serviceControlScvCA', index:'serviceControlScvCA', align:'center', width: 100, formatter: scvCAFormatter},
+						{name:'serviceControlAgent', index:'serviceControlAgent', align:'center', width: 100, formatter: agentFormatter},
+						{name:'serviceControlDB', index:'serviceControlDB', align:'center', width: 100, formatter: databaseFormatter},
+						{name:'serviceControlDisk', index:'serviceControlDisk', align:'center', width: 100},
+						{name:'serviceControlMemory', index:'serviceControlMemory', align:'center', width: 100},
+						{name:'serviceControlFirewall', index:'serviceControlFirewall', align:'center', width: 100, formatter: firewallFormatter},
+						{name:'serviceControlServicePath', index:'serviceControlServicePath',align:'center', width: 150},
+						{name:'serviceControlTomcatPath', index:'serviceControlTomcatPath',align:'center', width: 150},
+						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 150},
 					],
 					jsonReader : {
-			        	id: 'requestsKeyNum',
+			        	id: 'serviceControlKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'requestsKeyNum', 		// 기본 정렬 
+			        sortname: 'serviceControlKeyNum', 		// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -54,7 +54,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','requestsList');
+				loadColumns('#list','serviceControlList');
 	 		});
 			
 			$(window).on('resize.list', function () {
@@ -102,16 +102,16 @@
 		                      						<sec:authorize access="hasRole('ADMIN')">
 			                      						<div class="col-lg-2">
 			                      							<label class="labelFontSize">사용 목적</label>
-															<select class="form-control selectpicker" id="employeeIdMulti" name="employeeIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-																<c:forEach var="item" items="${employeeId}">
+															<select class="form-control selectpicker" id="serviceControlPurposeMulti" name="serviceControlPurposeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${serviceControlPurpose}">
 																	<option value="${item}"><c:out value="${item}"/></option>
 																</c:forEach>
 															</select>
 														</div>
 														<div class="col-lg-2">
 			                      							<label class="labelFontSize">서버 IP</label>
-															<select class="form-control selectpicker" id="employeeNameMulti" name="employeeNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-																<c:forEach var="item" items="${employeeName}">
+															<select class="form-control selectpicker" id="serviceControlIpMulti" name="serviceControlIpMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${serviceControlIp}">
 																	<option value="${item}"><c:out value="${item}"/></option>
 																</c:forEach>
 															</select>
@@ -119,12 +119,11 @@
 													</sec:authorize>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">서버 상태</label>
-		                      							<input type="text" id="requestsTitle" name="requestsTitle" class="form-control">
+		                      							<input type="text" id="serviceControlTomcat" name="serviceControlTomcat" class="form-control">
 		                      						</div>
 		                      						<div class="col-lg-12 text-right">
-		                      							<input type="hidden" id="employeeId" name="employeeId" class="form-control">
-		                      							<input type="hidden" id="employeeName" name="employeeName" class="form-control">
-		                      							<input type="hidden" id="requestsState" name="requestsState" class="form-control">
+		                      							<input type="hidden" id="serviceControlPurposeSearch" name="serviceControlPurposeSearch" class="form-control">
+		                      							<input type="hidden" id="serviceControlIpSearch" name="serviceControlIpSearch" class="form-control">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
 																<i class="fa fa-search"></i>&nbsp;<span>검색</span>
@@ -147,8 +146,8 @@
 																	<td style="font-weight:bold;">서비스 제어 :
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		<button class="btn btn-outline-info-nomal myBtn" onclick="bntConfirm();">동기화</button>
-																		<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'requestsList');">컬럼 선택</button>
+																		<button class="btn btn-outline-info-nomal myBtn" onclick="bntSynchronization();">동기화</button>
+																		<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'serviceControlList');">컬럼 선택</button>
 																	</td>
 																</tr>
 																<tr>
@@ -177,7 +176,7 @@
 	    </div>
 	</body>
 	<script>
-		/* =========== 패키지 추가 Modal ========= */
+		/* =========== 서비스 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
@@ -192,22 +191,105 @@
 			});			
 		});
 
+		/* =========== 서비스 삭제 ========= */
+		$('#BtnDelect').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 서비스를 삭제하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/serviceControl/delete'/>",
+						type: "POST",
+						data: {chkList: chkList},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '삭제 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							tableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
+		});
+
+		/* =========== 동기화 ========= */
+		function bntSynchronization() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/serviceControl/synchronization'/>",
+			    async: false,
+			    success: function (data) {
+					if(data == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						}).then((result) => {
+							if (result.isConfirmed) {
+	        					tableRefresh();
+							}
+						})
+
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: "작업 실패 하였습니다.",
+						});
+					}
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});
+		}
+
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.requestsKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.serviceControlKeyNum+"'"+')" style="color:#366cb3; font-size: 12px;">' + cellValue + '</a>';
 		}
 		
-		/* =========== 요청사항 수정 Modal ========= */
+		/* =========== 서비스 수정 Modal ========= */
 		function updateView(data) {
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/requests/updateView'/>",
-			    data: {"requestsKeyNum" : data},
+			    url: "<c:url value='/serviceControl/updateView'/>",
+			    data: {"serviceControlKeyNum" : data},
 			    async: false,
 			    success: function (data) {
 			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-			        $.modal(data, 'requests'); //modal창 호출
+			        $.modal(data, 'serviceControl'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
@@ -223,9 +305,9 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#employeeId').val($('#employeeIdMulti').val().join());
-			$('#employeeName').val($('#employeeNameMulti').val().join());
-			$('#requestsState').val($('#requestsStateMulti').val().join());
+			$('#serviceControlPurposeSearch').val($('#serviceControlPurposeMulti').val().join());
+			$('#serviceControlIpSearch').val($('#serviceControlIpMulti').val().join());
+
 			
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();
@@ -256,17 +338,93 @@
 		});
 		
 		
-		
-		
 		/* =========== 상태에 따른 이미지 부여 ========= */
-		function stateFormatter(value, options, row) {
-			var requestsState = row.requestsState.toUpperCase();
-			if(requestsState == "요청") {
-				return '<div><img src="/AgentInfo/images/request.png" style="width:50px;"></div';
-			} else if(requestsState == "확인") {
-				return '<div><img src="/AgentInfo/images/confirm.png" style="width:50px;"></div';
-			} else if(requestsState == "대기") {
-				return '<div><img src="/AgentInfo/images/waiting.png" style="width:50px;"></div';
+		function tomcatFormatter(value, options, row) {
+			var serviceControlTomcat = row.serviceControlTomcat;
+			if(serviceControlTomcat == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlTomcat == "notRunning") {
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+			} else if(serviceControlTomcat == "notInstalled") {
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function logServerFormatter(value, options, row) {
+			var serviceControlLogServer = row.serviceControlLogServer;
+			if(serviceControlLogServer == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlLogServer == "notRunning") {
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+			} else if(serviceControlLogServer == "notInstalled") {
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function scvEAFormatter(value, options, row) {
+			var serviceControlScvEA = row.serviceControlScvEA;
+			if(serviceControlScvEA == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlScvEA == "notRunning") {
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+			} else if(serviceControlScvEA == "notInstalled") {
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function scvCAFormatter(value, options, row) {
+			var serviceControlScvCA = row.serviceControlScvCA;
+			if(serviceControlScvCA == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlScvCA == "notRunning") {
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+			} else if(serviceControlScvCA == "notInstalled") {
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function agentFormatter(value, options, row) {
+			var serviceControlAgent = row.serviceControlAgent;
+			if(serviceControlAgent == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlAgent == "notRunning") {
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+			} else if(serviceControlAgent == "notInstalled") {
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function databaseFormatter(value, options, row) {
+			var serviceControlDB = row.serviceControlDB;
+			if(serviceControlDB == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlDB == "notRunning") {
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+			} else if(serviceControlDB == "notInstalled") {
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
+		}
+
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function firewallFormatter(value, options, row) {
+			var serviceControlFirewall = row.serviceControlFirewall;
+			if(serviceControlFirewall == "execution") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlFirewall == "notRunning") {
+				return '<div><img src="/AgentInfo/images/end.png" style="width:50px;"></div';
+			} else if(serviceControlFirewall == "unableConfirm") {
+				return '<div><img src="/AgentInfo/images/unableConfirm.png" style="width:50px;"></div';
 			}
 			return '<div></div>';
 		}

@@ -20,10 +20,21 @@ public class ServiceControl {
 	private String serviceControlScvCA;
 	private String serviceControlAgent;
 	private String serviceControlDB;
-	private String serviceControlDisk;
-	private String serviceControlMemory;
+	private int serviceControlDisk;
+	private double serviceControlMemory;
 	private String serviceControlFirewall;
 	private String serviceControlServicePath;
 	private String serviceControlTomcatPath;
 	private String serviceControlDbType;
+	
+	private String serviceControlPurposeSearch;
+	private String serviceControlIpSearch;
+	
+	private String[] serviceControlPurposeArr;
+	private String[] serviceControlIpArr;
+	
+	private int page=1;							// 기본 페이지 번호
+	private int rows=25;						// 데이터 보여줄 갯수
+	private String sidx="serviceControlKeyNum";		// 정렬할 기준 데이터
+	private String sord;						// 오름차순, 내림차순
 }
