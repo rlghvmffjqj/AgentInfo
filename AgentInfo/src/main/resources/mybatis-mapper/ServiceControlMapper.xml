@@ -39,11 +39,15 @@
 		DELETE FROM serviceControl;
 	</delete>
 	
+	<select id="getServiceControlValue" parameterType="string" resultType="string">
+		SELECT DISTINCT ${column} FROM serviceControl;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlServiceControl">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="serviceControlPurpose != null and serviceControlPurpose != ''">
+			<if test="serviceControlPurposeSearch != null and serviceControlPurposeSearch != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="serviceControlPurposeArr" item="arr">
@@ -52,7 +56,7 @@
 				</trim>
 				)
 			</if>
-			<if test="serviceControlIp != null and serviceControlIp != ''">
+			<if test="serviceControlIpSearch != null and serviceControlIpSearch != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="serviceControlIpArr" item="arr">

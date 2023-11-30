@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,10 @@ public class ServiceControlController {
 	@GetMapping(value = "/serviceControl/list")
 	public String ServiceControl(Model model, Principal principal, HttpServletRequest req) {
 		favoritePageService.insertFavoritePage(principal, req, "서비스 제어");
-		
+		List<String> serviceControlPurpose = serviceControlService.getServiceControlValue("serviceControlPurpose");
+		List<String> serviceControlIp = serviceControlService.getServiceControlValue("serviceControlIp");
+		model.addAttribute("serviceControlPurpose", serviceControlPurpose);
+		model.addAttribute("serviceControlIp", serviceControlIp);
 		return "serviceControl/ServiceControlList";
 	}
 	

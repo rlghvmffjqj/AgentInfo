@@ -103,4 +103,8 @@ public class ServiceControlService {
 		return "OK";
 	}
 
+	public List<String> getServiceControlValue(String column) {
+		return serviceControlDao.getServiceControlValue(column);
+	}
+
 }

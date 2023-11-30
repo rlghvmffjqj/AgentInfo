@@ -35,6 +35,10 @@ public class ServiceControlDao {
 	public void delServiceControlAll() {
 		sqlSession.delete("serviceControl.delServiceControlAll");
 	}
+
+	public List<String> getServiceControlValue(String column) {
+		return sqlSession.selectList("serviceControl.getServiceControlValue",column);
+	}
 	
 	
 }
