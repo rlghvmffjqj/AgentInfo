@@ -18,23 +18,23 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA','Agent','DB','Disk(%)','Memory(%)','방화벽','서비스 설치 경로','Tomcat 설치 경로','DB 구분'],
+					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
 					colModel:[
 						{name:'serviceControlKeyNum', index:'serviceControlKeyNum', align:'center', width: 40, hidden:true },
 						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150},
 						{name:'serviceControlIp', index:'serviceControlIp', align:'center', width: 100, formatter: linkFormatter},
-						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 100, formatter: tomcatFormatter},
-						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 100, formatter: logServerFormatter},
-						{name:'serviceControlScvEA', index:'serviceControlScvEA', align:'center', width: 100, formatter: scvEAFormatter},
-						{name:'serviceControlScvCA', index:'serviceControlScvCA', align:'center', width: 100, formatter: scvCAFormatter},
-						{name:'serviceControlAgent', index:'serviceControlAgent', align:'center', width: 100, formatter: agentFormatter},
-						{name:'serviceControlDB', index:'serviceControlDB', align:'center', width: 100, formatter: databaseFormatter},
-						{name:'serviceControlDisk', index:'serviceControlDisk', align:'center', width: 100},
-						{name:'serviceControlMemory', index:'serviceControlMemory', align:'center', width: 100},
-						{name:'serviceControlFirewall', index:'serviceControlFirewall', align:'center', width: 100, formatter: firewallFormatter},
+						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 70, formatter: tomcatFormatter},
+						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 70, formatter: logServerFormatter},
+						{name:'serviceControlScvEA', index:'serviceControlScvEA', align:'center', width: 70, formatter: scvEAFormatter},
+						{name:'serviceControlScvCA', index:'serviceControlScvCA', align:'center', width: 70, formatter: scvCAFormatter},
+						/*{name:'serviceControlAgent', index:'serviceControlAgent', align:'center', width: 100, formatter: agentFormatter},*/
+						{name:'serviceControlDB', index:'serviceControlDB', align:'center', width: 70, formatter: databaseFormatter},
+						{name:'serviceControlDisk', index:'serviceControlDisk', align:'center', width: 80},
+						{name:'serviceControlMemory', index:'serviceControlMemory', align:'center', width: 80},
+						{name:'serviceControlFirewall', index:'serviceControlFirewall', align:'center', width: 70, formatter: firewallFormatter},
+						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 150},
 						{name:'serviceControlServicePath', index:'serviceControlServicePath',align:'center', width: 150},
 						{name:'serviceControlTomcatPath', index:'serviceControlTomcatPath',align:'center', width: 150},
-						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 150},
 					],
 					jsonReader : {
 			        	id: 'serviceControlKeyNum',
@@ -148,6 +148,11 @@
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<button class="btn btn-outline-info-nomal myBtn" onclick="bntSynchronization();">동기화</button>
 																		<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'serviceControlList');">컬럼 선택</button>
+																		<div style="float: right;">
+																			<span style="color: red;">미설치&nbsp;&nbsp;&nbsp; : </span>파일이 존재 하지 않음.<br>
+																			<span style="color: #ffb300;">실행대기 : </span>파일은 존재하지만 서비스가 동작하지 않음.<br>
+																			<span style="color: #25CD04;">실행 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </span>서비스 정상 동작
+																		</div>
 																	</td>
 																</tr>
 																<tr>
@@ -256,7 +261,8 @@
 							text: '작업을 완료했습니다.',
 						}).then((result) => {
 							if (result.isConfirmed) {
-	        					tableRefresh();
+	        					//tableRefresh();
+								location.reload(true);
 							}
 						})
 
@@ -347,7 +353,7 @@
 				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
 			} else if(serviceControlTomcat == "notInstalled") {
 				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
-			}
+			} 
 			return '<div></div>';
 		}
 
