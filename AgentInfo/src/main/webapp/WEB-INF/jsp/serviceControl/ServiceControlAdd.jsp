@@ -49,6 +49,7 @@
 
 <script>
 	$('#insertBtn').click(function() {
+		showLoadingImage();
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/serviceControl/insert'/>",
@@ -56,6 +57,7 @@
 	        data: postData,
 	        async: false,
 	        success: function(result) {
+				hideLoadingImage();
 				if(result === '"OK"') {
 					Swal.fire({
 						icon: 'success',
@@ -81,6 +83,7 @@
 				}
 			},
 			error: function(error) {
+				hideLoadingImage();
 				Swal.fire({
 					icon: 'error',
 					title: '에러!',
@@ -90,5 +93,7 @@
 			}
 	    });
 	});
+
+	
 </script>
 

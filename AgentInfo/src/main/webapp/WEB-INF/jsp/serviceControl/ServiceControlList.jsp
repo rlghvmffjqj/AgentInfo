@@ -18,10 +18,10 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
+					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','JAVA 버전','Tomcat 버전','릴리즈 정보',/*'커널 정보',*/'DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
 					colModel:[
 						{name:'serviceControlKeyNum', index:'serviceControlKeyNum', align:'center', width: 40, hidden:true },
-						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150},
+						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150, formatter: urlFormatter},
 						{name:'serviceControlIp', index:'serviceControlIp', align:'center', width: 100, formatter: linkFormatter},
 						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 70, formatter: tomcatFormatter},
 						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 70, formatter: logServerFormatter},
@@ -32,7 +32,11 @@
 						{name:'serviceControlDisk', index:'serviceControlDisk', align:'center', width: 80},
 						{name:'serviceControlMemory', index:'serviceControlMemory', align:'center', width: 80},
 						{name:'serviceControlFirewall', index:'serviceControlFirewall', align:'center', width: 70, formatter: firewallFormatter},
-						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 150},
+						{name:'serviceControlJavaVersion', index:'serviceControlJavaVersion',align:'center', width: 100},
+						{name:'serviceControlTomcatVersion', index:'serviceControlTomcatVersion',align:'center', width: 100},
+						{name:'serviceControlRelease', index:'serviceControlRelease',align:'center', width: 200},
+						// {name:'serviceControlKernel', index:'serviceControlKernel',align:'center', width: 200},
+						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 80},
 						{name:'serviceControlServicePath', index:'serviceControlServicePath',align:'center', width: 150},
 						{name:'serviceControlTomcatPath', index:'serviceControlTomcatPath',align:'center', width: 150},
 					],
@@ -179,6 +183,11 @@
 	            </div>
 	        </div>
 	    </div>
+		<div id="loadingDiv" style="display:none;">
+			<div id="loadingImgDiv">
+				<img id="loadingImage" src="/AgentInfo/images/secuve_loading.gif" alt="Loading..." />
+			</div>
+		</div>
 	</body>
 	<script>
 		/* =========== 서비스 추가 Modal ========= */
@@ -249,11 +258,13 @@
 
 		/* =========== 동기화 ========= */
 		function bntSynchronization() {
+			showLoadingImage();
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/serviceControl/synchronization'/>",
 			    async: false,
 			    success: function (data) {
+					hideLoadingImage();
 					if(data == "OK") {
 						Swal.fire({
 							icon: 'success',
@@ -275,9 +286,26 @@
 					}
 			    },
 			    error: function(e) {
+					hideLoadingImage();
 			        alert(e);
 			    }
 			});
+		}
+
+		/* =========== jpgrid의 formatter 함수 ========= */
+		function urlFormatter(cellValue, options, rowdata, action) {
+			if(rowdata.serviceControlPort == "") {
+				return cellValue
+			}
+			return '<a onclick="sitePageLink('+"'"+rowdata.serviceControlIp+"',"+"'"+rowdata.serviceControlPort+"'"+')" style="color:#366cb3; font-size: 12px;">' + cellValue + '</a>';
+		}
+
+		function sitePageLink(serviceControlIp, serviceControlPort) {
+			if(serviceControlPort == "8080") {
+				window.open('http://'+serviceControlIp+':'+serviceControlPort+'/TOSMS/LoginText', '_blank');
+			} else if(serviceControlPort == "8443") {
+				window.open('https://'+serviceControlIp+':'+serviceControlPort+'/TOSMS/LoginText', '_blank');
+			}
 		}
 
 		/* =========== jpgrid의 formatter 함수 ========= */
@@ -434,5 +462,44 @@
 			}
 			return '<div></div>';
 		}
+
+		// 로딩 이미지를 보여주는 함수
+		function showLoadingImage() {
+		    $('#loadingDiv').show();
+		}
+	
+		// 로딩 이미지를 숨기는 함수
+		function hideLoadingImage() {
+		    $('#loadingDiv').hide();
+		}
 	</script>
+	<style>
+		#loadingDiv {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은 배경 */
+			justify-content: center;
+			align-items: center;
+			z-index: 9999; /* 다른 요소 위에 표시되도록 함 */
+		}
+	
+		#loadingImage {
+			width: 50px; /* 로딩 이미지의 너비 */
+			height: 50px; /* 로딩 이미지의 높이 */
+			background: url('secuve_loading.gif') no-repeat center center; /* 로딩 이미지 설정 */
+			background-size: cover;
+		}
+
+		#loadingImgDiv {
+			width: 100%;
+    		height: 100%;
+    		top: 50%;
+    		left: 50%;
+    		position: absolute;
+		}
+	</style>
 </html>

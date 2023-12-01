@@ -23,6 +23,11 @@ public class ServiceControl {
 	private int serviceControlDisk;
 	private double serviceControlMemory;
 	private String serviceControlFirewall;
+	private String serviceControlJavaVersion;
+	private String serviceControlTomcatVersion;
+	private String serviceControlKernel;
+	private String serviceControlRelease;
+	private String serviceControlPort;
 	private String serviceControlServicePath;
 	private String serviceControlTomcatPath;
 	private String serviceControlDbType;
