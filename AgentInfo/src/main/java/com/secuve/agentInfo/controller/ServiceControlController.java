@@ -59,9 +59,6 @@ public class ServiceControlController {
 	@ResponseBody
 	@PostMapping(value = "/serviceControl/insert")
 	public String ServiceControlInsert(Principal principal, ServiceControl serviceControl) throws ParseException {
-		if(serviceControlService.getServiceControlOne(serviceControl.getServiceControlIp()) != null) {
-			return "duplication";
-		}
 		return serviceControlService.serviceControlInsert(serviceControl);
 	}
 	

@@ -14,6 +14,7 @@ public class ServiceControl {
 	private int serviceControlKeyNum;
 	private String serviceControlPurpose;
 	private String serviceControlIp;
+	private String serviceControlPcPower;
 	private String serviceControlTomcat;
 	private String serviceControlLogServer;
 	private String serviceControlScvEA;

@@ -3,6 +3,7 @@ package com.secuve.agentInfo.service;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -24,8 +25,19 @@ public class ServiceControlService {
 	@Autowired ServiceControlDao serviceControlDao;
 
 	public String serviceControlInsert(ServiceControl serviceControl) {
-		return insertSync(serviceControl);
+		if(serviceControlDao.getServiceControlOne(serviceControl.getServiceControlIp()) != null) {
+			return "duplication";
+		}
+		String result = removeCharacter(insertSync(serviceControl),'"');
+		if (result.equals("OK"))
+			result = serviceControlSynchronization();
+		return result;
 	}
+	
+	public String removeCharacter(String input, char charToRemove) {
+        String regex = Pattern.quote(String.valueOf(charToRemove));
+        return input.replaceAll(regex, "");
+    }
 	
 	public String insertSync(ServiceControl serviceControl) {
 		String url = "http://"+serviceControl.getServiceControlIp()+":8081/serviceControlAgent";
@@ -44,20 +56,22 @@ public class ServiceControlService {
         		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
         		.queryParam("serviceControlDbType", serviceControl.getServiceControlDbType())
         		.build();
-
-        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
-
-        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
-        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
-        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
-
-        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
-        ObjectMapper mapper = new ObjectMapper();
+        
         try {
+        	ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+	        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+	        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+	        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+	
+	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+	        ObjectMapper mapper = new ObjectMapper();
 			jsonInString = mapper.writeValueAsString(resultMap.getBody());
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			serviceControl.setServiceControlPcPower("off");
+			serviceControlDao.insertServiceControl(serviceControl);
+			//e.printStackTrace();
+			return "pcOff";
 		}
         
         return jsonInString;
@@ -83,12 +97,8 @@ public class ServiceControlService {
 			if (sucess <= 0)
 				return "FALSE";
 		}
-		return "OK";
-	}
-
-	public ServiceControl getServiceControlOne(String serviceControlIp) {
-		return serviceControlDao.getServiceControlOne(serviceControlIp);
-	}
+		return serviceControlSynchronization();
+ 	}
 
 	public String serviceControlSynchronization() {
 		List<ServiceControl> serviceControlList = serviceControlDao.serviceControlAll();

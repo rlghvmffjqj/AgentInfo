@@ -39,6 +39,10 @@ public class ServiceControlDao {
 	public List<String> getServiceControlValue(String column) {
 		return sqlSession.selectList("serviceControl.getServiceControlValue",column);
 	}
+
+	public void insertServiceControl(ServiceControl serviceControl) {
+		sqlSession.insert("serviceControl.insertServiceControl", serviceControl);
+	}
 	
 	
 }

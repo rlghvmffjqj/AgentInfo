@@ -43,6 +43,11 @@
 		SELECT DISTINCT ${column} FROM serviceControl;
 	</select>
 	
+	<insert id="insertServiceControl">
+		INSERT INTO serviceControl(serviceControlPurpose,serviceControlIp,serviceControlPcPower,serviceControlTomcat,serviceControlLogServer,serviceControlScvEA,serviceControlScvCA,serviceControlAgent,serviceControlDB,serviceControlDisk,serviceControlMemory,serviceControlFirewall,serviceControlJavaVersion,serviceControlTomcatVersion,serviceControlRelease,serviceControlKernel,serviceControlPort,serviceControlServicePath,serviceControlTomcatPath,serviceControlDbType)
+		VALUES(#{serviceControlPurpose},#{serviceControlIp},#{serviceControlPcPower},#{serviceControlTomcat},#{serviceControlLogServer},#{serviceControlScvEA},#{serviceControlScvCA},#{serviceControlAgent},#{serviceControlDB},#{serviceControlDisk},#{serviceControlMemory},#{serviceControlFirewall},#{serviceControlJavaVersion},#{serviceControlTomcatVersion},#{serviceControlRelease},#{serviceControlKernel},#{serviceControlPort},#{serviceControlServicePath},#{serviceControlTomcatPath},#{serviceControlDbType});
+	</insert>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlServiceControl">
