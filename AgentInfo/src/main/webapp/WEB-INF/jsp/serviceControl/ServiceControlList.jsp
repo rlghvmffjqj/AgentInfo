@@ -18,11 +18,12 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','사용 목적','서버 IP','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','JAVA 버전','Tomcat 버전','릴리즈 정보',/*'커널 정보',*/'DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
+					colNames:['Key','사용 목적','서버 IP','PC전원','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','JAVA 버전','Tomcat 버전','릴리즈 정보',/*'커널 정보',*/'DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
 					colModel:[
 						{name:'serviceControlKeyNum', index:'serviceControlKeyNum', align:'center', width: 40, hidden:true },
 						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150, formatter: urlFormatter},
 						{name:'serviceControlIp', index:'serviceControlIp', align:'center', width: 100, formatter: linkFormatter},
+						{name:'serviceControlPcPower', index:'serviceControlPcPower', align:'center', width: 70, formatter: pcPowerFormatter},
 						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 70, formatter: tomcatFormatter},
 						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 70, formatter: logServerFormatter},
 						{name:'serviceControlScvEA', index:'serviceControlScvEA', align:'center', width: 70, formatter: scvEAFormatter},
@@ -36,7 +37,7 @@
 						{name:'serviceControlTomcatVersion', index:'serviceControlTomcatVersion',align:'center', width: 100},
 						{name:'serviceControlRelease', index:'serviceControlRelease',align:'center', width: 200},
 						// {name:'serviceControlKernel', index:'serviceControlKernel',align:'center', width: 200},
-						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 80},
+						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 80, formatter: dbTypeFormatter},
 						{name:'serviceControlServicePath', index:'serviceControlServicePath',align:'center', width: 150},
 						{name:'serviceControlTomcatPath', index:'serviceControlTomcatPath',align:'center', width: 150},
 					],
@@ -224,33 +225,35 @@
 					  cancelButtonColor: '#FF99AB',
 					  confirmButtonText: 'OK'
 				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/serviceControl/delete'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '삭제 완료하였습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '삭제 실패하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
+				  	if (result.isConfirmed) {
+						showLoadingImage();
+					  	$.ajax({
+							url: "<c:url value='/serviceControl/delete'/>",
+							type: "POST",
+							data: {chkList: chkList},
+							dataType: "text",
+							traditional: true,
+							success: function(data) {
+								hideLoadingImage();
+								if(data == "OK")
+									Swal.fire(
+									  '성공!',
+									  '삭제 완료하였습니다.',
+									  'success'
+									)
+								else
+									Swal.fire(
+									  '실패!',
+									  '삭제 실패하였습니다.',
+									  'error'
+									)
+								tableRefresh();
+							},
+							error: function(error) {
+								hideLoadingImage();
+								console.log(error);
+							}
+					  	});
 				  	}
 				})
 			}
@@ -262,7 +265,6 @@
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/serviceControl/synchronization'/>",
-			    async: false,
 			    success: function (data) {
 					hideLoadingImage();
 					if(data == "OK") {
@@ -373,6 +375,17 @@
 		
 		
 		/* =========== 상태에 따른 이미지 부여 ========= */
+		function pcPowerFormatter(value, options, row) {
+			var serviceControlPcPower = row.serviceControlPcPower;
+			if(serviceControlPcPower == "on") {
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+			} else if(serviceControlPcPower == "off") {
+				return '<div><img src="/AgentInfo/images/end.png" style="width:50px;"></div';
+			} 
+			return '<div></div>';
+		}
+		
+		/* =========== 상태에 따른 이미지 부여 ========= */
 		function tomcatFormatter(value, options, row) {
 			var serviceControlTomcat = row.serviceControlTomcat;
 			if(serviceControlTomcat == "execution") {
@@ -461,6 +474,16 @@
 				return '<div><img src="/AgentInfo/images/unableConfirm.png" style="width:50px;"></div';
 			}
 			return '<div></div>';
+		}
+
+		
+		/* =========== 상태에 따른 이미지 부여 ========= */
+		function dbTypeFormatter(value, options, row) {
+			var serviceControlDbType = row.serviceControlDbType;
+			if(serviceControlDbType == "none") {
+				return '<div></div';
+			} 
+			return '<div>'+serviceControlDbType+'</div>';
 		}
 
 		// 로딩 이미지를 보여주는 함수

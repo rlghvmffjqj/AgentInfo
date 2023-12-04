@@ -55,10 +55,9 @@
 			url: "<c:url value='/serviceControl/insert'/>",
 	        type: 'post',
 	        data: postData,
-	        async: false,
 	        success: function(result) {
 				hideLoadingImage();
-				if(result === '"OK"') {
+				if(result === 'OK') {
 					Swal.fire({
 						icon: 'success',
 						title: '성공!',
@@ -74,6 +73,16 @@
 						title: '실패!',
 						text: "동일한 서버가 존재 합니다.",
 					});
+				} else if(result == "pcOff") {
+					Swal.fire({
+						icon: 'success',
+						title: '성공!',
+						text: "서비스 등록은 완료 하였지만, PC전원이 종료 되어 있습니다.",
+					});
+					$('#modal').modal("hide"); // 모달 닫기
+		        	$('#modal').on('hidden.bs.modal', function () {
+		        		tableRefresh();
+		        	});
 				} else {
 					Swal.fire({
 						icon: 'error',
