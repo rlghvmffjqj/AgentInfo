@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.service;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -11,21 +13,24 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.dao.ServiceControlDao;
 import com.secuve.agentInfo.vo.ServiceControl;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class ServiceControlService {
 	@Autowired ServiceControlDao serviceControlDao;
 
 	public String serviceControlInsert(ServiceControl serviceControl) {
-		if(serviceControlDao.getServiceControlOne(serviceControl.getServiceControlIp()) != null) {
+		if(serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp()) != null) {
 			return "duplication";
 		}
 		String result = removeCharacter(insertSync(serviceControl),'"');
@@ -69,6 +74,7 @@ public class ServiceControlService {
 			jsonInString = mapper.writeValueAsString(resultMap.getBody());
 		} catch (Exception e) {
 			serviceControl.setServiceControlPcPower("off");
+			serviceControl.setServiceControlDate(nowDate());
 			serviceControlDao.insertServiceControl(serviceControl);
 			//e.printStackTrace();
 			return "pcOff";
@@ -102,8 +108,8 @@ public class ServiceControlService {
 
 	public String serviceControlSynchronization() {
 		List<ServiceControl> serviceControlList = serviceControlDao.serviceControlAll();
-		serviceControlDao.delServiceControlAll();
 		try {
+			serviceControlDao.delServiceControlAll();
 			for(ServiceControl serviceControl : serviceControlList) {
 				insertSync(serviceControl);
 			}
@@ -115,6 +121,58 @@ public class ServiceControlService {
 
 	public List<String> getServiceControlValue(String column) {
 		return serviceControlDao.getServiceControlValue(column);
+	}
+
+	public ServiceControl getServiceControlOne(int serviceControlKeyNum) {
+		return serviceControlDao.getServiceControlOne(serviceControlKeyNum);
+	}
+
+	public void executionChange(ServiceControl serviceControl) {
+		changeStatus(serviceControl);
+		
+	}
+	
+	public String changeStatus(ServiceControl serviceControl) {
+		String url = "http://"+serviceControl.getServiceControlIp()+":8081/serviceControlAgent/executionChange";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("service", serviceControl.getService())
+        		.queryParam("status", serviceControl.getStatus())
+        		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
+        		.build();
+        
+        try {
+        	ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+	        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+	        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+	        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+	
+	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+	        ObjectMapper mapper = new ObjectMapper();
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (Exception e) {
+			serviceControl.setServiceControlPcPower("off");
+			serviceControl.setServiceControlDate(nowDate());
+			serviceControlDao.insertServiceControl(serviceControl);
+			//e.printStackTrace();
+			return "pcOff";
+		}
+        
+        return jsonInString;
+	}
+	
+	public String nowDate() {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return formatter.format(now);
 	}
 
 }

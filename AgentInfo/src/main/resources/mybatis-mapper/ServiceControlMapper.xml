@@ -27,7 +27,7 @@
 		DELETE FROM serviceControl WHERE serviceControlKeyNum = #{serviceControlKeyNum};
 	</delete>
 	
-	<select id="getServiceControlOne" resultMap="serviceControl" parameterType="string">
+	<select id="getServiceControlIpOne" resultMap="serviceControl" parameterType="string">
 		SELECT * FROM serviceControl WHERE serviceControlIp = #{serviceControlIp};
 	</select>
 	
@@ -44,9 +44,13 @@
 	</select>
 	
 	<insert id="insertServiceControl">
-		INSERT INTO serviceControl(serviceControlPurpose,serviceControlIp,serviceControlPcPower,serviceControlTomcat,serviceControlLogServer,serviceControlScvEA,serviceControlScvCA,serviceControlAgent,serviceControlDB,serviceControlDisk,serviceControlMemory,serviceControlFirewall,serviceControlJavaVersion,serviceControlTomcatVersion,serviceControlRelease,serviceControlKernel,serviceControlPort,serviceControlServicePath,serviceControlTomcatPath,serviceControlDbType)
-		VALUES(#{serviceControlPurpose},#{serviceControlIp},#{serviceControlPcPower},#{serviceControlTomcat},#{serviceControlLogServer},#{serviceControlScvEA},#{serviceControlScvCA},#{serviceControlAgent},#{serviceControlDB},#{serviceControlDisk},#{serviceControlMemory},#{serviceControlFirewall},#{serviceControlJavaVersion},#{serviceControlTomcatVersion},#{serviceControlRelease},#{serviceControlKernel},#{serviceControlPort},#{serviceControlServicePath},#{serviceControlTomcatPath},#{serviceControlDbType});
+		INSERT INTO serviceControl(serviceControlPurpose,serviceControlIp,serviceControlPcPower,serviceControlTomcat,serviceControlLogServer,serviceControlScvEA,serviceControlScvCA,serviceControlAgent,serviceControlDB,serviceControlDisk,serviceControlMemory,serviceControlFirewall,serviceControlJavaVersion,serviceControlTomcatVersion,serviceControlRelease,serviceControlKernel,serviceControlPort,serviceControlServicePath,serviceControlTomcatPath,serviceControlDbType,serviceControlDate)
+		VALUES(#{serviceControlPurpose},#{serviceControlIp},#{serviceControlPcPower},#{serviceControlTomcat},#{serviceControlLogServer},#{serviceControlScvEA},#{serviceControlScvCA},#{serviceControlAgent},#{serviceControlDB},#{serviceControlDisk},#{serviceControlMemory},#{serviceControlFirewall},#{serviceControlJavaVersion},#{serviceControlTomcatVersion},#{serviceControlRelease},#{serviceControlKernel},#{serviceControlPort},#{serviceControlServicePath},#{serviceControlTomcatPath},#{serviceControlDbType},#{serviceControlDate});
 	</insert>
+	
+	<select id="getServiceControlOne" resultMap="serviceControl" parameterType="_int">
+		SELECT * FROM serviceControl WHERE serviceControlKeyNum = #{serviceControlKeyNum};
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

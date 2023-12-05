@@ -32,12 +32,16 @@ public class ServiceControl {
 	private String serviceControlServicePath;
 	private String serviceControlTomcatPath;
 	private String serviceControlDbType;
+	private String serviceControlDate;
 	
 	private String serviceControlPurposeSearch;
 	private String serviceControlIpSearch;
 	
 	private String[] serviceControlPurposeArr;
 	private String[] serviceControlIpArr;
+	
+	private String service;
+	private String status;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

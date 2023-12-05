@@ -34,6 +34,7 @@ $.modal = function (modalContent, size) {
 	if(size=='packageAnalysis') html += ' modal-packageAnalysis';
 	if(size=='favorite') html += ' modal-favorite';
 	if(size=='serviceControl') html += ' modal-serviceControl';
+	if(size=='serviceControlAdd') html += ' modal-serviceControlAdd';
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

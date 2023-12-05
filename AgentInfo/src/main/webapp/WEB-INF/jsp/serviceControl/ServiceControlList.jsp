@@ -198,7 +198,7 @@
 			    url: "<c:url value='/serviceControl/insertView'/>",
 			    async: false,
 			    success: function (data) {
-			    	$.modal(data, 'serviceControl'); //modal창 호출
+			    	$.modal(data, 'serviceControlAdd'); //modal창 호출
 			    },
 			    error: function(e) {
 			        alert(e);
@@ -323,8 +323,6 @@
 			    data: {"serviceControlKeyNum" : data},
 			    async: false,
 			    success: function (data) {
-			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
 			        $.modal(data, 'serviceControl'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -378,9 +376,9 @@
 		function pcPowerFormatter(value, options, row) {
 			var serviceControlPcPower = row.serviceControlPcPower;
 			if(serviceControlPcPower == "on") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlPcPower == "off") {
-				return '<div><img src="/AgentInfo/images/end.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/end.png" style="width:50px;"></div>';
 			} 
 			return '<div></div>';
 		}
@@ -389,11 +387,11 @@
 		function tomcatFormatter(value, options, row) {
 			var serviceControlTomcat = row.serviceControlTomcat;
 			if(serviceControlTomcat == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlTomcat == "notRunning") {
-				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div>';
 			} else if(serviceControlTomcat == "notInstalled") {
-				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div>';
 			} 
 			return '<div></div>';
 		}
@@ -402,11 +400,11 @@
 		function logServerFormatter(value, options, row) {
 			var serviceControlLogServer = row.serviceControlLogServer;
 			if(serviceControlLogServer == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlLogServer == "notRunning") {
-				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div>';
 			} else if(serviceControlLogServer == "notInstalled") {
-				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div>';
 			}
 			return '<div></div>';
 		}
@@ -415,11 +413,11 @@
 		function scvEAFormatter(value, options, row) {
 			var serviceControlScvEA = row.serviceControlScvEA;
 			if(serviceControlScvEA == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlScvEA == "notRunning") {
-				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div>';
 			} else if(serviceControlScvEA == "notInstalled") {
-				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div>';
 			}
 			return '<div></div>';
 		}
@@ -428,11 +426,11 @@
 		function scvCAFormatter(value, options, row) {
 			var serviceControlScvCA = row.serviceControlScvCA;
 			if(serviceControlScvCA == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlScvCA == "notRunning") {
-				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div>';
 			} else if(serviceControlScvCA == "notInstalled") {
-				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div>';
 			}
 			return '<div></div>';
 		}
@@ -441,11 +439,11 @@
 		function agentFormatter(value, options, row) {
 			var serviceControlAgent = row.serviceControlAgent;
 			if(serviceControlAgent == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlAgent == "notRunning") {
-				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div>';
 			} else if(serviceControlAgent == "notInstalled") {
-				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div>';
 			}
 			return '<div></div>';
 		}
@@ -454,11 +452,11 @@
 		function databaseFormatter(value, options, row) {
 			var serviceControlDB = row.serviceControlDB;
 			if(serviceControlDB == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlDB == "notRunning") {
-				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notRun.png" style="width:50px;"></div>';
 			} else if(serviceControlDB == "notInstalled") {
-				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/notInstalled.png" style="width:50px;"></div>';
 			}
 			return '<div></div>';
 		}
@@ -467,11 +465,11 @@
 		function firewallFormatter(value, options, row) {
 			var serviceControlFirewall = row.serviceControlFirewall;
 			if(serviceControlFirewall == "execution") {
-				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlFirewall == "notRunning") {
-				return '<div><img src="/AgentInfo/images/end.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/end.png" style="width:50px;"></div>';
 			} else if(serviceControlFirewall == "unableConfirm") {
-				return '<div><img src="/AgentInfo/images/unableConfirm.png" style="width:50px;"></div';
+				return '<div><img src="/AgentInfo/images/unableConfirm.png" style="width:50px;"></div>';
 			}
 			return '<div></div>';
 		}
@@ -481,7 +479,7 @@
 		function dbTypeFormatter(value, options, row) {
 			var serviceControlDbType = row.serviceControlDbType;
 			if(serviceControlDbType == "none") {
-				return '<div></div';
+				return '<div></div>';
 			} 
 			return '<div>'+serviceControlDbType+'</div>';
 		}

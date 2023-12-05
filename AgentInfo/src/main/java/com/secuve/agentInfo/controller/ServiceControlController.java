@@ -73,4 +73,17 @@ public class ServiceControlController {
 	public String ServiceControlSynchronization() {
 		return serviceControlService.serviceControlSynchronization();
 	}
+	
+	@PostMapping(value = "/serviceControl/updateView")
+	public String ServiceControlView(Model model, int serviceControlKeyNum) {
+		model.addAttribute("serviceControl",serviceControlService.getServiceControlOne(serviceControlKeyNum));
+		return "/serviceControl/ServiceControlView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/serviceControl/executionChange")
+	public String ExecutionChange(ServiceControl serviceControl) {
+		serviceControlService.executionChange(serviceControl);
+		return "OK";
+	}
 }

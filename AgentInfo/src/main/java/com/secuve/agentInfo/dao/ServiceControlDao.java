@@ -24,8 +24,8 @@ public class ServiceControlDao {
 		return sqlSession.delete("serviceControl.delServiceControl", serviceControlKeyNum);
 	}
 
-	public ServiceControl getServiceControlOne(String serviceControlIp) {
-		return sqlSession.selectOne("serviceControl.getServiceControlOne", serviceControlIp);
+	public ServiceControl getServiceControlIpOne(String serviceControlIp) {
+		return sqlSession.selectOne("serviceControl.getServiceControlIpOne", serviceControlIp);
 	}
 
 	public List<ServiceControl> serviceControlAll() {
@@ -42,6 +42,10 @@ public class ServiceControlDao {
 
 	public void insertServiceControl(ServiceControl serviceControl) {
 		sqlSession.insert("serviceControl.insertServiceControl", serviceControl);
+	}
+
+	public ServiceControl getServiceControlOne(int serviceControlKeyNum) {
+		return sqlSession.selectOne("serviceControl.getServiceControlOne", serviceControlKeyNum);
 	}
 	
 	

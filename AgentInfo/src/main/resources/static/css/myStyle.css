@@ -287,9 +287,14 @@ p {
     max-width: 500px;
 }
 
-.modal-serviceControl {
+.modal-serviceControlAdd {
 	top: 25%;
     max-width: 500px;
+}
+
+.modal-serviceControl {
+	top: 0%;
+    max-width: 1000px;
 }
 
 .border1 {
