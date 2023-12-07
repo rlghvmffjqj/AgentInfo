@@ -28,7 +28,7 @@
 			    <label class="float-label headLabel">Tomcat 설치 경로</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType" style="height: 44px;">
+				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">
 					<option value="none" <c:if test="${'none' eq serviceControl.serviceControlDbType}">selected</c:if>>미설치</option>
 					<option value="tibero" <c:if test="${'tibero' eq serviceControl.serviceControlDbType}">selected</c:if>>Tibero</option>
 					<option value="oracle" <c:if test="${'oracle' eq serviceControl.serviceControlDbType}">selected</c:if>>Oracle</option>
@@ -41,9 +41,9 @@
 				<label class="float-label headLabel">DB 구분</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-				<div class="statusDiv form-control" style="height: 44px;">
-					<c:if test="${'on' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'pcOff' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
+				<div class="statusDiv form-control">
+					<c:if test="${'on' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'pcOff' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'on' eq serviceControl.serviceControlPcPower}">실행</c:if>
 						<c:if test="${'off' eq serviceControl.serviceControlPcPower}">종료</c:if>
@@ -60,10 +60,10 @@
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="tomcatDiv">
 			</c:if>
-					<c:if test="${'execution' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notRunning' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notInstalled' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'unableConfirm' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
+					<c:if test="${'execution' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notRunning' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/yellowcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notInstalled' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'unableConfirm' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'execution' eq serviceControl.serviceControlTomcat}">실행</c:if>
 						<c:if test="${'notRunning' eq serviceControl.serviceControlTomcat}">미실행</c:if>
@@ -97,10 +97,10 @@
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="logServerDiv">
 			</c:if>
-					<c:if test="${'execution' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notRunning' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notInstalled' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'unableConfirm' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
+					<c:if test="${'execution' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notRunning' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/yellowcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notInstalled' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'unableConfirm' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'execution' eq serviceControl.serviceControlLogServer}">실행</c:if>
 						<c:if test="${'notRunning' eq serviceControl.serviceControlLogServer}">미실행</c:if>
@@ -134,10 +134,10 @@
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="scvEADiv">
 			</c:if>
-					<c:if test="${'execution' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notRunning' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notInstalled' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
+					<c:if test="${'execution' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notRunning' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/yellowcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notInstalled' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'execution' eq serviceControl.serviceControlScvEA}">실행</c:if>
 						<c:if test="${'notRunning' eq serviceControl.serviceControlScvEA}">미실행</c:if>
@@ -171,10 +171,10 @@
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="scvCADiv">
 			</c:if>
-					<c:if test="${'execution' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notRunning' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notInstalled' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
+					<c:if test="${'execution' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notRunning' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/yellowcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notInstalled' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'execution' eq serviceControl.serviceControlScvCA}">실행</c:if>
 						<c:if test="${'notRunning' eq serviceControl.serviceControlScvCA}">미실행</c:if>
@@ -201,11 +201,11 @@
 				<label class="float-label headLabel">ScvCA 상태</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-				<div class="statusDiv form-control" style="height: 44px;">
-					<c:if test="${'execution' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notRunning' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notInstalled' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'unableConfirm' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
+				<div class="statusDiv form-control">
+					<c:if test="${'execution' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notRunning' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/yellowcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notInstalled' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'unableConfirm' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'execution' eq serviceControl.serviceControlDB}">실행</c:if>
 						<c:if test="${'notRunning' eq serviceControl.serviceControlDB}">미실행</c:if>
@@ -218,17 +218,14 @@
 			</div>
 			<div class="form-group form-default form-static-label form-view borderBotton">
 				<div class="statusDiv" id="firewallDiv">
-					<c:if test="${'execution' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
-					<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
-					<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
+					<c:if test="${'execution' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
+					<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'execution' eq serviceControl.serviceControlFirewall}">실행</c:if>
 						<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}">중지</c:if>
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}">확인불가</c:if>
 					</span>
-				</div>
-				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button" onclick="logInquiry('firewall')">로그 보기</button>
 				</div>
 				<div class="dropdown form-control">
 					<button class="btn custom-btn" type="button" id="firewallToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -287,6 +284,12 @@
 		//location.reload(true);
 		tableRefresh();
 	});
+
+	$(document).keydown(function(e) {
+        if (e.which === 27) {
+            tableRefresh();
+        }
+    });
 
 	$('#updateBtn').click(function() {
 		showLoadingImage();
@@ -457,7 +460,7 @@
     	float: left;
 	}
 
-	.dropdown {
+	.form-group > .dropdown {
 		float: right;
     	width: auto !important;;
     	border: none !important;;
@@ -480,6 +483,15 @@
 	.logLook {
 		float: right;
 		width: 75px;
+	}
+
+	.form-group {
+		height: 44px;
+		border-bottom: 1px solid #ccc;
+	}
+
+	.form-group > .form-control {
+		border-bottom: none !important;
 	}
 
 </style>
