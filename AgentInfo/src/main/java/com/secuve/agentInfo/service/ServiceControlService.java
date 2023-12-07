@@ -185,20 +185,8 @@ public class ServiceControlService {
 	public String getLogInquiry(ServiceControl serviceControl) {
 		String logDate = serviceControlDao.getLastLogDate(serviceControl);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        try {
-            Date parsedDate = dateFormat.parse(logDate);
-            System.out.println("Parsed Date: " + parsedDate);
-
-            // Date에서 원하는 형태의 문자열로 변환
-            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy MM dd HH mm ss");
-            String formattedDate = outputFormat.format(parsedDate);
-            serviceControl.setServiceControlLogDate(formattedDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String cleanString = removeQuotes(logInquiry(serviceControl));
-		return cleanString;
+		serviceControl.setServiceControlLogDate(dateFormat.format(logDate));
+        return removeQuotes(logInquiry(serviceControl));
 	}
 	
 	private static String removeQuotes(String str) {
