@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.service;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -145,6 +146,8 @@ public class ServiceControlService {
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("service", serviceControl.getService())
         		.queryParam("status", serviceControl.getStatus())
+        		.queryParam("serviceControlServicePath", serviceControl.getServiceControlServicePath())
+        		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
         		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
         		.build();
         
@@ -173,6 +176,76 @@ public class ServiceControlService {
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(now);
+	}
+
+	public ServiceControl getServiceControlIpOne(String serviceControlIp) {
+		return serviceControlDao.getServiceControlIpOne(serviceControlIp);
+	}
+
+	public String getLogInquiry(ServiceControl serviceControl) {
+		String logDate = serviceControlDao.getLastLogDate(serviceControl);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+            Date parsedDate = dateFormat.parse(logDate);
+            System.out.println("Parsed Date: " + parsedDate);
+
+            // Date에서 원하는 형태의 문자열로 변환
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy MM dd HH mm ss");
+            String formattedDate = outputFormat.format(parsedDate);
+            serviceControl.setServiceControlLogDate(formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String cleanString = removeQuotes(logInquiry(serviceControl));
+		return cleanString;
+	}
+	
+	private static String removeQuotes(String str) {
+        // 문자열이 큰따옴표로 둘러싸여 있다면 제거
+        if (str.startsWith("\"") && str.endsWith("\"")) {
+            return str.substring(1, str.length() - 1);
+        } else {
+            return str;
+        }
+    }
+	
+	public String logInquiry(ServiceControl serviceControl) {
+		String url = "http://"+serviceControl.getServiceControlIp()+":8081/serviceControlAgent/logInquiry";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("service", serviceControl.getService())
+        		.queryParam("serviceControlServicePath", serviceControl.getServiceControlServicePath())
+        		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
+        		.queryParam("serviceControlLogDate", serviceControl.getServiceControlLogDate())
+        		.build();
+        
+        try {
+        	ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+	        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+	        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+	        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+	
+	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+	        ObjectMapper mapper = new ObjectMapper();
+			jsonInString = mapper.writeValueAsString(resultMap.getBody()).toString();
+		} catch (Exception e) {
+			serviceControl.setServiceControlPcPower("off");
+			serviceControl.setServiceControlDate(nowDate());
+			serviceControlDao.insertServiceControl(serviceControl);
+			//e.printStackTrace();
+			return "pcOff";
+		}
+        
+        return jsonInString;
 	}
 
 }

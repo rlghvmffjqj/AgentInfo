@@ -278,7 +278,6 @@
 								location.reload(true);
 							}
 						})
-
 					} else {
 						Swal.fire({
 							icon: 'error',
@@ -312,7 +311,7 @@
 
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.serviceControlKeyNum+"'"+')" style="color:#366cb3; font-size: 12px;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.serviceControlIp+"'"+')" style="color:#366cb3; font-size: 12px;">' + cellValue + '</a>';
 		}
 		
 		/* =========== 서비스 수정 Modal ========= */
@@ -320,7 +319,7 @@
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/serviceControl/updateView'/>",
-			    data: {"serviceControlKeyNum" : data},
+			    data: {"serviceControlIp" : data},
 			    async: false,
 			    success: function (data) {
 			        $.modal(data, 'serviceControl'); //modal창 호출

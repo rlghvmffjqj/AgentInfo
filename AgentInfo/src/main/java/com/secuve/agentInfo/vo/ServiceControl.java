@@ -42,6 +42,7 @@ public class ServiceControl {
 	
 	private String service;
 	private String status;
+	private String serviceControlLogDate;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

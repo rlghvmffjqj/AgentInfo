@@ -5,7 +5,8 @@
 
 <div class="modal-body" style="width: 100%; height: 750px; padding-top: 4%;">
 	<div class="card-block margin10">
-		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">	
+		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">
+			<input type="hidden" id="serviceControlKeyNum" name="serviceControlKeyNum" value="${serviceControl.serviceControlKeyNum}">
 			<div class="form-group form-default form-static-label form-view">
 			    <input type="text" id="serviceControlPurpose" name="serviceControlPurpose" class="form-control" value="${serviceControl.serviceControlPurpose}">
 			    <span class="form-bar"></span>
@@ -26,8 +27,8 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">Tomcat 설치 경로</label>
 			</div>
-			<div class="form-group form-default form-static-label" style="float: left; width: 100%;">
-				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">
+			<div class="form-group form-default form-static-label form-view">
+				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType" style="height: 44px;">
 					<option value="none" <c:if test="${'none' eq serviceControl.serviceControlDbType}">selected</c:if>>미설치</option>
 					<option value="tibero" <c:if test="${'tibero' eq serviceControl.serviceControlDbType}">selected</c:if>>Tibero</option>
 					<option value="oracle" <c:if test="${'oracle' eq serviceControl.serviceControlDbType}">selected</c:if>>Oracle</option>
@@ -40,7 +41,7 @@
 				<label class="float-label headLabel">DB 구분</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-				<div class="statusDiv form-control">
+				<div class="statusDiv form-control" style="height: 44px;">
 					<c:if test="${'on' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'pcOff' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
 					<span>
@@ -51,8 +52,14 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">PC 전원</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlTomcat}">
+				<div class="form-group form-default form-static-label form-view">
+					<div class="statusDiv form-control" id="tomcatDiv">
+			</c:if>
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlTomcat}">
+				<div class="form-group form-default form-static-label form-view borderBotton">
+					<div class="statusDiv" id="tomcatDiv">
+			</c:if>
 					<c:if test="${'execution' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notInstalled' eq serviceControl.serviceControlTomcat}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
@@ -64,24 +71,32 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlTomcat}">확인불가</c:if>
 					</span>
 				</div>
-				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button">로그 보기</button>
-				</div>
-				<div class="dropdown form-control">
-					<button class="btn custom-btn" type="button" id="tomcatToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	상태 변경
-					</button>
-					<div class="dropdown-menu" aria-labelledby="tomcatToggle">
-					  	<!-- Dropdown items go here -->
-					  	<a class="dropdown-item tomcatToggle" href="#" data-value="run">실행</a>
-					  	<a class="dropdown-item tomcatToggle" href="#" data-value="stop">중지</a>
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlTomcat}">
+					<div class="logLook custom-btn">
+						<button class="btn custom-btn" type="button" onclick="logInquiry('tomcat')">로그 보기</button>
 					</div>
-				</div>
+					<div class="dropdown form-control">
+						<button class="btn custom-btn" type="button" id="tomcatToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	상태 변경
+						</button>
+						<div class="dropdown-menu" aria-labelledby="tomcatToggle">
+						  	<!-- Dropdown items go here -->
+						  	<a class="dropdown-item tomcatToggle" href="#" data-value="run">실행</a>
+						  	<a class="dropdown-item tomcatToggle" href="#" data-value="stop">중지</a>
+						</div>
+					</div>
+				</c:if>
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">Tomat 상태</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlLogServer}">
+				<div class="form-group form-default form-static-label form-view">
+					<div class="statusDiv form-control" id="logServerDiv">
+			</c:if>
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlLogServer}">
+				<div class="form-group form-default form-static-label form-view borderBotton">
+					<div class="statusDiv" id="logServerDiv">
+			</c:if>
 					<c:if test="${'execution' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notInstalled' eq serviceControl.serviceControlLogServer}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
@@ -93,25 +108,32 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlLogServer}">확인불가</c:if>
 					</span>
 				</div>
-				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button">로그 보기</button>
-				</div>
-				<div class="dropdown form-control">
-					<button class="btn custom-btn" type="button" id="logServerToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	상태 변경
-					</button>
-					<div class="dropdown-menu" aria-labelledby="logServerToggle">
-					  	<!-- Dropdown items go here -->
-					  	<a class="dropdown-item logServerToggle" href="#" data-value="run">실행</a>
-					  	<a class="dropdown-item logServerToggle" href="#" data-value="stop">중지</a>
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlLogServer}">
+					<div class="logLook custom-btn">
+						<button class="btn custom-btn" type="button" onclick="logInquiry('logServer')">로그 보기</button>
 					</div>
-				</div>
+					<div class="dropdown form-control">
+						<button class="btn custom-btn" type="button" id="logServerToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	상태 변경
+						</button>
+						<div class="dropdown-menu" aria-labelledby="logServerToggle">
+						  	<!-- Dropdown items go here -->
+						  	<a class="dropdown-item logServerToggle" href="#" data-value="run">실행</a>
+						  	<a class="dropdown-item logServerToggle" href="#" data-value="stop">중지</a>
+						</div>
+					</div>
+				</c:if>
 				<span class="form-bar"></span>
-				<label class="float-label headLabel">Tomat 상태</label>
+				<label class="float-label headLabel">LogServer 상태</label>
 			</div>
-
-			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlScvEA}">
+				<div class="form-group form-default form-static-label form-view">
+					<div class="statusDiv form-control" id="scvEADiv">
+			</c:if>
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlScvEA}">
+				<div class="form-group form-default form-static-label form-view borderBotton">
+					<div class="statusDiv" id="scvEADiv">
+			</c:if>
 					<c:if test="${'execution' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notInstalled' eq serviceControl.serviceControlScvEA}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
@@ -123,24 +145,32 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvEA}">확인불가</c:if>
 					</span>
 				</div>
-				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button">로그 보기</button>
-				</div>
-				<div class="dropdown form-control">
-					<button class="btn custom-btn" type="button" id="scvEAToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	상태 변경
-					</button>
-					<div class="dropdown-menu" aria-labelledby="scvEAToggle">
-					  	<!-- Dropdown items go here -->
-					  	<a class="dropdown-item scvEAToggle" href="#" data-value="run">실행</a>
-					  	<a class="dropdown-item scvEAToggle" href="#" data-value="stop">중지</a>
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlScvEA}">
+					<div class="logLook custom-btn">
+						<button class="btn custom-btn" type="button" onclick="logInquiry('scvEA')">로그 보기</button>
 					</div>
-				</div>
+					<div class="dropdown form-control">
+						<button class="btn custom-btn" type="button" id="scvEAToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	상태 변경
+						</button>
+						<div class="dropdown-menu" aria-labelledby="scvEAToggle">
+						  	<!-- Dropdown items go here -->
+						  	<a class="dropdown-item scvEAToggle" href="#" data-value="run">실행</a>
+						  	<a class="dropdown-item scvEAToggle" href="#" data-value="stop">중지</a>
+						</div>
+					</div>
+				</c:if>
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">ScvEA 상태</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlScvCA}">
+				<div class="form-group form-default form-static-label form-view">
+					<div class="statusDiv form-control" id="scvCADiv">
+			</c:if>
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlScvCA}">
+				<div class="form-group form-default form-static-label form-view borderBotton">
+					<div class="statusDiv" id="scvCADiv">
+			</c:if>
 					<c:if test="${'execution' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notInstalled' eq serviceControl.serviceControlScvCA}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
@@ -152,24 +182,26 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvCA}">확인불가</c:if>
 					</span>
 				</div>
-				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button">로그 보기</button>
-				</div>
-				<div class="dropdown form-control">
-					<button class="btn custom-btn" type="button" id="scvCAToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	상태 변경
-					</button>
-					<div class="dropdown-menu" aria-labelledby="scvCAToggle">
-					  	<!-- Dropdown items go here -->
-					  	<a class="dropdown-item scvCAToggle" href="#" data-value="run">실행</a>
-					  	<a class="dropdown-item scvCAToggle" href="#" data-value="stop">중지</a>
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlScvCA}">
+					<div class="logLook custom-btn">
+						<button class="btn custom-btn" type="button" onclick="logInquiry('scvCA')">로그 보기</button>
 					</div>
-				</div>
+					<div class="dropdown form-control">
+						<button class="btn custom-btn" type="button" id="scvCAToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	상태 변경
+						</button>
+						<div class="dropdown-menu" aria-labelledby="scvCAToggle">
+						  	<!-- Dropdown items go here -->
+						  	<a class="dropdown-item scvCAToggle" href="#" data-value="run">실행</a>
+						  	<a class="dropdown-item scvCAToggle" href="#" data-value="stop">중지</a>
+						</div>
+					</div>
+				</c:if>
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">ScvCA 상태</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv">
+			<div class="form-group form-default form-static-label form-view">
+				<div class="statusDiv form-control" style="height: 44px;">
 					<c:if test="${'execution' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/yellowcircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notInstalled' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
@@ -181,34 +213,11 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlDB}">확인불가</c:if>
 					</span>
 				</div>
-				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button">로그 보기</button>
-				</div>
-				<div class="dropdown form-control">
-					<button class="btn custom-btn" type="button" id="databaseToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	상태 변경
-					</button>
-					<div class="dropdown-menu" aria-labelledby="databaseToggle">
-					  	<!-- Dropdown items go here -->
-					  	<a class="dropdown-item databaseToggle" href="#" data-value="run">실행</a>
-					  	<a class="dropdown-item databaseToggle" href="#" data-value="stop">중지</a>
-					</div>
-				</div>
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">Database 상태</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view">
-			    <input type="text" id="serviceControlDisk" name="serviceControlDisk" class="form-control" value="${serviceControl.serviceControlDisk}%" disabled>
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">디스크 사용량</label>
-			</div>
-			<div class="form-group form-default form-static-label form-view">
-			    <input type="text" id="serviceControlMemory" name="serviceControlMemory" class="form-control" value="${serviceControl.serviceControlMemory}%" disabled>
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">메모리 사용량</label>
-			</div>
 			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv">
+				<div class="statusDiv" id="firewallDiv">
 					<c:if test="${'execution' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/greencircle.png" style="width:25px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/redcircle.png" style="width:25px;"></c:if>
 					<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/graycircle.png" style="width:25px;"></c:if>
@@ -219,7 +228,7 @@
 					</span>
 				</div>
 				<div class="logLook custom-btn">
-					<button class="btn custom-btn" type="button">로그 보기</button>
+					<button class="btn custom-btn" type="button" onclick="logInquiry('firewall')">로그 보기</button>
 				</div>
 				<div class="dropdown form-control">
 					<button class="btn custom-btn" type="button" id="firewallToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -235,7 +244,17 @@
 				<label class="float-label headLabel">방화벽</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-			    <input type="text" id="serviceControlJavaVersion" name="serviceControlJavaVersion" class="form-control" value="${serviceControl.serviceControlJavaVersion}" disabled style="height: 44px;">
+			    <input type="text" id="serviceControlDisk" name="serviceControlDisk" class="form-control" value="${serviceControl.serviceControlDisk}%" disabled>
+			    <span class="form-bar"></span>
+			    <label class="float-label headLabel">디스크 사용량</label>
+			</div>
+			<div class="form-group form-default form-static-label form-view">
+			    <input type="text" id="serviceControlMemory" name="serviceControlMemory" class="form-control" value="${serviceControl.serviceControlMemory}%" disabled>
+			    <span class="form-bar"></span>
+			    <label class="float-label headLabel">메모리 사용량</label>
+			</div>
+			<div class="form-group form-default form-static-label form-view">
+			    <input type="text" id="serviceControlJavaVersion" name="serviceControlJavaVersion" class="form-control" value="${serviceControl.serviceControlJavaVersion}" disabled>
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">자바 버전</label>
 			</div>
@@ -244,7 +263,7 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">톰켓 버전</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view">
+			<div class="form-group form-default form-static-label form-view" style="width: 100%;">
 			    <input type="text" id="serviceControlRelease" name="serviceControlRelease" class="form-control" value="${serviceControl.serviceControlRelease}" disabled>
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">릴리즈 정보</label>
@@ -260,15 +279,20 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>
-    <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+    <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal" id="close">닫기</button>
 </div>
 
 <script>
+	$('#close').click(function() {
+		//location.reload(true);
+		tableRefresh();
+	});
+
 	$('#updateBtn').click(function() {
 		showLoadingImage();
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
-			url: "<c:url value='/serviceControl/insert'/>",
+			url: "<c:url value='/serviceControl/update'/>",
 	        type: 'post',
 	        data: postData,
 	        success: function(result) {
@@ -340,11 +364,6 @@
 			statusChange("scvCA", selectedValue);
     	});
 
-		$('.databaseToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("database", selectedValue);
-    	});
-
 		$('.firewallToggle').on('click', function() {
 		    var selectedValue = $(this).data('value');
 			statusChange("firewall", selectedValue);
@@ -353,6 +372,8 @@
 
 	function statusChange(service, status) {
 		var serviceControlIp = "${serviceControl.serviceControlIp}";
+		var serviceControlTomcatPath = "${serviceControl.serviceControlTomcatPath}";
+		var serviceControlServicePath = "${serviceControl.serviceControlServicePath}";
 		showLoadingImage();
 		$.ajax({
 			url: "<c:url value='/serviceControl/executionChange'/>",
@@ -360,7 +381,9 @@
 	        data: {
 				"service": service,
 				"status": status,
-				"serviceControlIp": serviceControlIp
+				"serviceControlIp": serviceControlIp,
+				"serviceControlTomcatPath": serviceControlTomcatPath,
+				"serviceControlServicePath": serviceControlServicePath
 			},
 	        success: function(result) {
 				hideLoadingImage();
@@ -369,7 +392,16 @@
 						icon: 'success',
 						title: '성공!',
 						text: '작업을 완료했습니다.',
-					});
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$('#modal').modal("hide"); // 모달 닫기
+							setTimeout(() => {
+								updateView(serviceControlIp);
+							}, 200);
+							
+						}
+					})
+					
 				} else {
 					Swal.fire({
 						icon: 'error',
@@ -388,6 +420,32 @@
 				console.log(error);
 			}
 	    });
+	}
+
+	function logInquiry(service) {
+		var serviceControlIp = "${serviceControl.serviceControlIp}";
+		var serviceControlTomcatPath = "${serviceControl.serviceControlTomcatPath}";
+		var serviceControlServicePath = "${serviceControl.serviceControlServicePath}";
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/serviceControl/logInquiryView'/>",
+			data: {
+				"serviceControlIp": serviceControlIp,
+				"serviceControlTomcatPath": serviceControlTomcatPath,
+				"serviceControlServicePath": serviceControlServicePath,
+				"service": service
+			},
+		    async: false,
+		    success: function (data) {
+				$('#modal').modal("hide"); // 모달 닫기
+				setTimeout(() => {
+		    		$.modal(data, 'logInquiry'); //modal창 호출
+				}, 200);
+		    },
+		    error: function(e) {
+		        alert(e);
+		    }
+		});			
 	}
 
 	
@@ -416,6 +474,7 @@
 
 	.custom-btn {
 		margin-right: 7px;
+		background: bisque;
 	}
 
 	.logLook {

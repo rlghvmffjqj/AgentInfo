@@ -75,8 +75,8 @@ public class ServiceControlController {
 	}
 	
 	@PostMapping(value = "/serviceControl/updateView")
-	public String ServiceControlView(Model model, int serviceControlKeyNum) {
-		model.addAttribute("serviceControl",serviceControlService.getServiceControlOne(serviceControlKeyNum));
+	public String ServiceControlView(Model model, String serviceControlIp) {
+		model.addAttribute("serviceControl",serviceControlService.getServiceControlIpOne(serviceControlIp));
 		return "/serviceControl/ServiceControlView";
 	}
 	
@@ -84,6 +84,17 @@ public class ServiceControlController {
 	@PostMapping(value = "/serviceControl/executionChange")
 	public String ExecutionChange(ServiceControl serviceControl) {
 		serviceControlService.executionChange(serviceControl);
+		serviceControlService.serviceControlSynchronization();
 		return "OK";
+	}
+	
+	@PostMapping(value = "/serviceControl/logInquiryView")
+	public String LogInquiryView(ServiceControl serviceControl, Model model) {
+		String logInquiry = serviceControlService.getLogInquiry(serviceControl);
+		System.out.println(logInquiry);
+		logInquiry = logInquiry.replaceAll("\\\\n", "<br>");
+		model.addAttribute("serviceControlIp", serviceControl.getServiceControlIp());
+		model.addAttribute("serviceControlLog", logInquiry);
+		return "/serviceControl/LogInquiryView";
 	}
 }

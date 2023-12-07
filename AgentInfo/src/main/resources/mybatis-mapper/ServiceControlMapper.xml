@@ -52,6 +52,14 @@
 		SELECT * FROM serviceControl WHERE serviceControlKeyNum = #{serviceControlKeyNum};
 	</select>
 	
+	<select id="getLastLogDate" parameterType="string" resultType="string">
+		SELECT serviceControlLogDate 
+		FROM servicecontrollog 
+		WHERE serviceControlLogService = #{service} 
+		ORDER BY serviceControlLogDate DESC
+		LIMIT 1;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlServiceControl">

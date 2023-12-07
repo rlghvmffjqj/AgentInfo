@@ -14,6 +14,5 @@ public class ServiceControlLog {
 	private int serviceControlLogKeyNum;
 	private String serviceControlLogIp;
 	private String serviceControlLogService;
-	private String serviceControlLogDetail;
 	private String serviceControlLogDate;
 }

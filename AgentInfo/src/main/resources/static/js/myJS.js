@@ -35,6 +35,7 @@ $.modal = function (modalContent, size) {
 	if(size=='favorite') html += ' modal-favorite';
 	if(size=='serviceControl') html += ' modal-serviceControl';
 	if(size=='serviceControlAdd') html += ' modal-serviceControlAdd';
+	if(size=='logInquiry') html += ' modal-logInquiry';
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';
