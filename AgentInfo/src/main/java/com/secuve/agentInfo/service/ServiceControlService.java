@@ -1,7 +1,6 @@
 package com.secuve.agentInfo.service;
 
 import java.security.Principal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -162,11 +161,7 @@ public class ServiceControlService {
 	        ObjectMapper mapper = new ObjectMapper();
 			jsonInString = mapper.writeValueAsString(resultMap.getBody());
 		} catch (Exception e) {
-			serviceControl.setServiceControlPcPower("off");
-			serviceControl.setServiceControlDate(nowDate());
-			serviceControlDao.insertServiceControl(serviceControl);
-			//e.printStackTrace();
-			return "pcOff";
+			System.out.println(e);
 		}
         
         return jsonInString;
@@ -184,8 +179,7 @@ public class ServiceControlService {
 
 	public String getLogInquiry(ServiceControl serviceControl) {
 		String logDate = serviceControlDao.getLastLogDate(serviceControl);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		serviceControl.setServiceControlLogDate(dateFormat.format(logDate));
+		serviceControl.setServiceControlLogDate(logDate);
         return removeQuotes(logInquiry(serviceControl));
 	}
 	
@@ -226,14 +220,18 @@ public class ServiceControlService {
 	        ObjectMapper mapper = new ObjectMapper();
 			jsonInString = mapper.writeValueAsString(resultMap.getBody()).toString();
 		} catch (Exception e) {
-			serviceControl.setServiceControlPcPower("off");
-			serviceControl.setServiceControlDate(nowDate());
-			serviceControlDao.insertServiceControl(serviceControl);
-			//e.printStackTrace();
-			return "pcOff";
+			System.out.println(e);
 		}
         
         return jsonInString;
+	}
+
+	public String setServiceControlUpdate(ServiceControl serviceControl) {
+		int sucess = 0;
+		sucess = serviceControlDao.setServiceControlUpdate(serviceControl);
+		if (sucess <= 0)
+			return "FALSE";
+		return serviceControlSynchronization();
 	}
 
 }

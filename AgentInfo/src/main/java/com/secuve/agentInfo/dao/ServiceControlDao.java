@@ -51,6 +51,10 @@ public class ServiceControlDao {
 	public String getLastLogDate(ServiceControl serviceControl) {
 		return sqlSession.selectOne("serviceControl.getLastLogDate", serviceControl);
 	}
+
+	public int setServiceControlUpdate(ServiceControl serviceControl) {
+		return sqlSession.update("serviceControl.setServiceControlUpdate", serviceControl);
+	}
 	
 	
 }

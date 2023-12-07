@@ -60,6 +60,11 @@
 		LIMIT 1;
 	</select>
 	
+	<update id="setServiceControlUpdate">
+		UPDATE servicecontrol set serviceControlPurpose = #{serviceControlPurpose}, serviceControlIp = #{serviceControlIp}, serviceControlServicePath = #{serviceControlServicePath}, serviceControlTomcatPath = #{serviceControlTomcatPath}, serviceControlDbType = #{serviceControlDbType}
+		WHERE serviceControlKeyNum = #{serviceControlKeyNum};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlServiceControl">
