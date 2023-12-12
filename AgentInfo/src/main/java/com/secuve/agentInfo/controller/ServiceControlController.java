@@ -1,19 +1,11 @@
 package com.secuve.agentInfo.controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -100,6 +92,7 @@ public class ServiceControlController {
 	public String LogInquiryView(ServiceControl serviceControl, Model model) {
 		String logInquiry = serviceControlService.getLogInquiry(serviceControl);
 		logInquiry = logInquiry.replaceAll("\\\\n", "<br>");
+		logInquiry = logInquiry.replaceAll("\\\\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 		model.addAttribute("serviceControlIp", serviceControl.getServiceControlIp());
 		model.addAttribute("serviceControlLog", logInquiry);
 		return "/serviceControl/LogInquiryView";
@@ -109,5 +102,17 @@ public class ServiceControlController {
 	@PostMapping(value = "/serviceControl/update")
 	public String ServiceControlUpdate(ServiceControl serviceControl) {
 		return serviceControlService.setServiceControlUpdate(serviceControl);
+	}
+	
+	@PostMapping(value = "/serviceControl/routeSettingView")
+	public String routeSettingView(String serviceControlIp, Model model) {
+		model.addAttribute("serviceControl", serviceControlService.getServiceControlIpOne(serviceControlIp));
+		return "/serviceControl/RouteSettingView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/serviceControl/routeSetting")
+	public String RouteSetting(ServiceControl serviceControl) {
+		return serviceControlService.setRouteSetting(serviceControl);
 	}
 }

@@ -38,7 +38,7 @@
 						{name:'serviceControlRelease', index:'serviceControlRelease',align:'center', width: 200},
 						// {name:'serviceControlKernel', index:'serviceControlKernel',align:'center', width: 200},
 						{name:'serviceControlDbType', index:'serviceControlDbType',align:'center', width: 80, formatter: dbTypeFormatter},
-						{name:'serviceControlServicePath', index:'serviceControlServicePath',align:'center', width: 150},
+						{name:'serviceControlLogServerPath', index:'serviceControlLogServerPath',align:'center', width: 150},
 						{name:'serviceControlTomcatPath', index:'serviceControlTomcatPath',align:'center', width: 150},
 					],
 					jsonReader : {

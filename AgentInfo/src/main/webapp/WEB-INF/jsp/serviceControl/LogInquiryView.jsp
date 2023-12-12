@@ -6,7 +6,7 @@
 <div class="modal-body" style="width: 100%; height: auto; min-height: 600px; max-height: 800px; overflow-y: scroll; color: black; font-size: 14px; line-height: 1.2; font-family: emoji;">
 	<div class="card-block margin10">
 		<span>
-			${serviceControlLog}
+			<c:out value="${serviceControlLog}" escapeXml="false" />
 		</span>
      </div>
 </div>

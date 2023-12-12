@@ -33,6 +33,9 @@ public class ServiceControlService {
 		if(serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp()) != null) {
 			return "duplication";
 		}
+		serviceControl.setServiceControlScvEAPath(serviceControl.getServiceControlServicePath());
+		serviceControl.setServiceControlScvCAPath(serviceControl.getServiceControlServicePath());
+		serviceControl.setServiceControlLogServerPath(serviceControl.getServiceControlServicePath());
 		String result = removeCharacter(insertSync(serviceControl),'"');
 		if (result.equals("OK"))
 			result = serviceControlSynchronization();
@@ -57,7 +60,9 @@ public class ServiceControlService {
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("serviceControlPurpose", serviceControl.getServiceControlPurpose())
         		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
-        		.queryParam("serviceControlServicePath", serviceControl.getServiceControlServicePath())
+        		.queryParam("serviceControlScvEAPath", serviceControl.getServiceControlScvEAPath())
+        		.queryParam("serviceControlScvCAPath", serviceControl.getServiceControlScvCAPath())
+        		.queryParam("serviceControlLogServerPath", serviceControl.getServiceControlLogServerPath())
         		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
         		.queryParam("serviceControlDbType", serviceControl.getServiceControlDbType())
         		.build();
@@ -128,7 +133,10 @@ public class ServiceControlService {
 	}
 
 	public void executionChange(ServiceControl serviceControl) {
-		changeStatus(serviceControl);
+		ServiceControl sc = serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp());
+		sc.setStatus(serviceControl.getStatus());
+		sc.setService(serviceControl.getService());
+		changeStatus(sc);
 		
 	}
 	
@@ -145,7 +153,9 @@ public class ServiceControlService {
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("service", serviceControl.getService())
         		.queryParam("status", serviceControl.getStatus())
-        		.queryParam("serviceControlServicePath", serviceControl.getServiceControlServicePath())
+        		.queryParam("serviceControlScvEAPath", serviceControl.getServiceControlScvEAPath())
+        		.queryParam("serviceControlScvCAPath", serviceControl.getServiceControlScvCAPath())
+        		.queryParam("serviceControlLogServerPath", serviceControl.getServiceControlLogServerPath())
         		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
         		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
         		.build();
@@ -179,8 +189,10 @@ public class ServiceControlService {
 
 	public String getLogInquiry(ServiceControl serviceControl) {
 		String logDate = serviceControlDao.getLastLogDate(serviceControl);
-		serviceControl.setServiceControlLogDate(logDate);
-        return removeQuotes(logInquiry(serviceControl));
+		ServiceControl sc = serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp());
+		sc.setServiceControlLogDate(logDate);
+		sc.setService(serviceControl.getService());
+        return removeQuotes(logInquiry(sc));
 	}
 	
 	private static String removeQuotes(String str) {
@@ -204,7 +216,9 @@ public class ServiceControlService {
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("service", serviceControl.getService())
-        		.queryParam("serviceControlServicePath", serviceControl.getServiceControlServicePath())
+        		.queryParam("serviceControlScvEAPath", serviceControl.getServiceControlScvEAPath())
+        		.queryParam("serviceControlScvCAPath", serviceControl.getServiceControlScvCAPath())
+        		.queryParam("serviceControlLogServerPath", serviceControl.getServiceControlLogServerPath())
         		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
         		.queryParam("serviceControlLogDate", serviceControl.getServiceControlLogDate())
         		.build();
@@ -229,6 +243,14 @@ public class ServiceControlService {
 	public String setServiceControlUpdate(ServiceControl serviceControl) {
 		int sucess = 0;
 		sucess = serviceControlDao.setServiceControlUpdate(serviceControl);
+		if (sucess <= 0)
+			return "FALSE";
+		return serviceControlSynchronization();
+	}
+
+	public String setRouteSetting(ServiceControl serviceControl) {
+		int sucess = 0;
+		sucess = serviceControlDao.setRouteSetting(serviceControl);
 		if (sucess <= 0)
 			return "FALSE";
 		return serviceControlSynchronization();

@@ -44,8 +44,8 @@
 	</select>
 	
 	<insert id="insertServiceControl">
-		INSERT INTO serviceControl(serviceControlPurpose,serviceControlIp,serviceControlPcPower,serviceControlTomcat,serviceControlLogServer,serviceControlScvEA,serviceControlScvCA,serviceControlAgent,serviceControlDB,serviceControlDisk,serviceControlMemory,serviceControlFirewall,serviceControlJavaVersion,serviceControlTomcatVersion,serviceControlRelease,serviceControlKernel,serviceControlPort,serviceControlServicePath,serviceControlTomcatPath,serviceControlDbType,serviceControlDate)
-		VALUES(#{serviceControlPurpose},#{serviceControlIp},#{serviceControlPcPower},#{serviceControlTomcat},#{serviceControlLogServer},#{serviceControlScvEA},#{serviceControlScvCA},#{serviceControlAgent},#{serviceControlDB},#{serviceControlDisk},#{serviceControlMemory},#{serviceControlFirewall},#{serviceControlJavaVersion},#{serviceControlTomcatVersion},#{serviceControlRelease},#{serviceControlKernel},#{serviceControlPort},#{serviceControlServicePath},#{serviceControlTomcatPath},#{serviceControlDbType},#{serviceControlDate});
+		INSERT INTO serviceControl(serviceControlPurpose,serviceControlIp,serviceControlPcPower,serviceControlTomcat,serviceControlLogServer,serviceControlScvEA,serviceControlScvCA,serviceControlAgent,serviceControlDB,serviceControlDisk,serviceControlMemory,serviceControlFirewall,serviceControlJavaVersion,serviceControlTomcatVersion,serviceControlRelease,serviceControlKernel,serviceControlPort,serviceControlScvEAPath,serviceControlScvCAPath,serviceControlLogServerPath,serviceControlTomcatPath,serviceControlDbType,serviceControlDate)
+		VALUES(#{serviceControlPurpose},#{serviceControlIp},#{serviceControlPcPower},#{serviceControlTomcat},#{serviceControlLogServer},#{serviceControlScvEA},#{serviceControlScvCA},#{serviceControlAgent},#{serviceControlDB},#{serviceControlDisk},#{serviceControlMemory},#{serviceControlFirewall},#{serviceControlJavaVersion},#{serviceControlTomcatVersion},#{serviceControlRelease},#{serviceControlKernel},#{serviceControlPort},#{serviceControlScvEAPath},#{serviceControlScvCAPath},#{serviceControlLogServerPath},#{serviceControlTomcatPath},#{serviceControlDbType},#{serviceControlDate});
 	</insert>
 	
 	<select id="getServiceControlOne" resultMap="serviceControl" parameterType="_int">
@@ -61,8 +61,13 @@
 	</select>
 	
 	<update id="setServiceControlUpdate">
-		UPDATE servicecontrol set serviceControlPurpose = #{serviceControlPurpose}, serviceControlIp = #{serviceControlIp}, serviceControlServicePath = #{serviceControlServicePath}, serviceControlTomcatPath = #{serviceControlTomcatPath}, serviceControlDbType = #{serviceControlDbType}
+		UPDATE servicecontrol set serviceControlPurpose = #{serviceControlPurpose}, serviceControlIp = #{serviceControlIp}, serviceControlTomcatPath = #{serviceControlTomcatPath}, serviceControlDbType = #{serviceControlDbType}
 		WHERE serviceControlKeyNum = #{serviceControlKeyNum};
+	</update>
+	
+	<update id="setRouteSetting">
+		UPDATE servicecontrol SET serviceControlScvEAPath = #{serviceControlScvEAPath}, serviceControlScvCAPath = #{serviceControlScvCAPath}, serviceControlLogServerPath = #{serviceControlLogServerPath}
+		WHERE serviceControlIp = #{serviceControlIp}; 
 	</update>
 	
 	<!-- ==================================================================================== -->

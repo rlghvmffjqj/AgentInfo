@@ -32,7 +32,7 @@
 					<option value="tibero">Tibero</option>
 					<option value="oracle">Oracle</option>
 					<option value="mysql">Mysql</option>
-					<option value="mariaDB">MariaDB</option>
+					<option value="mariadb">MariaDB</option>
 					<option value="mssql">MSSQL</option>
 					<option value="db2">DB2</option>
 				</select>

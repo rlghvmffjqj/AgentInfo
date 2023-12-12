@@ -55,6 +55,10 @@ public class ServiceControlDao {
 	public int setServiceControlUpdate(ServiceControl serviceControl) {
 		return sqlSession.update("serviceControl.setServiceControlUpdate", serviceControl);
 	}
+
+	public int setRouteSetting(ServiceControl serviceControl) {
+		return sqlSession.update("serviceControl.setRouteSetting", serviceControl);
+	}
 	
 	
 }

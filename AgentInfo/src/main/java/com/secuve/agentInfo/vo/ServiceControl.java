@@ -33,6 +33,10 @@ public class ServiceControl {
 	private String serviceControlTomcatPath;
 	private String serviceControlDbType;
 	private String serviceControlDate;
+	private String serviceControlScvEAPath;
+	private String serviceControlScvCAPath;
+	private String serviceControlLogServerPath;
+	
 	
 	private String serviceControlPurposeSearch;
 	private String serviceControlIpSearch;

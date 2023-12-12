@@ -7,6 +7,9 @@
 	<div class="card-block margin10">
 		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">
 			<input type="hidden" id="serviceControlKeyNum" name="serviceControlKeyNum" value="${serviceControl.serviceControlKeyNum}">
+			<input type="hidden" id="serviceControlScvEAPath" name="serviceControlScvEAPath" value="${serviceControl.serviceControlScvEAPath}">
+			<input type="hidden" id="serviceControlScvCAPath" name="serviceControlScvCAPath" value="${serviceControl.serviceControlScvCAPath}">
+			<input type="hidden" id="serviceControlLogServerPath" name="serviceControlLogServerPath" value="${serviceControl.serviceControlLogServerPath}">
 			<div class="form-group form-default form-static-label form-view">
 			    <input type="text" id="serviceControlPurpose" name="serviceControlPurpose" class="form-control" value="${serviceControl.serviceControlPurpose}">
 			    <span class="form-bar"></span>
@@ -18,9 +21,12 @@
 			    <label class="float-label headLabel">서버 IP</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-			    <input type="text" id="serviceControlServicePath" name="serviceControlServicePath" class="form-control" value="${serviceControl.serviceControlServicePath}">
+			    <input type="text" id="serviceControlLogServerPath" name="serviceControlLogServerPath" class="form-control" value="${serviceControl.serviceControlLogServerPath}" style="width: 82%;" disabled>
+				<div class="logLook custom-btn">
+					<button class="btn custom-btn" type="button" onclick="routeSetting()">경로 설정</button>
+				</div>
 			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">서비스 설치 경로(LogServer, ScvEA, scvca, TOSSuite)</label>
+			    <label class="float-label headLabel">서비스 설치 경로(LogServer, ScvEA, scvca)</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
 			    <input type="text" id="serviceControlTomcatPath" name="serviceControlTomcatPath" class="form-control" value="${serviceControl.serviceControlTomcatPath}">
@@ -375,8 +381,6 @@
 
 	function statusChange(service, status) {
 		var serviceControlIp = "${serviceControl.serviceControlIp}";
-		var serviceControlTomcatPath = "${serviceControl.serviceControlTomcatPath}";
-		var serviceControlServicePath = "${serviceControl.serviceControlServicePath}";
 		showLoadingImage();
 		$.ajax({
 			url: "<c:url value='/serviceControl/executionChange'/>",
@@ -384,9 +388,7 @@
 	        data: {
 				"service": service,
 				"status": status,
-				"serviceControlIp": serviceControlIp,
-				"serviceControlTomcatPath": serviceControlTomcatPath,
-				"serviceControlServicePath": serviceControlServicePath
+				"serviceControlIp": serviceControlIp
 			},
 	        success: function(result) {
 				hideLoadingImage();
@@ -427,31 +429,49 @@
 
 	function logInquiry(service) {
 		var serviceControlIp = "${serviceControl.serviceControlIp}";
-		var serviceControlTomcatPath = "${serviceControl.serviceControlTomcatPath}";
-		var serviceControlServicePath = "${serviceControl.serviceControlServicePath}";
+		showLoadingImage();
 		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/serviceControl/logInquiryView'/>",
 			data: {
 				"serviceControlIp": serviceControlIp,
-				"serviceControlTomcatPath": serviceControlTomcatPath,
-				"serviceControlServicePath": serviceControlServicePath,
 				"service": service
 			},
-		    async: false,
 		    success: function (data) {
 				$('#modal').modal("hide"); // 모달 닫기
 				setTimeout(() => {
 		    		$.modal(data, 'logInquiry'); //modal창 호출
+					hideLoadingImage();
 				}, 200);
 		    },
 		    error: function(e) {
+				hideLoadingImage();
 		        alert(e);
 		    }
 		});			
 	}
 
-	
+	function routeSetting() {
+		var serviceControlIp = "${serviceControl.serviceControlIp}";
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/serviceControl/routeSettingView'/>",
+			data: {
+				"serviceControlIp": serviceControlIp
+			},
+		    async: false,
+		    success: function (data) {
+				$('#modal').modal("hide"); // 모달 닫기
+				setTimeout(() => {
+					$.modal(data, 'sr'); //modal창 호출
+				}, 200);
+		    },
+		    error: function(e) {
+		        // TODO 에러 화면
+		    }
+		});
+	}
+
 </script>
 
 <style>
