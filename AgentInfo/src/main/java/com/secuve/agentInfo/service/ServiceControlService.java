@@ -12,6 +12,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -52,7 +54,7 @@ public class ServiceControlService {
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 
         HttpHeaders header = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(header);
@@ -145,7 +147,7 @@ public class ServiceControlService {
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 
         HttpHeaders header = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(header);
@@ -209,7 +211,7 @@ public class ServiceControlService {
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 
         HttpHeaders header = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(header);
@@ -255,5 +257,15 @@ public class ServiceControlService {
 			return "FALSE";
 		return serviceControlSynchronization();
 	}
+	
+	private ClientHttpRequestFactory getClientHttpRequestFactory() {
+	    int timeout = 1000; // 원하는 시간을 밀리초 단위로 설정하세요.
+	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory
+	     = new HttpComponentsClientHttpRequestFactory();
+	    clientHttpRequestFactory.setConnectTimeout(timeout);
+	    return clientHttpRequestFactory;
+	}
 
 }
+
+
