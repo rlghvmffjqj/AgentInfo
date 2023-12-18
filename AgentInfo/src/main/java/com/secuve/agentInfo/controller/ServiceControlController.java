@@ -84,7 +84,7 @@ public class ServiceControlController {
 	@PostMapping(value = "/serviceControl/executionChange")
 	public String ExecutionChange(ServiceControl serviceControl) {
 		serviceControlService.executionChange(serviceControl);
-		serviceControlService.serviceControlSynchronization();
+		//serviceControlService.serviceControlSynchronization();
 		return "OK";
 	}
 	

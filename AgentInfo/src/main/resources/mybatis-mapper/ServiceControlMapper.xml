@@ -70,6 +70,10 @@
 		WHERE serviceControlIp = #{serviceControlIp}; 
 	</update>
 	
+	<delete id="delServiceControlIp">
+		DELETE FROM servicecontrol WHERE serviceControlIp = #{serviceControlIp};
+	</delete>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlServiceControl">

@@ -14,7 +14,7 @@
 			<c:if test="${not empty diffRow.oldLine1 or not empty diffRow.newLine1}">
 				<c:choose>
     				<c:when test="${diffRow.newLine2 eq '' && diffRow.newLine3 eq '' }">
-						<div class="checkDiv ${diffRow.tag1 == 'CHANGE' ? 'changeDiv' : (diffRow.tag1 == 'INSERT' ? 'changeDiv' : (diffRow.tag1 == 'DELETE' ? 'changeDiv' : 'changeDiv'))}">
+						<div class="checkDiv ${diffRow.tag1 == 'CHANGE' ? 'changeDiv' : (diffRow.tag1 == 'INSERT' ? 'changeDiv' : (diffRow.tag1 == 'DELETE' ? 'changeDiv' : 'normalDiv'))}">
 							<span class="changeType">
 								${diffRow.tag1 == 'CHANGE' ? '변경 코드' : (diffRow.tag1 == 'INSERT' ? '변경 코드' : (diffRow.tag1 == 'DELETE' ? '변경 코드' : '일반 코드'))}
 							</span>

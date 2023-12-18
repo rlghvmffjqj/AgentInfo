@@ -25,6 +25,7 @@ import com.secuve.agentInfo.schedule.SendPackageDeleteSchedule;
 import com.secuve.agentInfo.schedule.SendPackageExpirationSchedule;
 import com.secuve.agentInfo.schedule.ServerListDeleteSchedule;
 import com.secuve.agentInfo.schedule.ServerListSchedule;
+import com.secuve.agentInfo.schedule.ServiceControlSchedule;
 import com.secuve.agentInfo.service.ScheduleJobService;
 import com.secuve.agentInfo.vo.ScheduleJob;
 
@@ -51,6 +52,7 @@ public class ScheduleJobSetting {
         JobDataMap map6 = new JobDataMap(Collections.singletonMap("num", 6));
         JobDataMap map7 = new JobDataMap(Collections.singletonMap("num", 7));
         JobDataMap map8 = new JobDataMap(Collections.singletonMap("num", 8));
+        JobDataMap map9 = new JobDataMap(Collections.singletonMap("num", 9));
 
         ScheduleJob packagesSchedule = scheduleJobService.getScheduleOne("packages");
         JobDetail packages = jobDetail(packagesSchedule.getScheduleName(), "DEFAULT", PackagesSchedule.class, map1);
@@ -84,6 +86,10 @@ public class ScheduleJobSetting {
         JobDetail sendPackageExpiration = jobDetail(sendPackageExpirationSchedule.getScheduleName(), "DEFAULT", SendPackageExpirationSchedule.class, map5);
        	scheduler.scheduleJob(sendPackageExpiration, trigger(sendPackageExpirationSchedule.getScheduleName(), "DEFAULT", sendPackageExpirationSchedule.getScheduleCron()));
        	
+       	ScheduleJob serviceControlSchedule = scheduleJobService.getScheduleOne("serviceControl");
+        JobDetail serviceControl = jobDetail(serviceControlSchedule.getScheduleName(), "DEFAULT", ServiceControlSchedule.class, map9);
+       	scheduler.scheduleJob(serviceControl, trigger(serviceControlSchedule.getScheduleName(), "DEFAULT", serviceControlSchedule.getScheduleCron()));
+       	
        	Set<JobKey> jobkey = scheduler.getJobKeys(null);
        	for(JobKey key: jobkey) {
        		if(key.toString().equals("DEFAULT.packages")) {
@@ -116,6 +122,10 @@ public class ScheduleJobSetting {
 	            }
        		} else if(key.toString().equals("DEFAULT.sendPackageExpiration")) {
 	            if(sendPackageExpirationSchedule.getScheduleState() == "사용안함" || sendPackageExpirationSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.serviceControl")) {
+	            if(serviceControlSchedule.getScheduleState() == "사용안함" || serviceControlSchedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
        		}

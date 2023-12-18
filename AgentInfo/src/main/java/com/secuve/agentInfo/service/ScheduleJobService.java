@@ -35,6 +35,7 @@ public class ScheduleJobService{
 	JobKey serverListDeleteJobKey;
 	JobKey sendpackageDeleteJobKey;
 	JobKey sendPackageExpirationJobKey;
+	JobKey serviceControlJobKey;
 	
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
@@ -44,6 +45,7 @@ public class ScheduleJobService{
 	TriggerKey serverListDeleteTriggerKey;
 	TriggerKey sendpackageDeleteTriggerKey;
 	TriggerKey sendPackageExpirationTriggerKey;
+	TriggerKey serviceControlTriggerKey;
 	
 	public List<ScheduleJob> getScheduleJobList(ScheduleJob search) {
 		Scheduler scheduler = schedulerFactory.getScheduler();
@@ -174,6 +176,8 @@ public class ScheduleJobService{
 			jobKey = sendpackageDeleteJobKey;
 		} else if(scheduleName.equals("SENDPACKAGEEXPIRATION") || scheduleName.equals("sendPackageExpiration")) {
 			jobKey = sendPackageExpirationJobKey;
+		} else if(scheduleName.equals("SERVICECONTROL") || scheduleName.equals("serviceControl")) {
+			jobKey = serviceControlJobKey;
 		}
 		return jobKey;
 	}
@@ -196,6 +200,8 @@ public class ScheduleJobService{
 			triggerKey = sendpackageDeleteTriggerKey;
 		} else if(scheduleName.equals("SENDPACKAGEEXPIRATION") || scheduleName.equals("sendPackageExpiration")) {
 			triggerKey = sendPackageExpirationTriggerKey;
+		} else if(scheduleName.equals("SERVICECONTROL") || scheduleName.equals("serviceControl")) {
+			triggerKey = serviceControlTriggerKey;
 		}
 		return triggerKey;
 	}
@@ -222,6 +228,8 @@ public class ScheduleJobService{
 	       			sendpackageDeleteJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.sendPackageExpiration")) {
 	       			sendPackageExpirationJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.serviceControl")) {
+	       			serviceControlJobKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {
@@ -251,6 +259,8 @@ public class ScheduleJobService{
 	       			sendpackageDeleteTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.sendPackageExpiration")) {
 	       			sendPackageExpirationTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.serviceControl")) {
+	       			serviceControlTriggerKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {

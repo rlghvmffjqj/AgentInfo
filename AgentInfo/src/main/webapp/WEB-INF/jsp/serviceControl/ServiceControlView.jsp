@@ -49,7 +49,7 @@
 			<div class="form-group form-default form-static-label form-view">
 				<div class="statusDiv form-control">
 					<c:if test="${'on' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
-					<c:if test="${'pcOff' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
+					<c:if test="${'off' eq serviceControl.serviceControlPcPower}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
 					<span>
 						<c:if test="${'on' eq serviceControl.serviceControlPcPower}">실행</c:if>
 						<c:if test="${'off' eq serviceControl.serviceControlPcPower}">종료</c:if>
@@ -58,11 +58,11 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">PC 전원</label>
 			</div>
-			<c:if test="${'notInstalled' eq serviceControl.serviceControlTomcat}">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlTomcat || 'on' ne serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view">
 					<div class="statusDiv form-control" id="tomcatDiv">
 			</c:if>
-			<c:if test="${'notInstalled' ne serviceControl.serviceControlTomcat}">
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlTomcat && 'on' eq serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="tomcatDiv">
 			</c:if>
@@ -77,7 +77,7 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlTomcat}">확인불가</c:if>
 					</span>
 				</div>
-				<c:if test="${'notInstalled' ne serviceControl.serviceControlTomcat}">
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlTomcat && 'on' eq serviceControl.serviceControlPcPower}">
 					<div class="logLook custom-btn">
 						<button class="btn custom-btn" type="button" onclick="logInquiry('tomcat')">로그 보기</button>
 					</div>
@@ -95,11 +95,11 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">Tomat 상태</label>
 			</div>
-			<c:if test="${'notInstalled' eq serviceControl.serviceControlLogServer}">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlLogServer || 'on' ne serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view">
 					<div class="statusDiv form-control" id="logServerDiv">
 			</c:if>
-			<c:if test="${'notInstalled' ne serviceControl.serviceControlLogServer}">
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlLogServer && 'on' eq serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="logServerDiv">
 			</c:if>
@@ -114,7 +114,7 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlLogServer}">확인불가</c:if>
 					</span>
 				</div>
-				<c:if test="${'notInstalled' ne serviceControl.serviceControlLogServer}">
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlLogServer && 'on' eq serviceControl.serviceControlPcPower}">
 					<div class="logLook custom-btn">
 						<button class="btn custom-btn" type="button" onclick="logInquiry('logServer')">로그 보기</button>
 					</div>
@@ -132,11 +132,11 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">LogServer 상태</label>
 			</div>
-			<c:if test="${'notInstalled' eq serviceControl.serviceControlScvEA}">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlScvEA || 'on' ne serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view">
 					<div class="statusDiv form-control" id="scvEADiv">
 			</c:if>
-			<c:if test="${'notInstalled' ne serviceControl.serviceControlScvEA}">
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlScvEA && 'on' eq serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="scvEADiv">
 			</c:if>
@@ -151,7 +151,7 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvEA}">확인불가</c:if>
 					</span>
 				</div>
-				<c:if test="${'notInstalled' ne serviceControl.serviceControlScvEA}">
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlScvEA && 'on' eq serviceControl.serviceControlPcPower}">
 					<div class="logLook custom-btn">
 						<button class="btn custom-btn" type="button" onclick="logInquiry('scvEA')">로그 보기</button>
 					</div>
@@ -169,11 +169,11 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">ScvEA 상태</label>
 			</div>
-			<c:if test="${'notInstalled' eq serviceControl.serviceControlScvCA}">
+			<c:if test="${'notInstalled' eq serviceControl.serviceControlScvCA || 'on' ne serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view">
 					<div class="statusDiv form-control" id="scvCADiv">
 			</c:if>
-			<c:if test="${'notInstalled' ne serviceControl.serviceControlScvCA}">
+			<c:if test="${'notInstalled' ne serviceControl.serviceControlScvCA && 'on' eq serviceControl.serviceControlPcPower}">
 				<div class="form-group form-default form-static-label form-view borderBotton">
 					<div class="statusDiv" id="scvCADiv">
 			</c:if>
@@ -188,7 +188,7 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlScvCA}">확인불가</c:if>
 					</span>
 				</div>
-				<c:if test="${'notInstalled' ne serviceControl.serviceControlScvCA}">
+				<c:if test="${'notInstalled' ne serviceControl.serviceControlScvCA && 'on' eq serviceControl.serviceControlPcPower}">
 					<div class="logLook custom-btn">
 						<button class="btn custom-btn" type="button" onclick="logInquiry('scvCA')">로그 보기</button>
 					</div>
@@ -234,14 +234,16 @@
 					</span>
 				</div>
 				<div class="dropdown form-control">
-					<button class="btn custom-btn" type="button" id="firewallToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	상태 변경
-					</button>
-					<div class="dropdown-menu" aria-labelledby="firewallToggle">
-					  	<!-- Dropdown items go here -->
-					  	<a class="dropdown-item firewallToggle" href="#" data-value="run">실행</a>
-					  	<a class="dropdown-item firewallToggle" href="#" data-value="stop">중지</a>
-					</div>
+					<c:if test="${'on' eq serviceControl.serviceControlPcPower}">
+						<button class="btn custom-btn" type="button" id="firewallToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	상태 변경
+						</button>
+						<div class="dropdown-menu" aria-labelledby="firewallToggle">
+						  	<!-- Dropdown items go here -->
+						  	<a class="dropdown-item firewallToggle" href="#" data-value="run">실행</a>
+						  	<a class="dropdown-item firewallToggle" href="#" data-value="stop">중지</a>
+						</div>
+					</c:if>
 				</div>
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">방화벽</label>

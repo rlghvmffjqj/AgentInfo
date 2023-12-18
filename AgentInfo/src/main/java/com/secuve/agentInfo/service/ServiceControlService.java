@@ -82,6 +82,21 @@ public class ServiceControlService {
 		} catch (Exception e) {
 			serviceControl.setServiceControlPcPower("off");
 			serviceControl.setServiceControlDate(nowDate());
+			if(serviceControl.getServiceControlTomcat().equals("execution")) {
+				serviceControl.setServiceControlTomcat("notRunning");
+			}
+			if(serviceControl.getServiceControlLogServer().equals("execution")) {
+				serviceControl.setServiceControlLogServer("notRunning");
+			}
+			if(serviceControl.getServiceControlScvEA().equals("execution")) {
+				serviceControl.setServiceControlScvEA("notRunning");
+			}
+			if(serviceControl.getServiceControlScvCA().equals("execution")) {
+				serviceControl.setServiceControlScvCA("notRunning");
+			}
+			if(serviceControl.getServiceControlDB().equals("execution")) {
+				serviceControl.setServiceControlDB("notRunning");
+			}
 			serviceControlDao.insertServiceControl(serviceControl);
 			//e.printStackTrace();
 			return "pcOff";
@@ -139,7 +154,9 @@ public class ServiceControlService {
 		sc.setStatus(serviceControl.getStatus());
 		sc.setService(serviceControl.getService());
 		changeStatus(sc);
-		
+		serviceControl = serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp());
+		serviceControlDao.delServiceControlIp(serviceControl.getServiceControlIp());
+		insertSync(serviceControl);
 	}
 	
 	public String changeStatus(ServiceControl serviceControl) {
@@ -259,7 +276,7 @@ public class ServiceControlService {
 	}
 	
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
-	    int timeout = 1000; // 원하는 시간을 밀리초 단위로 설정하세요.
+	    int timeout = 100; // 원하는 시간을 밀리초 단위로 설정하세요.
 	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory
 	     = new HttpComponentsClientHttpRequestFactory();
 	    clientHttpRequestFactory.setConnectTimeout(timeout);

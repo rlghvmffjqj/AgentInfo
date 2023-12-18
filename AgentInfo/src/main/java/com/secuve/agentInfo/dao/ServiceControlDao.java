@@ -59,6 +59,10 @@ public class ServiceControlDao {
 	public int setRouteSetting(ServiceControl serviceControl) {
 		return sqlSession.update("serviceControl.setRouteSetting", serviceControl);
 	}
+
+	public void delServiceControlIp(String serviceControlIp) {
+		sqlSession.delete("delServiceControlIp",serviceControlIp);
+	}
 	
 	
 }
