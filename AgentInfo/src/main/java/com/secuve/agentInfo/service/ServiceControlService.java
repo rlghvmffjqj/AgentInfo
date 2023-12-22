@@ -82,6 +82,7 @@ public class ServiceControlService {
 		} catch (Exception e) {
 			serviceControl.setServiceControlPcPower("off");
 			serviceControl.setServiceControlDate(nowDate());
+			serviceControl.setServiceControlPort("");
 			if(serviceControl.getServiceControlTomcat().equals("execution")) {
 				serviceControl.setServiceControlTomcat("notRunning");
 			}

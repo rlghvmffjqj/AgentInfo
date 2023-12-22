@@ -20,7 +20,7 @@
 		//tableRefresh();
 		$('#modal').modal("hide"); // 모달 닫기
 		setTimeout(() => {
-			updateView('172.16.50.182');
+			updateView('${serviceControlIp}');
 		}, 200);
 	});
 </script>
