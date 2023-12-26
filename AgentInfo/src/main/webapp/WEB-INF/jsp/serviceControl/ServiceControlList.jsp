@@ -104,31 +104,88 @@
 	                                	<div class="ibox">
 		                                	<div class="searchbos">
 		                      					<form id="form" name="form" method ="post"> 
-		                      						<sec:authorize access="hasRole('ADMIN')">
-			                      						<div class="col-lg-2">
-			                      							<label class="labelFontSize">사용 목적</label>
-															<select class="form-control selectpicker" id="serviceControlPurposeMulti" name="serviceControlPurposeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-																<c:forEach var="item" items="${serviceControlPurpose}">
-																	<option value="${item}"><c:out value="${item}"/></option>
-																</c:forEach>
-															</select>
-														</div>
-														<div class="col-lg-2">
-			                      							<label class="labelFontSize">서버 IP</label>
-															<select class="form-control selectpicker" id="serviceControlIpMulti" name="serviceControlIpMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-																<c:forEach var="item" items="${serviceControlIp}">
-																	<option value="${item}"><c:out value="${item}"/></option>
-																</c:forEach>
-															</select>
-														</div>
-													</sec:authorize>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">서버 상태</label>
-		                      							<input type="text" id="serviceControlTomcat" name="serviceControlTomcat" class="form-control">
-		                      						</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">서버 종류</label>
+														<select class="form-control selectpicker" id="serverTypeMulti" name="serverTypeMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+															<option value="execution">관리서버</option>
+															<option value="notRunning">DB서버</option>
+													  		<option value="notInstalled">Hyper-V 호스트서버</option>
+														</select>
+												  	</div>
+			                      					<div class="col-lg-2">
+			                      						<label class="labelFontSize">사용 목적</label>
+														<select class="form-control selectpicker" id="serviceControlPurposeMulti" name="serviceControlPurposeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${serviceControlPurpose}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+			                      						<label class="labelFontSize">서버 IP</label>
+														<select class="form-control selectpicker" id="serviceControlIpMulti" name="serviceControlIpMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${serviceControlIp}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">PC전원</label>
+														<select class="form-control selectpicker" id="serviceControlPcPowerMulti" name="serviceControlPcPowerMulti" data-live-search="true" data-size="2" data-actions-box="true" multiple>
+													  		<option value="on">실행</option>
+													  		<option value="off">종료</option>
+														</select>
+												  	</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">Tomcat 상태</label>
+														<select class="form-control selectpicker" id="serviceControlTomcatMulti" name="serviceControlTomcatMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+													  		<option value="execution">실행</option>
+															<option value="notRunning">실행대기</option>
+													  		<option value="notInstalled">미설치</option>
+														</select>
+												  	</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">LogServer 상태</label>
+														<select class="form-control selectpicker" id="serviceControlLogServerMulti" name="serviceControlLogServerMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+															<option value="execution">실행</option>
+															<option value="notRunning">실행대기</option>
+													  		<option value="notInstalled">미설치</option>
+														</select>
+												  	</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">ScvEA 상태</label>
+														<select class="form-control selectpicker" id="serviceControlScvEAMulti" name="serviceControlScvEAMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+															<option value="execution">실행</option>
+															<option value="notRunning">실행대기</option>
+													  		<option value="notInstalled">미설치</option>
+														</select>
+												  	</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">ScvCA 상태</label>
+														<select class="form-control selectpicker" id="serviceControlScvCAMulti" name="serviceControlScvCAMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+															<option value="execution">실행</option>
+															<option value="notRunning">실행대기</option>
+													  		<option value="notInstalled">미설치</option>
+														</select>
+												  	</div>
+													<div class="col-lg-2">
+														<label class="labelFontSize">DB 상태</label>
+														<select class="form-control selectpicker" id="serviceControlDBMulti" name="serviceControlDBMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+															<option value="execution">실행</option>
+															<option value="notRunning">실행대기</option>
+													  		<option value="notInstalled">미설치</option>
+														</select>
+												  	</div>
 		                      						<div class="col-lg-12 text-right">
-		                      							<input type="hidden" id="serviceControlPurposeSearch" name="serviceControlPurposeSearch" class="form-control">
-		                      							<input type="hidden" id="serviceControlIpSearch" name="serviceControlIpSearch" class="form-control">
+		                      							<input type="hidden" id="serviceControlPurpose" name="serviceControlPurpose" class="form-control">
+		                      							<input type="hidden" id="serviceControlIp" name="serviceControlIp" class="form-control">
+														<input type="hidden" id="serverType" name="serverType" class="form-control">
+														<input type="hidden" id="serviceControlPcPower" name="serviceControlPcPower" class="form-control">
+														<input type="hidden" id="serviceControlTomcat" name="serviceControlTomcat" class="form-control">
+														<input type="hidden" id="serviceControlLogServer" name="serviceControlLogServer" class="form-control">
+														<input type="hidden" id="serviceControlScvEA" name="serviceControlScvEA" class="form-control">
+														<input type="hidden" id="serviceControlScvCA" name="serviceControlScvCA" class="form-control">
+														<input type="hidden" id="serviceControlDB" name="serviceControlDB" class="form-control">
+														  
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
 																<i class="fa fa-search"></i>&nbsp;<span>검색</span>
@@ -338,8 +395,14 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#serviceControlPurposeSearch').val($('#serviceControlPurposeMulti').val().join());
-			$('#serviceControlIpSearch').val($('#serviceControlIpMulti').val().join());
+			$('#serviceControlPurpose').val($('#serviceControlPurposeMulti').val().join());
+			$('#serviceControlIp').val($('#serviceControlIpMulti').val().join());
+			$('#serviceControlPcPower').val($('#serviceControlPcPowerMulti').val().join());
+			$('#serviceControlTomcat').val($('#serviceControlTomcatMulti').val().join());
+			$('#serviceControlLogServer').val($('#serviceControlLogServerMulti').val().join());
+			$('#serviceControlScvEA').val($('#serviceControlScvEAMulti').val().join());
+			$('#serviceControlScvCA').val($('#serviceControlScvCAMulti').val().join());
+			$('#serviceControlDB').val($('#serviceControlDBMulti').val().join());
 
 			
 			var jqGrid = $("#list");
