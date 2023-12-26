@@ -37,12 +37,14 @@ public class ServiceControl {
 	private String serviceControlScvCAPath;
 	private String serviceControlLogServerPath;
 	
-	
-	private String serviceControlPurposeSearch;
-	private String serviceControlIpSearch;
-	
 	private String[] serviceControlPurposeArr;
 	private String[] serviceControlIpArr;
+	private String[] serviceControlPcPowerArr;
+	private String[] serviceControlTomcatArr;
+	private String[] serviceControlLogServerArr;
+	private String[] serviceControlScvEAArr;
+	private String[] serviceControlScvCAArr;
+	private String[] serviceControlDBArr;
 	
 	private String service;
 	private String status;

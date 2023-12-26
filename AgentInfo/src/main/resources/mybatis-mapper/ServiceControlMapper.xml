@@ -78,7 +78,7 @@
 	
 	<sql id="sqlServiceControl">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="serviceControlPurposeSearch != null and serviceControlPurposeSearch != ''">
+			<if test="serviceControlPurpose != null and serviceControlPurpose != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="serviceControlPurposeArr" item="arr">
@@ -87,7 +87,7 @@
 				</trim>
 				)
 			</if>
-			<if test="serviceControlIpSearch != null and serviceControlIpSearch != ''">
+			<if test="serviceControlIp != null and serviceControlIp != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="serviceControlIpArr" item="arr">
@@ -96,8 +96,59 @@
 				</trim>
 				)
 			</if>
+			<if test="serviceControlPcPower != null and serviceControlPcPower != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlPcPowerArr" item="arr">
+						OR serviceControlPcPower LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
 			<if test="serviceControlTomcat != null and serviceControlTomcat != ''">
-				AND serviceControlTomcat = #{serviceControlTomcat}
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlTomcatArr" item="arr">
+						OR serviceControlTomcat LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serviceControlLogServer != null and serviceControlLogServer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlLogServerArr" item="arr">
+						OR serviceControlLogServer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serviceControlScvEA != null and serviceControlScvEA != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlScvEAArr" item="arr">
+						OR serviceControlScvEA LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serviceControlScvCA != null and serviceControlScvCA != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlScvCAArr" item="arr">
+						OR serviceControlScvCA LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serviceControlDB != null and serviceControlDB != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serviceControlDBArr" item="arr">
+						OR serviceControlDB LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
 			</if>
 		</trim>
 	</sql>

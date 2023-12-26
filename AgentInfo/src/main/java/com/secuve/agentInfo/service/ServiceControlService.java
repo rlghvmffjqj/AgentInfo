@@ -115,8 +115,14 @@ public class ServiceControlService {
 	}
 	
 	public ServiceControl serviceControlSearch(ServiceControl search) {
-		search.setServiceControlPurposeArr(search.getServiceControlPurposeSearch().split(","));
-		search.setServiceControlIpArr(search.getServiceControlIpSearch().split(","));
+		search.setServiceControlPurposeArr(search.getServiceControlPurpose().split(","));
+		search.setServiceControlIpArr(search.getServiceControlIp().split(","));
+		search.setServiceControlPcPowerArr(search.getServiceControlPcPower().split(","));
+		search.setServiceControlTomcatArr(search.getServiceControlTomcat().split(","));
+		search.setServiceControlLogServerArr(search.getServiceControlLogServer().split(","));
+		search.setServiceControlScvEAArr(search.getServiceControlScvEA().split(","));
+		search.setServiceControlScvCAArr(search.getServiceControlScvCA().split(","));
+		search.setServiceControlDBArr(search.getServiceControlDB().split(","));
 		return search;
 	}
 
