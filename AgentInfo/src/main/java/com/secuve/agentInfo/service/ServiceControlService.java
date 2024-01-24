@@ -60,6 +60,7 @@ public class ServiceControlService {
         HttpEntity<?> entity = new HttpEntity<>(header);
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("serviceControlServerType", serviceControl.getServiceControlServerType())
         		.queryParam("serviceControlPurpose", serviceControl.getServiceControlPurpose())
         		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
         		.queryParam("serviceControlScvEAPath", serviceControl.getServiceControlScvEAPath())
@@ -116,6 +117,7 @@ public class ServiceControlService {
 	
 	public ServiceControl serviceControlSearch(ServiceControl search) {
 		search.setServiceControlPurposeArr(search.getServiceControlPurpose().split(","));
+		search.setServiceControlServerTypeArr(search.getServiceControlServerType().split(","));
 		search.setServiceControlIpArr(search.getServiceControlIp().split(","));
 		search.setServiceControlPcPowerArr(search.getServiceControlPcPower().split(","));
 		search.setServiceControlTomcatArr(search.getServiceControlTomcat().split(","));

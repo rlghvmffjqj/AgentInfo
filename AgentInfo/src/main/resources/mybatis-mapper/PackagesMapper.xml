@@ -35,8 +35,8 @@
 	</select>
 	
 	<insert id="insertPackages" parameterType="packages" useGeneratedKeys="true" keyProperty="packagesKeyNum">
-		INSERT INTO packages(packagesKeyNumOrigin, customerName, businessName, networkClassification, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, note, packagesRegistrant, packagesRegistrationDate, statusComment)
-		VALUES (#{packagesKeyNumOrigin}, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate}, #{statusComment});
+		INSERT INTO packages(packagesKeyNumOrigin, customerName, businessName, networkClassification, requestDate, deliveryData, state, existingNew, managementServer, agentOS, osDetailVersion, generalCustom, osType, agentVer, packageName, manager, requestProductCategory, deliveryMethod, purchaseCategory, note, packagesRegistrant, packagesRegistrationDate, statusComment)
+		VALUES (#{packagesKeyNumOrigin}, #{customerNameView}, #{businessNameView}, #{networkClassificationView}, #{requestDateView}, #{deliveryDataView}, '배포완료', #{existingNewView}, #{managementServerView}, #{agentOSView}, #{osDetailVersionView}, #{generalCustomView}, #{osTypeView}, #{agentVerView}, #{packageNameView}, #{managerView}, #{requestProductCategoryView}, #{deliveryMethodView}, #{purchaseCategoryView}, #{noteView}, #{packagesRegistrant}, #{packagesRegistrationDate}, #{statusComment});
 	</insert>
 	
 	<select id="getPackagesOne" parameterType="_int" resultMap="packages">
@@ -44,7 +44,7 @@
 	</select>
 	
 	<update id="updatePackages">
-		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerNameView}, businessName = #{businessNameView}, networkClassification = #{networkClassificationView}, requestDate = #{requestDateView}, deliveryData = #{deliveryDataView}, existingNew = #{existingNewView}, managementServer = #{managementServerView}, agentOS = #{agentOSView}, osDetailVersion = #{osDetailVersionView}, generalCustom = #{generalCustomView}, osType = #{osTypeView}, agentVer = #{agentVerView}, packageName = #{packageNameView}, manager = #{managerView}, requestProductCategory = #{requestProductCategoryView}, deliveryMethod = #{deliveryMethodView}, note = #{noteView}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
+		UPDATE packages SET packagesKeyNum = #{packagesKeyNum}, customerName = #{customerNameView}, businessName = #{businessNameView}, networkClassification = #{networkClassificationView}, requestDate = #{requestDateView}, deliveryData = #{deliveryDataView}, existingNew = #{existingNewView}, managementServer = #{managementServerView}, agentOS = #{agentOSView}, osDetailVersion = #{osDetailVersionView}, generalCustom = #{generalCustomView}, osType = #{osTypeView}, agentVer = #{agentVerView}, packageName = #{packageNameView}, manager = #{managerView}, requestProductCategory = #{requestProductCategoryView}, deliveryMethod = #{deliveryMethodView}, purchaseCategory = #{purchaseCategoryView}, note = #{noteView}, packagesModifier = #{packagesModifier}, packagesModifiedDate = #{packagesModifiedDate}
 		WHERE packagesKeyNum = #{packagesKeyNum};
 	</update>
 	
@@ -303,6 +303,15 @@
 			<trim prefix="" prefixOverrides="OR">
 				<foreach collection="deliveryMethodArr" item="arr">
 					OR deliveryMethod LIKE CONCAT('%',#{arr},'%')
+				</foreach>
+			</trim>
+			)
+		</if>
+		<if test="purchaseCategory != null and purchaseCategory != ''">
+			AND (
+			<trim prefix="" prefixOverrides="OR">
+				<foreach collection="purchaseCategoryArr" item="arr">
+					OR purchaseCategory LIKE CONCAT('%',#{arr},'%')
 				</foreach>
 			</trim>
 			)

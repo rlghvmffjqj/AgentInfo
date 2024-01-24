@@ -59,6 +59,7 @@ public class PackagesController {
 		List<String> osType = categoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		List<String> customerId = categoryService.getCategoryKeyNum();
@@ -71,6 +72,7 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("purchaseCategory", purchaseCategory);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerId", customerId);
@@ -125,6 +127,7 @@ public class PackagesController {
 		List<String> osType = categoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -135,6 +138,7 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("purchaseCategory", purchaseCategory);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
@@ -180,6 +184,7 @@ public class PackagesController {
 		List<String> osType = categoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -191,6 +196,7 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("purchaseCategory", purchaseCategory);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
@@ -284,7 +290,7 @@ public class PackagesController {
 	public void exportServerList(@ModelAttribute Packages packages, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String[] columnList = {"categoryKeyNum","customerName", "businessName", "networkClassification", "requestDate", "deliveryData", "state", "managementServer", "generalCustom", "agentVer", "packageName", "manager", "osType", "osDetailVersion", "agentOS", "existingNew", "requestProductCategory", "deliveryMethod", "note", "statusComment"};
+		String[] columnList = {"categoryKeyNum","customerName", "businessName", "networkClassification", "requestDate", "deliveryData", "state", "managementServer", "generalCustom", "agentVer", "packageName", "manager", "osType", "osDetailVersion", "agentOS", "existingNew", "requestProductCategory", "deliveryMethod", "purchaseCategory", "note", "statusComment"};
 		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

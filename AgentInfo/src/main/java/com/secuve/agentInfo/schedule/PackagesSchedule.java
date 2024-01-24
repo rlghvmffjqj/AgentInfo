@@ -28,7 +28,7 @@ public class PackagesSchedule extends QuartzJobBean {
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		List<Packages> list = packagesService.getPackagesAll();
 		
-		String[] columnList = {"고객사 명", "사업명", "망 구분", "요청일자", "전달일자", "상태", "패키지 종류", "일반/커스텀", "Agent ver", "패키지명", "담당자", "OS종류", "패키지 상세버전", "Agent OS", "기존/신규", "요청 제품구분", "전달 방법", "비고", "상태 변경 의견"};
+		String[] columnList = {"", "고객사 명", "사업명", "망 구분", "요청일자", "전달일자", "상태", "패키지 종류", "일반/커스텀", "Agent ver", "패키지명", "담당자", "OS종류", "패키지 상세버전", "Agent OS", "기존/신규", "요청 제품구분", "전달 방법", "구매구분", "비고", "상태 변경 의견"};
 		
 		//1차로 workbook을 생성 
 		HSSFWorkbook workbook=new HSSFWorkbook();
@@ -54,43 +54,47 @@ public class PackagesSchedule extends QuartzJobBean {
 		    	row=sheet.createRow(i);
 	        	i++;
 		        if(columnList !=null &&columnList.length >0){
-			        cell=row.createCell(0);
-			        cell.setCellValue((packages.getCustomerName()));
+		        	cell=row.createCell(0);
+				    cell.setCellValue((""));
 			        cell=row.createCell(1);
-			        cell.setCellValue((packages.getBusinessName()));
+			        cell.setCellValue((packages.getCustomerName()));
 			        cell=row.createCell(2);
-			        cell.setCellValue((packages.getNetworkClassification()));
+			        cell.setCellValue((packages.getBusinessName()));
 			        cell=row.createCell(3);
-			        cell.setCellValue((packages.getRequestDate()));
+			        cell.setCellValue((packages.getNetworkClassification()));
 			        cell=row.createCell(4);
-			        cell.setCellValue((packages.getDeliveryData()));
+			        cell.setCellValue((packages.getRequestDate()));
 			        cell=row.createCell(5);
-			        cell.setCellValue((packages.getState()));
+			        cell.setCellValue((packages.getDeliveryData()));
 			        cell=row.createCell(6);
-			        cell.setCellValue((packages.getManagementServer()));
+			        cell.setCellValue((packages.getState()));
 			        cell=row.createCell(7);
-			        cell.setCellValue((packages.getGeneralCustom()));
+			        cell.setCellValue((packages.getManagementServer()));
 			        cell=row.createCell(8);
-			        cell.setCellValue((packages.getAgentVer()));
+			        cell.setCellValue((packages.getGeneralCustom()));
 			        cell=row.createCell(9);
-			        cell.setCellValue((packages.getPackageName()));
+			        cell.setCellValue((packages.getAgentVer()));
 			        cell=row.createCell(10);
-			        cell.setCellValue((packages.getManager()));
+			        cell.setCellValue((packages.getPackageName()));
 			        cell=row.createCell(11);
-			        cell.setCellValue((packages.getOsType()));
+			        cell.setCellValue((packages.getManager()));
 			        cell=row.createCell(12);
-			        cell.setCellValue((packages.getOsDetailVersion()));
+			        cell.setCellValue((packages.getOsType()));
 			        cell=row.createCell(13);
-			        cell.setCellValue((packages.getAgentOS()));
+			        cell.setCellValue((packages.getOsDetailVersion()));
 			        cell=row.createCell(14);
-			        cell.setCellValue((packages.getExistingNew()));
+			        cell.setCellValue((packages.getAgentOS()));
 			        cell=row.createCell(15);
-			        cell.setCellValue((packages.getRequestProductCategory()));
+			        cell.setCellValue((packages.getExistingNew()));
 			        cell=row.createCell(16);
-			        cell.setCellValue((packages.getDeliveryMethod()));
+			        cell.setCellValue((packages.getRequestProductCategory()));
 			        cell=row.createCell(17);
-			        cell.setCellValue((packages.getNote()));
+			        cell.setCellValue((packages.getDeliveryMethod()));
 			        cell=row.createCell(18);
+			        cell.setCellValue((packages.getPurchaseCategory()));
+			        cell=row.createCell(19);
+			        cell.setCellValue((packages.getNote()));
+			        cell=row.createCell(20);
 			        cell.setCellValue((packages.getStatusComment()));
 		        }
 		    }

@@ -106,10 +106,10 @@
 		                      					<form id="form" name="form" method ="post"> 
 													<div class="col-lg-2">
 														<label class="labelFontSize">서버 종류</label>
-														<select class="form-control selectpicker" id="serverTypeMulti" name="serverTypeMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
-															<option value="execution">관리서버</option>
-															<option value="notRunning">DB서버</option>
-													  		<option value="notInstalled">Hyper-V 호스트서버</option>
+														<select class="form-control selectpicker" id="serviceControlServerTypeMulti" name="serviceControlServerTypeMulti" data-live-search="true" data-size="3" data-actions-box="true" multiple>
+															<option value="managerServer">관리서버</option>
+															<option value="dbServer">DB서버</option>
+													  		<option value="hostServer">Hyper-V 호스트서버</option>
 														</select>
 												  	</div>
 			                      					<div class="col-lg-2">
@@ -178,7 +178,7 @@
 		                      						<div class="col-lg-12 text-right">
 		                      							<input type="hidden" id="serviceControlPurpose" name="serviceControlPurpose" class="form-control">
 		                      							<input type="hidden" id="serviceControlIp" name="serviceControlIp" class="form-control">
-														<input type="hidden" id="serverType" name="serverType" class="form-control">
+														<input type="hidden" id="serviceControlServerType" name="serviceControlServerType" class="form-control">
 														<input type="hidden" id="serviceControlPcPower" name="serviceControlPcPower" class="form-control">
 														<input type="hidden" id="serviceControlTomcat" name="serviceControlTomcat" class="form-control">
 														<input type="hidden" id="serviceControlLogServer" name="serviceControlLogServer" class="form-control">
@@ -396,6 +396,7 @@
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#serviceControlPurpose').val($('#serviceControlPurposeMulti').val().join());
+			$('#serviceControlServerType').val($('#serviceControlServerTypeMulti').val().join());
 			$('#serviceControlIp').val($('#serviceControlIpMulti').val().join());
 			$('#serviceControlPcPower').val($('#serviceControlPcPowerMulti').val().join());
 			$('#serviceControlTomcat').val($('#serviceControlTomcatMulti').val().join());

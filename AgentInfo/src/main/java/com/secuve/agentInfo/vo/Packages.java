@@ -30,6 +30,7 @@ public class Packages {
 	private String manager = "";				// 담당자
 	private String requestProductCategory = "";	// 요청 제품구분
 	private String deliveryMethod = "";			// 전달 방법
+	private String purchaseCategory = ""; 		// 구매구분
 	private String note = "";					// 비고
 	private String statusComment = "";			// 상태변경 의견
 	
@@ -51,6 +52,7 @@ public class Packages {
 	private String managerView;					// View 담당자
 	private String requestProductCategoryView;	// View 요청 제품구분
 	private String deliveryMethodView;			// View 전달 방법
+	private String purchaseCategoryView;		// View 구매구분
 	private String noteView;					// View 비고
 	
 	// Select를 Input 으로 변경 시 사용
@@ -70,6 +72,7 @@ public class Packages {
 	private String managerSelf;					// Self 담당자
 	private String requestProductCategorySelf;	// Self 요청 제품구분
 	private String deliveryMethodSelf;			// Self 전달 방법
+	private String purchaseCategorySelf;		// Self 구매구분
 	private String noteSelf;					// Self 비고
 	
 	// 검색 시 ','를 기준으로 배열로 사용
@@ -88,6 +91,7 @@ public class Packages {
 	private String[] managerArr;
 	private String[] requestProductCategoryArr;
 	private String[] deliveryMethodArr;
+	private String[] purchaseCategoryArr;
 	private String[] customerIdArr;
 	
 	private String deliveryDateStart;			// 전달일자  시작일

@@ -116,6 +116,20 @@ public class CategoryController {
 	}
 	
 	/**
+	 * 구매구분
+	 * @param model
+	 * @return
+	 */
+	@GetMapping(value = "/category/purchaseCategory")
+	public String purchaseCategory(Model model, Principal principal, HttpServletRequest req) {
+		favoritePageService.insertFavoritePage(principal, req, "카테고리 - 구매구분");
+		List<String> categoryValue = categoryService.getSelectInput("purchaseCategory");
+		model.addAttribute("categoryValue", categoryValue);
+		model.addAttribute("category", "purchaseCategory");
+		return "category/CategoryList";
+	}
+	
+	/**
 	 * Agent Ver
 	 * @param model
 	 * @return

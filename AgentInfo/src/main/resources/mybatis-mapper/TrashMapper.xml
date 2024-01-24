@@ -22,7 +22,7 @@
 	</select>
 	
 	<insert id="insertTrash">
-		INSERT INTO trash(trashCustomerName, trashBusinessName, trashNetworkClassification, trashRequestDate, trashDeliveryData, trashExistingNew, trashManagementServer, trashAgentOS, trashOsDetailVersion, trashGeneralCustom, trashOsType, trashAgentVer, trashPackageName, trashManager, trashRequestProductCategory, trashDeliveryMethod, trashNote, trashUser, trashTime)
-		VALUES (#{trashCustomerName}, #{trashBusinessName}, #{trashNetworkClassification}, #{trashRequestDate}, #{trashDeliveryData}, #{trashExistingNew}, #{trashManagementServer}, #{trashAgentOS}, #{trashOsDetailVersion}, #{trashGeneralCustom}, #{trashOsType}, #{trashAgentVer}, #{trashPackageName}, #{trashManager}, #{trashRequestProductCategory}, #{trashDeliveryMethod}, #{trashNote}, #{trashUser}, #{trashTime});
+		INSERT INTO trash(trashCustomerName, trashBusinessName, trashNetworkClassification, trashRequestDate, trashDeliveryData, trashExistingNew, trashManagementServer, trashAgentOS, trashOsDetailVersion, trashGeneralCustom, trashOsType, trashAgentVer, trashPackageName, trashManager, trashRequestProductCategory, trashDeliveryMethod, trashPurchaseCategory, trashNote, trashUser, trashTime)
+		VALUES (#{trashCustomerName}, #{trashBusinessName}, #{trashNetworkClassification}, #{trashRequestDate}, #{trashDeliveryData}, #{trashExistingNew}, #{trashManagementServer}, #{trashAgentOS}, #{trashOsDetailVersion}, #{trashGeneralCustom}, #{trashOsType}, #{trashAgentVer}, #{trashPackageName}, #{trashManager}, #{trashRequestProductCategory}, #{trashDeliveryMethod}, #{trashPurchaseCategory}, #{trashNote}, #{trashUser}, #{trashTime});
 	</insert>
 </mapper>

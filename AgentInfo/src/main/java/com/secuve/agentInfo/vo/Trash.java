@@ -28,6 +28,7 @@ public class Trash {
 	private String trashManager;
 	private String trashRequestProductCategory;
 	private String trashDeliveryMethod;
+	private String trashPurchaseCategory;
 	private String trashNote;
 	private String trashUser;
 	private String trashTime;

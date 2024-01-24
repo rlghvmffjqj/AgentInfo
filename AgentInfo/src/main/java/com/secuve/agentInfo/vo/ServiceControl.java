@@ -13,6 +13,7 @@ import lombok.ToString;
 public class ServiceControl {
 	private int serviceControlKeyNum;
 	private String serviceControlPurpose;
+	private String serviceControlServerType;
 	private String serviceControlIp;
 	private String serviceControlPcPower;
 	private String serviceControlTomcat;
@@ -38,6 +39,7 @@ public class ServiceControl {
 	private String serviceControlLogServerPath;
 	
 	private String[] serviceControlPurposeArr;
+	private String[] serviceControlServerTypeArr;
 	private String[] serviceControlIpArr;
 	private String[] serviceControlPcPowerArr;
 	private String[] serviceControlTomcatArr;
