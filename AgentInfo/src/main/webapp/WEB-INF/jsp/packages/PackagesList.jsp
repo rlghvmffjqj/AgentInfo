@@ -20,7 +20,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key',/* 'OriginKey', */'고객사ID','고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','OS버전','기존/신규','요청 제품구분','전달 방법','비고','상태 변경 의견'],
+					colNames:['Key',/* 'OriginKey', */'고객사ID','고객사 명','사업명','망 구분','요청일자','전달일자','상태','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','OS버전','기존/신규','요청 제품구분','전달 방법','구매구분','비고','상태 변경 의견'],
 					colModel:[
 						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 						/* {name:'packagesKeyNumOrigin', index:'packagesKeyNumOrigin', align:'center', width: 50, hidden:true }, */
@@ -42,6 +42,7 @@
 						{name:'existingNew', index:'existingNew', align:'center', width: 70},
 						{name:'requestProductCategory', index:'requestProductCategory', align:'center', width: 90},
 						{name:'deliveryMethod', index:'deliveryMethod', align:'center', width: 60},
+						{name:'purchaseCategory', index:'purchaseCategory', align:'center', width: 100},
 						{name:'note', index:'note', align:'center', width: 600},
 						{name:'statusComment', index:'statusComment', align:'center', width: 400},
 					],
@@ -264,6 +265,14 @@
 															</c:forEach>
 														</select>
 		                      						</div>
+													  <div class="col-lg-2">
+														<label class="labelFontSize">구매구분</label>
+														<select class="form-control selectpicker" id="purchaseCategoryMulti" name="purchaseCategoryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														  <c:forEach var="item" items="${purchaseCategory}">
+															  <option value="${item}"><c:out value="${item}"/></option>
+														  </c:forEach>
+													  </select>
+													</div>
 		                      						<input type="hidden" id="managementServer" name="managementServer" class="form-control">
 		                      						<input type="hidden" id="generalCustom" name="generalCustom" class="form-control">
 		                      						<input type="hidden" id="agentVer" name="agentVer" class="form-control">
@@ -273,11 +282,12 @@
 		                      						<input type="hidden" id="existingNew" name="existingNew" class="form-control">
 		                      						<input type="hidden" id="requestProductCategory" name="requestProductCategory" class="form-control">
 		                      						<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
+													<input type="hidden" id="purchaseCategory" name="purchaseCategory" class="form-control">
 		                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
 		                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
 													<input type="hidden" id="customerId" name="customerId" class="form-control">
 		                      						<div class="col-lg-12 text-right">
-													<p class="search-btn">
+													<p class="search-btn" style="margin-top: 10px;">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 														</button>
@@ -413,6 +423,7 @@
 			$('#existingNew').val($('#existingNewMulti').val().join());
 			$('#requestProductCategory').val($('#requestProductCategoryMulti').val().join());
 			$('#deliveryMethod').val($('#deliveryMethodMulti').val().join());
+			$('#purchaseCategory').val($('#purchaseCategoryMulti').val().join());
 			$('#customerName').val($('#customerNameMulti').val().join());
 			$('#businessName').val($('#businessNameMulti').val().join());
 			$('#customerId').val($('#customerIdMulti').val().join());

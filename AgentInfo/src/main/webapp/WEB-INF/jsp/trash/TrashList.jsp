@@ -18,7 +18,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사 명','사업명','망 구분','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','비고','사용자','시간'],
+					colNames:['Key','고객사 명','사업명','망 구분','요청일자','전달일자','패키지 종류','일반/커스텀','Agent ver','패키지명','담당자','OS종류','패키지 상세버전','Agent OS','기존/신규','요청 제품구분','전달 방법','구매구분','비고','사용자','시간'],
 					colModel:[
 						{name:'trashKeyNum', index:'trashKeyNum', align:'center', width: 40, hidden:true },
 						{name:'trashCustomerName', index:'trashCustomerName', align:'center', width: 200},
@@ -37,6 +37,7 @@
 						{name:'trashExistingNew', index:'trashExistingNew', align:'center', width: 70},
 						{name:'trashRequestProductCategory', index:'trashRequestProductCategory', align:'center', width: 90},
 						{name:'trashDeliveryMethod', index:'trashDeliveryMethod', align:'center', width: 60},
+						{name:'trashPurchaseCategory', index:'trashPurchaseCategory', align:'center', width: 60},
 						{name:'trashNote', index:'trashNote', align:'center', width: 600},
 						{name:'trashUser', index:'trashUser', align:'center', width: 80},
 						{name:'trashTime', index:'trashTime', align:'center', width: 80},

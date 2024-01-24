@@ -32,6 +32,10 @@
 			$('.deliveryMethod').addClass('active');
 			$('.categroy').addClass('active');
 			$('.categroy').addClass('pcoded-trigger');
+		} else if($.cookie('name') == 'purchaseCategory') {
+			$('.purchaseCategory').addClass('active');
+			$('.categroy').addClass('active');
+			$('.categroy').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'agentVer') {
 			$('.agentVer').addClass('active');
 			$('.categroy').addClass('active');
@@ -732,6 +736,13 @@
 									<span class="pcoded-mcaret"></span>
 								  </a>
 							</li>
+							<li class="purchaseCategory">
+								<a href="<c:url value='/category/purchaseCategory'/>" class="waves-effect waves-dark">
+								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								  <span class="pcoded-mtext">구매구분</span>
+								  <span class="pcoded-mcaret"></span>
+								</a>
+						  </li>
 							<li class="agentVer">
 								  <a href="<c:url value='/category/agentVer'/>" class="waves-effect waves-dark">
 									<span class="pcoded-micon"><i class="ti-angle-right"></i></span>

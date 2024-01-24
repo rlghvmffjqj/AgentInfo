@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 700px;">
+<div class="modal-body" style="width: 100%; height: 740px;">
 	<form id="modalForm" name="form" method ="post">
 		<input type="hidden" id="packagesKeyNum" name="packagesKeyNum" class="form-control viewForm" value="${packages.packagesKeyNum}">
 		<input type="hidden" id="packagesKeyNumOrigin" name="packagesKeyNumOrigin" class="form-control viewForm" value="${packages.packagesKeyNumOrigin}">
@@ -195,9 +195,7 @@
 	         	<label class="labelFontSize">담당자</label>
 	         	<input type="text" id="managerView" name="managerView" class="form-control viewForm" value="${packages.manager}">
 	         </div>
-	     </div>
-         <div class="rightDiv">
-         	<c:choose>
+			 <c:choose>
 				<c:when test="${viewType eq 'insert'}">
 					 <div class="pading5Width450">
 					 	<div>
@@ -234,6 +232,8 @@
 					 </div>
 			    </c:when>
 			 </c:choose>
+	     </div>
+         <div class="rightDiv">
 			 <div class="pading5Width450">
 	         	<label class="labelFontSize">패키지 상세버전</label>
 	         	<input type="text" id="osDetailVersionView" name="osDetailVersionView" class="form-control viewForm" value="${packages.osDetailVersion}">
@@ -254,7 +254,7 @@
 								</c:forEach>
 							</select>
 						</div>
-					 </div>
+					</div>
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">기존/신규</label>
@@ -300,6 +300,21 @@
 							</select>
 						</div>
 					 </div>
+					 <div class="pading5Width450">
+						<div>
+							 <label class="labelFontSize">구매구분</label>
+							 <a href="#" class="selfInput" id="purchaseCategoryChange" onclick="selfInput('purchaseCategoryChange');">직접입력</a>
+						 </div>
+						 <input type="hidden" id="purchaseCategorySelf" name="purchaseCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
+						 <div id="purchaseCategoryViewSelf">
+						   <select class="form-control selectpicker selectForm" id="purchaseCategoryView" name="purchaseCategoryView" data-live-search="true" data-size="5">
+							   <option value=""></option>
+							   <c:forEach var="item" items="${purchaseCategory}">
+								   <option value="${item}"><c:out value="${item}"/></option>
+							   </c:forEach>
+						   </select>
+					   </div>
+					</div>
 			 	</c:when>
 				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
 					<div class="pading5Width450">
@@ -317,7 +332,7 @@
 								</c:forEach>
 							</select>
 						</div>
-			         </div>
+			        </div>
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">기존/신규</label>
@@ -333,7 +348,7 @@
 								</c:forEach>
 							</select>
 						</div>
-			         </div>
+			        </div>
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">요청 제품 구분</label>
@@ -349,8 +364,8 @@
 								</c:forEach>
 							</select>
 						</div>
-			         </div>
-			         <div class="pading5Width450">
+			        </div>
+			        <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">전달 방법</label>
 					  		<a href="#" class="selfInput" id="deliveryMethodChange" onclick="selfInput('deliveryMethodChange');">직접입력</a>
@@ -365,7 +380,23 @@
 								</c:forEach>
 							</select>
 						</div>
-					 </div>
+					</div>
+					<div class="pading5Width450">
+						<div>
+							 <label class="labelFontSize">구매구분</label>
+							 <a href="#" class="selfInput" id="purchaseCategoryChange" onclick="selfInput('purchaseCategoryChange');">직접입력</a>
+						 </div>
+						 <input type="hidden" id="purchaseCategorySelf" name="purchaseCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
+						 <div id="purchaseCategoryViewSelf">
+						   <select class="form-control selectpicker selectForm" id="purchaseCategoryView" name="purchaseCategoryView" data-live-search="true" data-size="5">
+							   <c:if test="${packages.purchaseCategory ne ''}"><option value=""></option></c:if>
+							   <c:if test="${packages.purchaseCategory eq ''}"><option value=""></option></c:if>
+							   <c:forEach var="item" items="${purchaseCategory}">
+								   <option value="${item}" <c:if test="${item eq packages.purchaseCategory}">selected</c:if>><c:out value="${item}"/></option>
+							   </c:forEach>
+						   </select>
+					   </div>
+				   </div>
 			    </c:when>
 			 </c:choose>
 	         <div class="pading5Width450">
@@ -582,6 +613,18 @@
 				$('#deliveryMethodSelf').attr('type','hidden');
 				$('#deliveryMethodSelf').val('');	
 				$("#deliveryMethodChange").text("직접입력");
+			}
+		} else if (data == "purchaseCategoryChange") {
+			if($('#purchaseCategoryChange').text() == "직접입력") {
+				$('#purchaseCategoryViewSelf').hide();
+				$('#purchaseCategorySelf').attr('type','text');
+				$('#purchaseCategoryView').val('');	
+				$("#purchaseCategoryChange").text("선택입력");
+			} else if($('#purchaseCategoryChange').text() == "선택입력") {
+				$('#purchaseCategoryViewSelf').show();
+				$('#purchaseCategorySelf').attr('type','hidden');
+				$('#purchaseCategorySelf').val('');	
+				$("#purchaseCategoryChange").text("직접입력");
 			}
 		} else if (data == "customerNameChange") {
 			if($('#customerNameChange').text() == "직접입력") {
