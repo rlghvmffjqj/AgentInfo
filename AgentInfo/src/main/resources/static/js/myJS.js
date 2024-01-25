@@ -34,8 +34,11 @@ $.modal = function (modalContent, size) {
 	if(size=='packageAnalysis') html += ' modal-packageAnalysis';
 	if(size=='favorite') html += ' modal-favorite';
 	if(size=='serviceControl') html += ' modal-serviceControl';
-	if(size=='serviceControlAdd') html += ' modal-serviceControlAdd';
+	if(size=='serviceControlManager') html += ' modal-serviceControlManager';
+	if(size=='serviceControlDB') html += ' modal-serviceControlDB';
+	if(size=='serviceControlHost') html += ' modal-serviceControlHost';
 	if(size=='logInquiry') html += ' modal-logInquiry';
+	if(size=='serviceControlType') html += ' modal-serviceControlType';
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

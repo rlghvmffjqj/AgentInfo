@@ -255,7 +255,7 @@
 			    url: "<c:url value='/serviceControl/insertView'/>",
 			    async: false,
 			    success: function (data) {
-			    	$.modal(data, 'serviceControlAdd'); //modal창 호출
+			    	$.modal(data, 'serviceControlType'); //modal창 호출
 			    },
 			    error: function(e) {
 			        alert(e);

@@ -52,13 +52,13 @@ public class ServiceControlController {
 	}
 	
 	@PostMapping(value = "/serviceControl/insertView")
-	public String ServiceControlAdd(Model model) {
-		return "/serviceControl/ServiceControlAdd";
+	public String ServiceControlType(Model model) {
+		return "/serviceControl/ServerTypeSelect";
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/serviceControl/insert")
-	public String ServiceControlInsert(Principal principal, ServiceControl serviceControl) throws ParseException {
+	@PostMapping(value = "/serviceControl/managerInsert")
+	public String ServiceControlManagerInsert(Principal principal, ServiceControl serviceControl) throws ParseException {
 		return serviceControlService.serviceControlInsert(serviceControl);
 	}
 	
@@ -114,5 +114,23 @@ public class ServiceControlController {
 	@PostMapping(value = "/serviceControl/routeSetting")
 	public String RouteSetting(ServiceControl serviceControl) {
 		return serviceControlService.setRouteSetting(serviceControl);
+	}
+	
+	@PostMapping(value = "/serviceControl/serviceControlManager")
+	public String ServiceControlManager(String serviceControlServerType, Model model) {
+		model.addAttribute("serviceControlServerType", serviceControlServerType);
+		return "/serviceControl/serverTypeAdd/ServiceControlManager";
+	}
+	
+	@PostMapping(value = "/serviceControl/serviceControlHost")
+	public String ServiceControlHost(String serviceControlServerType, Model model) {
+		model.addAttribute("serviceControlServerType", serviceControlServerType);
+		return "/serviceControl/serverTypeAdd/ServiceControlHost";
+	}
+	
+	@PostMapping(value = "/serviceControl/serviceControlDB")
+	public String ServiceControlDB(String serviceControlServerType, Model model) {
+		model.addAttribute("serviceControlServerType", serviceControlServerType);
+		return "/serviceControl/serverTypeAdd/ServiceControlDB";
 	}
 }

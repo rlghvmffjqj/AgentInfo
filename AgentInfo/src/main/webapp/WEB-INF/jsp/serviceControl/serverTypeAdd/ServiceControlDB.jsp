@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 400px; padding-top: 10%;">
+<div class="modal-body" style="width: 100%; height: 280px; padding-top: 10%;">
 	<div class="card-block margin10">
 		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">	
 			<div class="form-group form-default form-static-label">
@@ -15,16 +15,6 @@
 			    <input type="text" id="serviceControlIp" name="serviceControlIp" class="form-control" value="" placeholder="172.16.0.0">
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">서버 IP</label>
-			</div>
-			<div class="form-group form-default form-static-label">
-			    <input type="text" id="serviceControlServicePath" name="serviceControlServicePath" class="form-control" value="/usr/local/secuve">
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">서비스 설치 경로(LogServer, ScvEA, scvca, TOSSuite)</label>
-			</div>
-			<div class="form-group form-default form-static-label">
-			    <input type="text" id="serviceControlTomcatPath" name="serviceControlTomcatPath" class="form-control" value="/sw/tomcat">
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">Tomcat 설치 경로</label>
 			</div>
 			<div class="form-group form-default form-static-label">
 				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">
@@ -39,6 +29,7 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">DB 구분</label>
 			</div>
+			<input id="serviceControlServerType" name="serviceControlServerType" type="hidden" value="${serviceControlServerType}">
 		 </form>
      </div>
 </div>

@@ -287,8 +287,18 @@ p {
     max-width: 500px;
 }
 
-.modal-serviceControlAdd {
+.modal-serviceControlManager {
+	top: 19%;
+    max-width: 500px;
+}
+
+.modal-serviceControlDB {
 	top: 25%;
+    max-width: 500px;
+}
+
+.modal-serviceControlHost {
+	top: 28%;
     max-width: 500px;
 }
 
@@ -300,6 +310,11 @@ p {
 .modal-logInquiry {
 	top: 0%;
     max-width: 1600px;
+}
+
+.modal-serviceControlType {
+	top: 30%;
+    max-width: 500px;
 }
 
 

@@ -61,7 +61,7 @@
 	</select>
 	
 	<update id="setServiceControlUpdate">
-		UPDATE servicecontrol set serviceControlPurpose = #{serviceControlPurpose}, serviceControlIp = #{serviceControlIp}, serviceControlTomcatPath = #{serviceControlTomcatPath}, serviceControlDbType = #{serviceControlDbType}
+		UPDATE servicecontrol set serviceControlServerType = #{serviceControlServerType}, serviceControlPurpose = #{serviceControlPurpose}, serviceControlIp = #{serviceControlIp}, serviceControlTomcatPath = #{serviceControlTomcatPath}, serviceControlDbType = #{serviceControlDbType}
 		WHERE serviceControlKeyNum = #{serviceControlKeyNum};
 	</update>
 	
