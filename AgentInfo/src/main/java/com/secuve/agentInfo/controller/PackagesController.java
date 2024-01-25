@@ -331,6 +331,7 @@ public class PackagesController {
 		List<String> osType = categoryService.getCategoryValue("osType");
 		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
 		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
+		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
 		List<String> agentVer = categoryService.getCategoryValue("agentVer");
 		List<String> agentOS = categoryService.getCategoryValue("agentOS");
 		List<String> customerName = categoryService.getCategoryValue("customerName");
@@ -342,6 +343,7 @@ public class PackagesController {
 		model.addAttribute("osType", osType);
 		model.addAttribute("requestProductCategory", requestProductCategory);
 		model.addAttribute("deliveryMethod", deliveryMethod);
+		model.addAttribute("purchaseCategory", purchaseCategory);
 		model.addAttribute("agentVer", agentVer);
 		model.addAttribute("agentOS", agentOS);
 		model.addAttribute("customerName", customerName);
