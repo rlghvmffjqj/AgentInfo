@@ -33,12 +33,15 @@ $.modal = function (modalContent, size) {
 	if(size=='merge') html += ' modal-merge';
 	if(size=='packageAnalysis') html += ' modal-packageAnalysis';
 	if(size=='favorite') html += ' modal-favorite';
-	if(size=='serviceControl') html += ' modal-serviceControl';
+//	if(size=='serviceControl') html += ' modal-serviceControl';
 	if(size=='serviceControlManager') html += ' modal-serviceControlManager';
 	if(size=='serviceControlDB') html += ' modal-serviceControlDB';
 	if(size=='serviceControlHost') html += ' modal-serviceControlHost';
 	if(size=='logInquiry') html += ' modal-logInquiry';
 	if(size=='serviceControlType') html += ' modal-serviceControlType';
+	if(size=='serviceControlManagerView') html += ' modal-serviceControlManagerView';
+	if(size=='serviceControlDBView') html += ' modal-serviceControlDBView';
+	if(size=='serviceControlHostView') html += ' modal-serviceControlHostView';
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

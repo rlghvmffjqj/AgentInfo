@@ -2,9 +2,11 @@ package com.secuve.agentInfo.service;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.dao.ServiceControlDao;
 import com.secuve.agentInfo.vo.ServiceControl;
+import com.secuve.agentInfo.vo.ServiceControlHost;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class ServiceControlService {
 	@Autowired ServiceControlDao serviceControlDao;
 
-	public String serviceControlInsert(ServiceControl serviceControl) {
+	public String serviceControlManagerInsert(ServiceControl serviceControl) {
 		if(serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp()) != null) {
 			return "duplication";
 		}
@@ -39,8 +42,9 @@ public class ServiceControlService {
 		serviceControl.setServiceControlScvCAPath(serviceControl.getServiceControlServicePath());
 		serviceControl.setServiceControlLogServerPath(serviceControl.getServiceControlServicePath());
 		String result = removeCharacter(insertSync(serviceControl),'"');
-		if (result.equals("OK"))
-			result = serviceControlSynchronization();
+		// 추가시 전체 동기화 징행 할경우 주석 해제
+		//if (result.equals("OK"))
+		//	result = serviceControlSynchronization();
 		return result;
 	}
 	
@@ -63,6 +67,7 @@ public class ServiceControlService {
         		.queryParam("serviceControlServerType", serviceControl.getServiceControlServerType())
         		.queryParam("serviceControlPurpose", serviceControl.getServiceControlPurpose())
         		.queryParam("serviceControlIp", serviceControl.getServiceControlIp())
+        		.queryParam("serviceControlHostIp", serviceControl.getServiceControlHostIp())
         		.queryParam("serviceControlScvEAPath", serviceControl.getServiceControlScvEAPath())
         		.queryParam("serviceControlScvCAPath", serviceControl.getServiceControlScvCAPath())
         		.queryParam("serviceControlLogServerPath", serviceControl.getServiceControlLogServerPath())
@@ -150,8 +155,8 @@ public class ServiceControlService {
 		return "OK";
 	}
 	
-	public String powershell() {
-		String url = "http://172.16.50.90:8081/serviceControlAgent/powershell";
+	public List<ServiceControlHost> getHyperVList(String serviceControlIp) {
+		String url = "http://"+serviceControlIp+":8081/serviceControlAgent/hyperVList";
         HashMap<String, Object> result = new HashMap<String, Object>();
         String jsonInString = "";
 
@@ -173,12 +178,54 @@ public class ServiceControlService {
 	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
 	        ObjectMapper mapper = new ObjectMapper();
 			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+			System.out.println(jsonInString);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-        
-        return jsonInString;
+        String extractedString = jsonInString.substring(jsonInString.indexOf("VMName"), jsonInString.lastIndexOf("]"));
+        List<Map<String, String>> hyperVList = getHyperVListFormat(extractedString);
+        hyperVList.remove(0);
+        hyperVList.remove(0);
+        hyperVList.remove(0);
+        List<ServiceControlHost> vmList = new ArrayList<>();
+        for (Map<String, String> map : hyperVList) {
+            String vmName = map.get("{VMName");
+            String state = map.get("{State");
+
+            if (vmName != null && state != null) {
+            	ServiceControlHost vo = new ServiceControlHost();
+            	vmList.add(vo);
+            }
+        }
+        return vmList;
 	}
+	
+	public static List<Map<String, String>> getHyperVListFormat(String input) {
+        String trimmedInput = input.substring(1, input.length() - 1);
+
+        String[] keyValuePairs = trimmedInput.split(", ");
+
+        List<Map<String, String>> resultList = new ArrayList<>();
+
+        for (String pair : keyValuePairs) {
+            String[] keyValue = pair.split("=");
+
+            if (keyValue.length >= 2) {
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+
+                Map<String, String> map = new HashMap<>();
+                map.put(key, value);
+
+                resultList.add(map);
+            } else {
+            }
+        }
+
+        return resultList;
+    }
+	
+
 	
 
 	public List<String> getServiceControlValue(String column) {

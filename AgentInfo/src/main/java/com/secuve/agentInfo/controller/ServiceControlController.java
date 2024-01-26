@@ -40,8 +40,7 @@ public class ServiceControlController {
 	@PostMapping(value = "/serviceControl")
 	public Map<String, Object> ServiceControl(ServiceControl search) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ServiceControl
-		> list = new ArrayList<>(serviceControlService.getServiceControlList(search));
+		ArrayList<ServiceControl> list = new ArrayList<>(serviceControlService.getServiceControlList(search));
 
 		int totalCount = serviceControlService.getServiceControlListCount(search);
 		map.put("page", search.getPage());
@@ -57,9 +56,9 @@ public class ServiceControlController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/serviceControl/managerInsert")
-	public String ServiceControlManagerInsert(Principal principal, ServiceControl serviceControl) throws ParseException {
-		return serviceControlService.serviceControlInsert(serviceControl);
+	@PostMapping(value = "/serviceControl/insert")
+	public String ServiceControlInsert(Principal principal, ServiceControl serviceControl) throws ParseException {
+		return serviceControlService.serviceControlManagerInsert(serviceControl);
 	}
 	
 	@ResponseBody
@@ -74,10 +73,25 @@ public class ServiceControlController {
 		return serviceControlService.serviceControlSynchronization();
 	}
 	
-	@PostMapping(value = "/serviceControl/updateView")
-	public String ServiceControlView(Model model, String serviceControlIp) {
+	@PostMapping(value = "/serviceControl/managerUpdateView")
+	public String ServiceControlManagerView(Model model, String serviceControlIp) {
 		model.addAttribute("serviceControl",serviceControlService.getServiceControlIpOne(serviceControlIp));
-		return "/serviceControl/ServiceControlView";
+		return "/serviceControl/serverTypeView/ServiceControlManagerView";
+	}
+	
+	@PostMapping(value = "/serviceControl/dbUpdateView")
+	public String ServiceControlDBView(Model model, String serviceControlIp) {
+		model.addAttribute("serviceControl",serviceControlService.getServiceControlIpOne(serviceControlIp));
+		return "/serviceControl/serverTypeView/ServiceControlDBView";
+	}
+	
+	@PostMapping(value = "/serviceControl/hostUpdateView")
+	public String ServiceControlHostView(Model model, String serviceControlIp) {
+		//ArrayList<ServiceControl> hyperVList = new ArrayList<>(serviceControlService.getHyperVList(serviceControlIp));
+		serviceControlService.getHyperVList(serviceControlIp);
+		//model.addAttribute("hyperVList", hyperVList);
+		model.addAttribute("serviceControl",serviceControlService.getServiceControlIpOne(serviceControlIp));
+		return "/serviceControl/serverTypeView/ServiceControlHostView";
 	}
 	
 	@ResponseBody

@@ -18,11 +18,13 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','사용 목적','서버 IP','PC전원','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','JAVA 버전','Tomcat 버전','릴리즈 정보',/*'커널 정보',*/'DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
+					colNames:['Key','서버종류','사용 목적','서버 IP','호스트 서버','PC전원','Tomcat','LogServer','EA','CA',/*'Agent',*/'DB','Disk(%)','Memory(%)','방화벽','JAVA 버전','Tomcat 버전','릴리즈 정보',/*'커널 정보',*/'DB 구분','서비스 설치 경로','Tomcat 설치 경로'],
 					colModel:[
 						{name:'serviceControlKeyNum', index:'serviceControlKeyNum', align:'center', width: 40, hidden:true },
+						{name:'serviceControlServerType', index:'serviceControlServerType', align:'center', width: 100, formatter: servetTypeFormatter},
 						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150, formatter: urlFormatter},
 						{name:'serviceControlIp', index:'serviceControlIp', align:'center', width: 100, formatter: linkFormatter},
+						{name:'serviceControlHostIp', index:'serviceControlHostIp', align:'center', width: 70},
 						{name:'serviceControlPcPower', index:'serviceControlPcPower', align:'center', width: 70, formatter: pcPowerFormatter},
 						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 70, formatter: tomcatFormatter},
 						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 70, formatter: logServerFormatter},
@@ -350,6 +352,18 @@
 			});
 		}
 
+		function servetTypeFormatter(cellValue, options, rowdata, action) {
+			if(rowdata.serviceControlServerType == "managerServer") {
+				return "관리 서버";
+			}
+			if(rowdata.serviceControlServerType == "hostServer") {
+				return "호스트 서버";
+			}
+			if(rowdata.serviceControlServerType == "dbServer") {
+				return "DB 서버";
+			}
+		}
+
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function urlFormatter(cellValue, options, rowdata, action) {
 			if(rowdata.serviceControlPort == "") {
@@ -368,21 +382,37 @@
 
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.serviceControlIp+"'"+')" style="color:#366cb3; font-size: 12px;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.serviceControlIp+"',"+"'"+rowdata.serviceControlServerType+"'"+')" style="color:#366cb3; font-size: 12px;">' + cellValue + '</a>';
 		}
 		
 		/* =========== 서비스 수정 Modal ========= */
-		function updateView(data) {
+		function updateView(serviceControlIp, serviceControlServerType) {
+			var urlRoute = "";
+			var modelSize = "";
+			if(serviceControlServerType == "managerServer") {
+				urlRoute = "<c:url value='/serviceControl/managerUpdateView'/>";
+				modelSize = "serviceControlManagerView";
+			}
+			if(serviceControlServerType == "dbServer") {
+				urlRoute = "<c:url value='/serviceControl/dbUpdateView'/>";
+				modelSize = "serviceControlDBView";
+			}
+			if(serviceControlServerType == "hostServer") {
+				urlRoute = "<c:url value='/serviceControl/hostUpdateView'/>";
+				modelSize = "serviceControlHostView";
+				showLoadingImage();
+			}
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/serviceControl/updateView'/>",
-			    data: {"serviceControlIp" : data},
-			    async: false,
+			    url: urlRoute,
+			    data: {"serviceControlIp" : serviceControlIp},
 			    success: function (data) {
-			        $.modal(data, 'serviceControl'); //modal창 호출
+					hideLoadingImage();
+			        $.modal(data, modelSize); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
+					hideLoadingImage();
 			    }
 		    });
 		}
@@ -449,6 +479,9 @@
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function tomcatFormatter(value, options, row) {
 			var serviceControlTomcat = row.serviceControlTomcat;
+			if(row.serviceControlServerType == "hostServer" || row.serviceControlServerType == "dbServer") {
+				return '<div></div>';
+			}
 			if(serviceControlTomcat == "execution") {
 				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlTomcat == "notRunning") {
@@ -462,6 +495,9 @@
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function logServerFormatter(value, options, row) {
 			var serviceControlLogServer = row.serviceControlLogServer;
+			if(row.serviceControlServerType == "hostServer" || row.serviceControlServerType == "dbServer") {
+				return '<div></div>';
+			}
 			if(serviceControlLogServer == "execution") {
 				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlLogServer == "notRunning") {
@@ -475,6 +511,9 @@
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function scvEAFormatter(value, options, row) {
 			var serviceControlScvEA = row.serviceControlScvEA;
+			if(row.serviceControlServerType == "hostServer" || row.serviceControlServerType == "dbServer") {
+				return '<div></div>';
+			}
 			if(serviceControlScvEA == "execution") {
 				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlScvEA == "notRunning") {
@@ -488,6 +527,9 @@
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function scvCAFormatter(value, options, row) {
 			var serviceControlScvCA = row.serviceControlScvCA;
+			if(row.serviceControlServerType == "hostServer" || row.serviceControlServerType == "dbServer") {
+				return '<div></div>';
+			}
 			if(serviceControlScvCA == "execution") {
 				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlScvCA == "notRunning") {
@@ -514,6 +556,9 @@
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function databaseFormatter(value, options, row) {
 			var serviceControlDB = row.serviceControlDB;
+			if(row.serviceControlServerType == "hostServer") {
+				return '<div></div>';
+			}
 			if(serviceControlDB == "execution") {
 				return '<div><img src="/AgentInfo/images/run.png" style="width:50px;"></div>';
 			} else if(serviceControlDB == "notRunning") {

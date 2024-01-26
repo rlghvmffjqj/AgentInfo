@@ -302,10 +302,10 @@ p {
     max-width: 500px;
 }
 
-.modal-serviceControl {
+/* .modal-serviceControl {
 	top: 0%;
     max-width: 1000px;
-}
+}*/
 
 .modal-logInquiry {
 	top: 0%;
@@ -315,6 +315,21 @@ p {
 .modal-serviceControlType {
 	top: 30%;
     max-width: 500px;
+}
+
+.modal-serviceControlManagerView {
+	top: -2%;
+    max-width: 1000px;
+}
+
+.modal-serviceControlDBView {
+	top: 10%;
+    max-width: 1000px;
+}
+
+.modal-serviceControlHostView {
+	top: 0%;
+    max-width: 1000px;
 }
 
 

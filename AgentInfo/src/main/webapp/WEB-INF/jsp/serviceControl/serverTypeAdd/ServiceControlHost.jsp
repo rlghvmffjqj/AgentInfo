@@ -27,8 +27,24 @@
 
 <script>
 	$('#insertBtn').click(function() {
-		showLoadingImage();
 		var postData = $('#modalForm').serializeObject();
+		if(postData.serviceControlPurpose == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: "사용 목적 필수 입력 바랍니다.",
+			});
+			return;
+		}
+		if(postData.serviceControlIp == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: "서버 IP 필수 입력 바랍니다.",
+			});
+			return;
+		}
+		showLoadingImage();
 		$.ajax({
 			url: "<c:url value='/serviceControl/insert'/>",
 	        type: 'post',
