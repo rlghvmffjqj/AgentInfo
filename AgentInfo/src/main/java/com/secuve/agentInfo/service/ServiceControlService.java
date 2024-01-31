@@ -3,10 +3,11 @@ package com.secuve.agentInfo.service;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,52 +183,38 @@ public class ServiceControlService {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-        String extractedString = jsonInString.substring(jsonInString.indexOf("VMName"), jsonInString.lastIndexOf("]"));
-        List<Map<String, String>> hyperVList = getHyperVListFormat(extractedString);
-        hyperVList.remove(0);
-        hyperVList.remove(0);
-        hyperVList.remove(0);
-        List<ServiceControlHost> vmList = new ArrayList<>();
-        for (Map<String, String> map : hyperVList) {
-            String vmName = map.get("{VMName");
-            String state = map.get("{State");
-
-            if (vmName != null && state != null) {
-            	ServiceControlHost vo = new ServiceControlHost();
-            	vmList.add(vo);
-            }
+        String jsonInStringPasing = jsonInString.substring(2, jsonInString.length() - 5);
+        List<String> hostList = new ArrayList<>(Arrays.asList(jsonInStringPasing.split(",   ")));
+        hostList.remove(0);
+        hostList.remove(0);
+        List<ServiceControlHost> serviceControlHostList = new ArrayList<ServiceControlHost>();
+        for(String hostValue : hostList) {
+        	ServiceControlHost serviceControlHost = new ServiceControlHost();
+        	String[] hostStr = hostValue.split("\\|");
+        	serviceControlHost.setState(hostStr[0]);
+        	if(hostStr[1].length() > 2) {
+        		long bytes = Long.parseLong(hostStr[1]);
+        		long megabytes = bytes / (1024 * 1024);
+        		serviceControlHost.setMemoryAssigned(Long.toString(megabytes)+"MB");
+        	} else {
+        		serviceControlHost.setMemoryAssigned(hostStr[1]);
+        	}
+        	if(hostStr[2].length() > 9) {
+        		String[] parts = hostStr[2].split(":");
+                String parsedStr = parts[0] + ":" + parts[1] + ":" + parts[2].substring(0,2);
+                serviceControlHost.setUptime(parsedStr);
+        	} else {
+        		serviceControlHost.setUptime(hostStr[2]);
+        	}
+        	serviceControlHost.setVmName(hostStr[3]);
+        	serviceControlHostList.add(serviceControlHost);
         }
-        return vmList;
+        Collections.sort(serviceControlHostList);
+
+        return serviceControlHostList;
 	}
 	
-	public static List<Map<String, String>> getHyperVListFormat(String input) {
-        String trimmedInput = input.substring(1, input.length() - 1);
-
-        String[] keyValuePairs = trimmedInput.split(", ");
-
-        List<Map<String, String>> resultList = new ArrayList<>();
-
-        for (String pair : keyValuePairs) {
-            String[] keyValue = pair.split("=");
-
-            if (keyValue.length >= 2) {
-                String key = keyValue[0].trim();
-                String value = keyValue[1].trim();
-
-                Map<String, String> map = new HashMap<>();
-                map.put(key, value);
-
-                resultList.add(map);
-            } else {
-            }
-        }
-
-        return resultList;
-    }
 	
-
-	
-
 	public List<String> getServiceControlValue(String column) {
 		return serviceControlDao.getServiceControlValue(column);
 	}

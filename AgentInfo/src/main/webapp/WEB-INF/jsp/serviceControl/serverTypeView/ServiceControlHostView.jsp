@@ -4,9 +4,9 @@
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 <script>
 	$(document).ready(function(){
-		var formData = $('#form').serializeObject();
-		$("#list").jqGrid({
-			url: "<c:url value='/serviceControl'/>",
+		var formData = $('#formHost').serializeObject();
+		$("#listHost").jqGrid({
+			url: "<c:url value='/serviceControlHost'/>",
 			mtype: 'POST',
 			postData: formData,
 			datatype: 'json',
@@ -131,8 +131,19 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">커널 정보</label>
 			</div>
-			<div class="hostListDiv">
-				${hyperVList}
+			<div class="hostListDiv" style="overflow: auto;">
+				<c:forEach var="serviceControlHost" items="${serviceControlHostList}">
+        		    <div class="form-check leftMargin">
+						<label class="form-check-label" style="width: 50%;">${serviceControlHost.vmName}</label>
+						<label class="form-check-label" style="width: 15%;">${serviceControlHost.memoryAssigned}</label>
+						<label class="form-check-label" style="width: 15%;">${serviceControlHost.uptime}</label>
+						<select class="form-control viewForm" id="state" name="state">
+							<option value="Running" <c:if test="${serviceControlHost.state eq 'Running'}">selected</c:if>>실행</option>
+							<option value="Saved" <c:if test="${serviceControlHost.state eq 'Saved'}">selected</c:if>>저장</option>
+							<option value="Off" <c:if test="${serviceControlHost.state eq 'Off'}">selected</c:if>>꺼짐</option>
+						</select>
+        		    </div>
+        		</c:forEach>
 			</div>
 		 </form>
 		 
@@ -330,6 +341,11 @@
 		});
 	}
 
+	$("select").change(function() {
+		console.log($(this).siblings("label:first").text());
+		console.log($(this).val());
+	});
+
 </script>
 
 <style>
@@ -377,6 +393,26 @@
     	height: 350px;
     	float: inline-start;
 	}
+ 
+	.leftMargin {
+		padding-left: 20px;
+	}
 
+	.leftMargin:hover {
+		background-color: #d3b57e;
+		color: white;
+	}
+
+	.form-check {
+		margin-bottom: 0;
+		padding-bottom: 0.1rem;
+		padding-top: 0.1rem;
+	}
+
+	.viewForm {
+		margin-bottom: 0px;
+    	width: 12% !important;
+    	text-align: center;
+	}
 </style>
 

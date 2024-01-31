@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.ServiceControlService;
 import com.secuve.agentInfo.vo.ServiceControl;
+import com.secuve.agentInfo.vo.ServiceControlHost;
 
 @Controller
 public class ServiceControlController {
@@ -87,9 +88,8 @@ public class ServiceControlController {
 	
 	@PostMapping(value = "/serviceControl/hostUpdateView")
 	public String ServiceControlHostView(Model model, String serviceControlIp) {
-		//ArrayList<ServiceControl> hyperVList = new ArrayList<>(serviceControlService.getHyperVList(serviceControlIp));
-		serviceControlService.getHyperVList(serviceControlIp);
-		//model.addAttribute("hyperVList", hyperVList);
+		List<ServiceControlHost> serviceControlHostList = serviceControlService.getHyperVList(serviceControlIp);
+		model.addAttribute("serviceControlHostList", serviceControlHostList);
 		model.addAttribute("serviceControl",serviceControlService.getServiceControlIpOne(serviceControlIp));
 		return "/serviceControl/serverTypeView/ServiceControlHostView";
 	}
