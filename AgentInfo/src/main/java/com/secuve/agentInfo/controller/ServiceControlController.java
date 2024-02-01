@@ -88,7 +88,10 @@ public class ServiceControlController {
 	
 	@PostMapping(value = "/serviceControl/hostUpdateView")
 	public String ServiceControlHostView(Model model, String serviceControlIp) {
-		List<ServiceControlHost> serviceControlHostList = serviceControlService.getHyperVList(serviceControlIp);
+		List<ServiceControlHost> serviceControlHostList = new ArrayList<ServiceControlHost>();
+		try {
+			serviceControlHostList = serviceControlService.getHyperVList(serviceControlIp);
+		} catch (Exception e) {}
 		model.addAttribute("serviceControlHostList", serviceControlHostList);
 		model.addAttribute("serviceControl",serviceControlService.getServiceControlIpOne(serviceControlIp));
 		return "/serviceControl/serverTypeView/ServiceControlHostView";
@@ -146,5 +149,10 @@ public class ServiceControlController {
 	public String ServiceControlDB(String serviceControlServerType, Model model) {
 		model.addAttribute("serviceControlServerType", serviceControlServerType);
 		return "/serviceControl/serverTypeAdd/ServiceControlDB";
+	}
+	
+	@PostMapping(value = "/serviceControl/hostRunModChange")
+	public String HostRunModChange(ServiceControlHost serviceControlHost) {
+		return serviceControlService.hostRunModChange(serviceControlHost);
 	}
 }

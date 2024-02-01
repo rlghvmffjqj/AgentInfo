@@ -351,10 +351,41 @@ public class ServiceControlService {
 	
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
 	    int timeout = 100; // 원하는 시간을 밀리초 단위로 설정하세요.
-	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory
-	     = new HttpComponentsClientHttpRequestFactory();
+	    HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
 	    clientHttpRequestFactory.setConnectTimeout(timeout);
 	    return clientHttpRequestFactory;
+	}
+
+	public String hostRunModChange(ServiceControlHost serviceControlHost) {
+		String url = "http://"+serviceControlHost.getIp()+":8081/serviceControlAgent/hostRunModChange";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("vmName", serviceControlHost.getVmName())
+        		.queryParam("state", serviceControlHost.getState())
+        		.build();
+        
+        try {
+        	ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+	        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+	        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+	        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+	
+	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+	        ObjectMapper mapper = new ObjectMapper();
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+			System.out.println(jsonInString);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+        return jsonInString;
 	}
 
 }

@@ -15,6 +15,7 @@ public class ServiceControlHost implements Comparable<ServiceControlHost> {
 	private String state;
 	private String memoryAssigned;
 	private String uptime;
+	private String ip;
 	
 	@Override
     public int compareTo(ServiceControlHost other) {
