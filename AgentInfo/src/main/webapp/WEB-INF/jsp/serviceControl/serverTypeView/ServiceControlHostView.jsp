@@ -221,129 +221,51 @@
 	    });
 	});
 
-	$(document).ready(function() {
-    	$('.tomcatToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("tomcat", selectedValue);
-    	});
-
-		$('.logServerToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("logServer", selectedValue);
-    	});
-
-		$('.scvEAToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("scvEA", selectedValue);
-    	});
-
-		$('.scvCAToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("scvCA", selectedValue);
-    	});
-
-		$('.firewallToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("firewall", selectedValue);
-    	});
- 	});
-
-	function statusChange(service, status) {
-		var serviceControlIp = "${serviceControl.serviceControlIp}";
-		showLoadingImage();
-		$.ajax({
-			url: "<c:url value='/serviceControl/executionChange'/>",
-	        type: 'post',
-	        data: {
-				"service": service,
-				"status": status,
-				"serviceControlIp": serviceControlIp
-			},
-	        success: function(result) {
-				hideLoadingImage();
-				if(result === 'OK') {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					}).then((result) => {
-						if (result.isConfirmed) {
-							$('#modal').modal("hide"); // 모달 닫기
-							setTimeout(() => {
-								updateView(serviceControlIp);
-							}, 200);
-							
-						}
-					})
-					
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: "작업 실패 하였습니다.",
-					});
-				}
-			},
-			error: function(error) {
-				hideLoadingImage();
-				Swal.fire({
-					icon: 'error',
-					title: '에러!',
-					text: "작업 처리 중 에러가 발생하였습니다. 관리자에게 문의 바랍니다.",
-				})
-				console.log(error);
-			}
-	    });
-	}
-
-	function logInquiry(service) {
-		var serviceControlIp = "${serviceControl.serviceControlIp}";
-		showLoadingImage();
-		$.ajax({
-		    type: 'POST',
-		    url: "<c:url value='/serviceControl/logInquiryView'/>",
-			data: {
-				"serviceControlIp": serviceControlIp,
-				"service": service
-			},
-		    success: function (data) {
-				$('#modal').modal("hide"); // 모달 닫기
-				setTimeout(() => {
-		    		$.modal(data, 'logInquiry'); //modal창 호출
-					hideLoadingImage();
-				}, 200);
-		    },
-		    error: function(e) {
-				hideLoadingImage();
-		        alert(e);
-		    }
-		});			
-	}
-
-	function routeSetting() {
-		var serviceControlIp = "${serviceControl.serviceControlIp}";
-		$.ajax({
-		    type: 'POST',
-		    url: "<c:url value='/serviceControl/routeSettingView'/>",
-			data: {
-				"serviceControlIp": serviceControlIp
-			},
-		    async: false,
-		    success: function (data) {
-				$('#modal').modal("hide"); // 모달 닫기
-				setTimeout(() => {
-					$.modal(data, 'sr'); //modal창 호출
-				}, 200);
-		    },
-		    error: function(e) {
-		        // TODO 에러 화면
-		    }
-		});
-	}
-
 	$("select").change(function() {
-		console.log($(this).siblings("label:first").text());
-		console.log($(this).val());
+		var vmName = $(this).siblings("label:first").text();
+		var state = $(this).val();
+		var ip = "${serviceControl.serviceControlIp}";
+		
+		Swal.fire({
+			  title: '변경!',
+			  text: "가상 서버 상태를 변경하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#7066e0',
+			  cancelButtonColor: '#FF99AB',
+			  confirmButtonText: 'OK'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/serviceControl/hostRunModChange'/>",
+					data: {
+						"vmName": vmName,
+						"state": state,
+						"ip": ip
+					},
+				    async: false,
+				    success: function (data) {
+						if(data == "FALSE") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: "작업 실패 하였습니다.",
+							});
+						} else {
+							Swal.fire({
+								icon: 'success',
+								title: '성공!',
+								text: "가상 서버 상태 변경 완료!",
+							});
+						}
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+				    }
+				});
+			}
+		})
 	});
 
 </script>
