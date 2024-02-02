@@ -38,6 +38,8 @@ public class ServiceControl {
 	private String serviceControlScvEAPath;
 	private String serviceControlScvCAPath;
 	private String serviceControlLogServerPath;
+	private String serviceControlJdbcPath;
+	private String serviceControlJdbcInfo;
 	
 	private String[] serviceControlPurposeArr;
 	private String[] serviceControlServerTypeArr;

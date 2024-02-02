@@ -49,7 +49,7 @@
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'serviceControlKeyNum', 		// 기본 정렬 
+			        sortname: 'serviceControlServerType', 		// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택

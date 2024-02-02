@@ -30,9 +30,12 @@
 			    <label class="float-label headLabel">서버 IP</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
-			    <input type="text" id="serviceControlHostIp" name="serviceControlHostIp" class="form-control" value="${serviceControl.serviceControlHostIp}">
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">호스트서버</label>
+				<select class="form-control" id="serviceControlHostIp" name="serviceControlHostIp">
+					<option value="90" <c:if test="${'90' eq serviceControl.serviceControlHostIp}">selected</c:if>>#90</option>
+					<option value="160" <c:if test="${'160' eq serviceControl.serviceControlHostIp}">selected</c:if>>#160</option>
+				</select>
+				<span class="form-bar"></span>
+				<label class="float-label headLabel">호스트 서버</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
 			    <input type="text" id="serviceControlLogServerPath" name="serviceControlLogServerPath" class="form-control" value="${serviceControl.serviceControlLogServerPath}" style="width: 82%;" disabled>
@@ -46,6 +49,16 @@
 			    <input type="text" id="serviceControlTomcatPath" name="serviceControlTomcatPath" class="form-control" value="${serviceControl.serviceControlTomcatPath}">
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">Tomcat 설치 경로</label>
+			</div>
+			<div class="form-group form-default form-static-label form-view">
+			    <input type="text" id="serviceControlJdbcPath" name="serviceControlJdbcPath" class="form-control" value="${serviceControl.serviceControlJdbcPath}">
+			    <span class="form-bar"></span>
+			    <label class="float-label headLabel">jdbc.conf 경로</label>
+			</div>
+			<div class="form-group form-default form-static-label form-view">
+			    <input type="text" id="serviceControlJdbcInfo" name="serviceControlJdbcInfo" class="form-control" value="${serviceControl.serviceControlJdbcInfo}" disabled>
+			    <span class="form-bar"></span>
+			    <label class="float-label headLabel">jdbc.conf 설정(dbType | dbAddr | dbPort | dbName | dbUser | dbPwd)</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
 				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">
@@ -528,6 +541,18 @@
 
 	.form-group > .form-control {
 		border-bottom: none !important;
+	}
+
+	.dropdown-menu {
+		min-width: 6rem !important;
+	}
+
+	.dropdown-item:hover {
+		background-color: #dae5ff;
+	}
+
+	.form-group {
+		height: 38px;
 	}
 
 </style>

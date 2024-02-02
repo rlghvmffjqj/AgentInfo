@@ -42,7 +42,7 @@
 	});
 </script>
 
-<div class="modal-body" style="width: 100%; height: 770px; padding-top: 3%;">
+<div class="modal-body" style="width: 100%; height: 800px; padding-top: 3%;">
 	<div class="card-block margin10">
 		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">
 			<input type="hidden" id="serviceControlKeyNum" name="serviceControlKeyNum" value="${serviceControl.serviceControlKeyNum}">
@@ -131,6 +131,10 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">커널 정보</label>
 			</div>
+			<input type="text" id="searchInput" class="form-control" placeholder="가상서버 이름" style="width: 50%;">
+			<button class="btn btn-primary btnm" type="button" onclick="searchVM()">
+				<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+			</button>
 			<div class="hostListDiv" style="overflow: auto;">
 				<c:forEach var="serviceControlHost" items="${serviceControlHostList}">
         		    <div class="form-check leftMargin">
@@ -147,6 +151,7 @@
 			</div>
 		 </form>
 		 
+		 
      </div>
 </div>
 <div class="modal-footer">
@@ -155,6 +160,20 @@
 </div>
 
 <script>
+	function searchVM() {
+	    var filter = $('#searchInput').val().toUpperCase();
+
+	    $('.form-check').each(function () {
+	        var vmName = $(this).find('label:first').text().toUpperCase();
+
+	        if (vmName.indexOf(filter) > -1) {
+	            $(this).show();
+	        } else {
+	            $(this).hide();
+	        }
+	    });
+	}
+
 	$('#close').click(function() {
 		//location.reload(true);
 		tableRefresh();
@@ -227,15 +246,16 @@
 		var ip = "${serviceControl.serviceControlIp}";
 		
 		Swal.fire({
-			  title: '변경!',
-			  text: "가상 서버 상태를 변경하시겠습니까?",
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#7066e0',
-			  cancelButtonColor: '#FF99AB',
-			  confirmButtonText: 'OK'
+			title: '변경!',
+			text: '"'+vmName + '" 상태를 "'+state+'"(으)로 변경하시겠습니까?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#7066e0',
+			cancelButtonColor: '#FF99AB',
+			confirmButtonText: 'OK'
 		}).then((result) => {
 		  	if (result.isConfirmed) {
+				showLoadingImage();
 				$.ajax({
 				    type: 'POST',
 				    url: "<c:url value='/serviceControl/hostRunModChange'/>",
@@ -244,7 +264,8 @@
 						"state": state,
 						"ip": ip
 					},
-				    async: false,
+					dataType: "text",
+					traditional: true,
 				    success: function (data) {
 						if(data == "FALSE") {
 							Swal.fire({
@@ -252,16 +273,17 @@
 								title: '실패!',
 								text: "작업 실패 하였습니다.",
 							});
+							hideLoadingImage();
 						} else {
-							Swal.fire({
-								icon: 'success',
-								title: '성공!',
-								text: "가상 서버 상태 변경 완료!",
-							});
+							$('#modal').modal("hide"); // 모달 닫기
+							setTimeout(() => {
+		    					updateView(ip, "hostServer");
+							}, 200);
 						}
 				    },
 				    error: function(e) {
-				        // TODO 에러 화면
+						console.log(e);
+				        hideLoadingImage();
 				    }
 				});
 			}
@@ -315,10 +337,6 @@
     	height: 350px;
     	float: inline-start;
 	}
- 
-	.leftMargin {
-		padding-left: 20px;
-	}
 
 	.leftMargin:hover {
 		background-color: #d3b57e;
@@ -335,6 +353,10 @@
 		margin-bottom: 0px;
     	width: 12% !important;
     	text-align: center;
+	}
+
+	.form-material .form-control:focus {
+		border-bottom: 1px solid #ccc;
 	}
 </style>
 

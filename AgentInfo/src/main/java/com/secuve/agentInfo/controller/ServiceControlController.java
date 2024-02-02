@@ -151,6 +151,7 @@ public class ServiceControlController {
 		return "/serviceControl/serverTypeAdd/ServiceControlDB";
 	}
 	
+	@ResponseBody
 	@PostMapping(value = "/serviceControl/hostRunModChange")
 	public String HostRunModChange(ServiceControlHost serviceControlHost) {
 		return serviceControlService.hostRunModChange(serviceControlHost);

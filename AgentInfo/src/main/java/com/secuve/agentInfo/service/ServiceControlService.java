@@ -74,6 +74,7 @@ public class ServiceControlService {
         		.queryParam("serviceControlLogServerPath", serviceControl.getServiceControlLogServerPath())
         		.queryParam("serviceControlTomcatPath", serviceControl.getServiceControlTomcatPath())
         		.queryParam("serviceControlDbType", serviceControl.getServiceControlDbType())
+        		.queryParam("serviceControlJdbcPath", serviceControl.getServiceControlJdbcPath())
         		.build();
         
         try {
@@ -381,13 +382,10 @@ public class ServiceControlService {
 	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
 	        ObjectMapper mapper = new ObjectMapper();
 			jsonInString = mapper.writeValueAsString(resultMap.getBody());
-			System.out.println(jsonInString);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
         return jsonInString;
 	}
-
 }
-
 

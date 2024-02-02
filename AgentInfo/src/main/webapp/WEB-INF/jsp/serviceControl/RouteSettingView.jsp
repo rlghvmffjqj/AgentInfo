@@ -26,7 +26,7 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-default btn-outline-info-add" type="button" id="BtnStateChange" onClick="btnStateChange()">변경</button>	
-    <button class="btn btn-default btn-outline-info-nomal" type="button" id="close" data-dismiss="modal">닫기</button>
+    <button class="btn btn-default btn-outline-info-nomal" type="button" id="routeSettingClose">닫기</button>
 </div>
 
 <script>
@@ -57,7 +57,7 @@
 					});
 					$('#modal').modal("hide"); // 모달 닫기
 					setTimeout(() => {
-						updateView('${serviceControl.serviceControlIp}');
+						updateView('${serviceControl.serviceControlIp}',"managerServer");
 					}, 200);
 				} else{
 					Swal.fire({
@@ -73,12 +73,10 @@
 		});
 	}
 
-	$('#close').click(function() {
-		//location.reload(true);
-		//tableRefresh();
-		$('#modal').modal("hide"); // 모달 닫기
-		setTimeout(() => {
-			updateView('${serviceControl.serviceControlIp}');
-		}, 200);
+	$('#routeSettingClose').click(function() {
+		$('#modal').modal("hide");
+		$('#modal').on('hidden.bs.modal', function () {
+			updateView('${serviceControl.serviceControlIp}',"managerServer");
+		})
 	});
 </script>
