@@ -24,7 +24,7 @@
 						{name:'serviceControlServerType', index:'serviceControlServerType', align:'center', width: 100, formatter: servetTypeFormatter},
 						{name:'serviceControlPurpose', index:'serviceControlPurpose', align:'center', width: 150, formatter: urlFormatter},
 						{name:'serviceControlIp', index:'serviceControlIp', align:'center', width: 100, formatter: linkFormatter},
-						{name:'serviceControlHostIp', index:'serviceControlHostIp', align:'center', width: 70},
+						{name:'serviceControlHostIp', index:'serviceControlHostIp', align:'center', width: 70, formatter: hostFormatter},
 						{name:'serviceControlPcPower', index:'serviceControlPcPower', align:'center', width: 70, formatter: pcPowerFormatter},
 						{name:'serviceControlTomcat', index:'serviceControlTomcat', align:'center', width: 70, formatter: tomcatFormatter},
 						{name:'serviceControlLogServer', index:'serviceControlLogServer', align:'center', width: 70, formatter: logServerFormatter},
@@ -463,7 +463,14 @@
 		$("select").change(function() {
 			tableRefresh();
 		});
-		
+
+		function hostFormatter(value, options, row) {
+			var serviceControlHostIp = row.serviceControlHostIp;
+			if(serviceControlHostIp != "") {
+				return "#"+serviceControlHostIp;
+			}
+			return "";
+		}
 		
 		/* =========== 상태에 따른 이미지 부여 ========= */
 		function pcPowerFormatter(value, options, row) {

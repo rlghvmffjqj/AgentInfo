@@ -131,7 +131,7 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">커널 정보</label>
 			</div>
-			<input type="text" id="searchInput" class="form-control" placeholder="가상서버 이름" style="width: 50%;">
+			<input type="text" id="searchInput" class="form-control" placeholder="가상서버 이름" style="width: 50%; margin-bottom: 5px;">
 			<button class="btn btn-primary btnm" type="button" onclick="searchVM()">
 				<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 			</button>
@@ -141,7 +141,7 @@
 						<label class="form-check-label" style="width: 50%;">${serviceControlHost.vmName}</label>
 						<label class="form-check-label" style="width: 15%;">${serviceControlHost.memoryAssigned}</label>
 						<label class="form-check-label" style="width: 15%;">${serviceControlHost.uptime}</label>
-						<select class="form-control viewForm" id="state" name="state">
+						<select class="form-control viewForm" id="vmState" name="state">
 							<option value="Running" <c:if test="${serviceControlHost.state eq 'Running'}">selected</c:if>>실행</option>
 							<option value="Saved" <c:if test="${serviceControlHost.state eq 'Saved'}">selected</c:if>>저장</option>
 							<option value="Off" <c:if test="${serviceControlHost.state eq 'Off'}">selected</c:if>>꺼짐</option>
@@ -173,6 +173,13 @@
 	        }
 	    });
 	}
+
+	/* =========== Enter 검색 ========= */
+	$("#searchInput").keypress(function(event) {
+			if (window.event.keyCode == 13) {
+				searchVM();
+			}
+		});
 
 	$('#close').click(function() {
 		//location.reload(true);
@@ -240,7 +247,7 @@
 	    });
 	});
 
-	$("select").change(function() {
+	$(document).on('change', '#vmState', function() {
 		var vmName = $(this).siblings("label:first").text();
 		var state = $(this).val();
 		var ip = "${serviceControl.serviceControlIp}";
@@ -290,6 +297,56 @@
 		})
 	});
 
+	$(document).ready(function() {
+		$('.firewallToggle').on('click', function() {
+		    var status = $(this).data('value');
+			var serviceControlIp = "${serviceControl.serviceControlIp}";
+			showLoadingImage();
+			$.ajax({
+				url: "<c:url value='/serviceControl/executionChange'/>",
+	    	    type: 'post',
+	    	    data: {
+					"service": "firewall",
+					"status": status,
+					"serviceControlIp": serviceControlIp
+				},
+	    	    success: function(result) {
+					hideLoadingImage();
+					if(result === 'OK') {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '작업을 완료했습니다.',
+						}).then((result) => {
+							if (result.isConfirmed) {
+								$('#modal').modal("hide"); // 모달 닫기
+								setTimeout(() => {
+									updateView(serviceControlIp);
+								}, 200);
+
+							}
+						})
+
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: "작업 실패 하였습니다.",
+						});
+					}
+				},
+				error: function(error) {
+					hideLoadingImage();
+					Swal.fire({
+						icon: 'error',
+						title: '에러!',
+						text: "작업 처리 중 에러가 발생하였습니다. 관리자에게 문의 바랍니다.",
+					})
+					console.log(error);
+				}
+	    	});
+		})
+	});
 </script>
 
 <style>
