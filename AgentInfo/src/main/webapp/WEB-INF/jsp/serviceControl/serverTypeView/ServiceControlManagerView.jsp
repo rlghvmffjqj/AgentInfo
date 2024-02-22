@@ -250,7 +250,7 @@
 				<label class="float-label headLabel">Database 상태</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv" id="firewallDiv">
+				<div class="statusDiv">
 					<c:if test="${'execution' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
 					<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>

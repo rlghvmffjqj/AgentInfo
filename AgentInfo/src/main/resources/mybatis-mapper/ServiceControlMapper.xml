@@ -8,7 +8,7 @@
 		SELECT *
     	FROM
     	(
-    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, serviceControlPcPower DESC, serviceControlPurpose) RowNo, a.*
     		FROM (
 				SELECT *
 				FROM serviceControl

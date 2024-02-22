@@ -251,6 +251,9 @@ public class PackagesService {
 					return "OK";
 				}
 				packages.setCustomerNameView(cell.getStringCellValue());
+				if (categoryService.getCategory("customerName", cell.getStringCellValue()) == 0) {
+					categoryService.setCategory("customerName", cell.getStringCellValue(), principal.getName(),	nowDate());
+				}
 			}
 			// 행의 3번째 열(사업명)
 			cell = row.getCell(2);
@@ -438,6 +441,9 @@ public class PackagesService {
 					return "OK";
 				}
 				packages.setCustomerNameView(cell.getStringCellValue());
+				if (categoryService.getCategory("customerName", cell.getStringCellValue()) == 0) {
+					categoryService.setCategory("customerName", cell.getStringCellValue(), principal.getName(),	nowDate());
+				}
 			}
 			// 행의 3번째 열(사업명)
 			cell = row.getCell(2);
@@ -621,6 +627,9 @@ public class PackagesService {
 					return "OK";
 				}
 				packages.setCustomerNameView(cell.getStringCellValue());
+				if (categoryService.getCategory("customerName", cell.getStringCellValue()) == 0) {
+					categoryService.setCategory("customerName", cell.getStringCellValue(), principal.getName(),	nowDate());
+				}
 			}
 			// 행의 3번째 열(사업명)
 			cell = row.getCell(2);
@@ -770,6 +779,8 @@ public class PackagesService {
 			packages.setPackagesRegistrationDate(nowDate());
 
 			packagesDao.insertPackages(packages);
+			// 고객사 사업명 매핑
+			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			// uid 로그 기록
 			packageUidLog(packages, principal, "INSERT");
 		}

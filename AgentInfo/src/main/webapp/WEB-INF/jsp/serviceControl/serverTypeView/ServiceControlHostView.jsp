@@ -81,7 +81,7 @@
 				<label class="float-label headLabel">PC 전원</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv" id="firewallDiv">
+				<div class="statusDiv">
 					<c:if test="${'execution' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
 					<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
@@ -138,10 +138,18 @@
 			<div class="hostListDiv" style="overflow: auto;">
 				<c:forEach var="serviceControlHost" items="${serviceControlHostList}">
         		    <div class="form-check leftMargin">
-						<label class="form-check-label" style="width: 50%;">${serviceControlHost.vmName}</label>
-						<label class="form-check-label" style="width: 15%;">${serviceControlHost.memoryAssigned}</label>
-						<label class="form-check-label" style="width: 15%;">${serviceControlHost.uptime}</label>
-						<select class="form-control viewForm" id="vmState" name="state">
+						<label class="form-check-label fontBold" style="width: 50%;">${serviceControlHost.vmName}</label>
+						<label class="form-check-label fontBold" style="width: 15%;">${serviceControlHost.memoryAssigned}</label>
+						<label class="form-check-label fontBold" style="width: 15%;">${serviceControlHost.uptime}</label>
+						<c:if test="${serviceControlHost.state eq 'Running'}">
+							<select class="form-control viewForm" id="vmState" name="state" style="color:green">
+						</c:if>
+						<c:if test="${serviceControlHost.state eq 'Saved'}">
+							<select class="form-control viewForm" id="vmState" name="state" style="color:#9b7400">
+						</c:if>
+						<c:if test="${serviceControlHost.state eq 'Off'}">
+							<select class="form-control viewForm" id="vmState" name="state" style="color:#a90000">
+						</c:if>
 							<option value="Running" <c:if test="${serviceControlHost.state eq 'Running'}">selected</c:if>>실행</option>
 							<option value="Saved" <c:if test="${serviceControlHost.state eq 'Saved'}">selected</c:if>>저장</option>
 							<option value="Off" <c:if test="${serviceControlHost.state eq 'Off'}">selected</c:if>>꺼짐</option>
@@ -281,6 +289,13 @@
 								text: "작업 실패 하였습니다.",
 							});
 							hideLoadingImage();
+						} else if(data == "LowMemory") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: "HOST서버 메모리가 부족합니다.",
+							});
+							hideLoadingImage();
 						} else {
 							$('#modal').modal("hide"); // 모달 닫기
 							setTimeout(() => {
@@ -414,6 +429,10 @@
 
 	.form-material .form-control:focus {
 		border-bottom: 1px solid #ccc;
+	}
+
+	.fontBold {
+		font-weight: bold;
 	}
 </style>
 

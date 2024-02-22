@@ -3,7 +3,6 @@ package com.secuve.agentInfo.service;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +14,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.itextpdf.text.log.SysoCounter;
 import com.secuve.agentInfo.dao.TestCaseDao;
 import com.secuve.agentInfo.vo.TestCase;
-
-import jdk.internal.org.jline.terminal.TerminalBuilder.SystemOutput;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})

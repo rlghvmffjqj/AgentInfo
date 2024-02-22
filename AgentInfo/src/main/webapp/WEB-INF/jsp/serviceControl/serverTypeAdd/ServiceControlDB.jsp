@@ -17,9 +17,12 @@
 			    <label class="float-label headLabel">서버 IP</label>
 			</div>
 			<div class="form-group form-default form-static-label">
-			    <input type="text" id="serviceControlHostIp" name="serviceControlHostIp" class="form-control" value="" placeholder="172.16.0.0">
-			    <span class="form-bar"></span>
-			    <label class="float-label headLabel">호스트 IP</label>
+				<select class="form-control" id="serviceControlHostIp" name="serviceControlHostIp">
+					<option value="90">#90</option>
+					<option value="160">#160</option>
+				</select>
+				<span class="form-bar"></span>
+				<label class="float-label headLabel">호스트 서버</label>
 			</div>
 			<div class="form-group form-default form-static-label">
 				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">

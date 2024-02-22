@@ -183,7 +183,7 @@
 	</delete>
 	
 	<select id="getCategoryBusinessNameList" resultType="string">
-		SELECT DISTINCT categoryBusinessName FROM categoryBusiness;
+		SELECT DISTINCT categoryBusinessName FROM categoryBusiness WHERE categoryBusinessName != '';
 	</select>
 	
 	<select id="getCategoryCustomerBusinessName" resultType="string">

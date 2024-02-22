@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
-<div class="modal-body" style="width: 100%; height: 540px; padding-top: 3%;">
+<div class="modal-body" style="width: 100%; height: 600px; padding-top: 3%;">
 	<div class="card-block margin10">
 		 <form class="modalForm form-material" name="modalForm" id="modalForm" method ="post">
 			<input type="hidden" id="serviceControlKeyNum" name="serviceControlKeyNum" value="${serviceControl.serviceControlKeyNum}">
@@ -30,6 +30,14 @@
 			    <label class="float-label headLabel">서버 IP</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view">
+				<select class="form-control" id="serviceControlHostIp" name="serviceControlHostIp">
+					<option value="90" <c:if test="${'90' eq serviceControl.serviceControlHostIp}">selected</c:if>>#90</option>
+					<option value="160" <c:if test="${'160' eq serviceControl.serviceControlHostIp}">selected</c:if>>#160</option>
+				</select>
+				<span class="form-bar"></span>
+				<label class="float-label headLabel">호스트 서버</label>
+			</div>
+			<div class="form-group form-default form-static-label form-view">
 				<select class="form-control" id="serviceControlDbType" name="serviceControlDbType">
 					<option value="none" <c:if test="${'none' eq serviceControl.serviceControlDbType}">selected</c:if>>미설치</option>
 					<option value="tibero" <c:if test="${'tibero' eq serviceControl.serviceControlDbType}">selected</c:if>>Tibero</option>
@@ -54,8 +62,8 @@
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">PC 전원</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view">
-				<div class="statusDiv form-control">
+			<div class="form-group form-default form-static-label form-view borderBotton">
+				<div class="statusDiv">
 					<c:if test="${'execution' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/yellowcircle.png" style="width:20px;"></c:if>
 					<c:if test="${'notInstalled' eq serviceControl.serviceControlDB}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
@@ -67,11 +75,23 @@
 						<c:if test="${'unableConfirm' eq serviceControl.serviceControlDB}">확인불가</c:if>
 					</span>
 				</div>
+				<div class="dropdown form-control">
+					<c:if test="${'on' eq serviceControl.serviceControlPcPower}">
+						<button class="btn custom-btn" type="button" id="dbToggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  	상태 변경
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dbToggle">
+						  	<!-- Dropdown items go here -->
+						  	<a class="dropdown-item dbToggle" href="#" data-value="run">실행</a>
+						  	<a class="dropdown-item dbToggle" href="#" data-value="stop">중지</a>
+						</div>
+					</c:if>
+				</div>
 				<span class="form-bar"></span>
 				<label class="float-label headLabel">Database 상태</label>
 			</div>
 			<div class="form-group form-default form-static-label form-view borderBotton">
-				<div class="statusDiv" id="firewallDiv">
+				<div class="statusDiv">
 					<c:if test="${'execution' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/greencircle.png" style="width:20px;"></c:if>
 					<c:if test="${'notRunning' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/redcircle.png" style="width:20px;"></c:if>
 					<c:if test="${'unableConfirm' eq serviceControl.serviceControlFirewall}"><img src="/AgentInfo/images/graycircle.png" style="width:20px;"></c:if>
@@ -198,29 +218,14 @@
 	});
 
 	$(document).ready(function() {
-    	$('.tomcatToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("tomcat", selectedValue);
-    	});
-
-		$('.logServerToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("logServer", selectedValue);
-    	});
-
-		$('.scvEAToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("scvEA", selectedValue);
-    	});
-
-		$('.scvCAToggle').on('click', function() {
-		    var selectedValue = $(this).data('value');
-			statusChange("scvCA", selectedValue);
-    	});
-
 		$('.firewallToggle').on('click', function() {
 		    var selectedValue = $(this).data('value');
 			statusChange("firewall", selectedValue);
+    	});
+
+		$('.dbToggle').on('click', function() {
+		    var selectedValue = $(this).data('value');
+			statusChange("db", selectedValue);
     	});
  	});
 

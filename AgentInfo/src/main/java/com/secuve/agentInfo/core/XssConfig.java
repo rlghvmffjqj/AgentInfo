@@ -24,7 +24,7 @@ public class XssConfig implements WebMvcConfigurer {
 		filterRegistration.setOrder(1);
 		//filterRegistration.addUrlPatterns("/*");
 		List<String> urls = new ArrayList<>();
-		urls.add("/packages/*");
+		urls.add("/packages/stateChange");
 		urls.add("/license/*");
 		urls.add("/serverList/*");
 		urls.add("/generalPackage/*");

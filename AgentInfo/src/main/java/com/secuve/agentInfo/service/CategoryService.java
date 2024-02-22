@@ -262,6 +262,9 @@ public class CategoryService {
 	}
 
 	public void insertCustomerBusinessMapping(String customerNameView, String businessNameView) {
+		if(businessNameView == "" || businessNameView == null) {
+			return;
+		}
 		CategoryBusiness categoryBusiness = new CategoryBusiness();
 		categoryBusiness.setCategoryCustomerNameView(customerNameView);
 		categoryBusiness.setCategoryBusinessNameView(businessNameView);

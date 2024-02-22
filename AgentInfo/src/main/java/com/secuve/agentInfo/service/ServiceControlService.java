@@ -141,7 +141,8 @@ public class ServiceControlService {
 			if (sucess <= 0)
 				return "FALSE";
 		}
-		return serviceControlSynchronization();
+		// serviceControlSynchronization()  // 동기화
+		return "OK";
  	}
 
 	public String serviceControlSynchronization() {
@@ -382,8 +383,12 @@ public class ServiceControlService {
 	        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
 	        ObjectMapper mapper = new ObjectMapper();
 			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+			if(jsonInString.contains("메모리가 부족")) {
+				return "LowMemory";
+			}
 		} catch (Exception e) {
 			System.out.println(e);
+			return "FALSE";
 		}
         return jsonInString;
 	}
