@@ -225,14 +225,18 @@ public class ServiceControlService {
 		return serviceControlDao.getServiceControlOne(serviceControlKeyNum);
 	}
 
-	public void executionChange(ServiceControl serviceControl) {
+	public String executionChange(ServiceControl serviceControl) {
+		String result = "OK";
 		ServiceControl sc = serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp());
 		sc.setStatus(serviceControl.getStatus());
 		sc.setService(serviceControl.getService());
-		changeStatus(sc);
+		result = changeStatus(sc);
 		serviceControl = serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp());
 		serviceControlDao.delServiceControlIp(serviceControl.getServiceControlIp());
 		insertSync(serviceControl);
+		if(result.equals("null") || result == "" || result == null) 
+			return "OK";
+		return result;
 	}
 	
 	public String changeStatus(ServiceControl serviceControl) {

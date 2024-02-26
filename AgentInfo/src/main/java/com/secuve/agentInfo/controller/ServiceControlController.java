@@ -100,9 +100,8 @@ public class ServiceControlController {
 	@ResponseBody
 	@PostMapping(value = "/serviceControl/executionChange")
 	public String ExecutionChange(ServiceControl serviceControl) {
-		serviceControlService.executionChange(serviceControl);
+		return serviceControlService.executionChange(serviceControl);
 		//serviceControlService.serviceControlSynchronization();
-		return "OK";
 	}
 	
 	@PostMapping(value = "/serviceControl/logInquiryView")

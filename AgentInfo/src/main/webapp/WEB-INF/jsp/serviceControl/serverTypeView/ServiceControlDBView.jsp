@@ -126,7 +126,7 @@
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">디스크 사용량</label>
 			</div>
-			<div class="form-group form-default form-static-label form-view">
+			<div class="form-group form-default form-static-label form-view" style="width: 100%;">
 			    <input type="text" id="serviceControlMemory" name="serviceControlMemory" class="form-control" value="${serviceControl.serviceControlMemory}%" disabled>
 			    <span class="form-bar"></span>
 			    <label class="float-label headLabel">메모리 사용량</label>
@@ -259,9 +259,9 @@
 					
 				} else {
 					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: "작업 실패 하였습니다.",
+						icon: 'success',
+						title: '디버그',
+						text: result,
 					});
 				}
 			},
