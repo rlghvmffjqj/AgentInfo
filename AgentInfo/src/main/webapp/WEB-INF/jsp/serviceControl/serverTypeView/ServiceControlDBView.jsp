@@ -251,7 +251,7 @@
 						if (result.isConfirmed) {
 							$('#modal').modal("hide"); // 모달 닫기
 							setTimeout(() => {
-								updateView(serviceControlIp);
+								updateView(serviceControlIp, "dbServer");
 							}, 200);
 							
 						}
@@ -262,7 +262,15 @@
 						icon: 'success',
 						title: '디버그',
 						text: result,
-					});
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$('#modal').modal("hide"); // 모달 닫기
+							setTimeout(() => {
+								updateView(serviceControlIp, "dbServer");
+							}, 200);
+							
+						}
+					})
 				}
 			},
 			error: function(error) {

@@ -430,7 +430,7 @@
 						if (result.isConfirmed) {
 							$('#modal').modal("hide"); // 모달 닫기
 							setTimeout(() => {
-								updateView(serviceControlIp);
+								updateView(serviceControlIp,"managerServer");
 							}, 200);
 							
 						}
