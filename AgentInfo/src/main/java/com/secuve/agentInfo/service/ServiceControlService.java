@@ -234,7 +234,7 @@ public class ServiceControlService {
 		serviceControl = serviceControlDao.getServiceControlIpOne(serviceControl.getServiceControlIp());
 		serviceControlDao.delServiceControlIp(serviceControl.getServiceControlIp());
 		insertSync(serviceControl);
-		if(result.equals("null") || result == "" || result == null) 
+		if(result.equals("null") || result == "" || result == null || result.contains("OK")) 
 			return "OK";
 		return result;
 	}
