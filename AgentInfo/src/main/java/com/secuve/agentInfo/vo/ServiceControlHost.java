@@ -34,6 +34,8 @@ public class ServiceControlHost implements Comparable<ServiceControlHost> {
                 return 2;
             case "Off":
                 return 3;
+            case "Stopping":
+            	return 4;
             default:
                 return 0; // 예외 처리: 알 수 없는 상태는 마지막에 배치하거나, 예외 처리에 맞게 조정
         }
