@@ -258,10 +258,14 @@
 			    async: false,
 			    success: function (data) {
 			    	$.modal(data, 'serviceControlType'); //modal창 호출
+					modalOpened = true; // 모달이 열렸음을 표시
 			    },
 			    error: function(e) {
 			        alert(e);
-			    }
+			    },
+				complete: function() {
+        	    	modalOpened = false; // 요청이 완료되면 모달이 닫혔다고 가정
+        		}
 			});			
 		});
 

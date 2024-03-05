@@ -150,14 +150,13 @@
 						<c:if test="${serviceControlHost.state eq 'Off'}">
 							<select class="form-control viewForm" id="vmState" name="state" style="color:#a90000">
 						</c:if>
-						<c:if test="${serviceControlHost.state eq 'Stopping'}">
-							<select class="form-control viewForm" id="vmState" name="state" style="color:#000000">
+						<c:if test="${serviceControlHost.state eq 'Off' || serviceControlHost.state eq 'Saved' || serviceControlHost.state eq 'Running'}">
+								<option value="Running" <c:if test="${serviceControlHost.state eq 'Running'}">selected</c:if>>실행</option>
+								<option value="Saved" <c:if test="${serviceControlHost.state eq 'Saved'}">selected</c:if>>저장</option>
+								<option value="Off" <c:if test="${serviceControlHost.state eq 'Off'}">selected</c:if>>꺼짐</option>
+							</select>
 						</c:if>
-							<option value="Running" <c:if test="${serviceControlHost.state eq 'Running'}">selected</c:if>>실행</option>
-							<option value="Saved" <c:if test="${serviceControlHost.state eq 'Saved'}">selected</c:if>>저장</option>
-							<option value="Off" <c:if test="${serviceControlHost.state eq 'Off'}">selected</c:if>>꺼짐</option>
-							<option value="Stopping" <c:if test="${serviceControlHost.state eq 'Stopping'}">selected</c:if>>중지하는 중</option>
-						</select>
+						<c:if test="${serviceControlHost.state eq 'Stopping'}"><span class="form-control viewForm" style="color:#000000; margin-top: 12px; height: 30px !important;">중지하는 중</span></c:if>
         		    </div>
         		</c:forEach>
 			</div>
