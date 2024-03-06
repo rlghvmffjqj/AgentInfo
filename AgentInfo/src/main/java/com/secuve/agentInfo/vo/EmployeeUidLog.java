@@ -18,6 +18,7 @@ public class EmployeeUidLog {
 	private String employeeUidLogEmployeeType;		// 타입
 	private String employeeUidLogEmployeeRank;		// 직급
 	private String employeeUidLogLoginTime;			// 시간
+	private String employeeUidLogStatus;
 	
 	private String[] employeeUidLogEmployeeIdArr;
 	

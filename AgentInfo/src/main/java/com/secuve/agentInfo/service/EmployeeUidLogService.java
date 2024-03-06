@@ -38,7 +38,7 @@ public class EmployeeUidLogService {
 		return employeeUidLogDao.getEmployeeUidLogListCount(EmployeeUidLogSearch(search));
 	}
 
-	public void insertEmployeeUidLog(String employeeId) {
+	public void insertEmployeeUidLog(String employeeId, String status) {
 		EmployeeUidLog employeeUidLog = new EmployeeUidLog();
 		Employee employee = employeeDao.getEmployeeOne(employeeId);
 		
@@ -48,6 +48,7 @@ public class EmployeeUidLogService {
 		employeeUidLog.setEmployeeUidLogEmployeeType(employee.getEmployeeType());
 		employeeUidLog.setEmployeeUidLogEmployeeRank(employee.getEmployeeRank());
 		employeeUidLog.setEmployeeUidLogLoginTime(nowDate());
+		employeeUidLog.setEmployeeUidLogStatus(status);
 		
 		employeeUidLogDao.insertEmployeeUidLog(employeeUidLog);
 	}

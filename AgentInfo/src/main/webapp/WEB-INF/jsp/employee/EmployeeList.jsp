@@ -239,7 +239,7 @@
 				    success: function (data) {
 				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 							location.reload();
-				        $.modal(data, 'l'); //modal창 호출
+				        $.modal(data, 'employeeView'); //modal창 호출
 				    },
 				    error: function(e) {
 				        // TODO 에러 화면
@@ -351,7 +351,7 @@
 	            success: function (data) {
 	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-	                $.modal(data, 'l'); //modal창 호출
+	                $.modal(data, 'employeeView'); //modal창 호출
 	            },
 	            error: function(e) {
 	                // TODO 에러 화면

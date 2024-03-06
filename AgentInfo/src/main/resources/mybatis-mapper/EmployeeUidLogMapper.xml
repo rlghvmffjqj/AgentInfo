@@ -28,8 +28,8 @@
 	</select>
 	
 	<insert id="insertEmployeeUidLog">
-		INSERT INTO employeeUidLog(employeeUidLogKeyNum, employeeUidLogEmployeeId, employeeUidLogEmployeeName, employeeUidLogDepartmentName, employeeUidLogEmployeeType, employeeUidLogEmployeeRank, employeeUidLogLoginTime)
-		VALUES (#{employeeUidLogKeyNum}, #{employeeUidLogEmployeeId}, #{employeeUidLogEmployeeName}, #{employeeUidLogDepartmentName}, #{employeeUidLogEmployeeType}, #{employeeUidLogEmployeeRank}, #{employeeUidLogLoginTime});
+		INSERT INTO employeeUidLog(employeeUidLogKeyNum, employeeUidLogEmployeeId, employeeUidLogEmployeeName, employeeUidLogDepartmentName, employeeUidLogEmployeeType, employeeUidLogEmployeeRank, employeeUidLogStatus, employeeUidLogLoginTime)
+		VALUES (#{employeeUidLogKeyNum}, #{employeeUidLogEmployeeId}, #{employeeUidLogEmployeeName}, #{employeeUidLogDepartmentName}, #{employeeUidLogEmployeeType}, #{employeeUidLogEmployeeRank}, #{employeeUidLogStatus}, #{employeeUidLogLoginTime});
 	</insert>
 	
 	<!-- ==================================================================================== -->

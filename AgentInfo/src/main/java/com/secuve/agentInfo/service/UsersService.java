@@ -81,8 +81,6 @@ public class UsersService implements UserDetailsService{
 				usersEntity.getUsersPw(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
 				authorities, loginId, loginIp, loginTime
 		);
-		// 로그인시 사용자 접속 로그 추가
-		employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId());
 		
 		return loingSession;
 		// return new User(usersEntity.getUsersId(), usersEntity.getUsersPw(), authorities);  // 기존 코드
@@ -133,18 +131,57 @@ public class UsersService implements UserDetailsService{
 	}
 
 	public String loginIdPwd(String usersId, String usersPw) {
+		Optional<Users> usersEntityWrapper = usersJpaDao.findByUsersId(usersId);
+		Users usersEntity = usersEntityWrapper.orElse(null);
+		if(usersEntity.isUsersLockStatus() && usersEntity.getUsersLoginFailCount() < 5) {
+			employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId(), "LOCK FALSE");
+			return "CountLock";
+		} else if(usersEntity.isUsersLockStatus() && usersEntity.getUsersLoginFailCount() > 4) {
+			employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId(), "LOCK FALSE");
+			return "LOCK";
+		}
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String nowPwd = employeeDao.getUsersPw(usersId);
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if(passwordEncoder.matches(usersPw,nowPwd)) {
 			employeeDao.lastLogin(formatter.format(now), usersId);
+			usersEntity.setUsersLoginFailCount(0);
+			usersJpaDao.save(usersEntity);
+			employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId(), "SUCCESS");
 			return employeeDao.pwdCheck(usersId);
 		}
+		
+		if(usersEntity.getUsersLoginFailCount() > 4) {
+			usersEntity.setUsersLockStatus(true);
+			usersJpaDao.save(usersEntity);
+			return "LOCK";
+		}
+		usersEntity.setUsersLoginFailCount(usersEntity.getUsersLoginFailCount() + 1);
+		usersJpaDao.save(usersEntity);
+		// 로그인 로그 저장
+		employeeUidLogService.insertEmployeeUidLog(usersEntity.getUsersId(), "FALSE");
 		return "FALSE";
 	}
 
 	public List<UserAlarm> getUserAlarm(String userAlarmEmployeeId) {
 		return employeeDao.getUserAlarm(userAlarmEmployeeId);
+	}
+
+	public String lockChange(String employeeId, String type) {
+		Optional<Users> usersEntityWrapper = usersJpaDao.findByUsersId(employeeId);
+		Users usersEntity = usersEntityWrapper.orElse(null);
+		if(type.equals("lock")) {
+			usersEntity.setUsersLockStatus(true);
+		} else {
+			usersEntity.setUsersLockStatus(false);
+			usersEntity.setUsersLoginFailCount(0);
+		}
+		try {
+			usersJpaDao.save(usersEntity);
+			return "OK";
+		} catch (Exception e) {
+			return "FALSE";
+		}
 	}
 }

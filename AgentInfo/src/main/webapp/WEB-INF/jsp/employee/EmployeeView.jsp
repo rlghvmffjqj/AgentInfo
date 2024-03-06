@@ -6,7 +6,7 @@
 		<input type="hidden" id="departmentFullPath" name="departmentFullPath" class="form-control" value="${employee.departmentFullPath}">
 		<c:choose>
 			<c:when test="${viewType eq 'insert'}">
-		        <div class="pading5">
+		        <div class="pading2">
 		         	<label class="labelFontSize">사용자ID</label><label class="colorRed">*</label>
 					<input type="text" id="employeeId" name="employeeId" class="form-control viewForm" value="${employee.employeeId}"> 
 					<span class="colorRed fontSize10" id="NotEmployeeId" style="display: none">사원 번호를 입력해주세요.</span>
@@ -14,59 +14,71 @@
 		         </div>
 		    </c:when>
 		    <c:when test="${viewType eq 'update'}">
-		   		<div class="pading5">
+		   		<div class="pading2">
 		         	<label class="labelFontSize">사용자ID</label>
 					<input type="text" id="employeeId" name="employeeId" class="form-control viewForm" value="${employee.employeeId}" readonly> 
 					<span class="colorRed fontSize10" id="NotEmployeeId" style="display: none">사원 번호를 입력해주세요.</span>
 		         </div>
 		    </c:when>
 		 </c:choose>
-         <div class="pading5">
+         <div class="pading2">
          	<label class="labelFontSize">사원명</label><label class="colorRed">*</label>
          	<input type="text" id="employeeName" name="employeeName" class="form-control viewForm" value="${employee.employeeName}">
          	<span class="colorRed fontSize10" id="NotEmployeeName" style="display: none">사원 이름을 입력해주세요.</span>
          </div>
          <c:choose>
 			<c:when test="${viewType eq 'insert'}">
-			     <div class="pading5">
+			     <div class="pading2">
 					<label class="labelFontSize">패스워드</label><label class="colorRed">*</label>
 					<input type="password" id="usersPw" name="usersPw" class="form-control viewForm" required> 
 					<span class="colorRed fontSize10" id="NotUsersPw" style="display: none">패스워드를 입력해주세요.</span>
 				 </div>
-				 <div class="pading5">
+				 <div class="pading2">
 					<label class="labelFontSize">패스워드 확인</label><label class="colorRed">*</label>
 					<input type="password" id="usersPwRe" name="usersPwRe" class="form-control viewForm" required> 
 					<span class="colorRed fontSize10" id="Inconsistency" style="display: none">패스워드가 일지하지 않습니다.</span>
 				 </div>
 			</c:when>
 			<c:when test="${viewType eq 'update'}">
-				<div class="pading5">
+				<div class="pading2">
 					<label class="labelFontSize">패스워드</label>
 					<input type="password" id="usersPw" name="usersPw" class="form-control viewForm"> 
 					<span class="fontSize10">※ 패스워드 변경 시 입력 바랍니다.</span>
 				 </div>
-				 <div class="pading5">
+				 <div class="pading2">
 					<label class="labelFontSize">패스워드 확인</label>
 					<input type="password" id="usersPwRe" name="usersPwRe" class="form-control viewForm"> 
 					<span class="colorRed fontSize10" id="Inconsistency" style="display: none">패스워드가 일지하지 않습니다.</span>
 				 </div>
 			</c:when>
 		 </c:choose>
-         <div class="pading5">
+		 <div class="pading2">
+			<c:if test="${employee.usersLockStatus eq 0}">
+				<label class="labelFontSize" style="width: 100%;">잠금 상태</label>
+				<input type="text" id="usersLockStatus" name="usersLockStatus" class="form-control viewForm"  style="width: 83%; float: left; margin: 0;" value="사용" readonly>
+				<button class="btn btn-default btn-outline-info-del" id="lock" type="button" style="float: right;	width: 17%;	margin: 0;">잠금</button>	
+			</c:if>
+			<c:if test="${employee.usersLockStatus eq 1}">
+				<label class="labelFontSize" style="width: 100%;">잠금 상태</label>
+				<input type="text" id="usersLockStatus" name="usersLockStatus" class="form-control viewForm"  style="width: 83%; float: left; margin: 0;" value="잠금" readonly>
+				<button class="btn btn-default btn-outline-info-add" id="unlock" type="button" style="float: right;	width: 17%;	margin: 0;">잠금 해제</button>	
+			</c:if>
+		</div>
+         <div class="pading2">
          	<label class="labelFontSize">부서명</label>
          	<input type="text" id="departmentName" name="departmentName" class="form-control viewForm" value="${employee.departmentName}" readonly>
          </div>
-         <div class="pading5">
+         <div class="pading2">
          	<label class="labelFontSize">전화번호</label>
          	<input type="text" id="employeePhone" name="employeePhone" class="form-control viewForm" value="${employee.employeePhone}">
          </div>
-         <div class="pading5">
+         <div class="pading2">
          	<label class="labelFontSize">이메일</label>
          	<input type="text" id="employeeEmail" name="employeeEmail" class="form-control viewForm" value="${employee.employeeEmail}">
          </div>
          <c:choose>
 			<c:when test="${viewType eq 'insert'}">
-				<div class="pading5">
+				<div class="pading2">
 		         	<label class="labelFontSize">직급</label>
 		         	<select class="form-control viewForm selectpicker" id="employeeRank" name="employeeRank" data-live-search="true" data-size="5">
 		         		<option value=""></option>
@@ -81,7 +93,7 @@
 						<option value="대표">대표</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">타입</label>
 		         	<select class="form-control viewForm selectpicker" id="employeeType" name="employeeType" data-live-search="true" data-size="5">
 						<option value="정사원">정사원</option>
@@ -89,7 +101,7 @@
 						<option value="인턴">인턴</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">상태</label>
 		         	<select class="form-control viewForm selectpicker" id="employeeStatus" name="employeeStatus" data-live-search="true" data-size="5">
 						<option value="재직">재직</option>
@@ -97,7 +109,7 @@
 						<option value="휴직">휴직</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">역할</label>
 		         	<select class="form-control viewForm selectpicker" id="usersRole" name="usersRole" data-live-search="true" data-size="5">
 						<option value="USER">일반사용자</option>
@@ -109,14 +121,14 @@
 						<option value="QA">QA</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">다음로그인시 암호변경</label><br>
 		         	<input type="radio" id="pwdMustChange_yes" name="pwdChangeYn" value="YES" checked>&nbsp<label for="pwdMustChange_yes" style="margin-right: 45px;">YES</label>
 		         	<input type="radio" id="pwdMustChange_no" name="pwdChangeYn" value="NO">&nbsp<label for="pwdMustChange_no">NO</label>
 		        </div>
 		    </c:when>
 			<c:when test="${viewType eq 'update'}">
-				<div class="pading5">
+				<div class="pading2">
 		         	<label class="labelFontSize">직급</label>
 		         	<select class="form-control viewForm selectpicker" id="employeeRank" name="employeeRank" data-live-search="true" data-size="5">
 		         		<c:if test="${packages.employeeRank ne ''}"><option value=""></option></c:if>
@@ -132,7 +144,7 @@
 						<option value="대표" <c:if test="${employee.employeeRank eq '대표'}">selected</c:if>>대표</option>
 					</select>
 		         </div>
-				<div class="pading5">
+				<div class="pading2">
 		         	<label class="labelFontSize">타입</label>
 		         	<select class="form-control viewForm selectpicker" id="employeeType" name="employeeType" data-live-search="true" data-size="5">
 						<option value="정사원" <c:if test="${employee.employeeType eq '정사원'}">selected</c:if>>정사원</option>
@@ -140,7 +152,7 @@
 						<option value="인턴" <c:if test="${employee.employeeType eq '인턴'}">selected</c:if>>인턴</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">상태</label>
 		         	<select class="form-control viewForm selectpicker" id="employeeStatus" name="employeeStatus" data-live-search="true" data-size="5">
 						<option value="재직" <c:if test="${employee.employeeStatus eq '재직'}">selected</c:if>>재직</option>
@@ -148,7 +160,7 @@
 						<option value="휴직" <c:if test="${employee.employeeStatus eq '휴직'}">selected</c:if>>휴직</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">역할</label>
 		         	<select class="form-control viewForm selectpicker" id="usersRole" name="usersRole" data-live-search="true" data-size="5">
 						<option value="USER" <c:if test="${employee.usersRole eq 'USER'}">selected</c:if>>일반사용자</option>
@@ -160,7 +172,7 @@
 						<option value="QA" <c:if test="${employee.usersRole eq 'QA'}">selected</c:if>>QA</option>
 					</select>
 		         </div>
-		         <div class="pading5">
+		         <div class="pading2">
 		         	<label class="labelFontSize">다음로그인시 암호변경</label><br>
 		         	<input type="radio" id="pwdMustChange_yes" name="pwdChangeYn" value="YES" <c:if test="${employee.pwdChangeYn eq 'YES'}">checked</c:if>>&nbsp<label for="pwdMustChange_yes" style="margin-right: 45px;">YES</label>
 		         	<input type="radio" id="pwdMustChange_no" name="pwdChangeYn" value="NO" <c:if test="${employee.pwdChangeYn eq 'NO'}">checked</c:if>>&nbsp<label for="pwdMustChange_no">NO</label>
@@ -321,4 +333,61 @@
 			}
         });
 	};
+
+	$('#lock').click(function() {
+		var employeeId = "${employee.employeeId}";
+		lockChange(employeeId, "lock");
+	});
+
+	$('#unlock').click(function() {
+		var employeeId = "${employee.employeeId}";
+		lockChange(employeeId, "unlock");
+	});
+
+	function lockChange(employeeId, type) {
+		var titleText = "잠금";
+		if(type == 'unlock') {
+			titleText = "잠금 해제";
+		}
+		Swal.fire({
+			  title: titleText,
+			  text: "선택한 사원을 " + titleText + "하시겠습니까?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#7066e0',
+			  cancelButtonColor: '#FF99AB',
+			  confirmButtonText: 'OK'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  $.ajax({
+				url: "<c:url value='/users/lockChange'/>",
+				type: "POST",
+				data: {
+					"employeeId" : employeeId,
+					"type" : type
+				},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data != "OK") {
+						Swal.fire(
+						  '실패!',
+						  '작업 처리 실패하였습니다.',
+						  'error'
+						)
+					}
+					$('#modal').modal("hide"); // 모달 닫기
+            		$('#modal').on('hidden.bs.modal', function () {
+            			tableRefresh();
+						updateView(employeeId);
+					});
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			  });
+		  	}
+		})
+	}
 </script>

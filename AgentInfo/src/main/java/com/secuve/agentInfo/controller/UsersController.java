@@ -169,4 +169,10 @@ public class UsersController {
 		}
 		return usersService.getUserAlarm(principal.getName());
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/users/lockChange")
+	public String LockChange(String employeeId, String type) {
+		return usersService.lockChange(employeeId, type);
+	}
 }

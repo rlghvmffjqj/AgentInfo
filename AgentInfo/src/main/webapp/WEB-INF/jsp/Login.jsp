@@ -114,6 +114,18 @@
 						title: '실패!',
 						text: '아이디 패스워드가 일치하지 않습니다.',
 					});
+				} else if(data == "CountLock") {
+					Swal.fire({
+						icon: 'error',
+						title: '계정 잠금!',
+						text: '계정이 잠금 되었습니다. 관리자 문의 바랍니다.',
+					});
+				} else if(data == "LOCK") {
+					Swal.fire({
+						icon: 'error',
+						title: '계정 잠금!',
+						text: '아이디 패스워드 5회 이상 실패하여 계정이 잠금되었습니다. 관리자 문의 바랍니다.',
+					});
                 } else if(data == "NO"){
                 	$("form").submit();
                 }

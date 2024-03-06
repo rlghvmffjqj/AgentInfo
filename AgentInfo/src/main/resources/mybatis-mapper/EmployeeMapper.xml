@@ -35,7 +35,7 @@
 	</insert>
 	
 	<select id="getEmployeeOne" parameterType="string" resultMap="employee">
-		SELECT e.*, u.usersRole, u.pwdChangeYn FROM employee e INNER JOIN users u 
+		SELECT e.*, u.usersRole, u.pwdChangeYn, u.usersLockStatus FROM employee e INNER JOIN users u 
 		ON e.employeeId = u.usersId
 		WHERE e.employeeId = #{employeeId};
 	</select>

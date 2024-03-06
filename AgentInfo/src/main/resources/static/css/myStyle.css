@@ -332,7 +332,10 @@ p {
     max-width: 1000px;
 }
 
-
+.modal-employeeView {
+	top: 0%;
+	max-width: 500px;
+}
 
 .border1 {
 	background-color:white; 
@@ -372,6 +375,10 @@ p {
 
 .pading5 {
 	padding: 5px;
+}
+
+.pading2 {
+	padding: 2px;
 }
 
 .modal-backdrop {
