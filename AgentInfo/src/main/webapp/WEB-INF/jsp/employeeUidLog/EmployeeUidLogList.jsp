@@ -18,7 +18,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','로그인 아이디','사용자 이름','사용자 부서','사용자 타입','사용자 직급','로그인 시간'],
+					colNames:['Key','로그인 아이디','사용자 이름','사용자 부서','사용자 타입','사용자 직급','상태','로그인 시간'],
 					colModel:[
 						{name:'employeeUidLogKeyNum', index:'employeeUidLogKeyNum', align:'center', width: 50, hidden:true},
 						{name:'employeeUidLogEmployeeId', index:'employeeUidLogEmployeeId',align:'center', width: 200},
@@ -26,6 +26,7 @@
 						{name:'employeeUidLogDepartmentName', index:'employeeUidLogDepartmentName', align:'center', width: 150},
 						{name:'employeeUidLogEmployeeType', index:'employeeUidLogEmployeeType', align:'center', width: 150},
 						{name:'employeeUidLogEmployeeRank', index:'employeeUidLogLoginTime', align:'center', width: 150},
+						{name:'employeeUidLogStatus', index:'employeeUidLogStatus', align:'center', width: 100},
 						{name:'employeeUidLogLoginTime', index:'employeeUidLogLoginTime', align:'center', width: 200},
 					],
 					jsonReader : {
