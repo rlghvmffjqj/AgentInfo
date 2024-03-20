@@ -137,7 +137,6 @@
 		/* =========== 세션 종료 ========= */
 		$('#BtnDelect').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
-			console.log(chkList.length);
 			if(chkList == 0) {
 				Swal.fire({               
 					icon: 'error',          

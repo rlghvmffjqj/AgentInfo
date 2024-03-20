@@ -47,6 +47,7 @@
 	                                     <span class="form-bar"></span>
 	                                     <label class="float-label">Password</label>
 	                                 </div>
+									 <div class="caps-lock-memo">&lt;Caps Lock&gt; 이 켜져 있습니다.</div>
 	                                 <div class="row m-t-25 text-left">
 	                                     <div class="col-12">
 	                                         <div class="checkbox-fade fade-in-primary d-">
@@ -169,6 +170,41 @@
 			pwdCheck();
 		}
 	});
+
+	// Caps Lock 상태를 확인하는 함수
+	function isCapsLockOn(e) {
+	    // Event 객체로부터 Caps Lock 키의 상태를 확인합니다.
+	    var capsLockOn = (e.getModifierState && e.getModifierState('CapsLock')) || (e.key && e.key === 'CapsLock');
+	    return capsLockOn;
+	}
+
+	// 이벤트 리스너를 등록하여 키보드 이벤트를 감지합니다.
+	document.addEventListener('keydown', function(e) {
+		if ($(e.target).attr('id') === 'usersPw') {
+	    	// Caps Lock 키가 눌려 있는지 확인합니다.
+	    	if (isCapsLockOn(e)) {
+	    	    $('.caps-lock-memo').show();
+	    	} else {
+	    	    $('.caps-lock-memo').hide();
+	    	}
+		}
+	});
 </script>
+<style>
+    .caps-lock-memo {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: red;
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		left: 50%;
+		bottom: 36%;
+    }
+</style>
 
 </html>
