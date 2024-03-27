@@ -43,6 +43,7 @@ $.modal = function (modalContent, size) {
 	if(size=='serviceControlDBView') html += ' modal-serviceControlDBView';
 	if(size=='serviceControlHostView') html += ' modal-serviceControlHostView';
 	if(size=='employeeView') html += ' modal-employeeView';
+	if(size=='issueRelayUrl') html += ' modal-issueRelayUrl';
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

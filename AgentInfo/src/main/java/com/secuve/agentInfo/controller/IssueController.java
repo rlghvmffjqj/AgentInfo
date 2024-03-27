@@ -26,12 +26,6 @@ import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
 
-import kr.dogfoot.hwplib.object.HWPFile;
-import kr.dogfoot.hwplib.object.bodytext.Section;
-import kr.dogfoot.hwplib.object.bodytext.paragraph.Paragraph;
-import kr.dogfoot.hwplib.tool.blankfilemaker.BlankFileMaker;
-import kr.dogfoot.hwplib.writer.HWPWriter;
-
 
 
 @Controller
@@ -162,6 +156,7 @@ public class IssueController {
 		return "issue/PdfView";
 	}
 	
+	
 	@RequestMapping(value = "/issue/pdfViewHistory", method = RequestMethod.POST)
 	public String PdfViewHistory(Model model, int issueKeyNum) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
@@ -195,6 +190,7 @@ public class IssueController {
 		}
 		return "OK"; 
 	}
+	
 	
 	@ResponseBody
 	@PostMapping(value = "/issue/pdfHistory")
@@ -251,21 +247,5 @@ public class IssueController {
 		return issueService.mergeIssue(chkList);
 	}
 	
-	@ResponseBody
-	@PostMapping(value = "/issue/hwpDownload")
-	public String HwpDownload(String jsp, Principal principal, Model model) {
-		try
-		{
-			HWPFile hwpFile = BlankFileMaker.make( );
-
-			Section s = hwpFile.getBodyText( ).getSectionList( ).get( 0 );
-			Paragraph firstParagraph = s.getParagraph( 0 );
-			firstParagraph.getText( ).addString("<html><body><div style='background:red'>테스트</div></body></html>");
-			HWPWriter.toFile(hwpFile, "C:/AgentInfo/test.hwp" );
-		}
-		catch( Exception e )
-		{}
-
-		return "NotFile";
-	}
 }
+

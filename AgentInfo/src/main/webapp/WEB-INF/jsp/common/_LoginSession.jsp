@@ -5,7 +5,7 @@
 
 <script>
 	/* =========== config.yml에 등록한 세션 유효 시간(분) ========= */
-	var loginSession = ${sessionTimeOut};
+	var loginSession = "${sessionTimeOut}";
 	var sessionTime;
 	
 	$(function() {

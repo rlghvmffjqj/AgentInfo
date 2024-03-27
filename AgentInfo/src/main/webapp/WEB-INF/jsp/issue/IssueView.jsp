@@ -179,6 +179,7 @@
 		                                			<div id="downloadBtn" style="margin-top: 10px;">
 			                                			<span style="font-weight:bold;">다운 :</span> 
 			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf" style="font-size:11px">PDF Download</button>
+														<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnURL" style="font-size:11px">URL Export</button>
 			                                			<!-- <button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPpt">PPT Download</button> -->
 			                                			<!-- <button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnWord">Word Download</button> -->
 			                                			<button type="button" class="btn btn-outline-info-del myBtn" id="BtnHistoryInsert" style="font-size:11px">히스토리 추가</button>
@@ -843,6 +844,29 @@
 				frmData.submit();
 	    	}
 		});
+
+		/* =========== URL 생성  ========= */
+		$('#BtnURL').click(function() {
+			var resault = automaticUpdate();
+			var issueKeyNum = $('#issueKeyNum').val();
+			if(resault == "OK") {
+				$.ajax({
+		    	    type: 'POST',
+		    	    url: "<c:url value='/issueRelay/urlExport'/>",
+		    	    data: {"issueKeyNum" : issueKeyNum},
+		    	    async: false,
+		    	    success: function (data) {
+		    	    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+		    	        $.modal(data, 'issueRelayUrl'); //modal창 호출
+		    	    },
+		    	    error: function(e) {
+		    	        // TODO 에러 화면
+		    	    }
+		    	});
+			}
+		});
+
 		
 		/* =========== PPT 다운로드 ========= */
 		$('#BtnPpt').click(function() {
