@@ -40,6 +40,10 @@
 		SELECT * FROM issue WHERE issueKeyNum = #{issueKeyNum};
 	</select>
 	
+	<select id="getIssuePrimaryOne" resultMap="issue" parameterType="_int">
+		SELECT * FROM issue WHERE issuePrimaryKeyNum = #{issuePrimaryKeyNum};
+	</select>
+	
 	<select id="getIssueOneTitle" resultMap="issue" parameterType="_int">
 		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
     	FROM issue

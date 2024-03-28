@@ -342,6 +342,11 @@ p {
 	max-width: 600px;
 }
 
+.modal-issueRelayModal {
+	top: 15%;
+    max-width: 730px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

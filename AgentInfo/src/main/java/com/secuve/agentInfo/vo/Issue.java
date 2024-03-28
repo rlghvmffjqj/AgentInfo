@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 @Component
 public class Issue {
+	private int issuePrimaryKeyNum;
 	private int issueKeyNum;
 	private String issueCustomer;				// 고객사
 	private String issueTitle;					// Title

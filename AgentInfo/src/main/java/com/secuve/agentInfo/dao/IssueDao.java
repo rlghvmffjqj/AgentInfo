@@ -109,5 +109,9 @@ public class IssueDao {
 		return sqlSession.selectList("issue.getIssuePDFOne", parameters);
 	}
 
+	public Issue getIssuePrimaryOne(int issuePrimaryKeyNum) {
+		return sqlSession.selectOne("issue.getIssuePrimaryOne", issuePrimaryKeyNum);
+	}
+
 }
 

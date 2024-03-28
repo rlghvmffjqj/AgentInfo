@@ -1,5 +1,8 @@
 package com.secuve.agentInfo.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,7 @@ import com.secuve.agentInfo.vo.IssueRelay;
 public class IssueRelayService {
 	@Autowired IssueRelayDao issueRelayDao;
 	
-	public static String createKey() {
+	public String createKey() {
 	    StringBuffer key = new StringBuffer();
 	    Random rnd = new Random();
 	
@@ -43,5 +46,19 @@ public class IssueRelayService {
 
 	public IssueRelay getIssueRelayUrlOne(String issueRelayRandomUrl) {
 		return issueRelayDao.getIssueRelayUrlOne(issueRelayRandomUrl);
+	}
+
+	public IssueRelay getIssueRelayIssueOne(int issueKeyNum) {
+		return issueRelayDao.getIssueRelayIssueOne(issueKeyNum);
+	}
+	
+	public String nowDate() {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return formatter.format(now);
+	}
+
+	public List<IssueRelay> getIssueRelayList(int issueKeyNum) {
+		return issueRelayDao.getIssueRelayList(issueKeyNum);
 	}
 }

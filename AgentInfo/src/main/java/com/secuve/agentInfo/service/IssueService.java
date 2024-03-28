@@ -227,4 +227,8 @@ public class IssueService {
 	public List<Issue> getIssuePDFOne(int issueKeyNum, String[] chkSelectBox) {
 		return issueDao.getIssuePDFOne(issueKeyNum, chkSelectBox);
 	}
+
+	public Issue getIssuePrimaryOne(int issuePrimaryKeyNum) {
+		return issueDao.getIssuePrimaryOne(issuePrimaryKeyNum);
+	}
 }

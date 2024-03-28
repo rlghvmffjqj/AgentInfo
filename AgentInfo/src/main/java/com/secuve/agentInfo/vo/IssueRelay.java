@@ -14,4 +14,8 @@ public class IssueRelay {
 	private int issueRelayKeyNum;
 	private String issueRelayUrl;
 	private int issueKeyNum;
+	private int issuePrimaryKeyNum;
+	private String issueRelayDetail;
+	private String issueRelayType;
+	private String issueRelayDate;
 }

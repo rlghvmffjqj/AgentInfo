@@ -1,16 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
-<html style="width: 99%;">
+<html style="width: 100%;">
 	<head>
+		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<meta charset="UTF-8">
 		<title>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</title>
-
-		<script type="text/javascript" src="<c:url value='/js/jquery-3.3.1.slim.min.js'/>"></script>
-		<script type="text/javascript" src="<c:url value='/js/jquery/jquery.min.js'/>"></script>
+		
 		<style>
 			table {
 			  width: 100%;
@@ -137,9 +132,10 @@
 				border: solid 1px black !important;
 			}
 			.title {
-				margin-top: 50px;
-				margin-bottom: 50px;
-				text-align: center;
+				margin-top: 60px;
+    			margin-bottom: 90px;
+    			text-align: center;
+    			color: white;
 			}
 
 			.pageBreak {
@@ -148,6 +144,7 @@
 		</style>
 	</head>
 	<body>
+		<div class="pcoded-content" id="page-wrapper"></div>
 		<div class="title">
 			<h1>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</h1>
 		</div>
@@ -159,35 +156,35 @@
 			    <div class="searchbos" style="margin-bottom:20px">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
-			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" value="${issueTitle.issueCustomer}">
+			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" value="${issueTitle.issueCustomer}" readonly>
 			    	</div>
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">Title</label>
-			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" value="${issueTitle.issueTitle}">
+			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" value="${issueTitle.issueTitle}" readonly>
 			    	</div>
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">전달일자</label>
-			    		<input class="form-control titleInput" type="text" id="issueDate" name="issueDate" value="${issueTitle.issueDate}">
+			    		<input class="form-control titleInput" type="text" id="issueDate" name="issueDate" value="${issueTitle.issueDate}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">TOSMS</label>
-			    		<input class="form-control titleInput" type="text" id="issueTosms" name="issueTosms" value="${issueTitle.issueTosms}">
+			    		<input class="form-control titleInput" type="text" id="issueTosms" name="issueTosms" value="${issueTitle.issueTosms}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">TOSRF</label>
-			    		<input class="form-control titleInput" type="text" id="issueTosrf" name="issueTosrf" value="${issueTitle.issueTosrf}">
+			    		<input class="form-control titleInput" type="text" id="issueTosrf" name="issueTosrf" value="${issueTitle.issueTosrf}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">PORTAL</label>
-			    		<input class="form-control titleInput" type="text" id="issuePortal" name="issuePortal" value="${issueTitle.issuePortal}">
+			    		<input class="form-control titleInput" type="text" id="issuePortal" name="issuePortal" value="${issueTitle.issuePortal}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">JAVA</label>
-			    		<input class="form-control titleInput" type="text" id="issueJava" name="issueJava" value="${issueTitle.issueJava}">
+			    		<input class="form-control titleInput" type="text" id="issueJava" name="issueJava" value="${issueTitle.issueJava}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">WAS</label>
-			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" value="${issueTitle.issueWas}">
+			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" value="${issueTitle.issueWas}" readonly>
 			    	</div>
 			    </div>
 			    
@@ -211,49 +208,49 @@
 					<div class="searchbos">
 				    	<div class="issue">
 							<div style="margin-bottom: 5px;">
-								<span style="float:left; margin-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}"></div>
+								<span style="float:left; margin-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}" readonly></div>
 							</div>
 					   		<table style="width:100%">
 					   			<tbody>
 					   				<tr>
 					   					<td class="alignCenter">OS</td>
-					   					<td><input class="form-control" type="text" id="issueOsList" name="issueOsList" value="${list.issueOs}"></td>
+					   					<td><input class="form-control" type="text" id="issueOsList" name="issueOsList" value="${list.issueOs}" readonly></td>
 					   					<td class="alignCenter"></td>
 					   					<td></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">대항목</td>
-					   					<td><input class="form-control" type="text" id="issueAwardList" name="issueAwardList" value="${list.issueAward}"></td>
+					   					<td><input class="form-control" type="text" id="issueAwardList" name="issueAwardList" value="${list.issueAward}" readonly></td>
 					   					<td class="alignCenter">중학목</td>
-					   					<td><input class="form-control" type="text" id="issueMiddleList" name="issueMiddleList" value="${list.issueMiddle}"></td>
+					   					<td><input class="form-control" type="text" id="issueMiddleList" name="issueMiddleList" value="${list.issueMiddle}" readonly></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">소항목1</td>
-					   					<td><input class="form-control" type="text" id="issueUnder1List" name="issueUnder1List" value="${list.issueUnder1}"></td>
+					   					<td><input class="form-control" type="text" id="issueUnder1List" name="issueUnder1List" value="${list.issueUnder1}" readonly></td>
 					   					<td class="alignCenter">소항목2</td>
-					   					<td><input class="form-control" type="text" id="issueUnder2List" name="issueUnder2List" value="${list.issueUnder2}"></td>
+					   					<td><input class="form-control" type="text" id="issueUnder2List" name="issueUnder2List" value="${list.issueUnder2}" readonly></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">소항목3</td>
-					   					<td><input class="form-control" type="text" id="issueUnder3List" name="issueUnder3List" value="${list.issueUnder3}"></td>
+					   					<td><input class="form-control" type="text" id="issueUnder3List" name="issueUnder3List" value="${list.issueUnder3}" readonly></td>
 					   					<td class="alignCenter">소항목4</td>
-										<td><input class="form-control" type="text" id="issueUnder4List" name="issueUnder4List" value="${list.issueUnder4}"></td>
+										<td><input class="form-control" type="text" id="issueUnder4List" name="issueUnder4List" value="${list.issueUnder4}" readonly></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">결함번호</td>
-					   					<td><input class="form-control" type="text" id="issueFlawNumList" name="issueFlawNumList" value="${list.issueFlawNum}"></td>
+					   					<td><input class="form-control" type="text" id="issueFlawNumList" name="issueFlawNumList" value="${list.issueFlawNum}" readonly></td>
 					   					<td class="alignCenter">영향도</td>
-					   					<td><input class="form-control" type="text" id="issueEffectList" name="issueEffectList" value="${list.issueEffect}"></td>
+					   					<td><input class="form-control" type="text" id="issueEffectList" name="issueEffectList" value="${list.issueEffect}" readonly></td>
 									</tr>
 									<tr>
 										<td class="alignCenter">테스트 결과</td>
-										<td><input class="form-control" type="text" id="issueTextResultList" name="issueTextResultList" value="${list.issueTextResult}"></td>
+										<td><input class="form-control" type="text" id="issueTextResultList" name="issueTextResultList" value="${list.issueTextResult}" readonly></td>
 					   					<td class="alignCenter">적용여부</td>
-					   					<td><input class="form-control" type="text" id="issueApplyYnList" name="issueApplyYnList" value="${list.issueApplyYn}"></td>
+					   					<td><input class="form-control" type="text" id="issueApplyYnList" name="issueApplyYnList" value="${list.issueApplyYn}" readonly></td>
 					 				</tr>
 					 				<tr>
 										<td class="alignCenter">확인내용</td>
-					 					<td colspan='3'><input class="form-control" type="text" id="issueConfirmList" name="issueConfirmList" value="${list.issueConfirm}"></td>
+					 					<td colspan='3'><input class="form-control" type="text" id="issueConfirmList" name="issueConfirmList" value="${list.issueConfirm}" readonly></td>
 					 				</tr>
 									<tr>
 										<td class="alignCenter">장애내용</td>
@@ -264,11 +261,25 @@
 					 				<tr>
 										<td class="alignCenter">비고</td>
 					 					<td colspan='3'>
-					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList">${list.issueNote}</textarea>
+					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" readonly>${list.issueNote}</textarea>
 					 					</td>
 					 				</tr>
+									 <c:forEach var="issueRelay" items="${issueRelayList}">
+										<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
+											<tr style="height: 50px;">
+												<td class="alignCenter">${issueRelay.issueRelayType}</td>
+												<td colspan='2'>
+													${issueRelay.issueRelayDetail}
+												</td>
+												<td style="width: 120px; font-size: 12px;">${issueRelay.issueRelayDate}</td>
+											</tr>
+										</c:if>
+									 </c:forEach>
 					 			</tbody>
 					 		</table>
+							<div style="width: 100%; text-align: right;	padding: 1%;">
+								<button class="btn btn-outline-info-add myBtn" id="btnRelay" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
+							</div>
 				    	</div>
 				    </div>
 				    <div style="width: 100%; height:50px;"></div>
@@ -279,21 +290,58 @@
 		</div>
 	</body>
 	<script>
-		$(function() {
-			
-		});
+		function btnRelay(issuePrimaryKeyNum, issueKeyNum) {
+	  		$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issueRelay/relayModal'/>",
+				data: {
+					"issuePrimaryKeyNum": issuePrimaryKeyNum,
+					"issueKeyNum": issueKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+					console.log(data);
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'issueRelayModal'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});	
+	  	}
 	</script>
 	<style>
+		body {
+			background-color: #7BB2A4 !important;
+		}
+
 		img {
 			max-width: 800px !important;
 		}
 
 		p {
-			font-size: 14px;
+			font-size: 16px;
+			padding: 0.2%;
 		}
 
 		input {
 			font-size: 15px !important;
+		}
+
+		li {
+			font-size: 20px;
+    		font-weight: bold;
+		}
+
+		#btnRelay {
+			width: 95px;
+    		height: 40px;
+    		font-size: 15px;
+		}
+
+		label {
+			margin-bottom: 5px;
 		}
 	</style>
 </html>
