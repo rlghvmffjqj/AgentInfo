@@ -113,5 +113,27 @@ public class IssueDao {
 		return sqlSession.selectOne("issue.getIssuePrimaryOne", issuePrimaryKeyNum);
 	}
 
+	public List<Integer> getIssuePrimaryKeyNumList(int issueKeyNum) {
+		return sqlSession.selectList("issue.getIssuePrimaryKeyNumList", issueKeyNum);
+	}
+
+	public void issuePlus(Issue issue) {
+		sqlSession.insert("issue.issuePlus", issue);
+	}
+
+	public void totalPlus(int issueKeyNum) {
+		sqlSession.update("issue.totalPlus", issueKeyNum);
+		
+	}
+
+	public void unresolvedPlus(int issueKeyNum) {
+		sqlSession.update("issue.unresolvedPlus", issueKeyNum);
+		
+	}
+
+	public Issue getIssueKeyNumOne(int issueKeyNum) {
+		return sqlSession.selectOne("issue.getIssueKeyNumOne", issueKeyNum);
+	}
+
 }
 

@@ -21,4 +21,16 @@
 		SELECT * FROM issueRelay WHERE issueKeyNum = ${issueKeyNum};
 	</select>
 	
+	<select id="getIssueRelayOne" resultMap="issueRelay" parameterType="_int">
+		SELECT * FROM issueRelay WHERE issueRelayKeyNum = ${issueRelayKeyNum};
+	</select>
+	
+	<update id="updateIssueRelay">
+		UPDATE issueRelay SET issueRelayDetail = #{issueRelayDetail}, issueRelayDate = #{issueRelayDate} WHERE issueRelayKeyNum = ${issueRelayKeyNum};
+	</update>
+	
+	<delete id="delIssueRelay">
+		DELETE FROM issueRelay WHERE issueRelayKeyNum = ${issueRelayKeyNum};
+	</delete>
+	
 </mapper>

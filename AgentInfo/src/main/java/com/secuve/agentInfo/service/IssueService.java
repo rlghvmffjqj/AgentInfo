@@ -15,18 +15,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.layout.property.UnitValue;
-import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.IBlockElement;
-import com.itextpdf.layout.element.IElement;
-import com.itextpdf.layout.font.FontProvider;
 import com.secuve.agentInfo.dao.IssueDao;
 import com.secuve.agentInfo.vo.Issue;
 
@@ -161,13 +149,26 @@ public class IssueService {
 
 
 	public Map updateIssue(Issue issue, Principal principal) {
-		Map map = new HashMap();
-		int count = issueDao.delIssue(issue.getIssueKeyNum());
-		if(count == 0 && issue.getIssueKeyNum() != 0) {
-			map.put("result", "FALSE");
-			return map;
+//		Map map = new HashMap();
+//		int count = issueDao.delIssue(issue.getIssueKeyNum());
+//		if(count == 0 && issue.getIssueKeyNum() != 0) {
+//			map.put("result", "FALSE");
+//			return map;
+//		}
+//		return insertIssue(issue, principal);
+		
+		List<Integer> issuePrimaryKeyNumList = issueDao.getIssuePrimaryKeyNumList(issue.getIssueKeyNum());
+		for (int issuePrimaryKey : issue.getIssuePrimaryKeyNumList()) {
+			if(!issuePrimaryKeyNumList.contains(issuePrimaryKey)) {
+				// insert
+			}
 		}
-		return insertIssue(issue, principal);
+		
+		
+		Map map = new HashMap();
+		map.put("result", "OK");
+		map.put("issueKeyNum", issue.getIssueKeyNum());
+		return map;
 	}
 
 	public Map copyIssue(Issue issue, Principal principal) {
@@ -230,5 +231,16 @@ public class IssueService {
 
 	public Issue getIssuePrimaryOne(int issuePrimaryKeyNum) {
 		return issueDao.getIssuePrimaryOne(issuePrimaryKeyNum);
+	}
+
+	public int issuePlus(Issue issue) {
+		issueDao.issuePlus(issue);
+		issueDao.totalPlus(issue.getIssueKeyNum());
+		issueDao.unresolvedPlus(issue.getIssueKeyNum());
+		return issue.getIssuePrimaryKeyNum();
+	}
+
+	public Issue getIssueKeyNumOne(int issueKeyNum) {
+		return issueDao.getIssueKeyNumOne(issueKeyNum);
 	}
 }

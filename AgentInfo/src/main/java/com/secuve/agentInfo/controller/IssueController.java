@@ -23,8 +23,10 @@ import org.springframework.web.servlet.View;
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
 import com.secuve.agentInfo.service.FavoritePageService;
+import com.secuve.agentInfo.service.IssueRelayService;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
+import com.secuve.agentInfo.vo.IssueRelay;
 
 
 
@@ -33,6 +35,7 @@ public class IssueController {
 	@Autowired IssueService issueService;
 	@Autowired PDFDownlod pdfDownlod;
 	@Autowired FavoritePageService favoritePageService;
+	@Autowired IssueRelayService issueRelayService;
 	
 	@GetMapping(value = "/issue/issueList")
 	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
@@ -124,11 +127,13 @@ public class IssueController {
 	public String UpdateView(Model model, Principal principal, int issueKeyNum) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
+		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
 		
 		model.addAttribute("viewType", "update");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
 		model.addAttribute("issueWriter", principal.getName());
+		model.addAttribute("issueRelayList", issueRelayList);
 		return "issue/IssueView";
 	}
 	
@@ -245,6 +250,15 @@ public class IssueController {
 	@PostMapping(value = "/issue/merge")
 	public String IssueMerge(@RequestParam int[] chkList) {
 		return issueService.mergeIssue(chkList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/issuePlus")
+	public int IssuePlus(Principal principal, Issue issue) {
+		issue = issueService.getIssueKeyNumOne(issue.getIssueKeyNum());
+		issue.setIssueRegistrant(principal.getName());
+		issue.setIssueRegistrationDate(issueService.nowDate());
+		return issueService.issuePlus(issue);
 	}
 	
 }

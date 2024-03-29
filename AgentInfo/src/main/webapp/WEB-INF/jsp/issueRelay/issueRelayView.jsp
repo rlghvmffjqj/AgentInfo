@@ -5,6 +5,9 @@
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<meta charset="UTF-8">
 		<title>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</title>
+
+		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 		
 		<style>
 			table {
@@ -264,21 +267,29 @@
 					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" readonly>${list.issueNote}</textarea>
 					 					</td>
 					 				</tr>
-									 <c:forEach var="issueRelay" items="${issueRelayList}">
-										<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
-											<tr style="height: 50px;">
-												<td class="alignCenter">${issueRelay.issueRelayType}</td>
-												<td colspan='2'>
-													${issueRelay.issueRelayDetail}
-												</td>
-												<td style="width: 120px; font-size: 12px;">${issueRelay.issueRelayDate}</td>
-											</tr>
-										</c:if>
-									 </c:forEach>
 					 			</tbody>
 					 		</table>
+							<table style="border-top: none;">
+								<c:forEach var="issueRelay" items="${issueRelayList}">
+									<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
+										<tr style="height: 50px;">
+											<td class="alignCenter">${issueRelay.issueRelayType}</td>
+											<td style="background-color: white;">
+												${issueRelay.issueRelayDetail}
+											</td>
+											<td style="width: 100px; background: white; border-left: none; text-align: right;">
+												<span>${issueRelay.issueRelayDate}</span>
+												<c:if test="${issueRelay.issueRelayType eq '개발'}">
+													<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
+													<button class="btn btn-outline-info-del myBtn" id="BtnDelect" onClick="btnDelete('${issueRelay.issueRelayKeyNum}')">삭제</button>
+												</c:if>
+											</td>
+										</tr>
+									</c:if>
+								</c:forEach>
+							</table>
 							<div style="width: 100%; text-align: right;	padding: 1%;">
-								<button class="btn btn-outline-info-add myBtn" id="btnRelay" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
+								<button type="button" class="btn btn-outline-info-add myBtn" id="btnRelay" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
 							</div>
 				    	</div>
 				    </div>
@@ -296,11 +307,11 @@
 			    url: "<c:url value='/issueRelay/relayModal'/>",
 				data: {
 					"issuePrimaryKeyNum": issuePrimaryKeyNum,
-					"issueKeyNum": issueKeyNum
+					"issueKeyNum": issueKeyNum,
+					"issueRelayType": "개발"
 				},
 			    async: false,
 			    success: function (data) {
-					console.log(data);
 			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
 			        $.modal(data, 'issueRelayModal'); //modal창 호출
@@ -310,6 +321,76 @@
 			    }
 			});	
 	  	}
+
+		function btnUpdate(issueRelayKeyNum) {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issueRelay/relayUpdateModal'/>",
+				data: {
+					"issueRelayKeyNum": issueRelayKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'issueRelayModal'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});
+		}
+
+		function btnDelete(issueRelayKeyNum) {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "답글을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+					url: "<c:url value='/issueRelay/delete'/>",
+					type: "POST",
+					data: {"issueRelayKeyNum": issueRelayKeyNum},
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK") {
+							Swal.fire(
+							  '성공!',
+							  '삭제 완료하였습니다.',
+							  'success'
+							).then((result) => {
+								if (result.isConfirmed) {
+	            					location.reload();
+								}
+							})
+						} else {
+							Swal.fire(
+							  '실패!',
+							  '삭제 실패하였습니다.',
+							  'error'
+							).then((result) => {
+								if (result.isConfirmed) {
+	            					location.reload();
+								}
+							})
+						}
+						
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				  });
+			  	}
+			})
+			
+		}
 	</script>
 	<style>
 		body {

@@ -40,8 +40,11 @@ public class IssueRelayService {
 	    return key.toString();
 	}
 
-	public void insertIssueRelay(IssueRelay issueRelay) {
-		issueRelayDao.insertIssueRelay(issueRelay);
+	public String insertIssueRelay(IssueRelay issueRelay) {
+		int sucess = issueRelayDao.insertIssueRelay(issueRelay);
+		if (sucess <= 0)
+			return "FALSE";
+		return "OK";
 	}
 
 	public IssueRelay getIssueRelayUrlOne(String issueRelayRandomUrl) {
@@ -60,5 +63,23 @@ public class IssueRelayService {
 
 	public List<IssueRelay> getIssueRelayList(int issueKeyNum) {
 		return issueRelayDao.getIssueRelayList(issueKeyNum);
+	}
+
+	public IssueRelay getIssueRelayOne(int issueRelayKeyNum) {
+		return issueRelayDao.getIssueRelayOne(issueRelayKeyNum);
+	}
+
+	public String updateIssueRelay(IssueRelay issueRelay) {
+		int sucess = issueRelayDao.updateIssueRelay(issueRelay);
+		if (sucess <= 0)
+			return "FALSE";
+		return "OK";
+	}
+
+	public String delIssueRelay(int issueRelayKeyNum) {
+		int sucess = issueRelayDao.delIssueRelay(issueRelayKeyNum);
+		if (sucess <= 0)
+			return "FALSE";
+		return "OK";
 	}
 }

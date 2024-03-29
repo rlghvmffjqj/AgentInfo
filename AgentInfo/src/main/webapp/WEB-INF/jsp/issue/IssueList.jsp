@@ -222,7 +222,7 @@
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button> -->
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button>
+																		<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button> -->
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'issueKeyNum');">컬럼 선택</button>
 																</td>

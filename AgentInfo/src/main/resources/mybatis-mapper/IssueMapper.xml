@@ -76,6 +76,27 @@
 		)
 	</select>
 	
+	<select id="getIssuePrimaryKeyNumList" resultType="_int" parameterType="_int">
+		SELECT issuePrimaryKeyNum FROM issue WHERE issueKeyNum = ${issueKeyNum};
+	</select>
+	
+	<insert id="issuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
+		INSERT INTO issue(issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueRegistrant, issueRegistrationDate) 
+		VALUES(${issueKeyNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, #{issueRegistrant}, #{issueRegistrationDate});
+	</insert>
+	
+	<update id="totalPlus">
+		UPDATE issue SET total = total + 1 WHERE issueKeyNum = ${issueKeyNum};
+	</update>
+	
+	<update id="unresolvedPlus">
+		UPDATE issue SET unresolved = unresolved + 1 WHERE issueKeyNum = ${issueKeyNum};
+	</update>
+	
+	<select id="getIssueKeyNumOne" resultMap="issue" parameterType="_int">
+		SELECT * FROM issue WHERE issueKeyNum = ${issueKeyNum} GROUP BY issueKeyNum;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIssue">

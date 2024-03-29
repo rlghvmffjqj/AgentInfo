@@ -201,7 +201,7 @@
 						                                		<table style="width:100%">
 						                                			<tbody>
 						                                				<tr>
-						                                					<td class="alignCenter">OS</td>
+						                                					<td class="alignCenter" style="width: 9%;">OS</td>
 						                                					<c:choose>
 							                                					<c:when test="${viewType eq 'insert'}">
 								                                					<td><select class="form-control selectpicker selectForm" id="issueOsList" name="issueOsList" data-live-search="true" data-size="5">
@@ -217,7 +217,7 @@
 																		                    <c:if test="${issueWriter eq 'admin'}">관리자</c:if>
 																		                    <c:if test="${issueWriter eq 'khkim'}">김기호</c:if>
 																		                    <c:if test="${issueWriter eq 'bspark'}">박범수</c:if>
-																		                    <c:if test="${issueWriter eq 'DWSun'}">선두원</c:if>
+																		                    <c:if test="${issueWriter eq 'smlee'}">이상민</c:if>
 																		            	readonly>
 																	                </td>
 																				</c:when>
@@ -323,6 +323,29 @@
 						                                				</tr>
 						                                			</tbody>
 						                                		</table>
+																<input class="form-control" type="hidden" id="issuePrimaryKeyNumList" name="issuePrimaryKeyNumList" value="${list.issuePrimaryKeyNum}">
+																<table style="border-top: none;">
+																	<c:forEach var="issueRelay" items="${issueRelayList}">
+																		<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
+																			<tr style="height: 50px;">
+																				<td class="alignCenter" style="width: 9%;">${issueRelay.issueRelayType}</td>
+																				<td style="background-color: white;">
+																					${issueRelay.issueRelayDetail}
+																				</td>
+																				<td style="width: 100px; background: white; border-left: none; text-align: right;">
+																					<span>${issueRelay.issueRelayDate}</span>
+																					<c:if test="${issueRelay.issueRelayType eq 'QA'}">
+																						<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
+																						<button class="btn btn-outline-info-del myBtn" id="BtnDelect" onClick="btnDelete('${issueRelay.issueRelayKeyNum}')">삭제</button>
+																					</c:if>
+																				</td>
+																			</tr>
+																		</c:if>
+																	</c:forEach>
+																</table>
+																<div style="width: 100%; text-align: right;	padding: 1%;">
+																	<button type="button" class="btn btn-outline-info-add myBtn" id="btnRelay" onclick="btnRelayQA('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
+																</div>
 						                                		<div class="positioningBtn"><button type="button" class="arrowBtn" style="background: peachpuff;" onclick="btnUp(this)">ᐱ</button> <button type="button" class="arrowBtn" style="background: burlywood;" onclick="btnDown(this)">ᐯ</button></div>
 					                                		</div>
 				                                		</c:forEach>
@@ -348,7 +371,7 @@
 			                                			</div>
 			                                		</div>
 		                                		</div>
-		                                		<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
+												<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
 		                                		<input class="form-control" type="hidden" id="issueObstacleList" name="issueObstacleList" value=""><!-- 단일 이미지 첨부일 경우 배열이 여러개로 분리되어 복합으로 전달하기 위해 추가  -->
 		                                		<input class="form-control" type="hidden" id="issueBtnType" name="issueBtnType" value="${viewType}">
 	                                		</form>
@@ -397,6 +420,37 @@
 				}
 			});
 		}
+
+		function btnRelayQA(issuePrimaryKeyNum, issueKeyNum) {
+			var resault = automaticUpdate();
+	    	
+	    	if(resault == "OK") {
+	  			$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/issueRelay/relayModal'/>",
+					data: {
+						"issuePrimaryKeyNum": issuePrimaryKeyNum,
+						"issueKeyNum": issueKeyNum,
+						"issueRelayType": "QA"
+					},
+				    async: false,
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'issueRelayModal'); //modal창 호출
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+				    }
+				});	
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '자동 저장에 실패하였습니다.',
+				});
+			}
+	  	}	
 		
 		/* =========== 위로 이동 ========= */
 		function btnUp(obj) {
@@ -424,6 +478,26 @@
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
+			if("${viewType}" == "update") {
+				var issueKeyNum = $('#issueKeyNum').val();
+
+				
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/issue/issuePlus'/>",
+					data: {
+						"issueKeyNum": issueKeyNum
+
+					},
+				    async: false,
+				    success: function (data) {
+					
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+				    }
+				});	
+			}
 			var table = $(obj).parent().parent().parent();
 			
 			var rowItem = "<div class='issue'>";
@@ -435,7 +509,7 @@
 			rowItem += "<table style='width:100%'>";
 			rowItem += "<tbody>";
 			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>OS</td>";
+			rowItem += "<td class='alignCenter' style='width: 9%;'>OS</td>";
 			rowItem += "<td><select class='form-control selectpicker selectForm' id='issueOsList' name='issueOsList' data-live-search='true' data-size='5'>";
 			rowItem += "<option value='Linux'>Linux</option>";
 			rowItem += "<option value='Windows'>Windows</option>";
@@ -449,7 +523,7 @@
 			if('${issueWriter}' == 'admin') rowItem += "관리자";
 			if('${issueWriter}' == 'khkim') rowItem += "김기호";
 			if('${issueWriter}' == 'bspark') rowItem += "박범수";
-			if('${issueWriter}' == 'DWSun') rowItem += "선두원";
+			if('${issueWriter}' == 'smlee') rowItem += "이상민";
 			rowItem += " readonly>"
 			rowItem += "</td>";
 			rowItem += "</tr>";
@@ -842,7 +916,13 @@
 				frmData.method="post";
 				frmData.target="form";
 				frmData.submit();
-	    	}
+	    	} else {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '자동 저장에 실패하였습니다.',
+				});
+			}
 		});
 
 		/* =========== URL 생성  ========= */
@@ -864,6 +944,12 @@
 		    	        // TODO 에러 화면
 		    	    }
 		    	});
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '자동 저장에 실패하였습니다.',
+				});
 			}
 		});
 
@@ -1033,7 +1119,13 @@
 				frmData.method="post";
 				frmData.target="form";
 				frmData.submit();
-	    	}
+	    	} else {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '자동 저장에 실패하였습니다.',
+				});
+			}
 		});
 		
 		/* =========== PDF 로컬 PC 다운로드 히스토리(자식창에서 호출) ========= */
@@ -1186,6 +1278,7 @@
 				return resault;
 			}
 		}
+
 	</script>
 	<style>
 		.issueStyle {

@@ -81,6 +81,7 @@ public class Issue {
 	private List<String> issueConfirmList;			// 확인내용
 	private List<String> issueObstacleList;			// 장애내용
 	private List<String> issueNoteList;				// 비고
+	private List<Integer> issuePrimaryKeyNumList;
 	
 	private String issueDateStart;			// 전달일자  시작일
 	private String issueDateEnd;				// 전달일자  종료일

@@ -12,8 +12,8 @@ import com.secuve.agentInfo.vo.IssueRelay;
 public class IssueRelayDao {
 	@Autowired SqlSessionTemplate sqlSession;
 
-	public void insertIssueRelay(IssueRelay issueRelay) {
-		sqlSession.insert("issueRelay.insertIssueRelay", issueRelay);
+	public int insertIssueRelay(IssueRelay issueRelay) {
+		return sqlSession.insert("issueRelay.insertIssueRelay", issueRelay);
 	}
 
 	public IssueRelay getIssueRelayUrlOne(String issueRelayRandomUrl) {
@@ -26,6 +26,18 @@ public class IssueRelayDao {
 
 	public List<IssueRelay> getIssueRelayList(int issueKeyNum) {
 		return sqlSession.selectList("issueRelay.getIssueRelayList", issueKeyNum);
+	}
+
+	public IssueRelay getIssueRelayOne(int issueRelayKeyNum) {
+		return sqlSession.selectOne("issueRelay.getIssueRelayOne", issueRelayKeyNum);
+	}
+
+	public int updateIssueRelay(IssueRelay issueRelay) {
+		return sqlSession.update("issueRelay.updateIssueRelay", issueRelay);
+	}
+
+	public int delIssueRelay(int issueRelayKeyNum) {
+		return sqlSession.delete("issueRelay.delIssueRelay", issueRelayKeyNum);
 	}
 	
 }
