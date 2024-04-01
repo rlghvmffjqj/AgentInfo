@@ -39,6 +39,7 @@
 			},
 	        async: false,
 	        success: function(result) {
+				console.log(result);
 				if(result == "OK") {
 					Swal.fire({
 						icon: 'success',
@@ -52,6 +53,12 @@
 	            			});	
 						}
 					})
+				} else if(result == "UrlExport") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: 'URL Export 생성 후 답글 입력 바랍니다.',    
+					}); 
 				} else {
 					Swal.fire({               
 						icon: 'error',          

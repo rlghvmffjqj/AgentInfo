@@ -148,27 +148,16 @@ public class IssueService {
 	}
 
 
-	public Map updateIssue(Issue issue, Principal principal) {
-//		Map map = new HashMap();
-//		int count = issueDao.delIssue(issue.getIssueKeyNum());
-//		if(count == 0 && issue.getIssueKeyNum() != 0) {
-//			map.put("result", "FALSE");
-//			return map;
-//		}
-//		return insertIssue(issue, principal);
-		
-		List<Integer> issuePrimaryKeyNumList = issueDao.getIssuePrimaryKeyNumList(issue.getIssueKeyNum());
-		for (int issuePrimaryKey : issue.getIssuePrimaryKeyNumList()) {
-			if(!issuePrimaryKeyNumList.contains(issuePrimaryKey)) {
-				// insert
-			}
+	public String updateIssue(Issue issue, Principal principal) {
+		int sucess = 1;
+		issue = oneDate(issue);
+		for(int i=0; i < issue.getIssueOsList().size(); i++) {
+			sucess *= issueDao.updateIssue(issue.getIssuePrimaryKeyNumList().get(i), issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
 		}
-		
-		
-		Map map = new HashMap();
-		map.put("result", "OK");
-		map.put("issueKeyNum", issue.getIssueKeyNum());
-		return map;
+		if (sucess <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
 	}
 
 	public Map copyIssue(Issue issue, Principal principal) {
@@ -243,4 +232,37 @@ public class IssueService {
 	public Issue getIssueKeyNumOne(int issueKeyNum) {
 		return issueDao.getIssueKeyNumOne(issueKeyNum);
 	}
+
+	public String issueMinus(int issuePrimaryKeyNum) {
+		int resault = issueDao.issueMinus(issuePrimaryKeyNum);
+		if(resault >= 1) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+	
+	public String getIssueSortNumUp(int issueKeyNum, int issueSortNum, int issuePrimaryKeyNum) {
+		int fineIssueSortNum = issueDao.getIssueSortNumUp(issueKeyNum, issueSortNum);
+		int resault = issueDao.upIssueSortNum(fineIssueSortNum);
+		resault *=  issueDao.changIssueSortNum(issuePrimaryKeyNum, fineIssueSortNum);
+		if(resault >= 1) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+
+	
+	public Issue getIssueSortNumDown(int issueKeyNum, int issueSortNum) {
+		return issueDao.getIssueSortNumDown(issueKeyNum, issueSortNum);
+	}
+
+	public String changIssueSortNum(Issue issue, Issue findIssue) {
+		int resault = issueDao.changIssueSortNum(findIssue.getIssuePrimaryKeyNum(), issue.getIssueSortNum());
+		resault *= issueDao.changIssueSortNum(issue.getIssuePrimaryKeyNum(), findIssue.getIssueSortNum());
+		if(resault >= 1) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+
 }

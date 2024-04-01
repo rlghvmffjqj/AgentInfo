@@ -39,5 +39,9 @@ public class IssueRelayDao {
 	public int delIssueRelay(int issueRelayKeyNum) {
 		return sqlSession.delete("issueRelay.delIssueRelay", issueRelayKeyNum);
 	}
+
+	public int getFinedNumUp(int issuePrimaryKeyNum) {
+		return sqlSession.selectOne("issueRelay.getFinedNumUp", issuePrimaryKeyNum);
+	}
 	
 }

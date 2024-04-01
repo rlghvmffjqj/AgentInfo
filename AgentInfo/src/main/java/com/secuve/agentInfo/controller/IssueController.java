@@ -105,12 +105,11 @@ public class IssueController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issue/update")
-	public Map IssueUpdate(Issue issue, Principal principal) {
+	public String IssueUpdate(Issue issue, Principal principal) {
 		issue.setIssueModifier(principal.getName());
 		issue.setIssueModifiedDate(issueService.nowDate());
 		
-		Map result = issueService.updateIssue(issue, principal);
-		return result;
+		return issueService.updateIssue(issue, principal);
 	}
 	
 	@ResponseBody
@@ -261,5 +260,35 @@ public class IssueController {
 		return issueService.issuePlus(issue);
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/issue/issueMinus")
+	public String IssueMinus(Principal principal, Issue issue) {
+		return issueService.issueMinus(issue.getIssuePrimaryKeyNum());
+
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/issueUp")
+	public String IssueUp(int issueKeyNum, int issuePrimaryKeyNum) {
+		Issue issue = issueService.getIssuePrimaryOne(issuePrimaryKeyNum);
+		try {
+			return issueService.getIssueSortNumUp(issueKeyNum, issue.getIssueSortNum(), issuePrimaryKeyNum);
+		} catch (Exception e) {
+			return "NoneUp";
+		}
+		
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/issueDown")
+	public String IssueDown(int issueKeyNum, int issuePrimaryKeyNum) {
+		Issue issue = issueService.getIssuePrimaryOne(issuePrimaryKeyNum);
+		Issue findIssue = issueService.getIssueSortNumDown(issueKeyNum, issue.getIssueSortNum());
+		try {
+			return issueService.changIssueSortNum(issue, findIssue);
+		} catch (Exception e) {
+			return "NoneDown";
+		}
+	}
 }
 

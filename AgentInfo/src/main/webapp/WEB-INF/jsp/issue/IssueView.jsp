@@ -335,8 +335,8 @@
 																				<td style="width: 100px; background: white; border-left: none; text-align: right;">
 																					<span>${issueRelay.issueRelayDate}</span>
 																					<c:if test="${issueRelay.issueRelayType eq 'QA'}">
-																						<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
-																						<button class="btn btn-outline-info-del myBtn" id="BtnDelect" onClick="btnDelete('${issueRelay.issueRelayKeyNum}')">삭제</button>
+																						<button type="button" class="btn btn-outline-info-nomal myBtn" onClick="btnUpdateQA('${issueRelay.issueRelayKeyNum}')">수정</button>
+																						<button type="button" class="btn btn-outline-info-del myBtn" onClick="btnDeleteQA('${issueRelay.issueRelayKeyNum}')">삭제</button>
 																					</c:if>
 																				</td>
 																			</tr>
@@ -344,7 +344,7 @@
 																	</c:forEach>
 																</table>
 																<div style="width: 100%; text-align: right;	padding: 1%;">
-																	<button type="button" class="btn btn-outline-info-add myBtn" id="btnRelay" onclick="btnRelayQA('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
+																	<button type="button" class="btn btn-outline-info-add myBtn" onclick="btnRelayQA('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
 																</div>
 						                                		<div class="positioningBtn"><button type="button" class="arrowBtn" style="background: peachpuff;" onclick="btnUp(this)">ᐱ</button> <button type="button" class="arrowBtn" style="background: burlywood;" onclick="btnDown(this)">ᐯ</button></div>
 					                                		</div>
@@ -440,7 +440,7 @@
 				        $.modal(data, 'issueRelayModal'); //modal창 호출
 				    },
 				    error: function(e) {
-				        // TODO 에러 화면
+				        console.log(e);
 				    }
 				});	
 			} else {
@@ -454,47 +454,164 @@
 		
 		/* =========== 위로 이동 ========= */
 		function btnUp(obj) {
+			if("${viewType}" == "update") {
+				var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
+				var issueKeyNum = $('#issueKeyNum').val();
+
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/issue/issueUp'/>",
+					data: {
+						"issuePrimaryKeyNum": issuePrimaryKeyNum,
+						"issueKeyNum": issueKeyNum
+					},
+				    async: false,
+				    success: function (result) {
+						if(result == "FALSE") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: 'UP Move 실패하였습니다.',
+							});
+						} else if(result == "NoneUp") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '상단 이슈가 존재하지 않습니다.',
+							});
+						}
+				    },
+				    error: function(e) {
+				        Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+				    }
+				});	
+			}
+
 			var table = $(obj).parent().parent();
 			table.prev().before(table);
 		}
 		
 		/* =========== 아래로 이동 ========= */
 		function btnDown(obj) {
+			if("${viewType}" == "update") {
+				var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
+				var issueKeyNum = $('#issueKeyNum').val();
+
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/issue/issueDown'/>",
+					data: {
+						"issuePrimaryKeyNum": issuePrimaryKeyNum,
+						"issueKeyNum": issueKeyNum
+					},
+				    async: false,
+				    success: function (result) {
+						if(result == "FALSE") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: 'DOWN Move 실패하였습니다.',
+							});
+						} else if(result == "NoneDown") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '하단 이슈가 존재하지 않습니다.',
+							});
+						}
+				    },
+				    error: function(e) {
+				        Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+				    }
+				});	
+			}
+
 			var table = $(obj).parent().parent();
 			table.next().after(table);
 		}
 		
 		/* =========== 마이너스 버튼 ========= */
 		function btnMinus(obj) {
-			var table = $(obj).parent().parent().parent();
-			table.remove();
-			issueCount();
-			$('#total').text($('.issue').length);
-			
-			if($('.issue').length == 0) {
-				btnPlus($(this).attr('blank'));
-			}
+			Swal.fire({
+				  title: '삭제!',
+				  text: "해당 이슈를 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+					var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
+					if("${viewType}" == "update") {
+						$.ajax({
+						    type: 'POST',
+						    url: "<c:url value='/issue/issueMinus'/>",
+							data: {
+								"issuePrimaryKeyNum": issuePrimaryKeyNum
+							
+							},
+						    async: false,
+						    success: function (result) {
+								if(result == "FALSE") {
+									Swal.fire({
+									icon: 'error',
+									title: '삭제 실패!',
+									text: '삭제 작업을 실패하였습니다.',
+								});
+								}
+						    },
+						    error: function(e) {
+						        Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '작업을 실패하였습니다.',
+								});
+						    }
+						});	
+					}
+				
+					var table = $(obj).parent().parent().parent();
+					table.remove();
+					issueCount();
+					$('#total').text($('.issue').length);
+					if($('.issue').length == 0) {
+						btnPlus($(this).attr('blank'));
+					}
+				}
+			})
 		}
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
+			var issuePrimaryKeyNum;
 			if("${viewType}" == "update") {
 				var issueKeyNum = $('#issueKeyNum').val();
 
-				
 				$.ajax({
 				    type: 'POST',
 				    url: "<c:url value='/issue/issuePlus'/>",
 					data: {
 						"issueKeyNum": issueKeyNum
-
 					},
 				    async: false,
-				    success: function (data) {
-					
+				    success: function (result) {
+						issuePrimaryKeyNum = result;
 				    },
 				    error: function(e) {
-				        // TODO 에러 화면
+				        Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
 				    }
 				});	
 			}
@@ -582,6 +699,7 @@
 			rowItem += "</tr>";
 			rowItem += "</tbody>";
 			rowItem += "</table>";
+			rowItem += "<input class='form-control' type='hidden' id='issuePrimaryKeyNumList' name='issuePrimaryKeyNumList' value='"+issuePrimaryKeyNum+"'>";
 			rowItem += "<div class='positioningBtn'><button type='button' class='arrowBtn' style='background: peachpuff;' onclick='btnUp(this)'>ᐱ</button> <button type='button' class='arrowBtn' style='background: burlywood;' onclick='btnDown(this)'>ᐯ</button></div>";
 			rowItem += "</div>";
 			
@@ -732,10 +850,11 @@
 								if (result.isConfirmed) {
 									location.href="<c:url value='/issue/issueList'/>";
 								} else {
-									$('#save').hide();
-									$('#update').show();
-									$('#downloadBtn').show();
-									$('#issueBtnType').val("update");
+									// $('#save').hide();
+									// $('#update').show();
+									// $('#downloadBtn').show();
+									// $('#issueBtnType').val("update");
+									location.href="<c:url value='/issue/updateView'/>?issueKeyNum="+issueKeyNum;
 								}
 							})
 						} else {
@@ -776,7 +895,7 @@
 			        data: postData,
 			        async: false,
 			        success: function(result) {
-			        	if(result.result == "OK") {
+			        	if(result == "OK") {
 			        		Swal.fire({
 								  title: '저장 완료!',
 								  text: "이슈 목록으로 이동하시겠습니까?",
@@ -790,7 +909,6 @@
 								if (result2.isConfirmed) {
 									location.href="<c:url value='/issue/issueList'/>";
 								} else {
-									$('#issueKeyNum').val(result.issueKeyNum);
 									$('#downloadBtn').show();
 								}
 							})
@@ -888,9 +1006,11 @@
 		    	var btnType = $('#issueBtnType').val();
 		    	if(btnType == "copy") {
 		    		$('#btnCopy').click();
+				} else if(btnType == "insert") {
+					$('#btnSave').click();
 		    	} else {
 		    		$('#btnUpdate').click();
-		    	}
+		    	} 
 		    	isCtrl = false;
 		    	return false;
 		    }
@@ -1257,8 +1377,7 @@
 			        data: postData,
 			        async: false,
 			        success: function(result) {
-			        	if(result.result == "OK") {
-							$('#issueKeyNum').val(result.issueKeyNum);
+			        	if(result == "OK") {
 							$('#downloadBtn').show();
 							resault = "OK";
 						} else {
@@ -1277,6 +1396,76 @@
 			    });
 				return resault;
 			}
+		}
+
+		function btnUpdateQA(issueRelayKeyNum) {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issueRelay/relayUpdateModal'/>",
+				data: {
+					"issueRelayKeyNum": issueRelayKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'issueRelayModal'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});
+		}
+
+		function btnDeleteQA(issueRelayKeyNum) {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "답글을 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				  $.ajax({
+					url: "<c:url value='/issueRelay/delete'/>",
+					type: "POST",
+					data: {"issueRelayKeyNum": issueRelayKeyNum},
+					dataType: "text",
+					traditional: true,
+					async: false,
+					success: function(data) {
+						if(data == "OK") {
+							Swal.fire(
+							  '성공!',
+							  '삭제 완료하였습니다.',
+							  'success'
+							).then((result) => {
+								if (result.isConfirmed) {
+	            					location.reload();
+								}
+							})
+						} else {
+							Swal.fire(
+							  '실패!',
+							  '삭제 실패하였습니다.',
+							  'error'
+							).then((result) => {
+								if (result.isConfirmed) {
+	            					location.reload();
+								}
+							})
+						}
+						
+					},
+					error: function(error) {
+						console.log(error);
+					}
+				  });
+			  	}
+			})
+			
 		}
 
 	</script>

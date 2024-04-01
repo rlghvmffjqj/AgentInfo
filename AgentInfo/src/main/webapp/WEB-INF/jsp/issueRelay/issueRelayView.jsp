@@ -280,8 +280,8 @@
 											<td style="width: 100px; background: white; border-left: none; text-align: right;">
 												<span>${issueRelay.issueRelayDate}</span>
 												<c:if test="${issueRelay.issueRelayType eq '개발'}">
-													<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
-													<button class="btn btn-outline-info-del myBtn" id="BtnDelect" onClick="btnDelete('${issueRelay.issueRelayKeyNum}')">삭제</button>
+													<button class="btn btn-outline-info-nomal myBtn" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
+													<button class="btn btn-outline-info-del myBtn" onClick="btnDelete('${issueRelay.issueRelayKeyNum}')">삭제</button>
 												</c:if>
 											</td>
 										</tr>
@@ -289,7 +289,7 @@
 								</c:forEach>
 							</table>
 							<div style="width: 100%; text-align: right;	padding: 1%;">
-								<button type="button" class="btn btn-outline-info-add myBtn" id="btnRelay" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
+								<button type="button" class="btn btn-outline-info-add myBtn" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
 							</div>
 				    	</div>
 				    </div>
@@ -317,7 +317,7 @@
 			        $.modal(data, 'issueRelayModal'); //modal창 호출
 			    },
 			    error: function(e) {
-			        // TODO 에러 화면
+			        console.log(e);
 			    }
 			});	
 	  	}

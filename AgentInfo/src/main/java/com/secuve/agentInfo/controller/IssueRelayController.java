@@ -28,8 +28,8 @@ public class IssueRelayController {
 		if(issueRelayExis != null) {
 			url = issueRelayExis.getIssueRelayUrl();
 		} else {
-			//url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
-			url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			//url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
 			issueRelay.setIssueRelayUrl(url);
 			issueRelay.setIssueRelayDate(issueRelayService.nowDate());
 			issueRelayService.insertIssueRelay(issueRelay);
@@ -79,6 +79,9 @@ public class IssueRelayController {
 	@PostMapping(value = "/issueRelay/relay")
 	public String Relay(IssueRelay issueRelay) {
 		IssueRelay issueRelayOne = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
+		if(issueRelayOne == null) {
+			return "UrlExport";
+		}
 		issueRelayOne.setIssuePrimaryKeyNum(issueRelay.getIssuePrimaryKeyNum());
 		issueRelayOne.setIssueRelayDetail(issueRelay.getIssueRelayDetail());
 		issueRelayOne.setIssueRelayType(issueRelay.getIssueRelayType());
@@ -98,5 +101,5 @@ public class IssueRelayController {
 	public String IssueRelayDelete(int issueRelayKeyNum) {
 		return issueRelayService.delIssueRelay(issueRelayKeyNum);
 	}
-
+	
 }
