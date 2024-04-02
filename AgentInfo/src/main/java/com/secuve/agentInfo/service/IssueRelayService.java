@@ -1,7 +1,5 @@
 package com.secuve.agentInfo.service;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +7,9 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.IssueRelayDao;
@@ -17,6 +18,7 @@ import com.secuve.agentInfo.vo.IssueRelay;
 import com.secuve.agentInfo.vo.UserAlarm;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class IssueRelayService {
 	@Autowired IssueRelayDao issueRelayDao;
 	@Autowired EmployeeDao employeeDao;
@@ -89,7 +91,7 @@ public class IssueRelayService {
 		return "OK";
 	}
 
-	public void insertUseralarm(IssueRelay issueRelayOne, Issue issue) {
+	public void insertUseralarm(Issue issue) {
 		UserAlarm userAlarm = new UserAlarm();
 		userAlarm.setUserAlarmTitle(issue.getIssueCustomer()+"_"+issue.getIssueTitle()+"_"+issue.getIssueDate());
 		userAlarm.setUserAlarmDate(nowDate());

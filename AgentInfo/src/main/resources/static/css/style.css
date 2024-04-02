@@ -6214,7 +6214,7 @@ table tbody .border-bottom-info td {
       position: absolute;
       border-radius: 5px;
       bottom: -32px;
-      right: 45px;
+      right: 40px;
       -webkit-box-shadow: -11px -11px 35px 0 rgba(0, 0, 0, 0.25);
               box-shadow: -11px -11px 35px 0 rgba(0, 0, 0, 0.25);
       -webkit-transform: rotate(45deg);

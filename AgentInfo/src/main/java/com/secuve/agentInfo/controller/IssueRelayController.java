@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import com.secuve.agentInfo.service.IssueRelayService;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.IssueRelay;
-import com.secuve.agentInfo.vo.UserAlarm;
 
 @Controller
 public class IssueRelayController {
@@ -22,14 +23,18 @@ public class IssueRelayController {
 	@Autowired IssueService issueService;
 	
 	@PostMapping(value = "/issueRelay/urlExport")
-	public String InsertPackagesView(Model model, IssueRelay issueRelay) {
+	public String InsertPackagesView(Model model, IssueRelay issueRelay) throws UnknownHostException {
 		IssueRelay issueRelayExis = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
 		String url = "";
 		if(issueRelayExis != null) {
 			url = issueRelayExis.getIssueRelayUrl();
 		} else {
-			//url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
-			url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			String localIp = InetAddress.getLocalHost().getHostAddress();
+			if(localIp.equals("172.16.100.90")) {
+				url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			} else {
+				url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			}
 			issueRelay.setIssueRelayUrl(url);
 			issueRelay.setIssueRelayDate(issueRelayService.nowDate());
 			issueRelayService.insertIssueRelay(issueRelay);
@@ -87,7 +92,8 @@ public class IssueRelayController {
 		issueRelayOne.setIssueRelayType(issueRelay.getIssueRelayType());
 		issueRelayOne.setIssueRelayDate(issueRelayService.nowDate());
 		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
-		issueRelayService.insertUseralarm(issueRelayOne, issue);
+		if(issueRelay.getIssueRelayType().equals("개발"))
+			issueRelayService.insertUseralarm(issue);
 		return issueRelayService.insertIssueRelay(issueRelayOne);
 	}
 	
@@ -95,6 +101,9 @@ public class IssueRelayController {
 	@PostMapping(value = "/issueRelay/relayUpdate")
 	public String RelayUpdate(IssueRelay issueRelay) {
 		issueRelay.setIssueRelayDate(issueRelayService.nowDate());
+		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
+		if(issueRelay.getIssueRelayType().equals("개발"))
+			issueRelayService.insertUseralarm(issue);
 		return issueRelayService.updateIssueRelay(issueRelay);
 	}
 	

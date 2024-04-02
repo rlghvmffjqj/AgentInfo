@@ -155,10 +155,12 @@ public class IssueController {
 	public String PdfView(Model model, int issueKeyNum, String[] chkSelectBox) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssuePDFOne(issueKeyNum, chkSelectBox));
+		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
 		
 		model.addAttribute("viewType", "download");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
+		model.addAttribute("issueRelayList", issueRelayList);
 		return "issue/PdfView";
 	}
 	

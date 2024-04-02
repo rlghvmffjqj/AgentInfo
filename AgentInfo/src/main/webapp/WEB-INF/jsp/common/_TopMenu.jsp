@@ -80,7 +80,7 @@
                 var rowItem = "<ul class='nav-right'>";
                 rowItem += "<li class='user-profile header-notification'>";
                 rowItem += "<a href='#!' class='waves-effect waves-light'>";
-                rowItem += "<img src='/AgentInfo/images/ExclamationMarkRed.png' class='img-radius' alt='User-Profile-Image' style='width: 50px; height: 40px;'>";
+                rowItem += "<img src='/AgentInfo/images/AlramRed.png' class='img-radius' alt='User-Profile-Image' style='width: 40px; height: 40px; border-radius: 0px'>";
                 rowItem += "</a>";
                 rowItem += "<ul class='show-notification profile-notification' style='min-width: 230px; max-width: 350px; width: max-content; max-height: 380px; overflow: auto;'>";
                 $.each(result, function(index, item) {
@@ -114,7 +114,7 @@
                 var rowItem = "<ul class='nav-right'>";
                 rowItem += "<li class='user-profile header-notification'>";
                 rowItem += "<a href='#!' class='waves-effect waves-light'>";
-                rowItem += "<img src='/AgentInfo/images/ExclamationMarkBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 50px; height: 40px;'>";
+                rowItem += "<img src='/AgentInfo/images/AlramBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 35px; height: 35px; border-radius: 0px'>";
                 rowItem += "</a>";
                 rowItem += "<ul class='show-notification profile-notification' style='width: 260px !important; max-height: 380px; overflow: auto;'>";
                 rowItem += "<li class='waves-effect waves-light'>";

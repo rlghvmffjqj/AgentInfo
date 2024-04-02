@@ -268,6 +268,18 @@
 					 				</tr>
 					 			</tbody>
 					 		</table>
+							 <table style="border-top: none;">
+								<c:forEach var="issueRelay" items="${issueRelayList}">
+									<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
+										<tr style="height: 50px;">
+											<td class="alignCenter">${issueRelay.issueRelayType}</td>
+											<td style="background-color: white;">
+												${issueRelay.issueRelayDetail}
+											</td>
+										</tr>
+									</c:if>
+								</c:forEach>
+							</table>
 				    	</div>
 				    </div>
 				    <div style="width: 100%; height:30px;"></div>
@@ -279,21 +291,32 @@
 	</body>
 	<script>
 		$(function() {
-			// obstacleText 요소 선택
- 			var $obstacleText = $('.obstacleText');
+			// // obstacleText 요소 선택
+ 			// var $obstacleText = $('.obstacleText');
 
-			// 원하는 높이 (예: 300px) 설정
-			var desiredHeight = 800;
+			// // 원하는 높이 (예: 300px) 설정
+			// var desiredHeight = 800;
 
-			// obstacleText 요소의 높이 가져오기
-			var obstacleTextHeight = $obstacleText.height();
+			// // obstacleText 요소의 높이 가져오기
+			// var obstacleTextHeight = $obstacleText.height();
 
-			// 300px 위치에 pageBreak 요소를 삽입
-			if (obstacleTextHeight >= desiredHeight) {
-			  // <p> 태그 아래에 pageBreak 요소를 삽입
-			  var $paragraphs = $obstacleText.find('p');
-			  $paragraphs.first().before("<div class='pageBreak'></div>");
-			}
+			// // 300px 위치에 pageBreak 요소를 삽입
+			// if (obstacleTextHeight >= desiredHeight) {
+			//   // <p> 태그 아래에 pageBreak 요소를 삽입
+			//   var $paragraphs = $obstacleText.find('p');
+			//   $paragraphs.first().before("<div class='pageBreak'></div>");
+			// }
+
+			var $images = $('.obstacleText img');
+
+    		// 이미지의 높이 확인 및 pageBreak 요소 추가
+    		$images.each(function() {
+    		    var $image = $(this);
+    		    var imageHeight = $image.height();
+    		    if (imageHeight >= 200) {
+    		        $image.after("<div class='pageBreak'></div>");
+    		    }
+    		});
 
 			var obj = $('textarea');
 			for(var i=0; i<obj.length; i++) {
