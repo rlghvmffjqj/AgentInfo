@@ -62,7 +62,7 @@
 				margin-right: 10px;
 			}
 			.searchbos {
-				background: #7bb2a417;
+				background: #008f1212;
 				border: 1px solid #ddd;
 				border-top: 1px solid #0A8FFF;
 				padding: 10px;
@@ -149,7 +149,7 @@
 	<body>
 		<div class="pcoded-content" id="page-wrapper"></div>
 		<div class="title">
-			<h1>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</h1>
+			<span id="relayTitle">${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</span>
 		</div>
 		<div style="background: #FFFFFF; padding-top: 20px;">
 		    <div>
@@ -408,10 +408,6 @@
 			background-image: none;
 		}
 
-		img {
-			max-width: 800px !important;
-		}
-
 		p {
 			font-size: 16px;
 			padding: 0.2%;
@@ -434,6 +430,25 @@
 
 		label {
 			margin-bottom: 5px;
+		}
+
+		@media (min-width: 1024px) and (max-width: 2000px) {
+			img {
+				max-width: 70% !important;
+			}
+
+			#relayTitle {
+				font-size: 40px;
+			}
+		}
+		@media (min-width: 0px) and (max-width: 1024px) {
+			img {
+				max-width: 100% !important;
+			}
+			
+			#relayTitle {
+				font-size: 30px;
+			}
 		}
 	</style>
 </html>
