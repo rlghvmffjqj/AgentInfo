@@ -130,11 +130,15 @@ public class EmployeeDao {
 		sqlSession.insert("employee.setUserAlarm", userAlarm);
 	}
 
-	public void delUserAlarm(int questionKeyNum) {
-		sqlSession.delete("employee.delUserAlarm", questionKeyNum);
+	public void delUserAlarm(int keyeyNum) {
+		sqlSession.delete("employee.delUserAlarm", keyeyNum);
 	}
 
-	public void updateUserAlarm(UserAlarm userAlarm) {
-		sqlSession.update("employee.updateUserAlarm", userAlarm);
+	public int updateUserAlarm(UserAlarm userAlarm) {
+		return sqlSession.update("employee.updateUserAlarm", userAlarm);
+	}
+
+	public List<String> getQaEmployeeId() {
+		return sqlSession.selectList("employee.getQaEmployeeId");
 	}
 }

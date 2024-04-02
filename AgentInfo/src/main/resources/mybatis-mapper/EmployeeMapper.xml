@@ -110,7 +110,7 @@
 	</select>
 	
 	<select id="getUserAlarm" parameterType="string" resultMap="userAlarm">
-		SELECT * FROM userAlarm WHERE userAlarmEmployeeId = #{userAlarmEmployeeId} AND userAlarmState = 'N';
+		SELECT * FROM userAlarm WHERE userAlarmEmployeeId = #{userAlarmEmployeeId} AND userAlarmState = 'N' GROUP BY userAlarmEmployeeId, userAlarmParameter;
 	</select>
 	
 	<insert id="setUserAlarm">
@@ -119,12 +119,16 @@
 	</insert>
 	
 	<delete id="delUserAlarm" parameterType="_int">
-		DELETE FROM userAlarm WHERE userAlarmParameter = #{questionKeyNum};
+		DELETE FROM userAlarm WHERE userAlarmParameter = #{keyeyNum};
 	</delete>
 	
 	<update id="updateUserAlarm">
-		UPDATE userAlarm SET userAlarmState = 'R', userAlarmModifier = #{userAlarmModifier}, userAlarmModifiedDate = #{userAlarmModifiedDate} WHERE userAlarmParameter = #{userAlarmParameter};
+		UPDATE userAlarm SET userAlarmState = 'R', userAlarmModifier = #{userAlarmModifier}, userAlarmModifiedDate = #{userAlarmModifiedDate} WHERE userAlarmParameter = #{userAlarmParameter} AND userAlarmEmployeeId = #{userAlarmEmployeeId};
 	</update>
+	
+	<select id="getQaEmployeeId" resultType="string">
+		SELECT employeeId FROM employee WHERE departmentName = 'QA팀';
+	</select>
 	
 	<!-- ==================================================================================== -->
 	

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.IssueRelayService;
 import com.secuve.agentInfo.service.IssueService;
@@ -36,6 +37,7 @@ public class IssueController {
 	@Autowired PDFDownlod pdfDownlod;
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired IssueRelayService issueRelayService;
+	@Autowired EmployeeService employeeService;
 	
 	@GetMapping(value = "/issue/issueList")
 	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
@@ -289,6 +291,12 @@ public class IssueController {
 		} catch (Exception e) {
 			return "NoneDown";
 		}
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/alarmCheck")
+	public String AlarmCheck(Principal principal, int userAlarmParameter) {
+		return issueService.updateUserAlarm(principal.getName(), userAlarmParameter);
 	}
 }
 

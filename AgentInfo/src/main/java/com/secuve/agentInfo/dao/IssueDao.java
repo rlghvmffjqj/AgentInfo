@@ -209,6 +209,10 @@ public class IssueDao {
 		parameters.put("issueSortNum", issueSortNum);
 		return sqlSession.selectOne("issue.getIssueSortNumDown", parameters);
 	}
+
+	public List<Issue> getIssueOneIssueApplyYn(int issueKeyNum) {
+		return sqlSession.selectList("issue.getIssueOneIssueApplyYn", issueKeyNum);
+	}
 }
 
 

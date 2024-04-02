@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -8,12 +10,16 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.IssueRelayDao;
+import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.IssueRelay;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Service
 public class IssueRelayService {
 	@Autowired IssueRelayDao issueRelayDao;
+	@Autowired EmployeeDao employeeDao;
 	
 	public String createKey() {
 	    StringBuffer key = new StringBuffer();
@@ -81,6 +87,23 @@ public class IssueRelayService {
 		if (sucess <= 0)
 			return "FALSE";
 		return "OK";
+	}
+
+	public void insertUseralarm(IssueRelay issueRelayOne, Issue issue) {
+		UserAlarm userAlarm = new UserAlarm();
+		userAlarm.setUserAlarmTitle(issue.getIssueCustomer()+"_"+issue.getIssueTitle()+"_"+issue.getIssueDate());
+		userAlarm.setUserAlarmDate(nowDate());
+		userAlarm.setUserAlarmState("N");
+		userAlarm.setUserAlarmRegistrationDate(nowDate());
+		userAlarm.setUserAlarmURL("/AgentInfo/issue/updateView");
+		userAlarm.setUserAlarmParameter(issue.getIssueKeyNum());
+		
+		List<String> qaList = employeeDao.getQaEmployeeId();
+		for(String qa : qaList) {
+			userAlarm.setUserAlarmEmployeeId(qa);
+			employeeDao.setUserAlarm(userAlarm);
+		}
+		
 	}
 	
 }

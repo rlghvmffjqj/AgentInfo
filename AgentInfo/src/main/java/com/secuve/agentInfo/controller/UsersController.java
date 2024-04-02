@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -164,10 +165,12 @@ public class UsersController {
 	@PostMapping(value = "/users/alarm")
 	public List Alarm(Principal principal) {
 		String role = employeeService.getUsersRole(principal.getName());
+		List list = new ArrayList();
 		if(role.equals("ADMIN")) {
-			return questionAnswerService.getQuestionAnswerAlarm();
+			list = questionAnswerService.getQuestionAnswerAlarm();
 		}
-		return usersService.getUserAlarm(principal.getName());
+		list = usersService.getUserAlarm(principal.getName());
+		return list;
 	}
 	
 	@ResponseBody

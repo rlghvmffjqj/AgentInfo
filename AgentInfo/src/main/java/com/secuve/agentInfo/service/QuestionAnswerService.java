@@ -113,6 +113,7 @@ public class QuestionAnswerService {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
 			UserAlarm userAlarm = new UserAlarm();
+			userAlarm.setUserAlarmEmployeeId(employeeId);
 			userAlarm.setUserAlarmModifier(employeeId);
 			userAlarm.setUserAlarmModifiedDate(formatter.format(now));
 			userAlarm.setUserAlarmParameter(question.getQuestionKeyNum());

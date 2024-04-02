@@ -91,11 +91,19 @@
                         rowItem += "</a>";
                         rowItem += "</li>";
                     } else {
-                        rowItem += "<li class='waves-effect waves-light'>";
-                        rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
-                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
-                        rowItem += "</a>";
-                        rowItem += "</li>";
+                        if(item.userAlarmURL.includes("issue")) {
+                            rowItem += "<li class='waves-effect waves-light'>";
+                            rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                            rowItem += "</a>";
+                            rowItem += "</li>";
+                        } else {
+                            rowItem += "<li class='waves-effect waves-light'>";
+                            rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                            rowItem += "</a>";
+                            rowItem += "</li>";
+                        }
                     }
                 });
                 rowItem += "</ul>";
@@ -198,6 +206,32 @@ function alarmClick(userAlarmURL, keyNum) {
   	document.body.appendChild(form);
   	form.submit();
 }
+
+function issueAlarmClick (userAlarmURL, keyNum) {
+    $.ajax({
+		url: "<c:url value='/issue/alarmCheck'/>",
+	    type: 'post',
+	    data: {
+			"userAlarmParameter": keyNum
+		},
+	    async: false,
+	    success: function(result) {
+			if(result == "OK") {
+                location.href="<c:url value='"+userAlarmURL+"'/>?issueKeyNum="+keyNum;
+            } else {
+                Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '알림 확인 실패하였습니다.',    
+				});
+            }
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	});
+}
+    
 
 function questionClick(keyNum) {
     var form = document.createElement("form");

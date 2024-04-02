@@ -8,13 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.IssueRelayService;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.IssueRelay;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Controller
 public class IssueRelayController {
@@ -28,8 +28,8 @@ public class IssueRelayController {
 		if(issueRelayExis != null) {
 			url = issueRelayExis.getIssueRelayUrl();
 		} else {
-			url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
-			//url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			//url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+			url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
 			issueRelay.setIssueRelayUrl(url);
 			issueRelay.setIssueRelayDate(issueRelayService.nowDate());
 			issueRelayService.insertIssueRelay(issueRelay);
@@ -41,7 +41,7 @@ public class IssueRelayController {
 	@GetMapping(value = "/issueRelay/{issueRelayRandomUrl}")
 	public String IssueRelayView(Model model, @PathVariable String issueRelayRandomUrl) {
 		IssueRelay issueRelay = issueRelayService.getIssueRelayUrlOne(issueRelayRandomUrl);
-		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueRelay.getIssueKeyNum()));
+		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneIssueApplyYn(issueRelay.getIssueKeyNum()));
 		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueRelay.getIssueKeyNum()));
 		Issue issueTitle = issueService.getIssueOneTitle(issueRelay.getIssueKeyNum());
 		
@@ -86,6 +86,8 @@ public class IssueRelayController {
 		issueRelayOne.setIssueRelayDetail(issueRelay.getIssueRelayDetail());
 		issueRelayOne.setIssueRelayType(issueRelay.getIssueRelayType());
 		issueRelayOne.setIssueRelayDate(issueRelayService.nowDate());
+		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
+		issueRelayService.insertUseralarm(issueRelayOne, issue);
 		return issueRelayService.insertIssueRelay(issueRelayOne);
 	}
 	

@@ -15,14 +15,17 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.IssueDao;
 import com.secuve.agentInfo.vo.Issue;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class IssueService {
 	@Autowired IssueDao issueDao;
 	@Autowired IssueHistoryService issueHistoryService;
+	@Autowired EmployeeDao employeeDao;
 	
 	public String nowDate() {
 		Date now = new Date();
@@ -137,7 +140,7 @@ public class IssueService {
 	public String delIssue(int[] chkList) {
 		for (int issueKeyNum : chkList) {
 			int sucess = issueDao.delIssue(issueKeyNum);
-
+			employeeDao.delUserAlarm(issueKeyNum);
 			if (sucess <= 0)
 				return "FALSE";
 			
@@ -215,6 +218,10 @@ public class IssueService {
 	}
 
 	public List<Issue> getIssuePDFOne(int issueKeyNum, String[] chkSelectBox) {
+		if(chkSelectBox == null) {
+			List<Issue> issueList = new ArrayList<Issue>();
+			return issueList;
+		}
 		return issueDao.getIssuePDFOne(issueKeyNum, chkSelectBox);
 	}
 
@@ -264,5 +271,23 @@ public class IssueService {
 		}
 		return "FALSE";
 	}
+
+	public List<Issue> getIssueOneIssueApplyYn(int issueKeyNum) {
+		return issueDao.getIssueOneIssueApplyYn(issueKeyNum);
+	}
+
+	public String  updateUserAlarm(String employeeId, int userAlarmParameter) {
+		UserAlarm userAlarm = new UserAlarm();
+		userAlarm.setUserAlarmEmployeeId(employeeId);
+		userAlarm.setUserAlarmModifier(employeeId);
+		userAlarm.setUserAlarmModifiedDate(nowDate());
+		userAlarm.setUserAlarmParameter(userAlarmParameter);
+		int resault = employeeDao.updateUserAlarm(userAlarm);
+		if(resault >= 1) {
+			return "OK";
+		}
+		return "FALSE";
+	}
+
 
 }

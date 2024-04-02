@@ -62,7 +62,7 @@
 				margin-right: 10px;
 			}
 			.searchbos {
-				background: #f5f5f5;
+				background: #7bb2a417;
 				border: 1px solid #ddd;
 				border-top: 1px solid #0A8FFF;
 				padding: 10px;
@@ -151,7 +151,7 @@
 		<div class="title">
 			<h1>${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</h1>
 		</div>
-		<div style="background: #FFFFFF;">
+		<div style="background: #FFFFFF; padding-top: 20px;">
 		    <div>
 		    	<div style='text-align:right;'>
 			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
@@ -258,13 +258,13 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-					 						<div class="obstacleText">${list.issueObstacle}</div>
+					 						<div class="obstacleText" style="min-height: 150px;">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
 					 				<tr>
 										<td class="alignCenter">비고</td>
 					 					<td colspan='3'>
-					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" readonly>${list.issueNote}</textarea>
+					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" style="min-height: 70px; height: auto; overflow: hidden;" readonly>${list.issueNote}</textarea>
 					 					</td>
 					 				</tr>
 					 			</tbody>
@@ -301,6 +301,16 @@
 		</div>
 	</body>
 	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+       		autoResize();
+    	});
+
+    	function autoResize() {
+    	    const textarea = document.getElementById("issueNoteList");
+    	    textarea.style.height = "auto"; // 높이를 자동으로 조정하도록 설정
+    	    textarea.style.height = textarea.scrollHeight + "px"; // 스크롤 높이로 설정
+    	}
+
 		function btnRelay(issuePrimaryKeyNum, issueKeyNum) {
 	  		$.ajax({
 			    type: 'POST',
@@ -394,7 +404,8 @@
 	</script>
 	<style>
 		body {
-			background-color: #7BB2A4 !important;
+			background-color: #95C1B6 !important;
+			background-image: none;
 		}
 
 		img {
