@@ -230,7 +230,7 @@ public class IssueService {
 	}
 
 	public int issuePlus(Issue issue) {
-		issueDao.issuePlus(issue);
+		issueDao.insertIssuePlus(issue);
 		issueDao.totalPlus(issue.getIssueKeyNum());
 		issueDao.unresolvedPlus(issue.getIssueKeyNum());
 		return issue.getIssuePrimaryKeyNum();
@@ -287,6 +287,11 @@ public class IssueService {
 			return "OK";
 		}
 		return "FALSE";
+	}
+
+	public void issueSortNumPlus(int issueSortNum) {
+		issueDao.issueSortNumPlus(issueSortNum);
+		
 	}
 
 

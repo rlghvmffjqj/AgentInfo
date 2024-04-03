@@ -84,13 +84,17 @@
 		SELECT issuePrimaryKeyNum FROM issue WHERE issueKeyNum = ${issueKeyNum};
 	</select>
 	
-	<insert id="issuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
+	<insert id="insertIssuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
 		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueRegistrant, issueRegistrationDate) 
-		VALUES(${issueKeyNum}, NEXTVAL(seq_issueSortNum), #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, #{issueRegistrant}, #{issueRegistrationDate});
+		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, #{issueRegistrant}, #{issueRegistrationDate});
 	</insert>
 	
 	<update id="totalPlus">
 		UPDATE issue SET total = total + 1 WHERE issueKeyNum = ${issueKeyNum};
+	</update>
+	
+	<update id="issueSortNumPlus">
+		UPDATE issue SET issueSortNum = issueSortNum + 1 WHERE issueSortNum &gt; ${issueSortNum};
 	</update>
 	
 	<update id="unresolvedPlus">

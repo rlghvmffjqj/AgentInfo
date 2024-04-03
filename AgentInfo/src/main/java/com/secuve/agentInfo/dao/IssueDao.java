@@ -117,8 +117,8 @@ public class IssueDao {
 		return sqlSession.selectList("issue.getIssuePrimaryKeyNumList", issueKeyNum);
 	}
 
-	public void issuePlus(Issue issue) {
-		sqlSession.insert("issue.issuePlus", issue);
+	public void insertIssuePlus(Issue issue) {
+		sqlSession.insert("issue.insertIssuePlus", issue);
 	}
 
 	public void totalPlus(int issueKeyNum) {
@@ -212,6 +212,10 @@ public class IssueDao {
 
 	public List<Issue> getIssueOneIssueApplyYn(int issueKeyNum) {
 		return sqlSession.selectList("issue.getIssueOneIssueApplyYn", issueKeyNum);
+	}
+
+	public void issueSortNumPlus(int issueSortNum) {
+		sqlSession.update("issue.issueSortNumPlus", issueSortNum);
 	}
 }
 

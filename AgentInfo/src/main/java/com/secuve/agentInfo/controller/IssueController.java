@@ -258,7 +258,10 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue/issuePlus")
 	public int IssuePlus(Principal principal, Issue issue) {
+		Issue issueOne = issueService.getIssuePrimaryOne(issue.getIssuePrimaryKeyNum());
+		issueService.issueSortNumPlus(issueOne.getIssueSortNum());
 		issue = issueService.getIssueKeyNumOne(issue.getIssueKeyNum());
+		issue.setIssueSortNum(issueOne.getIssueSortNum()+1);
 		issue.setIssueRegistrant(principal.getName());
 		issue.setIssueRegistrationDate(issueService.nowDate());
 		return issueService.issuePlus(issue);

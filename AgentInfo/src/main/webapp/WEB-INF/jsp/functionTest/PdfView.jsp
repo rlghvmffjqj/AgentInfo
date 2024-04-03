@@ -119,18 +119,32 @@
 		$(document).ready(function() {
 			// obstacleText 요소 선택
 			var $obstacleText1 = $('.obstacleText1');
+			var $obstacleText2 = $('.obstacleText2');
+			var $obstacleText3 = $('.obstacleText3');
 
 			// 원하는 높이 (예: 300px) 설정
 			var desiredHeight = 800;
 
 			// obstacleText 요소의 높이 가져오기
 			var obstacleTextHeight1 = $obstacleText1.height();
+			var obstacleTextHeight2 = $obstacleText2.height();
+			var obstacleTextHeight3 = $obstacleText3.height();
 
 			// 300px 위치에 pageBreak 요소를 삽입
 			if (obstacleTextHeight1 >= desiredHeight) {
 			  // <p> 태그 아래에 pageBreak 요소를 삽입
 			  var $paragraphs1 = $obstacleText1.find('p');
 			  $paragraphs1.first().before("<div class='pageBreak'></div>");
+			}
+			if (obstacleTextHeight2 >= desiredHeight) {
+			  // <p> 태그 아래에 pageBreak 요소를 삽입
+			  var $paragraphs2 = $obstacleText2.find('p');
+			  $paragraphs2.first().before("<div class='pageBreak'></div>");
+			}
+			if (obstacleTextHeight3 >= desiredHeight) {
+			  // <p> 태그 아래에 pageBreak 요소를 삽입
+			  var $paragraphs3 = $obstacleText3.find('p');
+			  $paragraphs3.first().before("<div class='pageBreak'></div>");
 			}
 
 			// ================
