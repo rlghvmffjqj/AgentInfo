@@ -195,10 +195,12 @@
 			    <div style="background: white; width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
-				    		<li>${list.issueDivision}
-				    			<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
-				    				-
-								</c:forEach>
+				    		<li><a onClick="moveScroll('${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
+									${list.issueDivision}
+				    				<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
+				    					-
+									</c:forEach>
+								</a>
 							</li>
 				    	</c:forEach>
 				    </ol>
@@ -208,7 +210,7 @@
 			   
 			    <% int num = 1; %>
 			    <c:forEach var="list" items="${issue}">
-					<div class="searchbos">
+					<div class="searchbos" data-keynum="${list.issuePrimaryKeyNum}">
 				    	<div class="issue">
 							<div style="margin-bottom: 5px;">
 								<span style="float:left; margin-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}" readonly></div>
@@ -301,6 +303,13 @@
 		</div>
 	</body>
 	<script>
+		function moveScroll(keyNum) {
+		    var target = document.querySelector('.searchbos[data-keynum="' + keyNum + '"]');
+		    if (target) {
+		        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		    }
+		}
+
 		document.addEventListener("DOMContentLoaded", function() {
        		autoResize();
     	});

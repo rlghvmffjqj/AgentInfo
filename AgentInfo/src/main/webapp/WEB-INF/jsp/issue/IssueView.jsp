@@ -592,7 +592,7 @@
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
-			var issuePrimaryKeyNum;
+			var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
 			if("${viewType}" == "update") {
 				var issueKeyNum = $('#issueKeyNum').val();
 
@@ -600,7 +600,8 @@
 				    type: 'POST',
 				    url: "<c:url value='/issue/issuePlus'/>",
 					data: {
-						"issueKeyNum": issueKeyNum
+						"issueKeyNum": issueKeyNum,
+						"issuePrimaryKeyNum": issuePrimaryKeyNum
 					},
 				    async: false,
 				    success: function (result) {
