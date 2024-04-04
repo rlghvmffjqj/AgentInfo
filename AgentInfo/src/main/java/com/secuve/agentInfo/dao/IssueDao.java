@@ -217,6 +217,10 @@ public class IssueDao {
 	public void issueSortNumPlus(int issueSortNum) {
 		sqlSession.update("issue.issueSortNumPlus", issueSortNum);
 	}
+
+	public void updateIssueAnswerStatus(Issue issue) {
+		sqlSession.update("issue.updateIssueAnswerStatus", issue);
+	}
 }
 
 

@@ -85,7 +85,7 @@ public class IssueController {
 		model.addAttribute("issue",issueList);
 		model.addAttribute("issueTitle", issue);
 		model.addAttribute("viewType", "insert");
-		model.addAttribute("issueWriter", principal.getName());
+		model.addAttribute("issueWriter", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		return "issue/IssueView";
 	}
 	
@@ -133,7 +133,7 @@ public class IssueController {
 		model.addAttribute("viewType", "update");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
-		model.addAttribute("issueWriter", principal.getName());
+		model.addAttribute("issueWriter", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		model.addAttribute("issueRelayList", issueRelayList);
 		return "issue/IssueView";
 	}
@@ -264,7 +264,8 @@ public class IssueController {
 		issue.setIssueSortNum(issueOne.getIssueSortNum()+1);
 		issue.setIssueRegistrant(principal.getName());
 		issue.setIssueRegistrationDate(issueService.nowDate());
-		return issueService.issuePlus(issue);
+		issue.setIssueWriter(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
+		return issueService.insertIssuePlus(issue);
 	}
 	
 	@ResponseBody

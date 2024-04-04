@@ -28,8 +28,8 @@
 	</select>
 	
 	<insert id="insertIssue">
-		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -85,8 +85,8 @@
 	</select>
 	
 	<insert id="insertIssuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
-		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueRegistrant, issueRegistrationDate) 
-		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, #{issueRegistrant}, #{issueRegistrationDate});
+		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueAnswerStatus, issueWriter, issueRegistrant, issueRegistrationDate) 
+		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
 	</insert>
 	
 	<update id="totalPlus">
@@ -110,7 +110,7 @@
 	</delete>
 	
 	<update id="updateIssue">
-		UPDATE issue SET issueCustomer=#{issueCustomer}, issueTitle=#{issueTitle}, issueDate=#{issueDate}, issueTosms=#{issueTosms}, issueTosrf=#{issueTosrf}, issuePortal=#{issuePortal}, issueJava=#{issueJava}, issueWas=#{issueWas}, total=#{total}, solution=#{solution}, unresolved=#{unresolved}, hold=#{hold}, issueDivision=#{issueDivision}, issueOs=#{issueOs}, issueWriter=#{issueWriter}, issueAward=#{issueAward}, issueMiddle=#{issueMiddle}, issueUnder1=#{issueUnder1}, issueUnder2=#{issueUnder2}, issueUnder3=#{issueUnder3}, issueUnder4=#{issueUnder4}, issueFlawNum=#{issueFlawNum}, issueEffect=#{issueEffect}, issueTextResult=#{issueTextResult}, issueApplyYn=#{issueApplyYn}, issueConfirm=#{issueConfirm}, issueObstacle=#{issueObstacle}, issueNote=#{issueNote}, issueModifier=#{issueModifier}, issueModifiedDate=#{issueModifiedDate}
+		UPDATE issue SET issueCustomer=#{issueCustomer}, issueTitle=#{issueTitle}, issueDate=#{issueDate}, issueTosms=#{issueTosms}, issueTosrf=#{issueTosrf}, issuePortal=#{issuePortal}, issueJava=#{issueJava}, issueWas=#{issueWas}, total=#{total}, solution=#{solution}, unresolved=#{unresolved}, hold=#{hold}, issueDivision=#{issueDivision}, issueOs=#{issueOs}, issueAward=#{issueAward}, issueMiddle=#{issueMiddle}, issueUnder1=#{issueUnder1}, issueUnder2=#{issueUnder2}, issueUnder3=#{issueUnder3}, issueUnder4=#{issueUnder4}, issueFlawNum=#{issueFlawNum}, issueEffect=#{issueEffect}, issueTextResult=#{issueTextResult}, issueApplyYn=#{issueApplyYn}, issueConfirm=#{issueConfirm}, issueObstacle=#{issueObstacle}, issueNote=#{issueNote}, issueModifier=#{issueModifier}, issueModifiedDate=#{issueModifiedDate}
 		WHERE issuePrimaryKeyNum=${issuePrimaryKeyNum};  
 	</update>
 	
@@ -137,6 +137,11 @@
 		ORDER BY issueSortNum
 		LIMIT 1;
 	</select>
+	
+	<update id="updateIssueAnswerStatus">
+		UPDATE issue SET issueAnswerStatus = #{issueAnswerStatus} WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIssue">

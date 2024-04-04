@@ -92,8 +92,14 @@ public class IssueRelayController {
 		issueRelayOne.setIssueRelayType(issueRelay.getIssueRelayType());
 		issueRelayOne.setIssueRelayDate(issueRelayService.nowDate());
 		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
-		if(issueRelay.getIssueRelayType().equals("개발"))
+		if(issueRelay.getIssueRelayType().equals("개발")) {
 			issueRelayService.insertUseralarm(issue);
+			issue.setIssueAnswerStatus("complete");
+			issueService.updateIssueAnswerStatus(issue);
+		} else {
+			issue.setIssueAnswerStatus("reRequest");
+			issueService.updateIssueAnswerStatus(issue);
+		}
 		return issueRelayService.insertIssueRelay(issueRelayOne);
 	}
 	
@@ -109,8 +115,8 @@ public class IssueRelayController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issueRelay/delete")
-	public String IssueRelayDelete(int issueRelayKeyNum) {
-		return issueRelayService.delIssueRelay(issueRelayKeyNum);
+	public String IssueRelayDelete(int issueRelayKeyNum, int issuePrimaryKeyNum) {
+		return issueRelayService.delIssueRelay(issueRelayKeyNum, issuePrimaryKeyNum);
 	}
 	
 }

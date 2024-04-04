@@ -57,6 +57,6 @@
 	}
 	
 	function sessionExpiration() {
-		location.href="<c:url value='/logout' />";
+		location.href="<c:url value='/users/logout' />";
 	}
 </script>

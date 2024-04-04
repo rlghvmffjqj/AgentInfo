@@ -43,5 +43,9 @@ public class IssueRelayDao {
 	public int getFinedNumUp(int issuePrimaryKeyNum) {
 		return sqlSession.selectOne("issueRelay.getFinedNumUp", issuePrimaryKeyNum);
 	}
+
+	public List<IssueRelay> getIssueRelayIssuePrimaryKeyNumList(int issuePrimaryKeyNum) {
+		return sqlSession.selectList("issueRelay.getIssueRelayIssuePrimaryKeyNumList", issuePrimaryKeyNum);
+	}
 	
 }

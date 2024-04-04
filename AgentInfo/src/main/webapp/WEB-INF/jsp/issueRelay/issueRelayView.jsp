@@ -102,6 +102,8 @@
 			
 			.titleInput {
 				width: 95%;
+				background: white !important;
+				border: solid 0.1px #00893d94;
 			}
 			
 			p {
@@ -195,11 +197,20 @@
 			    <div style="background: white; width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
-				    		<li><a onClick="moveScroll('${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
-									${list.issueDivision}
-				    				<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
-				    					-
-									</c:forEach>
+				    		<li>
+								<a onClick="moveScroll('${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
+									<span style="float: left;">
+										${list.issueDivision}
+				    					<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
+				    						-
+										</c:forEach>
+									</span>
+									<c:if test="${list.issueAnswerStatus eq 'atmosphere'}">
+										<span class="txt anim-text-flow" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
+									</c:if>
+									<c:if test="${list.issueAnswerStatus eq 'reRequest'}">
+										<span class="txt anim-text-flow" style="width: 100px; float: left; margin-left: 1%;">답변 재요청</span>
+									</c:if>
 								</a>
 							</li>
 				    	</c:forEach>
@@ -213,60 +224,60 @@
 					<div class="searchbos" data-keynum="${list.issuePrimaryKeyNum}">
 				    	<div class="issue">
 							<div style="margin-bottom: 5px;">
-								<span style="float:left; margin-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}" readonly></div>
+								<span style="float:left; margin-right:3px;"><%= num %>.</span><div style='text-align:left; float:left'><input class="form-control noneForm" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" value="${list.issueDivision}" readonly></div>
 							</div>
 					   		<table style="width:100%">
 					   			<tbody>
 					   				<tr>
 					   					<td class="alignCenter">OS</td>
-					   					<td><input class="form-control" type="text" id="issueOsList" name="issueOsList" value="${list.issueOs}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueOsList" name="issueOsList" value="${list.issueOs}" readonly></td>
 					   					<td class="alignCenter"></td>
 					   					<td></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">대항목</td>
-					   					<td><input class="form-control" type="text" id="issueAwardList" name="issueAwardList" value="${list.issueAward}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueAwardList" name="issueAwardList" value="${list.issueAward}" readonly></td>
 					   					<td class="alignCenter">중학목</td>
-					   					<td><input class="form-control" type="text" id="issueMiddleList" name="issueMiddleList" value="${list.issueMiddle}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueMiddleList" name="issueMiddleList" value="${list.issueMiddle}" readonly></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">소항목1</td>
-					   					<td><input class="form-control" type="text" id="issueUnder1List" name="issueUnder1List" value="${list.issueUnder1}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueUnder1List" name="issueUnder1List" value="${list.issueUnder1}" readonly></td>
 					   					<td class="alignCenter">소항목2</td>
-					   					<td><input class="form-control" type="text" id="issueUnder2List" name="issueUnder2List" value="${list.issueUnder2}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueUnder2List" name="issueUnder2List" value="${list.issueUnder2}" readonly></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">소항목3</td>
-					   					<td><input class="form-control" type="text" id="issueUnder3List" name="issueUnder3List" value="${list.issueUnder3}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueUnder3List" name="issueUnder3List" value="${list.issueUnder3}" readonly></td>
 					   					<td class="alignCenter">소항목4</td>
-										<td><input class="form-control" type="text" id="issueUnder4List" name="issueUnder4List" value="${list.issueUnder4}" readonly></td>
+										<td><input class="form-control noneForm" type="text" id="issueUnder4List" name="issueUnder4List" value="${list.issueUnder4}" readonly></td>
 					   				</tr>
 					   				<tr>
 					   					<td class="alignCenter">결함번호</td>
-					   					<td><input class="form-control" type="text" id="issueFlawNumList" name="issueFlawNumList" value="${list.issueFlawNum}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueFlawNumList" name="issueFlawNumList" value="${list.issueFlawNum}" readonly></td>
 					   					<td class="alignCenter">영향도</td>
-					   					<td><input class="form-control" type="text" id="issueEffectList" name="issueEffectList" value="${list.issueEffect}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueEffectList" name="issueEffectList" value="${list.issueEffect}" readonly></td>
 									</tr>
 									<tr>
 										<td class="alignCenter">테스트 결과</td>
-										<td><input class="form-control" type="text" id="issueTextResultList" name="issueTextResultList" value="${list.issueTextResult}" readonly></td>
+										<td><input class="form-control noneForm" type="text" id="issueTextResultList" name="issueTextResultList" value="${list.issueTextResult}" readonly></td>
 					   					<td class="alignCenter">적용여부</td>
-					   					<td><input class="form-control" type="text" id="issueApplyYnList" name="issueApplyYnList" value="${list.issueApplyYn}" readonly></td>
+					   					<td><input class="form-control noneForm" type="text" id="issueApplyYnList" name="issueApplyYnList" value="${list.issueApplyYn}" readonly></td>
 					 				</tr>
 					 				<tr>
 										<td class="alignCenter">확인내용</td>
-					 					<td colspan='3'><input class="form-control" type="text" id="issueConfirmList" name="issueConfirmList" value="${list.issueConfirm}" readonly></td>
+					 					<td colspan='3'><input class="form-control noneForm" type="text" id="issueConfirmList" name="issueConfirmList" value="${list.issueConfirm}" readonly></td>
 					 				</tr>
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-					 						<div class="obstacleText" style="min-height: 150px;">${list.issueObstacle}</div>
+					 						<div class="obstacleText" style="min-height: 150px; white-space: break-spaces;">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
 					 				<tr>
 										<td class="alignCenter">비고</td>
 					 					<td colspan='3'>
-					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" style="min-height: 70px; height: auto; overflow: hidden;" readonly>${list.issueNote}</textarea>
+					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" style="min-height: 70px; height: auto; overflow: hidden; width: 100vm !important; background: white;" readonly>${list.issueNote}</textarea>
 					 					</td>
 					 				</tr>
 					 			</tbody>
@@ -283,7 +294,7 @@
 												<span>${issueRelay.issueRelayDate}</span>
 												<c:if test="${issueRelay.issueRelayType eq '개발'}">
 													<button class="btn btn-outline-info-nomal myBtn" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
-													<button class="btn btn-outline-info-del myBtn" onClick="btnDelete('${issueRelay.issueRelayKeyNum}')">삭제</button>
+													<button class="btn btn-outline-info-del myBtn" onClick="btnDelete('${issueRelay.issueRelayKeyNum}','${list.issuePrimaryKeyNum}')">삭제</button>
 												</c:if>
 											</td>
 										</tr>
@@ -301,6 +312,7 @@
 			 	</c:forEach>
 			</div>
 		</div>
+		<button class="scrollToTop" onclick="scrollToTop();">맨 위로</button>
 	</body>
 	<script>
 		function moveScroll(keyNum) {
@@ -360,7 +372,7 @@
 			});
 		}
 
-		function btnDelete(issueRelayKeyNum) {
+		function btnDelete(issueRelayKeyNum, issuePrimaryKeyNum) {
 			Swal.fire({
 				  title: '삭제!',
 				  text: "답글을 삭제하시겠습니까?",
@@ -374,7 +386,10 @@
 				  $.ajax({
 					url: "<c:url value='/issueRelay/delete'/>",
 					type: "POST",
-					data: {"issueRelayKeyNum": issueRelayKeyNum},
+					data: {
+						"issueRelayKeyNum": issueRelayKeyNum,
+						"issuePrimaryKeyNum": issuePrimaryKeyNum
+					},
 					dataType: "text",
 					traditional: true,
 					async: false,
@@ -410,8 +425,29 @@
 			})
 			
 		}
+
+		$('.txt').html(function(i, html) {
+		  var chars = $.trim(html).split("");
+
+		  return '<span>' + chars.join('</span><span>') + '</span>';
+		});
+		
+		function scrollToTop() {
+    	    window.scrollTo(0, 0);
+    	}
 	</script>
 	<style>
+		.scrollToTop {
+    	    position: fixed;
+    	    bottom: 1%;
+    	    right: 1%;
+    	    padding: 10px;
+    	    background-color: #83c597;
+    	    color: #fff;
+    	    border: none;
+    	    cursor: pointer;
+    	}
+
 		body {
 			background-color: #95C1B6 !important;
 			background-image: none;
@@ -420,6 +456,8 @@
 		p {
 			font-size: 16px;
 			padding: 0.2%;
+			overflow-wrap: break-word;
+			max-width: 100vw !important;
 		}
 
 		input {
@@ -441,6 +479,11 @@
 			margin-bottom: 5px;
 		}
 
+		.noneForm {
+			background: none !important;
+			border: none !important;
+		}
+
 		@media (min-width: 1024px) and (max-width: 2000px) {
 			img {
 				max-width: 70% !important;
@@ -458,6 +501,664 @@
 			#relayTitle {
 				font-size: 30px;
 			}
+		}
+
+		@import url(https://fonts.googleapis.com/css?family=Ubuntu:300);
+
+		.anim-text-flow span,
+		.anim-text-flow-hover:hover span {
+		  -webkit-animation-name: anim-text-flow-keys;
+		          animation-name: anim-text-flow-keys;
+		  -webkit-animation-duration: 40s;
+		          animation-duration: 40s;
+		  -webkit-animation-iteration-count: infinite;
+		          animation-iteration-count: infinite;
+		  -webkit-animation-direction: alternate;
+		          animation-direction: alternate;
+		  -webkit-animation-fill-mode: forwards;
+		          animation-fill-mode: forwards;
+		}
+		@-webkit-keyframes anim-text-flow-keys {
+		  0% {
+		    color: #d6765c;
+		  }
+		  5% {
+		    color: #5cd65e;
+		  }
+		  10% {
+		    color: #b45cd6;
+		  }
+		  15% {
+		    color: #5cd66c;
+		  }
+		  20% {
+		    color: #d6625c;
+		  }
+		  25% {
+		    color: #89d65c;
+		  }
+		  30% {
+		    color: #5cd699;
+		  }
+		  35% {
+		    color: #d68f5c;
+		  }
+		  40% {
+		    color: #93d65c;
+		  }
+		  45% {
+		    color: #74d65c;
+		  }
+		  50% {
+		    color: #5cd6b1;
+		  }
+		  55% {
+		    color: #d6835c;
+		  }
+		  60% {
+		    color: #5cd6ba;
+		  }
+		  65% {
+		    color: #d6835c;
+		  }
+		  70% {
+		    color: #7c5cd6;
+		  }
+		  75% {
+		    color: #995cd6;
+		  }
+		  80% {
+		    color: #5cd666;
+		  }
+		  85% {
+		    color: #d2d65c;
+		  }
+		  90% {
+		    color: #d6685c;
+		  }
+		  95% {
+		    color: #5cd6af;
+		  }
+		  100% {
+		    color: #5c93d6;
+		  }
+		}
+		@keyframes anim-text-flow-keys {
+		  0% {
+		    color: #d6765c;
+		  }
+		  5% {
+		    color: #5cd65e;
+		  }
+		  10% {
+		    color: #b45cd6;
+		  }
+		  15% {
+		    color: #5cd66c;
+		  }
+		  20% {
+		    color: #d6625c;
+		  }
+		  25% {
+		    color: #89d65c;
+		  }
+		  30% {
+		    color: #5cd699;
+		  }
+		  35% {
+		    color: #d68f5c;
+		  }
+		  40% {
+		    color: #93d65c;
+		  }
+		  45% {
+		    color: #74d65c;
+		  }
+		  50% {
+		    color: #5cd6b1;
+		  }
+		  55% {
+		    color: #d6835c;
+		  }
+		  60% {
+		    color: #5cd6ba;
+		  }
+		  65% {
+		    color: #d6835c;
+		  }
+		  70% {
+		    color: #7c5cd6;
+		  }
+		  75% {
+		    color: #995cd6;
+		  }
+		  80% {
+		    color: #5cd666;
+		  }
+		  85% {
+		    color: #d2d65c;
+		  }
+		  90% {
+		    color: #d6685c;
+		  }
+		  95% {
+		    color: #5cd6af;
+		  }
+		  100% {
+		    color: #5c93d6;
+		  }
+		}
+		.anim-text-flow span:nth-of-type(1),
+		.anim-text-flow-hover:hover span:nth-of-type(1) {
+		  -webkit-animation-delay: -19.8s;
+		          animation-delay: -19.8s;
+		}
+		.anim-text-flow span:nth-of-type(2),
+		.anim-text-flow-hover:hover span:nth-of-type(2) {
+		  -webkit-animation-delay: -19.6s;
+		          animation-delay: -19.6s;
+		}
+		.anim-text-flow span:nth-of-type(3),
+		.anim-text-flow-hover:hover span:nth-of-type(3) {
+		  -webkit-animation-delay: -19.4s;
+		          animation-delay: -19.4s;
+		}
+		.anim-text-flow span:nth-of-type(4),
+		.anim-text-flow-hover:hover span:nth-of-type(4) {
+		  -webkit-animation-delay: -19.2s;
+		          animation-delay: -19.2s;
+		}
+		.anim-text-flow span:nth-of-type(5),
+		.anim-text-flow-hover:hover span:nth-of-type(5) {
+		  -webkit-animation-delay: -19s;
+		          animation-delay: -19s;
+		}
+		.anim-text-flow span:nth-of-type(6),
+		.anim-text-flow-hover:hover span:nth-of-type(6) {
+		  -webkit-animation-delay: -18.8s;
+		          animation-delay: -18.8s;
+		}
+		.anim-text-flow span:nth-of-type(7),
+		.anim-text-flow-hover:hover span:nth-of-type(7) {
+		  -webkit-animation-delay: -18.6s;
+		          animation-delay: -18.6s;
+		}
+		.anim-text-flow span:nth-of-type(8),
+		.anim-text-flow-hover:hover span:nth-of-type(8) {
+		  -webkit-animation-delay: -18.4s;
+		          animation-delay: -18.4s;
+		}
+		.anim-text-flow span:nth-of-type(9),
+		.anim-text-flow-hover:hover span:nth-of-type(9) {
+		  -webkit-animation-delay: -18.2s;
+		          animation-delay: -18.2s;
+		}
+		.anim-text-flow span:nth-of-type(10),
+		.anim-text-flow-hover:hover span:nth-of-type(10) {
+		  -webkit-animation-delay: -18s;
+		          animation-delay: -18s;
+		}
+		.anim-text-flow span:nth-of-type(11),
+		.anim-text-flow-hover:hover span:nth-of-type(11) {
+		  -webkit-animation-delay: -17.8s;
+		          animation-delay: -17.8s;
+		}
+		.anim-text-flow span:nth-of-type(12),
+		.anim-text-flow-hover:hover span:nth-of-type(12) {
+		  -webkit-animation-delay: -17.6s;
+		          animation-delay: -17.6s;
+		}
+		.anim-text-flow span:nth-of-type(13),
+		.anim-text-flow-hover:hover span:nth-of-type(13) {
+		  -webkit-animation-delay: -17.4s;
+		          animation-delay: -17.4s;
+		}
+		.anim-text-flow span:nth-of-type(14),
+		.anim-text-flow-hover:hover span:nth-of-type(14) {
+		  -webkit-animation-delay: -17.2s;
+		          animation-delay: -17.2s;
+		}
+		.anim-text-flow span:nth-of-type(15),
+		.anim-text-flow-hover:hover span:nth-of-type(15) {
+		  -webkit-animation-delay: -17s;
+		          animation-delay: -17s;
+		}
+		.anim-text-flow span:nth-of-type(16),
+		.anim-text-flow-hover:hover span:nth-of-type(16) {
+		  -webkit-animation-delay: -16.8s;
+		          animation-delay: -16.8s;
+		}
+		.anim-text-flow span:nth-of-type(17),
+		.anim-text-flow-hover:hover span:nth-of-type(17) {
+		  -webkit-animation-delay: -16.6s;
+		          animation-delay: -16.6s;
+		}
+		.anim-text-flow span:nth-of-type(18),
+		.anim-text-flow-hover:hover span:nth-of-type(18) {
+		  -webkit-animation-delay: -16.4s;
+		          animation-delay: -16.4s;
+		}
+		.anim-text-flow span:nth-of-type(19),
+		.anim-text-flow-hover:hover span:nth-of-type(19) {
+		  -webkit-animation-delay: -16.2s;
+		          animation-delay: -16.2s;
+		}
+		.anim-text-flow span:nth-of-type(20),
+		.anim-text-flow-hover:hover span:nth-of-type(20) {
+		  -webkit-animation-delay: -16s;
+		          animation-delay: -16s;
+		}
+		.anim-text-flow span:nth-of-type(21),
+		.anim-text-flow-hover:hover span:nth-of-type(21) {
+		  -webkit-animation-delay: -15.8s;
+		          animation-delay: -15.8s;
+		}
+		.anim-text-flow span:nth-of-type(22),
+		.anim-text-flow-hover:hover span:nth-of-type(22) {
+		  -webkit-animation-delay: -15.6s;
+		          animation-delay: -15.6s;
+		}
+		.anim-text-flow span:nth-of-type(23),
+		.anim-text-flow-hover:hover span:nth-of-type(23) {
+		  -webkit-animation-delay: -15.4s;
+		          animation-delay: -15.4s;
+		}
+		.anim-text-flow span:nth-of-type(24),
+		.anim-text-flow-hover:hover span:nth-of-type(24) {
+		  -webkit-animation-delay: -15.2s;
+		          animation-delay: -15.2s;
+		}
+		.anim-text-flow span:nth-of-type(25),
+		.anim-text-flow-hover:hover span:nth-of-type(25) {
+		  -webkit-animation-delay: -15s;
+		          animation-delay: -15s;
+		}
+		.anim-text-flow span:nth-of-type(26),
+		.anim-text-flow-hover:hover span:nth-of-type(26) {
+		  -webkit-animation-delay: -14.8s;
+		          animation-delay: -14.8s;
+		}
+		.anim-text-flow span:nth-of-type(27),
+		.anim-text-flow-hover:hover span:nth-of-type(27) {
+		  -webkit-animation-delay: -14.6s;
+		          animation-delay: -14.6s;
+		}
+		.anim-text-flow span:nth-of-type(28),
+		.anim-text-flow-hover:hover span:nth-of-type(28) {
+		  -webkit-animation-delay: -14.4s;
+		          animation-delay: -14.4s;
+		}
+		.anim-text-flow span:nth-of-type(29),
+		.anim-text-flow-hover:hover span:nth-of-type(29) {
+		  -webkit-animation-delay: -14.2s;
+		          animation-delay: -14.2s;
+		}
+		.anim-text-flow span:nth-of-type(30),
+		.anim-text-flow-hover:hover span:nth-of-type(30) {
+		  -webkit-animation-delay: -14s;
+		          animation-delay: -14s;
+		}
+		.anim-text-flow span:nth-of-type(31),
+		.anim-text-flow-hover:hover span:nth-of-type(31) {
+		  -webkit-animation-delay: -13.8s;
+		          animation-delay: -13.8s;
+		}
+		.anim-text-flow span:nth-of-type(32),
+		.anim-text-flow-hover:hover span:nth-of-type(32) {
+		  -webkit-animation-delay: -13.6s;
+		          animation-delay: -13.6s;
+		}
+		.anim-text-flow span:nth-of-type(33),
+		.anim-text-flow-hover:hover span:nth-of-type(33) {
+		  -webkit-animation-delay: -13.4s;
+		          animation-delay: -13.4s;
+		}
+		.anim-text-flow span:nth-of-type(34),
+		.anim-text-flow-hover:hover span:nth-of-type(34) {
+		  -webkit-animation-delay: -13.2s;
+		          animation-delay: -13.2s;
+		}
+		.anim-text-flow span:nth-of-type(35),
+		.anim-text-flow-hover:hover span:nth-of-type(35) {
+		  -webkit-animation-delay: -13s;
+		          animation-delay: -13s;
+		}
+		.anim-text-flow span:nth-of-type(36),
+		.anim-text-flow-hover:hover span:nth-of-type(36) {
+		  -webkit-animation-delay: -12.8s;
+		          animation-delay: -12.8s;
+		}
+		.anim-text-flow span:nth-of-type(37),
+		.anim-text-flow-hover:hover span:nth-of-type(37) {
+		  -webkit-animation-delay: -12.6s;
+		          animation-delay: -12.6s;
+		}
+		.anim-text-flow span:nth-of-type(38),
+		.anim-text-flow-hover:hover span:nth-of-type(38) {
+		  -webkit-animation-delay: -12.4s;
+		          animation-delay: -12.4s;
+		}
+		.anim-text-flow span:nth-of-type(39),
+		.anim-text-flow-hover:hover span:nth-of-type(39) {
+		  -webkit-animation-delay: -12.2s;
+		          animation-delay: -12.2s;
+		}
+		.anim-text-flow span:nth-of-type(40),
+		.anim-text-flow-hover:hover span:nth-of-type(40) {
+		  -webkit-animation-delay: -12s;
+		          animation-delay: -12s;
+		}
+		.anim-text-flow span:nth-of-type(41),
+		.anim-text-flow-hover:hover span:nth-of-type(41) {
+		  -webkit-animation-delay: -11.8s;
+		          animation-delay: -11.8s;
+		}
+		.anim-text-flow span:nth-of-type(42),
+		.anim-text-flow-hover:hover span:nth-of-type(42) {
+		  -webkit-animation-delay: -11.6s;
+		          animation-delay: -11.6s;
+		}
+		.anim-text-flow span:nth-of-type(43),
+		.anim-text-flow-hover:hover span:nth-of-type(43) {
+		  -webkit-animation-delay: -11.4s;
+		          animation-delay: -11.4s;
+		}
+		.anim-text-flow span:nth-of-type(44),
+		.anim-text-flow-hover:hover span:nth-of-type(44) {
+		  -webkit-animation-delay: -11.2s;
+		          animation-delay: -11.2s;
+		}
+		.anim-text-flow span:nth-of-type(45),
+		.anim-text-flow-hover:hover span:nth-of-type(45) {
+		  -webkit-animation-delay: -11s;
+		          animation-delay: -11s;
+		}
+		.anim-text-flow span:nth-of-type(46),
+		.anim-text-flow-hover:hover span:nth-of-type(46) {
+		  -webkit-animation-delay: -10.8s;
+		          animation-delay: -10.8s;
+		}
+		.anim-text-flow span:nth-of-type(47),
+		.anim-text-flow-hover:hover span:nth-of-type(47) {
+		  -webkit-animation-delay: -10.6s;
+		          animation-delay: -10.6s;
+		}
+		.anim-text-flow span:nth-of-type(48),
+		.anim-text-flow-hover:hover span:nth-of-type(48) {
+		  -webkit-animation-delay: -10.4s;
+		          animation-delay: -10.4s;
+		}
+		.anim-text-flow span:nth-of-type(49),
+		.anim-text-flow-hover:hover span:nth-of-type(49) {
+		  -webkit-animation-delay: -10.2s;
+		          animation-delay: -10.2s;
+		}
+		.anim-text-flow span:nth-of-type(50),
+		.anim-text-flow-hover:hover span:nth-of-type(50) {
+		  -webkit-animation-delay: -10s;
+		          animation-delay: -10s;
+		}
+		.anim-text-flow span:nth-of-type(51),
+		.anim-text-flow-hover:hover span:nth-of-type(51) {
+		  -webkit-animation-delay: -9.8s;
+		          animation-delay: -9.8s;
+		}
+		.anim-text-flow span:nth-of-type(52),
+		.anim-text-flow-hover:hover span:nth-of-type(52) {
+		  -webkit-animation-delay: -9.6s;
+		          animation-delay: -9.6s;
+		}
+		.anim-text-flow span:nth-of-type(53),
+		.anim-text-flow-hover:hover span:nth-of-type(53) {
+		  -webkit-animation-delay: -9.4s;
+		          animation-delay: -9.4s;
+		}
+		.anim-text-flow span:nth-of-type(54),
+		.anim-text-flow-hover:hover span:nth-of-type(54) {
+		  -webkit-animation-delay: -9.2s;
+		          animation-delay: -9.2s;
+		}
+		.anim-text-flow span:nth-of-type(55),
+		.anim-text-flow-hover:hover span:nth-of-type(55) {
+		  -webkit-animation-delay: -9s;
+		          animation-delay: -9s;
+		}
+		.anim-text-flow span:nth-of-type(56),
+		.anim-text-flow-hover:hover span:nth-of-type(56) {
+		  -webkit-animation-delay: -8.8s;
+		          animation-delay: -8.8s;
+		}
+		.anim-text-flow span:nth-of-type(57),
+		.anim-text-flow-hover:hover span:nth-of-type(57) {
+		  -webkit-animation-delay: -8.6s;
+		          animation-delay: -8.6s;
+		}
+		.anim-text-flow span:nth-of-type(58),
+		.anim-text-flow-hover:hover span:nth-of-type(58) {
+		  -webkit-animation-delay: -8.4s;
+		          animation-delay: -8.4s;
+		}
+		.anim-text-flow span:nth-of-type(59),
+		.anim-text-flow-hover:hover span:nth-of-type(59) {
+		  -webkit-animation-delay: -8.2s;
+		          animation-delay: -8.2s;
+		}
+		.anim-text-flow span:nth-of-type(60),
+		.anim-text-flow-hover:hover span:nth-of-type(60) {
+		  -webkit-animation-delay: -8s;
+		          animation-delay: -8s;
+		}
+		.anim-text-flow span:nth-of-type(61),
+		.anim-text-flow-hover:hover span:nth-of-type(61) {
+		  -webkit-animation-delay: -7.8s;
+		          animation-delay: -7.8s;
+		}
+		.anim-text-flow span:nth-of-type(62),
+		.anim-text-flow-hover:hover span:nth-of-type(62) {
+		  -webkit-animation-delay: -7.6s;
+		          animation-delay: -7.6s;
+		}
+		.anim-text-flow span:nth-of-type(63),
+		.anim-text-flow-hover:hover span:nth-of-type(63) {
+		  -webkit-animation-delay: -7.4s;
+		          animation-delay: -7.4s;
+		}
+		.anim-text-flow span:nth-of-type(64),
+		.anim-text-flow-hover:hover span:nth-of-type(64) {
+		  -webkit-animation-delay: -7.2s;
+		          animation-delay: -7.2s;
+		}
+		.anim-text-flow span:nth-of-type(65),
+		.anim-text-flow-hover:hover span:nth-of-type(65) {
+		  -webkit-animation-delay: -7s;
+		          animation-delay: -7s;
+		}
+		.anim-text-flow span:nth-of-type(66),
+		.anim-text-flow-hover:hover span:nth-of-type(66) {
+		  -webkit-animation-delay: -6.8s;
+		          animation-delay: -6.8s;
+		}
+		.anim-text-flow span:nth-of-type(67),
+		.anim-text-flow-hover:hover span:nth-of-type(67) {
+		  -webkit-animation-delay: -6.6s;
+		          animation-delay: -6.6s;
+		}
+		.anim-text-flow span:nth-of-type(68),
+		.anim-text-flow-hover:hover span:nth-of-type(68) {
+		  -webkit-animation-delay: -6.4s;
+		          animation-delay: -6.4s;
+		}
+		.anim-text-flow span:nth-of-type(69),
+		.anim-text-flow-hover:hover span:nth-of-type(69) {
+		  -webkit-animation-delay: -6.2s;
+		          animation-delay: -6.2s;
+		}
+		.anim-text-flow span:nth-of-type(70),
+		.anim-text-flow-hover:hover span:nth-of-type(70) {
+		  -webkit-animation-delay: -6s;
+		          animation-delay: -6s;
+		}
+		.anim-text-flow span:nth-of-type(71),
+		.anim-text-flow-hover:hover span:nth-of-type(71) {
+		  -webkit-animation-delay: -5.8s;
+		          animation-delay: -5.8s;
+		}
+		.anim-text-flow span:nth-of-type(72),
+		.anim-text-flow-hover:hover span:nth-of-type(72) {
+		  -webkit-animation-delay: -5.6s;
+		          animation-delay: -5.6s;
+		}
+		.anim-text-flow span:nth-of-type(73),
+		.anim-text-flow-hover:hover span:nth-of-type(73) {
+		  -webkit-animation-delay: -5.4s;
+		          animation-delay: -5.4s;
+		}
+		.anim-text-flow span:nth-of-type(74),
+		.anim-text-flow-hover:hover span:nth-of-type(74) {
+		  -webkit-animation-delay: -5.2s;
+		          animation-delay: -5.2s;
+		}
+		.anim-text-flow span:nth-of-type(75),
+		.anim-text-flow-hover:hover span:nth-of-type(75) {
+		  -webkit-animation-delay: -5s;
+		          animation-delay: -5s;
+		}
+		.anim-text-flow span:nth-of-type(76),
+		.anim-text-flow-hover:hover span:nth-of-type(76) {
+		  -webkit-animation-delay: -4.8s;
+		          animation-delay: -4.8s;
+		}
+		.anim-text-flow span:nth-of-type(77),
+		.anim-text-flow-hover:hover span:nth-of-type(77) {
+		  -webkit-animation-delay: -4.6s;
+		          animation-delay: -4.6s;
+		}
+		.anim-text-flow span:nth-of-type(78),
+		.anim-text-flow-hover:hover span:nth-of-type(78) {
+		  -webkit-animation-delay: -4.4s;
+		          animation-delay: -4.4s;
+		}
+		.anim-text-flow span:nth-of-type(79),
+		.anim-text-flow-hover:hover span:nth-of-type(79) {
+		  -webkit-animation-delay: -4.2s;
+		          animation-delay: -4.2s;
+		}
+		.anim-text-flow span:nth-of-type(80),
+		.anim-text-flow-hover:hover span:nth-of-type(80) {
+		  -webkit-animation-delay: -4s;
+		          animation-delay: -4s;
+		}
+		.anim-text-flow span:nth-of-type(81),
+		.anim-text-flow-hover:hover span:nth-of-type(81) {
+		  -webkit-animation-delay: -3.8s;
+		          animation-delay: -3.8s;
+		}
+		.anim-text-flow span:nth-of-type(82),
+		.anim-text-flow-hover:hover span:nth-of-type(82) {
+		  -webkit-animation-delay: -3.6s;
+		          animation-delay: -3.6s;
+		}
+		.anim-text-flow span:nth-of-type(83),
+		.anim-text-flow-hover:hover span:nth-of-type(83) {
+		  -webkit-animation-delay: -3.4s;
+		          animation-delay: -3.4s;
+		}
+		.anim-text-flow span:nth-of-type(84),
+		.anim-text-flow-hover:hover span:nth-of-type(84) {
+		  -webkit-animation-delay: -3.2s;
+		          animation-delay: -3.2s;
+		}
+		.anim-text-flow span:nth-of-type(85),
+		.anim-text-flow-hover:hover span:nth-of-type(85) {
+		  -webkit-animation-delay: -3s;
+		          animation-delay: -3s;
+		}
+		.anim-text-flow span:nth-of-type(86),
+		.anim-text-flow-hover:hover span:nth-of-type(86) {
+		  -webkit-animation-delay: -2.8s;
+		          animation-delay: -2.8s;
+		}
+		.anim-text-flow span:nth-of-type(87),
+		.anim-text-flow-hover:hover span:nth-of-type(87) {
+		  -webkit-animation-delay: -2.6s;
+		          animation-delay: -2.6s;
+		}
+		.anim-text-flow span:nth-of-type(88),
+		.anim-text-flow-hover:hover span:nth-of-type(88) {
+		  -webkit-animation-delay: -2.4s;
+		          animation-delay: -2.4s;
+		}
+		.anim-text-flow span:nth-of-type(89),
+		.anim-text-flow-hover:hover span:nth-of-type(89) {
+		  -webkit-animation-delay: -2.2s;
+		          animation-delay: -2.2s;
+		}
+		.anim-text-flow span:nth-of-type(90),
+		.anim-text-flow-hover:hover span:nth-of-type(90) {
+		  -webkit-animation-delay: -2s;
+		          animation-delay: -2s;
+		}
+		.anim-text-flow span:nth-of-type(91),
+		.anim-text-flow-hover:hover span:nth-of-type(91) {
+		  -webkit-animation-delay: -1.8s;
+		          animation-delay: -1.8s;
+		}
+		.anim-text-flow span:nth-of-type(92),
+		.anim-text-flow-hover:hover span:nth-of-type(92) {
+		  -webkit-animation-delay: -1.6s;
+		          animation-delay: -1.6s;
+		}
+		.anim-text-flow span:nth-of-type(93),
+		.anim-text-flow-hover:hover span:nth-of-type(93) {
+		  -webkit-animation-delay: -1.4s;
+		          animation-delay: -1.4s;
+		}
+		.anim-text-flow span:nth-of-type(94),
+		.anim-text-flow-hover:hover span:nth-of-type(94) {
+		  -webkit-animation-delay: -1.2s;
+		          animation-delay: -1.2s;
+		}
+		.anim-text-flow span:nth-of-type(95),
+		.anim-text-flow-hover:hover span:nth-of-type(95) {
+		  -webkit-animation-delay: -1s;
+		          animation-delay: -1s;
+		}
+		.anim-text-flow span:nth-of-type(96),
+		.anim-text-flow-hover:hover span:nth-of-type(96) {
+		  -webkit-animation-delay: -0.8s;
+		          animation-delay: -0.8s;
+		}
+		.anim-text-flow span:nth-of-type(97),
+		.anim-text-flow-hover:hover span:nth-of-type(97) {
+		  -webkit-animation-delay: -0.6s;
+		          animation-delay: -0.6s;
+		}
+		.anim-text-flow span:nth-of-type(98),
+		.anim-text-flow-hover:hover span:nth-of-type(98) {
+		  -webkit-animation-delay: -0.4s;
+		          animation-delay: -0.4s;
+		}
+		.anim-text-flow span:nth-of-type(99),
+		.anim-text-flow-hover:hover span:nth-of-type(99) {
+		  -webkit-animation-delay: -0.2s;
+		          animation-delay: -0.2s;
+		}
+		.anim-text-flow span:nth-of-type(100),
+		.anim-text-flow-hover:hover span:nth-of-type(100) {
+		  -webkit-animation-delay: 0s;
+		          animation-delay: 0s;
+		}
+
+		.container5 {
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  width: 100%;
+		  transform: translate(-50%, -50%);
+		}
+
+		.txt {
+		  display: block;
 		}
 	</style>
 </html>

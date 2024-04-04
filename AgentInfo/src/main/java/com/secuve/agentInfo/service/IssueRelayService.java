@@ -22,6 +22,7 @@ import com.secuve.agentInfo.vo.UserAlarm;
 public class IssueRelayService {
 	@Autowired IssueRelayDao issueRelayDao;
 	@Autowired EmployeeDao employeeDao;
+	@Autowired IssueService issueService;
 	
 	public String createKey() {
 	    StringBuffer key = new StringBuffer();
@@ -84,10 +85,21 @@ public class IssueRelayService {
 		return "OK";
 	}
 
-	public String delIssueRelay(int issueRelayKeyNum) {
+	public String delIssueRelay(int issueRelayKeyNum, int issuePrimaryKeyNum) {
 		int sucess = issueRelayDao.delIssueRelay(issueRelayKeyNum);
 		if (sucess <= 0)
 			return "FALSE";
+		List<IssueRelay> issueRelayList = issueRelayDao.getIssueRelayIssuePrimaryKeyNumList(issuePrimaryKeyNum);
+		Issue issue = new Issue();
+		if(issueRelayList.size() == 0) {
+			issue.setIssueAnswerStatus("atmosphere");
+			issue.setIssuePrimaryKeyNum(issuePrimaryKeyNum);
+			issueService.updateIssueAnswerStatus(issue);
+		} else if(issueRelayList.get(issueRelayList.size()-1).getIssueRelayType().equals("QA")) {
+			issue.setIssueAnswerStatus("reRequest");
+			issue.setIssuePrimaryKeyNum(issuePrimaryKeyNum);
+			issueService.updateIssueAnswerStatus(issue);
+		}
 		return "OK";
 	}
 

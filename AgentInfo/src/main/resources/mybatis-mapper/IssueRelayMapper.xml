@@ -33,4 +33,8 @@
 		DELETE FROM issueRelay WHERE issueRelayKeyNum = ${issueRelayKeyNum};
 	</delete>
 	
+	<select id="getIssueRelayIssuePrimaryKeyNumList" resultMap="issueRelay" parameterType="_int">
+		SELECT * FROM issueRelay WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum};
+	</select>
+	
 </mapper>

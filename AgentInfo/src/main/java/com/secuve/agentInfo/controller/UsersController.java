@@ -4,10 +4,17 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +34,7 @@ public class UsersController {
 	@Autowired UsersService usersService;
 	@Autowired EmployeeService employeeService;
 	@Autowired QuestionAnswerService questionAnswerService;
+	@Autowired private SessionRegistry sessionRegistry;
 	
 	/**
 	 * 인덱스
@@ -177,5 +185,28 @@ public class UsersController {
 	@PostMapping(value = "/users/lockChange")
 	public String LockChange(String employeeId, String type) {
 		return usersService.lockChange(employeeId, type);
+	}
+	
+	/**
+	 * 로그아웃 시 세션 만료시키기위해 추가
+	 * @param request
+	 * @return
+	 */
+	@GetMapping(value = "/users/logout")
+	public String  Logout(HttpServletRequest request) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String sessionId = null;
+	    if (authentication != null && authentication.getPrincipal() != null) {
+	        Object principal = authentication.getPrincipal();
+	        if (principal instanceof UserDetails) {
+	        	sessionId = request.getSession().getId();
+	        }
+	    }
+		
+		SessionInformation sessionInformation = sessionRegistry.getSessionInformation(sessionId);
+        if (sessionInformation != null) {
+            sessionInformation.expireNow();
+        }
+		return "redirect:/logout"; 
 	}
 }
