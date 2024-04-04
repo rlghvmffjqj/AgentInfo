@@ -213,12 +213,7 @@
 																					</select></td>
 																					<td class="alignCenter">작성자</td>
 								                                					<td>
-								                                						<input  class="form-control" type="text" id="issueWriterList" name="issueWriterList" value=
-																		                    <c:if test="${issueWriter eq 'admin'}">관리자</c:if>
-																		                    <c:if test="${issueWriter eq 'khkim'}">김기호</c:if>
-																		                    <c:if test="${issueWriter eq 'bspark'}">박범수</c:if>
-																		                    <c:if test="${issueWriter eq 'smlee'}">이상민</c:if>
-																		            	readonly>
+								                                						<input  class="form-control" type="text" id="issueWriterList" name="issueWriterList" value="${issueWriter}" readonly>
 																	                </td>
 																				</c:when>
 																				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
@@ -637,11 +632,7 @@
 			rowItem += "</select></td>";
 			rowItem += "<td class='alignCenter'>작성자</td>";
 			rowItem += "<td>";
-			rowItem += "<input  class='form-control' type='text' id='issueWriterList' name='issueWriterList' value=";
-			if('${issueWriter}' == 'admin') rowItem += "관리자";
-			if('${issueWriter}' == 'khkim') rowItem += "김기호";
-			if('${issueWriter}' == 'bspark') rowItem += "박범수";
-			if('${issueWriter}' == 'smlee') rowItem += "이상민";
+			rowItem += "<input  class='form-control' type='text' id='issueWriterList' name='issueWriterList' value='${issueWriter}'";
 			rowItem += " readonly>"
 			rowItem += "</td>";
 			rowItem += "</tr>";
@@ -748,12 +739,15 @@
 		
 		/* =========== 체크박스 체크된 상태로 시작 ========= */
 		$(function() {
-			$("input:checkbox[id='ChkTotal']").prop("checked", true);
-			$("input:checkbox[id='ChkSolution']").prop("checked", true);
+			$("input:checkbox[id='ChkTotal']").prop("checked",  true);
+			$("input:checkbox[id='ChkSolution']").prop("checked",  true);
 			$("input:checkbox[id='ChkUnresolved']").prop("checked", true);
 			$("input:checkbox[id='ChkHold']").prop("checked", true);
+			setTimeout(function() {
+				$("#ChkSolution").click();
+			}, 500);
 		});
-		
+
 		/* =========== Total 체크박스 ========= */
 		$("#ChkTotal").change(function(){
 			if($("#ChkTotal").is(":checked")){

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 <div class="modal-body" style="width: 100%; height: auto; min-height: 300px;">
 	<label>이슈 제목</label>
-	<input type="text" id="issueConfirm" name="issueConfirm" class="form-control viewForm" value="${issueConfirm}" style="font-weight: bold; font-size: 14px !important; color: #0040ff;" readonly>
+	<input type="text" id="issueConfirm" name="issueConfirm" class="form-control viewForm" value="${issueConfirm}" style="font-weight: bold; font-size: 14px !important; background: aliceblue; color: #0c0067ba;" readonly>
 	<textarea class="summerNoteSize" rows="5" id="issueRelayDetail" name="issueRelayDetail" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="수정 사항 및 기타 사항을 입력해주세요.">${issueRelayDetail}</textarea>
 </div>
 <div class="modal-footer">
@@ -125,7 +125,7 @@
 		/* =========== SummerNote 설정 ========= */
 		$('.summerNoteSize').summernote({
 			minHeight:130,
-			placeholder:"장애내용",
+			placeholder:"수정내용!",
 			callbacks: {
 				onKeyup: function(e) {
 					var pCount = e.currentTarget.childElementCount;
