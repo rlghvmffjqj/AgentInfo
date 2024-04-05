@@ -197,9 +197,9 @@
 			    <div style="background: white; width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
-				    		<li>
+				    		<li class="listLi">
 								<a onClick="moveScroll('${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
-									<span style="float: left;">
+									<span style="float: left; width: auto; min-width: 770px;">
 										${list.issueDivision}
 				    					<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
 				    						-
@@ -500,6 +500,10 @@
 			
 			#relayTitle {
 				font-size: 30px;
+			}
+
+			.listLi {
+				height: 55px;
 			}
 		}
 
