@@ -1,5 +1,10 @@
 package com.secuve.agentInfo.core;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -110,5 +115,15 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 	  SessionRegistry sessionRegistry = new SessionRegistryImpl();
 	  return sessionRegistry;
 	}
+	
+	@Bean
+    public Lock lock() {
+        return new ReentrantLock();
+    }
+
+    @Bean
+    public Set<String> usersInUpdateView() {
+        return new HashSet<>();
+    }
 	
 }

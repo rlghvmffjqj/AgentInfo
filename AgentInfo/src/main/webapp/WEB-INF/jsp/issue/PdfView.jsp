@@ -111,6 +111,8 @@
 			    margin-block-start: 0px !important;
 			    margin-block-end: 0px !important;
 			    margin: 0px 0px 0px;
+				max-width: 100vw;
+				overflow-wrap: break-word;
 			}
 			.obstacleText {
 				font-size: 11px;
@@ -257,7 +259,7 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-					 						<div class="obstacleText">${list.issueObstacle}</div>
+					 						<div class="obstacleText" style="max-width: 880px;">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
 					 				<tr>
@@ -290,6 +292,22 @@
 		</div>
 	</body>
 	<script>
+		$(document).ready(function() {
+		    $("p").each(function() {
+    		    // 이미지가 아닌 경우에만 작업 수행
+    		    if (!$(this).find("img").length) {
+    		        var text = $(this).text();
+    		        var newText = '';
+    		        for (var i = 0; i < text.length; i++) {
+    		            newText += text[i];
+    		            if ((i + 1) % 110 === 0 && i !== 0 && i !== text.length - 1) {
+    		                newText += "<br>";
+    		            }
+    		        }
+    		        $(this).html(newText);
+    		    }
+    		});
+		});
 		$(function() {
 			// // obstacleText 요소 선택
  			// var $obstacleText = $('.obstacleText');

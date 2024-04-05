@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -124,6 +126,9 @@ public class IssueController {
 		return result;
 	}
 	
+	@Autowired private Lock lock;
+    @Autowired private Set<String> usersInUpdateView;
+    
 	@GetMapping(value = "/issue/updateView")
 	public String UpdateView(Model model, Principal principal, int issueKeyNum) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
@@ -135,7 +140,39 @@ public class IssueController {
 		model.addAttribute("issue",issue);
 		model.addAttribute("issueWriter", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		model.addAttribute("issueRelayList", issueRelayList);
+		lock.lock(); // Lock 획득
+        try {
+            if (usersInUpdateView.contains("issue_"+issueKeyNum)) {
+                // 다른 사용자가 이미 해당 페이지에 접근 중이므로 읽기 전용 페이지를 반환
+                return "issue/IssueReadView";
+            } else {
+                // 첫 번째 사용자가 해당 페이지에 접근한 경우 사용자 집합에 추가
+                usersInUpdateView.add("issue_"+issueKeyNum);
+            }
+        } finally {
+            lock.unlock(); // Lock 해제
+        }
 		return "issue/IssueView";
+	}
+	
+	@GetMapping("/issue/leaveView")
+    public void leaveView(Principal principal, int issueKeyNum) {
+        lock.lock();
+        try {
+            usersInUpdateView.remove("issue_"+issueKeyNum);
+        } finally {
+            lock.unlock();
+        }
+    }
+	
+	@GetMapping("/issue/checkUserStatus")
+	public void checkUserStatus(Principal principal, int issueKeyNum) {
+	    lock.lock();
+	    try {
+	        usersInUpdateView.remove("issue_"+issueKeyNum);
+	    } finally {
+	        lock.unlock();
+	    }
 	}
 	
 	@GetMapping(value = "/issue/copyView")

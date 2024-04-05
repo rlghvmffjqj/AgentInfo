@@ -22,7 +22,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사','Title','전달일자','TOSMS','TOSRF','PORTAL','JAVA','WAS','갯수','PDF','제거'],
+					colNames:['Key','고객사','Title','전달일자','TOSMS','TOSRF','PORTAL','JAVA','WAS','갯수','PDF'],
 					colModel:[
 						{name:'issueHistoryKeyNum', index:'issueHistoryKeyNum', align:'center', width: 35, hidden:true },
 						{name:'issueHistoryCustomer', index:'issueHistoryCustomer', align:'center', width: 200},
@@ -34,8 +34,7 @@
 						{name:'issueHistoryJava', index:'issueHistoryJava', align:'center', width: 150},
 						{name:'issueHistoryWas', index:'issueHistoryWas', align:'center', width: 150},
 						{name:'issueHistoryTotal', index:'issueHistoryTotal', align:'center', width: 170},
-						{name:'issueHistoryPdf', index:'issueHistoryPdf', align:'center', width: 70, formatter: issueHistoryFormatter, sortable:false},
-						{name:'issueHistoryDelete', index:'issueHistoryDelete', align:'center', width: 50, formatter: minusFormatter, sortable:false},
+						{name:'issueHistoryPdf', index:'issueHistoryPdf', align:'center', width: 70, formatter: issueHistoryFormatter, sortable:false}
 					],
 					jsonReader : {
 			        	id: 'issueHistoryKeyNum',
@@ -104,7 +103,7 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">이슈 작성</h5>
+									            <h5 class="m-b-10">이슈 조회</h5>
 									            <p class="m-b-0">Issue Write</p>
 									        </div>
 									    </div>
@@ -113,7 +112,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">이슈 작성</a>
+									            <li class="breadcrumb-item"><a href="#!">이슈 조회</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -180,8 +179,6 @@
 			                                			<span style="font-weight:bold;">다운 :</span> 
 			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf" style="font-size:11px">PDF Download</button>
 														<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnURL" style="font-size:11px">URL Export</button>
-			                                			<!-- <button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPpt">PPT Download</button> -->
-			                                			<!-- <button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnWord">Word Download</button> -->
 			                                			<button type="button" class="btn btn-outline-info-del myBtn" id="BtnHistoryInsert" style="font-size:11px">히스토리 추가</button>
 			                                		</div>
 		                                		</div> 
@@ -195,8 +192,6 @@
 					                                		<div class="issue">
 					                                			<div>
 					                                				<div style='text-align:left; float:left; margin-bottom: 5px;'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" placeholder='구분' value="${list.issueDivision}"></div>
-					                                				<div style='text-align:right; float:right;'> <a onclick='btnPlus(this)' id="btnPlus"><img  src="/AgentInfo/images/pluse.png" style="width:30px"></a></div>
-					                                				<div style='text-align:right; float:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>
 					                                			</div>
 						                                		<table style="width:100%">
 						                                			<tbody>
@@ -341,35 +336,16 @@
 																<div style="width: 100%; text-align: right;	padding: 1%;">
 																	<button type="button" class="btn btn-outline-info-add myBtn" onclick="btnRelayQA('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
 																</div>
-						                                		<div class="positioningBtn"><button type="button" class="arrowBtn" style="background: peachpuff;" onclick="btnUp(this)">ᐱ</button> <button type="button" class="arrowBtn" style="background: burlywood;" onclick="btnDown(this)">ᐯ</button></div>
 					                                		</div>
 				                                		</c:forEach>
 				                                	</div>
-			                                		<div style="text-align:right">
-			                                			<c:choose>
-															<c:when test="${viewType eq 'update'}">
-			                                					<button type="button" class="btn btn-default btn-outline-info-add" id="btnUpdate">SAVE</button>
-			                                				</c:when>
-			                                				<c:when test="${viewType eq 'copy'}">
-			                                					<div id="copy">
-			                                						<button type="button" class="btn btn-default btn-outline-info-add" id="btnCopy">SAVE</button>
-			                                					</div>
-			                                				</c:when>
-			                                				<c:when test="${viewType eq 'insert'}">
-			                                					<div id="save">
-			                                						<button type="button" class="btn btn-default btn-outline-info-add" id="btnSave">SAVE</button>
-			                                					</div>
-			                                				</c:when>
-			                                			</c:choose>
-			                                			<div id="update" style="display: none;">
-			                                				<button type="button" class="btn btn-default btn-outline-info-add" id="btnUpdate">SAVE</button>
-			                                			</div>
-			                                		</div>
+			                                		
 		                                		</div>
 												<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
 		                                		<input class="form-control" type="hidden" id="issueObstacleList" name="issueObstacleList" value=""><!-- 단일 이미지 첨부일 경우 배열이 여러개로 분리되어 복합으로 전달하기 위해 추가  -->
 		                                		<input class="form-control" type="hidden" id="issueBtnType" name="issueBtnType" value="${viewType}">
 	                                		</form>
+
 		    	                 		</div>
 	                                </div>
 	                            </div>
@@ -383,16 +359,21 @@
 	</body>
 
 	<script>
+		$(function() {
+			Swal.fire({
+				icon: 'info',
+				title: '읽기 모드',
+				text: '다른 사용자가 해당 이슈를 수정하고있어 읽기 권한으로 접속합니다.',
+			});
+		});
+
 		/* =========== 전달일자 오늘 날짜 입력 ========= */
-		document.getElementById('issueDate').value = new Date().toISOString().substring(0, 10);
+		// document.getElementById('issueDate').value = new Date().toISOString().substring(0, 10);
 		
 		/* =========== 최초 1회 실행 ========= */
 		$(function() {
 			summernote();
 			issueCount();
-			if("${viewType}" == "insert") {
-				$('#downloadBtn').hide();
-			}
 		});
 		
 		/* =========== SummerNote 설정 ========= */
@@ -418,298 +399,26 @@
 		}
 
 		function btnRelayQA(issuePrimaryKeyNum, issueKeyNum) {
-			var resault = automaticUpdate();
-	    	
-	    	if(resault == "OK") {
-	  			$.ajax({
-				    type: 'POST',
-				    url: "<c:url value='/issueRelay/relayModal'/>",
-					data: {
-						"issuePrimaryKeyNum": issuePrimaryKeyNum,
-						"issueKeyNum": issueKeyNum,
-						"issueRelayType": "QA"
-					},
-				    async: false,
-				    success: function (data) {
-				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
-				        $.modal(data, 'issueRelayModal'); //modal창 호출
-				    },
-				    error: function(e) {
-				        console.log(e);
-				    }
-				});	
-			} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+	  		$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issueRelay/relayModal'/>",
+				data: {
+					"issuePrimaryKeyNum": issuePrimaryKeyNum,
+					"issueKeyNum": issueKeyNum,
+					"issueRelayType": "QA"
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'issueRelayModal'); //modal창 호출
+			    },
+			    error: function(e) {
+			        console.log(e);
+			    }
+			});	
 	  	}	
 		
-		/* =========== 위로 이동 ========= */
-		function btnUp(obj) {
-			if("${viewType}" == "update") {
-				var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
-				var issueKeyNum = $('#issueKeyNum').val();
-
-				$.ajax({
-				    type: 'POST',
-				    url: "<c:url value='/issue/issueUp'/>",
-					data: {
-						"issuePrimaryKeyNum": issuePrimaryKeyNum,
-						"issueKeyNum": issueKeyNum
-					},
-				    async: false,
-				    success: function (result) {
-						if(result == "FALSE") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: 'UP Move 실패하였습니다.',
-							});
-						} else if(result == "NoneUp") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '상단 이슈가 존재하지 않습니다.',
-							});
-						}
-				    },
-				    error: function(e) {
-				        Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '작업을 실패하였습니다.',
-						});
-				    }
-				});	
-			}
-
-			var table = $(obj).parent().parent();
-			table.prev().before(table);
-		}
-		
-		/* =========== 아래로 이동 ========= */
-		function btnDown(obj) {
-			if("${viewType}" == "update") {
-				var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
-				var issueKeyNum = $('#issueKeyNum').val();
-
-				$.ajax({
-				    type: 'POST',
-				    url: "<c:url value='/issue/issueDown'/>",
-					data: {
-						"issuePrimaryKeyNum": issuePrimaryKeyNum,
-						"issueKeyNum": issueKeyNum
-					},
-				    async: false,
-				    success: function (result) {
-						if(result == "FALSE") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: 'DOWN Move 실패하였습니다.',
-							});
-						} else if(result == "NoneDown") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '하단 이슈가 존재하지 않습니다.',
-							});
-						}
-				    },
-				    error: function(e) {
-				        Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '작업을 실패하였습니다.',
-						});
-				    }
-				});	
-			}
-
-			var table = $(obj).parent().parent();
-			table.next().after(table);
-		}
-		
-		/* =========== 마이너스 버튼 ========= */
-		function btnMinus(obj) {
-			Swal.fire({
-				  title: '삭제!',
-				  text: "해당 이슈를 삭제하시겠습니까?",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonColor: '#7066e0',
-				  cancelButtonColor: '#FF99AB',
-				  confirmButtonText: 'OK'
-			}).then((result) => {
-			  if (result.isConfirmed) {
-					var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
-					if("${viewType}" == "update") {
-						$.ajax({
-						    type: 'POST',
-						    url: "<c:url value='/issue/issueMinus'/>",
-							data: {
-								"issuePrimaryKeyNum": issuePrimaryKeyNum
-							
-							},
-						    async: false,
-						    success: function (result) {
-								if(result == "FALSE") {
-									Swal.fire({
-									icon: 'error',
-									title: '삭제 실패!',
-									text: '삭제 작업을 실패하였습니다.',
-								});
-								}
-						    },
-						    error: function(e) {
-						        Swal.fire({
-									icon: 'error',
-									title: '실패!',
-									text: '작업을 실패하였습니다.',
-								});
-						    }
-						});	
-					}
-				
-					var table = $(obj).parent().parent().parent();
-					table.remove();
-					issueCount();
-					$('#total').text($('.issue').length);
-					if($('.issue').length == 0) {
-						btnPlus($(this).attr('blank'));
-					}
-				}
-			})
-		}
-		
-		/* =========== 플러스 버튼 ========= */
-		function btnPlus(obj) {
-			var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
-			if("${viewType}" == "update") {
-				var issueKeyNum = $('#issueKeyNum').val();
-
-				$.ajax({
-				    type: 'POST',
-				    url: "<c:url value='/issue/issuePlus'/>",
-					data: {
-						"issueKeyNum": issueKeyNum,
-						"issuePrimaryKeyNum": issuePrimaryKeyNum
-					},
-				    async: false,
-				    success: function (result) {
-						issuePrimaryKeyNum = result;
-				    },
-				    error: function(e) {
-				        Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: '작업을 실패하였습니다.',
-						});
-				    }
-				});	
-			}
-			var table = $(obj).parent().parent().parent();
-			
-			var rowItem = "<div class='issue'>";
-			rowItem += "<div>";
-			rowItem += "<div style='text-align:left; float:left; margin-bottom: 5px;'><input class='form-control' type='text' style='width:400px' id='issueDivisionList' name='issueDivisionList' placeholder='구분'></div>";
-			rowItem += "<div style='text-align:right; float:right;'><a onclick='btnPlus(this)' id='btnPlus'><img  src='/AgentInfo/images/pluse.png' style='width:30px'></a></div>";
-			rowItem += "<div style='text-align:right; float:right;'><a onclick='btnMinus(this)' id='btnMinus'><img  src='/AgentInfo/images/minus.png' style='width:30px'></a></div>";
-			rowItem += "</div>";
-			rowItem += "<table style='width:100%'>";
-			rowItem += "<tbody>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter' style='width: 9%;'>OS</td>";
-			rowItem += "<td><select class='form-control selectpicker selectForm' id='issueOsList' name='issueOsList' data-live-search='true' data-size='5'>";
-			rowItem += "<option value='Linux'>Linux</option>";
-			rowItem += "<option value='Windows'>Windows</option>";
-			rowItem += "<option value='AIX'>AIX</option>";
-			rowItem += "<option value='HP-UX'>HP-UX</option>";
-			rowItem += "<option value='Solaris'>Solaris</option>";
-			rowItem += "</select></td>";
-			rowItem += "<td class='alignCenter'>작성자</td>";
-			rowItem += "<td>";
-			rowItem += "<input  class='form-control' type='text' id='issueWriterList' name='issueWriterList' value='${issueWriter}'";
-			rowItem += " readonly>"
-			rowItem += "</td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>대항목</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueAwardList' name='issueAwardList' placeholder='대항목'></td>";
-			rowItem += "<td class='alignCenter'>중학목</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueMiddleList' name='issueMiddleList' placeholder='중항목'></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>소항목1</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueUnder1List' name='issueUnder1List' placeholder='소항목1'></td>";
-			rowItem += "<td class='alignCenter'>소항목2</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueUnder2List' name='issueUnder2List' placeholder='소항목2'></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>소항목3</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueUnder3List' name='issueUnder3List' placeholder='소항목3'></td>";
-			rowItem += "<td class='alignCenter'>소항목4</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueUnder4List' name='issueUnder4List' placeholder='소항목4'></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>결함번호</td>";
-			rowItem += "<td><input class='form-control' type='text' id='issueFlawNumList' name='issueFlawNumList' placeholder='결함번호'></td>";
-			rowItem += "<td class='alignCenter'>영향도</td>";
-			rowItem += "<td><select class='form-control selectpicker selectForm' id='issueEffectList' name='issueEffectList' data-live-search='true' data-size='5'>";
-			rowItem += "<option value='상'>상</option>";
-			rowItem += "<option value='중'>중</option>";
-			rowItem += "<option value='하'>하</option>";
-			rowItem += "</select></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>테스트 결과</td>";
-			rowItem += "<td><select class='form-control selectpicker selectForm' id='issueTextResultList' name='issueTextResultList' data-live-search='true' data-size='5'>";
-			rowItem += "<option value='오류'>오류</option>";
-			rowItem += "<option value='개선사항'>개선사항</option>";
-			rowItem += "</select></td>";
-			rowItem += "<td class='alignCenter'>적용여부</td>";
-			rowItem += "<td><select class='form-control selectpicker selectForm' id='issueApplyYnList' name='issueApplyYnList' data-live-search='true' data-size='5'>";
-			rowItem += "<option value='미해결'>미해결</option>";
-			rowItem += "<option value='해결'>해결</option>";
-			rowItem += "<option value='보류'>보류</option>";
-			rowItem += "</select></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>확인내용</td>";
-			rowItem += "<td colspan='3'><input class='form-control' type='text' id='issueConfirmList' name='issueConfirmList' placeholder='확인 내용'></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>장애내용</td>";
-			rowItem += "<td colspan='3' style='max-width: 890px;'><textarea class='summerNoteSize' id='issueObstacleList' name='issueObstacleList' onkeydown='resize(this)' onkeyup='resize(this)'></textarea></td>";
-			rowItem += "</tr>";
-			rowItem += "<tr>";
-			rowItem += "<td class='alignCenter'>비고</td>";
-			rowItem += "<td colspan='3'><textarea class='form-control' id='issueNoteList' name='issueNoteList' onkeydown='resize(this)' onkeyup='resize(this)' placeholder='비고'>${list.issueNote}</textarea></td>";
-			rowItem += "</tr>";
-			rowItem += "</tbody>";
-			rowItem += "</table>";
-			rowItem += "<input class='form-control' type='hidden' id='issuePrimaryKeyNumList' name='issuePrimaryKeyNumList' value='"+issuePrimaryKeyNum+"'>";
-			rowItem += "<div class='positioningBtn'><button type='button' class='arrowBtn' style='background: peachpuff;' onclick='btnUp(this)'>ᐱ</button> <button type='button' class='arrowBtn' style='background: burlywood;' onclick='btnDown(this)'>ᐯ</button></div>";
-			rowItem += "</div>";
-			
-			table.after(rowItem); // 동적으로 row를 추가한다.
-			$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
-			
-			$('#total').text($('.issue').length);
-			
-			// 플러스 클릭시 카운트 추가
-			var unresolved = parseInt($('#unresolved').text());
-			$('#unresolved').text(++unresolved);
-			
-			summernote(); // summerNote 적용
-			$("select[name=issueApplyYnList]").change(function() {
-				issueCount();
-			});
-		};
 		
 		/* =========== Select 박스 변경시 ========= */
 		$("select").change(function() {
@@ -807,326 +516,44 @@
 		}
 		
 		
-		/* =========== 저장 버튼 ========= */
-		$('#btnSave').click(function() {
-			var postData = $('#form').serializeArray();
-			var issueCustomer = $('#issueCustomer').val();
-			postData.push({name : "total", value : $('#total').text()});
-			postData.push({name : "solution", value : $('#solution').text()});
-			postData.push({name : "unresolved", value : $('#unresolved').text()});
-			postData.push({name : "hold", value : $('#hold').text()});
-			if(issueCustomer == "") {
-				$('#NotIssueCustomer').show();
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '고객사 필수 입력 바랍니다.',
-				});
-			} else {
-				$('#NotIssueCustomer').hide();
-				$.ajax({
-					url: "<c:url value='/issue/issueSave'/>",
-			        type: 'post',
-			        data: postData,
-			        async: false,
-			        success: function(result) {
-			        	$('#issueKeyNum').val(result.issueKeyNum);
-			        	var issueKeyNum = $('#issueKeyNum').val();
-			        	if(result.result == "OK") {
-			        		Swal.fire({
-								  title: '저장 완료!',
-								  text: "이슈 목록으로 이동하시겠습니까?",
-								  icon: 'success',
-								  showCancelButton: true,
-								  confirmButtonColor: '#7066e0',
-								  cancelButtonColor: '#FF99AB',
-								  confirmButtonText: '이동',
-								  cancelButtonText: '저장',
-							}).then((result) => {
-								if (result.isConfirmed) {
-									location.href="<c:url value='/issue/issueList'/>";
-								} else {
-									// $('#save').hide();
-									// $('#update').show();
-									// $('#downloadBtn').show();
-									// $('#issueBtnType').val("update");
-									location.href="<c:url value='/issue/updateView'/>?issueKeyNum="+issueKeyNum;
-								}
-							})
-						} else {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '작업을 실패하였습니다.',
-							});
-						}
-					},
-					error: function(error) {
-						console.log(error);
-					}
-			    });
-			}
-		});
-		
-		/* =========== 업데이트 버튼 ========= */
-		$('#btnUpdate').click(function() {
-			var postData = $('#form').serializeArray();
-			postData.push({name : "total", value : $('#total').text()});
-			postData.push({name : "solution", value : $('#solution').text()});
-			postData.push({name : "unresolved", value : $('#unresolved').text()});
-			postData.push({name : "hold", value : $('#hold').text()});
-			var issueCustomer = $('#issueCustomer').val();
-			if(issueCustomer == "") {
-				$('#NotIssueCustomer').show();
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '고객사 필수 입력 바랍니다.',
-				});
-			} else {
-				$('#NotIssueCustomer').hide();
-				$.ajax({
-					url: "<c:url value='/issue/update'/>",
-			        type: 'post',
-			        data: postData,
-			        async: false,
-			        success: function(result) {
-			        	if(result == "OK") {
-			        		Swal.fire({
-								  title: '저장 완료!',
-								  text: "이슈 목록으로 이동하시겠습니까?",
-								  icon: 'success',
-								  showCancelButton: true,
-								  confirmButtonColor: '#7066e0',
-								  cancelButtonColor: '#FF99AB',
-								  confirmButtonText: '이동',
-								  cancelButtonText: '저장',
-							}).then((result2) => {
-								if (result2.isConfirmed) {
-									location.href="<c:url value='/issue/issueList'/>";
-								} else {
-									$('#downloadBtn').show();
-								}
-							})
-						} else {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '작업을 실패하였습니다.',
-							});
-						}
-					},
-					error: function(error) {
-						console.log(error);
-					}
-			    });
-			}
-		});
-		
-		/* =========== 복사 버튼 ========= */
-		$('#btnCopy').click(function() {
-			var postData = $('#form').serializeArray();
-			postData.push({name : "total", value : $('#total').text()});
-			postData.push({name : "solution", value : $('#solution').text()});
-			postData.push({name : "unresolved", value : $('#unresolved').text()});
-			postData.push({name : "hold", value : $('#hold').text()});
-			var issueCustomer = $('#issueCustomer').val();
-			if(issueCustomer == "") {
-				$('#NotIssueCustomer').show();
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '고객사 필수 입력 바랍니다.',
-				});
-			} else {
-				$('#NotIssueCustomer').hide();
-				$.ajax({
-					url: "<c:url value='/issue/copy'/>",
-			        type: 'post',
-			        data: postData,
-			        async: false,
-			        success: function(result) {
-			        	if(result.result == "OK") {
-			        		if(result.result == "OK") {
-			        			$('#issueKeyNum').val(result.issueKeyNum);
-				        		Swal.fire({
-									  title: '저장 완료!',
-									  text: "이슈 목록으로 이동하시겠습니까?",
-									  icon: 'success',
-									  showCancelButton: true,
-									  confirmButtonColor: '#7066e0',
-									  cancelButtonColor: '#FF99AB',
-									  confirmButtonText: '이동',
-									  cancelButtonText: '저장',
-								}).then((result) => {
-									if (result.isConfirmed) {
-										location.href="<c:url value='/issue/issueList'/>";
-									} else {
-										$('#copy').hide();
-										$('#update').show();
-										$('#issueBtnType').val("update");
-									}
-								})
-							} else {
-								Swal.fire({
-									icon: 'error',
-									title: '실패!',
-									text: '작업을 실패하였습니다.',
-								});
-							}
-						} else {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '작업을 실패하였습니다.',
-							});
-						}
-					},
-					error: function(error) {
-						console.log(error);
-					}
-			    });
-			}
-		});
-		
 		/* =========== TextArea 범위 초과시 크기 증가 ========= */
 		function resize(obj) {
 			obj.style.height = "1px";
 			obj.style.height = (17+obj.scrollHeight)+"px";
 		}
 		
-		/* =========== Ctrl + S 사용시 저장 ========= */
-		document.onkeydown = function(e) {
-		    if (e.which == 17)  isCtrl = true;
-		    if (e.which == 83 && isCtrl == true) {  // Ctrl + s
-		    	var btnType = $('#issueBtnType').val();
-		    	if(btnType == "copy") {
-		    		$('#btnCopy').click();
-				} else if(btnType == "insert") {
-					$('#btnSave').click();
-		    	} else {
-		    		$('#btnUpdate').click();
-		    	} 
-		    	isCtrl = false;
-		    	return false;
-		    }
-		}
-		document.onkeyup = function(e) {
-			if (e.which == 17)  isCtrl = false;
-		}
 		
 		/* =========== PDF 서버 PC 다운로드  ========= */
 		$('#BtnPdf').click(function() {
-			var btnType = $('#issueBtnType').val();
-			var resault;
-	    	if(btnType == "copy") {
-	    		resault = automaticCopy();
-	    	} else {
-	    		resault = automaticUpdate();
-	    	}
-	    	if(resault == "OK") {
-				var frmData = document.form;
-				var url = "<c:url value='/issue/pdfView'/>";
-				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
-				frmData.action = url; 
-				frmData.method="post";
-				frmData.target="form";
-				frmData.submit();
-	    	} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+			var frmData = document.form;
+			var url = "<c:url value='/issue/pdfView'/>";
+			window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+			frmData.action = url; 
+			frmData.method="post";
+			frmData.target="form";
+			frmData.submit();
 		});
 
 		/* =========== URL 생성  ========= */
 		$('#BtnURL').click(function() {
-			var resault = automaticUpdate();
 			var issueKeyNum = $('#issueKeyNum').val();
-			if(resault == "OK") {
-				$.ajax({
-		    	    type: 'POST',
-		    	    url: "<c:url value='/issueRelay/urlExport'/>",
-		    	    data: {"issueKeyNum" : issueKeyNum},
-		    	    async: false,
-		    	    success: function (data) {
-		    	    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
-		    	        $.modal(data, 'issueRelayUrl'); //modal창 호출
-		    	    },
-		    	    error: function(e) {
-		    	        // TODO 에러 화면
-		    	    }
-		    	});
-			} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/issueRelay/urlExport'/>",
+		        data: {"issueKeyNum" : issueKeyNum},
+		        async: false,
+		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+		            $.modal(data, 'issueRelayUrl'); //modal창 호출
+		        },
+		        error: function(e) {
+		            // TODO 에러 화면
+		        }
+		    });
 		});
 
-		
-		/* =========== PPT 다운로드 ========= */
-		$('#BtnPpt').click(function() {
-			Swal.fire({
-				icon: 'info',
-				title: '준비!',
-				text: 'PPT 다운로드 준비중 입니다.'
-			});
-		});
-		
-		/* =========== Word 다운로드 ========= */
-		$('#BtnWord').click(function() {
-			Swal.fire({
-				icon: 'info',
-				title: '준비!',
-				text: 'Word 다운로드 준비중 입니다.'
-			});
-		});
-		
-		/* =========== PDF 로컬 PC 다운로드(자식창에서 호출) ========= */
-		function pdfDown(fileName) {
-			window.location ="<c:url value='/issue/fileDownload?fileName="+fileName+"'/>";
-			setTimeout(function() {
-				fileDelete(fileName);
-			},300);
-		}
-		
-		/* =========== PDF 로컬 PC 삭제 ========= */
-		function fileDelete(fileName) {
-			$.ajax({
-				url: "<c:url value='/issue/fileDelete'/>",
-				type: "POST",
-				data: {
-						"fileName": fileName,
-					},
-				dataType: "text",
-				traditional: true,
-				async: false,
-				success: function(data) {
-					if(data == "OK") {
-						Swal.fire({
-							icon: 'success',
-							title: '성공!',
-							text: 'PDF다운로드 완료되었습니다.'
-						});
-					} else {
-						Swal.fire({
-							icon: 'error',
-							title: '실패!',
-							text: 'PDF파일이 존재하지 않습니다.',
-						});
-					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			  });
-		}
 		
 		/* =========== PDF History 로컬 PC 삭제 ========= */
 		function fileDeleteHistory(fileName) {
@@ -1165,84 +592,26 @@
 			var issueHistoryPdf = row.issueHistoryPdf.toUpperCase();
 			return '<button type="button" class="btn btn-outline-info-nomal myBtn" onClick="fileDownload(' + "'" + issueHistoryPdf + "'"  + ')">Download</button>';
 		}
-		
-		/* =========== 이슈 히스토리 제거 포멧털 ========= */
-		function minusFormatter(value, options, row) {
-			var issueHistoryPdf = row.issueHistoryPdf.toUpperCase();
-			return '<a onclick="issueHistoryMinus(' + "'" + issueHistoryPdf + "'"  + ')"><img  src="/AgentInfo/images/minus2.png" style="width:20px"></a>';
-		}
-		
-		/* =========== 이슈 히스토리 제거 ========= */
-		function issueHistoryMinus(issueHistoryPdf) {
-			Swal.fire({
-				  title: '삭제!',
-				  text: "히스토리 삭제 하시겠습니까?",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonColor: '#7066e0',
-				  cancelButtonColor: '#FF99AB',
-				  confirmButtonText: '예'
-			}).then((result) => {
-				if (result.isConfirmed) {
-					$.ajax({
-	        		    type: 'POST',
-	        		    url: "<c:url value='/issueHistory/issueHistoryDelete'/>",
-	        		    data: {"issueHistoryPdf" : issueHistoryPdf},
-	        		    async: false,
-	        		    success: function (data) {
-	        		    	if(data.result == "OK") {
-		    		        	Swal.fire(
-								  '처리완료!',
-								  '처리 완료하였습니다.',
-								  'success'
-								)
-	        		    	} else {
-	        		    		Swal.fire(
-	  							  '실패!',
-	  							  '처리 실패하였습니다.',
-	  							  'error'
-	  							)
-	        		    	}
-	        		    	tableRefresh();
-	        		    },
-	        		    error: function(e) {
-	        		    	Swal.fire(
-							  '에러!',
-							  '에러가 발생하였습니다.',
-							  'error'
-							)
-	        		    }
-	        		});
-					fileDeleteHistory(issueHistoryPdf);
-				}
-			})
-		}
+
 		
 		/* =========== 이슈 히스토리 추가 ========= */
 		$('#BtnHistoryInsert').click(function() {
-			var btnType = $('#issueBtnType').val();
-			var resault;
-	    	if(btnType == "copy") {
-	    		resault = automaticCopy();
-	    	} else {
-	    		resault = automaticUpdate();
-	    	}
-	    	if(resault == "OK") {
-				var frmData = document.form;
-				var url = "<c:url value='/issue/pdfViewHistory'/>";
-				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
-				frmData.action = url; 
-				frmData.method="post";
-				frmData.target="form";
-				frmData.submit();
-	    	} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+			var frmData = document.form;
+			var url = "<c:url value='/issue/pdfViewHistory'/>";
+			window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+			frmData.action = url; 
+			frmData.method="post";
+			frmData.target="form";
+			frmData.submit();
 		});
+
+		/* =========== PDF 로컬 PC 다운로드(자식창에서 호출) ========= */
+		function pdfDown(fileName) {
+			window.location ="<c:url value='/issue/fileDownload?fileName="+fileName+"'/>";
+			setTimeout(function() {
+				fileDelete(fileName);
+			},300);
+		}
 		
 		/* =========== PDF 로컬 PC 다운로드 히스토리(자식창에서 호출) ========= */
 		function pdfDownHistory(issueHistoryDate) {
@@ -1299,100 +668,6 @@
 			window.location ="<c:url value='/issueHistory/fileDownload?fileName="+issueHistoryPdf+"'/>";
 		}
 		
-		/* =========== 자동 복사 버튼 ========= */
-		function automaticCopy() {
-			var postData = $('#form').serializeArray();
-			postData.push({name : "total", value : $('#total').text()});
-			postData.push({name : "solution", value : $('#solution').text()});
-			postData.push({name : "unresolved", value : $('#unresolved').text()});
-			postData.push({name : "hold", value : $('#hold').text()});
-			var issueCustomer = $('#issueCustomer').val();
-			if(issueCustomer == "") {
-				$('#NotIssueCustomer').show();
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '고객사 필수 입력 바랍니다.',
-				});
-				return "FALSE";
-			} else {
-				$('#NotIssueCustomer').hide();
-				var resault;
-				$.ajax({
-					url: "<c:url value='/issue/copy'/>",
-			        type: 'post',
-			        data: postData,
-			        async: false,
-			        success: function(result) {
-			        	if(result.result == "OK") {
-			        		$('#issueKeyNum').val(result.issueKeyNum);
-							$('#copy').hide();
-							$('#update').show();
-							$('#issueBtnType').val("update");
-							resault = "OK";
-						} else {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '작업을 실패하였습니다.',
-							});
-							resault = "FALSE";
-						}
-					},
-					error: function(error) {
-						console.log(error);
-						resault = "FALSE";
-					}
-			    });
-				return resault;
-			}
-		}
-		
-		/* =========== 자동 업데이트 버튼 ========= */
-		function automaticUpdate() {
-			var postData = $('#form').serializeArray();
-			postData.push({name : "total", value : $('#total').text()});
-			postData.push({name : "solution", value : $('#solution').text()});
-			postData.push({name : "unresolved", value : $('#unresolved').text()});
-			postData.push({name : "hold", value : $('#hold').text()});
-			var issueCustomer = $('#issueCustomer').val();
-			var resault;
-			if(issueCustomer == "") {
-				$('#NotIssueCustomer').show();
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '고객사 필수 입력 바랍니다.',
-				});
-				return "FALSE";
-			} else {
-				$('#NotIssueCustomer').hide();
-				$.ajax({
-					url: "<c:url value='/issue/update'/>",
-			        type: 'post',
-			        data: postData,
-			        async: false,
-			        success: function(result) {
-			        	if(result == "OK") {
-							$('#downloadBtn').show();
-							resault = "OK";
-						} else {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '작업을 실패하였습니다.',
-							});
-							resault = "FALSE";
-						}
-					},
-					error: function(error) {
-						console.log(error);
-						resault = "FALSE";
-					}
-			    });
-				return resault;
-			}
-		}
 
 		function btnUpdateQA(issueRelayKeyNum) {
 			$.ajax({
@@ -1466,10 +741,8 @@
 
 		$(document).ready(function() {
             $(window).on('beforeunload', function(){
-				var issueKeyNum = $('#issueKeyNum').val();
                 $.ajax({
     			    url: "<c:url value='/issue/leaveView'/>",
-					data: {"issueKeyNum": issueKeyNum},
     			    type: 'GET',
     			    success: function(response) {
 
@@ -1492,11 +765,9 @@
 
     			// 만약 사용자가 일정 시간 동안 활동이 없으면 AJAX 요청을 보냄
     			if (inactiveTime >= 600000) { // 여기서 60000은 10분을 밀리초로 나타낸 값입니다.
-					var issueKeyNum = $('#issueKeyNum').val();
     			    $.ajax({
     			        url: "<c:url value='/issue/checkUserStatus'/>",
     			        type: 'GET',
-						data: {"issueKeyNum": issueKeyNum},
     			        success: function(response) {
 						
     			        },
