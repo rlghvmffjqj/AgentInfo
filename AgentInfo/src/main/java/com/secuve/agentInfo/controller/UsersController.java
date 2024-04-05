@@ -209,4 +209,9 @@ public class UsersController {
         }
 		return "redirect:/logout"; 
 	}
+	
+	@GetMapping("/errorPage")
+	public String errorPage() {
+		return "/Error";
+	}
 }
