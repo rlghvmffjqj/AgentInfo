@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionHandler {
 	@ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public String handleForbidden(RuntimeException ex) {
+    public String handleForbidden(RuntimeException ex, Exception e) {
+		if (e.getMessage().equals("Session is not valid.")) {
+            return "JsessionIdError";
+        }
         return "Error"; 
     }
 }
