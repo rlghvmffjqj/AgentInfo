@@ -156,6 +156,8 @@
 			$('.calendar').addClass('active');
 		} else if($.cookie('name') == 'sendPackage') {
 			$('.sendPackage').addClass('active');
+		} else if($.cookie('name') == 'mailSend') {
+			$('.mailSend').addClass('active');
 		} else if($.cookie('name') == 'customerLicenseManagement') {
 			$('.customerLicense').addClass('active');
 			$('.customerLicense').addClass('pcoded-trigger');
@@ -239,6 +241,15 @@
 		    	</ul>
 			</sec:authorize>
 		    <sec:authorize access="hasRole('ADMIN')">
+				<ul class="pcoded-item pcoded-left-item">
+				    <li class="mailSend">
+				        <a href="<c:url value='/mailSend/write'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-email"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">메일 발송 기능</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				    </li>
+				</ul>
 		    	<ul class="pcoded-item pcoded-left-item">
 				    <li class="sendPackage">
 				        <a href="<c:url value='/sendPackage/list'/>" class="waves-effect waves-dark">

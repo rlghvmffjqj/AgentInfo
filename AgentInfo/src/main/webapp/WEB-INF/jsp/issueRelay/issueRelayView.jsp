@@ -199,7 +199,7 @@
 				    	<c:forEach var="list" items="${issue}">
 				    		<li class="listLi">
 								<a onClick="moveScroll('${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
-									<span style="float: left; width: auto; min-width: 770px;">
+									<span style="float: left; width: auto; min-width: 820px;">
 										${list.issueDivision}
 				    					<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
 				    						-

@@ -379,7 +379,19 @@
 	            </div>
 	        </div>
 	    </div>
-		
+		<div class="fixed-div">
+			<div style="text-align: right;">
+				<a onclick="fixedClose();">x</a>
+			</div>
+			<p class="text">하하</p>
+			<p class="text">하하</p>
+			<p class="text">하하하하하하하하하하호호</p>
+			<p class="text">하하</p>
+			<p class="text">하하</p>
+			<p class="text">하하</p>
+			<p class="text">하하</p>
+		</div>
+
 	</body>
 
 	<script>
@@ -1507,12 +1519,50 @@
     			}
 			}, 600000); // 10분마다 사용자의 상태를 확인
         });
+
+		function fixedClose() {
+    	    $('.fixed-div').hide(); // 해당 div 숨기기
+    	};
+
+		$(document).ready(function() {
+	    	$('.text').each(function() {
+    		    var maxWidth = $('.fixed-div').width(); // div의 최대 너비
+					
+    		    // p 태그 내의 텍스트 가져오기
+    		    var text = $(this).text();
+					
+    		    // p 태그의 너비가 div의 최대 너비를 넘어가는지 확인
+    		    if ($(this).width() > maxWidth) {
+    		        // 넘어간 텍스트 길이 계산
+    		        var overflowLength = $(this).width() - maxWidth;
+				
+    		        // 텍스트 자르기
+    		        var truncatedText = text.slice(0, -Math.round(overflowLength / 10)); // 간단하게 넘어간 길이의 10분의 1만큼만 자릅니다.
+				
+    		        // 자른 텍스트와 "..."을 합쳐서 적용
+    		        $(this).text(truncatedText + '...');
+    		    }
+    		});
+		});
 	</script>
 	<style>
-		.issueStyle {
-			background: #f5e6d3bd;
-    		font-weight: bold;
-    		font-family: math;
+		p {
+			width: 200px;
 		}
+		.fixed-div {
+		    position: fixed;
+		    top: 50%;
+		    right: 20px; /* 원하는 위치로 조정 가능 */
+		    transform: translateY(-50%);
+		    background-color: #f1f1f1;
+		    padding: 10px 20px;
+		    border-radius: 5px;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			max-width: 150px;
+			background-color: lightpink;
+    		color: #4d0505;
+			box-shadow: 2px 3px 9px;
+		}
+
 	</style>
 </html>
