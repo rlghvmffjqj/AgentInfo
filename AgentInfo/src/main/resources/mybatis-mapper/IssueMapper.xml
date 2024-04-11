@@ -5,21 +5,22 @@
 	<resultMap type="com.secuve.agentInfo.vo.Issue" id="issue"></resultMap>
 	
 	<select id="getIssueList" resultMap="issue" parameterType="string">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas
-				FROM issue
+				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+				FROM issue i LEFT JOIN issuerelay ir ON ir.issuePrimaryKeyNum = i.issuePrimaryKeyNum
 					<include refid="sqlIssue" />
+				GROUP BY issueKeyNum
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getIssueListCount" resultType="_int">
-		SELECT COUNT(DISTINCT issueKeyNum) FROM issue
+		SELECT COUNT(DISTINCT i.issueKeyNum) FROM issue i LEFT JOIN issuerelay ir ON ir.issuePrimaryKeyNum = i.issuePrimaryKeyNum
 			<include refid="sqlIssue" />
 	</select>
 	
@@ -150,7 +151,7 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueCustomerArr" item="arr">
-						OR issueCustomer LIKE CONCAT('%',#{arr},'%')
+						OR i.issueCustomer LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -159,7 +160,7 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueTitleArr" item="arr">
-						OR issueTitle LIKE CONCAT('%',#{arr},'%')
+						OR i.issueTitle LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -168,7 +169,7 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueTosmsArr" item="arr">
-						OR issueTosms LIKE CONCAT('%',#{arr},'%')
+						OR i.issueTosms LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -177,7 +178,7 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueTosrfArr" item="arr">
-						OR issueTosrf LIKE CONCAT('%',#{arr},'%')
+						OR i.issueTosrf LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -186,7 +187,7 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issuePortalArr" item="arr">
-						OR issuePortal LIKE CONCAT('%',#{arr},'%')
+						OR i.issuePortal LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -195,7 +196,7 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueJavaArr" item="arr">
-						OR issueJava LIKE CONCAT('%',#{arr},'%')
+						OR i.issueJava LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -204,13 +205,13 @@
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueWasArr" item="arr">
-						OR issueWas LIKE CONCAT('%',#{arr},'%')
+						OR i.issueWas LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
 			</if>
 			<if test="issueDateStart != null and issueDateStart != ''">
-				AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+				AND i.issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
 			</if>
 		</trim>
 	</sql>

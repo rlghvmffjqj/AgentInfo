@@ -1522,40 +1522,34 @@
 			}, 600000); // 10분마다 사용자의 상태를 확인
         });
 
-		function fixedClose() {
-			$('#fixedDiv').fadeOut('fast', function() {
-    		    $('#showFixedDiv').fadeIn('fast');
-    		});
-		}
-
-		$('#showFixedDiv').click(function() {
-			$('#showFixedDiv').fadeOut('fast', function() {
-    		    $('#fixedDiv').fadeIn('fast');
-    		});
-		});
-
-
-
-
 		$(document).ready(function() {
 	    	$('.text').each(function() {
-    		    var maxLength = 11 // div의 최대 너비
+    		    var maxLength = 11;
 					
-    		    // p 태그 내의 텍스트 가져오기
     		    var text = $(this).text().trim();
-				console.log(text);
-					
-    		    // p 태그의 너비가 div의 최대 너비를 넘어가는지 확인
-    		    if (text.length > maxLength) {
-    		        var truncatedText = text.slice(0, maxLength) + '...'; // 최대 길이에서 뒤 두 문자를 제외한 부분을 자르고 "..."으로 대체합니다.
-            		$(this).text(truncatedText);
+				var textLength = 8;
 
-					// 롤오버시 전체 내용 표시
+        		for (var i = 0; i < text.length; i++) {
+        		    var charCode = text.charCodeAt(i);
+				
+        		    if ((charCode >= 0xAC00 && charCode <= 0xD7AF) || (charCode >= 0x3131 && charCode <= 0x318E)) {
+
+        		    } else {
+						if(textLength < 17)
+							textLength += 1;
+        		    }
+        		}
+
+        		if (text.length > textLength) {
+        		    var truncatedText = text.slice(0, textLength) + '...';
+        		    $(this).text(truncatedText);
+        
+
 					$(this).mouseenter(function() {
             		    $(this).text(text);
             		});
 				
-            		// 롤아웃시 다시 줄여진 내용 표시
+
             		$(this).mouseleave(function() {
             		    $(this).text(truncatedText);
             		});
@@ -1577,6 +1571,76 @@
 		    	}
 			}
 		}
+		var isDragging = false;
+		var clickThreshold = 5;
+		$(document).ready(function() {
+            
+            var startX, startY;
+			var offsetX, offsetY;
+			var valueX, valueY;
+
+            $('#showFixedDiv').on('mousedown', function(event) {
+                isDragging = true;
+                startX = event.clientX - parseInt($('#showFixedDiv').css('left'));
+                startY = event.clientY - parseInt($('#showFixedDiv').css('top'));
+				offsetX1 = parseInt($('#showFixedDiv').css('left'));
+                offsetY1 = parseInt($('#showFixedDiv').css('top'));
+            });
+
+            $(document).on('mousemove', function(event) {
+                if (isDragging) {
+                    var newX = event.clientX - startX;
+                    var newY = event.clientY - startY;
+					
+                    $('#showFixedDiv').css({ top: newY, left: newX });
+                }
+            });
+
+			$("#showFixedDiv").on('mouseup', function(event) {
+				offsetX2 = parseInt($('#showFixedDiv').css('left'));
+                offsetY2 = parseInt($('#showFixedDiv').css('top'));
+				valueX = offsetX1-offsetX2;
+				valueY = offsetY1-offsetY2;
+
+
+				if (valueX == 0 && valueY == 0) {
+                    	isDragging = false;
+                	}
+        	 
+				if (!isDragging) {
+					$('#showFixedDiv').fadeOut('fast', function() {
+    				    $('#fixedDiv').fadeIn('fast');
+    				});
+				}
+        	    isDragging = false;
+        	});
+
+
+			$('#fixedDiv').on('mousedown', function(event) {
+				isDragging = true;
+                startX = event.clientX - parseInt($('#fixedDiv').css('left'));
+                startY = event.clientY - parseInt($('#fixedDiv').css('top'));
+            });
+
+            $(document).on('mousemove', function(event) {
+				if (isDragging) {
+                	var newX = event.clientX - startX;
+                	var newY = event.clientY - startY;
+					$('#fixedDiv').css({ top: newY, left: newX });
+				}
+            });
+
+			$("#fixedDiv").on('mouseup', function(event) {
+				isDragging = false;
+        	});
+        });
+
+		function fixedClose() {
+			$('#fixedDiv').fadeOut('fast', function() {
+    		    $('#showFixedDiv').fadeIn('fast');
+    		});
+		}
+
 	</script>
 	<style>
 		.text {
@@ -1599,20 +1663,22 @@
 			max-height: 700px;
 			overflow-y: scroll;
     		scrollbar-width: none;
+			cursor: move;
 		}
 
 		#showFixedDiv {
 			position: fixed; 
-			bottom: 50%; 
-			right: 20px; 
-			width: 50px; 
-			height: 50px; 
-			border-radius: 50%; 
-			background-color: lightpink; 
-			color: white;
-			border: none;
+            bottom: 50%; 
+            right: 20px; 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            background-color: lightpink; 
+            color: white;
+            border: none;
+            cursor: move; /* 드래그 가능한 커서로 설정 */
+            box-shadow: 2px 3px 9px black;
 			display: none;
-			box-shadow: 2px 3px 9px black;
 		}
 
 		.text:hover {

@@ -41,6 +41,8 @@ public class Issue {
 	private String issueObstacle;				// 장애내용
 	private String issueNote;					// 비고
 	private String issueAnswerStatus;
+	
+	private String issueRelayUrl;
 		
 	private String issueRegistrant = "";		// 추가자
 	private String issueRegistrationDate = "";	// 추가 시간

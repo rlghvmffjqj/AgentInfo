@@ -20,9 +20,10 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사','Title','전달일자','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
+					colNames:['Key','URL','고객사','Title','전달일자','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
 					colModel:[
 						{name:'issueKeyNum', index:'issueKeyNum', align:'center', width: 35, hidden:true },
+						{name:'issueRelayUrl', index:'issueRelayUrl', align:'center', width: 50, formatter: urlFormatter},
 						{name:'issueCustomer', index:'issueCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'issueTitle', index:'issueTitle', align:'center', width: 200},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
@@ -355,6 +356,13 @@
 		function linkFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="updateView('+"'"+rowdata.issueKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
+
+		function urlFormatter(cellValue, options, rowdata, action) {
+			if(cellValue == '' || cellValue == null) {
+				return '';
+			}
+			return '<button class="btn btn-outline-info-nomal myBtn" onclick="urlOpen('+"'"+cellValue+"'"+');">Open</button>';
+		}
 		
 		
 		/* =========== Enter 검색 ========= */
@@ -486,5 +494,9 @@
 	            }
 	        });
 		});
+
+		function urlOpen(url) {
+			window.open(url, '_blank');
+		}
 	</script>
 </html>
