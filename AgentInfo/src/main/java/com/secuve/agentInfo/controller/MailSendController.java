@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 
 import javax.mail.internet.MimeMessage;
 
@@ -28,11 +29,11 @@ public class MailSendController {
 	
 	@ResponseBody
 	@PostMapping(value = "/mailSend/send")
-	public String MailSend(MailSend mailSend, MultipartFile mailAttFile) {
+	public String MailSend(MailSend mailSend, MultipartFile mailAttFile, Principal principal) {
 		String host = "mail.secuve.com";                                                                           
 		String port = "25";                                                                           
 		String password = "";                                                                   
-		String from = "iamdev@secuve.com";   
+		String from = principal.getName() + "@secuve.com";   
 
 		String to = mailSend.getMailTo() + "@secuve.com";
 		String[] cc = mailSend.getMailCc();

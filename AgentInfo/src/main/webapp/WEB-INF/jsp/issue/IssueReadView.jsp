@@ -189,7 +189,7 @@
 			                                		<div class="plus">
 			                                			<div><div><div id="blank"></div></div></div>
 			                                			<c:forEach var="list" items="${issue}">
-					                                		<div class="issue">
+					                                		<div class="issue" data-keynum="${list.issuePrimaryKeyNum}">
 					                                			<div>
 					                                				<div style='text-align:left; float:left; margin-bottom: 5px;'><input class="form-control" type="text" style='width:400px' id="issueDivisionList" name="issueDivisionList" placeholder='구분' value="${list.issueDivision}"></div>
 					                                			</div>
@@ -355,7 +355,20 @@
 	            </div>
 	        </div>
 	    </div>
-		
+		<div class="fixed-div" id="fixedDiv">
+			<div style="text-align: right;">
+				<a onclick="fixedClose();">x</a>
+			</div>
+			<% int num = 1; %>
+			<c:forEach var="list" items="${issue}">
+				<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
+					<p class="text">
+						<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
+					</p>
+				</a>
+			</c:forEach>
+		</div>
+		<button id="showFixedDiv">■</button>
 	</body>
 
 	<script>
@@ -778,12 +791,105 @@
     			}
 			}, 600000); // 10분마다 사용자의 상태를 확인
         });
+
+		function fixedClose() {
+			$('#fixedDiv').fadeOut('fast', function() {
+    		    $('#showFixedDiv').fadeIn('fast');
+    		});
+		}
+
+		$('#showFixedDiv').click(function() {
+			$('#showFixedDiv').fadeOut('fast', function() {
+    		    $('#fixedDiv').fadeIn('fast');
+    		});
+		});
+
+		$(document).ready(function() {
+	    	$('.text').each(function() {
+    		    var maxLength = 11 // div의 최대 너비
+					
+    		    // p 태그 내의 텍스트 가져오기
+    		    var text = $(this).text().trim();
+				console.log(text);
+					
+    		    // p 태그의 너비가 div의 최대 너비를 넘어가는지 확인
+    		    if (text.length > maxLength) {
+    		        var truncatedText = text.slice(0, maxLength) + '...'; // 최대 길이에서 뒤 두 문자를 제외한 부분을 자르고 "..."으로 대체합니다.
+            		$(this).text(truncatedText);
+
+					// 롤오버시 전체 내용 표시
+					$(this).mouseenter(function() {
+            		    $(this).text(text);
+            		});
+				
+            		// 롤아웃시 다시 줄여진 내용 표시
+            		$(this).mouseleave(function() {
+            		    $(this).text(truncatedText);
+            		});
+    		    }
+    		});
+		});
+
+		function moveScroll(keyNum) {
+		    var target = document.querySelector('.issue[data-keynum="' + keyNum + '"]');
+			if(target.style.display != "none") {
+		    	if (target) {
+		    	    var targetPosition = target.getBoundingClientRect().top;
+        			var newPosition = targetPosition - 100; // 조금 더 위쪽으로 이동하려면 음수 값을 사용합니다.
+
+        			window.scrollBy({
+        			    top: newPosition,
+        			    behavior: 'smooth'
+        			});
+		    	}
+			}
+		}
 	</script>
 	<style>
 		.issueStyle {
 			background: #f5e6d3bd;
     		font-weight: bold;
     		font-family: math;
+		}
+
+		.text {
+			font-weight: bold;
+		}
+		.fixed-div {
+		    position: fixed;
+		    top: 50%;
+		    right: 20px; /* 원하는 위치로 조정 가능 */
+		    transform: translateY(-50%);
+		    background-color: #f1f1f1;
+		    padding: 10px 20px;
+		    border-radius: 5px;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			max-width: 180px;
+			background-color: lightpink;
+    		color: #4d0505;
+			box-shadow: 2px 3px 9px;
+			width: 180px;
+			max-height: 700px;
+			overflow-y: scroll;
+    		scrollbar-width: none;
+		}
+
+		#showFixedDiv {
+			position: fixed; 
+			bottom: 50%; 
+			right: 20px; 
+			width: 50px; 
+			height: 50px; 
+			border-radius: 50%; 
+			background-color: lightpink; 
+			color: white;
+			border: none;
+			display: none;
+			box-shadow: 2px 3px 9px black;
+		}
+
+		.text:hover {
+			color: #cf0000;
 		}
 	</style>
 </html>

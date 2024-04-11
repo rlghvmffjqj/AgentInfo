@@ -54,16 +54,21 @@
                             <div class="main-body">
                                 <div class="page-wrapper">
                                 	<div class="ibox">
+										<h5 style="color: red;">현제 페이지는 메일 발송 기능 테스트 페이지로 발송자는 로그인한 사용자로되어 지정되어 있습니다. 필요에 따라 기능 수정 하겠습니다.</h5>
+										<br>
 										<form id="form" name="form" method ="post">
 											<label class="labelFontSize">받는 사람(이메일 입력 ex : iamdev)</label>
 											<input class="form-control" type="text" id="mailTo" name="mailTo" placeholder="iamdev"> 
+											<br>
 											<label class="labelFontSize">참조(두명 이상일 경우 "," 로 구분, 이메일 입력 ex : iamdev)</label>
 											<input class="form-control" type="text" id="mailCc" name="mailCc" placeholder="iamdev1, iamdev2"> 
+											<br>
 	                                		<label class="labelFontSize">메일 제목</label>
 											<input class="form-control" type="text" id="mailSubject" name="mailSubject" placeholder="메일 제목"> 
+											<br>
 											<label class="labelFontSize">메일 내용</label>
 											<textarea class="summerNoteSize" rows="5" id="mailText" name="mailText" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
-											<br>
+											<br><br>
 											<label class="labelFontSize">첨부 파일</label>
 											<input class="form-control" type="file" name="mailAttFile" id="mailAttFile" />
 											<br><br><br>
@@ -147,4 +152,30 @@
 		})
 		
 	</script>
+	<style>
+		.ibox {
+			background: white;
+    		padding: 46px;
+    		border-radius: 10px;
+    		border: 1px solid #dbdbdb;
+		}
+
+		.form-control:hover {
+			border: none;
+    		border-bottom: 1px solid #cccccc;
+		}
+
+		.form-control:focus {
+			border: none;
+    		border-bottom: 1px solid #cccccc;
+		}
+
+		.form-control {
+			border: none;
+    		border-bottom: 1px solid #cccccc;
+		}
+
+		
+
+	</style>
 </html>
