@@ -1572,12 +1572,12 @@
 			}
 		}
 		var isDragging = false;
-		var clickThreshold = 5;
+
 		$(document).ready(function() {
-            
-            var startX, startY;
-			var offsetX, offsetY;
-			var valueX, valueY;
+            var valueX, valueY;
+			var startX, startY;
+			var offsetX1, offsetX2;
+			var offsetY1, offsetY2;
 
             $('#showFixedDiv').on('mousedown', function(event) {
                 isDragging = true;
@@ -1614,7 +1614,11 @@
 				}
         	    isDragging = false;
         	});
+		})
 
+
+		$(document).ready(function() {
+			var startX, startY;
 
 			$('#fixedDiv').on('mousedown', function(event) {
 				isDragging = true;
@@ -1664,6 +1668,7 @@
 			overflow-y: scroll;
     		scrollbar-width: none;
 			cursor: move;
+			min-height: 100px;
 		}
 
 		#showFixedDiv {
