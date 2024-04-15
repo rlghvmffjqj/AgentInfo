@@ -570,26 +570,28 @@
 
 		$('#BtnAuthority').click(function() {
 			Swal.fire({
-				  title: '수정 권한 가져오기!',
-				  text: "${connecter}님이 저장하지 않은 데이터가 유실될 수 있습니다. 권한을 가져오시겠습니까? ",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonColor: '#7066e0',
-				  cancelButtonColor: '#FF99AB',
-				  confirmButtonText: 'OK'
+    		title: '수정 권한 가져오기!',
+    		html: "<span style='font-size: 17px;'>${connecter}님이 저장하지 않은 데이터가 <span style='color:red'>유실</span>될 수 있습니다.</span> <br>권한을 가져오시겠습니까?",
+    		icon: 'warning',
+    		showCancelButton: true,
+    		confirmButtonColor: '#7066e0',
+    		cancelButtonColor: '#FF99AB',
+    		confirmButtonText: 'OK'
 			}).then((result) => {
-		    	var issueKeyNum = $('#issueKeyNum').val();
-		    	$.ajax({
-		    	    url: "<c:url value='/issue/leaveAndRedirectToList'/>",
-		    	    data: {"issueKeyNum": issueKeyNum},
-		    	    type: 'GET',
-		    	    success: function() {
-		    	        location.reload();
-		    	    },
-		    	    error: function(xhr, status, error) {
-		    	        // 요청이 실패한 경우 수행할 작업
-		    	    }
-		    	});
+				if(result.isConfirmed) {
+		    		var issueKeyNum = $('#issueKeyNum').val();
+		    		$.ajax({
+		    		    url: "<c:url value='/issue/leaveAndRedirectToList'/>",
+		    		    data: {"issueKeyNum": issueKeyNum},
+		    		    type: 'GET',
+		    		    success: function() {
+		    		        location.reload();
+		    		    },
+		    		    error: function(xhr, status, error) {
+		    		        // 요청이 실패한 경우 수행할 작업
+		    		    }
+		    		});
+				}
 			})
 		});
 
