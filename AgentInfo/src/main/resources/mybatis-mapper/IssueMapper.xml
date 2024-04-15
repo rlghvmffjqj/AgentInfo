@@ -11,7 +11,7 @@
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
 				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
-				FROM issue i LEFT JOIN issuerelay ir ON ir.issuePrimaryKeyNum = i.issuePrimaryKeyNum
+				FROM issue i LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
 					<include refid="sqlIssue" />
 				GROUP BY issueKeyNum
 			) a

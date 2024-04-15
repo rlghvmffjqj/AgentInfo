@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
@@ -110,6 +113,9 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue/update")
 	public String IssueUpdate(Issue issue, Principal principal) {
+		if(!principal.getName().equals(lockMap.get("issue_"+issue.getIssueKeyNum()))) {
+			return "NoAuthority";
+		}
 		issue.setIssueModifier(principal.getName());
 		issue.setIssueModifiedDate(issueService.nowDate());
 		
@@ -128,6 +134,7 @@ public class IssueController {
 	
 	@Autowired private Lock lock;
     @Autowired private Set<String> usersInUpdateView;
+    Map<String, String> lockMap = new HashMap<String, String>();
     
 	@GetMapping(value = "/issue/updateView")
 	public String UpdateView(Model model, Principal principal, int issueKeyNum) {
@@ -143,11 +150,16 @@ public class IssueController {
 		lock.lock(); // Lock 획득
         try {
             if (usersInUpdateView.contains("issue_"+issueKeyNum)) {
+            	System.out.println(usersInUpdateView.iterator());
                 // 다른 사용자가 이미 해당 페이지에 접근 중이므로 읽기 전용 페이지를 반환
+            	model.addAttribute("connecter", employeeService.getEmployeeOne(lockMap.get("issue_"+issueKeyNum)).getEmployeeName());
                 return "issue/IssueReadView";
             } else {
                 // 첫 번째 사용자가 해당 페이지에 접근한 경우 사용자 집합에 추가
                 usersInUpdateView.add("issue_"+issueKeyNum);
+                if(lockMap.get("issue_"+issueKeyNum) == "" || lockMap.get("issue_"+issueKeyNum) == null) {
+                	lockMap.put("issue_"+issueKeyNum, principal.getName());
+                }
             }
         } finally {
             lock.unlock(); // Lock 해제
@@ -155,25 +167,46 @@ public class IssueController {
 		return "issue/IssueView";
 	}
 	
+	@ResponseBody
 	@GetMapping("/issue/leaveView")
     public void leaveView(Principal principal, int issueKeyNum) {
-        lock.lock();
-        try {
-            usersInUpdateView.remove("issue_"+issueKeyNum);
-        } finally {
-            lock.unlock();
-        }
+		if(principal.getName().equals(lockMap.get("issue_"+issueKeyNum))) {
+			lock.lock();
+	        try {
+	            usersInUpdateView.remove("issue_"+issueKeyNum);
+	            lockMap.remove("issue_" + issueKeyNum);
+	        } finally {
+	            lock.unlock();
+	        }
+		}
     }
 	
+	@ResponseBody
 	@GetMapping("/issue/checkUserStatus")
 	public void checkUserStatus(Principal principal, int issueKeyNum) {
-	    lock.lock();
+		if(principal.getName().equals(lockMap.get("issue_"+issueKeyNum))) {
+		    lock.lock();
+		    try {
+		        usersInUpdateView.remove("issue_"+issueKeyNum);
+		        lockMap.remove("issue_" + issueKeyNum);
+		    } finally {
+		        lock.unlock();
+		    }
+		}
+	}
+	
+	@ResponseBody
+	@GetMapping("/issue/leaveAndRedirectToList")
+	public void leaveAndRedirectToList(int issueKeyNum) {
+		lock.lock();
 	    try {
 	        usersInUpdateView.remove("issue_"+issueKeyNum);
+	        lockMap.remove("issue_" + issueKeyNum);
 	    } finally {
 	        lock.unlock();
 	    }
 	}
+
 	
 	@GetMapping(value = "/issue/copyView")
 	public String CopyView(Model model, Principal principal, int issueKeyNum) {
