@@ -1515,30 +1515,30 @@
     			// 만약 사용자가 일정 시간 동안 활동이 없으면 AJAX 요청을 보냄
     			if (inactiveTime >= 600000) { // 여기서 60000은 10분을 밀리초로 나타낸 값입니다.
 					var issueKeyNum = $('#issueKeyNum').val();
-    			    $.ajax({
-    			        url: "<c:url value='/issue/checkUserStatus'/>",
-    			        type: 'GET',
-						data: {"issueKeyNum": issueKeyNum},
-    			        success: function() {
-							if(window.location.pathname == '/AgentInfo/issue/updateView') {
-								Swal.fire(
-								  	'확인!',
-								  	'10분간 동작이 없어 이전 페이지로 이동합니다.(저장완료)',
-								  	'info'
-								).then((result) => {
-									resault = automaticUpdate();
-	    							if(resault == "OK") {
-										window.history.back();
-									}
-								})
+					if(window.location.pathname == '/AgentInfo/issue/updateView') {
+						Swal.fire(
+						  	'확인!',
+						  	'10분간 동작이 없어 목록 페이지로 이동합니다.<br>(저장완료)',
+						  	'info'
+						).then((result) => {
+							var resault = automaticUpdate();
+							if(resault == "OK") {
+    			    			$.ajax({
+    			    			    url: "<c:url value='/issue/checkUserStatus'/>",
+    			    			    type: 'GET',
+									data: {"issueKeyNum": issueKeyNum},
+    			    				success: function() {
+										location.href="<c:url value='/issue/issueList'/>";
+    			    			    },
+    			    			    error: function(xhr, status, error) {
+    			    			        // 요청이 실패한 경우 수행할 작업
+    			    			    }
+    			    			});	
 							}
-    			        },
-    			        error: function(xhr, status, error) {
-    			            // 요청이 실패한 경우 수행할 작업
-    			        }
-    			    });
+						})
+					}
     			}
-			}, 60000); // 10분마다 사용자의 상태를 확인
+			}, 60000); // 1분마다 사용자의 상태를 확인
         });
 
 		$(document).ready(function() {
