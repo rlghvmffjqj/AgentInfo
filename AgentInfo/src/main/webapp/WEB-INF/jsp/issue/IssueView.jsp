@@ -922,6 +922,14 @@
 									$('#downloadBtn').show();
 								}
 							})
+						} else if(result == "NoAuthority") {
+							Swal.fire({
+								icon: 'error',
+								title: '실패!',
+								text: '다른 사용자가 해당 이슈의 권한을 획득했습니다.',
+							}).then((result2) => {
+								location.href="<c:url value='/issue/issueList'/>";
+							})
 						} else {
 							Swal.fire({
 								icon: 'error',
@@ -1511,15 +1519,26 @@
     			        url: "<c:url value='/issue/checkUserStatus'/>",
     			        type: 'GET',
 						data: {"issueKeyNum": issueKeyNum},
-    			        success: function(response) {
-						
+    			        success: function() {
+							if(window.location.pathname == '/AgentInfo/issue/updateView') {
+								Swal.fire(
+								  	'확인!',
+								  	'10분간 동작이 없어 이전 페이지로 이동합니다.(저장완료)',
+								  	'info'
+								).then((result) => {
+									resault = automaticUpdate();
+	    							if(resault == "OK") {
+										window.history.back();
+									}
+								})
+							}
     			        },
     			        error: function(xhr, status, error) {
     			            // 요청이 실패한 경우 수행할 작업
     			        }
     			    });
     			}
-			}, 600000); // 10분마다 사용자의 상태를 확인
+			}, 60000); // 10분마다 사용자의 상태를 확인
         });
 
 		$(document).ready(function() {
@@ -1571,9 +1590,10 @@
 		    	}
 			}
 		}
-		var isDragging = false;
+		
 
 		$(document).ready(function() {
+			var isDragging = false;
             var valueX, valueY;
 			var startX, startY;
 			var offsetX1, offsetX2;
@@ -1592,7 +1612,8 @@
                     var newX = event.clientX - startX;
                     var newY = event.clientY - startY;
 					
-                    $('#showFixedDiv').css({ top: newY, left: newX });
+					$('#showFixedDiv').css({ top: newY, left: newX });
+                    $('#fixedDiv').css({ top: newY, left: newX-120 });
                 }
             });
 
@@ -1618,6 +1639,7 @@
 
 
 		$(document).ready(function() {
+			var isDragging = false;
 			var startX, startY;
 
 			$('#fixedDiv').on('mousedown', function(event) {
@@ -1631,6 +1653,7 @@
                 	var newX = event.clientX - startX;
                 	var newY = event.clientY - startY;
 					$('#fixedDiv').css({ top: newY, left: newX });
+					$('#showFixedDiv').css({ top: newY, left: newX+120 });
 				}
             });
 

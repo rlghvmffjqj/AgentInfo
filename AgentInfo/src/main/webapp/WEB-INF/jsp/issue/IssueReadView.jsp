@@ -180,6 +180,7 @@
 			                                			<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnPdf" style="font-size:11px">PDF Download</button>
 														<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnURL" style="font-size:11px">URL Export</button>
 			                                			<button type="button" class="btn btn-outline-info-del myBtn" id="BtnHistoryInsert" style="font-size:11px">히스토리 추가</button>
+														<button type="button" class="btn btn-outline-info-nomal myBtn" id="BtnAuthority" style="font-size:11px">권한 가져오기</button>
 			                                		</div>
 		                                		</div> 
 		                                		<div style='text-align:right;'>
@@ -376,7 +377,7 @@
 			Swal.fire({
 				icon: 'info',
 				title: '읽기 모드',
-				text: '다른 사용자가 해당 이슈를 수정하고있어 읽기 권한으로 접속합니다.',
+				text: '[${connecter}]님이 해당 이슈를 수정 중이므로 읽기 권한으로 접속하였습니다.',
 			});
 		});
 
@@ -566,6 +567,34 @@
 		        }
 		    });
 		});
+
+		$('#BtnAuthority').click(function() {
+			Swal.fire({
+				  title: '수정 권한 가져오기!',
+				  text: "${connecter}님이 저장하지 않은 데이터가 유실될 수 있습니다. 권한을 가져오시겠습니까? ",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+		    	var issueKeyNum = $('#issueKeyNum').val();
+		    	$.ajax({
+		    	    url: "<c:url value='/issue/leaveAndRedirectToList'/>",
+		    	    data: {"issueKeyNum": issueKeyNum},
+		    	    type: 'GET',
+		    	    success: function() {
+		    	        location.reload();
+		    	    },
+		    	    error: function(xhr, status, error) {
+		    	        // 요청이 실패한 경우 수행할 작업
+		    	    }
+		    	});
+			})
+		});
+
+
+		
 
 		
 		/* =========== PDF History 로컬 PC 삭제 ========= */
@@ -792,18 +821,6 @@
 			}, 600000); // 10분마다 사용자의 상태를 확인
         });
 
-		function fixedClose() {
-			$('#fixedDiv').fadeOut('fast', function() {
-    		    $('#showFixedDiv').fadeIn('fast');
-    		});
-		}
-
-		$('#showFixedDiv').click(function() {
-			$('#showFixedDiv').fadeOut('fast', function() {
-    		    $('#fixedDiv').fadeIn('fast');
-    		});
-		});
-
 		$(document).ready(function() {
 	    	$('.text').each(function() {
     		    var maxLength = 11 // div의 최대 너비
@@ -844,6 +861,82 @@
 		    	}
 			}
 		}
+
+		$(document).ready(function() {
+			var isDragging = false;
+            var valueX, valueY;
+			var startX, startY;
+			var offsetX1, offsetX2;
+			var offsetY1, offsetY2;
+
+            $('#showFixedDiv').on('mousedown', function(event) {
+                isDragging = true;
+                startX = event.clientX - parseInt($('#showFixedDiv').css('left'));
+                startY = event.clientY - parseInt($('#showFixedDiv').css('top'));
+				offsetX1 = parseInt($('#showFixedDiv').css('left'));
+                offsetY1 = parseInt($('#showFixedDiv').css('top'));
+            });
+
+            $(document).on('mousemove', function(event) {
+                if (isDragging) {
+                    var newX = event.clientX - startX;
+                    var newY = event.clientY - startY;
+					
+					$('#showFixedDiv').css({ top: newY, left: newX });
+                    $('#fixedDiv').css({ top: newY, left: newX-120 });
+                }
+            });
+
+			$("#showFixedDiv").on('mouseup', function(event) {
+				offsetX2 = parseInt($('#showFixedDiv').css('left'));
+                offsetY2 = parseInt($('#showFixedDiv').css('top'));
+				valueX = offsetX1-offsetX2;
+				valueY = offsetY1-offsetY2;
+
+
+				if (valueX == 0 && valueY == 0) {
+                    	isDragging = false;
+                	}
+        	 
+				if (!isDragging) {
+					$('#showFixedDiv').fadeOut('fast', function() {
+    				    $('#fixedDiv').fadeIn('fast');
+    				});
+				}
+        	    isDragging = false;
+        	});
+		})
+
+
+		$(document).ready(function() {
+			var isDragging = false;
+			var startX, startY;
+
+			$('#fixedDiv').on('mousedown', function(event) {
+				isDragging = true;
+                startX = event.clientX - parseInt($('#fixedDiv').css('left'));
+                startY = event.clientY - parseInt($('#fixedDiv').css('top'));
+            });
+
+            $(document).on('mousemove', function(event) {
+				if (isDragging) {
+                	var newX = event.clientX - startX;
+                	var newY = event.clientY - startY;
+					$('#fixedDiv').css({ top: newY, left: newX });
+					$('#showFixedDiv').css({ top: newY, left: newX+120 });
+				}
+            });
+
+			$("#fixedDiv").on('mouseup', function(event) {
+				isDragging = false;
+        	});
+        });
+
+		function fixedClose() {
+			$('#fixedDiv').fadeOut('fast', function() {
+    		    $('#showFixedDiv').fadeIn('fast');
+    		});
+		}
 	</script>
 	<style>
 		.issueStyle {
@@ -872,20 +965,23 @@
 			max-height: 700px;
 			overflow-y: scroll;
     		scrollbar-width: none;
+			cursor: move;
+			min-height: 100px;
 		}
 
 		#showFixedDiv {
 			position: fixed; 
-			bottom: 50%; 
-			right: 20px; 
-			width: 50px; 
-			height: 50px; 
-			border-radius: 50%; 
-			background-color: lightpink; 
-			color: white;
-			border: none;
+            bottom: 50%; 
+            right: 20px; 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            background-color: lightpink; 
+            color: white;
+            border: none;
+            cursor: move; /* 드래그 가능한 커서로 설정 */
+            box-shadow: 2px 3px 9px black;
 			display: none;
-			box-shadow: 2px 3px 9px black;
 		}
 
 		.text:hover {
