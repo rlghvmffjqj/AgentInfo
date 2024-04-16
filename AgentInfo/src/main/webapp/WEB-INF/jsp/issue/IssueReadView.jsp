@@ -825,23 +825,32 @@
 
 		$(document).ready(function() {
 	    	$('.text').each(function() {
-    		    var maxLength = 11 // div의 최대 너비
+    		    var maxLength = 11;
 					
-    		    // p 태그 내의 텍스트 가져오기
     		    var text = $(this).text().trim();
-				console.log(text);
-					
-    		    // p 태그의 너비가 div의 최대 너비를 넘어가는지 확인
-    		    if (text.length > maxLength) {
-    		        var truncatedText = text.slice(0, maxLength) + '...'; // 최대 길이에서 뒤 두 문자를 제외한 부분을 자르고 "..."으로 대체합니다.
-            		$(this).text(truncatedText);
+				var textLength = 8;
 
-					// 롤오버시 전체 내용 표시
+        		for (var i = 0; i < text.length; i++) {
+        		    var charCode = text.charCodeAt(i);
+				
+        		    if ((charCode >= 0xAC00 && charCode <= 0xD7AF) || (charCode >= 0x3131 && charCode <= 0x318E)) {
+
+        		    } else {
+						if(textLength < 17)
+							textLength += 1;
+        		    }
+        		}
+
+        		if (text.length > textLength) {
+        		    var truncatedText = text.slice(0, textLength) + '...';
+        		    $(this).text(truncatedText);
+        
+
 					$(this).mouseenter(function() {
             		    $(this).text(text);
             		});
 				
-            		// 롤아웃시 다시 줄여진 내용 표시
+
             		$(this).mouseleave(function() {
             		    $(this).text(truncatedText);
             		});

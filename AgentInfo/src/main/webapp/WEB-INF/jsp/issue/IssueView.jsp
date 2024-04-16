@@ -432,34 +432,47 @@
 		}
 
 		function btnRelayQA(issuePrimaryKeyNum, issueKeyNum) {
-			var resault = automaticUpdate();
-	    	
-	    	if(resault == "OK") {
-	  			$.ajax({
-				    type: 'POST',
-				    url: "<c:url value='/issueRelay/relayModal'/>",
-					data: {
-						"issuePrimaryKeyNum": issuePrimaryKeyNum,
-						"issueKeyNum": issueKeyNum,
-						"issueRelayType": "QA"
-					},
-				    async: false,
-				    success: function (data) {
-				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
-				        $.modal(data, 'issueRelayModal'); //modal창 호출
-				    },
-				    error: function(e) {
-				        console.log(e);
-				    }
-				});	
-			} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+			checkPermissions().then(function(result) {
+				if(result === "NoAuthority") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+					}).then((result2) => {
+						location.href="<c:url value='/issue/issueList'/>";
+					})
+				} else {
+					var resault = automaticUpdate();
+	    			if(resault == "OK") {
+	  					$.ajax({
+						    type: 'POST',
+						    url: "<c:url value='/issueRelay/relayModal'/>",
+							data: {
+								"issuePrimaryKeyNum": issuePrimaryKeyNum,
+								"issueKeyNum": issueKeyNum,
+								"issueRelayType": "QA"
+							},
+						    async: false,
+						    success: function (data) {
+						    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+									location.reload();
+						        $.modal(data, 'issueRelayModal'); //modal창 호출
+						    },
+						    error: function(e) {
+						        console.log(e);
+						    }
+						});	
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '자동 저장에 실패하였습니다.',
+						});
+					}
+				}
+			}).catch(function(error) {
+				alert(data);
+			});
 	  	}	
 		
 		/* =========== 위로 이동 ========= */
@@ -550,6 +563,41 @@
 		
 		/* =========== 마이너스 버튼 ========= */
 		function btnMinus(obj) {
+			var issueKeyNum = $('#issueKeyNum').val();
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issue/checkPermissions'/>",
+				data: {
+					"issueKeyNum": issueKeyNum
+				},
+			    async: false,
+			    success: function (result) {
+					if(result === "NoAuthority") {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+						}).then((result2) => {
+							location.href="<c:url value='/issue/issueList'/>";
+						})
+					} else {
+						minusForm(obj);
+					}
+			    },
+			    error: function(e) {
+			        Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업을 실패하였습니다.',
+					});
+					return false;
+			    }
+			});	
+		}
+
+
+		function minusForm(obj) {
+			var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
 			Swal.fire({
 				  title: '삭제!',
 				  text: "해당 이슈를 삭제하시겠습니까?",
@@ -560,24 +608,22 @@
 				  confirmButtonText: 'OK'
 			}).then((result) => {
 			  if (result.isConfirmed) {
-					var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
 					if("${viewType}" == "update") {
 						$.ajax({
 						    type: 'POST',
 						    url: "<c:url value='/issue/issueMinus'/>",
 							data: {
 								"issuePrimaryKeyNum": issuePrimaryKeyNum
-							
 							},
 						    async: false,
 						    success: function (result) {
 								if(result == "FALSE") {
 									Swal.fire({
-									icon: 'error',
-									title: '삭제 실패!',
-									text: '삭제 작업을 실패하였습니다.',
-								});
-								}
+										icon: 'error',
+										title: '삭제 실패!',
+										text: '삭제 작업을 실패하였습니다.',
+									});
+								} 
 						    },
 						    error: function(e) {
 						        Swal.fire({
@@ -602,6 +648,39 @@
 		
 		/* =========== 플러스 버튼 ========= */
 		function btnPlus(obj) {
+			var issueKeyNum = $('#issueKeyNum').val();
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issue/checkPermissions'/>",
+				data: {
+					"issueKeyNum": issueKeyNum
+				},
+			    async: false,
+			    success: function (result) {
+					if(result === "NoAuthority") {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+						}).then((result2) => {
+							location.href="<c:url value='/issue/issueList'/>";
+						})
+					} else {
+						plusForm(obj);
+					}
+			    },
+			    error: function(e) {
+			        Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업을 실패하였습니다.',
+					});
+					return false;
+			    }
+			});	
+		}
+
+		function plusForm(obj) {
 			var issuePrimaryKeyNum = $(obj).closest('.issue').find('#issuePrimaryKeyNumList').val();
 			if("${viewType}" == "update") {
 				var issueKeyNum = $('#issueKeyNum').val();
@@ -884,6 +963,39 @@
 		
 		/* =========== 업데이트 버튼 ========= */
 		$('#btnUpdate').click(function() {
+			var issueKeyNum = $('#issueKeyNum').val();
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issue/checkPermissions'/>",
+				data: {
+					"issueKeyNum": issueKeyNum
+				},
+			    async: false,
+			    success: function (result) {
+					if(result === "NoAuthority") {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+						}).then((result2) => {
+							location.href="<c:url value='/issue/issueList'/>";
+						})
+					} else {
+						updateForm();
+					}
+			    },
+			    error: function(e) {
+			        Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업을 실패하였습니다.',
+					});
+					return false;
+			    }
+			});
+		})
+
+		function updateForm() {
 			var postData = $('#form').serializeArray();
 			postData.push({name : "total", value : $('#total').text()});
 			postData.push({name : "solution", value : $('#solution').text()});
@@ -922,14 +1034,6 @@
 									$('#downloadBtn').show();
 								}
 							})
-						} else if(result == "NoAuthority") {
-							Swal.fire({
-								icon: 'error',
-								title: '실패!',
-								text: '다른 사용자가 해당 이슈의 권한을 획득했습니다.',
-							}).then((result2) => {
-								location.href="<c:url value='/issue/issueList'/>";
-							})
 						} else {
 							Swal.fire({
 								icon: 'error',
@@ -943,7 +1047,7 @@
 					}
 			    });
 			}
-		});
+		}
 		
 		/* =========== 복사 버튼 ========= */
 		$('#btnCopy').click(function() {
@@ -1039,56 +1143,81 @@
 		
 		/* =========== PDF 서버 PC 다운로드  ========= */
 		$('#BtnPdf').click(function() {
-			var btnType = $('#issueBtnType').val();
-			var resault;
-	    	if(btnType == "copy") {
-	    		resault = automaticCopy();
-	    	} else {
-	    		resault = automaticUpdate();
-	    	}
-	    	if(resault == "OK") {
-				var frmData = document.form;
-				var url = "<c:url value='/issue/pdfView'/>";
-				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
-				frmData.action = url; 
-				frmData.method="post";
-				frmData.target="form";
-				frmData.submit();
-	    	} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+			checkPermissions().then(function(result) {
+				if(result === "NoAuthority") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+					}).then((result2) => {
+						location.href="<c:url value='/issue/issueList'/>";
+					})
+				} else {
+					var resault = automaticUpdate();
+
+	    			if(resault == "OK") {
+						var frmData = document.form;
+						var url = "<c:url value='/issue/pdfView'/>";
+						window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+						frmData.action = url; 
+						frmData.method="post";
+						frmData.target="form";
+						submitCalled = false;
+						frmData.submit();
+	    			} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '자동 저장에 실패하였습니다.',
+						});
+					}
+				}
+			}).catch(function(error) {
+				alert(data);
+			});
 		});
 
 		/* =========== URL 생성  ========= */
 		$('#BtnURL').click(function() {
-			var resault = automaticUpdate();
-			var issueKeyNum = $('#issueKeyNum').val();
-			if(resault == "OK") {
-				$.ajax({
-		    	    type: 'POST',
-		    	    url: "<c:url value='/issueRelay/urlExport'/>",
-		    	    data: {"issueKeyNum" : issueKeyNum},
-		    	    async: false,
-		    	    success: function (data) {
-		    	    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
-		    	        $.modal(data, 'issueRelayUrl'); //modal창 호출
-		    	    },
-		    	    error: function(e) {
-		    	        // TODO 에러 화면
-		    	    }
-		    	});
-			} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+			checkPermissions().then(function(result) {
+				if(result === "NoAuthority") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+					}).then((result2) => {
+						location.href="<c:url value='/issue/issueList'/>";
+					})
+				} else {
+					var resault = automaticUpdate();
+					var issueKeyNum = $('#issueKeyNum').val();
+					if(resault == "OK") {
+						$.ajax({
+		    			    type: 'POST',
+		    			    url: "<c:url value='/issueRelay/urlExport'/>",
+		    			    data: {"issueKeyNum" : issueKeyNum},
+		    			    async: false,
+		    			    success: function (data) {
+		    			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+									location.reload();
+		    			        $.modal(data, 'issueRelayUrl'); //modal창 호출
+		    			    },
+		    			    error: function(e) {
+		    			        // TODO 에러 화면
+		    			    }
+		    			});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '자동 저장에 실패하였습니다.',
+						});
+					}
+				}
+			}).catch(function(error) {
+				alert(data);
+			});
+					
 		});
 
 		
@@ -1242,28 +1371,36 @@
 		
 		/* =========== 이슈 히스토리 추가 ========= */
 		$('#BtnHistoryInsert').click(function() {
-			var btnType = $('#issueBtnType').val();
-			var resault;
-	    	if(btnType == "copy") {
-	    		resault = automaticCopy();
-	    	} else {
-	    		resault = automaticUpdate();
-	    	}
-	    	if(resault == "OK") {
-				var frmData = document.form;
-				var url = "<c:url value='/issue/pdfViewHistory'/>";
-				window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
-				frmData.action = url; 
-				frmData.method="post";
-				frmData.target="form";
-				frmData.submit();
-	    	} else {
-				Swal.fire({
-					icon: 'error',
-					title: '실패!',
-					text: '자동 저장에 실패하였습니다.',
-				});
-			}
+			checkPermissions().then(function(result) {
+				if(result === "NoAuthority") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+					}).then((result2) => {
+						location.href="<c:url value='/issue/issueList'/>";
+					})
+				} else {
+	    			var resault = automaticUpdate();
+	    			if(resault == "OK") {
+						var frmData = document.form;
+						var url = "<c:url value='/issue/pdfViewHistory'/>";
+						window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
+						frmData.action = url; 
+						frmData.method="post";
+						frmData.target="form";
+						frmData.submit();
+	    			} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '자동 저장에 실패하였습니다.',
+						});
+					}
+				}
+			}).catch(function(error) {
+				alert(data);
+			});
 		});
 		
 		/* =========== PDF 로컬 PC 다운로드 히스토리(자식창에서 호출) ========= */
@@ -1318,6 +1455,7 @@
 		}
 		
 		function fileDownload(issueHistoryPdf) {
+			submitCalled = false;
 			window.location ="<c:url value='/issueHistory/fileDownload?fileName="+issueHistoryPdf+"'/>";
 		}
 		
@@ -1486,20 +1624,25 @@
 			
 		}
 
+		// PDF 다운로드 시 페이지를 나갓다고 인식하여 조건 추가 함.
+		var submitCalled = true; 
 		$(document).ready(function() {
             $(window).on('beforeunload', function(){
-				var issueKeyNum = $('#issueKeyNum').val();
-                $.ajax({
-    			    url: "<c:url value='/issue/leaveView'/>",
-					data: {"issueKeyNum": issueKeyNum},
-    			    type: 'GET',
-    			    success: function(response) {
+				if (submitCalled) {
+					var issueKeyNum = $('#issueKeyNum').val();
+                	$.ajax({
+    				    url: "<c:url value='/issue/leaveView'/>",
+						data: {"issueKeyNum": issueKeyNum},
+    				    type: 'GET',
+    				    success: function(response) {
 
-    			    },
-    			    error: function(xhr, status, error) {
-    			        // 요청이 실패한 경우 수행할 작업
-    			    }
-    			});
+    				    },
+    				    error: function(xhr, status, error) {
+    				        // 요청이 실패한 경우 수행할 작업
+    				    }
+    				});
+				}
+				submitCalled = true;
             });
 
 			var lastActivityTime = Date.now(); // 사용자의 마지막 활동 시간 초기화
@@ -1521,20 +1664,34 @@
 						  	'10분간 동작이 없어 목록 페이지로 이동합니다.<br>(저장완료)',
 						  	'info'
 						).then((result) => {
-							var resault = automaticUpdate();
-							if(resault == "OK") {
-    			    			$.ajax({
-    			    			    url: "<c:url value='/issue/checkUserStatus'/>",
-    			    			    type: 'GET',
-									data: {"issueKeyNum": issueKeyNum},
-    			    				success: function() {
+							checkPermissions().then(function(result) {
+								if(result === "NoAuthority") {
+									Swal.fire({
+										icon: 'error',
+										title: '실패!',
+										html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
+									}).then((result2) => {
 										location.href="<c:url value='/issue/issueList'/>";
-    			    			    },
-    			    			    error: function(xhr, status, error) {
-    			    			        // 요청이 실패한 경우 수행할 작업
-    			    			    }
-    			    			});	
-							}
+									})
+								} else {
+									var resault = automaticUpdate();
+									if(resault == "OK") {
+    			    					$.ajax({
+    			    					    url: "<c:url value='/issue/checkUserStatus'/>",
+    			    					    type: 'GET',
+											data: {"issueKeyNum": issueKeyNum},
+    			    						success: function() {
+												location.href="<c:url value='/issue/issueList'/>";
+    			    					    },
+    			    					    error: function(xhr, status, error) {
+    			    					        // 요청이 실패한 경우 수행할 작업
+    			    					    }
+    			    					});	
+									}
+								}
+							}).catch(function(error) {
+								alert(data);
+							});
 						})
 					}
     			}
@@ -1668,6 +1825,32 @@
     		});
 		}
 
+		function checkPermissions() {
+			return new Promise(function(resolve, reject) {
+				var issueKeyNum = $('#issueKeyNum').val();
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/issue/checkPermissions'/>",
+					data: {
+						"issueKeyNum": issueKeyNum
+					},
+				    async: false,
+				    success: function (result) {
+						if(result == "NoAuthority")
+							resolve("NoAuthority");
+				    },
+				    error: function(e) {
+				        Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+						resolve("FALSE");
+				    }
+				});
+				resolve("OK");
+			});
+		}
 	</script>
 	<style>
 		.text {
