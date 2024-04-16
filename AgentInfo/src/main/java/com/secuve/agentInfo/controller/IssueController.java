@@ -113,9 +113,6 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue/update")
 	public String IssueUpdate(Issue issue, Principal principal) {
-		if(!principal.getName().equals(lockMap.get("issue_"+issue.getIssueKeyNum()))) {
-			return "NoAuthority";
-		}
 		issue.setIssueModifier(principal.getName());
 		issue.setIssueModifiedDate(issueService.nowDate());
 		
@@ -373,6 +370,15 @@ public class IssueController {
 	@PostMapping(value = "/issue/alarmCheck")
 	public String AlarmCheck(Principal principal, int userAlarmParameter) {
 		return issueService.updateUserAlarm(principal.getName(), userAlarmParameter);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/checkPermissions")
+	public String CheckPermissions(Principal principal, int issueKeyNum) {
+		if(!principal.getName().equals(lockMap.get("issue_"+issueKeyNum))) {
+			return "NoAuthority";
+		}
+		return "OK";
 	}
 }
 
