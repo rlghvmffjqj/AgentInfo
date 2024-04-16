@@ -74,4 +74,8 @@ public class License5Dao {
 		sqlSession.update("license5.updateSalesLicense", parameters);
 	}
 
+	public List<License5> getLicenseListAll(License5 license) {
+		return sqlSession.selectList("license5.getLicenseListAll", license);
+	}
+
 }

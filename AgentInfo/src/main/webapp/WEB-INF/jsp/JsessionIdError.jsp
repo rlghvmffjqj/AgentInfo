@@ -16,7 +16,7 @@
                 <br><br><br><br><br>
                 <h5>Error</h5>
                 <p>oops! JSESSIONID Detection Error.</p>
-                <p>JESSIONID 탈취 및 재사용은 범죄 입니다. 정상적인 방법으로 로그인 바랍니다.</p>
+                <p>JSESSIONID 탈취 및 재사용은 범죄 입니다. 정상적인 방법으로 로그인 바랍니다.</p>
                 <br><br><br>
                 <!-- <a href="/AgentInfo/login" class="btn btn-error btn-lg waves-effect">back to home page</a> -->
             </div>

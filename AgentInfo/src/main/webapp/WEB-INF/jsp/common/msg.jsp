@@ -13,7 +13,7 @@
 			Swal.fire({               
 				icon: 'error',          
 				title: '실패!',           
-				text: '${msg}',    
+				html: '${msg}',    
 			}).then((result) => {
 				location.href="${pageContext.request.contextPath}${loc}";
 			})

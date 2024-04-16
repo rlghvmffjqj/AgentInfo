@@ -80,6 +80,12 @@
 		WHERE customerName = #{customerConsolidationCustomerOrd} AND businessName = #{customerConsolidationBusinessOrd};
 	</update>
 	
+	<select id="getLicenseListAll" resultMap="license" parameterType="string">
+		SELECT * FROM license5 
+		WHERE licenseState = 'issued'
+			<include refid="sqlLicense" />
+	</select>
+	
 	
 	<!-- ==================================================================================== -->
 	

@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -19,12 +22,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
@@ -359,5 +364,32 @@ public class License5Controller {
 		return map;
 	}
 	
+	@PostMapping(value = "/license5/export")
+	public void exportServerList(@ModelAttribute License5 license, @RequestParam String[] columns,
+			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String[] columnList = {"productType","customerName", "businessName", "additionalInformation", "macAddress", "issueDate", "expirationDays", "igriffinAgentCount", "tos5AgentCount", "tos2AgentCount", "dbmsCount", "networkCount", "aixCount", "hpuxCount", "solarisCount", "linuxCount", "windowsCount", "managerOsType", "managerDbmsType", "country", "productVersion","licenseFilePath","serialNumber","requester"};
+		
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String filename = "License5 Entire Data - " + formatter.format(now) + ".csv";
+
+		List list = license5Service.listAll(license);
+
+		if (license.getIssueDateStart() != "" && license.getIssueDateEnd() != "") {
+			filename = license.getIssueDateStart() + " - " + license.getIssueDateEnd() + ".csv";
+		}
+
+		try {
+			if (license.getIssueDateStart() != "" && license.getIssueDateEnd() == ""
+					|| license.getIssueDateStart() == "" && license.getIssueDateEnd() != "") {
+				filename = "전달일자 범위 오류.csv";
+				list = new ArrayList<Object>();
+			}
+			Util.exportExcelFile(response, filename, list, columnList, headers);
+		} catch (Exception e) {
+			System.out.println("FAIL: Export failed.\n" + e.toString());
+		}
+	}
 
 }

@@ -700,6 +700,10 @@ public class License5Service {
 		}
 		return "OK";
 	}
+
+	public List<License5> listAll(License5 license) {
+		return license5Dao.getLicenseListAll(licenseSearch(license));
+	}
 	
 }
 

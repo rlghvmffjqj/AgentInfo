@@ -104,7 +104,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 		
 		http.sessionManagement()
 	     .maximumSessions(1)	// 동시 접속 가능 세션수
-	     .expiredUrl("/duplicateLogin")	// 세션 만료 시 이동 URL
+	     .expiredUrl("/sessionExpired")	// 세션 만료 시 이동 URL
 	     .maxSessionsPreventsLogin(false);	// false 일경우 기존 로그인 로그 아웃 후 새로그인
 	}
 	

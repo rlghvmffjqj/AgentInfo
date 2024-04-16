@@ -111,10 +111,10 @@ public class UsersController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/duplicateLogin")
-	public String DuplicateLogin(Model model) {
+	@GetMapping("/sessionExpired")
+	public String SessionExpired(Model model) {
 		String loc = "/login";
-		String msg = "다른 사용자가 현재 접속 계정으로 로그인하였습니다.";
+		String msg = "다른 사용자가 현재 접속한 계정으로 로그인하거나 <br> 관리자가 세션을 종료했습니다";
 
 		model.addAttribute("loc", loc).addAttribute("msg", msg);
 		return "common/msg";

@@ -105,8 +105,8 @@
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
 							<option value="mGRIFFIN">mGRIFFIN</option>
-							<option value="iGRIFFIN" selected>iGRIFFIN</option>
-							<option value="TOS">TOS</option>
+							<option value="iGRIFFIN">iGRIFFIN</option>
+							<option value="TOS" selected>TOS</option>
 							<option value="TOSSuite">TOSSuite</option>
 						</select>
 			         </div>
