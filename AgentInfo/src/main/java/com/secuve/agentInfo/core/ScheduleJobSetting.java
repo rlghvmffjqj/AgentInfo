@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.secuve.agentInfo.schedule.EmployeeDeleteSchedule;
 import com.secuve.agentInfo.schedule.EmployeeSchedule;
+import com.secuve.agentInfo.schedule.License5Schedule;
 import com.secuve.agentInfo.schedule.PackagesDeleteSchedule;
 import com.secuve.agentInfo.schedule.PackagesSchedule;
 import com.secuve.agentInfo.schedule.SendPackageDeleteSchedule;
@@ -53,6 +54,7 @@ public class ScheduleJobSetting {
         JobDataMap map7 = new JobDataMap(Collections.singletonMap("num", 7));
         JobDataMap map8 = new JobDataMap(Collections.singletonMap("num", 8));
         JobDataMap map9 = new JobDataMap(Collections.singletonMap("num", 9));
+        JobDataMap map10 = new JobDataMap(Collections.singletonMap("num", 10));
 
         ScheduleJob packagesSchedule = scheduleJobService.getScheduleOne("packages");
         JobDetail packages = jobDetail(packagesSchedule.getScheduleName(), "DEFAULT", PackagesSchedule.class, map1);
@@ -90,6 +92,10 @@ public class ScheduleJobSetting {
         JobDetail serviceControl = jobDetail(serviceControlSchedule.getScheduleName(), "DEFAULT", ServiceControlSchedule.class, map9);
        	scheduler.scheduleJob(serviceControl, trigger(serviceControlSchedule.getScheduleName(), "DEFAULT", serviceControlSchedule.getScheduleCron()));
        	
+       	ScheduleJob license5Schedule = scheduleJobService.getScheduleOne("license5");
+        JobDetail license5 = jobDetail(license5Schedule.getScheduleName(), "DEFAULT", License5Schedule.class, map10);
+       	scheduler.scheduleJob(license5, trigger(license5Schedule.getScheduleName(), "DEFAULT", license5Schedule.getScheduleCron()));
+       	
        	Set<JobKey> jobkey = scheduler.getJobKeys(null);
        	for(JobKey key: jobkey) {
        		if(key.toString().equals("DEFAULT.packages")) {
@@ -126,6 +132,10 @@ public class ScheduleJobSetting {
 	            }
        		} else if(key.toString().equals("DEFAULT.serviceControl")) {
 	            if(serviceControlSchedule.getScheduleState() == "사용안함" || serviceControlSchedule.getScheduleState().equals("사용안함")) {
+	            	scheduler.pauseJob(key);
+	            }
+       		} else if(key.toString().equals("DEFAULT.license5")) {
+	            if(license5Schedule.getScheduleState() == "사용안함" || license5Schedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
        		}

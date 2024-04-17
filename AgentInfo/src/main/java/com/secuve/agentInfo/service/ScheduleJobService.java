@@ -36,6 +36,7 @@ public class ScheduleJobService{
 	JobKey sendpackageDeleteJobKey;
 	JobKey sendPackageExpirationJobKey;
 	JobKey serviceControlJobKey;
+	JobKey license5JobKey;
 	
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
@@ -46,6 +47,7 @@ public class ScheduleJobService{
 	TriggerKey sendpackageDeleteTriggerKey;
 	TriggerKey sendPackageExpirationTriggerKey;
 	TriggerKey serviceControlTriggerKey;
+	TriggerKey license5TriggerKey;
 	
 	public List<ScheduleJob> getScheduleJobList(ScheduleJob search) {
 		Scheduler scheduler = schedulerFactory.getScheduler();
@@ -178,6 +180,8 @@ public class ScheduleJobService{
 			jobKey = sendPackageExpirationJobKey;
 		} else if(scheduleName.equals("SERVICECONTROL") || scheduleName.equals("serviceControl")) {
 			jobKey = serviceControlJobKey;
+		} else if(scheduleName.equals("LICENSE5") || scheduleName.equals("license5")) {
+			jobKey = license5JobKey;
 		}
 		return jobKey;
 	}
@@ -202,6 +206,8 @@ public class ScheduleJobService{
 			triggerKey = sendPackageExpirationTriggerKey;
 		} else if(scheduleName.equals("SERVICECONTROL") || scheduleName.equals("serviceControl")) {
 			triggerKey = serviceControlTriggerKey;
+		} else if(scheduleName.equals("LICENSE5") || scheduleName.equals("license5")) {
+			triggerKey = license5TriggerKey;
 		}
 		return triggerKey;
 	}
@@ -230,6 +236,8 @@ public class ScheduleJobService{
 	       			sendPackageExpirationJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.serviceControl")) {
 	       			serviceControlJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.license5")) {
+	       			license5JobKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {
@@ -261,6 +269,8 @@ public class ScheduleJobService{
 	       			sendPackageExpirationTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.serviceControl")) {
 	       			serviceControlTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.license5")) {
+	       			license5TriggerKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {
