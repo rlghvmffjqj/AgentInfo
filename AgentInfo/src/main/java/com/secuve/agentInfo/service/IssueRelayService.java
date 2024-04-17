@@ -27,7 +27,7 @@ public class IssueRelayService {
 	public String createKey() {
 	    StringBuffer key = new StringBuffer();
 	    Random rnd = new Random();
-	
+	    
 	    for (int i = 0; i < 8; i++) { // 인증코드 8자리
 	        int index = rnd.nextInt(3); // 0~2 까지 랜덤
 	
@@ -45,6 +45,9 @@ public class IssueRelayService {
 	                // 0~9
 	                break;
 	        }
+	    }
+	    if(issueRelayDao.getUrlDuplication(key.toString()).size() != 0) {
+	    	createKey();
 	    }
 	    return key.toString();
 	}

@@ -37,4 +37,8 @@
 		SELECT * FROM issueRelay WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum};
 	</select>
 	
+	<select id="getUrlDuplication" resultMap="issueRelay" parameterType="string">
+		SELECT * FROM issueRelay WHERE issueRelayUrl LIKE CONCAT('%',#{issueRelayUrl},'%');
+	</select>
+	
 </mapper>
