@@ -16,5 +16,6 @@ public class SqlExecution {
 	private String sqlPort;
 	private String sqlUser;
 	private String sqlPasswd;
+	private String sqlSid;
 	private String sqlQuery;
 }
