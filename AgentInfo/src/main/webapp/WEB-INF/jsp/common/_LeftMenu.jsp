@@ -512,16 +512,17 @@
 				    </li>
 				</ul>
 		    </sec:authorize>
-		    <ul class="pcoded-item pcoded-left-item">
-				<li class="sqlExecution">
-					<a href="<c:url value='/sqlExecution/write'/>" class="waves-effect waves-dark">
-						<span class="pcoded-micon"><i class="ti-control-play"></i><b>FC</b></span>
-						<span class="pcoded-mtext" data-i18n="nav.form-components.main">SQL 실행</span>
-						<span class="pcoded-mcaret"></span>
-					</a>
-				</li>
-			</ul>
-
+			<sec:authorize access="hasAnyRole('ADMIN','QA')">
+		    	<ul class="pcoded-item pcoded-left-item">
+					<li class="sqlExecution">
+						<a href="<c:url value='/sqlExecution/write'/>" class="waves-effect waves-dark">
+							<span class="pcoded-micon"><i class="ti-control-play"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">SQL 실행</span>
+							<span class="pcoded-mcaret"></span>
+						</a>
+					</li>
+				</ul>
+			</sec:authorize>
 		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">private</div>
 			<ul class="pcoded-item pcoded-left-item">
 			    <li class="note pcoded-hasmenu">

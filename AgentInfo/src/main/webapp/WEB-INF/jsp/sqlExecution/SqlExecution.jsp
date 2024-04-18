@@ -53,22 +53,19 @@
                                 <div class="page-wrapper">
                                 	<div class="ibox">
 										<form id="form" name="form" method ="post">
-											<div style="height: 75px;">
+											<div style="height: 75px; width: 50%; float: left;">
 												<label class="labelFontSize">SQL 타입</label>
 												<select class="form-control selectpicker" id="sqlType" name="sqlType" data-live-search="true" data-size="5" data-actions-box="true">
 													<option value="tibero">Tibero</option>
-													<option value="myaql">MySQL</option>
+													<option value="mysql">MySQL</option>
+													<option value="mariadb">MariaDB</option>
 													<option value="oracle">Oracle</option>
 													<option value="mssql">MSSQL</option>
 												</select>
 											</div>
 											<div class="divInput">
 												<label class="labelFontSize">호스트 IP</label>
-												<input class="form-control" type="text" id="sqlIp" name="sqlIp" placeholder="127.0.0.1" value="172.16.50.182"> 
-											</div>
-											<div class="divInput">
-												<label class="labelFontSize">포트</label>
-												<input class="form-control" type="text" id="sqlPort" name="sqlPort" value="8629"> 
+												<input class="form-control" type="text" id="sqlIp" name="sqlIp" style="height: 35px;" placeholder="127.0.0.1" value="172.16.50.93"> 
 											</div>
 											<div class="divInput">
 												<label class="labelFontSize">사용자</label>
@@ -78,14 +75,24 @@
 	                                			<label class="labelFontSize">암호</label>
 												<input class="form-control" type="password" id="sqlPasswd" name="sqlPasswd" value="TOSMS8"> 
 											</div>
+											<div class="divInput">
+												<label class="labelFontSize">포트</label>
+												<input class="form-control" type="text" id="sqlPort" name="sqlPort" value="8629"> 
+											</div>
+											<div class="divInput">
+												<label class="labelFontSize" id="sidDbname">SID</label>
+												<input class="form-control" type="text" id="sqlSid" name="sqlSid" value="tibero"> 
+											</div>
 											<label class="labelFontSize">SQL 쿼리</label>
-											<textarea class="textQuery" rows="15" id="sqlQuery" name="sqlQuery" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+											<button type="button" class="btn btn-outline-info-nomal myBtn" id="btnFormat" style="float: right;">SQL Format</button>
+											<textarea class="textQuery" rows="15" id="sqlQuery" name="sqlQuery" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="- 예시 -&#10;SELECT * &#10;FROM tos_employee;" spellcheck="false"></textarea>
 											<br><br>
 											<div style="width: 100%; text-align: center;">
 												<button type="button" class="btn btn-default btn-outline-info-add" id="btnExecute">Execute</button>
 											</div>
 											<br><br>
-											<textarea class="textQuery" rows="15" id="mailText" name="mailText" onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+											<span style="color: blue">최대 데이터 200개 출력</span>
+											<div id="resultSQL" class="resultDiv"></div>
 										</form>
 	                                </div>
 	                            </div>
@@ -104,15 +111,21 @@
 			obj.style.height = (17+obj.scrollHeight)+"px";
 		}
 
-		$('#btnExecute').click(function() {
-			var postDate = $("#form").serializeArray();
+		// 값이 할당될 때마다 textarea의 높이를 조절
+		$('#sqlQuery').on('input', function() {
+		    autoResize(this);
+		});
+
+		$('#btnFormat').click(function() {
+			var sqlQuery = $('#sqlQuery').val();
 			$.ajax({
 		        type: 'POST',
-		        url: "<c:url value='/sqlExecution/excute'/>",
-				data: postDate,
+		        url: "<c:url value='/sqlExecution/format'/>",
+				data: {"sqlQuery": sqlQuery},
 		        async: false,
 		        success: function (result) {
-					alert(result);
+					$('#sqlQuery').val(result);
+					resize($('#sqlQuery')[0]);
 		        },
 		        error: function(e) {
 		            Swal.fire({
@@ -123,6 +136,57 @@
 		        }
 		    });
 		})
+
+		$('#btnExecute').click(function() {
+			var postDate = $("#form").serializeArray();
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/sqlExecution/excute'/>",
+				data: postDate,
+		        async: false,
+		        success: function (result) {
+					$("#resultSQL").empty();
+					$('#resultSQL').append(result);
+		        },
+		        error: function(e) {
+		            Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업에 실패하였습니다.',
+					});
+		        }
+		    });
+		})
+
+		$("#sqlType").change(function() {
+			var sqlType = $('#sqlType').val();
+			if(sqlType == 'tibero') {
+				$('#sqlIp').val('172.16.50.93');
+				$('#sqlPort').val("8629");
+				$('#sqlSid').val("tibero");
+				$('#sidDbname').text("SID");
+			} else if(sqlType == "mysql") {
+				$('#sqlIp').val('172.16.50.104');
+				$('#sqlPort').val("3306");
+				$('#sqlSid').val("TOSMS8");
+				$('#sidDbname').text("DB NAME");
+			} else if(sqlType == "oracle") {
+				$('#sqlIp').val('172.16.50.95');
+				$('#sqlPort').val("1521");
+				$('#sqlSid').val("orcl");
+				$('#sidDbname').text("SID");
+			} else if(sqlType == "mariadb") {
+				$('#sqlIp').val('172.16.50.97');
+				$('#sqlPort').val("3306");
+				$('#sqlSid').val("TOSMS8");
+				$('#sidDbname').text("DB NAME");
+			} else if(sqlType == "mssql") {
+				$('#sqlIp').val('172.16.50.172');
+				$('#sqlPort').val("1433");
+				$('#sqlSid').val("TOSMS8");
+				$('#sidDbname').text("DB NAME");
+			}
+		});
 		
 	</script>
 	<style>
@@ -155,7 +219,11 @@
 
 		.textQuery {
 			width: 100%;
-			height: 215px;
+			min-height: 215px;
+			height: auto;
+			padding: 10px;
+			line-height: 1.2;
+			font-family: 'themify';
 		}
 
 		.divInput {
@@ -164,5 +232,32 @@
 			height: 75px;
 		}
 
+		.resultDiv {
+			width: 100%; 
+			height: 300px; 
+			border: 1px solid; 
+			overflow: scroll;
+			background: #f6f8ff;
+		}
+
+		.resultTh {
+			border: 1px solid;
+ 		    padding: 7px;
+			background: #77aaff4d;
+		}
+
+		.resultTd {
+			padding: 1px;
+			padding-right: 20px;
+		}
+
+		.errorDiv {
+			padding: 10px;
+		}
+
+		.errorSpan {
+			color: red;
+			font-size: 17px;
+		}
 	</style>
 </html>
