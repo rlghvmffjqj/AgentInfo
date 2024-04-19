@@ -224,6 +224,7 @@
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button> -->
 																		<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button> -->
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnComplete">진행완료</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'issueKeyNum');">컬럼 선택</button>
 																</td>
@@ -444,6 +445,57 @@
 				})
 			}
 		});
+
+		
+		$('#BtnComplete').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 이슈를 진행완료 처리하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/issue/complete'/>",
+						type: "POST",
+						data: {chkList: chkList},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '진행완료 처리하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '진행완료 처리에 실패하였습니다.',
+								  'error'
+								)
+							tableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
+		})
 		
 		/* =========== 데이터 복사 Modal ========= */
 		$('#BtnCopy').click(function() {
