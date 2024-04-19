@@ -443,6 +443,14 @@ public class PackagesController {
 		list = packagesService.getDeliveryData(deliveryDataYear);
 		return list;
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/packages/chart/deliveryAvgData")
+	public List<Integer> chartDeliveryAvgData() {
+		List<Integer> list = new ArrayList<Integer>();
+		list = packagesService.getDeliveryAvgData();
+		return list;
+	}
 
 	/**
 	 * 고객사별 패키지 배포 수량 TOP 7 (현재)

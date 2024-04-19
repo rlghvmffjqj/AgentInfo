@@ -3,6 +3,7 @@ package com.secuve.agentInfo.service;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1285,6 +1286,32 @@ public class PackagesService {
 	public List<Integer> getDeliveryData(String deliveryDataYear) {
 		List<Integer> list = new ArrayList<Integer>();
 		List<Packages> packagesList = packagesDao.getDeliveryData(deliveryDataYear);
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		String str = null;
+		for(Packages packages: packagesList) {
+			map.put(packages.getChartName(), packages.getChartCount());
+		}
+
+		for(int i=1; i<=12; i++) {
+			if(i<10)
+				str = "0"+Integer.toString(i);
+			else 
+				str = Integer.toString(i);
+			if(map.get(str) != null)
+				list.add(map.get(str));
+			else 
+				list.add(0);
+		}
+		
+		return list;
+	}
+	
+	public List<Integer> getDeliveryAvgData() {
+		LocalDate currentDate = LocalDate.now();
+		int currentYear = currentDate.getYear();
+		
+		List<Integer> list = new ArrayList<Integer>();
+		List<Packages> packagesList = packagesDao.getDeliveryAvgData(currentYear-2013);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		String str = null;
 		for(Packages packages: packagesList) {

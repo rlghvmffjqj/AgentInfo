@@ -161,6 +161,7 @@
 		$('#osTypeYear').append("<option value='전체' selected>전체</option>");
 		$('#requestProductCategoryYear').append("<option value='전체' selected>전체</option>");
 		$('#customerNameYear').append("<option value='전체' selected>전체</option>");
+		$('#deliveryDataYear').append("<option value='평균'>평균</option>");
 		for(var y = date.getFullYear(); y >= 2014; y--) {
 			$('#deliveryDataYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
 			$('#managementServerYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
@@ -168,7 +169,7 @@
 			$('#requestProductCategoryYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
 			$('#customerNameYear').append("<option value='"+y+"'>"+y+"년"+"</option>");
 		}
-		$('#deliveryDataYear option:eq(0)').prop("selected", true);
+		$('#deliveryDataYear option:eq(1)').prop("selected", true);
 	});
 	
 	/* =========== 패키지 배포 현황(전체) ========= */
@@ -603,10 +604,17 @@
 	 
 	  /* =========== 월별 배포 현황 (금년) - 년도 변경 ========= */
 	 $("#deliveryDataYear").change(function() {
+		var urlText;
 		var deliveryDataYear = $('#deliveryDataYear').val();
+		if(deliveryDataYear == "평균") {
+			urlText = "<c:url value='/packages/chart/deliveryAvgData'/>"
+		} else {
+			urlText = "<c:url value='/packages/chart/deliveryData'/>"
+		}
+		
 		$.ajax({
 		    type: 'POST',
-		    url: "<c:url value='/packages/chart/deliveryData'/>",
+		    url: urlText,
 		    async: false,
 		    data:{"deliveryDataYear" : deliveryDataYear},
 		    success: function (data) {
@@ -624,7 +632,11 @@
 				data[j] = deliveryData[j];
 			}
 		}
-		deliveryDataChart.options.plugins.title.text = '월별 배포 현황 ('+deliveryDataYear+'년)';
+		if(deliveryDataYear == "평균") {
+			deliveryDataChart.options.plugins.title.text = '월별 배포 현황 ('+deliveryDataYear+')';
+		} else {
+			deliveryDataChart.options.plugins.title.text = '월별 배포 현황 ('+deliveryDataYear+'년)';
+		}
 		deliveryDataChart.update();
 	});
 </script>

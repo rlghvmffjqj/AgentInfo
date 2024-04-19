@@ -140,6 +140,12 @@
 		GROUP BY chartName;
 	</select>
 	
+	<select id="getDeliveryAvgData" resultMap="packages">
+		SELECT DATE_FORMAT(deliveryData,'%m') AS 'chartName', ROUND(COUNT(*)/${progressYear}) AS 'chartCount'
+		FROM packages
+		GROUP BY chartName;
+	</select>
+	
 	<select id="getCustomerName" resultMap="packages">
 		SELECT customerName AS 'chartName', COUNT(*) AS 'chartCount' FROM packages 
 		<if test="customerNameYear != '전체' and customerNameYear != null">

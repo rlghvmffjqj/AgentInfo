@@ -1,7 +1,5 @@
 package com.secuve.agentInfo.controller;
 
-import java.security.Principal;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,12 +7,15 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
+import org.hibernate.engine.jdbc.internal.BasicFormatterImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class SqlExecutionController {
 	
 	@ResponseBody
 	@PostMapping(value = "/sqlExecution/excute", produces = "text/plain")
-	public String Excute(Principal principal, SqlExecution sqlExecution) {
+	public String Excute(SqlExecution sqlExecution) {
 		StringBuilder resultBuilder = new StringBuilder();
 		int count = 0;
 		try {
@@ -103,8 +104,52 @@ public class SqlExecutionController {
 	}
 	
 	@ResponseBody
+	@PostMapping(value = "/sqlExecution/connect")
+	public String Connect(SqlExecution sqlExecution) {
+				ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(() -> {
+        	String url = "";
+    		if(sqlExecution.getSqlType().equals("tibero")) {
+    			url = "jdbc:tibero:thin:@" + sqlExecution.getSqlIp() + ":" + sqlExecution.getSqlPort() + ":" + sqlExecution.getSqlSid();
+    		} else if(sqlExecution.getSqlType().equals("mysql")) {
+    			url = "jdbc:mysql://" + sqlExecution.getSqlIp() + ":" + sqlExecution.getSqlPort() + "/" + sqlExecution.getSqlSid();
+    		} else if(sqlExecution.getSqlType().equals("oracle")) {
+    			url = "jdbc:oracle:thin:@" + sqlExecution.getSqlIp() + ":" + sqlExecution.getSqlPort() + ":" + sqlExecution.getSqlSid();
+    			sqlExecution.setSqlQuery(sqlExecution.getSqlQuery().replaceAll(";", ""));
+    		} else if(sqlExecution.getSqlType().equals("mariadb")) {
+    			url = "jdbc:mariadb://" + sqlExecution.getSqlIp() + ":" + sqlExecution.getSqlPort() + "/" + sqlExecution.getSqlSid();
+    		} else if(sqlExecution.getSqlType().equals("mssql")) {
+    			url = "jdbc:sqlserver://" + sqlExecution.getSqlIp() + ":" + sqlExecution.getSqlPort() + ";DatabaseName=" + sqlExecution.getSqlSid();
+    		}
+
+            try {
+                // DB 접속 시도
+                Connection connection = DriverManager.getConnection(url, sqlExecution.getSqlUser(), sqlExecution.getSqlPasswd());
+                connection.close(); // 연결 종료
+                return "OK"; // 접속 성공 시 OK 반환
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                return "FALSE"; // 접속 실패 시 FALSE 반환
+            }
+        });
+
+        try {
+            // 2초 안에 응답이 오지 않으면 작업 종료
+        	return future.get(2, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return "FALSE"; // 예외 발생 시 FALSE 반환
+        } finally {
+            executor.shutdown(); // 작업 종료
+        }
+	}
+	
+	@ResponseBody
 	@PostMapping(value = "/sqlExecution/format")
-	public String Format(Principal principal, String sqlQuery) {
+	public String Format(String sqlQuery) {
+		if(!sqlQuery.contains("Parameters")) {
+			return "FALSE";
+		}
 		String[] sqlQueryArr = sqlQuery.split("\n");
 		List<Object> parametersArr = extractParameters(sqlQueryArr[1]);
 		for (Object parameter : parametersArr) {
@@ -114,8 +159,8 @@ public class SqlExecutionController {
 		        sqlQueryArr[0] = sqlQueryArr[0].replaceFirst("\\?", parameter.toString());
 		    }
         }
-		String str = querySort(sqlQueryArr[0]);
-		return str;
+		//return SqlFormatter.format(sqlQueryArr[0]);
+		return new BasicFormatterImpl().format(sqlQueryArr[0]);
 	}
 	
 	public static List<Object> extractParameters(String logEntry) {
@@ -154,36 +199,4 @@ public class SqlExecutionController {
         return parameters;
     }
 	
-	public static String querySort(String query) {
-	    StringBuilder formattedQuery = new StringBuilder();
-	    int indentationLevel = 0;
-	    boolean inQuote = false;
-
-	    for (char c : query.toCharArray()) {
-	        if (c == '(' && !inQuote) {
-	            formattedQuery.append(c).append("\n").append(getIndentation(indentationLevel + 1));
-	            indentationLevel++;
-	        } else if (c == ')' && !inQuote) {
-	            formattedQuery.append("\n").append(getIndentation(indentationLevel)).append(c);
-	            indentationLevel--;
-	        } else if (c == ',' && !inQuote) {
-	            formattedQuery.append(c).append("\n").append(getIndentation(indentationLevel));
-	        } else if (c == '\'') {
-	            inQuote = !inQuote;
-	            formattedQuery.append(c);
-	        } else {
-	            formattedQuery.append(c);
-	        }
-	    }
-
-	    return formattedQuery.toString();
-	}
-
-	public static String getIndentation(int level) {
-	    StringBuilder sb = new StringBuilder();
-	    for (int i = 0; i < level; i++) {
-	        sb.append("\t");
-	    }
-	    return sb.toString();
-	}
 }

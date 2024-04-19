@@ -311,10 +311,11 @@
 		</dependency>
 		
 		<dependency>
-	    <groupId>com.github.jsqlparser</groupId>
-	    <artifactId>jsqlparser</artifactId>
-	    <version>4.1</version> <!-- 또는 최신 버전 -->
-	</dependency>
+		    <groupId>com.github.vertical-blank</groupId>
+		    <artifactId>sql-formatter</artifactId>
+		    <version>1.0</version> <!-- 가장 최신 버전을 확인하고 사용해주세요 -->
+		</dependency>
+		
 		
 		<!--  
 		<dependency>

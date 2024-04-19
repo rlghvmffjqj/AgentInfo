@@ -3,9 +3,6 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-		<!-- datetimepicker -->
-		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
-		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
 
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
@@ -84,8 +81,9 @@
 												<input class="form-control" type="text" id="sqlSid" name="sqlSid" value="tibero"> 
 											</div>
 											<label class="labelFontSize">SQL 쿼리</label>
-											<button type="button" class="btn btn-outline-info-nomal myBtn" id="btnFormat" style="float: right;">SQL Format</button>
-											<textarea class="textQuery" rows="15" id="sqlQuery" name="sqlQuery" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="- 예시 -&#10;SELECT * &#10;FROM tos_employee;" spellcheck="false"></textarea>
+											<button type="button" class="btn btn-outline-info-nomal myBtn" id="btnFormat" style="float: right; border-bottom: none;">SQL Format</button>
+											<button type="button" class="btn btn-outline-info-nomal myBtn" id="btnConnect" style="float: right; border-bottom: none; border-right: none;">연결 테스트</button>
+											<textarea class="textQuery" rows="15" id="sqlQuery" name="sqlQuery" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="- 쿼리 실행 예시 -&#10;SELECT * &#10;FROM tos_employee;&#10;&#10;&#10;- SQL Format 예시 -&#10;SELECT * FROM tos_employee WHERE empnum = ? &#10;[2024-04-19 09:12:03.419][DEBUG]base.TosLog.GetEmployeeOne[debug:139] - ==> Parameters: admin(String)" spellcheck="false"></textarea>
 											<br><br>
 											<div style="width: 100%; text-align: center;">
 												<button type="button" class="btn btn-default btn-outline-info-add" id="btnExecute">Execute</button>
@@ -116,6 +114,38 @@
 		    autoResize(this);
 		});
 
+		$('#btnConnect').click(function() {
+			var postDate = $("#form").serializeArray();
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/sqlExecution/connect'/>",
+				data: postDate,
+		        async: false,
+		        success: function (result) {
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: 'DB서버 연결에 성공했습니다.',
+						});
+					} else if(result == "FALSE") {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: 'DB서버 연결에 실패 하였습니다.',
+						});
+					}
+		        },
+		        error: function(e) {
+		            Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '작업에 실패하였습니다.',
+					});
+		        }
+		    });
+		})
+
 		$('#btnFormat').click(function() {
 			var sqlQuery = $('#sqlQuery').val();
 			$.ajax({
@@ -124,8 +154,29 @@
 				data: {"sqlQuery": sqlQuery},
 		        async: false,
 		        success: function (result) {
-					$('#sqlQuery').val(result);
-					resize($('#sqlQuery')[0]);
+					if(result == "FALSE") {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: 'SQL Format 문서 양식을 확인하세요.',
+						});
+					} else {
+						var lines = result.split('\n');
+						for (var i = 0; i < lines.length; i++) {
+						    lines[i] = lines[i].substring(4);
+						}
+
+						// 첫 번째 줄이 공백인지 확인
+						if (lines[0].trim() === "") {
+						    // 공백이면 첫 번째 줄 삭제
+						    lines.shift();
+						}
+
+						// 새로운 문자열로 조합
+						var newStr = lines.join('\n');
+						$('#sqlQuery').val(newStr);
+						resize($('#sqlQuery')[0]);
+					}
 		        },
 		        error: function(e) {
 		            Swal.fire({
@@ -138,6 +189,14 @@
 		})
 
 		$('#btnExecute').click(function() {
+			if($('#sqlQuery').val() == "") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: 'SQL 쿼리문을 입력해주세요.',
+				});
+				return true;
+			}
 			var postDate = $("#form").serializeArray();
 			$.ajax({
 		        type: 'POST',

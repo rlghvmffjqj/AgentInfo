@@ -71,6 +71,10 @@ public class PackagesDao {
 	public List<Packages> getDeliveryData(String deliveryDataYear) {
 		return sqlSession.selectList("packages.getDeliveryData", deliveryDataYear);
 	}
+	
+	public List<Packages> getDeliveryAvgData(int progressYear) {
+		return sqlSession.selectList("packages.getDeliveryAvgData", progressYear);
+	}
 
 	public List<Packages> getCustomerName(String customerNameYear) {
 		return sqlSession.selectList("packages.getCustomerName", customerNameYear);
