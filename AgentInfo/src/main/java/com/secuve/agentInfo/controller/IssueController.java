@@ -111,6 +111,12 @@ public class IssueController {
 	}
 	
 	@ResponseBody
+	@PostMapping(value = "/issue/complete")
+	public String IssueComplete(@RequestParam int[] chkList) {
+		return issueService.complete(chkList);
+	}
+	
+	@ResponseBody
 	@PostMapping(value = "/issue/update")
 	public String IssueUpdate(Issue issue, Principal principal) {
 		issue.setIssueModifier(principal.getName());

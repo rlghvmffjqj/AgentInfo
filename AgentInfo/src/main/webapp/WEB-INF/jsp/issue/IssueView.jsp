@@ -398,7 +398,9 @@
 
 	<script>
 		/* =========== 전달일자 오늘 날짜 입력 ========= */
-		document.getElementById('issueDate').value = new Date().toISOString().substring(0, 10);
+		if("${viewType}" == "insert") {
+			$('#issueDate').val(new Date().toISOString().substring(0, 10));
+		}
 		
 		/* =========== 최초 1회 실행 ========= */
 		$(function() {
@@ -1143,6 +1145,7 @@
 		
 		/* =========== PDF 서버 PC 다운로드  ========= */
 		$('#BtnPdf').click(function() {
+			$('#issueDate').val(new Date().toISOString().substring(0, 10));
 			checkPermissions().then(function(result) {
 				if(result === "NoAuthority") {
 					Swal.fire({
@@ -1179,6 +1182,7 @@
 
 		/* =========== URL 생성  ========= */
 		$('#BtnURL').click(function() {
+			$('#issueDate').val(new Date().toISOString().substring(0, 10));
 			checkPermissions().then(function(result) {
 				if(result === "NoAuthority") {
 					Swal.fire({

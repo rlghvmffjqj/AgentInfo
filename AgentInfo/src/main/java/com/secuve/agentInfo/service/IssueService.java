@@ -146,7 +146,6 @@ public class IssueService {
 			
 			issueHistoryService.issueDeleteHistory(issueKeyNum);
 		}
-		
 		return "OK";
 	}
 
@@ -296,6 +295,15 @@ public class IssueService {
 
 	public void updateIssueAnswerStatus(Issue issue) {
 		issueDao.updateIssueAnswerStatus(issue);
+	}
+
+	public String complete(int[] chkList) {
+		for (int issueKeyNum : chkList) {
+			int sucess = issueDao.complete(issueKeyNum);
+			if (sucess <= 0)
+				return "FALSE";
+		}
+		return "OK";
 	}
 
 

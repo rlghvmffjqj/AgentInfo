@@ -24,6 +24,7 @@ public class Issue {
 	private String issuePortal;					// PORTAL
 	private String issueJava;					// JAVA
 	private String issueWas;					// WAS
+	private String issueProceStatus;
 	private String issueDivision;				// 제목
 	private String issueOs;						// OS
 	private String issueWriter;					// 작성자

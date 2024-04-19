@@ -29,8 +29,8 @@
 	</select>
 	
 	<insert id="insertIssue">
-		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -86,8 +86,8 @@
 	</select>
 	
 	<insert id="insertIssuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
-		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueAnswerStatus, issueWriter, issueRegistrant, issueRegistrationDate) 
-		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
+		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueProceStatus, issueAnswerStatus, issueWriter, issueRegistrant, issueRegistrationDate) 
+		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, ,'progress', 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
 	</insert>
 	
 	<update id="totalPlus">

@@ -221,6 +221,11 @@ public class IssueDao {
 	public void updateIssueAnswerStatus(Issue issue) {
 		sqlSession.update("issue.updateIssueAnswerStatus", issue);
 	}
+
+	public int complete(int issueKeyNum) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 
 

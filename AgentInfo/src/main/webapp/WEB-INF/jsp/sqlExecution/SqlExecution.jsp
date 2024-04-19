@@ -88,7 +88,7 @@
 											<div style="width: 100%; text-align: center;">
 												<button type="button" class="btn btn-default btn-outline-info-add" id="btnExecute">Execute</button>
 											</div>
-											<br><br>
+											<br>
 											<span style="color: blue">최대 데이터 200개 출력</span>
 											<div id="resultSQL" class="resultDiv"></div>
 										</form>
