@@ -159,6 +159,11 @@ public class IssueService {
 		if (sucess <= 0) {
 			return "FALSE";
 		} 
+		List<Issue> issueApplyList = issueDao.getIssueApplyYn(issue.getIssueKeyNum());
+		if(issueApplyList.size() == 0) {
+			issueDao.complete(issue.getIssueKeyNum());
+			return "Complete";
+		}
 		return "OK";
 	}
 

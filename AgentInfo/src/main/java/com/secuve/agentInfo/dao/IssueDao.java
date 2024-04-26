@@ -223,9 +223,13 @@ public class IssueDao {
 	}
 
 	public int complete(int issueKeyNum) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("issue.complete", issueKeyNum);
 	}
+
+	public List<Issue> getIssueApplyYn(int issueKeyNum) {
+		return sqlSession.selectList("issue.getIssueApplyYn", issueKeyNum);
+	}
+
 }
 
 

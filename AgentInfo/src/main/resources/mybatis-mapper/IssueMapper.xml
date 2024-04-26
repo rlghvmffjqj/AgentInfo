@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.Issue" id="issue"></resultMap>
 	
 	<select id="getIssueList" resultMap="issue" parameterType="string">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
 				FROM issue i LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
 					<include refid="sqlIssue" />
 				GROUP BY issueKeyNum
@@ -87,7 +87,7 @@
 	
 	<insert id="insertIssuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
 		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueProceStatus, issueAnswerStatus, issueWriter, issueRegistrant, issueRegistrationDate) 
-		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, ,'progress', 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
+		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, 'progress', 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
 	</insert>
 	
 	<update id="totalPlus">
@@ -142,6 +142,14 @@
 	<update id="updateIssueAnswerStatus">
 		UPDATE issue SET issueAnswerStatus = #{issueAnswerStatus} WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum};
 	</update>
+	
+	<update id="complete" parameterType="_int">
+		UPDATE issue SET issueProceStatus = 'complete' WHERE issueKeyNum = ${issueKeyNum};
+	</update>
+	
+	<select id="getIssueApplyYn" resultMap="issue" parameterType="_int">
+		SELECT * FROM issue WHERE issueKeyNum = ${issueKeyNum} AND (issueApplyYn = '미해결' OR issueApplyYn = '보류');
+	</select>
 	
 	<!-- ==================================================================================== -->
 	
@@ -212,6 +220,9 @@
 			</if>
 			<if test="issueDateStart != null and issueDateStart != ''">
 				AND i.issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+			</if>
+			<if test="issueProceStatus != null and issueProceStatus != ''">
+				AND i.issueProceStatus = #{issueProceStatus}
 			</if>
 		</trim>
 	</sql>

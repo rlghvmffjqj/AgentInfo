@@ -20,13 +20,14 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','URL','고객사','Title','전달일자','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
+					colNames:['Key','URL','고객사','Title','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
 					colModel:[
 						{name:'issueKeyNum', index:'issueKeyNum', align:'center', width: 35, hidden:true },
 						{name:'issueRelayUrl', index:'issueRelayUrl', align:'center', width: 50, formatter: urlFormatter},
 						{name:'issueCustomer', index:'issueCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'issueTitle', index:'issueTitle', align:'center', width: 200},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
+						{name:'issueProceStatus', index:'issueProceStatus', align:'center', width: 80, formatter: stateFormatter},
 						{name:'issueTosms', index:'issueTosms', align:'center', width: 200},
 						{name:'issueTosrf', index:'issueTosrf',align:'center', width: 200},
 						{name:'issuePortal', index:'issuePortal',align:'center', width: 200},
@@ -153,6 +154,14 @@
 													</select>
 												</div>
 												<div class="col-lg-2">
+													<label class="labelFontSize">진행 상태</label>
+												  <select class="form-control selectpicker" id="issueProceStatus" name="issueProceStatus" data-live-search="true" data-size="5" data-actions-box="true">
+														<option value=""><c:out value=""/></option>
+														<option value="progress">진행 중</option>
+														<option value="complete">처리 완료</option>
+												  </select>
+											  </div>
+												<div class="col-lg-2">
 	                      							<label class="labelFontSize">TOSMS</label>
 													<select class="form-control selectpicker" id="issueTosmsMulti" name="issueTosmsMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 														<c:forEach var="item" items="${issueTosms}">
@@ -224,7 +233,7 @@
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button> -->
 																		<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button> -->
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnComplete">진행완료</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnComplete">처리완료</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'issueKeyNum');">컬럼 선택</button>
 																</td>
@@ -364,6 +373,13 @@
 			}
 			return '<button class="btn btn-outline-info-nomal myBtn" onclick="urlOpen('+"'"+cellValue+"'"+');">Open</button>';
 		}
+
+		function stateFormatter(cellValue, options, rowdata, action) {
+			if(cellValue == 'progress') {
+				return '진행 중';
+			}
+			return '처리 완료';
+		}
 		
 		
 		/* =========== Enter 검색 ========= */
@@ -457,8 +473,8 @@
 				});    
 			} else {
 				Swal.fire({
-					  title: '삭제!',
-					  text: "선택한 이슈를 진행완료 처리하시겠습니까?",
+					  title: '처리완료!',
+					  text: "선택한 이슈를 처리완료 처리하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -477,13 +493,13 @@
 							if(data == "OK")
 								Swal.fire(
 								  '성공!',
-								  '진행완료 처리하였습니다.',
+								  '처리완료 처리하였습니다.',
 								  'success'
 								)
 							else
 								Swal.fire(
 								  '실패!',
-								  '진행완료 처리에 실패하였습니다.',
+								  '처리완료 처리에 실패하였습니다.',
 								  'error'
 								)
 							tableRefresh();

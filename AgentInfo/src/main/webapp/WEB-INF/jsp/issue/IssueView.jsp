@@ -1036,6 +1036,14 @@
 									$('#downloadBtn').show();
 								}
 							})
+						} else if(result == "Complete") {
+							Swal.fire({
+								icon: 'success',
+								title: '성공!',
+								html: '전체 이슈가 해결되어 해당 이슈를 처리완료로 전환합니다.<br> 이슈 목록으로 이동합니다.',
+							}).then((result2) => {
+								location.href="<c:url value='/issue/issueList'/>";
+							})
 						} else {
 							Swal.fire({
 								icon: 'error',
