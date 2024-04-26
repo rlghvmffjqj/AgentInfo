@@ -302,7 +302,7 @@
 								</c:forEach>
 							</table>
 							<div style="width: 100%; text-align: right;	padding: 1%;">
-								<button type="button" class="btn btn-outline-info-add myBtn" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}')">답변달기</button>
+								<button type="button" class="btn btn-outline-info-add myBtn" onclick="btnRelay('${list.issuePrimaryKeyNum}','${list.issueKeyNum}',this)">답변달기</button>
 							</div>
 				    	</div>
 				    </div>
@@ -332,7 +332,9 @@
     	    textarea.style.height = textarea.scrollHeight + "px"; // 스크롤 높이로 설정
     	}
 
-		function btnRelay(issuePrimaryKeyNum, issueKeyNum) {
+		var exObj = "";
+		function btnRelay(issuePrimaryKeyNum, issueKeyNum, obj) {
+			exObj = obj;
 	  		$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/issueRelay/relayModal'/>",
@@ -352,6 +354,51 @@
 			    }
 			});	
 	  	}
+
+		$(document).on('issueRelayComplete', function(event, data) {
+			console.log(data.result);
+			var table = $(exObj).parent();
+			console.log(table);
+			console.log(getCurrentTime());
+
+			var rowItem = "<div class='issue'>";
+			rowItem += "<table style='border-top: none;'>";
+			rowItem += "<tr style='height: 50px;'>";
+			rowItem += "<td class='alignCenter'>개발</td>";
+			rowItem += "<td style='background-color: white;'>";
+			rowItem += data.result;
+			rowItem += "</td>";
+			rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+			rowItem += "<span>"+getCurrentTime()+" </span>";
+			rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate('${issueRelay.issueRelayKeyNum}')'>수정</button>";
+			rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete('${issueRelay.issueRelayKeyNum}','${list.issuePrimaryKeyNum}')'>삭제</button>";
+			rowItem += "</td>";
+			rowItem += "</tr>";
+			rowItem += "</table>";
+			table.before(rowItem);
+		});
+
+		function getCurrentTime() {
+			var now = new Date();
+  			var year = now.getFullYear();
+  			var month = now.getMonth() + 1;
+  			var day = now.getDate();
+  			var hours = now.getHours();
+  			var minutes = now.getMinutes();
+  			var seconds = now.getSeconds();
+
+  			// 시간을 2자리 숫자로 표시하기 위해 앞에 0 추가
+  			month = (month < 10 ? "0" : "") + month;
+  			day = (day < 10 ? "0" : "") + day;
+  			hours = (hours < 10 ? "0" : "") + hours;
+  			minutes = (minutes < 10 ? "0" : "") + minutes;
+  			seconds = (seconds < 10 ? "0" : "") + seconds;
+
+  			// 현재 시간을 문자열로 조합
+  			var currentTimeString = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+
+			return currentTimeString;
+		}
 
 		function btnUpdate(issueRelayKeyNum) {
 			$.ajax({

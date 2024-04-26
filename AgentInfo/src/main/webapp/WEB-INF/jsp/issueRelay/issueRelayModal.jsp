@@ -49,7 +49,8 @@
 						if (result.isConfirmed) {
 							$('#modal').modal("hide"); // 모달 닫기
 	            			$('#modal').on('hidden.bs.modal', function () {
-	            				location.reload();
+	            				//location.reload();
+								$(document).trigger('issueRelayComplete', { result: issueRelayDetail });
 	            			});	
 						}
 					})
