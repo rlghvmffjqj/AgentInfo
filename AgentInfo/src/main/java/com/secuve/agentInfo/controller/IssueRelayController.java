@@ -3,6 +3,8 @@ package com.secuve.agentInfo.controller;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,12 +71,13 @@ public class IssueRelayController {
 	}
 	
 	@PostMapping(value = "/issueRelay/relayUpdateModal")
-	public String IssueRelayUpdateModal(Model model, int issueRelayKeyNum) {
+	public String IssueRelayUpdateModal(Model model, int issueRelayKeyNum, int issuePrimaryKeyNum) {
 		IssueRelay issueRelay = issueRelayService.getIssueRelayOne(issueRelayKeyNum);
 		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
 			
 		model.addAttribute("issueConfirm", issue.getIssueConfirm());
 		model.addAttribute("issueRelayKeyNum", issueRelayKeyNum);
+		model.addAttribute("issuePrimaryKeyNum", issuePrimaryKeyNum);
 		model.addAttribute("issueRelayDetail", issueRelay.getIssueRelayDetail());
 		model.addAttribute("viewType","update");
 		return "/issueRelay/issueRelayModal";
@@ -82,10 +85,12 @@ public class IssueRelayController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issueRelay/relay")
-	public String Relay(IssueRelay issueRelay) {
+	public Map Relay(IssueRelay issueRelay) {
+		Map resultMap = new HashMap();
 		IssueRelay issueRelayOne = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
 		if(issueRelayOne == null) {
-			return "UrlExport";
+			resultMap.put("result", "UrlExport");
+			return resultMap;
 		}
 		issueRelayOne.setIssuePrimaryKeyNum(issueRelay.getIssuePrimaryKeyNum());
 		issueRelayOne.setIssueRelayDetail(issueRelay.getIssueRelayDetail());

@@ -4,7 +4,7 @@
 <mapper namespace="issueRelay">
 	<resultMap type="com.secuve.agentInfo.vo.IssueRelay" id="issueRelay"></resultMap>
 	
-	<insert id="insertIssueRelay">
+	<insert id="insertIssueRelay" parameterType="issueRelay" useGeneratedKeys="true" keyProperty="issueRelayKeyNum">
 		INSERT INTO issueRelay(issueRelayUrl, issueKeyNum,issuePrimaryKeyNum,issueRelayDetail,issueRelayType,issueRelayDate)
 		VALUES(#{issueRelayUrl}, ${issueKeyNum},${issuePrimaryKeyNum},#{issueRelayDetail},#{issueRelayType},#{issueRelayDate});
 	</insert>

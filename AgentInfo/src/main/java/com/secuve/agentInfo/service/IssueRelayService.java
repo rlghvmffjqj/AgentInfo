@@ -2,7 +2,9 @@ package com.secuve.agentInfo.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +54,16 @@ public class IssueRelayService {
 	    return key.toString();
 	}
 
-	public String insertIssueRelay(IssueRelay issueRelay) {
+	public Map insertIssueRelay(IssueRelay issueRelay) {
+		Map resultMap = new HashMap();
 		int sucess = issueRelayDao.insertIssueRelay(issueRelay);
-		if (sucess <= 0)
-			return "FALSE";
-		return "OK";
+		if (sucess <= 0) {
+			resultMap.put("result", "FALSE"); 
+			return resultMap;
+		}
+		resultMap.put("result", "OK"); 
+		resultMap.put("issueRelayKeyNum", issueRelay.getIssueRelayKeyNum());
+		return resultMap;
 	}
 
 	public IssueRelay getIssueRelayUrlOne(String issueRelayRandomUrl) {
