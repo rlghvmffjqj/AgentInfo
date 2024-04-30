@@ -193,7 +193,10 @@
 			    	</div>
 			    </div>
 			    
-			    <div style="height:25px; background: white;"></div>
+			    <div style="height:25px; background: white; margin-left: 1%;">
+					<span style="color: red;">답변 상태가 일치하지 않을경우 페이지 새로고침 후 확인 바랍니다.(수정 중)</span>
+				</div>
+				
 			    <div style="background: white; width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
@@ -287,14 +290,14 @@
 									<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
 										<tr style="height: 50px;">
 											<td class="alignCenter">${issueRelay.issueRelayType}</td>
-											<td style="background-color: white;">
+											<td style="background-color: white;" id="detail_${issueRelay.issueRelayKeyNum}">
 												${issueRelay.issueRelayDetail}
 											</td>
 											<td style="width: 100px; background: white; border-left: none; text-align: right;">
 												<span>${issueRelay.issueRelayDate}</span>
 												<c:if test="${issueRelay.issueRelayType eq '개발'}">
-													<button class="btn btn-outline-info-nomal myBtn" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}')">수정</button>
-													<button class="btn btn-outline-info-del myBtn" onClick="btnDelete('${issueRelay.issueRelayKeyNum}','${list.issuePrimaryKeyNum}')">삭제</button>
+													<button class="btn btn-outline-info-nomal myBtn" onClick="btnUpdate('${issueRelay.issueRelayKeyNum}','${list.issuePrimaryKeyNum}')">수정</button>
+													<button class="btn btn-outline-info-del myBtn" onClick="btnDelete('${issueRelay.issueRelayKeyNum}','${list.issuePrimaryKeyNum}',this)">삭제</button>
 												</c:if>
 											</td>
 										</tr>
@@ -333,6 +336,8 @@
     	}
 
 		var exObj = "";
+		var exIssuePrimaryKeyNum = '';
+		var exIssueKeyNum = '';
 		function btnRelay(issuePrimaryKeyNum, issueKeyNum, obj) {
 			exObj = obj;
 	  		$.ajax({
@@ -356,26 +361,27 @@
 	  	}
 
 		$(document).on('issueRelayComplete', function(event, data) {
-			console.log(data.result);
 			var table = $(exObj).parent();
-			console.log(table);
-			console.log(getCurrentTime());
 
 			var rowItem = "<div class='issue'>";
 			rowItem += "<table style='border-top: none;'>";
 			rowItem += "<tr style='height: 50px;'>";
 			rowItem += "<td class='alignCenter'>개발</td>";
-			rowItem += "<td style='background-color: white;'>";
-			rowItem += data.result;
+			rowItem += "<td style='background-color: white;' id='detail_"+data.issueRelayKeyNum+"'>";
+			rowItem += data.issueRelayDetail;
 			rowItem += "</td>";
 			rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
 			rowItem += "<span>"+getCurrentTime()+" </span>";
-			rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate('${issueRelay.issueRelayKeyNum}')'>수정</button>";
-			rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete('${issueRelay.issueRelayKeyNum}','${list.issuePrimaryKeyNum}')'>삭제</button>";
+			rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+data.issueRelayKeyNum+","+data.issuePrimaryKeyNum+")'>수정</button>";
+			rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+data.issueRelayKeyNum+","+data.issuePrimaryKeyNum+",this)'>삭제</button>";
 			rowItem += "</td>";
 			rowItem += "</tr>";
 			rowItem += "</table>";
 			table.before(rowItem);
+		});
+
+		$(document).on('issueRelayCompleteUpdate', function(event, data) {
+			$('#detail_'+data.issueRelayKeyNum).html(data.issueRelayDetail);
 		});
 
 		function getCurrentTime() {
@@ -400,12 +406,13 @@
 			return currentTimeString;
 		}
 
-		function btnUpdate(issueRelayKeyNum) {
+		function btnUpdate(issueRelayKeyNum, issuePrimaryKeyNum) {
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/issueRelay/relayUpdateModal'/>",
 				data: {
-					"issueRelayKeyNum": issueRelayKeyNum
+					"issueRelayKeyNum": issueRelayKeyNum,
+					"issuePrimaryKeyNum": issuePrimaryKeyNum
 				},
 			    async: false,
 			    success: function (data) {
@@ -419,7 +426,7 @@
 			});
 		}
 
-		function btnDelete(issueRelayKeyNum, issuePrimaryKeyNum) {
+		function btnDelete(issueRelayKeyNum, issuePrimaryKeyNum, obj) {
 			Swal.fire({
 				  title: '삭제!',
 				  text: "답글을 삭제하시겠습니까?",
@@ -448,7 +455,8 @@
 							  'success'
 							).then((result) => {
 								if (result.isConfirmed) {
-	            					location.reload();
+	            					//location.reload();
+									obj.closest('tr').remove();
 								}
 							})
 						} else {
@@ -458,7 +466,7 @@
 							  'error'
 							).then((result) => {
 								if (result.isConfirmed) {
-	            					location.reload();
+	            					//location.reload();
 								}
 							})
 						}
@@ -470,7 +478,6 @@
 				  });
 			  	}
 			})
-			
 		}
 
 		$('.txt').html(function(i, html) {

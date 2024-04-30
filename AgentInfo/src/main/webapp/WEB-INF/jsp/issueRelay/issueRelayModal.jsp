@@ -39,22 +39,26 @@
 			},
 	        async: false,
 	        success: function(result) {
-				console.log(result);
-				if(result == "OK") {
+				if(result.result == "OK") {
 					Swal.fire({
 						icon: 'success',
 						title: '답변 완료!',
 						text: '해당 이슈에 답변이 등록되었습니다.',
-					}).then((result) => {
-						if (result.isConfirmed) {
+					}).then((result2) => {
+						if (result2.isConfirmed) {
 							$('#modal').modal("hide"); // 모달 닫기
 	            			$('#modal').on('hidden.bs.modal', function () {
 	            				//location.reload();
-								$(document).trigger('issueRelayComplete', { result: issueRelayDetail });
+								$(document).trigger('issueRelayComplete', { 
+									issueRelayDetail: issueRelayDetail,
+									issueRelayKeyNum: result.issueRelayKeyNum,
+									issuePrimaryKeyNum: "${issuePrimaryKeyNum}"
+
+								});
 	            			});	
 						}
 					})
-				} else if(result == "UrlExport") {
+				} else if(result.result == "UrlExport") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
@@ -90,7 +94,9 @@
 	        type: 'post',
 	        data: {
 				"issueRelayDetail": issueRelayDetail,
-				"issueRelayKeyNum": "${issueRelayKeyNum}"
+				"issueRelayKeyNum": "${issueRelayKeyNum}",
+				"issuePrimaryKeyNum": "${issuePrimaryKeyNum}",
+				"issueRelayType": "개발"
 			},
 	        async: false,
 	        success: function(result) {
@@ -103,7 +109,13 @@
 						if (result.isConfirmed) {
 							$('#modal').modal("hide"); // 모달 닫기
 	            			$('#modal').on('hidden.bs.modal', function () {
-	            				location.reload();
+	            				//location.reload();
+								$(document).trigger('issueRelayCompleteUpdate', { 
+									issueRelayDetail: issueRelayDetail,
+									issueRelayKeyNum: "${issueRelayKeyNum}",
+									issuePrimaryKeyNum: "${issuePrimaryKeyNum}"
+
+								});
 	            			});	
 						}
 					})
