@@ -385,11 +385,13 @@
 			</div>
 			<% int num = 1; %>
 			<c:forEach var="list" items="${issue}">
-				<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
-					<p class="text">
-						<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
-					</p>
-				</a>
+				<c:if test="${list.issueApplyYn eq '미해결' || list.issueApplyYn eq '보류'}">
+					<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
+						<p class="text">
+							<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
+						</p>
+					</a>
+				</c:if>
 			</c:forEach>
 		</div>
 		<button id="showFixedDiv">■</button>
@@ -476,6 +478,11 @@
 				alert(data);
 			});
 	  	}	
+
+		$(document).on('issueRelayComplete', function(event, data) {
+			//$('#detail_'+data.issueRelayKeyNum).html(data.issueRelayDetail);
+			location.reload();
+		});
 		
 		/* =========== 위로 이동 ========= */
 		function btnUp(obj) {

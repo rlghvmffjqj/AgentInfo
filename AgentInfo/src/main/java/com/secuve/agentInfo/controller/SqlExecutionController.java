@@ -147,10 +147,11 @@ public class SqlExecutionController {
 	@ResponseBody
 	@PostMapping(value = "/sqlExecution/format")
 	public String Format(String sqlQuery) {
-		if(!sqlQuery.contains("Parameters")) {
-			return "FALSE";
-		}
 		String[] sqlQueryArr = sqlQuery.split("\n");
+		if(!sqlQuery.contains("Parameters")) {
+			return new BasicFormatterImpl().format(sqlQueryArr[0]);
+		}
+		
 		List<Object> parametersArr = extractParameters(sqlQueryArr[1]);
 		for (Object parameter : parametersArr) {
 			if (parameter instanceof String) {
