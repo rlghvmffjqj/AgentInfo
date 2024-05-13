@@ -44,6 +44,7 @@ public class Issue {
 	private String issueAnswerStatus;
 	
 	private String issueRelayUrl;
+	private String requestType = "";
 		
 	private String issueRegistrant = "";		// 추가자
 	private String issueRegistrationDate = "";	// 추가 시간
@@ -69,6 +70,8 @@ public class Issue {
 	private String[] issuePortalArr;
 	private String[] issueJavaArr;
 	private String[] issueWasArr;
+	private String[] issueProceStatusArr;
+	private List<String> issueProceStatusMulti;
 	
 	private List<String> issueDivisionList;			// 제목
 	private List<String> issueOsList;				// OS

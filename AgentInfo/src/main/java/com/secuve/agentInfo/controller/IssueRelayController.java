@@ -2,9 +2,13 @@ package com.secuve.agentInfo.controller;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.IssueRelayService;
@@ -124,4 +129,47 @@ public class IssueRelayController {
 		return issueRelayService.delIssueRelay(issueRelayKeyNum, issuePrimaryKeyNum);
 	}
 	
+	
+	@GetMapping(value = "/issueRelay/issueRelayList")
+	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
+		List<String> issueCustomer = issueService.getSelectInput("issueCustomer");
+		List<String> issueTitle = issueService.getSelectInput("issueTitle");
+		List<String> issueTosms = issueService.getSelectInput("issueTosms");
+		List<String> issueTosrf = issueService.getSelectInput("issueTosrf");
+		List<String> issuePortal = issueService.getSelectInput("issuePortal");
+		List<String> issueJava = issueService.getSelectInput("issueJava");
+		List<String> issueWas = issueService.getSelectInput("issueWas");
+		
+		model.addAttribute("issueCustomer", issueCustomer);
+		model.addAttribute("issueTitle", issueTitle);
+		model.addAttribute("issueTosms", issueTosms);
+		model.addAttribute("issueTosrf", issueTosrf);
+		model.addAttribute("issuePortal", issuePortal);
+		model.addAttribute("issueJava", issueJava);
+		model.addAttribute("issueWas", issueWas);
+		
+		return "/issueRelay/IssueRelayList";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issueRelay")
+	public Map<String, Object> Issue(Issue search) {
+		search.setRequestType("development");
+		search.setIssueProceStatus(String.join(",",search.getIssueProceStatusMulti()));
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<Issue> list = new ArrayList<>(issueService.getIssueList(search));
+
+		int totalCount = issueService.getIssueListCount(search);
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issue/completeRequest")
+	public String IssueComplete(@RequestParam int[] chkList) {
+		return issueService.proceStatusChange(chkList, "request");
+	}
 }

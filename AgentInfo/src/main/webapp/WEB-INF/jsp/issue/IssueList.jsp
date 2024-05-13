@@ -155,11 +155,12 @@
 												</div>
 												<div class="col-lg-2">
 													<label class="labelFontSize">진행 상태</label>
-												  <select class="form-control selectpicker" id="issueProceStatus" name="issueProceStatus" data-live-search="true" data-size="5" data-actions-box="true">
-														<option value=""><c:out value=""/></option>
-														<option value="progress" selected>진행 중</option>
-														<option value="complete">처리 완료</option>
-												  </select>
+													<select class="form-control selectpicker" id="issueProceStatusMulti" name="issueProceStatusMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<option value=""><c:out value=""/></option>
+															<option value="progress" selected>진행 중</option>
+															<option value="request" selected>처리 완료 요청</option>
+															<option value="complete">처리 완료</option>
+													</select>
 											  </div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">TOSMS</label>
@@ -203,6 +204,7 @@
 												</div>
 		                      					<input type="hidden" id="issueCustomer" name="issueCustomer" class="form-control">
 		                      					<input type="hidden" id="issueTitle" name="issueTitle" class="form-control">
+												<input type="hidden" id="issueProceStatus" name="issueProceStatus" class="form-control">
 		                      					<input type="hidden" id="issueTosms" name="issueTosms" class="form-control">
 		                      					<input type="hidden" id="issueTosrf" name="issueTosrf" class="form-control">
 		                      					<input type="hidden" id="issuePortal" name="issuePortal" class="form-control">
@@ -348,6 +350,7 @@
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#issueCustomer').val($('#issueCustomerMulti').val().join());
 			$('#issueTitle').val($('#issueTitleMulti').val().join());
+			$('#issueProceStatus').val($('#issueProceStatusMulti').val().join());
 			$('#issueTosms').val($('#issueTosmsMulti').val().join());
 			$('#issueTosrf').val($('#issueTosrfMulti').val().join());
 			$('#issuePortal').val($('#issuePortalMulti').val().join());
@@ -377,6 +380,8 @@
 		function stateFormatter(cellValue, options, rowdata, action) {
 			if(cellValue == 'progress') {
 				return '진행 중';
+			} else if(cellValue == 'request') {
+				return '처리 완료 요청';
 			}
 			return '처리 완료';
 		}
@@ -407,6 +412,8 @@
 	        
 	        $('.selectpicker').val('');
 	        $('.filter-option-inner-inner').text('');
+			$('#issueProceStatusMulti').val(['progress','request']);
+			$('#issueProceStatusMulti').selectpicker('refresh');
 			
 			tableRefresh();
 		});

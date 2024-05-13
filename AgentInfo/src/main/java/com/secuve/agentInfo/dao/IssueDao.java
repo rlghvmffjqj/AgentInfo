@@ -222,8 +222,11 @@ public class IssueDao {
 		sqlSession.update("issue.updateIssueAnswerStatus", issue);
 	}
 
-	public int complete(int issueKeyNum) {
-		return sqlSession.update("issue.complete", issueKeyNum);
+	public int proceStatusChange(int issueKeyNum, String issueProceStatus) {
+		Map parameters = new HashMap();
+		parameters.put("issueKeyNum", issueKeyNum);
+		parameters.put("issueProceStatus", issueProceStatus);
+		return sqlSession.update("issue.proceStatusChange", parameters);
 	}
 
 	public List<Issue> getIssueApplyYn(int issueKeyNum) {

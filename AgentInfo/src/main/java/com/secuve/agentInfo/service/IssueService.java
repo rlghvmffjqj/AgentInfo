@@ -107,6 +107,7 @@ public class IssueService {
 		search.setIssuePortalArr(search.getIssuePortal().split(","));
 		search.setIssueJavaArr(search.getIssueJava().split(","));
 		search.setIssueWasArr(search.getIssueWas().split(","));
+		search.setIssueProceStatusArr(search.getIssueProceStatus().split(","));
 		
 		return search;
 	}
@@ -161,7 +162,7 @@ public class IssueService {
 		} 
 		List<Issue> issueApplyList = issueDao.getIssueApplyYn(issue.getIssueKeyNum());
 		if(issueApplyList.size() == 0) {
-			issueDao.complete(issue.getIssueKeyNum());
+			issueDao.proceStatusChange(issue.getIssueKeyNum(), "complete");
 			return "Complete";
 		}
 		return "OK";
@@ -302,14 +303,14 @@ public class IssueService {
 		issueDao.updateIssueAnswerStatus(issue);
 	}
 
-	public String complete(int[] chkList) {
+	public String proceStatusChange(int[] chkList, String issueProceStatus) {
 		for (int issueKeyNum : chkList) {
-			int sucess = issueDao.complete(issueKeyNum);
+			int sucess = issueDao.proceStatusChange(issueKeyNum, issueProceStatus);
 			if (sucess <= 0)
 				return "FALSE";
 		}
 		return "OK";
 	}
-
+	
 
 }

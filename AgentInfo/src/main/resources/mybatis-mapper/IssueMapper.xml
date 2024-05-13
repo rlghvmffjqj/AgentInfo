@@ -11,7 +11,13 @@
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
 				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
-				FROM issue i LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
+				FROM issue i 
+				<if test="requestType == null or requestType == ''">
+					LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
+				</if>
+				<if test="requestType != null and requestType != ''">
+					JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
+				</if>
 					<include refid="sqlIssue" />
 				GROUP BY issueKeyNum
 			) a
@@ -20,7 +26,13 @@
 	</select>
 	
 	<select id="getIssueListCount" resultType="_int">
-		SELECT COUNT(DISTINCT i.issueKeyNum) FROM issue i LEFT JOIN issuerelay ir ON ir.issuePrimaryKeyNum = i.issuePrimaryKeyNum
+		SELECT COUNT(DISTINCT i.issueKeyNum) FROM issue i 
+		<if test="requestType == null or requestType == ''">
+			LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
+		</if>
+		<if test="requestType != null and requestType != ''">
+			JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
+		</if>
 			<include refid="sqlIssue" />
 	</select>
 	
@@ -143,8 +155,8 @@
 		UPDATE issue SET issueAnswerStatus = #{issueAnswerStatus} WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum};
 	</update>
 	
-	<update id="complete" parameterType="_int">
-		UPDATE issue SET issueProceStatus = 'complete' WHERE issueKeyNum = ${issueKeyNum};
+	<update id="proceStatusChange">
+		UPDATE issue SET issueProceStatus = #{issueProceStatus} WHERE issueKeyNum = ${issueKeyNum};
 	</update>
 	
 	<select id="getIssueApplyYn" resultMap="issue" parameterType="_int">
@@ -218,11 +230,17 @@
 				</trim>
 				)
 			</if>
+			<if test="issueProceStatusMulti != null and issueProceStatus != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueProceStatusArr" item="arr">
+						OR i.issueProceStatus LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
 			<if test="issueDateStart != null and issueDateStart != ''">
 				AND i.issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
-			</if>
-			<if test="issueProceStatus != null and issueProceStatus != ''">
-				AND i.issueProceStatus = #{issueProceStatus}
 			</if>
 		</trim>
 	</sql>
