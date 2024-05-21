@@ -20,12 +20,13 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','URL','고객사','Title','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
+					colNames:['Key','URL','고객사','Title','Target','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
 					colModel:[
 						{name:'issueKeyNum', index:'issueKeyNum', align:'center', width: 35, hidden:true },
 						{name:'issueRelayUrl', index:'issueRelayUrl', align:'center', width: 50, formatter: urlFormatter},
 						{name:'issueCustomer', index:'issueCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'issueTitle', index:'issueTitle', align:'center', width: 200},
+						{name:'issueTarget', index:'issueTarget', align:'center', width: 80},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'issueProceStatus', index:'issueProceStatus', align:'center', width: 80, formatter: stateFormatter},
 						{name:'issueTosms', index:'issueTosms', align:'center', width: 200},
@@ -153,6 +154,14 @@
 														</c:forEach>
 													</select>
 												</div>
+												<div class="col-lg-2">
+													<label class="labelFontSize">Target</label>
+												  <select class="form-control selectpicker" id="issueTarget" name="issueTarget" data-live-search="true" data-size="5" data-actions-box="true">
+														<option value=""></option>
+														<option value="TOSMS">TOSMS</option>
+														<option value="Agent">Agent</option>
+												  </select>
+											  </div>
 												<div class="col-lg-2">
 													<label class="labelFontSize">진행 상태</label>
 													<select class="form-control selectpicker" id="issueProceStatusMulti" name="issueProceStatusMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
