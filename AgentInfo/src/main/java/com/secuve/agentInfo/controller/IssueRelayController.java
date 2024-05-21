@@ -130,7 +130,7 @@ public class IssueRelayController {
 	}
 	
 	
-	@GetMapping(value = "/issueRelay/issueRelayList") 
+	@GetMapping(value = "/issueRelay/issueRelayList")
 	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
 		List<String> issueCustomer = issueService.getSelectInput("issueCustomer");
 		List<String> issueTitle = issueService.getSelectInput("issueTitle");
