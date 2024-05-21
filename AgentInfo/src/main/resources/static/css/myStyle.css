@@ -69,6 +69,12 @@
 	height: 55px;
 }
 
+.col-lg-5 {
+	float: left;
+	max-width: 24.77%;
+	height: 55px;
+}
+
 p {
     margin: 5px 0 5px;
 }

@@ -131,14 +131,14 @@ public class IssueRelayController {
 	
 	
 	@GetMapping(value = "/issueRelay/issueRelayList")
-	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
-		List<String> issueCustomer = issueService.getSelectInput("issueCustomer");
-		List<String> issueTitle = issueService.getSelectInput("issueTitle");
-		List<String> issueTosms = issueService.getSelectInput("issueTosms");
-		List<String> issueTosrf = issueService.getSelectInput("issueTosrf");
-		List<String> issuePortal = issueService.getSelectInput("issuePortal");
-		List<String> issueJava = issueService.getSelectInput("issueJava");
-		List<String> issueWas = issueService.getSelectInput("issueWas");
+	public String IssueList(Model model, Principal principal, HttpServletRequest req, String target) {
+		List<String> issueCustomer = issueService.getSelectInputTarget("issueCustomer", target);
+		List<String> issueTitle = issueService.getSelectInputTarget("issueTitle", target);
+		List<String> issueTosms = issueService.getSelectInputTarget("issueTosms", target);
+		List<String> issueTosrf = issueService.getSelectInputTarget("issueTosrf", target);
+		List<String> issuePortal = issueService.getSelectInputTarget("issuePortal", target);
+		List<String> issueJava = issueService.getSelectInputTarget("issueJava", target);
+		List<String> issueWas = issueService.getSelectInputTarget("issueWas", target);
 		
 		model.addAttribute("issueCustomer", issueCustomer);
 		model.addAttribute("issueTitle", issueTitle);
@@ -147,6 +147,7 @@ public class IssueRelayController {
 		model.addAttribute("issuePortal", issuePortal);
 		model.addAttribute("issueJava", issueJava);
 		model.addAttribute("issueWas", issueWas);
+		model.addAttribute("issueTarget", target);
 		
 		return "/issueRelay/IssueRelayList";
 	}

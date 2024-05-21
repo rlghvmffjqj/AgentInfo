@@ -18,7 +18,7 @@ public class IssueDao {
 		return sqlSession.selectOne("issue.getIssueKeyNum");
 	}
 
-	public int insertIssue(int issueKeyNum, String issueCustomer, String issueTitle, String issueDate,
+	public int insertIssue(int issueKeyNum, String issueCustomer, String issueTitle, String issueTarget, String issueDate,
 			String issueTosms, String issueTosrf, String issuePortal, String issueJava,
 			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, String issueWriter,
 			String issueAward, String issueMiddle, String issueUnder1, String issueUnder2, String issueUnder3, String issueUnder4,
@@ -29,6 +29,7 @@ public class IssueDao {
 		parameters.put("issueKeyNum", issueKeyNum);
 		parameters.put("issueCustomer", issueCustomer);
 		parameters.put("issueTitle", issueTitle);
+		parameters.put("issueTarget", issueTarget);
 		parameters.put("issueDate", issueDate);
 		parameters.put("issueTosms", issueTosms);
 		parameters.put("issueTosrf", issueTosrf);
@@ -139,7 +140,7 @@ public class IssueDao {
 		return sqlSession.delete("issue.issueMinus", issuePrimaryKeyNum);
 	}
 
-	public int updateIssue(int issuePrimaryKeyNum, int issueKeyNum, String issueCustomer, String issueTitle, String issueDate,
+	public int updateIssue(int issuePrimaryKeyNum, int issueKeyNum, String issueCustomer, String issueTitle, String issueTarget, String issueDate,
 			String issueTosms, String issueTosrf, String issuePortal, String issueJava,
 			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, String issueWriter,
 			String issueAward, String issueMiddle, String issueUnder1, String issueUnder2, String issueUnder3, String issueUnder4,
@@ -151,6 +152,7 @@ public class IssueDao {
 		parameters.put("issueKeyNum", issueKeyNum);
 		parameters.put("issueCustomer", issueCustomer);
 		parameters.put("issueTitle", issueTitle);
+		parameters.put("issueTarget", issueTarget);
 		parameters.put("issueDate", issueDate);
 		parameters.put("issueTosms", issueTosms);
 		parameters.put("issueTosrf", issueTosrf);
@@ -231,6 +233,13 @@ public class IssueDao {
 
 	public List<Issue> getIssueApplyYn(int issueKeyNum) {
 		return sqlSession.selectList("issue.getIssueApplyYn", issueKeyNum);
+	}
+
+	public List<String> getSelectInputTarget(String selectInput, String issueTarget) {
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("selectInput", selectInput);
+		parameters.put("issueTarget", issueTarget);
+		return sqlSession.selectList("issue.getSelectInputTarget", parameters);
 	}
 
 }

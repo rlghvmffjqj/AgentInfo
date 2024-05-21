@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.Issue" id="issue"></resultMap>
 	
 	<select id="getIssueList" resultMap="issue" parameterType="string">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueTarget, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
 				FROM issue i 
 				<if test="requestType == null or requestType == ''">
 					LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
@@ -41,12 +41,16 @@
 	</select>
 	
 	<insert id="insertIssue">
-		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueTarget,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueTarget},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
 		SELECT DISTINCT ${selectInput} FROM issue WHERE ${selectInput} != '';
+	</select>
+	
+	<select id="getSelectInputTarget" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM issue WHERE ${selectInput} != '' AND issueTarget = #{issueTarget};
 	</select>
 	
 	<select id="getIssueOne" resultMap="issue" parameterType="_int">
@@ -62,7 +66,7 @@
 	</select>
 	
 	<select id="getIssueOneTitle" resultMap="issue" parameterType="_int">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
     	FROM issue
    		WHERE issueKeyNum = #{issueKeyNum};
 	</select>
@@ -123,7 +127,7 @@
 	</delete>
 	
 	<update id="updateIssue">
-		UPDATE issue SET issueCustomer=#{issueCustomer}, issueTitle=#{issueTitle}, issueDate=#{issueDate}, issueTosms=#{issueTosms}, issueTosrf=#{issueTosrf}, issuePortal=#{issuePortal}, issueJava=#{issueJava}, issueWas=#{issueWas}, total=#{total}, solution=#{solution}, unresolved=#{unresolved}, hold=#{hold}, issueDivision=#{issueDivision}, issueOs=#{issueOs}, issueAward=#{issueAward}, issueMiddle=#{issueMiddle}, issueUnder1=#{issueUnder1}, issueUnder2=#{issueUnder2}, issueUnder3=#{issueUnder3}, issueUnder4=#{issueUnder4}, issueFlawNum=#{issueFlawNum}, issueEffect=#{issueEffect}, issueTextResult=#{issueTextResult}, issueApplyYn=#{issueApplyYn}, issueConfirm=#{issueConfirm}, issueObstacle=#{issueObstacle}, issueNote=#{issueNote}, issueModifier=#{issueModifier}, issueModifiedDate=#{issueModifiedDate}
+		UPDATE issue SET issueCustomer=#{issueCustomer}, issueTitle=#{issueTitle}, issueTarget=#{issueTarget}, issueDate=#{issueDate}, issueTosms=#{issueTosms}, issueTosrf=#{issueTosrf}, issuePortal=#{issuePortal}, issueJava=#{issueJava}, issueWas=#{issueWas}, total=#{total}, solution=#{solution}, unresolved=#{unresolved}, hold=#{hold}, issueDivision=#{issueDivision}, issueOs=#{issueOs}, issueAward=#{issueAward}, issueMiddle=#{issueMiddle}, issueUnder1=#{issueUnder1}, issueUnder2=#{issueUnder2}, issueUnder3=#{issueUnder3}, issueUnder4=#{issueUnder4}, issueFlawNum=#{issueFlawNum}, issueEffect=#{issueEffect}, issueTextResult=#{issueTextResult}, issueApplyYn=#{issueApplyYn}, issueConfirm=#{issueConfirm}, issueObstacle=#{issueObstacle}, issueNote=#{issueNote}, issueModifier=#{issueModifier}, issueModifiedDate=#{issueModifiedDate}
 		WHERE issuePrimaryKeyNum=${issuePrimaryKeyNum};  
 	</update>
 	
@@ -241,6 +245,9 @@
 			</if>
 			<if test="issueDateStart != null and issueDateStart != ''">
 				AND i.issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+			</if>
+			<if test="issueTarget != null and issueTarget !=''">
+				AND issueTarget = #{issueTarget}
 			</if>
 		</trim>
 	</sql>

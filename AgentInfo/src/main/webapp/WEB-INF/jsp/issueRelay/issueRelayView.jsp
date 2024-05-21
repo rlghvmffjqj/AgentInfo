@@ -62,13 +62,14 @@
 				margin-right: 10px;
 			}
 			.searchbos {
-				background: #008f1212;
+				background: #00ff2005;
 				border: 1px solid #ddd;
 				border-top: 1px solid #0A8FFF;
 				padding: 10px;
 				display: inline-block;
 				width: 100%;
 				box-shadow: 5px 5px 5px darkgrey;
+				border-radius: 15px;
 			}
 			.summerNoteSize {
 				height: 200px;
@@ -77,7 +78,7 @@
 			.alignCenter {
 				text-align: center;
 				font-size: 12px;
-				width: 70px;
+				width: 71px;
 			}
 			.form-control {
 				font-size: 12px;
@@ -137,14 +138,35 @@
 				border: solid 1px black !important;
 			}
 			.title {
-				margin-top: 20px;
-    			margin-bottom: 20px;
+				padding-top: 20px;
+    			padding-bottom: 20px;
     			text-align: center;
     			color: white;
+				background: #95C1B6 !important;
+				border-radius: 10px;
 			}
 
 			.pageBreak {
 				page-break-before: always;
+			}
+
+			body {
+				background-color: #95c1b60f !important;
+				margin-left: 10%;
+    			margin-right: 10%;
+				background-image: none;
+			}
+
+			.noneForm {
+				font-size: 13px !important;
+			}
+
+			p {
+				font-size: 14px !important;
+			}
+
+			.form-control {
+				border-radius: 25px;
 			}
 		</style>
 	</head>
@@ -153,7 +175,7 @@
 		<div class="title">
 			<span id="relayTitle">${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</span>
 		</div>
-		<div style="background: #FFFFFF; padding-top: 20px;">
+		<div style="padding-top: 20px;">
 		    <div>
 		    	<div style='text-align:right;'>
 			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
@@ -193,11 +215,11 @@
 			    	</div>
 			    </div>
 			    
-			    <div style="height:25px; background: white; margin-left: 1%;">
-					<span style="color: red;">답변 상태가 일치하지 않을경우 페이지 새로고침 후 확인 바랍니다.(수정 중)</span>
+			    <div style="height:25px; margin-left: 1%;">
+					<!-- <span style="color: red;">답변 상태가 일치하지 않을경우 페이지 새로고침 후 확인 바랍니다.(수정 중)</span> -->
 				</div>
 				
-			    <div style="background: white; width: 100%; height: auto;">
+			    <div style="width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
 				    		<li class="listLi">
@@ -274,13 +296,13 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-					 						<div class="obstacleText" style="min-height: 150px; white-space: break-spaces;">${list.issueObstacle}</div>
+					 						<div class="obstacleText" style="min-height: 150px; white-space: break-spaces; padding: 10px;">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
 					 				<tr>
 										<td class="alignCenter">비고</td>
 					 					<td colspan='3'>
-					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" style="min-height: 70px; height: auto; overflow: hidden; width: 100vm !important; background: white;" readonly>${list.issueNote}</textarea>
+					 						<textarea class="form-control" id="issueNoteList" name="issueNoteList" style="min-height: 70px; height: auto; overflow: hidden; width: 100vm !important; background: white; border-radius: 0;" readonly>${list.issueNote}</textarea>
 					 					</td>
 					 				</tr>
 					 			</tbody>
@@ -500,12 +522,8 @@
     	    color: #fff;
     	    border: none;
     	    cursor: pointer;
+			border-radius: 100px;
     	}
-
-		body {
-			background-color: #95C1B6 !important;
-			background-image: none;
-		}
 
 		p {
 			font-size: 16px;
@@ -540,7 +558,7 @@
 
 		@media (min-width: 1024px) and (max-width: 2000px) {
 			img {
-				max-width: 70% !important;
+				max-width: 80% !important;
 			}
 
 			#relayTitle {
@@ -549,7 +567,7 @@
 		}
 		@media (min-width: 0px) and (max-width: 1024px) {
 			img {
-				max-width: 100% !important;
+				max-width: 95% !important;
 			}
 			
 			#relayTitle {

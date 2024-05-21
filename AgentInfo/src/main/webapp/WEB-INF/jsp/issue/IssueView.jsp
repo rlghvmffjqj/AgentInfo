@@ -126,15 +126,22 @@
 	                                	<div class="ibox">
 	                                		<form id="form" name="form" method ="post">
 		                                		<div class="searchbos" style="margin-bottom:20px">
-		                                			<div class="col-lg-3">
+		                                			<div class="col-lg-5">
 		                                				<label class="labelFontSize marginBottom2">고객사</label><label class="colorRed">*</label><span class="colorRed" id="NotIssueCustomer" style="display: none; line-height: initial;">고객사 필수 입력 바랍니다.</span>
 		                                				<input class="form-control" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사명' value="${issueTitle.issueCustomer}">
 		                                			</div>
-		                                			<div class="col-lg-3">
+		                                			<div class="col-lg-5">
 		                                				<label class="labelFontSize marginBottom2">Title</label>
 		                                				<input class="form-control" type="text" id="issueTitle" name="issueTitle" placeholder='Title' value="${issueTitle.issueTitle}">
 		                                			</div>
-		                                			<div class="col-lg-3">
+													<div class="col-lg-5">
+		                                				<label class="labelFontSize marginBottom2">Target</label>
+														<select class="form-control selectpicker" id="issueTarget" name="issueTarget" data-live-search="true" data-size="5" data-actions-box="true">
+															<option value="TOSMS" <c:if test="${'TOSMS' eq issueTitle.issueTarget}">selected</c:if>>TOSMS</option>
+															<option value="Agent" <c:if test="${'Agent' eq issueTitle.issueTarget}">selected</c:if>>Agent</option>
+														</select>
+		                                			</div>
+		                                			<div class="col-lg-5">
 		                                				<label class="labelFontSize marginBottom2">전달일자</label>
 		                                				<input class="form-control" type="date" id="issueDate" name="issueDate" value="${issueTitle.issueDate}" max="9999-12-31">
 		                                			</div>
