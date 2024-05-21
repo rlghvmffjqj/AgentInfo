@@ -137,8 +137,8 @@
 				border: solid 1px black !important;
 			}
 			.title {
-				margin-top: 60px;
-    			margin-bottom: 90px;
+				margin-top: 20px;
+    			margin-bottom: 20px;
     			text-align: center;
     			color: white;
 			}

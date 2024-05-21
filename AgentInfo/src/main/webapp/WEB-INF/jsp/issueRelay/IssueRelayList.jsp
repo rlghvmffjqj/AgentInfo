@@ -18,7 +18,7 @@
 						{name:'issueTitle', index:'issueTitle', align:'center', width: 200},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'issueProceStatus', index:'issueProceStatus', align:'center', width: 80, formatter: stateFormatter},
-						{name:'issueTosms', index:'issueTosms', align:'center', width: 200},
+						{name:'issueTosms', index:'issueTosms', align:'center', width: 300},
 						{name:'issueTosrf', index:'issueTosrf',align:'center', width: 200},
 						{name:'issuePortal', index:'issuePortal',align:'center', width: 200},
 						{name:'issueJava', index:'issueJava', align:'center', width: 200},
@@ -46,7 +46,7 @@
 			});
 			
 			$(window).on('resize.list', function () {
-			    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			    jQuery("#list").jqGrid( 'setGridWidth', $(".pcoded-main-container").width() );
 			});
 		</script>
 	</head>
