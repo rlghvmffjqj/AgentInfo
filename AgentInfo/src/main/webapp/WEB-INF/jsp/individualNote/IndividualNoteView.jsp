@@ -71,6 +71,10 @@
 	    border-radius: 5px;
 	}
 
+	input:not([disabled]) {
+		background: transparent !important;
+	}
+
 </style>
 
 <div class="modal-body" style="width: 100%; height: 800px;">
@@ -81,7 +85,7 @@
 			<div style="text-align: right; margin-top: -10px;">
 				<a href="#" id="setting">
 					<div class="moveBtn">
-						<input type="color" id="individualNoteColor" name="individualNoteColor" value="${individualNote.individualNoteColor}" style="border:0; background-color: black; width: 30px; height: 17px;">
+						<input type="color" id="individualNoteColor" name="individualNoteColor" value="${individualNote.individualNoteColor}" style="border:0; background-color: black !important; width: 30px; height: 17px;">
 						<span ><img src="/AgentInfo/images/return.png" id="return" style="width: 17px;" alt="Theme-Logo"></span>
 						<span ><img src="/AgentInfo/images/minus2.png" id="close" style="width: 15px; height: 17px;" alt="Theme-Logo"></span>
 						<span ><img src="/AgentInfo/images/close2.png" id="save" style="width: 15px;" alt="Theme-Logo"></span>

@@ -10,6 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 		
 		<style>
+			
 			table {
 			  width: 100%;
 			  border-top: 1px solid #444444;
@@ -100,12 +101,15 @@
 			button, input {
 			    overflow: visible;
 			}
+
+			input:not([disabled]) {
+				background: transparent !important;
+			}
 			
 			.titleInput {
 				width: 95%;
-				background: white !important;
 				border: solid 0.1px #00893d94;
-			}
+			}	
 			
 			p {
 				font-size: 10px;
@@ -183,35 +187,35 @@
 			    <div class="searchbos" style="margin-bottom:20px">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
-			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" value="${issueTitle.issueCustomer}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="${issueTitle.issueCustomer}" readonly>
 			    	</div>
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">Title</label>
-			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" value="${issueTitle.issueTitle}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" style="background: white !important;" value="${issueTitle.issueTitle}" readonly>
 			    	</div>
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">전달일자</label>
-			    		<input class="form-control titleInput" type="text" id="issueDate" name="issueDate" value="${issueTitle.issueDate}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueDate" name="issueDate" style="background: white !important;" value="${issueTitle.issueDate}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">TOSMS</label>
-			    		<input class="form-control titleInput" type="text" id="issueTosms" name="issueTosms" value="${issueTitle.issueTosms}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueTosms" name="issueTosms" style="background: white !important;" value="${issueTitle.issueTosms}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">TOSRF</label>
-			    		<input class="form-control titleInput" type="text" id="issueTosrf" name="issueTosrf" value="${issueTitle.issueTosrf}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueTosrf" name="issueTosrf" style="background: white !important;" value="${issueTitle.issueTosrf}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">PORTAL</label>
-			    		<input class="form-control titleInput" type="text" id="issuePortal" name="issuePortal" value="${issueTitle.issuePortal}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issuePortal" name="issuePortal" style="background: white !important;" value="${issueTitle.issuePortal}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">JAVA</label>
-			    		<input class="form-control titleInput" type="text" id="issueJava" name="issueJava" value="${issueTitle.issueJava}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueJava" name="issueJava" style="background: white !important;" value="${issueTitle.issueJava}" readonly>
 			    	</div>
 			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">WAS</label>
-			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" value="${issueTitle.issueWas}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" style="background: white !important;" value="${issueTitle.issueWas}" readonly>
 			    	</div>
 			    </div>
 			    

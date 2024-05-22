@@ -60,6 +60,10 @@
 	    left: 1360px;
 	    opacity: 1;
 	}
+
+	input:not([disabled]) {
+		background: transparent !important;
+	}
 	
 </style>
 <!-- SummerNote -->
@@ -73,7 +77,7 @@
 			<div style="text-align: right; margin-top: -10px;">
 				<a href="#" id="setting">
 					<div class="moveBtn">
-						<input type="color" id="sharedNoteColor" name="sharedNoteColor" value="${sharedNote.sharedNoteColor}" style="border:0; background-color: black; width: 30px; height: 17px;">
+						<input type="color" id="sharedNoteColor" name="sharedNoteColor" value="${sharedNote.sharedNoteColor}" style="border:0; background-color: black !important; width: 30px; height: 17px;">
 						<span ><img src="/AgentInfo/images/return.png" id="return" style="width: 17px;" alt="Theme-Logo"></span>
 						<span ><img src="/AgentInfo/images/minus2.png" id="close" style="width: 15px; height: 17px;" alt="Theme-Logo"></span>
 						<span ><img src="/AgentInfo/images/close2.png" id="save" style="width: 15px;" alt="Theme-Logo"></span>

@@ -555,5 +555,13 @@
 		height: 38px;
 	}
 
+	input {
+		background: transparent !important;
+	}
+
+	.form-material .form-control {
+		height: 37px;
+	}
+
 </style>
 

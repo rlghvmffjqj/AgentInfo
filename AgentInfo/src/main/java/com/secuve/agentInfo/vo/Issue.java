@@ -19,6 +19,7 @@ public class Issue {
 	private String issueCustomer;				// 고객사
 	private String issueTitle;					// Title
 	private String issueTarget;
+	private String issueFirstDate;
 	private String issueDate;					// 전달일자
 	private String issueTosms;					// TOSMS		
 	private String issueTosrf;					// TOSRF

@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.Issue" id="issue"></resultMap>
 	
 	<select id="getIssueList" resultMap="issue" parameterType="string">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueFirstDate, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueTarget, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueTarget, issueFirstDate, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
 				FROM issue i 
 				<if test="requestType == null or requestType == ''">
 					LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
@@ -41,8 +41,8 @@
 	</select>
 	
 	<insert id="insertIssue">
-		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueTarget,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueTarget},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueTarget,issueFirstDate,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueTarget},#{issueFirstDate},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">

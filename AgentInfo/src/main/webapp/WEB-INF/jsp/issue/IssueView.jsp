@@ -144,6 +144,7 @@
 		                                			<div class="col-lg-5">
 		                                				<label class="labelFontSize marginBottom2">전달일자</label>
 		                                				<input class="form-control" type="date" id="issueDate" name="issueDate" value="${issueTitle.issueDate}" max="9999-12-31">
+														<input class="form-control" type="hidden" id="issueFirstDate" name="issueFirstDate" value="${issueTitle.issueFirstDate}" readonly>
 		                                			</div>
 		                                			<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">TOSMS</label>
@@ -1267,6 +1268,7 @@
 		
 		/* =========== PDF 로컬 PC 다운로드(자식창에서 호출) ========= */
 		function pdfDown(fileName) {
+			$('#issueDate').val(new Date().toISOString().substring(0, 10));
 			window.location ="<c:url value='/issue/fileDownload?fileName="+fileName+"'/>";
 			setTimeout(function() {
 				fileDelete(fileName);
