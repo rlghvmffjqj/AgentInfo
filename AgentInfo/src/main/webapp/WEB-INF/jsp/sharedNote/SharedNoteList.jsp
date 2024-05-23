@@ -105,7 +105,7 @@
 											</form>
 		                     			</div>
 		                     		</div>
-		                     			<table style="width:100%;">
+		                     			<table style="width:100vw;">
 											<tbody>
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">

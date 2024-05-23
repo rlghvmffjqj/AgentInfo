@@ -54,7 +54,7 @@
                             <div class="main-body">
                                 <div class="page-wrapper">
                                 	<div class="ibox">
-										<h5 style="color: red;">현제 페이지는 메일 발송 기능 테스트 페이지로 발송자는 로그인한 사용자로되어 지정되어 있습니다. 필요에 따라 기능 수정 하겠습니다.</h5>
+										<span style="color: red;">현제 페이지는 메일 발송 기능 테스트 페이지로 발송자는 로그인한 사용자로되어 지정되어 있습니다. 필요에 따라 기능 수정 하겠습니다.</span>
 										<br>
 										<form id="form" name="form" method ="post">
 											<label class="labelFontSize">받는 사람(이메일 입력 ex : iamdev)</label>
