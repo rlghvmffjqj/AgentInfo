@@ -339,6 +339,11 @@ public class IssueController {
 		issue.setIssueRegistrant(principal.getName());
 		issue.setIssueRegistrationDate(issueService.nowDate());
 		issue.setIssueWriter(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
+		issue.setIssueTarget(issueOne.getIssueTarget());
+		issue.setIssueSubTarget(issueOne.getIssueSubTarget());
+		issue.setIssueFirstDate(issueOne.getIssueFirstDate());
+		issue.setIssueFirstWriter(issueOne.getIssueFirstWriter());
+		issue.setIssueTester(issueOne.getIssueTester());
 		return issueService.insertIssuePlus(issue);
 	}
 	

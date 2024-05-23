@@ -132,13 +132,15 @@ public class IssueRelayController {
 	
 	@GetMapping(value = "/issueRelay/issueRelayList")
 	public String IssueList(Model model, Principal principal, HttpServletRequest req, String target) {
-		List<String> issueCustomer = issueService.getSelectInputTarget("issueCustomer", target);
-		List<String> issueTitle = issueService.getSelectInputTarget("issueTitle", target);
-		List<String> issueTosms = issueService.getSelectInputTarget("issueTosms", target);
-		List<String> issueTosrf = issueService.getSelectInputTarget("issueTosrf", target);
-		List<String> issuePortal = issueService.getSelectInputTarget("issuePortal", target);
-		List<String> issueJava = issueService.getSelectInputTarget("issueJava", target);
-		List<String> issueWas = issueService.getSelectInputTarget("issueWas", target);
+		Map<String, String> targetMap = issueService.targetDivision(target);
+		
+		List<String> issueCustomer = issueService.getSelectInputTarget("issueCustomer", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
+		List<String> issueTitle = issueService.getSelectInputTarget("issueTitle", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
+		List<String> issueTosms = issueService.getSelectInputTarget("issueTosms", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
+		List<String> issueTosrf = issueService.getSelectInputTarget("issueTosrf", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
+		List<String> issuePortal = issueService.getSelectInputTarget("issuePortal", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
+		List<String> issueJava = issueService.getSelectInputTarget("issueJava", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
+		List<String> issueWas = issueService.getSelectInputTarget("issueWas", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
 		
 		model.addAttribute("issueCustomer", issueCustomer);
 		model.addAttribute("issueTitle", issueTitle);
@@ -147,7 +149,8 @@ public class IssueRelayController {
 		model.addAttribute("issuePortal", issuePortal);
 		model.addAttribute("issueJava", issueJava);
 		model.addAttribute("issueWas", issueWas);
-		model.addAttribute("issueTarget", target);
+		model.addAttribute("issueTarget", targetMap.get("issueTarget"));
+		model.addAttribute("issueSubTarget", targetMap.get("issueSubTarget"));
 		
 		return "/issueRelay/IssueRelayList";
 	}
