@@ -126,25 +126,30 @@
 	                                	<div class="ibox">
 	                                		<form id="form" name="form" method ="post">
 		                                		<div class="searchbos" style="margin-bottom:20px">
-		                                			<div class="col-lg-5">
+		                                			<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">고객사</label><label class="colorRed">*</label><span class="colorRed" id="NotIssueCustomer" style="display: none; line-height: initial;">고객사 필수 입력 바랍니다.</span>
 		                                				<input class="form-control" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사명' value="${issueTitle.issueCustomer}">
 		                                			</div>
-		                                			<div class="col-lg-5">
+		                                			<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">Title</label>
 		                                				<input class="form-control" type="text" id="issueTitle" name="issueTitle" placeholder='Title' value="${issueTitle.issueTitle}">
 		                                			</div>
-													<div class="col-lg-5">
+													<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">Target</label>
 														<select class="form-control selectpicker" id="issueTarget" name="issueTarget" data-live-search="true" data-size="5" data-actions-box="true">
 															<option value="TOSMS" <c:if test="${'TOSMS' eq issueTitle.issueTarget}">selected</c:if>>TOSMS</option>
 															<option value="Agent" <c:if test="${'Agent' eq issueTitle.issueTarget}">selected</c:if>>Agent</option>
 														</select>
 		                                			</div>
-		                                			<div class="col-lg-5">
+													<div class="col-lg-4">
+		                                				<label class="labelFontSize marginBottom2">Sub_target</label>
+														<select class="form-control selectpicker" id="issueSubTarget" name="issueSubTarget" data-live-search="true" data-size="5" data-actions-box="true">
+															<option value=""></option>
+														</select>
+		                                			</div>
+		                                			<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">전달일자</label>
 		                                				<input class="form-control" type="date" id="issueDate" name="issueDate" value="${issueTitle.issueDate}" max="9999-12-31">
-														<input class="form-control" type="hidden" id="issueFirstDate" name="issueFirstDate" value="${issueTitle.issueFirstDate}" readonly>
 		                                			</div>
 		                                			<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">TOSMS</label>
@@ -377,6 +382,8 @@
 												<input class="form-control" type="hidden" id="issueKeyNum" name="issueKeyNum" value="${issueTitle.issueKeyNum}">
 		                                		<input class="form-control" type="hidden" id="issueObstacleList" name="issueObstacleList" value=""><!-- 단일 이미지 첨부일 경우 배열이 여러개로 분리되어 복합으로 전달하기 위해 추가  -->
 		                                		<input class="form-control" type="hidden" id="issueBtnType" name="issueBtnType" value="${viewType}">
+												<input class="form-control" type="hidden" id="issueFirstDate" name="issueFirstDate" value="${issueTitle.issueFirstDate}" readonly>
+												<input class="form-control" type="hidden" id="issueFirstWriter" name="issueFirstWriter" value="${issueTitle.issueFirstWriter}" readonly>
 	                                		</form>
 		    	                 		</div>
 	                                </div>
@@ -418,6 +425,17 @@
 			issueCount();
 			if("${viewType}" == "insert") {
 				$('#downloadBtn').hide();
+			} else {
+				if($('#issueTarget').val() == "Agent") {
+					$("#issueSubTarget").empty();
+					$("#issueSubTarget").selectpicker("refresh");
+					$("#issueSubTarget").append('<option value="linux">UNIX / LINUX</option>');
+					$("#issueSubTarget").append('<option value="windows">WINDOWS</option>');
+					$("#issueSubTarget").append('<option value="linuxWindows">UNIX / LINUX / WINDOWS</option>');
+					$("#issueSubTarget").selectpicker("refresh");
+					$("#issueSubTarget").val("${issueTitle.issueSubTarget}");
+					$("#issueSubTarget").selectpicker("refresh");
+				}
 			}
 		});
 		
@@ -1879,6 +1897,24 @@
 				resolve("OK");
 			});
 		}
+
+		$("#issueTarget").change(function() {
+			$("#issueSubTarget").empty();
+			$("#issueSubTarget").selectpicker("refresh");
+
+			if($("#issueTarget").val() == "TOSMS") {
+				$("#issueSubTarget").append('<option value=""></option>');
+				$("#issueSubTarget").selectpicker("refresh");
+			} else {				
+	    		$("#issueSubTarget").append('<option value="linux">UNIX / LINUX</option>');
+				$("#issueSubTarget").append('<option value="windows">WINDOWS</option>');
+				$("#issueSubTarget").append('<option value="linuxWindows">UNIX / LINUX / WINDOWS</option>');
+				$("#issueSubTarget").selectpicker("refresh");
+				$("#issueSubTarget").eq(1).prop('selected', true);
+				$("#issueSubTarget").selectpicker("refresh");
+			}
+	    	
+		});
 	</script>
 	<style>
 		.text {

@@ -20,13 +20,16 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','URL','고객사','Title','Target','등록일자','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
+					colNames:['Key','URL','고객사','Title','Target','SubTarget','작성자','테스터','등록일자','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
 					colModel:[
 						{name:'issueKeyNum', index:'issueKeyNum', align:'center', width: 35, hidden:true },
 						{name:'issueRelayUrl', index:'issueRelayUrl', align:'center', width: 80, formatter: urlFormatter},
 						{name:'issueCustomer', index:'issueCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'issueTitle', index:'issueTitle', align:'center', width: 200},
 						{name:'issueTarget', index:'issueTarget', align:'center', width: 80},
+						{name:'issueSubTarget', index:'issueSubTarget', align:'center', width: 150, formatter: subTargetFormatter},
+						{name:'issueFirstWriter', index:'issueFirstWriter', align:'center', width: 80},
+						{name:'issueTester', index:'issueTester', align:'center', width: 120},
 						{name:'issueFirstDate', index:'issueFirstDate', align:'center', width: 80},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'issueProceStatus', index:'issueProceStatus', align:'center', width: 80, formatter: stateFormatter},
@@ -395,6 +398,21 @@
 			}
 			return '처리 완료';
 		}
+
+		function subTargetFormatter(cellValue, options, rowdata, action) {
+			if(cellValue == 'linux') {
+				return 'UNIX/LINUX';
+			} else if(cellValue == 'windows') {
+				return 'WINDOWS';
+			} else if(cellValue == 'linuxWindows') {
+				return 'UNIX/LINUX/WINDOWS';
+			} else {
+				return '';
+			}
+
+		}
+
+		
 		
 		
 		/* =========== Enter 검색 ========= */

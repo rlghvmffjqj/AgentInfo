@@ -170,6 +170,7 @@
 									</div>
 		              				<input type="hidden" id="issueCustomer" name="issueCustomer" class="form-control">
 									<input type="hidden" id="issueTarget" name="issueTarget" class="form-control" value="${issueTarget}">
+									<input type="hidden" id="issueSubTarget" name="issueSubTarget" class="form-control" value="${issueSubTarget}">
 		              				<input type="hidden" id="issueTitle" name="issueTitle" class="form-control">
 									  <input type="hidden" id="issueProceStatus" name="issueProceStatus" class="form-control">
 		              				<input type="hidden" id="issueTosms" name="issueTosms" class="form-control">
