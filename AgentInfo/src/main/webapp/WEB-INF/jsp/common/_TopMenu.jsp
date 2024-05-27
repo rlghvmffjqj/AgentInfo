@@ -9,7 +9,7 @@
             <a href="<c:url value='/index'/>">
                 <img class="img-fluid" src="/AgentInfo/images/logo2.png" alt="Theme-Logo" style="margin-left: -10px;">
             </a>
-            
+              
         </div>
       
         <div class="navbar-container container-fluid">
