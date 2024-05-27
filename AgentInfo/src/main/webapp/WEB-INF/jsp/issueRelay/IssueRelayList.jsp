@@ -11,11 +11,12 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사','Title','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
+					colNames:['Key','고객사','Title','테스터','전달일자','진행상태','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
 					colModel:[
 						{name:'issueKeyNum', index:'issueKeyNum', align:'center', width: 35, hidden:true },
 						{name:'issueCustomer', index:'issueCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'issueTitle', index:'issueTitle', align:'center', width: 200},
+						{name:'issueTester', index:'issueTester', align:'center', width: 120},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'issueProceStatus', index:'issueProceStatus', align:'center', width: 80, formatter: stateFormatter},
 						{name:'issueTosms', index:'issueTosms', align:'center', width: 300},
@@ -55,7 +56,7 @@
 	<div id="pcoded" class="pcoded iscollapsed">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
-			<div style="text-align: center; background: burlywood; height: 60px; padding-top: 1.5vh;">
+			<div style="text-align: center; background: #cfa875cc; height: 60px; padding-top: 1.5vh; font-family: math;">
 				<h3 style="color: white;">QA 이슈 목록</h3>
 			</div>
 			<div class="pcoded-main-container" style="margin-top: 56px;">

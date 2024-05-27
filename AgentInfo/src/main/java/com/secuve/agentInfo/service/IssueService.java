@@ -342,8 +342,11 @@ public class IssueService {
 		} else if(target.equals("AgentWin")) {
 			map.put("issueTarget", "Agent");
 			map.put("issueSubTarget", "windows");
-		} else {
+		} else if(target.equals("TOSMS")) {
 			map.put("issueTarget", "TOSMS");
+			map.put("issueSubTarget", "");
+		} else {
+			map.put("issueTarget", "");
 			map.put("issueSubTarget", "");
 		}
 		return map;

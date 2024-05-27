@@ -6855,7 +6855,7 @@ table tbody .border-bottom-info td {
   -o-transition: opacity 0.3s linear;
   overflow: hidden; }
 .pcoded[vertical-nav-type="compact"][vertical-effect="overlay"] .pcoded-overlay-box, .pcoded[vertical-nav-type="ex-popover"][vertical-effect="overlay"] .pcoded-overlay-box, .pcoded[vertical-nav-type="expanded"][vertical-effect="overlay"] .pcoded-overlay-box, .pcoded[vertical-nav-type="fullsub-collapsed"][vertical-effect="overlay"] .pcoded-overlay-box, .pcoded[vertical-nav-type="sub-expanded"][vertical-effect="overlay"] .pcoded-overlay-box {
-  visibility: visible;
+  
   z-index: 1026;
   opacity: 0.3;
   transition: opacity 0.3s linear;

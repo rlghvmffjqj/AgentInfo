@@ -53,7 +53,7 @@
 		SELECT DISTINCT ${selectInput} FROM issue WHERE ${selectInput} != '' AND issueTarget = #{issueTarget} AND issueSubTarget LIKE CONCAT('%',#{issueSubTarget},'%')
 	</select>
 	
-	<select id="getIssueOne" resultMap="issue" parameterType="_int">
+	<select id="getIssueOne" resultMap="issue" parameterType="_int" useCache="true">
 		SELECT * FROM issue WHERE issueKeyNum = #{issueKeyNum} ORDER BY issueSortNum;
 	</select>
 	
@@ -66,7 +66,7 @@
 	</select>
 	
 	<select id="getIssueOneTitle" resultMap="issue" parameterType="_int">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueSubTarget, issueFirstWriter, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTester, issueTarget, issueSubTarget, issueFirstWriter, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
     	FROM issue
    		WHERE issueKeyNum = #{issueKeyNum};
 	</select>
@@ -246,11 +246,9 @@
 			<if test="issueDateStart != null and issueDateStart != ''">
 				AND i.issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
 			</if>
-			<if test="issueTarget != null and issueTarget !=''">
+			<if test="requestType == 'development'">
 				AND issueTarget = #{issueTarget}
-				<if test="issueTarget == 'Agent'">
-					AND issueSubTarget LIKE CONCAT('%',#{issueSubTarget},'%')
-				</if>
+				AND issueSubTarget LIKE CONCAT('%',#{issueSubTarget},'%')
 			</if>
 		</trim>
 	</sql>

@@ -27,7 +27,7 @@
 			
 			.col-lg-4 {
 				float: left;
-				max-width: 29%;
+				max-width: 25%;
 				height: 55px;
 				position: relative;
 			    width: 100%;
@@ -38,7 +38,7 @@
 			
 			.col-lg-3 {
 				float: left;
-				max-width: 29%;
+				max-width: 25%;
 				height: 55px;
 				position: relative;
 			    width: 100%;
@@ -142,8 +142,8 @@
 				border: solid 1px black !important;
 			}
 			.title {
-				padding-top: 20px;
-    			padding-bottom: 20px;
+				padding-top: 15px;
+    			padding-bottom: 15px;
     			text-align: center;
     			color: white;
 				background: #95C1B6 !important;
@@ -155,7 +155,7 @@
 			}
 
 			body {
-				background-color: #95c1b60f !important;
+				background-color: #95c1b617 !important;
 				margin-left: 10%;
     			margin-right: 10%;
 				background-image: none;
@@ -192,6 +192,10 @@
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">Title</label>
 			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" style="background: white !important;" value="${issueTitle.issueTitle}" readonly>
+			    	</div>
+					<div class="col-lg-3">
+			    		<label class="labelFontSize">테스터</label>
+			    		<input class="form-control titleInput" type="text" id="issueTester" name="issueTester" style="background: white !important;" value="${issueTitle.issueTester}" readonly>
 			    	</div>
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">전달일자</label>
@@ -235,10 +239,10 @@
 										</c:forEach>
 									</span>
 									<c:if test="${list.issueAnswerStatus eq 'atmosphere'}">
-										<span class="txt anim-text-flow" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
+										<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
 									</c:if>
 									<c:if test="${list.issueAnswerStatus eq 'reRequest'}">
-										<span class="txt anim-text-flow" style="width: 100px; float: left; margin-left: 1%;">답변 재요청</span>
+										<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 재요청</span>
 									</c:if>
 								</a>
 							</li>
@@ -342,6 +346,9 @@
 			</div>
 		</div>
 		<button class="scrollToTop" onclick="scrollToTop();">맨 위로</button>
+		<a href="<c:url value='/index'/>">
+			<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
+		</a>
 	</body>
 	<script>
 		function moveScroll(keyNum) {
@@ -404,6 +411,7 @@
 			rowItem += "</tr>";
 			rowItem += "</table>";
 			table.before(rowItem);
+			$(".index"+data.issuePrimaryKeyNum).hide();
 		});
 
 		$(document).on('issueRelayCompleteUpdate', function(event, data) {
@@ -483,6 +491,7 @@
 								if (result.isConfirmed) {
 	            					//location.reload();
 									obj.closest('tr').remove();
+									$(".index"+issuePrimaryKeyNum).show();
 								}
 							})
 						} else {
@@ -566,7 +575,7 @@
 			}
 
 			#relayTitle {
-				font-size: 40px;
+				font-size: 30px;
 			}
 		}
 		@media (min-width: 0px) and (max-width: 1024px) {

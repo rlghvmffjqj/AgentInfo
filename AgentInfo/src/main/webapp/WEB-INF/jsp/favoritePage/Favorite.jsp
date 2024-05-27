@@ -42,5 +42,9 @@
 		font-size: 20px;
 		color: #2671ff;
 	}
+
+	.btn-outline-info-nomal:hover {
+		background: #717171;
+	}
 </style>
 

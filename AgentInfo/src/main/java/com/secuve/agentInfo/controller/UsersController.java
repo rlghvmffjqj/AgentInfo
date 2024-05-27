@@ -203,10 +203,14 @@ public class UsersController {
 	        }
 	    }
 		
-		SessionInformation sessionInformation = sessionRegistry.getSessionInformation(sessionId);
-        if (sessionInformation != null) {
-            sessionInformation.expireNow();
-        }
+	    try {
+	    	SessionInformation sessionInformation = sessionRegistry.getSessionInformation(sessionId);	
+	        if (sessionInformation != null) {
+	            sessionInformation.expireNow();
+	        }
+	    } catch (Exception e) {
+			return "redirect:/login";
+		}
 		return "redirect:/logout"; 
 	}
 	
