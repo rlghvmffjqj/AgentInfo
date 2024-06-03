@@ -164,6 +164,7 @@
 														<option value=""></option>
 														<option value="TOSMS">TOSMS</option>
 														<option value="Agent">Agent</option>
+														<option value="기타">기타</option>
 												  </select>
 											  </div>
 												<div class="col-lg-2">

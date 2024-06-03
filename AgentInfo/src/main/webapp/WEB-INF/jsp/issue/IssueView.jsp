@@ -139,6 +139,7 @@
 														<select class="form-control selectpicker" id="issueTarget" name="issueTarget" data-live-search="true" data-size="5" data-actions-box="true">
 															<option value="TOSMS" <c:if test="${'TOSMS' eq issueTitle.issueTarget}">selected</c:if>>TOSMS</option>
 															<option value="Agent" <c:if test="${'Agent' eq issueTitle.issueTarget}">selected</c:if>>Agent</option>
+															<option value="기타" <c:if test="${'기타' eq issueTitle.issueTarget}">selected</c:if>>기타</option>
 														</select>
 		                                			</div>
 													<div class="col-lg-4">

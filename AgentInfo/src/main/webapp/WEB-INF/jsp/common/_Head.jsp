@@ -10,7 +10,7 @@
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
 <!-- Favicon -->
-<link rel="icon" href="<c:url value='/images/favicon.png'/>" type="image/x-icon">
+<link rel="icon" href="<c:url value='/images/favicon.ico'/>" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap/css/bootstrap.min.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/icon/themify-icons/themify-icons.css'/>">
 <link rel="stylesheet" type="text/css" href="<c:url value='/icon/icofont/css/icofont.css'/>">

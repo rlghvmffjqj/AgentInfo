@@ -10,7 +10,7 @@
 <title>Secuve PKG Download</title>
 
 <!-- Favicon -->
-<link rel="icon" href="<c:url value='/images/favicon.png'/>" type="image/x-icon">
+<link rel="icon" href="<c:url value='/images/favicon.ico'/>" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/bootstrap/css/bootstrap.min.css'/>">
 <script type="text/javascript" src="<c:url value='/js/jquery-3.3.1.slim.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery.min.js'/>"></script>
@@ -20,7 +20,7 @@
 	<div style="text-align: center; margin-top: 15%;">
 		<table style="margin-left: auto; margin-right: auto; margin-bottom: 50px;">
 			<tr>
-				<td><img class="img-fluid" src="/AgentInfo/images/favicon.png" alt="Theme-Logo"></td>
+				<td><img class="img-fluid" src="/AgentInfo/images/favicon.ico" alt="Theme-Logo"></td>
 				<td><span style="font-size: 20px; font-weight: bold; font-family: emoji;">Secuve Package Download</span></td>
 			</tr>
 		</table>
