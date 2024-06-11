@@ -346,7 +346,6 @@
 			</div>
 		</div>
 		<button class="scrollToTop" onclick="scrollToTop();">맨 위로</button>
-		${issue.get(0).issueTarget}
 		<c:if test="${issue.get(0).issueTarget eq 'TOSMS'}">
 			<a href="https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/issueRelayList?target=TOSMS">
 				<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">

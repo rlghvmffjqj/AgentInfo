@@ -52,14 +52,23 @@ public class IssueRelayController {
 	
 	@GetMapping(value = "/issueRelay/{issueRelayRandomUrl}")
 	public String IssueRelayView(Model model, @PathVariable String issueRelayRandomUrl) {
-		IssueRelay issueRelay = issueRelayService.getIssueRelayUrlOne(issueRelayRandomUrl);
-		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneIssueApplyYn(issueRelay.getIssueKeyNum()));
-		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueRelay.getIssueKeyNum()));
-		Issue issueTitle = issueService.getIssueOneTitle(issueRelay.getIssueKeyNum());
-		
-		model.addAttribute("issue",issue);
-		model.addAttribute("issueRelayList", issueRelayList);
-		model.addAttribute("issueTitle", issueTitle);
+		try {
+			IssueRelay issueRelay = issueRelayService.getIssueRelayUrlOne(issueRelayRandomUrl);
+			ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneIssueApplyYn(issueRelay.getIssueKeyNum()));
+			
+			if(issue.size() == 0) {
+				return "/issueRelay/issueRelayComplete";
+			}
+			
+			ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueRelay.getIssueKeyNum()));
+			Issue issueTitle = issueService.getIssueOneTitle(issueRelay.getIssueKeyNum());
+			
+			model.addAttribute("issue",issue);
+			model.addAttribute("issueRelayList", issueRelayList);
+			model.addAttribute("issueTitle", issueTitle);
+		} catch (Exception e) {
+			return "/issueRelay/issueRelayFail";
+		}
 		return "/issueRelay/issueRelayView";
 	}
 	
