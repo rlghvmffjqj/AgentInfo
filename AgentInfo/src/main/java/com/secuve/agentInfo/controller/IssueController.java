@@ -70,7 +70,7 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue")
 	public Map<String, Object> Issue(Issue search) {
-		search.setIssueProceStatus(String.join(",",search.getIssueProceStatusMulti()));
+		//search.setIssueProceStatus(String.join(",",search.getIssueProceStatusMulti()));
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<Issue> list = new ArrayList<>(issueService.getIssueList(search));
 
@@ -392,5 +392,6 @@ public class IssueController {
 		}
 		return "OK";
 	}
+	
 }
 

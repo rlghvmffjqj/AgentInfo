@@ -234,7 +234,7 @@
 				</trim>
 				)
 			</if>
-			<if test="issueProceStatusMulti != null and issueProceStatus != ''">
+			<if test="issueProceStatus != null and issueProceStatus != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
 					<foreach collection="issueProceStatusArr" item="arr">

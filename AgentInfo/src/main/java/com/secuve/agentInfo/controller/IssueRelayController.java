@@ -185,4 +185,8 @@ public class IssueRelayController {
 	public String IssueComplete(@RequestParam int[] chkList) {
 		return issueService.proceStatusChange(chkList, "request");
 	}
+	
+	
+	/*  ---------------------- IssueRelay B -----------------------------  */
+	
 }
