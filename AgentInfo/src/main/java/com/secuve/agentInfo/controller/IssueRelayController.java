@@ -30,7 +30,7 @@ public class IssueRelayController {
 	@Autowired IssueService issueService;
 	
 	@PostMapping(value = "/issueRelay/urlExport")
-	public String InsertPackagesView(Model model, IssueRelay issueRelay) throws UnknownHostException {
+	public String InsertPackagesView(Model model, IssueRelay issueRelay, String issueCustomer, String issueTitle) throws UnknownHostException {
 		IssueRelay issueRelayExis = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
 		String url = "";
 		if(issueRelayExis != null) {
@@ -47,11 +47,13 @@ public class IssueRelayController {
 			issueRelayService.insertIssueRelay(issueRelay);
 		}
 		model.addAttribute("url", url);
+		model.addAttribute("issueCustomer", issueCustomer);
+		model.addAttribute("issueTitle", issueTitle);
 		return "/issue/IssueUrlView";
 	}
 	
-	@GetMapping(value = "/issueRelay/{issueRelayRandomUrl}")
-	public String IssueRelayView(Model model, @PathVariable String issueRelayRandomUrl) {
+	@GetMapping(value = "/issueRelayA/{issueRelayRandomUrl}")
+	public String IssueRelayAView(Model model, @PathVariable String issueRelayRandomUrl) {
 		try {
 			IssueRelay issueRelay = issueRelayService.getIssueRelayUrlOne(issueRelayRandomUrl);
 			ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneIssueApplyYn(issueRelay.getIssueKeyNum()));
@@ -190,14 +192,14 @@ public class IssueRelayController {
 	/*  ---------------------- IssueRelay B -----------------------------  */
 	
 	
-	@GetMapping(value = "/issueRelayB/{issueRelayRandomUrl}")
-	public String IssueRelayBView(Model model, @PathVariable String issueRelayRandomUrl) {
+	@GetMapping(value = "/issueRelay/{issueRelayRandomUrl}")
+	public String IssueRelayView(Model model, @PathVariable String issueRelayRandomUrl) {
 		try {
 			IssueRelay issueRelay = issueRelayService.getIssueRelayUrlOne(issueRelayRandomUrl);
-			ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneIssueApplyYnB(issueRelay.getIssueKeyNum()));
+			ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneIssueApplyYnItem(issueRelay.getIssueKeyNum()));
 			
 			if(issue.size() == 0) {
-				return "/issueRelayB/issueRelayComplete";
+				return "/issueRelay/issueRelayComplete";
 			}
 			
 			ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueRelay.getIssueKeyNum()));
@@ -208,13 +210,13 @@ public class IssueRelayController {
 			model.addAttribute("issueTitle", issueTitle);
 			model.addAttribute("issueRelayRandomUrl",issueRelayRandomUrl);
 		} catch (Exception e) {
-			return "/issueRelayB/issueRelayFail";
+			return "/issueRelay/issueRelayFail";
 		}
-		return "/issueRelayB/issueRelayView";
+		return "/issueRelay/issueRelayItemView";
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/issueRelayB/item")
+	@PostMapping(value = "/issueRelay/item")
 	public Map IssueRelayItem(String issueRelayRandomUrl, int issuePrimaryKeyNum) {
 		IssueRelay issueRelay = issueRelayService.getIssueRelayUrlOne(issueRelayRandomUrl);
 		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueRelay.getIssueKeyNum()));

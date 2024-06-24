@@ -289,7 +289,7 @@
 			var itemLi = $("#item" + keyNum);
 			var issueRelayRandomUrl = "${issueRelayRandomUrl}";
 		    $.ajax({
-				url: "<c:url value='/issueRelayB/item'/>",
+				url: "<c:url value='/issueRelay/item'/>",
 				type: "POST",
 				data: {
 					"issuePrimaryKeyNum": keyNum,

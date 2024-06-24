@@ -299,8 +299,8 @@ public class IssueService {
 		return issueDao.getIssueOneIssueApplyYn(issueKeyNum);
 	}
 	
-	public List<Issue> getIssueOneIssueApplyYnB(int issueKeyNum) {
-		return issueDao.getIssueOneIssueApplyYnB(issueKeyNum);
+	public List<Issue> getIssueOneIssueApplyYnItem(int issueKeyNum) {
+		return issueDao.getIssueOneIssueApplyYnItem(issueKeyNum);
 	}
 
 	public String  updateUserAlarm(String employeeId, int userAlarmParameter) {

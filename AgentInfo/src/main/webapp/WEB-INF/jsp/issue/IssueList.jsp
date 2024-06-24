@@ -14,6 +14,7 @@
 		</script>
 		<script>
 			$(document).ready(function(){
+				$('#issueProceStatus').val($('#issueProceStatusMulti').val().join());
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
 					url: "<c:url value='/issue'/>",

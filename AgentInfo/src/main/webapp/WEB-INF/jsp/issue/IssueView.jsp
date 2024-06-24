@@ -1225,6 +1225,9 @@
 		/* =========== URL 생성  ========= */
 		$('#BtnURL').click(function() {
 			$('#issueDate').val(new Date().toISOString().substring(0, 10));
+			var issueCustomer = $('#issueCustomer').val();
+			var issueTitle = $('#issueTitle').val();
+
 			checkPermissions().then(function(result) {
 				if(result === "NoAuthority") {
 					Swal.fire({
@@ -1241,7 +1244,11 @@
 						$.ajax({
 		    			    type: 'POST',
 		    			    url: "<c:url value='/issueRelay/urlExport'/>",
-		    			    data: {"issueKeyNum" : issueKeyNum},
+		    			    data: {
+								"issueKeyNum" : issueKeyNum,
+								"issueCustomer" : issueCustomer,
+								"issueTitle" : issueTitle
+							},
 		    			    async: false,
 		    			    success: function (data) {
 		    			    	if(data.indexOf("<!DOCTYPE html>") != -1) 

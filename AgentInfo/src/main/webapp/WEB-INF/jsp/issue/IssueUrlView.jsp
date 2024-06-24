@@ -8,9 +8,11 @@
 <div class="modelHead">
 	<div class="modelHeadFont">이슈 상세 URL</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 115px;">
+<div class="modal-body modalBody" style="width: 100%; height: 155px;">
 	<div style="text-align: center; margin-top: 7%;">
-		<a href="#" style="font-size: 19px; font-weight: bold;" onclick="copyToClipboard('${url}'); return false;">${url}</a>
+		<a href="#" style="font-size: 19px; font-weight: bold;" onclick="copyToClipboard('${url}\n\n고객사 : ${issueCustomer}\n타이틀 : ${issueTitle}'); return false;">${url}</a><br><br>
+		<span id="titleSpan">고객사 : ${issueCustomer}</span><br><br>
+		<span id="titleSpan">타이틀 : ${issueTitle}</span>
 		<div id="copyMessage">URL이 클립보드에 복사되었습니다.</div>
 	</div>
 </div>
@@ -40,6 +42,14 @@
     	border: 1px solid #ccc;
     	border-radius: 5px;
     	color: deeppink;
+	}
+
+	#titleSpan {
+		float: left;
+    	margin-left: 15px;
+    	font-size: 17px;
+    	color: black;
+    	font-weight: bold;
 	}
 
 </style>

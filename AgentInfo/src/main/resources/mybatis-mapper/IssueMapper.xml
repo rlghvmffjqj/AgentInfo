@@ -61,8 +61,8 @@
 		SELECT * FROM issue WHERE issueKeyNum = #{issueKeyNum} AND issueApplyYn = '미해결' ORDER BY issueSortNum;
 	</select>
 	
-	<select id="getIssueOneIssueApplyYnB" resultMap="issue" parameterType="_int">
-		SELECT issuePrimaryKeyNum, issueDivision, issueAnswerStatus FROM issue WHERE issueKeyNum = #{issueKeyNum} AND issueApplyYn = '미해결' ORDER BY issueSortNum;
+	<select id="getIssueOneIssueApplyYnItem" resultMap="issue" parameterType="_int">
+		SELECT issuePrimaryKeyNum, issueDivision, issueAnswerStatus, issueTarget FROM issue WHERE issueKeyNum = #{issueKeyNum} AND issueApplyYn = '미해결' ORDER BY issueSortNum;
 	</select>
 	
 	<select id="getIssuePrimaryOne" resultMap="issue" parameterType="_int">

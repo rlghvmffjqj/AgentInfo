@@ -223,8 +223,8 @@ public class IssueDao {
 		return sqlSession.selectList("issue.getIssueOneIssueApplyYn", issueKeyNum);
 	}
 	
-	public List<Issue> getIssueOneIssueApplyYnB(int issueKeyNum) {
-		return sqlSession.selectList("issue.getIssueOneIssueApplyYnB", issueKeyNum);
+	public List<Issue> getIssueOneIssueApplyYnItem(int issueKeyNum) {
+		return sqlSession.selectList("issue.getIssueOneIssueApplyYnItem", issueKeyNum);
 	}
 
 	public void issueSortNumPlus(int issueSortNum) {
