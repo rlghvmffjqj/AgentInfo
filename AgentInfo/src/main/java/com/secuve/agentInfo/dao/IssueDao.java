@@ -222,6 +222,10 @@ public class IssueDao {
 	public List<Issue> getIssueOneIssueApplyYn(int issueKeyNum) {
 		return sqlSession.selectList("issue.getIssueOneIssueApplyYn", issueKeyNum);
 	}
+	
+	public List<Issue> getIssueOneIssueApplyYnB(int issueKeyNum) {
+		return sqlSession.selectList("issue.getIssueOneIssueApplyYnB", issueKeyNum);
+	}
 
 	public void issueSortNumPlus(int issueSortNum) {
 		sqlSession.update("issue.issueSortNumPlus", issueSortNum);

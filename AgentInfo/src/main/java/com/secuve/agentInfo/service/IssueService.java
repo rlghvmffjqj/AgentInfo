@@ -298,6 +298,10 @@ public class IssueService {
 	public List<Issue> getIssueOneIssueApplyYn(int issueKeyNum) {
 		return issueDao.getIssueOneIssueApplyYn(issueKeyNum);
 	}
+	
+	public List<Issue> getIssueOneIssueApplyYnB(int issueKeyNum) {
+		return issueDao.getIssueOneIssueApplyYnB(issueKeyNum);
+	}
 
 	public String  updateUserAlarm(String employeeId, int userAlarmParameter) {
 		UserAlarm userAlarm = new UserAlarm();
