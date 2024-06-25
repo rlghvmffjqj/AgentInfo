@@ -230,18 +230,23 @@
 			    <div style="height:25px; margin-left: 1%;">
 					<!-- <span style="color: red;">답변 상태가 일치하지 않을경우 페이지 새로고침 후 확인 바랍니다.(수정 중)</span> -->
 				</div>
-				
+				<div style="margin: 10px;">
+					<span style="color: red; font-size: 15px;">이슈 조회 방법이 변경되었습니다. 아래 이슈 리스트를 클릭하여 확인</span>
+				</div>
 			    <div style="width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
-				    		<li class="listLi" id="item${list.issuePrimaryKeyNum}" style="height:25px">
+				    		<li class="listLi" id="item${list.issuePrimaryKeyNum}" style="height:32px; width: 70vw;">
 								<a onClick="moveScroll(this, '${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
-									<span style="float: left; width: auto; min-width: 820px;">
-										${list.issueDivision}
-				    					<c:forEach var="i" begin="${list.issueDivision.length()}" end="52" step="1">
+									<div style="width: 80%; height:25px; overflow: hidden; float: left;">
+										<span style="float: left;">
+											${list.issueDivision}
+										</span>
+									
+				    					<c:forEach var="i" begin="${list.issueDivision.length()}" end="100" step="1">
 				    						-
 										</c:forEach>
-									</span>
+									</div>
 									<c:if test="${list.issueAnswerStatus eq 'atmosphere'}">
 										<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
 									</c:if>
@@ -255,19 +260,20 @@
 			    </div>
 			</div>
 		</div>
+
 		<button class="scrollToTop" onclick="scrollToTop();">맨 위로</button>
-		<c:if test="${issue.get(0).issueTarget eq 'TOSMS'}">
+		<c:if test="${issueTitle.issueTarget eq 'TOSMS'}">
 			<a href="https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/issueRelayList?target=TOSMS">
 				<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
 			</a>
 		</c:if>
-		<c:if test="${issue.get(0).issueTarget eq 'Agent'}">
-			<c:if test="${issue.get(0).issueSubTarget eq 'linux'}">
+		<c:if test="${issueTitle.issueTarget eq 'Agent'}">
+			<c:if test="${issueTitle.issueSubTarget eq 'linux'}">
 				<a href="https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/issueRelayList?target=Agent">
 					<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
 				</a>
 			</c:if>
-			<c:if test="${issue.get(0).issueSubTarget eq 'windows'}">
+			<c:if test="${issueTitle.issueSubTarget eq 'windows'}">
 				<a href="https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/issueRelayList?target=AgentWin">
 					<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
 				</a>
@@ -382,7 +388,8 @@
 					itemDiv += "</table>";
 
 					itemDiv += "<div style='width: 100%; text-align: right;	padding: 1%;'>";
-					itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>답변달기</button>";
+					itemDiv += "<button type='button' class='btn btn-outline-info-del myBtn' onclick='btnModify("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>수정완료</button>";
+					itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>상세답변</button>";
 					itemDiv += "</div>";
 					itemDiv += "</div>";
 					itemDiv += "</dv>";
@@ -430,6 +437,64 @@
 			        console.log(e);
 			    }
 			});	
+	  	}
+
+		
+		function btnModify(issuePrimaryKeyNum, issueKeyNum, obj) {
+			$.ajax({
+				url: "<c:url value='/issueRelay/relay'/>",
+	    	    type: 'post',
+	    	    data: {
+					"issueRelayDetail": "해당 이슈 수정하였습니다.",
+					"issuePrimaryKeyNum": issuePrimaryKeyNum,
+					"issueKeyNum": issueKeyNum,
+					"issueRelayType": "개발"
+				},
+	    	    async: false,
+	    	    success: function(result) {
+					if(result.result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '답변 완료!',
+							text: '수정완료 답변을 등록하였습니다.',
+						}).then((result2) => {
+							var table = $(obj).parent();
+
+							var rowItem = "<div class='issue'>";
+							rowItem += "<table style='border-top: none;'>";
+							rowItem += "<tr style='height: 50px;'>";
+							rowItem += "<td class='alignCenter'>개발</td>";
+							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
+							rowItem += "해당 이슈 수정하였습니다.";
+							rowItem += "</td>";
+							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+							rowItem += "<span>"+getCurrentTime()+" </span>";
+							rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
+							rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
+							rowItem += "</td>";
+							rowItem += "</tr>";
+							rowItem += "</table>";
+							table.before(rowItem);
+							$(".index"+issuePrimaryKeyNum).hide();
+						})
+					} else if(result.result == "UrlExport") {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: 'URL Export 생성 후 답글 입력 바랍니다.',    
+						}); 
+					} else {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '작업을 실패했습니다.',    
+						});  
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+	    	});
 	  	}
 
 		$(document).on('issueRelayComplete', function(event, data) {
