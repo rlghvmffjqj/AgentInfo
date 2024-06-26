@@ -355,6 +355,10 @@ public class IssueService {
 		}
 		return map;
 	}
+
+	public List<Issue> getIssueIndex(int issueKeyNum, String employeeId) {
+		return issueDao.getIssueIndex(issueKeyNum, employeeId);
+	}
 	
 
 }

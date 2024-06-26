@@ -262,6 +262,7 @@
 		</div>
 
 		<button class="scrollToTop" onclick="scrollToTop();">맨 위로</button>
+		<button class="scrollToTop" onclick="closeAll();" style="right: 5% !important;">전체 닫기</button>
 		<c:if test="${issueTitle.issueTarget eq 'TOSMS'}">
 			<a href="https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/issueRelayList?target=TOSMS">
 				<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
@@ -389,6 +390,7 @@
 
 					itemDiv += "<div style='width: 100%; text-align: right;	padding: 1%;'>";
 					itemDiv += "<button type='button' class='btn btn-outline-info-del myBtn' onclick='btnModify("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>수정완료</button>";
+					itemDiv += "<button type='button' class='btn btn-outline-info-nomal myBtn' onclick='btnFalse("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>오탐</button>";
 					itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>상세답변</button>";
 					itemDiv += "</div>";
 					itemDiv += "</div>";
@@ -445,7 +447,7 @@
 				url: "<c:url value='/issueRelay/relay'/>",
 	    	    type: 'post',
 	    	    data: {
-					"issueRelayDetail": "해당 이슈 수정하였습니다.",
+					"issueRelayDetail": "해당 이슈를 수정완료 하였습니다.",
 					"issuePrimaryKeyNum": issuePrimaryKeyNum,
 					"issueKeyNum": issueKeyNum,
 					"issueRelayType": "개발"
@@ -465,7 +467,7 @@
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
 							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
-							rowItem += "해당 이슈 수정하였습니다.";
+							rowItem += "해당 이슈를 수정완료 하였습니다.";
 							rowItem += "</td>";
 							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
 							rowItem += "<span>"+getCurrentTime()+" </span>";
@@ -496,6 +498,64 @@
 				}
 	    	});
 	  	}
+
+		  function btnFalse(issuePrimaryKeyNum, issueKeyNum, obj) {
+			$.ajax({
+				url: "<c:url value='/issueRelay/relay'/>",
+	    	    type: 'post',
+	    	    data: {
+					"issueRelayDetail": "해당 이슈는 오탐입니다..",
+					"issuePrimaryKeyNum": issuePrimaryKeyNum,
+					"issueKeyNum": issueKeyNum,
+					"issueRelayType": "개발"
+				},
+	    	    async: false,
+	    	    success: function(result) {
+					if(result.result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '답변 완료!',
+							text: '오탐 답변을 등록하였습니다.',
+						}).then((result2) => {
+							var table = $(obj).parent();
+
+							var rowItem = "<div class='issue'>";
+							rowItem += "<table style='border-top: none;'>";
+							rowItem += "<tr style='height: 50px;'>";
+							rowItem += "<td class='alignCenter'>개발</td>";
+							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
+							rowItem += "해당 이슈는 오탐입니다.";
+							rowItem += "</td>";
+							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+							rowItem += "<span>"+getCurrentTime()+" </span>";
+							rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
+							rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
+							rowItem += "</td>";
+							rowItem += "</tr>";
+							rowItem += "</table>";
+							table.before(rowItem);
+							$(".index"+issuePrimaryKeyNum).hide();
+						})
+					} else if(result.result == "UrlExport") {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: 'URL Export 생성 후 답글 입력 바랍니다.',    
+						}); 
+					} else {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '작업을 실패했습니다.',    
+						});  
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+	    	});
+	  	}
+
 
 		$(document).on('issueRelayComplete', function(event, data) {
 			var table = $(exObj).parent();
@@ -628,6 +688,12 @@
 		function scrollToTop() {
     	    window.scrollTo(0, 0);
     	}
+
+		function closeAll() {
+			$(".searchbos").slideUp(300, function() {
+				$(".searchbos").remove();
+			});
+		}
 	</script>
 	<style>
 		.scrollToTop {

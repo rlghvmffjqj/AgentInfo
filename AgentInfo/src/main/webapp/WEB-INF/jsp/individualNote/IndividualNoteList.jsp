@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="<c:url value='/gridstack/gridstack-h5.js'/>"></script>
 		
 		<style type="text/css">
-		  .grid-stack { background: white; min-height: 724px; }
+		  .grid-stack { background: white; min-height: 600px; }
 		  .grid-stack-item-content { background-color: #FFFF88; box-shadow: 1px 1px 1px grey;}
 		  .grid-stack-item-content {
 		    overflow: auto;
@@ -132,7 +132,7 @@
 															</tr>
 														</tbody>
 													</table>
-													<table style="width:84%; float:right">
+													<table style="width:68%; float:left; margin-left: 1%;" >
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">노트 관리 :
@@ -142,8 +142,8 @@
 																</td>
 															</tr>
 															<tr>
-																<td class="border1" colspan="2">
-																	<div class="grid-stack"></div>
+																<td class="border1" colspan="2" style="height: 600px;">
+																	<div class="grid-stack" style="height: 600px;"></div>
 																</td>
 															</tr>
 														</tbody>
@@ -691,4 +691,15 @@
 			}
 		}
 	</script>
+
+	<style>
+		.ui-droppable {
+			height: 725px !important;
+			overflow: scroll;
+		}
+
+		.grid-stack-item {
+			width: 5%;
+		}
+	</style>
 </html>

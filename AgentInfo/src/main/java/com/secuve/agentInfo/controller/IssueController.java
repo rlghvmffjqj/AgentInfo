@@ -145,6 +145,7 @@ public class IssueController {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
 		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
+		ArrayList<Issue> issueIndex = new ArrayList<>(issueService.getIssueIndex(issueKeyNum, principal.getName()));
 		
 		model.addAttribute("viewType", "update");
 		model.addAttribute("issueTitle", issueTitle);

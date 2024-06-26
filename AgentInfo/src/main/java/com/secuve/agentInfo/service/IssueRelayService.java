@@ -121,6 +121,7 @@ public class IssueRelayService {
 		userAlarm.setUserAlarmRegistrationDate(nowDate());
 		userAlarm.setUserAlarmURL("/AgentInfo/issue/updateView");
 		userAlarm.setUserAlarmParameter(issue.getIssueKeyNum());
+		userAlarm.setUserAlarmParameterSub(issue.getIssuePrimaryKeyNum());
 		
 		List<String> qaList = employeeDao.getQaEmployeeId();
 		for(String qa : qaList) {

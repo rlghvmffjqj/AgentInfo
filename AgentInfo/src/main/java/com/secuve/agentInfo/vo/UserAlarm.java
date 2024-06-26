@@ -18,6 +18,7 @@ public class UserAlarm {
 	private String userAlarmState;
 	private String userAlarmURL;
 	private Integer userAlarmParameter;
+	private Integer userAlarmParameterSub;
 	private String userAlarmRegistrant;
 	private String userAlarmRegistrationDate;
 	private String userAlarmModifier;

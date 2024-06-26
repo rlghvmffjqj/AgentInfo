@@ -132,7 +132,7 @@
 															</tr>
 														</tbody>
 													</table>
-													<table style="width:84%; float:right">
+													<table style="width:68%; float:left; margin-left: 1%;" >
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">노트 관리 :
@@ -704,4 +704,11 @@
 			}
 		}
 	</script>
+
+	<style>
+		.ui-droppable {
+			height: 725px !important;
+			overflow: scroll;
+		}
+	</style>
 </html>

@@ -171,6 +171,10 @@
 		SELECT * FROM issue WHERE issueKeyNum = ${issueKeyNum} AND (issueApplyYn = '미해결' OR issueApplyYn = '보류');
 	</select>
 	
+	<select id="getIssueIndex" resultMap="issue">
+		SELECT * FROM issue;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIssue">

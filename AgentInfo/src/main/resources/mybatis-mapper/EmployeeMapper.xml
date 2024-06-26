@@ -114,8 +114,8 @@
 	</select>
 	
 	<insert id="setUserAlarm">
-		INSERT INTO userAlarm(userAlarmEmployeeId, userAlarmTitle, userAlarmDate, userAlarmState, userAlarmURL, userAlarmParameter, userAlarmRegistrant, userAlarmRegistrationDate)
-		VALUES(#{userAlarmEmployeeId},#{userAlarmTitle},#{userAlarmDate},'N',#{userAlarmURL},#{userAlarmParameter},#{userAlarmRegistrant},#{userAlarmRegistrationDate}); 
+		INSERT INTO userAlarm(userAlarmEmployeeId, userAlarmTitle, userAlarmDate, userAlarmState, userAlarmURL, userAlarmParameter, userAlarmParameterSub, userAlarmRegistrant, userAlarmRegistrationDate)
+		VALUES(#{userAlarmEmployeeId},#{userAlarmTitle},#{userAlarmDate},'N',#{userAlarmURL},#{userAlarmParameter},#{userAlarmParameterSub},#{userAlarmRegistrant},#{userAlarmRegistrationDate}); 
 	</insert>
 	
 	<delete id="delUserAlarm" parameterType="_int">

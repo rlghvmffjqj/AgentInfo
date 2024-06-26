@@ -558,11 +558,17 @@
 		/* =========== URL 생성  ========= */
 		$('#BtnURL').click(function() {
 			var issueKeyNum = $('#issueKeyNum').val();
+			var issueCustomer = $('#issueCustomer').val();
+			var issueTitle = $('#issueTitle').val();
 
 			$.ajax({
 		        type: 'POST',
 		        url: "<c:url value='/issueRelay/urlExport'/>",
-		        data: {"issueKeyNum" : issueKeyNum},
+		        data: {
+					"issueKeyNum" : issueKeyNum,
+					"issueCustomer" : issueCustomer,
+					"issueTitle" : issueTitle
+				},
 		        async: false,
 		        success: function (data) {
 		        	if(data.indexOf("<!DOCTYPE html>") != -1) 

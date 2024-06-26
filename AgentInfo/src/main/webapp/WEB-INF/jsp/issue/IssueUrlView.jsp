@@ -10,7 +10,7 @@
 </div>
 <div class="modal-body modalBody" style="width: 100%; height: 155px;">
 	<div style="text-align: center; margin-top: 7%;">
-		<a href="#" style="font-size: 19px; font-weight: bold;" onclick="copyToClipboard('${url}\n\n고객사 : ${issueCustomer}\n타이틀 : ${issueTitle}'); return false;">${url}</a><br><br>
+		<a href="${url}" style="font-size: 19px; font-weight: bold;" onclick="copyToClipboard('${url}\n\n고객사 : ${issueCustomer}\n타이틀 : ${issueTitle}'); return false;">${url}</a><br><br>
 		<span id="titleSpan">고객사 : ${issueCustomer}</span><br><br>
 		<span id="titleSpan">타이틀 : ${issueTitle}</span>
 		<div id="copyMessage">URL이 클립보드에 복사되었습니다.</div>
