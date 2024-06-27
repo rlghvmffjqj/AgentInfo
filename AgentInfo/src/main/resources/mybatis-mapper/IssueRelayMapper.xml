@@ -41,4 +41,8 @@
 		SELECT * FROM issueRelay WHERE issueRelayUrl LIKE CONCAT('%',#{issueRelayUrl},'%');
 	</select>
 	
+	<select id="getIssuePrimaryKeyNumList" parameterType="_int" resultType="_int"> 
+		SELECT issuePrimaryKeyNum FROM issuerelay WHERE issueKeyNum = ${issueKeyNum} GROUP BY issuePrimaryKeyNum;
+	</select>
+	
 </mapper>

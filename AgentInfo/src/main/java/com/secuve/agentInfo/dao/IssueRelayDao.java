@@ -51,5 +51,9 @@ public class IssueRelayDao {
 	public List<IssueRelay> getUrlDuplication(String issueRelayUrl) {
 		return sqlSession.selectList("issueRelay.getUrlDuplication", issueRelayUrl);
 	}
+
+	public List<Integer> getIssuePrimaryKeyNumList(int issueKeyNum) {
+		return sqlSession.selectList("issueRelay.getIssuePrimaryKeyNumList", issueKeyNum);
+	}
 	
 }

@@ -55,10 +55,10 @@ $.modal = function (modalContent, size) {
 		html += 	'<button class="btn btn-sales btnm customerConsolidationActive" type="button" id="btnSales" onClick="btnSales();">';
 		html += 		'<span>영업본부</span>';
 		html += 	'</button>';
-		html += 	'<button class="btn btn-security btnm" type="button" id="btnSecurity" onClick="btnSecurity();">';
+		html += 	'<button class="btn btn-security btnm" type="button" id="btnSecurity" onClick="btnSecurity();" style="border-radius: 0px !important;">';
 		html += 		'<span>보안기술사업본부</span>';
         html += 	'</button>';
-        html += 	'<button class="btn btn-evaluation btnm" type="button" id="btnEvaluation" onClick="btnEvaluation();">';
+        html += 	'<button class="btn btn-evaluation btnm" type="button" id="btnEvaluation" onClick="btnEvaluation();" style="border-radius: 0px !important;">';
 		html += 		'<span>평가 인증실</span>';
 		html += 	'</button>';
         html += '</div>';
@@ -100,10 +100,10 @@ $.modal = function (modalContent, size) {
     
     if(size=='se') {
 	    html += '<div style="display: flex; width: 30%; margin-bottom: -3px;">';
-		html += 	'<button class="btn btn-customer btnm" type="button" id="btnCustomer">';
+		html += 	'<button class="btn btn-customer btnm" type="button" id="btnCustomer" style="border-radius: 0px !important;">';
 		html += 		'<span>고객사</span>';
 		html += 	'</button>';
-		html += 	'<button class="btn btn-product btnm" type="button" id="btnProduct">';
+		html += 	'<button class="btn btn-product btnm" type="button" id="btnProduct" style="border-radius: 0px !important;">';
 		html += 		'<span>제품</span>';
 		html += 	'</button>';
 		html += '</div>';

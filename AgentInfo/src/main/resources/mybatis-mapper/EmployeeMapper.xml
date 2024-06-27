@@ -123,20 +123,21 @@
 	</delete>
 	
 	<update id="updateUserAlarm">
-		UPDATE userAlarm SET userAlarmState = 'R', userAlarmModifier = #{userAlarmModifier}, userAlarmModifiedDate = #{userAlarmModifiedDate} WHERE userAlarmParameter = #{userAlarmParameter} AND userAlarmEmployeeId = #{userAlarmEmployeeId};
+		UPDATE userAlarm SET userAlarmState = 'R', userAlarmModifier = #{userAlarmModifier}, userAlarmModifiedDate = #{userAlarmModifiedDate} WHERE userAlarmParameter = #{userAlarmParameter} AND userAlarmEmployeeId = #{userAlarmEmployeeId} AND userAlarmState = 'N';
 	</update>
 	
 	<select id="getQaEmployeeId" resultType="string">
 		SELECT employeeId FROM employee WHERE departmentName = 'QA팀';
 	</select>
 	
-	<select id="getIssueIndex" resultType="_int">
+	<select id="getAlarmIndex" resultType="_int">
 		SELECT userAlarmParameterSub 
 		FROM useralarm 
 		WHERE userAlarmEmployeeId = #{employeeId} 
 		AND userAlarmState = 'R'
 		AND userAlarmParameter = ${issueKeyNum}
-		AND userAlarmParameterSub != 0;
+		AND userAlarmParameterSub != 0
+		GROUP BY userAlarmParameterSub;
 	</select>
 	
 	<update id="updateAlarmY">

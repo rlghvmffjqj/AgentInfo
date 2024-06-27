@@ -146,7 +146,7 @@ public class EmployeeDao {
 		Map parameters = new HashMap();
 		parameters.put("issueKeyNum", issueKeyNum);
 		parameters.put("employeeId", employeeId);
-		return sqlSession.selectList("employee.getIssueIndex", parameters);
+		return sqlSession.selectList("employee.getAlarmIndex", parameters);
 	}
 
 	public void updateAlarmY(int issueKeyNum, String employeeId) {

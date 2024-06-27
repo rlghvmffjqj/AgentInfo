@@ -146,6 +146,7 @@ public class IssueController {
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
 		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
 		ArrayList<Integer> alarmIndex = new ArrayList<>(employeeService.getAlarmIndex(issueKeyNum, principal.getName()));
+		ArrayList<Integer> issuePrimaryKeyNumList = new ArrayList<>(issueRelayService.getIssuePrimaryKeyNumList(issueKeyNum));
 		employeeService.updateAlarmY(issueKeyNum, principal.getName());
 		
 		model.addAttribute("viewType", "update");
@@ -153,6 +154,7 @@ public class IssueController {
 		model.addAttribute("issue",issue);
 		model.addAttribute("issueWriter", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		model.addAttribute("issueRelayList", issueRelayList);
+		model.addAttribute("issuePrimaryKeyNumList", issuePrimaryKeyNumList);
 		model.addAttribute("alarmIndex", alarmIndex);
 		lock.lock(); // Lock 획득
         try {

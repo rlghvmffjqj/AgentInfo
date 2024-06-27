@@ -131,5 +131,9 @@ public class IssueRelayService {
 		
 	}
 
+	public List<Integer> getIssuePrimaryKeyNumList(int issueKeyNum) {
+		return issueRelayDao.getIssuePrimaryKeyNumList(issueKeyNum);
+	}
+
 	
 }

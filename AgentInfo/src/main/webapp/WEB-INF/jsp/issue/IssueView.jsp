@@ -404,12 +404,18 @@
 			<c:forEach var="list" items="${issue}">
 				<c:if test="${list.issueApplyYn eq '미해결' || list.issueApplyYn eq '보류'}">
 					<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
+						<c:if test="${fn:contains(issuePrimaryKeyNumList, list.issuePrimaryKeyNum)}">
+							<img class="reply" src="/AgentInfo/images/reply.png">
+						</c:if>
+						<c:if test="${!fn:contains(issuePrimaryKeyNumList, list.issuePrimaryKeyNum)}">
+							<div style="width: 16%;	height: 15px; float: left;"></div>
+						</c:if>
 						<c:if test="${fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
-							<p class="text" style="color: red;">
+							<p class="text" style="color: blue;">
 								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
 							</p>
 						</c:if>
-						<c:if test="${!fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
+						<c:if test="${!fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">		
 							<p class="text">
 								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
 							</p>
@@ -1761,9 +1767,7 @@
         });
 
 		$(document).ready(function() {
-	    	$('.text').each(function() {
-    		    var maxLength = 11;
-					
+	    	$('.text').each(function() {	
     		    var text = $(this).text().trim();
 				var textLength = 8;
 
@@ -1773,7 +1777,7 @@
         		    if ((charCode >= 0xAC00 && charCode <= 0xD7AF) || (charCode >= 0x3131 && charCode <= 0x318E)) {
 
         		    } else {
-						if(textLength < 17)
+						if(textLength < 11)
 							textLength += 1;
         		    }
         		}
@@ -1935,6 +1939,7 @@
 	<style>
 		.text {
 			font-weight: bold;
+			width: 100%;
 		}
 		.fixed-div {
 		    position: fixed;
@@ -1974,6 +1979,12 @@
 
 		.text:hover {
 			color: #cf0000;
+		}
+
+		.reply {
+			width: 12%;
+    		float: left;
+    		margin-right: 5px;
 		}
 	</style>
 </html>
