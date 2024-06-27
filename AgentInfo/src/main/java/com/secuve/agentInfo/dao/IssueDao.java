@@ -254,13 +254,6 @@ public class IssueDao {
 		return sqlSession.selectList("issue.getSelectInputTarget", parameters);
 	}
 
-	public List<Issue> getIssueIndex(int issueKeyNum, String employeeId) {
-		Map parameters = new HashMap();
-		parameters.put("issueKeyNum", issueKeyNum);
-		parameters.put("employeeId", employeeId);
-		return sqlSession.selectList("issue.getIssueIndex", parameters);
-	}
-
 }
 
 

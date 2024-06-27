@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.vo.Employee;
+import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.Users;
 
 
@@ -159,5 +160,14 @@ public class EmployeeService {
 	public String getEmployeeDepartment(String employeeId) {
 		return employeeDao.getEmployeeDepartment(employeeId);
 	}
+
+	public List<Integer> getAlarmIndex(int issueKeyNum, String employeeId) {
+		return employeeDao.getAlarmIndex(issueKeyNum, employeeId);
+	}
+
+	public void updateAlarmY(int issueKeyNum, String employeeId) {
+		employeeDao.updateAlarmY(issueKeyNum, employeeId);
+	}
+	
 
 }

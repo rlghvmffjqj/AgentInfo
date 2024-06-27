@@ -130,6 +130,22 @@
 		SELECT employeeId FROM employee WHERE departmentName = 'QA팀';
 	</select>
 	
+	<select id="getIssueIndex" resultType="_int">
+		SELECT userAlarmParameterSub 
+		FROM useralarm 
+		WHERE userAlarmEmployeeId = #{employeeId} 
+		AND userAlarmState = 'R'
+		AND userAlarmParameter = ${issueKeyNum}
+		AND userAlarmParameterSub != 0;
+	</select>
+	
+	<update id="updateAlarmY">
+		UPDATE useralarm SET userAlarmState = 'Y'
+		WHERE userAlarmEmployeeId = #{employeeId} 
+		AND userAlarmState = 'R'
+		AND userAlarmParameter = ${issueKeyNum}
+		AND userAlarmParameterSub != 0;
+	</update>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

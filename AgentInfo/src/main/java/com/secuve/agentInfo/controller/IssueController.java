@@ -145,13 +145,15 @@ public class IssueController {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
 		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
 		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
-		ArrayList<Issue> issueIndex = new ArrayList<>(issueService.getIssueIndex(issueKeyNum, principal.getName()));
+		ArrayList<Integer> alarmIndex = new ArrayList<>(employeeService.getAlarmIndex(issueKeyNum, principal.getName()));
+		employeeService.updateAlarmY(issueKeyNum, principal.getName());
 		
 		model.addAttribute("viewType", "update");
 		model.addAttribute("issueTitle", issueTitle);
 		model.addAttribute("issue",issue);
 		model.addAttribute("issueWriter", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		model.addAttribute("issueRelayList", issueRelayList);
+		model.addAttribute("alarmIndex", alarmIndex);
 		lock.lock(); // Lock 획득
         try {
             if (usersInUpdateView.contains("issue_"+issueKeyNum)) {

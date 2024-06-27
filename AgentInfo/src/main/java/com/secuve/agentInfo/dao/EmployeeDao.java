@@ -141,4 +141,18 @@ public class EmployeeDao {
 	public List<String> getQaEmployeeId() {
 		return sqlSession.selectList("employee.getQaEmployeeId");
 	}
+
+	public List<Integer> getAlarmIndex(int issueKeyNum, String employeeId) {
+		Map parameters = new HashMap();
+		parameters.put("issueKeyNum", issueKeyNum);
+		parameters.put("employeeId", employeeId);
+		return sqlSession.selectList("employee.getIssueIndex", parameters);
+	}
+
+	public void updateAlarmY(int issueKeyNum, String employeeId) {
+		Map parameters = new HashMap();
+		parameters.put("issueKeyNum", issueKeyNum);
+		parameters.put("employeeId", employeeId);
+		sqlSession.update("employee.updateAlarmY", parameters);
+	}
 }
