@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
@@ -369,11 +370,20 @@
 			</div>
 			<% int num = 1; %>
 			<c:forEach var="list" items="${issue}">
-				<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
-					<p class="text">
-						<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
-					</p>
-				</a>
+				<c:if test="${list.issueApplyYn eq '미해결' || list.issueApplyYn eq '보류'}">
+					<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
+						<c:if test="${fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
+							<p class="text" style="color: red;">
+								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
+							</p>
+						</c:if>
+						<c:if test="${!fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
+							<p class="text">
+								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
+							</p>
+						</c:if>
+					</a>
+				</c:if>
 			</c:forEach>
 		</div>
 		<button id="showFixedDiv">■</button>
