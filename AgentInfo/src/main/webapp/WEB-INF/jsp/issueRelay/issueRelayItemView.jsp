@@ -50,6 +50,7 @@
 			.labelFontSize {
 				font-size: 12px;
 				font-weight: bold;
+				float: left;
 			}
 			.select, select.form-control {
 			    border: 1px solid #cccccc;
@@ -64,6 +65,19 @@
 				margin-right: 10px;
 			}
 			.searchbos {
+				background: #00ff2005;
+				border: 1px solid #ddd;
+				border-top: 1px solid #0A8FFF;
+				padding: 10px;
+				display: inline-block;
+				width: 100%;
+				box-shadow: 5px 5px 5px darkgrey;
+				border-radius: 15px;
+				margin-left: -1%;
+    			margin-bottom: 3%;
+    			margin-top: 1%;
+			}
+			.searchbox {
 				background: #00ff2005;
 				border: 1px solid #ddd;
 				border-top: 1px solid #0A8FFF;
@@ -188,7 +202,7 @@
 		    	<div style='text-align:right;'>
 			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 			    </div>
-			    <div class="searchbos" style="margin-bottom:20px">
+			    <div class="searchbox" style="margin-bottom:20px; height: 200px;">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
 			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="${issueTitle.issueCustomer}" readonly>
@@ -504,7 +518,7 @@
 				url: "<c:url value='/issueRelay/relay'/>",
 	    	    type: 'post',
 	    	    data: {
-					"issueRelayDetail": "해당 이슈는 오탐입니다..",
+					"issueRelayDetail": "해당 이슈는 오탐입니다.",
 					"issuePrimaryKeyNum": issuePrimaryKeyNum,
 					"issueKeyNum": issueKeyNum,
 					"issueRelayType": "개발"

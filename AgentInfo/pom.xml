@@ -316,6 +316,12 @@
 		    <version>1.0</version> <!-- 가장 최신 버전을 확인하고 사용해주세요 -->
 		</dependency>
 		
+		<dependency>
+		    <groupId>com.jcraft</groupId>
+		    <artifactId>jsch</artifactId>
+		    <version>0.1.55</version>
+		</dependency>
+		
 		
 		<!--  
 		<dependency>

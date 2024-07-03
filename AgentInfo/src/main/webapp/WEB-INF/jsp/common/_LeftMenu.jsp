@@ -204,6 +204,8 @@
 			$('.serviceControl').addClass('active');
 		} else if($.cookie('name') == 'sqlExecution') {
 			$('.sqlExecution').addClass('active');
+		} else if($.cookie('name') == 'webControl') {
+			$('.webControl').addClass('active');
 		}
 	});
 </script>
@@ -512,6 +514,15 @@
 				    </li>
 				</ul>
 		    </sec:authorize>
+			<ul class="pcoded-item pcoded-left-item">
+				<li class="webControl">
+					<a href="<c:url value='/webControl/write'/>" class="waves-effect waves-dark">
+						<span class="pcoded-micon"><i class="ti-control-record"></i><b>FC</b></span>
+						<span class="pcoded-mtext" data-i18n="nav.form-components.main">웹 명령어 실행</span>
+						<span class="pcoded-mcaret"></span>
+					</a>
+				</li>
+			</ul>
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 		    	<ul class="pcoded-item pcoded-left-item">
 					<li class="sqlExecution">

@@ -339,14 +339,14 @@
 																		<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
 																			<tr style="height: 50px;">
 																				<td class="alignCenter" style="width: 9%;">${issueRelay.issueRelayType}</td>
-																				<td style="background-color: white;">
+																				<td style="background-color: white;" id="detail_${issueRelay.issueRelayKeyNum}">
 																					${issueRelay.issueRelayDetail}
 																				</td>
 																				<td style="width: 100px; background: white; border-left: none; text-align: right;">
 																					<span>${issueRelay.issueRelayDate}</span>
 																					<c:if test="${issueRelay.issueRelayType eq 'QA'}">
-																						<button type="button" class="btn btn-outline-info-nomal myBtn" onClick="btnUpdateQA('${issueRelay.issueRelayKeyNum}')">수정</button>
-																						<button type="button" class="btn btn-outline-info-del myBtn" onClick="btnDeleteQA('${issueRelay.issueRelayKeyNum}')">삭제</button>
+																						<button type="button" class="btn btn-outline-info-nomal myBtn" onClick="btnUpdateQA('${issueRelay.issueRelayKeyNum}','${issueRelay.issuePrimaryKeyNum}')">수정</button>
+																						<button type="button" class="btn btn-outline-info-del myBtn" onClick="btnDeleteQA('${issueRelay.issueRelayKeyNum}','${issueRelay.issuePrimaryKeyNum}')">삭제</button>
 																					</c:if>
 																				</td>
 																			</tr>
@@ -411,7 +411,7 @@
 							<div style="width: 16%;	height: 15px; float: left;"></div>
 						</c:if>
 						<c:if test="${fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
-							<p class="text" style="color: blue;">
+							<p class="text" style="color: green;">
 								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
 							</p>
 						</c:if>
@@ -1622,12 +1622,13 @@
 			}
 		}
 
-		function btnUpdateQA(issueRelayKeyNum) {
+		function btnUpdateQA(issueRelayKeyNum, issuePrimaryKeyNum) {
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/issueRelay/relayUpdateModal'/>",
 				data: {
-					"issueRelayKeyNum": issueRelayKeyNum
+					"issueRelayKeyNum": issueRelayKeyNum,
+					"issuePrimaryKeyNum": issuePrimaryKeyNum
 				},
 			    async: false,
 			    success: function (data) {
@@ -1641,7 +1642,7 @@
 			});
 		}
 
-		function btnDeleteQA(issueRelayKeyNum) {
+		function btnDeleteQA(issueRelayKeyNum, issuePrimaryKeyNum) {
 			Swal.fire({
 				  title: '삭제!',
 				  text: "답글을 삭제하시겠습니까?",
@@ -1655,7 +1656,10 @@
 				  $.ajax({
 					url: "<c:url value='/issueRelay/delete'/>",
 					type: "POST",
-					data: {"issueRelayKeyNum": issueRelayKeyNum},
+					data: {
+						"issueRelayKeyNum": issueRelayKeyNum,
+						"issuePrimaryKeyNum": issuePrimaryKeyNum
+					},
 					dataType: "text",
 					traditional: true,
 					async: false,
@@ -1934,6 +1938,10 @@
 				$("#issueSubTarget").selectpicker("refresh");
 			}
 	    	
+		});
+
+		$(document).on('issueRelayCompleteUpdate', function(event, data) {
+			$('#detail_'+data.issueRelayKeyNum).html(data.issueRelayDetail);
 		});
 	</script>
 	<style>
