@@ -95,6 +95,8 @@ public class IssueRelayController {
 		model.addAttribute("issueRelayKeyNum", issueRelayKeyNum);
 		model.addAttribute("issuePrimaryKeyNum", issuePrimaryKeyNum);
 		model.addAttribute("issueRelayDetail", issueRelay.getIssueRelayDetail());
+		model.addAttribute("issueRelayStatus", issueRelay.getIssueRelayStatus());
+		model.addAttribute("issueRelayType", issueRelay.getIssueRelayType());
 		model.addAttribute("viewType","update");
 		return "/issueRelay/issueRelayModal";
 	}
@@ -104,9 +106,15 @@ public class IssueRelayController {
 	public Map Relay(IssueRelay issueRelay) {
 		Map resultMap = new HashMap();
 		IssueRelay issueRelayOne = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
+		issueRelayOne.setIssueRelayStatus(issueRelay.getIssueRelayStatus());
 		if(issueRelayOne == null) {
 			resultMap.put("result", "UrlExport");
 			return resultMap;
+		}
+		if(issueRelay.getIssueRelayDetail().equals("해당 이슈를 수정완료 하였습니다.")) {
+			issueRelayOne.setIssueRelayStatus("해결");
+		} else if(issueRelay.getIssueRelayDetail().equals("해당 이슈는 오탐입니다.")) {
+			issueRelayOne.setIssueRelayStatus("오탐");
 		}
 		issueRelayOne.setIssuePrimaryKeyNum(issueRelay.getIssuePrimaryKeyNum());
 		issueRelayOne.setIssueRelayDetail(issueRelay.getIssueRelayDetail());

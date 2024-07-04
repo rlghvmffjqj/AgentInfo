@@ -7,15 +7,21 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
 @EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
-    private final ChatHandler chatHandler;
-    
-    public WebSocketConfig(ChatHandler chatHandler) {
-        this.chatHandler = chatHandler;
-    }
-
-    @Override
+public class WebSocketConfig implements WebSocketConfigurer   {
+//    private final ChatHandler chatHandler;
+//    
+//    public WebSocketConfig(ChatHandler chatHandler) {
+//        this.chatHandler = chatHandler;
+//    }
+//
+//    @Override
+//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+//        registry.addHandler(chatHandler, "/licensSocket").setAllowedOrigins("*");
+//    }
+	
+	@Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(chatHandler, "/licensSocket").setAllowedOrigins("*");
+        registry.addHandler(new SSHWebSocketHandler(), "/webFileConnection")
+                .setAllowedOrigins("*");
     }
 }

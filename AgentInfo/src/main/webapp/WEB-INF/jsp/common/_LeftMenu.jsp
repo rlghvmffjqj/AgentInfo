@@ -206,6 +206,8 @@
 			$('.sqlExecution').addClass('active');
 		} else if($.cookie('name') == 'webControl') {
 			$('.webControl').addClass('active');
+		}  else if($.cookie('name') == 'webFileConnection') {
+			$('.webFileConnection').addClass('active');
 		}
 	});
 </script>
@@ -513,17 +515,24 @@
 				        </a>
 				    </li>
 				</ul>
-		    </sec:authorize>
-			<ul class="pcoded-item pcoded-left-item">
-				<li class="webControl">
-					<a href="<c:url value='/webControl/write'/>" class="waves-effect waves-dark">
-						<span class="pcoded-micon"><i class="ti-control-record"></i><b>FC</b></span>
-						<span class="pcoded-mtext" data-i18n="nav.form-components.main">웹 명령어 실행</span>
-						<span class="pcoded-mcaret"></span>
-					</a>
-				</li>
-			</ul>
-			<sec:authorize access="hasAnyRole('ADMIN','QA')">
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="webControl">
+						<a href="<c:url value='/webControl/write'/>" class="waves-effect waves-dark">
+							<span class="pcoded-micon"><i class="ti-control-record"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">웹 명령어 실행</span>
+							<span class="pcoded-mcaret"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="pcoded-item pcoded-left-item">
+					<li class="webFileConnection">
+						<a href="<c:url value='/webFileConnection/write'/>" class="waves-effect waves-dark">
+							<span class="pcoded-micon"><i class="ti-control-record"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">웹 파일 실시간 통신</span>
+							<span class="pcoded-mcaret"></span>
+						</a>
+					</li>
+				</ul>
 		    	<ul class="pcoded-item pcoded-left-item">
 					<li class="sqlExecution">
 						<a href="<c:url value='/sqlExecution/write'/>" class="waves-effect waves-dark">

@@ -328,6 +328,12 @@
 																		<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
 																			<tr style="height: 50px;">
 																				<td class="alignCenter" style="width: 9%;">${issueRelay.issueRelayType}</td>
+																				<c:if test="${issueRelay.issueRelayType eq '개발'}">
+																					<td class="statusTd">${issueRelay.issueRelayStatus}</td>
+																				</c:if>
+																				<c:if test="${issueRelay.issueRelayType ne '개발'}">
+																					<td style="width:70px"></td>
+																				</c:if>
 																				<td style="background-color: white;" id="detail_${issueRelay.issueRelayKeyNum}">
 																					${issueRelay.issueRelayDetail}
 																				</td>
@@ -1041,6 +1047,14 @@
 			width: 12%;
     		float: left;
     		margin-right: 5px;
+		}
+
+		.statusTd {
+			width: 70px;
+    		text-align: center;
+    		background: #c19595;
+    		color: white;
+			font-weight: bold;
 		}
 	</style>
 </html>

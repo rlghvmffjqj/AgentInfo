@@ -387,6 +387,11 @@
 							
 							itemDiv += "<tr style='height: 50px;'>";
 							itemDiv += "<td class='alignCenter'>"+issueRelay.issueRelayType+"</td>";
+							if(issueRelay.issueRelayType == '개발') {
+								itemDiv += "<td class='statusTd' id='status_"+issueRelay.issueRelayKeyNum+"'>"+issueRelay.issueRelayStatus+"</td>";
+							} else {
+								itemDiv += "<td style='width: 70px;'></td>";
+							}
 							itemDiv += "<td style='background-color: white;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
 							itemDiv += issueRelay.issueRelayDetail;
 							itemDiv += "</td>";
@@ -480,6 +485,7 @@
 							rowItem += "<table style='border-top: none;'>";
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
+							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>해결</td>";
 							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
 							rowItem += "해당 이슈를 수정완료 하였습니다.";
 							rowItem += "</td>";
@@ -537,6 +543,7 @@
 							rowItem += "<table style='border-top: none;'>";
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
+							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>오탐</td>";
 							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
 							rowItem += "해당 이슈는 오탐입니다.";
 							rowItem += "</td>";
@@ -578,6 +585,7 @@
 			rowItem += "<table style='border-top: none;'>";
 			rowItem += "<tr style='height: 50px;'>";
 			rowItem += "<td class='alignCenter'>개발</td>";
+			rowItem += "<td class='statusTd' id='status_"+data.issueRelayKeyNum+"'>"+data.issueRelayStatus+"</td>";
 			rowItem += "<td style='background-color: white;' id='detail_"+data.issueRelayKeyNum+"'>";
 			rowItem += data.issueRelayDetail;
 			rowItem += "</td>";
@@ -593,6 +601,7 @@
 		});
 
 		$(document).on('issueRelayCompleteUpdate', function(event, data) {
+			$('#status_'+data.issueRelayKeyNum).html(data.issueRelayStatus);
 			$('#detail_'+data.issueRelayKeyNum).html(data.issueRelayDetail);
 		});
 
@@ -1432,6 +1441,14 @@
 
 		.txt {
 		  display: block;
+		}
+
+		.statusTd {
+			width: 70px;
+    		text-align: center;
+    		background: #95C1B6;
+    		color: white;
+			font-weight: bold;
 		}
 	</style>
 </html>

@@ -392,6 +392,10 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue/checkPermissions")
 	public String CheckPermissions(Principal principal, int issueKeyNum) {
+		if(issueKeyNum == 0) {
+			return "SavePlease";
+		}
+			
 		if(!principal.getName().equals(lockMap.get("issue_"+issueKeyNum))) {
 			return "NoAuthority";
 		}

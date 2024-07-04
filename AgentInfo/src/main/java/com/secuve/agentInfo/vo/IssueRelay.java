@@ -17,5 +17,6 @@ public class IssueRelay {
 	private int issuePrimaryKeyNum;
 	private String issueRelayDetail;
 	private String issueRelayType;
+	private String issueRelayStatus;
 	private String issueRelayDate;
 }

@@ -5,6 +5,27 @@
 	<label>이슈 제목</label>
 	<input type="text" id="issueConfirm" name="issueConfirm" class="form-control viewForm" value="${issueConfirm}" style="font-weight: bold; font-size: 14px !important; background: aliceblue; color: #0c0067ba;" readonly>
 	<textarea class="summerNoteSize" rows="5" id="issueRelayDetail" name="issueRelayDetail" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="수정 사항 및 기타 사항을 입력해주세요.">${issueRelayDetail}</textarea>
+	<c:if test="${issueRelayType eq '개발'}">
+		<div class="radio-container">
+    	    <div class="radio-group">
+    	        <label>
+    	            <input type="radio" id="issueRelayStatus" name="issueRelayStatus" value="해결" <c:if test="${'해결' eq issueRelayStatus || null eq issueRelayStatus || '' eq issueRelayStatus}">checked</c:if>>
+    	            <span class="checkmark"></span>
+    	            해결
+    	        </label>
+    	        <label>
+    	            <input type="radio" id="issueRelayStatus" name="issueRelayStatus" value="오탐" <c:if test="${'오탐' eq issueRelayStatus}">checked</c:if>>
+    	            <span class="checkmark"></span>
+    	            오탐
+    	        </label>
+    	        <label>
+    	            <input type="radio" id="issueRelayStatus" name="issueRelayStatus" value="대기" <c:if test="${'대기' eq issueRelayStatus}">checked</c:if>>
+    	            <span class="checkmark"></span>
+    	            대기
+    	        </label>
+    	    </div>
+    	</div>
+	</c:if>
 </div>
 <div class="modal-footer">
 	<c:if test="${viewType eq 'insert'}">
@@ -18,6 +39,7 @@
 
 <script>
 	$('#relayBtn').click(function() {
+		var issueRelayStatus = $('#issueRelayStatus:checked').val();
 		var issueRelayDetail = $('#issueRelayDetail').val();
 		if(issueRelayDetail == "" || issueRelayDetail == null) {
 			Swal.fire({               
@@ -35,7 +57,8 @@
 				"issueRelayDetail": issueRelayDetail,
 				"issuePrimaryKeyNum": "${issuePrimaryKeyNum}",
 				"issueKeyNum": "${issueKeyNum}",
-				"issueRelayType": "${issueRelayType}"
+				"issueRelayType": "${issueRelayType}",
+				"issueRelayStatus": issueRelayStatus
 			},
 	        async: false,
 	        success: function(result) {
@@ -52,8 +75,8 @@
 								$(document).trigger('issueRelayComplete', { 
 									issueRelayDetail: issueRelayDetail,
 									issueRelayKeyNum: result.issueRelayKeyNum,
-									issuePrimaryKeyNum: "${issuePrimaryKeyNum}"
-
+									issuePrimaryKeyNum: "${issuePrimaryKeyNum}",
+									issueRelayStatus: issueRelayStatus
 								});
 	            			});	
 						}
@@ -79,6 +102,7 @@
 	})
 
 	$('#relayUpdateBtn').click(function() {
+		var issueRelayStatus = $('#issueRelayStatus:checked').val();
 		var issueRelayDetail = $('#issueRelayDetail').val();
 		if(issueRelayDetail == "" || issueRelayDetail == null) {
 			Swal.fire({               
@@ -96,7 +120,8 @@
 				"issueRelayDetail": issueRelayDetail,
 				"issueRelayKeyNum": "${issueRelayKeyNum}",
 				"issuePrimaryKeyNum": "${issuePrimaryKeyNum}",
-				"issueRelayType": "개발"
+				"issueRelayType": "개발",
+				"issueRelayStatus": issueRelayStatus
 			},
 	        async: false,
 	        success: function(result) {
@@ -113,8 +138,8 @@
 								$(document).trigger('issueRelayCompleteUpdate', { 
 									issueRelayDetail: issueRelayDetail,
 									issueRelayKeyNum: "${issueRelayKeyNum}",
-									issuePrimaryKeyNum: "${issuePrimaryKeyNum}"
-
+									issuePrimaryKeyNum: "${issuePrimaryKeyNum}",
+									issueRelayStatus: issueRelayStatus
 								});
 	            			});	
 						}
@@ -156,3 +181,70 @@
 		});
 	})
 </script>
+<style>
+	.radio-container {
+		width: 100%;
+		padding: 20px;
+		padding-bottom: 30px;
+		background-color: #ffffff;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.radio-group {
+		flex-direction: column;
+	}
+
+	.radio-group label {
+		display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+		cursor: pointer;
+		position: relative;
+		padding-left: 35px;
+		user-select: none;
+		font-size: 16px;
+		color: #333;
+		width: 33%;
+		float: left;
+	}
+
+	.radio-group input[type="radio"] {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.radio-group .checkmark {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 15px;
+		width: 15px;
+		background-color: #ccc;
+		border-radius: 50%;
+	}
+
+	.radio-group input:checked ~ .checkmark {
+		background-color: #2196F3;
+	}
+
+	.radio-group .checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
+
+	.radio-group input:checked ~ .checkmark:after {
+		display: block;
+	}
+
+	.radio-group .checkmark:after {
+		top: 5px;
+		left: 5px;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: white;
+	}
+</style>

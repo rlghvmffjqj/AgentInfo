@@ -5,8 +5,8 @@
 	<resultMap type="com.secuve.agentInfo.vo.IssueRelay" id="issueRelay"></resultMap>
 	
 	<insert id="insertIssueRelay" parameterType="issueRelay" useGeneratedKeys="true" keyProperty="issueRelayKeyNum">
-		INSERT INTO issueRelay(issueRelayUrl, issueKeyNum,issuePrimaryKeyNum,issueRelayDetail,issueRelayType,issueRelayDate)
-		VALUES(#{issueRelayUrl}, ${issueKeyNum},${issuePrimaryKeyNum},#{issueRelayDetail},#{issueRelayType},#{issueRelayDate});
+		INSERT INTO issueRelay(issueRelayUrl, issueKeyNum,issuePrimaryKeyNum,issueRelayDetail,issueRelayType,issueRelayStatus,issueRelayDate)
+		VALUES(#{issueRelayUrl}, ${issueKeyNum},${issuePrimaryKeyNum},#{issueRelayDetail},#{issueRelayType},#{issueRelayStatus},#{issueRelayDate});
 	</insert>
 	
 	<select id="getIssueRelayUrlOne" resultMap="issueRelay" parameterType="string">
@@ -26,7 +26,7 @@
 	</select>
 	
 	<update id="updateIssueRelay">
-		UPDATE issueRelay SET issueRelayDetail = #{issueRelayDetail}, issueRelayDate = #{issueRelayDate} WHERE issueRelayKeyNum = ${issueRelayKeyNum};
+		UPDATE issueRelay SET issueRelayDetail = #{issueRelayDetail}, issueRelayDate = #{issueRelayDate}, issueRelayStatus = #{issueRelayStatus} WHERE issueRelayKeyNum = ${issueRelayKeyNum};
 	</update>
 	
 	<delete id="delIssueRelay">

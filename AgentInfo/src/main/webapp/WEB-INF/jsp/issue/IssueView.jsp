@@ -339,6 +339,12 @@
 																		<c:if test="${issueRelay.issuePrimaryKeyNum eq list.issuePrimaryKeyNum}">
 																			<tr style="height: 50px;">
 																				<td class="alignCenter" style="width: 9%;">${issueRelay.issueRelayType}</td>
+																				<c:if test="${issueRelay.issueRelayType eq '개발'}">
+																					<td class="statusTd">${issueRelay.issueRelayStatus}</td>
+																				</c:if>
+																				<c:if test="${issueRelay.issueRelayType ne '개발'}">
+																					<td style="width:70px"></td>
+																				</c:if>
 																				<td style="background-color: white;" id="detail_${issueRelay.issueRelayKeyNum}">
 																					${issueRelay.issueRelayDetail}
 																				</td>
@@ -714,6 +720,12 @@
 							html: '다른 사용자가 해당 이슈의 권한을 획득했습니다.<br> 이슈 목록으로 이동합니다.',
 						}).then((result2) => {
 							location.href="<c:url value='/issue/issueList'/>";
+						})
+					} else if(result === "SavePlease") {
+						Swal.fire({
+							icon: 'error',
+							title: '저장 필요!',
+							html: 'Ctrl + S를 클릭하여 이슈를 저장한 후 폼을 추가해 주세요.',
 						})
 					} else {
 						plusForm(obj);
@@ -1993,6 +2005,14 @@
 			width: 12%;
     		float: left;
     		margin-right: 5px;
+		}
+		
+		.statusTd {
+			width: 70px;
+    		text-align: center;
+    		background: #c19595;
+    		color: white;
+			font-weight: bold;
 		}
 	</style>
 </html>
