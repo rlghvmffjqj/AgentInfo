@@ -14,4 +14,5 @@ public class WebFileConnection {
 	private String connectIp;
 	private String connectUser;
 	private String connectPasswd;
+	private String connectType;
 }

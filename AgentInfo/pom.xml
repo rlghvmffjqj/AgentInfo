@@ -322,6 +322,13 @@
 		    <version>0.1.55</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>com.hierynomus</groupId>
+		    <artifactId>smbj</artifactId>
+		    <version>0.12.2</version> <!-- 또는 최신 버전 -->
+		</dependency>
+		
+		
 		
 		<!--  
 		<dependency>

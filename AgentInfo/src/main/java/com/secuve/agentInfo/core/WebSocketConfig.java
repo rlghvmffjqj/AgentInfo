@@ -19,6 +19,12 @@ public class WebSocketConfig implements WebSocketConfigurer   {
 //        registry.addHandler(chatHandler, "/licensSocket").setAllowedOrigins("*");
 //    }
 	
+	private final SSHWebSocketHandler sshWebSocketHandler;
+
+    public WebSocketConfig(SSHWebSocketHandler sshWebSocketHandler) {
+        this.sshWebSocketHandler = sshWebSocketHandler;
+    }
+	
 	@Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new SSHWebSocketHandler(), "/webFileConnection")

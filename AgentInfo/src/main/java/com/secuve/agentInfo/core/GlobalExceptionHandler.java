@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String handleForbidden(RuntimeException ex, Exception e) {
-		if (e.getMessage().equals("Session is not valid.")) {
+		if ("Session is not valid.".equals(e.getMessage())) {
             return "JsessionIdError";
         }
         return "Error"; 

@@ -47,9 +47,16 @@
                                 <div class="page-wrapper">
                                 	<div class="ibox">
 										<form id="form" name="form" method ="post">
-											<div class="divInput" style="width: 100%">
+											<div class="divInput">
 												<label class="labelFontSize">서버 IP</label>
 												<input class="form-control" type="text" id="connectIp" name="connectIp" style="height: 35px;" placeholder="127.0.0.1" value="172.16.50.174"> 
+											</div>
+											<div class="divInput">
+												<label class="labelFontSize">서버 타입</label>
+												<select class="form-control selectpicker selectForm" id="connectType" name="connectType">
+													<option value="linux">Linux</option>
+													<option value="windows">Windows</option>
+												</select>
 											</div>
 											<div class="divInput">
 												<label class="labelFontSize">사용자 이름</label>
@@ -101,9 +108,18 @@
 	<script>
 		$('#btnConnectTest').click(function() {
 			var postDate = $("#form").serializeArray();
+			const connectType = $('#connectType').val();
+
+			var connectUrl = '';
+			if(connectType == 'linux') {
+				connectUrl = "<c:url value='/webFileConnection/connectTest'/>";
+			} else {
+				connectUrl = "<c:url value='/webFileConnection/connectTestWin'/>";
+			}
+			
 			$.ajax({
 		        type: 'POST',
-		        url: "<c:url value='/webFileConnection/connectTest'/>",
+		        url: connectUrl,
 				data: postDate,
 		        async: false,
 		        success: function (result) {
@@ -146,19 +162,27 @@
 
 		let socket = null;
 		let connectionId = null;
+		let stateType = 0;
 
         function connect() {
             const host = $('#connectIp').val();
             const user = $('#connectUser').val();
             const password = $('#connectPasswd').val();
             const filePath = $('#connectRoot').val();
-			const port = 22;
+			const connectType = $('#connectType').val();
+			var port = 0;
+			if(connectType == 'linux') {
+				port = 22;
+			} else {
+				port = 3389;
+			}
 
 			// 고유한 식별자 생성 (예: 현재 타임스탬프 사용)
 			connectionId = new Date().getTime().toString();
 
-			var parameters = host+','+port+','+user+','+password+','+filePath+','+connectionId;
+			var parameters = host+','+port+','+user+','+password+','+filePath+','+connectType+','+connectionId;
             socket = new WebSocket('wss://' + window.location.host + '/AgentInfo/webFileConnection');
+			stateType = 1;
             socket.onopen = () => {
 				$('#resultDiv').html('');
                 console.log('WebSocket connection opened');
@@ -182,28 +206,33 @@
 				scrollToBottom();
             };
 
-            socket.onclose = () => {
-                console.log('WebSocket connection closed');
-				Swal.fire({
-					icon: 'error',
-					title: '연결해제!',
-					text: '비정상적으로 연결 해제 되었습니다.',
-				});
-            };
-
-            socket.onerror = (error) => {
-                console.error('WebSocket error:', error);
-            };
+            socket.onclose = (event) => {
+    		    console.log('WebSocket connection closed');
+				if(stateType == 1) {
+    		    	Swal.fire({
+    		    	    icon: 'info',
+    		    	    title: '연결해제!',
+    		    	    text: '설정 시간이 초과하여 자동 연결해제합니다.(2분)',
+    		    	});
+				}
+    		    console.log('Close event:', event);
+    		};
+		
+    		socket.onerror = (error) => {
+    		    console.error('WebSocket error:', error);
+    		};
         }
 
         function disconnect() {
             if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.close();
-				Swal.fire({
-					icon: 'success',
-					title: '연결해제!',
-					text: '정상적으로 연결 해제 되었습니다.',
-				});
+				stateType = 2;
+        		Swal.fire({
+        		    icon: 'success',
+        		    title: '연결해제!',
+        		    text: '정상적으로 연결 해제 되었습니다.',
+        		});
+        		console.log("WebSocket closed: ", event);
+				socket.close();
             }
         }
 
@@ -228,6 +257,19 @@
 		$("#selectFont").change(function() {
 			var selectFont = $("#selectFont").val();
 			$('#resultDiv').css('font-size', selectFont+"px");
+		});
+
+		$("#connectType").change(function() {
+			var connectType = $("#connectType").val();
+			if(connectType == 'linux') {
+				$('#connectUser').val("root");
+				$('#connectIp').val("172.16.50.174");
+				$('#connectRoot').val("/sw/tomcat/logs/catalina.out");
+			} else {
+				$('#connectUser').val("Administrator");
+				$('#connectIp').val("172.16.50.192");
+				$('#connectRoot').val("C:/Program Files/Apache Software Foundation/Tomcat 8.5/bin/logs/tosms/debug.log");
+			}
 		});
 		
 	</script>
@@ -308,6 +350,11 @@
 		.whiteBtn:hover {
 			background-color: rgb(231, 231, 231);
 			color: black;
+		}
+
+		.dropdown-toggle {
+			border: none !important;
+    		border-bottom: 1px solid #cccccc !important;
 		}
 	</style>
 </html>
