@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -401,6 +402,19 @@ public class IssueController {
 		}
 		return "OK";
 	}
+	
+	// 매일 자정에 실행되도록 스케줄링
+    @Scheduled(cron = "0 0 0 * * *") // 매일 자정(0시 0분 0초)에 실행
+    public void clearAllLocks() {
+        lock.lock();
+        try {
+            // 모든 lock 삭제
+            usersInUpdateView.clear();
+            lockMap.clear();
+        } finally {
+            lock.unlock();
+        }
+    }
 	
 }
 
