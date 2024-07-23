@@ -26,7 +26,7 @@
 							    <div class="row align-items-center">
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
-							                <h5 class="m-b-10">웹 파일 실시간 통신</h5>
+							                <h5 class="m-b-10">실시간 로그</h5>
 							                <p class="m-b-0">Run web command</p>
 							            </div>
 							        </div>
@@ -35,7 +35,7 @@
 							                <li class="breadcrumb-item">
 							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 							                </li>
-							                <li class="breadcrumb-item"><a href="#!">웹 파일 실시간 통신</a>
+							                <li class="breadcrumb-item"><a href="#!">실시간 로그</a>
 							                </li>
 							            </ul>
 							        </div>
@@ -93,6 +93,7 @@
 													<option value="20">20px</option>
 										 		</select>
 											</div>
+											<button type="button" class="btn btn-outline-info-nomal myBtn webBtn" id="btnTxtSave" style="float: left; border: 1px solid black !important; height: 34px;">Txt Save</button>
 											<div id="resultDiv" class="resultDiv"></div>
 										</form>
 	                                </div>
@@ -170,12 +171,7 @@
             const password = $('#connectPasswd').val();
             const filePath = $('#connectRoot').val();
 			const connectType = $('#connectType').val();
-			var port = 0;
-			if(connectType == 'linux') {
-				port = 22;
-			} else {
-				port = 22;
-			}
+			var port = 22;
 
 			// 고유한 식별자 생성 (예: 현재 타임스탬프 사용)
 			connectionId = new Date().getTime().toString();
@@ -272,6 +268,38 @@
 			}
 		});
 		
+
+		$('#btnTxtSave').click(function() {
+			var textContent = $("#resultDiv div").map(function() {
+                return $(this).text();
+            }).get().join("\r\n");
+
+            if (textContent.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '실패!',
+                    text: '로그 내용이 존재하지 않습니다.',
+                });
+                return;
+            }
+
+            var blob = new Blob([textContent], { type: 'text/plain' });
+            var url = window.URL.createObjectURL(blob);
+
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'LogFileSave.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            Swal.fire({
+                icon: 'success',
+                title: '성공!',
+                text: 'Txt 파일 다운로드 되었습니다.',
+            });
+		});
 	</script>
 	<style>
 		.ibox {
@@ -355,6 +383,10 @@
 		.dropdown-toggle {
 			border: none !important;
     		border-bottom: 1px solid #cccccc !important;
+		}
+
+		#btnTxtSave:hover {
+			background-color: rgb(0, 0, 0);
 		}
 	</style>
 </html>

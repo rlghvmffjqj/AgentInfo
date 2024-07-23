@@ -530,7 +530,7 @@
 					<li class="webControl">
 						<a href="<c:url value='/webControl/write'/>" class="waves-effect waves-dark">
 							<span class="pcoded-micon"><i class="ti-control-record"></i><b>FC</b></span>
-							<span class="pcoded-mtext" data-i18n="nav.form-components.main">웹 명령어 실행</span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">CMD 명령어 실행</span>
 							<span class="pcoded-mcaret"></span>
 						</a>
 					</li>
@@ -538,8 +538,8 @@
 				<ul class="pcoded-item pcoded-left-item">
 					<li class="webFileConnection">
 						<a href="<c:url value='/webFileConnection/write'/>" class="waves-effect waves-dark">
-							<span class="pcoded-micon"><i class="ti-control-record"></i><b>FC</b></span>
-							<span class="pcoded-mtext" data-i18n="nav.form-components.main">웹 파일 실시간 통신</span>
+							<span class="pcoded-micon"><i class="ti-align-left"></i><b>FC</b></span>
+							<span class="pcoded-mtext" data-i18n="nav.form-components.main">실시간 로그 수집</span>
 							<span class="pcoded-mcaret"></span>
 						</a>
 					</li>
