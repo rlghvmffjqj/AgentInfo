@@ -21,6 +21,7 @@ $.modal = function (modalContent, size) {
     if(size=='serverCalendar')  html += ' modal-serverCalendar';
     if(size=='sendPackage') html += ' modal-sendPackage';
     if(size=='packages') html += ' modal-packages';
+    if(size=='packagesInternational') html += ' modal-packagesInternational';
     if(size=='licenseConfirm') html += ' modal-licenseConfirm';
     if(size=='xmlImport') html += ' modal-xmlImport';
     if(size=='license5') html += ' modal-license5';

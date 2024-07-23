@@ -45,7 +45,7 @@ public class SSHWebSocketHandler extends TextWebSocketHandler {
                     e.printStackTrace();
                 }
             }
-        }, 2, TimeUnit.MINUTES);
+        }, 5, TimeUnit.MINUTES);
     }
 
     @Override
@@ -80,7 +80,9 @@ public class SSHWebSocketHandler extends TextWebSocketHandler {
         
         String command = "";
         if ("windows".equalsIgnoreCase(osType)) {
-            command = "powershell.exe Get-Content -Path \"" + filePath + "\" -Tail 10 -Wait";
+            // 경로를 백슬래시로 변경하고 따옴표로 감싸기
+            String sanitizedFilePath = filePath.replace("/", "\\");
+            command = "powershell.exe \"Get-Content -Path \'" + sanitizedFilePath + "\' -Tail 10 -Wait\"";
         } else {
             command = "tail -f " + filePath;
         }

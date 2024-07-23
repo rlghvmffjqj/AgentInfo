@@ -6,7 +6,7 @@
 	<div id="loadImage" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center; display:none;">
 		<img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;">
 	</div>
-	<form id="excelUploadForm" name="excelUploadForm" method="post" enctype="multipart/form-data" action="AgentInfo/packages/import">
+	<form id="excelUploadForm" name="excelUploadForm" method="post" enctype="multipart/form-data" action="AgentInfo/packagesInternational/import">
 		<h4><strong>첨부 파일</strong></h4>
 		<label class="labelFontSize">연도 선택 : </label>
 	    <select class="form-control marginBttom20 width-200" id="excelImportYear" name="excelImportYear">
@@ -56,7 +56,7 @@
 			$('#loadImage').css('display','block');
 			setTimeout(function() {
 				$.ajax({
-					url: "<c:url value='/packages/import'/>",
+					url: "<c:url value='/packagesInternational/import'/>",
 					type : "POST",
 					enctype: 'multipart/form-data',
 			        data: data,

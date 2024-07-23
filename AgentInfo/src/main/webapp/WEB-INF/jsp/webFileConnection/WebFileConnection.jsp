@@ -174,7 +174,7 @@
 			if(connectType == 'linux') {
 				port = 22;
 			} else {
-				port = 3389;
+				port = 22;
 			}
 
 			// 고유한 식별자 생성 (예: 현재 타임스탬프 사용)
@@ -212,7 +212,7 @@
     		    	Swal.fire({
     		    	    icon: 'info',
     		    	    title: '연결해제!',
-    		    	    text: '설정 시간이 초과하여 자동 연결해제합니다.(2분)',
+    		    	    text: '설정 시간이 초과하여 자동 연결해제합니다.(5분)',
     		    	});
 				}
     		    console.log('Close event:', event);
