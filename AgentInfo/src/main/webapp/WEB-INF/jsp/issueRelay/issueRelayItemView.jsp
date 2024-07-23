@@ -262,10 +262,37 @@
 										</c:forEach>
 									</div>
 									<c:if test="${list.issueAnswerStatus eq 'atmosphere'}">
-										<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
+										<c:if test="${list.issueApplyYn eq '해결'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">해결</span>
+										</c:if>
+										<c:if test="${list.issueApplyYn eq '보류'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">보류</span>
+										</c:if>
+										<c:if test="${list.issueApplyYn eq '미해결'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
+										</c:if>
 									</c:if>
 									<c:if test="${list.issueAnswerStatus eq 'reRequest'}">
-										<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 재요청</span>
+										<c:if test="${list.issueApplyYn eq '해결'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">해결</span>
+										</c:if>
+										<c:if test="${list.issueApplyYn eq '보류'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">보류</span>
+										</c:if>
+										<c:if test="${list.issueApplyYn eq '미해결'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 재요청</span>
+										</c:if>
+									</c:if>
+									<c:if test="${list.issueAnswerStatus eq 'complete'}">
+										<c:if test="${list.issueApplyYn eq '해결'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">해결</span>
+										</c:if>
+										<c:if test="${list.issueApplyYn eq '보류'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">보류</span>
+										</c:if>
+										<c:if test="${list.issueApplyYn eq '미해결'}">
+											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 완료</span>
+										</c:if>
 									</c:if>
 								</a>
 							</li>
@@ -328,8 +355,8 @@
 					itemDiv += "<tr>";
 					itemDiv += "<td class='alignCenter'>OS</td>";
 					itemDiv += "<td><input class='form-control noneForm' type='text' id='issueOsList' name='issueOsList' value='"+data.issue.issueOs+"' readonly></td>";
-					itemDiv += "<td class='alignCenter'></td>";
-					itemDiv += "<td></td>";
+					itemDiv += "<td class='alignCenter'>작성자</td>";
+					itemDiv += "<td><input class='form-control noneForm' type='text' id='issueWriterList' name='issueWriterList' value='"+data.issue.issueWriter+"' readonly></td>";
 					itemDiv += "</tr>";
 					itemDiv += "<tr>";
 					itemDiv += "<td class='alignCenter'>대항목</td>";
@@ -397,20 +424,24 @@
 							itemDiv += "</td>";
 							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
 							itemDiv += "<span>"+issueRelay.issueRelayDate+"</span>";
+							if(data.issue.issueApplyYn == '미해결') {
 								if(issueRelay.issueRelayType == "개발") {
 									itemDiv += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+")'>수정</button>";
 									itemDiv += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+",this)'>삭제</button>";
 								}
+							}
 							itemDiv += "</td>";
 							itemDiv += "</tr>";
 						}
 					});
 					itemDiv += "</table>";
-
+					
 					itemDiv += "<div style='width: 100%; text-align: right;	padding: 1%;'>";
-					itemDiv += "<button type='button' class='btn btn-outline-info-del myBtn' onclick='btnModify("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>수정완료</button>";
-					itemDiv += "<button type='button' class='btn btn-outline-info-nomal myBtn' onclick='btnFalse("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>오탐</button>";
-					itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>상세답변</button>";
+					if(data.issue.issueApplyYn == '미해결') {
+						itemDiv += "<button type='button' class='btn btn-outline-info-del myBtn' onclick='btnModify("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>수정완료</button>";
+						itemDiv += "<button type='button' class='btn btn-outline-info-nomal myBtn' onclick='btnFalse("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>오탐</button>";
+						itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>상세답변</button>";
+					}
 					itemDiv += "</div>";
 					itemDiv += "</div>";
 					itemDiv += "</dv>";
@@ -462,6 +493,7 @@
 
 		
 		function btnModify(issuePrimaryKeyNum, issueKeyNum, obj) {
+			console.log(obj);
 			$.ajax({
 				url: "<c:url value='/issueRelay/relay'/>",
 	    	    type: 'post',
@@ -497,7 +529,8 @@
 							rowItem += "</tr>";
 							rowItem += "</table>";
 							table.before(rowItem);
-							$(".index"+issuePrimaryKeyNum).hide();
+							$(".index"+issuePrimaryKeyNum).text("");
+							$(".index"+issuePrimaryKeyNum).append("<span>답</span><span>변</span><span> 완</span><span>료</span>");
 						})
 					} else if(result.result == "UrlExport") {
 						Swal.fire({               
@@ -555,7 +588,8 @@
 							rowItem += "</tr>";
 							rowItem += "</table>";
 							table.before(rowItem);
-							$(".index"+issuePrimaryKeyNum).hide();
+							$(".index"+issuePrimaryKeyNum).text("");
+							$(".index"+issuePrimaryKeyNum).append("<span>답</span><span>변</span><span> 완</span><span>료</span>");
 						})
 					} else if(result.result == "UrlExport") {
 						Swal.fire({               
@@ -597,7 +631,8 @@
 			rowItem += "</tr>";
 			rowItem += "</table>";
 			table.before(rowItem);
-			$(".index"+data.issuePrimaryKeyNum).hide();
+			$(".index"+data.issuePrimaryKeyNum).text("");
+			$(".index"+data.issuePrimaryKeyNum).append("<span>답</span><span>변</span><span> 완</span><span>료</span>");
 		});
 
 		$(document).on('issueRelayCompleteUpdate', function(event, data) {
