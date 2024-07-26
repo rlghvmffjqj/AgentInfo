@@ -65,7 +65,7 @@
 				margin-right: 10px;
 			}
 			.searchbos {
-				background: #00ff2005;
+				background: #F4F0EC;
 				border: 1px solid #ddd;
 				border-top: 1px solid #0A8FFF;
 				padding: 10px;
@@ -78,7 +78,7 @@
     			margin-top: 1%;
 			}
 			.searchbox {
-				background: #00ff2005;
+				background: #f5f5f5;
 				border: 1px solid #ddd;
 				border-top: 1px solid #0A8FFF;
 				padding: 10px;
@@ -126,7 +126,7 @@
 			
 			.titleInput {
 				width: 95%;
-				border: solid 0.1px #00893d94;
+				border: solid 0.1px #89310094;
 			}	
 			
 			p {
@@ -164,7 +164,7 @@
     			padding-bottom: 15px;
     			text-align: center;
     			color: white;
-				background: #95C1B6 !important;
+				background: #cfa875cc !important;
 				border-radius: 10px;
 			}
 
@@ -195,49 +195,23 @@
 	<body>
 		<div class="pcoded-content" id="page-wrapper"></div>
 		<div class="title">
-			<span id="relayTitle">${issueTitle.issueCustomer}_${issueTitle.issueTitle}_${issueTitle.issueDate}</span>
+			<span id="relayTitle" style="font-weight: bold;">향후 개선 사항</span>
 		</div>
 		<div style="padding-top: 20px;">
 		    <div>
-		    	<div style='text-align:right;'>
-			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
-			    </div>
+
 			    <div class="searchbox" style="margin-bottom:20px; height: 200px;">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
-			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="${issueTitle.issueCustomer}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="" readonly>
 			    	</div>
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">Title</label>
-			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" style="background: white !important;" value="${issueTitle.issueTitle}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" style="background: white !important;" value="" readonly>
 			    	</div>
 					<div class="col-lg-3">
-			    		<label class="labelFontSize">테스터</label>
-			    		<input class="form-control titleInput" type="text" id="issueTester" name="issueTester" style="background: white !important;" value="${issueTitle.issueTester}" readonly>
-			    	</div>
-			    	<div class="col-lg-3">
-			    		<label class="labelFontSize">전달일자</label>
-			    		<input class="form-control titleInput" type="text" id="issueDate" name="issueDate" style="background: white !important;" value="${issueTitle.issueDate}" readonly>
-			    	</div>
-			    	<div class="col-lg-4">
 			    		<label class="labelFontSize">TOSMS</label>
-			    		<input class="form-control titleInput" type="text" id="issueTosms" name="issueTosms" style="background: white !important;" value="${issueTitle.issueTosms}" readonly>
-			    	</div>
-			    	<div class="col-lg-4">
-			    		<label class="labelFontSize">TOSRF</label>
-			    		<input class="form-control titleInput" type="text" id="issueTosrf" name="issueTosrf" style="background: white !important;" value="${issueTitle.issueTosrf}" readonly>
-			    	</div>
-			    	<div class="col-lg-4">
-			    		<label class="labelFontSize">PORTAL</label>
-			    		<input class="form-control titleInput" type="text" id="issuePortal" name="issuePortal" style="background: white !important;" value="${issueTitle.issuePortal}" readonly>
-			    	</div>
-			    	<div class="col-lg-4">
-			    		<label class="labelFontSize">JAVA</label>
-			    		<input class="form-control titleInput" type="text" id="issueJava" name="issueJava" style="background: white !important;" value="${issueTitle.issueJava}" readonly>
-			    	</div>
-			    	<div class="col-lg-4">
-			    		<label class="labelFontSize">WAS</label>
-			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" style="background: white !important;" value="${issueTitle.issueWas}" readonly>
+			    		<input class="form-control titleInput" type="text" id="issueTester" name="issueTester" style="background: white !important;" value="" readonly>
 			    	</div>
 			    </div>
 			    
@@ -252,46 +226,16 @@
 								<a onClick="moveScroll(this, '${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
 									<div style="width: 80%; height:25px; overflow: hidden; float: left;">
 										<span style="float: left;">
-											${list.issueDivision}
+											${list.issueCustomer}/${list.issueTitle}/${list.issueDivision}
 										</span>
 									
 				    					<c:forEach var="i" begin="${list.issueDivision.length()}" end="100" step="1">
 				    						-
 										</c:forEach>
 									</div>
-									<c:if test="${list.issueAnswerStatus eq 'atmosphere'}">
-										<c:if test="${list.issueApplyYn eq '해결'}">
-											<span class="txt solveSpan index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">해결</span>
-										</c:if>
-										<c:if test="${list.issueApplyYn eq '보류'}">
-											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">보류</span>
-										</c:if>
-										<c:if test="${list.issueApplyYn eq '미해결'}">
-											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 대기</span>
-										</c:if>
-									</c:if>
-									<c:if test="${list.issueAnswerStatus eq 'reRequest'}">
-										<c:if test="${list.issueApplyYn eq '해결'}">
-											<span class="txt solveSpan index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">해결</span>
-										</c:if>
-										<c:if test="${list.issueApplyYn eq '보류'}">
-											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">보류</span>
-										</c:if>
-										<c:if test="${list.issueApplyYn eq '미해결'}">
-											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 재요청</span>
-										</c:if>
-									</c:if>
-									<c:if test="${list.issueAnswerStatus eq 'complete'}">
-										<c:if test="${list.issueApplyYn eq '해결'}">
-											<span class="txt solveSpan index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">해결</span>
-										</c:if>
-										<c:if test="${list.issueApplyYn eq '보류'}">
-											<span class="txt anim-text-flow index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">보류</span>
-										</c:if>
-										<c:if test="${list.issueApplyYn eq '미해결'}">
-											<span class="txt solveSpan index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">답변 완료</span>
-										</c:if>
-									</c:if>
+								</a>
+								<a>
+									<span class="txt solveSpan index${list.issuePrimaryKeyNum}" style="width: 100px; float: left; margin-left: 1%;">삭제</span>	
 								</a>
 							</li>
 				    	</c:forEach>
@@ -302,24 +246,7 @@
 
 		<button class="scrollToTop" onclick="scrollToTop();">맨 위로</button>
 		<button class="scrollToTop" onclick="closeAll();" style="right: 5% !important;">전체 닫기</button>
-		<c:if test="${issueTitle.issueTarget eq 'TOSMS'}">
-			<a href="<c:url value='/issueRelay/issueRelayList?target=TOSMS'/>">
-				<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
-			</a>
-		</c:if>
-		<c:if test="${issueTitle.issueTarget eq 'Agent'}">
-			<c:if test="${issueTitle.issueSubTarget eq 'linux'}">
-				<a href="<c:url value='/issueRelay/issueRelayList?target=Agent'/>">
-					<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
-				</a>
-			</c:if>
-			<c:if test="${issueTitle.issueSubTarget eq 'windows'}">
-				<a href="<c:url value='/issueRelay/issueRelayList?target=AgentWin'/>">
-					<img class="img-fluid" src="/AgentInfo/images/list.png" alt="list" style="border: none !important; width: 40px; position: fixed; top: 5px; left: 25px;">
-				</a>
-			</c:if>
-		</c:if>
-			
+		
 	</body>
 	<script>
 		function moveScroll(element, keyNum) {
@@ -333,13 +260,11 @@
 			}
 
 			var itemLi = $("#item" + keyNum);
-			var issueRelayRandomUrl = "${issueRelayRandomUrl}";
 		    $.ajax({
-				url: "<c:url value='/issueRelay/item'/>",
+				url: "<c:url value='/issueRelay/improvementsitem'/>",
 				type: "POST",
 				data: {
-					"issuePrimaryKeyNum": keyNum,
-					"issueRelayRandomUrl": issueRelayRandomUrl
+					"issuePrimaryKeyNum": keyNum
 
 				},
 				success: function(data) {
@@ -422,11 +347,9 @@
 							itemDiv += "</td>";
 							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
 							itemDiv += "<span>"+issueRelay.issueRelayDate+"</span>";
-							if(data.issue.issueApplyYn == '미해결') {
-								if(issueRelay.issueRelayType == "개발") {
-									itemDiv += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+")'>수정</button>";
-									itemDiv += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+",this)'>삭제</button>";
-								}
+							if(issueRelay.issueRelayType == "개발") {
+								itemDiv += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+")'>수정</button>";
+								itemDiv += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+",this)'>삭제</button>";
 							}
 							itemDiv += "</td>";
 							itemDiv += "</tr>";
@@ -435,11 +358,8 @@
 					itemDiv += "</table>";
 					
 					itemDiv += "<div style='width: 100%; text-align: right;	padding: 1%;'>";
-					if(data.issue.issueApplyYn == '미해결') {
-						itemDiv += "<button type='button' class='btn btn-outline-info-del myBtn' onclick='btnModify("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>수정완료</button>";
-						itemDiv += "<button type='button' class='btn btn-outline-info-nomal myBtn' onclick='btnFalse("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>오탐</button>";
-						itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>상세답변</button>";
-					}
+					itemDiv += "<button type='button' class='btn btn-outline-info-del myBtn' onclick='btnModify("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>수정완료</button>";
+					itemDiv += "<button type='button' class='btn btn-outline-info-add myBtn' onclick='btnRelay("+data.issue.issuePrimaryKeyNum+","+data.issue.issueKeyNum+",this)'>상세답변</button>";
 					itemDiv += "</div>";
 					itemDiv += "</div>";
 					itemDiv += "</dv>";
@@ -491,125 +411,76 @@
 
 		
 		function btnModify(issuePrimaryKeyNum, issueKeyNum, obj) {
-			$.ajax({
-				url: "<c:url value='/issueRelay/relay'/>",
-	    	    type: 'post',
-	    	    data: {
-					"issueRelayDetail": "해당 이슈를 수정완료 하였습니다.",
-					"issuePrimaryKeyNum": issuePrimaryKeyNum,
-					"issueKeyNum": issueKeyNum,
-					"issueRelayType": "개발"
-				},
-	    	    async: false,
-	    	    success: function(result) {
-					if(result.result == "OK") {
-						Swal.fire({
-							icon: 'success',
-							title: '답변 완료!',
-							text: '수정완료 답변을 등록하였습니다.',
-						}).then((result2) => {
-							var table = $(obj).parent();
-
-							var rowItem = "<div class='issue'>";
-							rowItem += "<table style='border-top: none;'>";
-							rowItem += "<tr style='height: 50px;'>";
-							rowItem += "<td class='alignCenter'>개발</td>";
-							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>해결</td>";
-							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
-							rowItem += "해당 이슈를 수정완료 하였습니다.";
-							rowItem += "</td>";
-							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
-							rowItem += "<span>"+getCurrentTime()+" </span>";
-							rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
-							rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
-							rowItem += "</td>";
-							rowItem += "</tr>";
-							rowItem += "</table>";
-							table.before(rowItem);
-							$(".index"+issuePrimaryKeyNum).text("");
-							$(".index"+issuePrimaryKeyNum).append("<span class='solveSpan'>답변 완료</span>");
-							$(".index"+issuePrimaryKeyNum).removeClass("anim-text-flow");
-						})
-					} else if(result.result == "UrlExport") {
-						Swal.fire({               
-							icon: 'error',          
-							title: '실패!',           
-							text: 'URL Export 생성 후 답글 입력 바랍니다.',    
-						}); 
-					} else {
-						Swal.fire({               
-							icon: 'error',          
-							title: '실패!',           
-							text: '작업을 실패했습니다.',    
-						});  
+			Swal.fire({
+					  title: '수정완료!',
+					  text: "수정완료 시 해당 이슈는 향후 개선 목록에서 사라집니다.",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				 	 if (result.isConfirmed) {
+						$.ajax({
+							url: "<c:url value='/issueRelay/relay'/>",
+	    				    type: 'post',
+	    				    data: {
+								"issueRelayDetail": "해당 이슈를 수정완료 하였습니다.",
+								"issuePrimaryKeyNum": issuePrimaryKeyNum,
+								"issueKeyNum": issueKeyNum,
+								"issueRelayType": "개발"
+							},
+	    				    async: false,
+	    				    success: function(result) {
+								if(result.result == "OK") {
+									Swal.fire({
+										icon: 'success',
+										title: '답변 완료!',
+										text: '수정완료 답변을 등록하였습니다.',
+									}).then((result2) => {
+										var table = $(obj).parent();
+									
+										var rowItem = "<div class='issue'>";
+										rowItem += "<table style='border-top: none;'>";
+										rowItem += "<tr style='height: 50px;'>";
+										rowItem += "<td class='alignCenter'>개발</td>";
+										rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>해결</td>";
+										rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
+										rowItem += "해당 이슈를 수정완료 하였습니다.";
+										rowItem += "</td>";
+										rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+										rowItem += "<span>"+getCurrentTime()+" </span>";
+										rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
+										rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
+										rowItem += "</td>";
+										rowItem += "</tr>";
+										rowItem += "</table>";
+										table.before(rowItem);
+										$(".index"+issuePrimaryKeyNum).text("");
+										$(".index"+issuePrimaryKeyNum).append("<span class='solveSpan'>답변 완료</span>");
+										$(".index"+issuePrimaryKeyNum).removeClass("anim-text-flow");
+									})
+								} else if(result.result == "UrlExport") {
+									Swal.fire({               
+										icon: 'error',          
+										title: '실패!',           
+										text: 'URL Export 생성 후 답글 입력 바랍니다.',    
+									}); 
+								} else {
+									Swal.fire({               
+										icon: 'error',          
+										title: '실패!',           
+										text: '작업을 실패했습니다.',    
+									});  
+								}
+							},
+							error: function(error) {
+								console.log(error);
+							}
+	    				});
 					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-	    	});
+				})
 	  	}
-
-		  function btnFalse(issuePrimaryKeyNum, issueKeyNum, obj) {
-			$.ajax({
-				url: "<c:url value='/issueRelay/relay'/>",
-	    	    type: 'post',
-	    	    data: {
-					"issueRelayDetail": "해당 이슈는 오탐입니다.",
-					"issuePrimaryKeyNum": issuePrimaryKeyNum,
-					"issueKeyNum": issueKeyNum,
-					"issueRelayType": "개발"
-				},
-	    	    async: false,
-	    	    success: function(result) {
-					if(result.result == "OK") {
-						Swal.fire({
-							icon: 'success',
-							title: '답변 완료!',
-							text: '오탐 답변을 등록하였습니다.',
-						}).then((result2) => {
-							var table = $(obj).parent();
-
-							var rowItem = "<div class='issue'>";
-							rowItem += "<table style='border-top: none;'>";
-							rowItem += "<tr style='height: 50px;'>";
-							rowItem += "<td class='alignCenter'>개발</td>";
-							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>오탐</td>";
-							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
-							rowItem += "해당 이슈는 오탐입니다.";
-							rowItem += "</td>";
-							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
-							rowItem += "<span>"+getCurrentTime()+" </span>";
-							rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
-							rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
-							rowItem += "</td>";
-							rowItem += "</tr>";
-							rowItem += "</table>";
-							table.before(rowItem);
-							$(".index"+issuePrimaryKeyNum).text("");
-							$(".index"+issuePrimaryKeyNum).append("<span class='solveSpan'>답변 완료</span>");
-							$(".index"+issuePrimaryKeyNum).removeClass("anim-text-flow");
-						})
-					} else if(result.result == "UrlExport") {
-						Swal.fire({               
-							icon: 'error',          
-							title: '실패!',           
-							text: 'URL Export 생성 후 답글 입력 바랍니다.',    
-						}); 
-					} else {
-						Swal.fire({               
-							icon: 'error',          
-							title: '실패!',           
-							text: '작업을 실패했습니다.',    
-						});  
-					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-	    	});
-	  	}
-
 
 		$(document).on('issueRelayComplete', function(event, data) {
 			var table = $(exObj).parent();
@@ -759,7 +630,7 @@
     	    bottom: 1%;
     	    right: 1%;
     	    padding: 10px;
-    	    background-color: #83c597;
+    	    background-color: #c58383;
     	    color: #fff;
     	    border: none;
     	    cursor: pointer;
@@ -1481,14 +1352,14 @@
 		.statusTd {
 			width: 70px;
     		text-align: center;
-    		background: #95C1B6;
+    		background: #c1ac95;
     		color: white;
 			font-weight: bold;
 		}
 
 		.solveSpan {
 			font-size: 18px !important;
-    		color: #00a545;
+    		color: #a50000;
 		}
 	</style>
 </html>

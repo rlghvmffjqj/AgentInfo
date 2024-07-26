@@ -23,6 +23,11 @@
     	            <span class="checkmark"></span>
     	            대기
     	        </label>
+				<label>
+    	            <input type="radio" id="issueRelayStatus" name="issueRelayStatus" value="개선" <c:if test="${'개선' eq issueRelayStatus}">checked</c:if>>
+    	            <span class="checkmark"></span>
+    	            향후 개선
+    	        </label>
     	    </div>
     	</div>
 	</c:if>
@@ -205,7 +210,7 @@
 		user-select: none;
 		font-size: 16px;
 		color: #333;
-		width: 33%;
+		width: 25%;
 		float: left;
 	}
 

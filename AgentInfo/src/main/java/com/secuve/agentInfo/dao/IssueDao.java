@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -252,6 +253,10 @@ public class IssueDao {
 		parameters.put("issueTarget", issueTarget);
 		parameters.put("issueSubTarget", issueSubTarget);
 		return sqlSession.selectList("issue.getSelectInputTarget", parameters);
+	}
+
+	public List<Issue> getIssueOneImprovements(ArrayList<String> issuePrimaryKeyNumList) {
+		return sqlSession.selectList("issue.getIssueOneImprovements", issuePrimaryKeyNumList);
 	}
 
 }

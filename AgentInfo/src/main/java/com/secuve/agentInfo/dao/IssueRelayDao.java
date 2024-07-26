@@ -55,5 +55,13 @@ public class IssueRelayDao {
 	public List<Integer> getIssuePrimaryKeyNumList(int issueKeyNum) {
 		return sqlSession.selectList("issueRelay.getIssuePrimaryKeyNumList", issueKeyNum);
 	}
+
+	public List<String> getIssueRelayImprovements() {
+		return sqlSession.selectList("issueRelay.getIssueRelayImprovements");
+	}
+
+	public List<IssueRelay> getIssueRelayImprovementsItem() {
+		return sqlSession.selectList("issueRelay.getIssueRelayImprovementsItem");
+	}
 	
 }

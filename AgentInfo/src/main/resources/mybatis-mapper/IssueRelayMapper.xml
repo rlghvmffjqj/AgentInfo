@@ -45,4 +45,12 @@
 		SELECT issuePrimaryKeyNum FROM issuerelay WHERE issueKeyNum = ${issueKeyNum} AND issueRelayType = '개발' GROUP BY issuePrimaryKeyNum;
 	</select>
 	
+	<select id="getIssueRelayImprovements" resultType="string">
+		SELECT issuePrimaryKeyNum FROM issueRelay WHERE issueRelayStatus = '개선';
+	</select>
+	
+	<select id="getIssueRelayImprovementsItem" resultMap="issueRelay">
+		SELECT * FROM issueRelay WHERE issueRelayStatus = '개선';
+	</select>
+	
 </mapper>

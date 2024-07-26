@@ -356,4 +356,8 @@ public class IssueService {
 		return map;
 	}
 
+	public List<Issue> getIssueOneImprovements(ArrayList<String> issuePrimaryKeyNumList) {
+		return issueDao.getIssueOneImprovements(issuePrimaryKeyNumList);
+	}
+
 }

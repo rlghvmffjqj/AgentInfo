@@ -408,8 +408,8 @@
 			</div>
 			<% int num = 1; %>
 			<c:forEach var="list" items="${issue}">
-				<c:if test="${list.issueApplyYn eq '미해결' || list.issueApplyYn eq '보류'}">
-					<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
+				<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
+					<div class="${list.issueApplyYn}">
 						<c:if test="${fn:contains(issuePrimaryKeyNumList, list.issuePrimaryKeyNum)}">
 							<img class="reply" src="/AgentInfo/images/reply.png">
 						</c:if>
@@ -426,8 +426,8 @@
 								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
 							</p>
 						</c:if>
-					</a>
-				</c:if>
+					</div>
+				</a>
 			</c:forEach>
 		</div>
 		<button id="showFixedDiv">■</button>
@@ -912,6 +912,9 @@
 				$("input:checkbox[id='ChkHold']").prop("checked", true);
 				$('select[name=issueApplyYnList]').each(function(index, item) {
 					$(item).parent().parent().parent().parent().parent().parent().show();
+					$('.해결').show();
+					$('.미해결').show();
+					$('.보류').show();
 				});
 			}else{
 				$("input:checkbox[id='ChkSolution']").prop("checked", false);
@@ -919,6 +922,9 @@
 				$("input:checkbox[id='ChkHold']").prop("checked", false);
 				$('select[name=issueApplyYnList]').each(function(index, item) {
 					$(item).parent().parent().parent().parent().parent().parent().hide();
+					$('.해결').hide();
+					$('.미해결').hide();
+					$('.보류').hide();
 				});
 			}
 		});
@@ -945,6 +951,7 @@
 					var value = $(item).val();
 					if(value == data) {
 						$(item).parent().parent().parent().parent().parent().parent().show();
+						$('.'+data).show();
 					}
 				});
 				if(document.getElementById("ChkHold").checked && document.getElementById("ChkUnresolved").checked && document.getElementById("ChkSolution").checked) {
@@ -956,6 +963,7 @@
 					var value = $(item).val();
 					if(value == data) {
 						$(item).parent().parent().parent().parent().parent().parent().hide();
+						$('.'+data).hide();
 					}
 				});
 			}

@@ -201,10 +201,11 @@
 													<td style="font-weight:bold;">이슈 관리 :
 														<button class="btn btn-outline-info-add myBtn" id="BtnCompleteRequest">처리완료 요청</button>
 														<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'issueKeyNum');">컬럼 선택</button>
+														<button class="btn btn-outline-info-del myBtn" id="BtnImprovements">향후 개선 목록</button>
 													</td>
 												</tr>
 												<tr>
-													<td><span style="color: red;">처리완료 요청건에 대해서는 QA 확인 후 진행상태를 처리완료로 변경하겠습니다.</span></td>
+													<td><span style="color: red;">처리 완료되었지만 리스트에 남아 있는 경우, 처리 완료 요청 바랍니다.</span></td>
 												</tr>
 												<tr>
 													<td class="border1" colspan="2">
@@ -401,10 +402,10 @@
 				})
 			}
 		})
-		
+
+		$('#BtnImprovements').click(function() {
+			window.open("<c:url value='/issueRelay/improvementsList'/>", '_blank');
+		})		
 	</script>
 
-	<style>
-		
-	</style>
 </html>
