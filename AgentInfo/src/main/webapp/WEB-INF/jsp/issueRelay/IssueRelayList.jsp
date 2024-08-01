@@ -404,7 +404,7 @@
 		})
 
 		$('#BtnImprovements').click(function() {
-			window.open("<c:url value='/issueRelay/improvementsList'/>", '_blank');
+			window.open("<c:url value='/issueRelay/improvementsList'/>?target=${target}", '_blank');
 		})		
 	</script>
 

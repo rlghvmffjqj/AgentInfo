@@ -356,8 +356,26 @@ public class IssueService {
 		return map;
 	}
 
-	public List<Issue> getIssueOneImprovements(ArrayList<String> issuePrimaryKeyNumList) {
-		return issueDao.getIssueOneImprovements(issuePrimaryKeyNumList);
+	public List<Issue> getIssueOneImprovements(ArrayList<String> issuePrimaryKeyNumList, String target) {
+		if(issuePrimaryKeyNumList.size() == 0) {
+			issuePrimaryKeyNumList.add("0");
+		}
+		String issueTarget = "";
+		String issueSubTarget = "";
+		if(target.equals("Agent")) {
+			issueTarget = "Agent";
+			issueSubTarget = "linux";
+		} else if(target.equals("AgentWin")) {
+			issueTarget = "Agent";
+			issueSubTarget = "windows";
+		} else if(target.equals("TOSMS")) {
+			issueTarget = "TOSMS";
+			issueSubTarget = "";
+		} else {
+			issueTarget = "";
+			issueSubTarget = "";
+		}
+		return issueDao.getIssueOneImprovements(issuePrimaryKeyNumList, issueTarget, issueSubTarget);
 	}
 
 }

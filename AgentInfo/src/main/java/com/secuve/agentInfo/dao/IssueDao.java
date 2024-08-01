@@ -255,8 +255,12 @@ public class IssueDao {
 		return sqlSession.selectList("issue.getSelectInputTarget", parameters);
 	}
 
-	public List<Issue> getIssueOneImprovements(ArrayList<String> issuePrimaryKeyNumList) {
-		return sqlSession.selectList("issue.getIssueOneImprovements", issuePrimaryKeyNumList);
+	public List<Issue> getIssueOneImprovements(ArrayList<String> issuePrimaryKeyNumList, String issueTarget, String issueSubTarget) {
+		Map parameters = new HashMap();
+		parameters.put("issuePrimaryKeyNumList", issuePrimaryKeyNumList);
+		parameters.put("issueTarget", issueTarget);
+		parameters.put("issueSubTarget", issueSubTarget);
+		return sqlSession.selectList("issue.getIssueOneImprovements", parameters);
 	}
 
 }

@@ -139,8 +139,21 @@ public class IssueRelayService {
 		return issueRelayDao.getIssueRelayImprovements();
 	}
 
-	public List<IssueRelay> getIssueRelayImprovementsItem() {
-		return issueRelayDao.getIssueRelayImprovementsItem();
+	public List<IssueRelay> getIssueRelayImprovementsItem(int issueKeyNum) {
+		return issueRelayDao.getIssueRelayImprovementsItem(issueKeyNum);
+	}
+
+	public void updateImprovementsRelay(IssueRelay issueRelay) {
+		if("해결".equals(issueRelay.getIssueRelayStatus())) {
+			issueRelay.setIssueRelayStatus("개선 완료");
+		} else if("향후 개선".equals(issueRelay.getIssueRelayStatus()) || "대기".equals(issueRelay.getIssueRelayStatus())) {
+			return;
+		}
+		issueRelayDao.updateImprovementsRelay(issueRelay);
+	}
+
+	public IssueRelay getIssuePrimaryKeyNumOne(int issuePrimaryKeyNum) {
+		return issueRelayDao.getIssuePrimaryKeyNumOne(issuePrimaryKeyNum);
 	}
 
 	

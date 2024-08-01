@@ -70,6 +70,7 @@ public class License5 {
 	private String requesterView;							// 요청자
 	
 	private String customerNameOldView;
+	private String businessNameOldView;
 	
 	private String[] licenseTypeArr;
 	private String[] productTypeArr;							// 제품 유형

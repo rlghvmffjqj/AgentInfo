@@ -46,11 +46,19 @@
 	</select>
 	
 	<select id="getIssueRelayImprovements" resultType="string">
-		SELECT issuePrimaryKeyNum FROM issueRelay WHERE issueRelayStatus = '개선';
+		SELECT issuePrimaryKeyNum FROM issueRelay WHERE issueRelayStatus = '향후 개선';
 	</select>
 	
 	<select id="getIssueRelayImprovementsItem" resultMap="issueRelay">
-		SELECT * FROM issueRelay WHERE issueRelayStatus = '개선';
+		SELECT * FROM issueRelay WHERE issueKeyNum = ${issueKeyNum};
+	</select>
+	
+	<update id="updateImprovementsRelay" parameterType="issueRelay">
+		UPDATE issueRelay SET issueRelayStatus = #{issueRelayStatus} WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum} AND issueRelayStatus = '향후 개선' AND issueRelayType = '개발';
+	</update>
+	
+	<select id="getIssuePrimaryKeyNumOne" resultMap="issueRelay" parameterType="_int">
+		SELECT * FROM issueRelay WHERE issuePrimaryKeyNum = ${issuePrimaryKeyNum} GROUP BY issueKeyNum;
 	</select>
 	
 </mapper>

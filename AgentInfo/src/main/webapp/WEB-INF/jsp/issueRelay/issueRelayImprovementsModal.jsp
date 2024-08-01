@@ -54,56 +54,119 @@
 			});  
 			return false;
 		}
-
-		$.ajax({
-			url: "<c:url value='/issueRelay/relay'/>",
-	        type: 'post',
-	        data: {
-				"issueRelayDetail": issueRelayDetail,
-				"issuePrimaryKeyNum": "${issuePrimaryKeyNum}",
-				"issueKeyNum": "${issueKeyNum}",
-				"issueRelayType": "${issueRelayType}",
-				"issueRelayStatus": issueRelayStatus
-			},
-	        async: false,
-	        success: function(result) {
-				if(result.result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '답변 완료!',
-						text: '해당 이슈에 답변이 등록되었습니다.',
-					}).then((result2) => {
-						if (result2.isConfirmed) {
-							$('#modal').modal("hide"); // 모달 닫기
-	            			$('#modal').on('hidden.bs.modal', function () {
-	            				//location.reload();
-								$(document).trigger('issueRelayComplete', { 
-									issueRelayDetail: issueRelayDetail,
-									issueRelayKeyNum: result.issueRelayKeyNum,
-									issuePrimaryKeyNum: "${issuePrimaryKeyNum}",
-									issueRelayStatus: issueRelayStatus
-								});
-	            			});	
+		if(issueRelayStatus != '향후 개선' && issueRelayStatus != '대기' ) {
+			Swal.fire({
+				  title: '수정완료!',
+				  text: issueRelayStatus+" 답변 시, 해당 이슈는 향후 개선 목록에서 사라집니다.",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			 	 if (result.isConfirmed) {
+					$.ajax({
+						url: "<c:url value='/issueRelay/improvementsRelay'/>",
+	    			    type: 'post',
+	    			    data: {
+							"issueRelayDetail": issueRelayDetail,
+							"issuePrimaryKeyNum": "${issuePrimaryKeyNum}",
+							"issueKeyNum": "${issueKeyNum}",
+							"issueRelayType": "${issueRelayType}",
+							"issueRelayStatus": issueRelayStatus
+						},
+	    			    async: false,
+	    			    success: function(result) {
+							if(result.result == "OK") {
+								Swal.fire({
+									icon: 'success',
+									title: '답변 완료!',
+									text: '해당 이슈에 답변이 등록되었습니다.',
+								}).then((result2) => {
+									if (result2.isConfirmed) {
+										$('#modal').modal("hide"); // 모달 닫기
+	    			        			$('#modal').on('hidden.bs.modal', function () {
+	    			        				//location.reload();
+											$(document).trigger('issueRelayComplete', { 
+												issueRelayDetail: issueRelayDetail,
+												issueRelayKeyNum: result.issueRelayKeyNum,
+												issuePrimaryKeyNum: "${issuePrimaryKeyNum}",
+												issueRelayStatus: issueRelayStatus
+											});
+	    			        			});	
+									}
+								})
+							} else if(result.result == "UrlExport") {
+								Swal.fire({               
+									icon: 'error',          
+									title: '실패!',           
+									text: 'URL Export 생성 후 답글 입력 바랍니다.',    
+								}); 
+							} else {
+								Swal.fire({               
+									icon: 'error',          
+									title: '실패!',           
+									text: '작업을 실패했습니다.',    
+								});  
+							}
+						},
+						error: function(error) {
+							console.log(error);
 						}
-					})
-				} else if(result.result == "UrlExport") {
-					Swal.fire({               
-						icon: 'error',          
-						title: '실패!',           
-						text: 'URL Export 생성 후 답글 입력 바랍니다.',    
-					}); 
-				} else {
-					Swal.fire({               
-						icon: 'error',          
-						title: '실패!',           
-						text: '작업을 실패했습니다.',    
-					});  
+	    			});
 				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-	    });
+			})
+		} else {
+			$.ajax({
+				url: "<c:url value='/issueRelay/relay'/>",
+	    	    type: 'post',
+	    	    data: {
+					"issueRelayDetail": issueRelayDetail,
+					"issuePrimaryKeyNum": "${issuePrimaryKeyNum}",
+					"issueKeyNum": "${issueKeyNum}",
+					"issueRelayType": "${issueRelayType}",
+					"issueRelayStatus": issueRelayStatus
+				},
+	    	    async: false,
+	    	    success: function(result) {
+					if(result.result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '답변 완료!',
+							text: '해당 이슈에 답변이 등록되었습니다.',
+						}).then((result2) => {
+							if (result2.isConfirmed) {
+								$('#modal').modal("hide"); // 모달 닫기
+	    	        			$('#modal').on('hidden.bs.modal', function () {
+	    	        				//location.reload();
+									$(document).trigger('issueRelayComplete', { 
+										issueRelayDetail: issueRelayDetail,
+										issueRelayKeyNum: result.issueRelayKeyNum,
+										issuePrimaryKeyNum: "${issuePrimaryKeyNum}",
+										issueRelayStatus: issueRelayStatus
+									});
+	    	        			});	
+							}
+						})
+					} else if(result.result == "UrlExport") {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: 'URL Export 생성 후 답글 입력 바랍니다.',    
+						}); 
+					} else {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '작업을 실패했습니다.',    
+						});  
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+	    	});
+		}
 	})
 
 	$('#relayUpdateBtn').click(function() {

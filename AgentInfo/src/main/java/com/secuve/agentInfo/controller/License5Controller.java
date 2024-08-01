@@ -141,8 +141,10 @@ public class License5Controller {
 			license.setCustomerNameView(license.getCustomerNameSelf());
 		if(license.getBusinessNameSelf().length() > 0)
 			license.setBusinessNameView(license.getBusinessNameSelf());
-		if(license.getLicenseTypeView().equals("(구)")) 
+		if(license.getLicenseTypeView().equals("(구)")) {
 			license.setCustomerNameView(license.getCustomerNameOldView());
+			license.setBusinessNameView(license.getBusinessNameOldView());
+		}
 			
 		model.addAttribute("license", license);
 		model.addAttribute("viewType","issued");
@@ -155,8 +157,10 @@ public class License5Controller {
 			license.setCustomerNameView(license.getCustomerNameSelf());
 		if(license.getBusinessNameSelf().length() > 0)
 			license.setBusinessNameView(license.getBusinessNameSelf());
-		if(license.getLicenseTypeView().equals("(구)")) 
+		if(license.getLicenseTypeView().equals("(구)")) { 
 			license.setCustomerNameView(license.getCustomerNameOldView());
+			license.setBusinessNameView(license.getBusinessNameOldView());
+		}
 		
 		model.addAttribute("license", license);
 		model.addAttribute("viewType","update");

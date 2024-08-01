@@ -171,11 +171,17 @@
 		SELECT * FROM issue WHERE issueKeyNum = ${issueKeyNum} AND (issueApplyYn = '미해결' OR issueApplyYn = '보류');
 	</select>
 	
-	<select id="getIssueOneImprovements" parameterType="java.util.List" resultMap="issue">
+	<select id="getIssueOneImprovements" parameterType="map" resultMap="issue">
 		SELECT * FROM issue WHERE issuePrimaryKeyNum IN 
-		<foreach item="item" collection="list" open="(" close=")" separator=",">
+		<foreach item="item" collection="issuePrimaryKeyNumList" open="(" close=")" separator=",">
         	#{item}
     	</foreach>
+    	<if test="issueTarget != null and issueTarget != ''">
+    		AND issueTarget = #{issueTarget}
+    	</if>
+    	<if test="issueSubTarget != null and issueSubTarget != ''">
+    		AND issueSubTarget = #{issueSubTarget}
+    	</if>
 	</select>
 	
 	<!-- ==================================================================================== -->

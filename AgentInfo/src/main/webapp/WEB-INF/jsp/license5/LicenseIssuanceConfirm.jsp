@@ -4,10 +4,8 @@
 
 <div class="modal-body" id="modalConfirm" style="width: 100%; height: 600px;">
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">고객사명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.customerNameView}</span></div></div>
-	<div class="oldLicense">
-		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
-		<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
-	</div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">제품유형 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.productTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">MAC주소 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.macAddressView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">시작일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>

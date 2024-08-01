@@ -86,6 +86,18 @@ public class IssueRelayController {
 		return "/issueRelay/issueRelayModal";
 	}
 	
+	@PostMapping(value = "/issueRelay/relayImprovementsModal")
+	public String IssueImprovementsRelayModal(Model model, int issuePrimaryKeyNum, int issueKeyNum, String issueRelayType) {
+		Issue issue = issueService.getIssuePrimaryOne(issuePrimaryKeyNum);
+			
+		model.addAttribute("issueConfirm", issue.getIssueConfirm());
+		model.addAttribute("issuePrimaryKeyNum", issue.getIssuePrimaryKeyNum());
+		model.addAttribute("issueKeyNum", issueKeyNum);
+		model.addAttribute("issueRelayType", issueRelayType);
+		model.addAttribute("viewType","insert");
+		return "/issueRelay/issueRelayImprovementsModal";
+	}
+	
 	@PostMapping(value = "/issueRelay/relayUpdateModal")
 	public String IssueRelayUpdateModal(Model model, int issueRelayKeyNum, int issuePrimaryKeyNum) {
 		IssueRelay issueRelay = issueRelayService.getIssueRelayOne(issueRelayKeyNum);
@@ -133,6 +145,53 @@ public class IssueRelayController {
 	}
 	
 	@ResponseBody
+	@PostMapping(value = "/issueRelay/improvementsRelay")
+	public Map improvementsRelay(IssueRelay issueRelay) {
+		Map resultMap = new HashMap();
+		IssueRelay issueRelayOne = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
+		issueRelayOne.setIssueRelayStatus(issueRelay.getIssueRelayStatus());
+		if(issueRelayOne == null) {
+			resultMap.put("result", "UrlExport");
+			return resultMap;
+		}
+		issueRelayOne.setIssueRelayStatus(issueRelay.getIssueRelayStatus());
+		issueRelayOne.setIssuePrimaryKeyNum(issueRelay.getIssuePrimaryKeyNum());
+		issueRelayOne.setIssueRelayDetail(issueRelay.getIssueRelayDetail());
+		issueRelayOne.setIssueRelayType(issueRelay.getIssueRelayType());
+		issueRelayOne.setIssueRelayDate(issueRelayService.nowDate());
+		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
+		issueRelayService.insertUseralarm(issue);
+		issue.setIssueAnswerStatus("complete");
+		issueService.updateIssueAnswerStatus(issue);
+		issueRelayService.updateImprovementsRelay(issueRelay);
+		return issueRelayService.insertIssueRelay(issueRelayOne);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issueRelay/deleteImprovements")
+	public Map deleteImprovements(IssueRelay issueRelay) {
+		Map resultMap = new HashMap();
+		IssueRelay issueRelayOne = issueRelayService.getIssuePrimaryKeyNumOne(issueRelay.getIssuePrimaryKeyNum());
+		issueRelayOne.setIssueRelayStatus(issueRelay.getIssueRelayStatus());
+		if(issueRelayOne == null) {
+			resultMap.put("result", "UrlExport");
+			return resultMap;
+		}
+		issueRelayOne.setIssueRelayStatus("대기");
+		issueRelayOne.setIssuePrimaryKeyNum(issueRelay.getIssuePrimaryKeyNum());
+		issueRelayOne.setIssueRelayDetail(issueRelay.getIssueRelayDetail());
+		issueRelayOne.setIssueRelayType(issueRelay.getIssueRelayType());
+		issueRelayOne.setIssueRelayDate(issueRelayService.nowDate());
+		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
+		issueRelayService.insertUseralarm(issue);
+		issue.setIssueAnswerStatus("complete");
+		issueService.updateIssueAnswerStatus(issue);
+		issueRelay.setIssueRelayStatus("대기");
+		issueRelayService.updateImprovementsRelay(issueRelay);
+		return issueRelayService.insertIssueRelay(issueRelayOne);
+	}
+	
+	@ResponseBody
 	@PostMapping(value = "/issueRelay/relayUpdate")
 	public String RelayUpdate(IssueRelay issueRelay) {
 		issueRelay.setIssueRelayDate(issueRelayService.nowDate());
@@ -170,6 +229,7 @@ public class IssueRelayController {
 		model.addAttribute("issueWas", issueWas);
 		model.addAttribute("issueTarget", targetMap.get("issueTarget"));
 		model.addAttribute("issueSubTarget", targetMap.get("issueSubTarget"));
+		model.addAttribute("target", target);
 		
 		return "/issueRelay/IssueRelayList";
 	}
@@ -236,20 +296,23 @@ public class IssueRelayController {
 	}
 	
 	@GetMapping(value = "/issueRelay/improvementsList")
-	public String ImprovementsList(Model model) {
+	public String ImprovementsList(Model model, String target) {
 		ArrayList<String> issuePrimaryKeyNumList = new ArrayList<>(issueRelayService.getIssueRelayImprovements());
-		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneImprovements(issuePrimaryKeyNumList));
+		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOneImprovements(issuePrimaryKeyNumList, target));
 		
+		if(issue.size() == 0) {
+			return "/issueRelay/issueRelayImprovements";
+		}
 		model.addAttribute("issue",issue);
-		
 		return "/issueRelay/improvementsList";
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/issueRelay/improvementsitem")
 	public Map IssueRelayImprovementsItem(int issuePrimaryKeyNum) {
-		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayImprovementsItem());
 		Issue issue = issueService.getIssuePrimaryOne(issuePrimaryKeyNum);
+		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayImprovementsItem(issue.getIssueKeyNum()));
+		
 		Map map = new HashMap();
 		map.put("issueRelayList", issueRelayList);
 		map.put("issue", issue);

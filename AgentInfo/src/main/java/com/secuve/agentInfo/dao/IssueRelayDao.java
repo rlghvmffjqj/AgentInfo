@@ -60,8 +60,16 @@ public class IssueRelayDao {
 		return sqlSession.selectList("issueRelay.getIssueRelayImprovements");
 	}
 
-	public List<IssueRelay> getIssueRelayImprovementsItem() {
-		return sqlSession.selectList("issueRelay.getIssueRelayImprovementsItem");
+	public List<IssueRelay> getIssueRelayImprovementsItem(int issueKeyNum) {
+		return sqlSession.selectList("issueRelay.getIssueRelayImprovementsItem", issueKeyNum);
+	}
+
+	public void updateImprovementsRelay(IssueRelay issueRelay) {
+		sqlSession.update("issueRelay.updateImprovementsRelay", issueRelay);
+	}
+
+	public IssueRelay getIssuePrimaryKeyNumOne(int issuePrimaryKeyNum) {
+		return sqlSession.selectOne("issueRelay.getIssuePrimaryKeyNumOne", issuePrimaryKeyNum);
 	}
 	
 }

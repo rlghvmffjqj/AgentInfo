@@ -10,7 +10,7 @@
 		    	<label for="chkLicenseIssuance"></label><span class="margin17">라이선스 발급(해제할 경우 Database에 입력한 정보만 저장되고 라이선스 발급하지 않습니다.)</span>
 		    </div>
 		    <div style="width: 35%; float:right">
-			<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none">
+			<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none" value="${license.serialNumber}">
 		</div>
 		</div>
 		
@@ -85,10 +85,6 @@
 				         </div>
 	        	 	</c:when>
 				</c:choose>
-	        	<div class="pading5Width450">
-	        	 	<label class="labelFontSize">추가정보</label>
-	        	 	<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
-	        	</div>
 			</div>
 			<div class="oldLicense">
 				<div class="pading5Width450">
@@ -98,7 +94,17 @@
 					</div>
 					<input type="text" id="customerNameOldView" name="customerNameOldView" class="form-control viewForm" value="${license.customerName}">
 				</div>
+				<div class="pading5Width450">
+					<div>
+						<label class="labelFontSize">사업명</label>
+					</div>
+					<input type="text" id="businessNameOldView" name="businessNameOldView" class="form-control viewForm" value="${license.businessName}">
+				</div>
 			</div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">추가정보</label>
+				<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
+		   </div>
 	        <c:choose>
 				<c:when test="${viewType eq 'issued'}">
 			         <div class="pading5Width450">
@@ -125,8 +131,8 @@
 	        </c:choose>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
-	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요.</span>
-	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}">
+	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소가 형식에 어긋납니다.</span>
+	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
 	        </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
@@ -172,14 +178,6 @@
 		    				<label for="chkTos2AgentCount"></label><span class="margin17">무제한</span>
 		    			</div>
 			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="0">
-					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
 					</div>
 					<div class="newLicense">
 						<div class="pading5Width450">
@@ -231,14 +229,6 @@
 		    			</div>
 			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="${license.tos2AgentCount}">
 					</div>
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
-			         		<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-		    				<label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-		    			</div>
-			         	<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
-					</div>
 					<div class="newLicense">
 						<div class="pading5Width450">
 			        	 	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
@@ -255,6 +245,14 @@
         <div class="rightDiv">
         	<c:choose>
 				<c:when test="${viewType eq 'issued'}">
+					<div class="pading5Width450">
+						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+						<div class="floatRight">
+							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+					   </div>
+						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
+				    </div>
 					<div class="newLicense">
 						<div class="pading5Width450">
 			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
@@ -323,6 +321,14 @@
 			        </div>
 	       		</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+					<div class="pading5Width450">
+						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+						<div class="floatRight">
+							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+					   </div>
+						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
+				   </div>
 					<div class="newLicense">
 		        		<div class="pading5Width450">
 			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
@@ -680,6 +686,12 @@
 			return false;
 		}
 		
+		const macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^[0-9A-Fa-f]{12}$/;
+        if(!macAddressRegex.test(macAddress)) {
+			$('#NotMacAddress').show();	
+			return flase;
+		}
+		
 		$('.licenseShow').hide();
 		if(customerName == "" && customerNameSelf == "") {
 			$('#NotCustomerName').show();
@@ -871,7 +883,7 @@
 	}
 
 	function btnOldLicense() {
-		$('#licenseModal').css('height','650px');
+		$('#licenseModal').css('height','690px');
 		$('.oldLicense').css("display","block");
 		$('.newLicense').css("display","none");
 		$('#btnOldLicense').addClass('customerManagentActive');
@@ -891,8 +903,9 @@
 	$("#customerNameOldView").change(function() {
 		var customerName = $('#customerNameOldView').val();
 		var issueDate = $('#issueDateView').val();
+		var businessName = $('#businessNameOldView').val();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
+		$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 	});
 
 	function isKoreanCharacter(char) {
@@ -943,6 +956,12 @@
 			  'error'
 			)
 			return false;
+		}
+
+		const macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^[0-9A-Fa-f]{12}$/;
+        if(!macAddressRegex.test(macAddress)) {
+			$('#NotMacAddress').show();	
+			return flase;
 		}
 		
 		$('.licenseShow').hide();
