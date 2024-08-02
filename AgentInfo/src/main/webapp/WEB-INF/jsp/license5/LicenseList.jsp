@@ -496,7 +496,6 @@
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
 			$("input[type='date']").val("");
-			$("#dateFull").prop("checked",true);
 	        
 	        $('.selectpicker').val('');
 	        $('.filter-option-inner-inner').text('');

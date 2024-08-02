@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="logGriffin">
+	<resultMap type="com.secuve.agentInfo.vo.LogGriffin" id="logGriffin"></resultMap>
+	
+	<select id="getLicenseList" resultMap="logGriffin" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, logGriffinKeyNum DESC) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM logGriffin
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicenseListCount" resultType="_int">
+		SELECT COUNT(*) FROM logGriffin;
+	</select>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM logGriffin WHERE ${selectInput} != '';
+	</select>
+	
+	<select id="getLicenseOne"  parameterType="_int" resultMap="logGriffin">
+		SELECT * FROM logGriffin WHERE logGriffinKeyNum = #{logGriffinKeyNum};	
+	</select>
+
+	
+	<!-- ==================================================================================== -->
+	
+	
+	
+</mapper>

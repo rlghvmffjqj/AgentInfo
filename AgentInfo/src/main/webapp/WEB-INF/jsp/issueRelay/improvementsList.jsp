@@ -211,7 +211,7 @@
 	<body>
 		<div class="pcoded-content" id="page-wrapper"></div>
 		<div class="title">
-			<span id="relayTitle" style="font-weight: bold;">향후 개선 사항</span>
+			<span id="relayTitle">향후 개선 사항</span>
 		</div>
 		<div style="padding-top: 20px;">
 		    <div>

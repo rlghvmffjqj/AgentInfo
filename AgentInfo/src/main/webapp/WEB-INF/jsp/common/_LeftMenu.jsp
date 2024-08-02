@@ -112,6 +112,10 @@
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
 			$('.license2').addClass('active');
+		} else if($.cookie('name') == 'loggriffin') {
+			$('.license').addClass('active');
+			$('.license').addClass('pcoded-trigger');
+			$('.loggriffin').addClass('active');
 		} else if($.cookie('name') == 'licenseRequest') {
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
@@ -300,6 +304,13 @@
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
+							<li class="loggriffin">
+								<a href="<c:url value='/loggriffin/issuance'/>" class="waves-effect waves-dark">
+								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								  <span class="pcoded-mtext">LogGRIFFIN</span>
+								  <span class="pcoded-mcaret"></span>
+								</a>
+						 	</li>
 							<li class="licenseRequest menuSwitch" style="display: none;">
 								<a href="<c:url value='/license5/request'/>" class="waves-effect waves-dark">
 								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
