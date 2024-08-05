@@ -31,8 +31,8 @@ public class LogGriffin {
 	private String macAddressView;				// MAC
 	private String productNameView;				// 제품명
 	private String productVersionView;			// 제품 버전
-	private Integer agentCountView;				// 에이전트
-	private Integer agentLisCountView;			// 에이전트리스 
+	private String agentCountView;				// 에이전트
+	private String agentLisCountView;			// 에이전트리스 
 	private String issueDateView;				// 발급일
 	private String expirationDaysView;			// 만료일
 	private String additionalInformationView;	// 추가정보
@@ -44,6 +44,13 @@ public class LogGriffin {
 	private String issueDateEnd;
 	private String expirationDaysStart;
 	private String expirationDaysEnd;
+	
+	private String logGriffinRegistrant;
+	private String logGriffinRegistrationDate;
+	private String logGriffinModifier;
+	private String logGriffinModifiedDate;
+	
+	private String chkLicenseIssuance;					// 라이선스 발급 여부
 	
 	
 	private Integer page=1;							// 기본 페이지 번호

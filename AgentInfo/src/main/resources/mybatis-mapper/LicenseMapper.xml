@@ -68,6 +68,8 @@
 			linuxLicense20Route = #{linuxLicense20Route},
 			linuxLicense50Route = #{linuxLicense50Route},
 			linuxLicense50OldRoute = #{linuxLicense50OldRoute},
+			logGriffinRoute = #{logGriffinRoute},
+			logGriffinIP = #{logGriffinIP},
 			licenseSettingIP = #{licenseSettingIP};
 	</update>
 	
@@ -84,8 +86,8 @@
 		SELECT ${column} FROM licenseSetting;
 	</select>
 	
-	<select id="getSettingCount" resultType="_int">
-		SELECT COUNT(*) FROM licenseSetting;
+	<select id="getSetting" resultMap="licenseStting">
+		SELECT * FROM licenseSetting;
 	</select>
 	
 	<!-- ==================================================================================== -->

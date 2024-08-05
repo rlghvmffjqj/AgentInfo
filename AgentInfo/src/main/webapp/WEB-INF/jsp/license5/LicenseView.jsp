@@ -686,10 +686,12 @@
 			return false;
 		}
 		
-		const macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^[0-9A-Fa-f]{12}$/;
-        if(!macAddressRegex.test(macAddress)) {
-			$('#NotMacAddress').show();	
-			return flase;
+		const macAddressRegex = /^(00[:-]){5}00$/;
+		function validateMacAddress(macAddress) {
+		    if(!macAddressRegex.test(macAddress)) {
+		        $('#NotMacAddress').show();    
+		        return false;
+		    }
 		}
 		
 		$('.licenseShow').hide();

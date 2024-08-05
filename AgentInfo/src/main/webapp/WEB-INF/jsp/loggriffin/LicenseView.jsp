@@ -29,6 +29,10 @@
 			 	</div>
 			 	<input type="text" id="businessNameView" name="businessNameView" class="form-control viewForm" value="${license.businessName}">
 			</div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">추가정보</label>
+				<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}">
+	   		</div>
 	        <div class="pading5Width450">
 				<label class="labelFontSize">MAC</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소가 형식에 어긋납니다.</span>
@@ -36,12 +40,12 @@
 		    </div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">제품명</label><label class="colorRed">*</label>
-				<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">제품명을 입력 바랍니다.</span>
+				<span class="colorRed licenseShow" id="NotProductName" style="display: none; line-height: initial; float: right; font-size: 11px;">제품명을 입력 바랍니다.</span>
 				<input type="text" id="productNameView" name="productNameView" class="form-control viewForm" value="${license.productName}">
 		    </div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">제품 버전</label><label class="colorRed">*</label>
-				<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">제품 버전 입력 바랍니다.</span>
+				<span class="colorRed licenseShow" id="NotProductVersion" style="display: none; line-height: initial; float: right; font-size: 11px;">제품 버전 입력 바랍니다.</span>
 				<input type="text" id="productVersionView" name="productVersionView" class="form-control viewForm" value="${license.productVersion}">
 		    </div>
 	    </div>
@@ -60,31 +64,28 @@
 					<input class="cssCheck" type="checkbox" id="chkAgentLisCountCount" name="chkAgentLisCountCount" value="무제한">
 				   <label for="chkAgentLisCountCount"></label><span class="margin17">무제한</span>
 			   </div>
-				<input type="number" id="agentLisCountCountView" name="agentLisCountCountView" class="form-control viewForm" value="0">
+				<input type="number" id="agentLisCountView" name="agentLisCountView" class="form-control viewForm" value="0">
 		   </div>
 		   <div class="pading5Width450">
 			   <label class="labelFontSize">발급일</label><label class="colorRed">*</label>
 			   <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
 			   <input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
-		   </div>
-		   <div class="pading5Width450">
+		    </div>
+		    <div class="pading5Width450">
 			   <label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 			   <div class="floatRight">
 				   <input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
 				  <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
-				  </div>
-				  <a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
-			   <div id="expirationDaysViewSelf" style="display:none; width: 100%">
-				   <input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
-			   </div>
-			   <div id="expirationDaysViewSelect">
-				   <input type="number" id="expirationDaysDay" name="expirationDaysDay" class="form-control viewForm" value="90">
-				  </div>
+				</div>
+			    <div style="width: 100%">
+				   <input type="date" id="expirationDaysView" name="expirationDaysView" class="form-control viewForm" value="${license.expirationDays}">
+			    </div>
+		    </div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
+				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
 		   </div>
-		   <div class="pading5Width450">
-				<label class="labelFontSize">추가정보</label>
-				<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}">
-	   		</div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
 	         	<input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}">
@@ -92,7 +93,6 @@
         </div>
         <input type="hidden" id="logGriffinKeyNum" name="logGriffinKeyNum" value="${license.logGriffinKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
-        <input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDays}">
 	</form>
 </div>
 <div class="modal-footer">
@@ -102,6 +102,40 @@
 
 <script>
 	$(function() {
+		var agentCount = "${license.agentCount}";
+    
+    	if (!agentCount || isNaN(agentCount)) {
+    	  	$("#agentCountView").val(0);
+    	} else {
+    	  	$("#agentCountView").val(agentCount);
+    	}
+
+		var agentLisCount = "${license.agentLisCount}";
+    
+    	if (!agentLisCount || isNaN(agentLisCount)) {
+    	  	$("#agentLisCountView").val(0);
+    	} else {
+    	  	$("#agentLisCountView").val(agentLisCount);
+    	}
+
+		var productName = "${license.productName}";
+    
+    	if (!productName) {
+    	  	$("#productNameView").val('LogGRIFFIN');
+    	} else {
+    	  	$("#productNameView").val(productName);
+    	}
+
+		var productVersion = "${license.productVersion}";
+    
+    	if (!productVersion) {
+    	  	$("#productVersionView").val('7.0');
+    	} else {
+    	  	$("#productVersionView").val(productVersion);
+    	}
+
+
+
 		var clientTime = new Date();
 		var options = {
      	   year: 'numeric',
@@ -124,38 +158,6 @@
 			issueDate = issueDate.replace(/\-/g, '');
 			$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
 		}
-		
-		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
-			if($('#expirationDaysView').val() == "무제한") {
-				$('#chkExpirationDays').prop("checked",true);
-				$("#expirationDaysDay").val(90);
-				$("#expirationDaysCalender").attr("disabled",true);
-				$("#expirationDaysDay").attr("disabled",true);
-				$("#expirationDaysView").attr("disabled",true);
-			} else if($('#expirationDaysView').val().length > 4) {
-				$("#expirationDaysChange").text("Day");
-				$('#expirationDaysViewSelf').show();
-				$('#expirationDaysViewSelect').hide();
-				$('#expirationDaysCalender').val($('#expirationDaysView').val());
-			} else {
-				$("#expirationDaysChange").text("달력");
-				$('#expirationDaysViewSelf').hide();
-				$('#expirationDaysViewSelect').show();
-				$('#expirationDaysDay').val($('#expirationDaysView').val());
-			}
-		}
-		
-		$('#chkExpirationDays').change(function() {
-			if($("#chkExpirationDays").is(":checked")){
-				$("#expirationDaysCalender").attr("disabled",true);
-				$("#expirationDaysDay").attr("disabled",true);
-				$("#expirationDaysView").attr("disabled",true);
-			} else {
-				$("#expirationDaysCalender").attr("disabled",false);
-				$("#expirationDaysDay").attr("disabled",false);
-				$("#expirationDaysView").attr("disabled",false);
-			}
-		});	
 
 		$('#chkAgentCount').change(function() {
 			if($("#chkAgentCount").is(":checked")){
@@ -167,16 +169,16 @@
 
 		$('#chkAgentLisCountCount').change(function() {
 			if($("#chkAgentLisCountCount").is(":checked")){
-				$("#agentLisCountCountView").attr("disabled",true);
+				$("#agentLisCountView").attr("disabled",true);
 			} else {
-				$("#agentLisCountCountView").attr("disabled",false);
+				$("#agentLisCountView").attr("disabled",false);
 			}
 		});
 	});
 	
 	if($('#viewType').val() == "issued") {
 		document.getElementById('issueDateView').valueAsDate = new Date();
-		document.getElementById('expirationDaysCalender').valueAsDate = new Date();
+		document.getElementById('expirationDaysView').valueAsDate = new Date();
 	}
 
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
@@ -187,12 +189,13 @@
 		var macAddress = $('#macAddressView').val();
 		var issueDate = $('#issueDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
+		var productName = $('#productNameView').val();
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var viewType = $('#viewType').val();
 		var additionalInformation = $('#additionalInformationView').val();
 
-		if(customerName.includes("\"") || customerNameSelf.includes("\"") || businessName.includes("\"") || businessNameSelf.includes("\"") || additionalInformation.includes("\"") || licenseFilePath.includes("\"") || customerName.includes("/") || customerNameSelf.includes("/") || businessName.includes("/") || businessNameSelf.includes("/") || additionalInformation.includes("/") || licenseFilePath.includes("/") || customerName.includes("\\") || customerNameSelf.includes("\\") || businessName.includes("\\") || businessNameSelf.includes("\\") || additionalInformation.includes("\\") || licenseFilePath.includes("\\")) {
+		if(customerName.includes("\"") || businessName.includes("\"") || additionalInformation.includes("\"") || licenseFilePath.includes("\"") || customerName.includes("/") || businessName.includes("/") || additionalInformation.includes("/") || licenseFilePath.includes("/") || customerName.includes("\\") || businessName.includes("\\") || additionalInformation.includes("\\") || licenseFilePath.includes("\\")) {
 			Swal.fire(
 			  '특수 문자 사용 불가!',
 			  '특수문자 : \", \/, \\',
@@ -201,7 +204,7 @@
 			return false;
 		}
 
-		if(customerName.charAt(0) === "\-" || customerNameSelf.charAt(0) === "\-" || businessName.charAt(0) === "\-" || businessNameSelf.charAt(0) === "\-" || additionalInformation.charAt(0) === "\-" || licenseFilePath.charAt(0) === "\-") {
+		if(customerName.charAt(0) === "\-" || businessName.charAt(0) === "\-" || additionalInformation.charAt(0) === "\-" || licenseFilePath.charAt(0) === "\-") {
 			Swal.fire(
 			  '사용 불가!',
 			  '첫글자 \- 입력이 불가능합니다.',
@@ -210,19 +213,23 @@
 			return false;
 		}
 		
-		const macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^[0-9A-Fa-f]{12}$/;
-        if(!macAddressRegex.test(macAddress)) {
-			$('#NotMacAddress').show();	
-			return flase;
+		const macAddressRegex = /^(00[:-]){5}00$/;
+		function validateMacAddress(macAddress) {
+		    if(!macAddressRegex.test(macAddress)) {
+		        $('#NotMacAddress').show();    
+		        return false;
+		    }
 		}
 		
 		$('.licenseShow').hide();
-		if(customerName == "" && customerNameSelf == "") {
+		if(customerName == "") {
 			$('#NotCustomerName').show();
-		} else if(businessName == "" && businessNameSelf == "") {
+		} else if(businessName == "") {
 			$('#NotBusinessName').show();
 		} else if(macAddress == "") {
-			$('#NotMacAddress').show();			
+			$('#NotMacAddress').show();	
+		} else if(productName == "") {
+			$('#NotProductName').show();		
 		} else if(productVersion == "") {
 			$('#NotProductVersion').show();
 		} else if(licenseFilePath == "") {
@@ -283,17 +290,21 @@
 		    });
 		}
 	}
+
+	$('#chkExpirationDays').change(function() {
+		if($("#chkExpirationDays").is(":checked")){
+			$("#expirationDaysCalender").attr("disabled",true);
+			$("#expirationDaysDay").attr("disabled",true);
+			$("#expirationDaysView").attr("disabled",true);
+		} else {
+			$("#expirationDaysCalender").attr("disabled",false);
+			$("#expirationDaysDay").attr("disabled",false);
+			$("#expirationDaysView").attr("disabled",false);
+		}
+	});
 	
 	/* =========== 라이선스 발급 ========= */
 	function BtnInsert() {
-		if($("#expirationDaysChange").text() == "Day") {
-			var calender = $("#expirationDaysCalender").val();
-			$("#expirationDaysView").val(calender);
-		} else if($("#expirationDaysChange").text() == "달력") {
-			var day = $("#expirationDaysDay").val();
-			$("#expirationDaysView").val(day);
-		}
-		
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/loggriffin/licenseIssuanceConfirm'/>",
@@ -303,7 +314,7 @@
 		    success: function (data) {
 		    	$('#modal').modal("hide"); // 모달 닫기
 		    	setTimeout(function() {
-		    		$.modal(data, 'licenseConfirm'); //modal창 호출
+		    		$.modal(data, 'logGriffinConfirm'); //modal창 호출
 		    	},300)
 		    },
 			error: function(error) {
@@ -312,31 +323,8 @@
 		});
 	};
 	
-	/* =========== 직접입력 <> 선택입력 변경 ========= */
-	function selfInputCalendar(data) {
-		if(data == "expirationDaysChange") {
-			if($("#expirationDaysChange").text() == "달력") {
-				$('#expirationDaysViewSelf').show();
-				$('#expirationDaysViewSelect').hide();
-				$('#expirationDaysView').val('');
-				$("#expirationDaysChange").text("Day");
-			} else if($("#expirationDaysChange").text() == "Day") {
-				$('#expirationDaysViewSelf').hide();
-				$('#expirationDaysViewSelect').show();
-				$("#expirationDaysChange").text("달력");
-			}
-		}
-	}
 	
-	function BtnUpdate() {
-		if($("#expirationDaysChange").text() == "Day") {
-			var calender = $("#expirationDaysCalender").val();
-			$("#expirationDaysView").val(calender);
-		} else if($("#expirationDaysChange").text() == "달력") {
-			var day = $("#expirationDaysDay").val();
-			$("#expirationDaysView").val(day);
-		}
-		
+	function BtnUpdate() {	
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/loggriffin/licenseUpdateConfirm'/>",
@@ -346,7 +334,7 @@
 		    success: function (data) {
 		    	$('#modal').modal("hide"); // 모달 닫기
 		    	setTimeout(function() {
-		    		$.modal(data, 'licenseConfirm'); //modal창 호출
+		    		$.modal(data, 'logGriffinConfirm'); //modal창 호출
 		    	},300)
 		    },
 			error: function(error) {
@@ -355,11 +343,18 @@
 		});
 	}
 
-	$("#customerNameView").change(function() {
+	$("#businessNameView").change(function() {
 		var issueDate = $('#issueDateView').val();
 		var businessName = $('#businessNameView').val();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+'-'+issueDate+".yml");
+		$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
 	});
+
+	$("#issueDateView").change(function() {
+			var businessName = $('#businessNameView').val();
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
+		});
 
 </script>

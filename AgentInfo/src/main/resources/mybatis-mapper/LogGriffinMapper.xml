@@ -28,6 +28,39 @@
 	<select id="getLicenseOne"  parameterType="_int" resultMap="logGriffin">
 		SELECT * FROM logGriffin WHERE logGriffinKeyNum = #{logGriffinKeyNum};	
 	</select>
+	
+	<select id="existenceCheckInsert" resultType="string">
+		SELECT serialNumber FROM logGriffin 
+		WHERE customerName = #{customerNameView}
+		AND businessName = #{businessNameView}
+		AND additionalInformation = #{additionalInformationView}
+	</select>
+	
+	<select id="serialNumberCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM logGriffin WHERE serialNumber = #{serialNumber};
+	</select>
+	
+	<select id="getRoute" parameterType="string" resultType="string">
+		SELECT ${column} FROM licenseSetting;
+	</select>
+	
+	<insert id="issuedLicense">
+		INSERT INTO logGriffin(customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, productName, productVersion, agentCount, agentLisCount, serialNumber, licenseFilePath, requester)
+		VALUES(#{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{productNameView}, #{productVersionView}, #{agentCountView}, #{agentLisCountView}, #{serialNumberView}, #{licenseFilePathView}, #{requesterView});
+	</insert>
+	
+	<update id="updateLicense">
+		UPDATE logGriffin SET customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, productName=#{productNameView}, productVersion=#{productVersionView}, agentCount=#{agentCountView}, agentLisCount=#{agentLisCountView}, serialNumber=#{serialNumberView}, licenseFilePath=#{licenseFilePathView}, requester=#{requesterView}, logGriffinModifier=#{logGriffinModifier}, logGriffinModifiedDate=#{logGriffinModifiedDate}     
+		WHERE logGriffinKeyNum = #{logGriffinKeyNum};
+	</update>
+	
+	<select id="existenceCheckUpdate" resultType="string">
+		SELECT serialNumber FROM logGriffin 
+		WHERE customerName = #{customerNameView}
+		AND businessName = #{businessNameView}
+		AND additionalInformation = #{additionalInformationView}
+		AND serialNumber != #{serialNumber}
+	</select>
 
 	
 	<!-- ==================================================================================== -->

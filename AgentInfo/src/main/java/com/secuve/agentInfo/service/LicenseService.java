@@ -457,8 +457,24 @@ public class LicenseService {
 
 	public String RouteChange(LicenseSetting licenseSetting) {
 		int count = 0;
-		if(licenseDao.getSettingCount() > 0) {
-			count = licenseDao.RouteChange(licenseSetting);
+		LicenseSetting licenseSettingExisting = licenseDao.getSetting();
+		if(licenseSetting != null) {
+			if(licenseSetting.getLinuxLicense20Route() != null) 
+				licenseSettingExisting.setLinuxLicense20Route(licenseSetting.getLinuxLicense20Route());
+			if(licenseSetting.getLinuxLicense50Route() != null) 
+				licenseSettingExisting.setLinuxLicense50Route(licenseSetting.getLinuxLicense50Route());
+			if(licenseSetting.getLinuxLicense50OldRoute() != null) 
+				licenseSettingExisting.setLinuxLicense50OldRoute(licenseSetting.getLinuxLicense50OldRoute());
+			if(licenseSetting.getLogGriffinRoute() != null) 
+				licenseSettingExisting.setLogGriffinRoute(licenseSetting.getLogGriffinRoute());
+			if(licenseSetting.getWindowsLicenseRoute() != null) 
+				licenseSettingExisting.setWindowsLicenseRoute(licenseSetting.getWindowsLicenseRoute());
+			if(licenseSetting.getLicenseSettingIP() != null) 
+				licenseSettingExisting.setLicenseSettingIP(licenseSetting.getLicenseSettingIP());
+			if(licenseSetting.getLogGriffinIP() != null) 
+				licenseSettingExisting.setLogGriffinIP(licenseSetting.getLogGriffinIP());
+			
+			count = licenseDao.RouteChange(licenseSettingExisting);
 		} else {
 			count = licenseDao.RouteInsert(licenseSetting);
 		}

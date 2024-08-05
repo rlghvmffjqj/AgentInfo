@@ -16,4 +16,6 @@ public class LicenseSetting {
 	private String linuxLicense50Route;
 	private String linuxLicense50OldRoute;
 	private String licenseSettingIP;
+	private String logGriffinRoute;
+	private String logGriffinIP;
 }

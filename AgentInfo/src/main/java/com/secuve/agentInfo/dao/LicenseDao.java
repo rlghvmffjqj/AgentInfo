@@ -84,8 +84,8 @@ public class LicenseDao {
 		return sqlSession.update("license.RouteInsert", licenseSetting);
 	}
 
-	public int getSettingCount() {
-		return sqlSession.selectOne("license.getSettingCount");
+	public LicenseSetting getSetting() {
+		return sqlSession.selectOne("license.getSetting");
 	}
 
 }

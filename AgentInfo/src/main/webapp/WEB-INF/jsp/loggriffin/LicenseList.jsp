@@ -22,17 +22,17 @@
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'customerName', index:'customerName', align:'center', width: 200},
 						{name:'businessName', index:'businessName', align:'center', width: 200},
-						{name:'macAddress', index:'macAddress', align:'center', width: 250},
-						{name:'productName', index:'productName', align:'center', width: 80},
+						{name:'macAddress', index:'macAddress', align:'center', width: 150},
+						{name:'productName', index:'productName', align:'center', width: 150},
 						{name:'productVersion', index:'productVersion', align:'center', width: 80},
-						{name:'agentCount', index:'agentCount',align:'center', width: 150},
-						{name:'agentLisCount', index:'agentLisCount',align:'center', width: 80},
-						{name:'issueDate', index:'issueDate', align:'center', width: 150},
-						{name:'expirationDays', index:'expirationDays', align:'center', width: 70},
-						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 70},
+						{name:'agentCount', index:'agentCount',align:'center', width: 70},
+						{name:'agentLisCount', index:'agentLisCount',align:'center', width: 70},
+						{name:'issueDate', index:'issueDate', align:'center', width: 120},
+						{name:'expirationDays', index:'expirationDays', align:'center', width: 120},
+						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
 						{name:'serialNumber', index:'serialNumber', align:'center', width: 150},
-						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 70},
-						{name:'requester', index:'requester', align:'center', width: 200}
+						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 220},
+						{name:'requester', index:'requester', align:'center', width: 100}
 					],
 					jsonReader : {
 			        	id: 'logGriffinKeyNum',
@@ -221,9 +221,11 @@
 																<td style="font-weight:bold;">라이선스 관리 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnTxt">TXT저장</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute">경로설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 XML 파일을 다운로드합니다.">XML 다운로드</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="XML 파일을 첨부하여 데이터를 추가합니다.">XML Import</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
 															</tr>
@@ -294,7 +296,7 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
-						url: "<c:url value='/license/delete'/>",
+						url: "<c:url value='/loggriffin/delete'/>",
 						type: "POST",
 						data: {chkList: chkList},
 						dataType: "text",
@@ -489,7 +491,7 @@
 		$('#BtnRoute').click(function() {
 			$.ajax({
 				url: "<c:url value='/license/setting'/>",
-				data: {"licenseVersion" : "2"},
+				data: {"licenseVersion" : "loggriffin"},
 				type: "POST",
 				traditional: true,
 				async: false,
@@ -534,6 +536,38 @@
 					icon: 'error',          
 					title: '실패!',           
 					text: '복사를 원하는 데이터 한 행만 체크 해주세요.',    
+				}); 
+			}
+		});
+
+		/* =========== 데이터 수정 Modal ========= */
+		$('#BtnUpdate').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			var logGriffinKeyNum = chkList[0];
+			if(chkList.length == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else if(chkList.length == 1) {
+				$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/loggriffin/updateView'/>",
+		            data: {"logGriffinKeyNum" : logGriffinKeyNum},
+		            async: false,
+		            success: function (data) {
+		                $.modal(data, 'll'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+		        });
+			} else {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '수정를 원하는 데이터 한 행만 체크 해주세요.',    
 				}); 
 			}
 		});
