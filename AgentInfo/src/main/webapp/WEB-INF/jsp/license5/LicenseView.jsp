@@ -131,7 +131,7 @@
 	        </c:choose>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
-	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소가 형식에 어긋납니다.</span>
+	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요</span>
 	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
 	        </div>
 	        <div class="pading5Width450">
@@ -451,8 +451,8 @@
 			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 		}
 		
-		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback') {
-			if($('#expirationDaysView').val() == "무제한") {
+		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback' || $('#viewType').val() == 'updateback') {
+			if($('#expirationDaysView').val() == "무제한" || $('#expirationDaysView').val() == "") {
 				$('#chkExpirationDays').prop("checked",true);
 				$("#expirationDaysDay").val(90);
 				$("#expirationDaysCalender").attr("disabled",true);
@@ -472,31 +472,31 @@
 			
 			if($('#igriffinAgentCountView').val() == "") {
 				$('#chkIGRIFFINAgentCount').prop("checked",true);
-				$("#igriffinAgentCountView").val(1);
+				$("#igriffinAgentCountView").val(0);
 				$("#igriffinAgentCountView").attr("disabled",true);
 			}
 			
 			if($('#tos5AgentCountView').val() == "") {
 				$('#chkTos5AgentCount').prop("checked",true);
-				$("#tos5AgentCountView").val(1);
+				$("#tos5AgentCountView").val(0);
 				$("#tos5AgentCountView").attr("disabled",true);
 			}
 			
 			if($('#tos2AgentCountView').val() == "") {
 				$('#chkTos2AgentCount').prop("checked",true);
-				$("#tos2AgentCountView").val(1);
+				$("#tos2AgentCountView").val(0);
 				$("#tos2AgentCountView").attr("disabled",true);
 			}
 			
 			if($('#dbmsCountView').val() == "") {
 				$('#chkDbmsCount').prop("checked",true);
-				$("#dbmsCountView").val(1);
+				$("#dbmsCountView").val(0);
 				$("#dbmsCountView").attr("disabled",true);
 			}
 			
 			if($('#networkCountView').val() == "") {
 				$('#chkNetworkCount').prop("checked",true);
-				$("#networkCountView").val(1);
+				$("#networkCountView").val(0);
 				$("#networkCountView").attr("disabled",true);
 			}
 		}
@@ -684,14 +684,6 @@
 			  'error'
 			)
 			return false;
-		}
-		
-		const macAddressRegex = /^(00[:-]){5}00$/;
-		function validateMacAddress(macAddress) {
-		    if(!macAddressRegex.test(macAddress)) {
-		        $('#NotMacAddress').show();    
-		        return false;
-		    }
 		}
 		
 		$('.licenseShow').hide();
@@ -958,12 +950,6 @@
 			  'error'
 			)
 			return false;
-		}
-
-		const macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$|^[0-9A-Fa-f]{12}$/;
-        if(!macAddressRegex.test(macAddress)) {
-			$('#NotMacAddress').show();	
-			return flase;
 		}
 		
 		$('.licenseShow').hide();

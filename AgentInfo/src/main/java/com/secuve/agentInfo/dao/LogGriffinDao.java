@@ -8,7 +8,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.secuve.agentInfo.vo.License5;
 import com.secuve.agentInfo.vo.LogGriffin;
 
 @Repository
@@ -55,6 +54,14 @@ public class LogGriffinDao {
 
 	public List<String> existenceCheckUpdate(LogGriffin license) {
 		return sqlSession.selectList("logGriffin.existenceCheckUpdate", license);
+	}
+
+	public int delLicense(int logGriffinKeyNum) {
+		return sqlSession.delete("logGriffin.delLicense", logGriffinKeyNum);
+	}
+
+	public List getLicenseListAll(LogGriffin license) {
+		return sqlSession.selectList("logGriffin.getLicenseListAll", license);
 	}
 
 }

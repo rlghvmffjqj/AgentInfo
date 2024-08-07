@@ -32,6 +32,7 @@
 		<input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDaysView}">
 		<input type="hidden" id="licenseFilePathView" name="licenseFilePathView" value="${license.licenseFilePathView}">
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
+		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
 
 		<input type="hidden" id="viewType" name="viewType" value="issuedback">
@@ -101,7 +102,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		    		$('#modal').on('hidden.bs.modal', function () {
 		    			if(chkLicenseIssuance == "on")
-		    				location.href="<c:url value='/loggriffin/fileDownload'/>?licenseFilePath="+encodeURIComponent(licenseFilePath)+"&licenseType="+licenseType;
+		    				location.href="<c:url value='/loggriffin/fileDownload'/>?licenseFilePath="+encodeURIComponent(licenseFilePath);
 		    			tableRefresh();
 		    		});
 				}
@@ -181,7 +182,7 @@
 					$('#modal').modal("hide"); // 모달 닫기
 		    		$('#modal').on('hidden.bs.modal', function () {
 		    			if(chkLicenseIssuance == "on")
-		    				location.href="<c:url value='/loggriffin/fileDownload'/>?licenseFilePath="+encodeURIComponent(licenseFilePath)+"&licenseType="+licenseType;
+		    				location.href="<c:url value='/loggriffin/fileDownload'/>?licenseFilePath="+encodeURIComponent(licenseFilePath);
 		    			tableRefresh();
 		    		});
 				}

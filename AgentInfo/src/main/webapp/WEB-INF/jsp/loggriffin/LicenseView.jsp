@@ -61,8 +61,8 @@
 		   <div class="pading5Width450">
 				<label class="labelFontSize">에이전트리스</label><label class="colorRed">*</label>
 				<div class="floatRight">
-					<input class="cssCheck" type="checkbox" id="chkAgentLisCountCount" name="chkAgentLisCountCount" value="무제한">
-				   <label for="chkAgentLisCountCount"></label><span class="margin17">무제한</span>
+					<input class="cssCheck" type="checkbox" id="chkAgentLisCount" name="chkAgentLisCount" value="무제한">
+				   <label for="chkAgentLisCount"></label><span class="margin17">무제한</span>
 			   </div>
 				<input type="number" id="agentLisCountView" name="agentLisCountView" class="form-control viewForm" value="0">
 		   </div>
@@ -84,7 +84,7 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
+				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-loggriffin-사업명-발급일.yml">
 		   </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
@@ -134,8 +134,6 @@
     	  	$("#productVersionView").val(productVersion);
     	}
 
-
-
 		var clientTime = new Date();
 		var options = {
      	   year: 'numeric',
@@ -150,6 +148,13 @@
 				title: '시작일 확인!',           
 				text: '라이선스 발급서버 시간과 사용자PC 시간이 일치하지않습니다. 시작일이 올바르게 입력되었는지 확인 후 발급 진행 바랍니다.',    
 			});
+		}
+
+		if($('#viewType').val() != 'issued') {
+			var businessName = $('#businessNameView').val();
+			var issueDate = $('#issueDateView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
 		}
 
 		if($('#viewType').val() == 'issued') {
@@ -167,11 +172,39 @@
 			}
 		});
 
-		$('#chkAgentLisCountCount').change(function() {
-			if($("#chkAgentLisCountCount").is(":checked")){
+		$('#chkAgentLisCount').change(function() {
+			if($("#chkAgentLisCount").is(":checked")){
 				$("#agentLisCountView").attr("disabled",true);
 			} else {
 				$("#agentLisCountView").attr("disabled",false);
+			}
+		});
+
+		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback' || $('#viewType').val() == 'updateback') {
+			if('${license.expirationDays}' == "" || '${license.expirationDays}' == "무제한") {
+				$('#chkExpirationDays').prop("checked",true);
+				document.getElementById('expirationDaysView').valueAsDate = new Date();
+				$("#expirationDaysView").attr("disabled",true);
+			}
+
+			if('${license.agentCount}' == "" || '${license.agentCount}' == "무제한") {
+				$('#chkAgentCount').prop("checked",true);
+				$("#agentCountView").val(0);
+				$("#agentCountView").attr("disabled",true);
+			}
+
+			if('${license.agentLisCount}' == "" || '${license.agentLisCount}' == "무제한") {
+				$('#chkAgentLisCount').prop("checked",true);
+				$("#agentLisCountView").val(0);
+				$("#agentLisCountView").attr("disabled",true);
+			}
+		}
+
+		$('#chkLicenseIssuance').change(function() {
+			if($("#chkLicenseIssuance").is(":checked")){
+				$("#serialNumberView").css("display","none");
+			} else {
+				$("#serialNumberView").css("display","block");
 			}
 		});
 	});
@@ -257,6 +290,12 @@
 							title: 'MAC 주소 확인!',
 							text: 'MAC주소가 형식에 어긋납니다.',
 						});
+					} else if(items[0] == "NotMacAddress") {
+		        		Swal.fire({
+							icon: 'error',
+							title: 'MAC 주소 확인!',
+							text: 'MAC주소가 형식에 어긋납니다.',
+						});
 					} else if(items.length != 0) {
 			        	$.each(items, function (i, item) {
 			        		swalText += "일련번호 : "+item+"<br>";
@@ -293,12 +332,8 @@
 
 	$('#chkExpirationDays').change(function() {
 		if($("#chkExpirationDays").is(":checked")){
-			$("#expirationDaysCalender").attr("disabled",true);
-			$("#expirationDaysDay").attr("disabled",true);
 			$("#expirationDaysView").attr("disabled",true);
 		} else {
-			$("#expirationDaysCalender").attr("disabled",false);
-			$("#expirationDaysDay").attr("disabled",false);
 			$("#expirationDaysView").attr("disabled",false);
 		}
 	});
@@ -351,10 +386,10 @@
 	});
 
 	$("#issueDateView").change(function() {
-			var businessName = $('#businessNameView').val();
-			var issueDate = $('#issueDateView').val();
-			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
-		});
+		var businessName = $('#businessNameView').val();
+		var issueDate = $('#issueDateView').val();
+		issueDate = issueDate.replace(/\-/g, '');
+		$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
+	});
 
 </script>

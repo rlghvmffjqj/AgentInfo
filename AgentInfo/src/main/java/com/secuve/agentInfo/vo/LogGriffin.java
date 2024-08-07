@@ -40,6 +40,15 @@ public class LogGriffin {
 	private String licenseFilePathView;			// 라이선스 파일명
 	private String requesterView;				// 요청자
 	
+	private String[] customerNameArr;
+	private String[] businessNameArr;
+	private String[] macAddressArr;
+	private String[] productNameArr;
+	private String[] productVersionArr;
+	private String[] serialNumberArr;
+	private String[] licenseFilePathArr;
+	private String[] requesterArr;
+	
 	private String issueDateStart;
 	private String issueDateEnd;
 	private String expirationDaysStart;

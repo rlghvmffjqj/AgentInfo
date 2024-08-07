@@ -130,7 +130,10 @@
 															</c:forEach>
 														</select>
 													</div>
-													
+													<div class="col-lg-2">
+														<label class="labelFontSize">추가정보</label>
+														<input type="text" id="additionalInformation" name="additionalInformation" class="form-control">
+													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">MAC</label>
 														<select class="form-control selectpicker" id="macAddressMulti" name="macAddressMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
@@ -156,16 +159,12 @@
 													  </select> 
 													</div>
 													<div class="col-lg-2">
-														<label class="labelFontSize">에이전트 수량</label>
+														<label class="labelFontSize">에이전트</label>
 														<input type="number" id="agentCount" name="agentCount" class="form-control">
 													</div>
 													<div class="col-lg-2">
-														<label class="labelFontSize">에이전트리스 수량</label>
+														<label class="labelFontSize">에이전트리스</label>
 														<input type="number" id="agentLisCount" name="agentLisCount" class="form-control">
-													</div>
-													<div class="col-lg-2">
-														<label class="labelFontSize">추가정보</label>
-														<input type="text" id="additionalInformation" name="additionalInformation" class="form-control">
 													</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">KEY</label>
@@ -287,7 +286,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 패키지를 삭제하시겠습니까?",
+					  text: "선택한 라이선스를 삭제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -370,14 +369,11 @@
 			$('#customerName').val($('#customerNameMulti').val().join());
 			$('#businessName').val($('#businessNameMulti').val().join());
 			$('#requester').val($('#requesterMulti').val().join());
-			$('#partners').val($('#partnersMulti').val().join());
-			$('#osType').val($('#osTypeMulti').val().join());
-			$('#osVersion').val($('#osVersionMulti').val().join());
-			$('#kernelVersion').val($('#kernelVersionMulti').val().join());
-			$('#tosVersion').val($('#tosVersionMulti').val().join());
-			$('#macUmlHostId').val($('#macUmlHostIdMulti').val().join());
-			$('#releaseType').val($('#releaseTypeMulti').val().join());
-			$('#deliveryMethod').val($('#deliveryMethodMulti').val().join());
+			$('#macAddress').val($('#macAddressMulti').val().join());
+			$('#productName').val($('#productNameMulti').val().join());
+			$('#productVersion').val($('#productVersionMulti').val().join());
+			$('#serialNumber').val($('#serialNumberMulti').val().join());
+			$('#licenseFilePath').val($('#licenseFilePathMulti').val().join());
 			
 			var _postDate = $("#form").serializeObject();
 			
@@ -570,6 +566,60 @@
 					text: '수정를 원하는 데이터 한 행만 체크 해주세요.',    
 				}); 
 			}
+		});
+
+		$('#BtnDownload').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length === 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});  
+			} else {
+				$.ajax({
+					url: "<c:url value='/loggriffin/loggriffinDownLoadCheck'/>",
+					type: "POST",
+					data: {chkList: chkList},
+					traditional: true,
+					async: false,
+					success: function(result) {
+	            		if(result==="Empty") {
+							Swal.fire(
+							  '에러!',
+							  'XML 파일이 존재하지 않거나, <br>존재하지 않는 리스트가 포함되어 있습니다.',
+							  'error'
+							)
+						} else if(chkList.length === 1) {
+							location.href="<c:url value='/loggriffin/loggriffinSingleDownLoad'/>?logGriffinKeyNum="+chkList;
+						} else {
+							location.href="<c:url value='/loggriffin/loggriffinMultiDownLoad'/>?logGriffinKeyNum="+chkList;
+						}
+	            	},
+	            	error: function(e) {
+	            		Swal.fire(
+						  '에러!',
+						  '에러가 발생하였습니다.',
+						  'error'
+						)
+	            	}
+	       		});
+			}
+			
+		});
+
+		$('#BtnImport').click(function() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/loggriffin/licenseYmlImportView'/>",
+			    async: false,
+			    success: function (data) {
+			    	$.modal(data, 'xmlImport'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});
 		});
 	</script>
 	<script>

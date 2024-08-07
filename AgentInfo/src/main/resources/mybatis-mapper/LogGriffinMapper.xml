@@ -12,13 +12,15 @@
     		FROM (
 				SELECT *
 				FROM logGriffin
+				<include refid="sqlLicense" />
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getLicenseListCount" resultType="_int">
-		SELECT COUNT(*) FROM logGriffin;
+		SELECT COUNT(*) FROM logGriffin
+		<include refid="sqlLicense" />
 	</select>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -45,8 +47,8 @@
 	</select>
 	
 	<insert id="issuedLicense">
-		INSERT INTO logGriffin(customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, productName, productVersion, agentCount, agentLisCount, serialNumber, licenseFilePath, requester)
-		VALUES(#{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{productNameView}, #{productVersionView}, #{agentCountView}, #{agentLisCountView}, #{serialNumberView}, #{licenseFilePathView}, #{requesterView});
+		INSERT INTO logGriffin(customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, productName, productVersion, agentCount, agentLisCount, serialNumber, licenseFilePath, requester, logGriffinRegistrant, logGriffinRegistrationDate)
+		VALUES(#{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{productNameView}, #{productVersionView}, #{agentCountView}, #{agentLisCountView}, #{serialNumberView}, #{licenseFilePathView}, #{requesterView}, #{logGriffinRegistrant}, #{logGriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">
@@ -61,10 +63,108 @@
 		AND additionalInformation = #{additionalInformationView}
 		AND serialNumber != #{serialNumber}
 	</select>
+	
+	<delete id="delLicense" parameterType="_int">
+		DELETE FROM logGriffin WHERE logGriffinKeyNum = #{logGriffinKeyNum};
+	</delete>
 
+	<select id="getLicenseListAll" resultMap="logGriffin" parameterType="string">
+		SELECT * FROM logGriffin 
+		<include refid="sqlLicense" />
+	</select>
 	
 	<!-- ==================================================================================== -->
 	
-	
+	<sql id="sqlLicense">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="customerName != null and customerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="customerNameArr" item="arr">
+						OR customerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="businessName != null and businessName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="businessNameArr" item="arr">
+						OR businessName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="requester != null and requester != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="requesterArr" item="arr">
+						OR requester LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="productName != null and productName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="productNameArr" item="arr">
+						OR productName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="productVersion != null and productVersion != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="productVersionArr" item="arr">
+						OR productVersion LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="macAddress != null and macAddress != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="macAddressArr" item="arr">
+						OR macAddress LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="licenseFilePath != null and licenseFilePath != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="licenseFilePathArr" item="arr">
+						OR licenseFilePath LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="serialNumber != null and serialNumber != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="serialNumberArr" item="arr">
+						OR serialNumber LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="agentCount != null and agentCount != ''">
+				AND agentCount = #{agentCount}
+			</if>
+			<if test="agentLisCount != null and agentLisCount != ''">
+				AND agentLisCount = #{agentLisCount}
+			</if>
+			<if test="additionalInformation != null and additionalInformation != ''">
+				AND additionalInformation = #{additionalInformation}
+			</if>
+			<if test="issueDateStart != null and issueDateStart != ''">
+				AND issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
+			</if>
+			<if test="expirationDaysStart != null and expirationDaysStart != ''">
+				AND expirationDays BETWEEN #{expirationDaysStart} AND #{expirationDaysEnd}
+			</if>
+		</trim>
+	</sql>
 	
 </mapper>
