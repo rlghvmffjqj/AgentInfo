@@ -10,8 +10,8 @@
 		    	<label for="chkLicenseIssuance"></label><span class="margin17">라이선스 발급(해제할 경우 Database에 입력한 정보만 저장되고 라이선스 발급하지 않습니다.)</span>
 		    </div>
 		    <div style="width: 35%; float:right">
-			<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none" value="${license.serialNumber}">
-		</div>
+				<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none" value="${license.serialNumber}">
+			</div>
 		</div>
 		
 		<div class="leftDiv">
@@ -39,15 +39,20 @@
 				<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
 		    </div>
 			<div class="pading5Width450">
-				<label class="labelFontSize">제품명</label><label class="colorRed">*</label>
-				<span class="colorRed licenseShow" id="NotProductName" style="display: none; line-height: initial; float: right; font-size: 11px;">제품명을 입력 바랍니다.</span>
-				<input type="text" id="productNameView" name="productNameView" class="form-control viewForm" value="${license.productName}">
-		    </div>
-			<div class="pading5Width450">
-				<label class="labelFontSize">제품 버전</label><label class="colorRed">*</label>
-				<span class="colorRed licenseShow" id="NotProductVersion" style="display: none; line-height: initial; float: right; font-size: 11px;">제품 버전 입력 바랍니다.</span>
-				<input type="text" id="productVersionView" name="productVersionView" class="form-control viewForm" value="${license.productVersion}">
-		    </div>
+				<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
+				<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
+			 </div>
+			 <div class="pading5Width450">
+				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
+				<div class="floatRight">
+					<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
+				   <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
+				 </div>
+				 <div style="width: 100%">
+					<input type="date" id="expirationDaysView" name="expirationDaysView" class="form-control viewForm" value="${license.expirationDays}">
+				 </div>
+			 </div>
 	    </div>
         <div class="rightDiv">
 			<div class="pading5Width450">
@@ -66,20 +71,15 @@
 			   </div>
 				<input type="number" id="agentLisCountView" name="agentLisCountView" class="form-control viewForm" value="0">
 		   </div>
-		   <div class="pading5Width450">
-			   <label class="labelFontSize">발급일</label><label class="colorRed">*</label>
-			   <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
-			   <input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
+			<div class="pading5Width450">
+				<label class="labelFontSize">제품명</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotProductName" style="display: none; line-height: initial; float: right; font-size: 11px;">제품명을 입력 바랍니다.</span>
+				<input type="text" id="productNameView" name="productNameView" class="form-control viewForm" value="${license.productName}">
 		    </div>
-		    <div class="pading5Width450">
-			   <label class="labelFontSize">만료일</label><label class="colorRed">*</label>
-			   <div class="floatRight">
-				   <input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
-				  <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
-				</div>
-			    <div style="width: 100%">
-				   <input type="date" id="expirationDaysView" name="expirationDaysView" class="form-control viewForm" value="${license.expirationDays}">
-			    </div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">제품 버전</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotProductVersion" style="display: none; line-height: initial; float: right; font-size: 11px;">제품 버전 입력 바랍니다.</span>
+				<input type="text" id="productVersionView" name="productVersionView" class="form-control viewForm" value="${license.productVersion}">
 		    </div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>

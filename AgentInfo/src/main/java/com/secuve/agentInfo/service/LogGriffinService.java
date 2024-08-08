@@ -490,9 +490,9 @@ public class LogGriffinService {
 			file_reader.readLine();
 			while ((line = file_reader.readLine()) != null) {
 				if (line.contains("agentCount")) 
-					 license.setAgentCountView(line.replace("agentCount:", "").replace(" ", "").replace("'", ""));
+					 license.setAgentCountView(Integer.toString(Integer.parseInt(line.replace("agentCount:", "").replace(" ", "").replace("'", ""))));
 				if (line.contains("agentlessCount")) 
-					 license.setAgentLisCountView(line.replace("agentlessCount:", "").replace(" ", "").replace("'", ""));
+					 license.setAgentLisCountView(Integer.toString(Integer.parseInt(line.replace("agentlessCount:", "").replace(" ", "").replace("'", ""))));
 				if (line.contains("customer")) 
 					 license.setCustomerNameView(line.replace("customer:", "").replace(" ", ""));
 				if (line.contains("expirationDate")) 
