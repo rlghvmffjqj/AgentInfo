@@ -495,4 +495,10 @@ public class PackagesController {
 		return map;
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/packages/overseasMove")
+	public String OverseasMove(@RequestParam int[] chkList, Principal principal) {
+		return packagesService.overseasMove(chkList, principal);
+	}
+	
 }

@@ -317,7 +317,7 @@
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 			         	<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml">
+			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml" readonly>
 			        </div>
 	       		</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
@@ -393,7 +393,7 @@
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 			         	<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="${license.licenseFilePath}">
+			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="${license.licenseFilePath}" readonly>
 			        </div>
 		        </c:when>
 	        </c:choose>
@@ -448,7 +448,11 @@
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			if('${license.licenseType}' == '(구)') {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			}
 		}
 		
 		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback' || $('#viewType').val() == 'updateback') {
@@ -583,7 +587,13 @@
 			}
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+
+			if('${license.licenseType}' == '(구)') {
+				customerName = $('#customerNameOldView').val();
+				$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			}
 		});
 		
 		$('#chkExpirationDays').change(function() {
@@ -897,9 +907,8 @@
 	$("#customerNameOldView").change(function() {
 		var customerName = $('#customerNameOldView').val();
 		var issueDate = $('#issueDateView').val();
-		var businessName = $('#businessNameOldView').val();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+		$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
 	});
 
 	function isKoreanCharacter(char) {

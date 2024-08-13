@@ -26,6 +26,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.formula.functions.Replace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -169,28 +170,16 @@ public class LogGriffinService {
         HttpHeaders header = new HttpHeaders();
         HttpEntity<?> entity = new HttpEntity<>(header);
         
-        if(!license.getExpirationDaysView().isEmpty() && license.getExpirationDaysView().length() < 4) {
-        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar cal = Calendar.getInstance();
-			try {
-				cal.setTime(formatter.parse(license.getIssueDateView()));
-			} catch (ParseException e) {
-				System.out.println("만료일 날짜 변경 중 에러 발생!");
-				System.out.println(e);
-			}
-			cal.add(Calendar.DATE, Integer.parseInt(license.getExpirationDaysView()));
-			Date date = new Date(cal.getTimeInMillis());
-			
-			license.setExpirationDaysView(formatter.format(date));
-        }
+        String issueDate = license.getIssueDateView().replaceAll("-","");
+		String expirationDays = license.getExpirationDaysView().replaceAll("-","");
         
         UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
         		.queryParam("route", route)
         		.queryParam("customerName", URLEncoder.encode(license.getCustomerNameView(), "UTF-8"))
         		.queryParam("businessName", license.getBusinessNameView())
         		.queryParam("macAddress", license.getMacAddressView())
-        		.queryParam("issueDate", license.getIssueDateView())
-        		.queryParam("expirationDays", license.getExpirationDaysView())
+        		.queryParam("issueDate", issueDate)
+        		.queryParam("expirationDays", expirationDays)
         		.queryParam("productName", license.getProductNameView())
         		.queryParam("productVersion", license.getProductVersionView())
         		.queryParam("agentCount", license.getAgentCountView())
@@ -220,21 +209,7 @@ public class LogGriffinService {
 	public LogGriffin licenseInputFormat(LogGriffin license) throws ParseException {
 		if(license.getExpirationDaysView() == "" || license.getExpirationDaysView() == null) {
 			license.setExpirationDaysView("무제한");
-		} else {
-			if(license.getExpirationDaysView().length() < 4) {
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(formatter.parse(license.getIssueDateView()));
-				cal.add(Calendar.DATE, Integer.parseInt(license.getExpirationDaysView()));
-				Date date = new Date(cal.getTimeInMillis());
-				
-				license.setExpirationDaysView(formatter.format(date));
-			}
-		}
-		
-		if(license.getExpirationDaysView() == "" || license.getExpirationDaysView() == null) {
-			license.setExpirationDaysView("무제한");
-		}
+		} 
 		
 		if(license.getAgentCountView() == "" || license.getAgentCountView() == null) {
 			license.setAgentCountView("무제한");
@@ -457,7 +432,7 @@ public class LogGriffinService {
 			license.setLogGriffinRegistrationDate(nowDate());
 			sucess += licenseYmlInsert(license, ymlFile);
 			if(sucess == -1) {
-				map.put("result", "Duplication");
+				map.put("result", "LicenseYaml");
 				return map;
 			}
 		}
@@ -489,14 +464,29 @@ public class LogGriffinService {
 			String line;
 			file_reader.readLine();
 			while ((line = file_reader.readLine()) != null) {
-				if (line.contains("agentCount")) 
-					 license.setAgentCountView(Integer.toString(Integer.parseInt(line.replace("agentCount:", "").replace(" ", "").replace("'", ""))));
-				if (line.contains("agentlessCount")) 
-					 license.setAgentLisCountView(Integer.toString(Integer.parseInt(line.replace("agentlessCount:", "").replace(" ", "").replace("'", ""))));
+				if (line.contains("agentCount")) { 
+					if(line.contains("unlimited")) {
+						license.setAgentCountView("무제한");
+					} else {
+						license.setAgentCountView(Integer.toString(Integer.parseInt(line.replace("agentCount:", "").replace(" ", "").replace("'", ""))));
+					}
+				}
+				if (line.contains("agentlessCount")) { 
+					if(line.contains("unlimited")) {
+						license.setAgentLisCountView("무제한");
+					} else {
+						license.setAgentLisCountView(Integer.toString(Integer.parseInt(line.replace("agentlessCount:", "").replace(" ", "").replace("'", ""))));
+					}
+				}
 				if (line.contains("customer")) 
 					 license.setCustomerNameView(line.replace("customer:", "").replace(" ", ""));
-				if (line.contains("expirationDate")) 
-					 license.setExpirationDaysView(line.replace("expirationDate:", "").replace(" ", "").replace("'", ""));
+				if (line.contains("expirationDate")) { 
+					if(line.contains("unlimited")) {
+						license.setExpirationDaysView("무제한");
+					} else {
+						license.setExpirationDaysView(line.replace("expirationDate:", "").replace(" ", "").replace("'", ""));
+					}
+				}
 				if (line.contains("info")) 
 					 license.setAdditionalInformationView(line.replace("info:", "").replace(" ", "").replace("'", ""));
 				if (line.contains("issueDate")) 

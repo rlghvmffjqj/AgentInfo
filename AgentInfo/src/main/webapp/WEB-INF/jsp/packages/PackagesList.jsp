@@ -320,6 +320,9 @@
 																	<sec:authorize access="hasAnyRole('ENGINEER','ADMIN')">
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnState" onClick="btnState()">상태 변경</button>
 																	</sec:authorize>
+																	<sec:authorize access="hasRole('ADMIN')">
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnOverseas" onClick="btnOverseas()">국외 이동</button>
+																	</sec:authorize>
 																</td>
 															</tr>
 															<tr>
@@ -644,6 +647,56 @@
 				code = code + "0";
 			}
 			return code + cellValue;
+		}
+
+		function btnOverseas() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '이동!',
+					  text: "선택한 패키지를 국외로 이동하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/packages/overseasMove'/>",
+						type: "POST",
+						data: {chkList: chkList},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '이동 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '이동 실패하였습니다.',
+								  'error'
+								)
+							tableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
 		}
 
 	</script>

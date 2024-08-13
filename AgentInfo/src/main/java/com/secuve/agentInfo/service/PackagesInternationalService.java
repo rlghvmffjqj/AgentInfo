@@ -28,11 +28,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.CustomerInfoDao;
 import com.secuve.agentInfo.dao.PackageUidLogDao;
+import com.secuve.agentInfo.dao.PackagesDao;
 import com.secuve.agentInfo.dao.PackagesInternationalDao;
 import com.secuve.agentInfo.dao.SendPackageDao;
 import com.secuve.agentInfo.dao.TrashDao;
 import com.secuve.agentInfo.vo.CustomerInfo;
 import com.secuve.agentInfo.vo.PackageUidLog;
+import com.secuve.agentInfo.vo.Packages;
 import com.secuve.agentInfo.vo.PackagesInternational;
 import com.secuve.agentInfo.vo.SendPackage;
 import com.secuve.agentInfo.vo.Trash;
@@ -49,6 +51,7 @@ public class PackagesInternationalService {
 	@Autowired CustomerInfoService customerInfoService;
 	@Autowired SendPackageDao sendPackageDao;
 	@Autowired SendPackageService sendPackageService;
+	@Autowired PackagesDao packagesDao;
 
 	/**
 	 * 패키지 리스트 조회
@@ -1462,5 +1465,46 @@ public class PackagesInternationalService {
 	public List<PackagesInternational> getPackagesInternationalAll() {
 		return packagesInternationalDao.getPackagesInternationalAll();
 	}
+
+
+	public String domesticMove(int[] chkList, Principal principal) {
+		PackagesService packagesService = new PackagesService();
+		for (int packagesInternationalKeyNum : chkList) {
+			PackagesInternational packagesInternational = packagesInternationalDao.getPackagesInternationalOne(packagesInternationalKeyNum);
+			int sucess = packagesInternationalDao.delPackagesInternational(packagesInternationalKeyNum);
+			if (sucess <= 0)return "FALSE";
+			domesticMove(packagesInternational);
+		}
+		return "OK";
+	}
 	
+	public void domesticMove(PackagesInternational packagesInternational) {
+		Packages packages = new Packages();
+		packages.setPackagesKeyNumOrigin(packagesInternational.getPackagesInternationalKeyNumOrigin());
+		packages.setCustomerNameView(packagesInternational.getCustomerName());
+		packages.setBusinessNameView(packagesInternational.getBusinessName());
+		packages.setNetworkClassificationView(packagesInternational.getNetworkClassification());
+		packages.setRequestDateView(packagesInternational.getRequestDate());
+		packages.setDeliveryDataView(packagesInternational.getDeliveryData());
+		packages.setStateView(packagesInternational.getState());
+		packages.setStatusComment(packagesInternational.getStatusComment());
+		packages.setExistingNewView(packagesInternational.getExistingNew());
+		packages.setManagementServerView(packagesInternational.getManagementServer());
+		packages.setAgentOSView(packagesInternational.getAgentOS());
+		packages.setOsDetailVersionView(packagesInternational.getOsDetailVersion());
+		packages.setGeneralCustomView(packagesInternational.getGeneralCustom());
+		packages.setOsTypeView(packagesInternational.getOsType());
+		packages.setAgentVerView(packagesInternational.getAgentVer());
+		packages.setPackageNameView(packagesInternational.getPackageName());
+		packages.setManagerView(packagesInternational.getManager());
+		packages.setRequestProductCategoryView(packagesInternational.getRequestProductCategory());
+		packages.setDeliveryMethodView(packagesInternational.getDeliveryMethod());
+		packages.setPurchaseCategoryView(packagesInternational.getPurchaseCategory());
+		packages.setNoteView(packagesInternational.getNote());
+		packages.setPackagesRegistrant(packagesInternational.getPackagesInternationalRegistrant());
+		packages.setPackagesRegistrationDate(packagesInternational.getPackagesInternationalRegistrationDate());
+		
+		packagesDao.insertPackages(packages);
+	}
+
 }

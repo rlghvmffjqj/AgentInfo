@@ -84,7 +84,7 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-loggriffin-사업명-발급일.yml">
+				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-loggriffin-사업명-발급일.yml" readonly>
 		   </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
@@ -227,11 +227,13 @@
 		var licenseFilePath = $('#licenseFilePathView').val();
 		var viewType = $('#viewType').val();
 		var additionalInformation = $('#additionalInformationView').val();
+		var agentCount = $('#agentCountView').val();
+		var agentLisCount = $('#agentLisCountView').val();
 
-		if(customerName.includes("\"") || businessName.includes("\"") || additionalInformation.includes("\"") || licenseFilePath.includes("\"") || customerName.includes("/") || businessName.includes("/") || additionalInformation.includes("/") || licenseFilePath.includes("/") || customerName.includes("\\") || businessName.includes("\\") || additionalInformation.includes("\\") || licenseFilePath.includes("\\")) {
+		if(customerName.includes("\"") || businessName.includes("\"") || additionalInformation.includes("\"") || licenseFilePath.includes("\"") || customerName.includes("/") || businessName.includes("/") || additionalInformation.includes("/") || licenseFilePath.includes("/") || customerName.includes("\\") || businessName.includes("\\") || additionalInformation.includes("\\") || licenseFilePath.includes("\\") || customerName.includes("[") || customerName.includes("]")) {
 			Swal.fire(
 			  '특수 문자 사용 불가!',
-			  '특수문자 : \", \/, \\',
+			  '특수문자 : \", \/, \\, \[, \]',
 			  'error'
 			)
 			return false;
@@ -245,13 +247,36 @@
 			)
 			return false;
 		}
-		
-		const macAddressRegex = /^(00[:-]){5}00$/;
-		function validateMacAddress(macAddress) {
-		    if(!macAddressRegex.test(macAddress)) {
-		        $('#NotMacAddress').show();    
-		        return false;
-		    }
+
+		if(!$("#chkAgentCount").is(":checked")){
+			if(agentCount < 0 || agentCount > 999) {
+				Swal.fire(
+				  '에이전트 허용범위 초과!',
+				  '에이전트는 0 ~ 999개 범위 입력 가능합니다.',
+				  'error'
+				)
+				return false;
+			}
+		}
+
+		if(!$("#chkAgentLisCount").is(":checked")){
+			if(agentLisCount < 0 || agentLisCount > 999) {
+				Swal.fire(
+				  '에이전트리스 허용범위 초과!',
+				  '에이전트리스는 0 ~ 999개 범위 입력 가능합니다.',
+				  'error'
+				)
+				return false;
+			}
+		}
+
+		if(issueDate > expirationDays) {
+			Swal.fire(
+			  '만료일 확인!',
+			  '만료일은 발급일보다 커야합니다.',
+			  'error'
+			)
+			return false;
 		}
 		
 		$('.licenseShow').hide();

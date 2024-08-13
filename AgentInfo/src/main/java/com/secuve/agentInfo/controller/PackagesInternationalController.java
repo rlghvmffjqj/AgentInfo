@@ -495,4 +495,10 @@ public class PackagesInternationalController {
 		return map;
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/packagesInternational/domesticMove")
+	public String DomesticMove(@RequestParam int[] chkList, Principal principal) {
+		return packagesInternationalService.domesticMove(chkList, principal);
+	}
+	
 }
