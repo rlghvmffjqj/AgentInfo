@@ -246,7 +246,7 @@
 		    	    <li class="packages">
 		    	        <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
-		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 관리(국내)</span>
+		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 관리 [국내]</span>
 		    	            <span class="pcoded-mcaret"></span>
 		    	        </a>
 		    	    </li>
@@ -255,7 +255,7 @@
 		    	    <li class="packagesInternational">
 		    	        <a href="<c:url value='/packagesInternational/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
-		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 관리(국외)</span>
+		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 관리 [국외]</span>
 		    	            <span class="pcoded-mcaret"></span>
 		    	        </a>
 		    	    </li>
@@ -421,7 +421,7 @@
 						    <li class="hyperV">
 						           <a href="<c:url value='/serverList/list'/>?serverListType=hyperV" class="waves-effect waves-dark">
 						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-						             <span class="pcoded-mtext">Hyper-V</span>
+						             <span class="pcoded-mtext">VM 서버</span>
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
