@@ -3,6 +3,7 @@
         
 <mapper namespace="vmServer">
 	<resultMap type="com.secuve.agentInfo.vo.VmServer" id="vmServer"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.VmServerHost" id="vmServerHost"></resultMap>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
 		SELECT DISTINCT ${selectInput} FROM vmServer WHERE ${selectInput} != '';
@@ -22,58 +23,51 @@
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
+	<select id="getVmServerCount" resultType="_int">
+		SELECT COUNT(*) FROM vmServer
+			<include refid="sqlVmServer" />
+	</select>
 	
+	<insert id="insertVmServerHost">
+		INSERT INTO vmServerHost (vmServerHostName, vmServerHostIp, vmServerHostRegistrant, vmServerHostRegistrationDate)
+		VALUES(#{vmServerHostNameView}, #{vmServerHostIpView}, #{vmServerHostRegistrant}, #{vmServerHostRegistrationDate});
+	</insert>
+	
+	<insert id="insertVmServer">
+		INSERT INTO vmServer (vmServerHostName, vmServerName, vmServerMemory, vmServerTime, vmServerStatus)
+		VALUES(#{vmServerHostName}, #{vmServerName}, #{vmServerMemory}, #{vmServerTime}, #{vmServerStatus});
+	</insert>
+	
+	<delete id="deleteVmServerHost" parameterType="string">
+		DELETE FROM vmServerHost WHERE vmServerHostName = #{vmServerHostName};
+	</delete>
+	
+	<delete id="deleteVmServer" parameterType="string">
+		DELETE FROM vmServer WHERE vmServerHostName = #{vmServerHostName};
+	</delete>
+	
+	<select id="getVmServerSearchAll" resultMap="vmServer" parameterType="string">
+		SELECT *
+		FROM vmServer
+			<include refid="sqlVmServer" />
+	</select>
+	
+	<select id="getVmServerHost" resultMap="vmServerHost">
+		SELECT * FROM vmServerHost;
+	</select>
+	
+	<delete id="deleteAllVmServer">
+		DELETE FROM vmServer;
+	</delete>
+	
+	<select id="getVmServerHostValidity" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM vmServerHost WHERE ${column} = #{values};
+	</select>
 	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlVmServer">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			AND vmServerType = #{vmServerType}
-			<if test="vmServerDivision != null and vmServerDivision != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerDivisionArr" item="arr">
-						OR vmServerDivision LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="vmServerIp != null and vmServerIp != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerIpArr" item="arr">
-						OR vmServerIp LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="vmServerState != null and vmServerState != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerStateArr" item="arr">
-						OR vmServerState LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="vmServerMac != null and vmServerMac != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerMacArr" item="arr">
-						OR vmServerMac LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="vmServerAssetNum != null and vmServerAssetNum != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerAssetNumArr" item="arr">
-						OR vmServerAssetNum LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
 			<if test="vmServerHostName != null and vmServerHostName != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
@@ -83,57 +77,24 @@
 				</trim>
 				)
 			</if>
-			<if test="vmServerPurpose != null and vmServerPurpose != ''">
+			<if test="vmServerName != null and vmServerName != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerPurposeArr" item="arr">
-						OR vmServerPurpose LIKE CONCAT('%',#{arr},'%')
+					<foreach collection="vmServerNameArr" item="arr">
+						OR vmServerName LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
 			</if>
-			<if test="vmServerOs != null and vmServerOs != ''">
+			<if test="vmServerStatus != null and vmServerStatus != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerOsArr" item="arr">
-						OR vmServerOs LIKE CONCAT('%',#{arr},'%')
+					<foreach collection="vmServerStatusArr" item="arr">
+						OR vmServerStatus LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
-			</if>
-			<if test="vmServerServerClass != null and vmServerServerClass != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerServerClassArr" item="arr">
-						OR vmServerServerClass LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="vmServerRackPosition != null and vmServerRackPosition != ''">
-				AND (
-				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="vmServerRackPositionArr" item="arr">
-						OR vmServerRackPosition LIKE CONCAT('%',#{arr},'%')
-					</foreach>
-				</trim>
-				)
-			</if>
-			<if test="vmServerPeriodUseEnd != null and vmServerPeriodUseEnd != ''">
-				AND vmServerPeriodUseEnd LIKE CONCAT('%',#{vmServerPeriodUseEnd},'%')
-			</if>
-			<if test="vmServerUser != null and vmServerUser != ''">
-				AND vmServerUser LIKE CONCAT('%',#{vmServerUser},'%')
-			</if>
-			<if test="vmServerManager != null and vmServerManager != ''">
-				AND vmServerManager LIKE CONCAT('%',#{vmServerManager},'%')
-			</if>
-			<if test="vmServerLastModifiedDate != null and vmServerLastModifiedDate != ''">
-				AND vmServerLastModifiedDate = #{vmServerLastModifiedDate}
-			</if>
-			<if test="vmServerNote != null and vmServerNote != ''">
-				AND vmServerNote LIKE CONCAT('%',#{vmServerNote},'%')
-			</if>
+			</if>			
 		</trim>
 	</sql>
 </mapper>

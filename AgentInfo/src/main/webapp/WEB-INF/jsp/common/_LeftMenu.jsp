@@ -128,8 +128,8 @@
 			$('.internalEquipment').addClass('active');
 			$('.serverList').addClass('active');
 			$('.serverList').addClass('pcoded-trigger');
-		} else if($.cookie('name') == 'hyperV') {
-			$('.hyperV').addClass('active');
+		} else if($.cookie('name') == 'vmServer') {
+			$('.vmServer').addClass('active');
 			$('.serverList').addClass('active');
 			$('.serverList').addClass('pcoded-trigger');
 		} else if($.cookie('name') == 'issueWrite') {
@@ -418,8 +418,8 @@
 						             <span class="pcoded-mcaret"></span>
 						           </a>
 						    </li>
-						    <li class="hyperV">
-						           <a href="<c:url value='/serverList/list'/>?serverListType=hyperV" class="waves-effect waves-dark">
+						    <li class="vmServer">
+						           <a href="<c:url value='/vmServer/list'/>" class="waves-effect waves-dark">
 						             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 						             <span class="pcoded-mtext">VM 서버</span>
 						             <span class="pcoded-mcaret"></span>

@@ -19,24 +19,14 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','구분','IP','상태','MAC','자산번호','HostName','용도','운영체제','서버구분','랙 위치','사용기간','사용자','관리자','최종 수정일','비고'],
+					colNames:['Key','호스트서버','VM서버명','VM서버 메모리','VM서버 동작시간','VM서버 상태'],
 					colModel:[
 						{name:'vmServerKeyNum', index:'vmServerKeyNum', align:'center', width: 35, hidden:true },
-						{name:'vmServerDivision', index:'vmServerDivision', align:'center', width: 80},
-						{name:'vmServerIp', index:'vmServerIp', align:'center', width: 100},
-						{name:'vmServerState', index:'vmServerState', align:'center', width: 70, formatter: stateFormatter},
-						{name:'vmServerMac', index:'vmServerMac', align:'center', width: 110},
-						{name:'vmServerAssetNum', index:'vmServerAssetNum', align:'center', width: 180, formatter: linkFormatter},
-						{name:'vmServerHostName', index:'vmServerHostName',align:'center', width: 110},
-						{name:'vmServerPurpose', index:'vmServerPurpose',align:'center', width: 150},
-						{name:'vmServerOs', index:'vmServerOs', align:'center', width: 150},
-						{name:'vmServerServerClass', index:'vmServerServerClass', align:'center', width: 80},
-						{name:'vmServerRackPosition', index:'vmServerRackPosition', align:'center', width: 50},
-						{name:'vmServerPeriodUse', index:'vmServerPeriodUse', align:'center', width: 130},
-						{name:'vmServerUser', index:'vmServerUser', align:'center', width: 80},
-						{name:'vmServerManager', index:'vmServerManager', align:'center', width: 80},
-						{name:'vmServerLastModifiedDate', index:'vmServerLastModifiedDate', align:'center', width: 80},
-						{name:'vmServerNote', index:'vmServerNote', align:'center', width: 300},
+						{name:'vmServerHostName', index:'vmServerHostName', align:'center', width: 180},
+						{name:'vmServerName', index:'vmServerName', align:'left', width: 700},
+						{name:'vmServerMemory', index:'vmServerMemory', align:'right', width: 100},
+						{name:'vmServerTime', index:'vmServerTime', align:'center', width: 150},
+						{name:'vmServerStatus', index:'vmServerStatus', align:'center', width: 150},
 					],
 					jsonReader : {
 			        	id: 'vmServerKeyNum',
@@ -44,10 +34,11 @@
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'vmServerKeyNum',	// 기본 정렬 
-			        sortorder: 'desc',			// 정렬 방식
+					rowList: [25, 50, 100, 255],
+			        sortname: 'vmServerName',	// 기본 정렬 
+			        sortorder: 'asc',			// 정렬 방식
 			        
-			        multiselect: true,			// 체크박스를 이용한 다중선택
+			        //multiselect: true,			// 체크박스를 이용한 다중선택
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
@@ -100,54 +91,9 @@
 	                                <div class="page-wrapper">
 	                                	<div class="ibox">
 		                                	<div class="searchbos">
-		                                		<form id="form" name="form" method ="post">
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">구분</label>
-														<select class="form-control selectpicker" id="vmServerDivisionMulti" name="vmServerDivisionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<option value="Linux">Linux</option>
-															<option value="Windows">Windows</option>
-															<option value="AIX">AIX</option>
-															<option value="HP-UX">HP-UX</option>
-															<option value="Solaris">Solaris</option>
-															<option value="기타">기타</option>
-														</select>
-													</div>
+		                                		<form id="form" name="form" method ="post">		                      						
 													<div class="col-lg-2">
-		                      							<label class="labelFontSize">IP</label>
-														<select class="form-control selectpicker" id="vmServerIpMulti" name="vmServerIpMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${vmServerIp}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">상태</label>
-														<select class="form-control selectpicker" id="vmServerStateMulti" name="vmServerStateMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<option value="정상작동">정상작동</option>
-															<option value="접속불가">접속불가</option>
-															<option value="업데이트">업데이트</option>
-															<option value="외부반출">외부반출</option>
-															<option value="장비대여">장비대여</option>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">MAC</label>
-														<select class="form-control selectpicker" id="vmServerMacMulti" name="vmServerMacMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${vmServerMac}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">자산번호</label>
-														<select class="form-control selectpicker" id="vmServerAssetNumMulti" name="vmServerAssetNumMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${vmServerAssetNum}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">HostName</label>
+		                      							<label class="labelFontSize">호스트서버</label>
 														<select class="form-control selectpicker" id="vmServerHostNameMulti" name="vmServerHostNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<c:forEach var="item" items="${vmServerHostName}">
 																<option value="${item}"><c:out value="${item}"/></option>
@@ -155,93 +101,25 @@
 														</select>
 													</div>
 													<div class="col-lg-2">
-		                      							<label class="labelFontSize">용도</label>
-														<select class="form-control selectpicker" id="vmServerPurposeMulti" name="vmServerPurposeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${vmServerPurpose}">
+		                      							<label class="labelFontSize">vm서버명</label>
+														<select class="form-control selectpicker" id="vmServerNameMulti" name="vmServerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${vmServerName}">
 																<option value="${item}"><c:out value="${item}"/></option>
 															</c:forEach>
 														</select>
 													</div>
 													<div class="col-lg-2">
-		                      							<label class="labelFontSize">운영체제</label>
-														<select class="form-control selectpicker" id="vmServerOsMulti" name="vmServerOsMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${vmServerOs}">
+		                      							<label class="labelFontSize">vm서버 상태</label>
+														<select class="form-control selectpicker" id="vmServerStatusMulti" name="vmServerStatusMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${vmServerStatus}">
 																<option value="${item}"><c:out value="${item}"/></option>
 															</c:forEach>
 														</select>
 													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">서버구분</label>
-														<select class="form-control selectpicker" id="vmServerServerClassMulti" name="vmServerServerClassMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${vmServerServerClass}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">랙 위치</label>
-														<select class="form-control selectpicker" id="vmServerRackPositionMulti" name="vmServerRackPositionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:if test="${vmServerType eq 'externalEquipment'}">
-																<option value="P1">P1</option>
-																<option value="Q1">Q1</option>
-																<option value="Q2">Q2</option>
-																<option value="Q3">Q3</option>
-																<option value="Q4">Q4</option>
-																<option value="W1">W1</option>
-																<option value="S1">S1</option>
-															</c:if>
-															<c:if test="${vmServerType eq 'internalEquipment'}">
-																<option value="D1">D1</option>
-																<option value="D2">D2</option>
-																<option value="D3">D3</option>
-																<option value="D4">D4</option>
-																<option value="D5">D5</option>
-																<option value="D6">D6</option>
-																<option value="D7">D7</option>
-																<option value="D8">D8</option>
-																<option value="D9">D9</option>
-																<option value="D10">D10</option>
-																<option value="D11">D11</option>
-																<option value="Q1">Q1</option>
-															</c:if>
-															<c:if test="${vmServerType eq 'hyperV'}">
-																<option value="#90">#90</option>
-																<option value="#160">#160</option>
-																<option value="#210">#210</option>
-															</c:if>
-														</select>
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">사용 기간</label>
-		                      							<input type="date" id="vmServerPeriodUseEnd" name="vmServerPeriodUseEnd" class="form-control" max="9999-12-31">
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">사용자</label>
-		                      							<input type="text" id="vmServerUser" name="vmServerUser" class="form-control">
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">관리자</label>
-		                      							<input type="text" id="vmServerManager" name="vmServerManager" class="form-control">
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">최종 수정일</label>
-		                      							<input type="date" id="vmServerLastModifiedDate" name="vmServerLastModifiedDate" class="form-control" max="9999-12-31">
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">비고</label>
-		                      							<input type="text" id="vmServerNote" name="vmServerNote" class="form-control">
-		                      						</div>
-		                      						<input type="hidden" id="vmServerDivision" name="vmServerDivision" class="form-control">
-		                      						<input type="hidden" id="vmServerIp" name="vmServerIp" class="form-control">
-		                      						<input type="hidden" id="vmServerState" name="vmServerState" class="form-control">
-		                      						<input type="hidden" id="vmServerMac" name="vmServerMac" class="form-control">
-		                      						<input type="hidden" id="vmServerAssetNum" name="vmServerAssetNum" class="form-control">
+										
 		                      						<input type="hidden" id="vmServerHostName" name="vmServerHostName" class="form-control">
-		                      						<input type="hidden" id="vmServerPurpose" name="vmServerPurpose" class="form-control">
-		                      						<input type="hidden" id="vmServerOs" name="vmServerOs" class="form-control">
-		                      						<input type="hidden" id="vmServerServerClass" name="vmServerServerClass" class="form-control">
-		                      						<input type="hidden" id="vmServerRackPosition" name="vmServerRackPosition" class="form-control">
-		                      						<input type="hidden" id="vmServerType" name="vmServerType" class="form-control" value="${vmServerType}">
+		                      						<input type="hidden" id="vmServerName" name="vmServerName" class="form-control">
+		                      						<input type="hidden" id="vmServerStatus" name="vmServerStatus" class="form-control">
 		                      						<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -263,9 +141,9 @@
 															<tr>
 																<td style="font-weight:bold;">서버 관리 :
 																	<sec:authorize access="hasAnyRole('ADMIN','QA')">
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnState" onClick="btnState()">상태 변경</button>
+																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">호스트 추가</button>
+																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">호스트 삭제</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnSynchronization">동기화</button>
 																		<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
 																	</sec:authorize>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'vmServer');">컬럼 선택</button>
@@ -294,20 +172,24 @@
 	            </div>
 	        </div>
 	    </div>
+		<div id="loadingDiv" style="display:none;">
+			<div id="loadingImgDiv">
+				<img id="loadingImage" src="/AgentInfo/images/secuve_loading.gif" alt="Loading..." />
+			</div>
+		</div>
 	</body>
 	
 	<script>
-		/* =========== 서버목록 추가 Modal ========= */
+		/* =========== 호스트 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/vmServer/insertView'/>",
-			    data: {"vmServerType": "${vmServerType}"},
 			    async: false,
 			    success: function (data) {
 			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-			        $.modal(data, 'll'); //modal창 호출
+			        $.modal(data, 'ssl'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
@@ -323,16 +205,10 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#vmServerDivision').val($('#vmServerDivisionMulti').val().join());
-			$('#vmServerIp').val($('#vmServerIpMulti').val().join());
-			$('#vmServerState').val($('#vmServerStateMulti').val().join());
-			$('#vmServerMac').val($('#vmServerMacMulti').val().join());
-			$('#vmServerAssetNum').val($('#vmServerAssetNumMulti').val().join());
+		
 			$('#vmServerHostName').val($('#vmServerHostNameMulti').val().join());
-			$('#vmServerPurpose').val($('#vmServerPurposeMulti').val().join());
-			$('#vmServerOs').val($('#vmServerOsMulti').val().join());
-			$('#vmServerServerClass').val($('#vmServerServerClassMulti').val().join());
-			$('#vmServerRackPosition').val($('#vmServerRackPositionMulti').val().join());
+			$('#vmServerName').val($('#vmServerNameMulti').val().join());
+			$('#vmServerStatus').val($('#vmServerStatusMulti').val().join());
 			
 			var _postDate = $("#form").serializeObject();
 			
@@ -342,38 +218,11 @@
 			jqGrid.trigger('reloadGrid');
 		}
 		
-		/* =========== jpgrid의 formatter 함수 ========= */
-		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.vmServerKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
-		}
-		
-		/* =========== 상태에 따른 이미지 부여 ========= */
-		function stateFormatter(value, options, row) {
-			var state = row.vmServerState.toUpperCase();
-			if(state == "정상작동") {
-				return '<div><img src="/AgentInfo/images/vmServerOk.png" style="width:50px;"></div';
-			} else if(state == "접속불가") {
-				return '<div><img src="/AgentInfo/images/vmServerFail.png" style="width:50px;"></div';
-			} else if(state == "외부반출") {
-				return '<div><img src="/AgentInfo/images/vmServerOut.png" style="width:50px;"></div';
-			} else if(state == "업데이트") {
-				return '<div><img src="/AgentInfo/images/vmServerUpdate.png" style="width:50px;"></div';
-			} else if(state == "장비대여") {
-				return '<div><img src="/AgentInfo/images/vmServerRental.png" style="width:50px;"></div';
-			}
-			return '<div></div>';
-		}
-		
 		/* =========== Enter 검색 ========= */
 		$("input[type=text]").keypress(function(event) {
 			if (window.event.keyCode == 13) {
 				tableRefresh();
 			}
-		});
-		
-		/* =========== 갤린더 검색 ========= */
-		$("#requestDate").change(function() {
-			tableRefresh();
 		});
 		
 		/* =========== Select Box 선택 ========= */
@@ -384,8 +233,6 @@
 		/* =========== 검색 초기화 ========= */
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
-			$("input[type='date']").val("");
-			$("#dateFull").prop("checked",true);
 	        
 	        $('.selectpicker').val('');
 	        $('.filter-option-inner-inner').text('');
@@ -393,100 +240,90 @@
 			tableRefresh();
 		});
 		
-		/* =========== 서버목록 삭제 ========= */
+		/* =========== 호스트 삭제 ========= */
 		$('#BtnDelect').click(function() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				Swal.fire({
-					  title: '삭제!',
-					  text: "선택한 패키지를 삭제하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/vmServer/delete'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '삭제 완료하였습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '삭제 실패하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
-				  	}
-				})
-			}
-		});
-		
-		/* =========== 서버목록 수정 Modal ========= */
-		function updateView(data) {
 			$.ajax({
-		        type: 'POST',
-		        url: "<c:url value='/vmServer/updateView'/>",
-		        data: {"vmServerKeyNum" : data},
-		        async: false,
-		        success: function (data) {
-		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+			    type: 'POST',
+			    url: "<c:url value='/vmServer/deleteView'/>",
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-		            $.modal(data, 'll'); //modal창 호출
-		        },
-		        error: function(e) {
-		            // TODO 에러 화면
-		        }
-		    });
+			        $.modal(data, 'ssl'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});	
+		});
+
+		$('#BtnSynchronization').click(function() {
+			showLoadingImage();
+			$.ajax({
+				url: "<c:url value='/vmServer/synchronization'/>",
+			    type: 'post',
+			    traditional: true,
+			    success: function(result) {
+					hideLoadingImage();
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '동기화 완료했습니다.',
+						});
+			    		tableRefresh();
+					} else {
+						hideLoadingImage();
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업을 실패하였습니다.',
+						});
+					}
+				},
+				error: function(error) {
+					hideLoadingImage();
+					console.log(error);
+				}
+			});
+		});
+
+		// 로딩 이미지를 보여주는 함수
+		function showLoadingImage() {
+		    $('#loadingDiv').show();
 		}
-		
-		/* =========== 상태 변경 ========= */
-		function btnState() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				$.ajax({
-		            type: 'POST',
-		            url: "<c:url value='/vmServer/stateView'/>",
-		            async: false,
-		            success: function (data) {
-		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
-		                $.modal(data, 'rs'); //modal창 호출
-		            },
-		            error: function(e) {
-		                // TODO 에러 화면
-		            }
-		        });
-			}
+	
+		// 로딩 이미지를 숨기는 함수
+		function hideLoadingImage() {
+		    $('#loadingDiv').hide();
 		}
-		
 	</script>
+	<style>
+		#loadingDiv {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은 배경 */
+			justify-content: center;
+			align-items: center;
+			z-index: 9999; /* 다른 요소 위에 표시되도록 함 */
+		}
+	
+		#loadingImage {
+			width: 50px; /* 로딩 이미지의 너비 */
+			height: 50px; /* 로딩 이미지의 높이 */
+			background: url('secuve_loading.gif') no-repeat center center; /* 로딩 이미지 설정 */
+			background-size: cover;
+		}
+		#loadingImgDiv {
+			width: 100%;
+			height: 100%;
+			top: 50%;
+			left: 50%;
+			position: absolute;
+		}
+	</style>
 </html>
