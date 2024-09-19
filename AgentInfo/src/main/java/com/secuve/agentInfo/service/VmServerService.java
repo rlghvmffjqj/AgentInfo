@@ -69,13 +69,17 @@ public class VmServerService {
 		int sucess = vmServerDao.insertVmServerHost(vmServerHost);
 		if (sucess <= 0)
 			return "FALSE";
-		List<VmServer> vmServerList = insertSync(vmServerHost.getVmServerHostIpView());
-		for (VmServer vmServer : vmServerList) {
-			vmServer.setVmServerHostName(vmServerHost.getVmServerHostNameView());
-			sucess *= vmServerDao.insertVmServer(vmServer);
+		try {
+			List<VmServer> vmServerList = insertSync(vmServerHost.getVmServerHostIpView());
+			for (VmServer vmServer : vmServerList) {
+				vmServer.setVmServerHostName(vmServerHost.getVmServerHostNameView());
+				sucess *= vmServerDao.insertVmServer(vmServer);
+			}
+			if (sucess <= 0)
+				return "FALSE";
+		} catch (Exception e) {
+			return "ERROR";
 		}
-		if (sucess <= 0)
-			return "FALSE";
 		return "OK";
 	}
 	

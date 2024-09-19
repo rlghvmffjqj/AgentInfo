@@ -273,6 +273,9 @@ public class IssueRelayController {
 			//ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueRelay.getIssueKeyNum()));
 			Issue issueTitle = issueService.getIssueOneTitle(issueRelay.getIssueKeyNum());
 			
+			long remainingTimeInSeconds = issueService.getRemainingTimeInSeconds(issueTitle.getIssueManagerServerTimmer());
+			
+			model.addAttribute("remainingTimeInSeconds", remainingTimeInSeconds);
 			model.addAttribute("issue",issue);
 			//model.addAttribute("issueRelayList", issueRelayList);
 			model.addAttribute("issueTitle", issueTitle);
@@ -317,6 +320,12 @@ public class IssueRelayController {
 		map.put("issueRelayList", issueRelayList);
 		map.put("issue", issue);
 		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/issueRelay/managerStatusChange")
+	public String ManagerStatusChange(Issue issue) {
+		return issueService.updateManagerStatusChange(issue);
 	}
 	
 	

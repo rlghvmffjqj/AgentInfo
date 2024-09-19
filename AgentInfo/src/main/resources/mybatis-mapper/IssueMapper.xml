@@ -5,12 +5,12 @@
 	<resultMap type="com.secuve.agentInfo.vo.Issue" id="issue"></resultMap>
 	
 	<select id="getIssueList" resultMap="issue" parameterType="string">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueSubTarget, issueFirstWriter, issueTester, issueFirstDate, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTarget, issueSubTarget, issueFirstWriter, issueTester, issueFirstDate, issueDate, issueProceStatus, total, solution, unresolved, hold, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueTarget, issueSubTarget, issueFirstWriter, issueTester, issueFirstDate, issueDate, issueProceStatus, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
+				SELECT i. issueKeyNum, issueCustomer, issueTitle, issueTarget, issueSubTarget, issueFirstWriter, issueTester, issueFirstDate, issueDate, issueProceStatus, total, solution, unresolved, hold, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, issueRelayUrl
 				FROM issue i 
 				<if test="requestType == null or requestType == ''">
 					LEFT JOIN issuerelay ir ON ir.issueKeyNum = i.issueKeyNum
@@ -41,8 +41,8 @@
 	</select>
 	
 	<insert id="insertIssue">
-		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueTarget,issueSubTarget,issueFirstWriter,issueTester,issueFirstDate,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueTarget},#{issueSubTarget},#{issueFirstWriter},#{issueFirstWriter},#{issueFirstDate},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueManagerServer,issueTarget,issueSubTarget,issueFirstWriter,issueTester,issueFirstDate,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
+		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueManagerServer},#{issueTarget},#{issueSubTarget},#{issueFirstWriter},#{issueFirstWriter},#{issueFirstDate},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -70,13 +70,13 @@
 	</select>
 	
 	<select id="getIssueOneTitle" resultMap="issue" parameterType="_int">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueTester, issueTarget, issueSubTarget, issueFirstWriter, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueManagerServer, issueManagerServerStatus, issueManagerServerTimmer, issueTester, issueTarget, issueSubTarget, issueFirstWriter, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
     	FROM issue
    		WHERE issueKeyNum = #{issueKeyNum};
 	</select>
 	
 	<select id="getIssueOneMerge" resultMap="issue" parameterType="_int">
-		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
+		SELECT DISTINCT issueKeyNum, issueCustomer, issueTitle, issueManagerServer, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold
     	FROM issue
    		WHERE issueKeyNum = #{issueKeyNum};
 	</select>
@@ -106,8 +106,8 @@
 	</select>
 	
 	<insert id="insertIssuePlus" parameterType="issue" useGeneratedKeys="true" keyProperty="issuePrimaryKeyNum">
-		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueTarget, issueSubTarget, issueFirstDate, issueFirstWriter, issueTester, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueProceStatus, issueAnswerStatus, issueWriter, issueRegistrant, issueRegistrationDate) 
-		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueTarget}, #{issueSubTarget}, #{issueFirstDate}, #{issueFirstWriter}, #{issueTester}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, 'progress', 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
+		INSERT INTO issue(issueKeyNum, issueSortNum, issueCustomer, issueTitle, issueManagerServer, issueTarget, issueSubTarget, issueFirstDate, issueFirstWriter, issueTester, issueDate, issueTosms, issueTosrf, issuePortal, issueJava, issueWas, total, solution, unresolved, hold, issueProceStatus, issueAnswerStatus, issueWriter, issueRegistrant, issueRegistrationDate) 
+		VALUES(${issueKeyNum}, #{issueSortNum}, #{issueCustomer}, #{issueTitle}, #{issueManagerServer}, #{issueTarget}, #{issueSubTarget}, #{issueFirstDate}, #{issueFirstWriter}, #{issueTester}, #{issueDate}, #{issueTosms}, #{issueTosrf}, #{issuePortal}, #{issueJava}, #{issueWas}, #{total}, #{solution}, #{unresolved}, #{hold}, 'progress', 'atmosphere', #{issueWriter}, #{issueRegistrant}, #{issueRegistrationDate});
 	</insert>
 	
 	<update id="totalPlus">
@@ -131,7 +131,7 @@
 	</delete>
 	
 	<update id="updateIssue">
-		UPDATE issue SET issueCustomer=#{issueCustomer}, issueTitle=#{issueTitle}, issueTarget=#{issueTarget}, issueSubTarget=#{issueSubTarget}, issueFirstWriter=#{issueFirstWriter}, issueTester=#{issueTester}, issueDate=#{issueDate}, issueTosms=#{issueTosms}, issueTosrf=#{issueTosrf}, issuePortal=#{issuePortal}, issueJava=#{issueJava}, issueWas=#{issueWas}, total=#{total}, solution=#{solution}, unresolved=#{unresolved}, hold=#{hold}, issueDivision=#{issueDivision}, issueOs=#{issueOs}, issueAward=#{issueAward}, issueMiddle=#{issueMiddle}, issueUnder1=#{issueUnder1}, issueUnder2=#{issueUnder2}, issueUnder3=#{issueUnder3}, issueUnder4=#{issueUnder4}, issueFlawNum=#{issueFlawNum}, issueEffect=#{issueEffect}, issueTextResult=#{issueTextResult}, issueApplyYn=#{issueApplyYn}, issueConfirm=#{issueConfirm}, issueObstacle=#{issueObstacle}, issueNote=#{issueNote}, issueModifier=#{issueModifier}, issueModifiedDate=#{issueModifiedDate}
+		UPDATE issue SET issueCustomer=#{issueCustomer}, issueTitle=#{issueTitle}, issueManagerServer=#{issueManagerServer}, issueTarget=#{issueTarget}, issueSubTarget=#{issueSubTarget}, issueFirstWriter=#{issueFirstWriter}, issueTester=#{issueTester}, issueDate=#{issueDate}, issueTosms=#{issueTosms}, issueTosrf=#{issueTosrf}, issuePortal=#{issuePortal}, issueJava=#{issueJava}, issueWas=#{issueWas}, total=#{total}, solution=#{solution}, unresolved=#{unresolved}, hold=#{hold}, issueDivision=#{issueDivision}, issueOs=#{issueOs}, issueAward=#{issueAward}, issueMiddle=#{issueMiddle}, issueUnder1=#{issueUnder1}, issueUnder2=#{issueUnder2}, issueUnder3=#{issueUnder3}, issueUnder4=#{issueUnder4}, issueFlawNum=#{issueFlawNum}, issueEffect=#{issueEffect}, issueTextResult=#{issueTextResult}, issueApplyYn=#{issueApplyYn}, issueConfirm=#{issueConfirm}, issueObstacle=#{issueObstacle}, issueNote=#{issueNote}, issueModifier=#{issueModifier}, issueModifiedDate=#{issueModifiedDate}
 		WHERE issuePrimaryKeyNum=${issuePrimaryKeyNum};  
 	</update>
 	
@@ -168,7 +168,7 @@
 	</update>
 	
 	<select id="getIssueApplyYn" resultMap="issue" parameterType="_int">
-		SELECT * FROM issue WHERE issueKeyNum = ${issueKeyNum} AND (issueApplyYn = '미해결' OR issueApplyYn = '보류');
+		SELECT * FROM issue WHERE issueKeyNum = ${issueKeyNum} AND issueApplyYn = '미해결';
 	</select>
 	
 	<select id="getIssueOneImprovements" parameterType="map" resultMap="issue">
@@ -183,6 +183,20 @@
     		AND issueSubTarget = #{issueSubTarget}
     	</if>
 	</select>
+	
+	<update id="updateManagerStatusChange">
+		UPDATE issue SET issueManagerServerStatus = #{issueManagerServerStatus}, issueManagerServerTimmer = #{issueManagerServerTimmer} WHERE issueKeyNum = #{issueKeyNum};
+	</update>
+	
+	<select id="getIssueTimeOutList" resultType="_int">
+		SELECT DISTINCT issueKeyNum
+		FROM issue
+		WHERE TIMESTAMPDIFF(HOUR, issueManagerServerTimmer, NOW()) >= 24;
+	</select>
+	
+	<update id="updateTimeOut" parameterType="_int">
+		UPDATE issue SET issueManagerServerTimmer = null, issueManagerServerStatus = 'unused' WHERE issueKeyNum = ${issueTimeOut};
+	</update>
 	
 	<!-- ==================================================================================== -->
 	

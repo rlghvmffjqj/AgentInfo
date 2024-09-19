@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.IssueRelay;
 
 @Repository
@@ -71,5 +72,5 @@ public class IssueRelayDao {
 	public IssueRelay getIssuePrimaryKeyNumOne(int issuePrimaryKeyNum) {
 		return sqlSession.selectOne("issueRelay.getIssuePrimaryKeyNumOne", issuePrimaryKeyNum);
 	}
-	
+
 }

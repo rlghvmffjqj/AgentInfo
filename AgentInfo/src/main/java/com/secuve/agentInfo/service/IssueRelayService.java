@@ -156,5 +156,4 @@ public class IssueRelayService {
 		return issueRelayDao.getIssuePrimaryKeyNumOne(issuePrimaryKeyNum);
 	}
 
-	
 }

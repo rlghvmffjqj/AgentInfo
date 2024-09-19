@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.dao;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ public class IssueDao {
 		return sqlSession.selectOne("issue.getIssueKeyNum");
 	}
 
-	public int insertIssue(int issueKeyNum, String issueCustomer, String issueTitle, String issueTarget, String issueSubTarget, String issueFirstWriter, String issueFirstDate, String issueDate,
+	public int insertIssue(int issueKeyNum, String issueCustomer, String issueTitle, String issueManagerServer, String issueTarget, String issueSubTarget, String issueFirstWriter, String issueFirstDate, String issueDate,
 			String issueTosms, String issueTosrf, String issuePortal, String issueJava,
 			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, String issueWriter,
 			String issueAward, String issueMiddle, String issueUnder1, String issueUnder2, String issueUnder3, String issueUnder4,
@@ -30,6 +31,7 @@ public class IssueDao {
 		parameters.put("issueKeyNum", issueKeyNum);
 		parameters.put("issueCustomer", issueCustomer);
 		parameters.put("issueTitle", issueTitle);
+		parameters.put("issueManagerServer", issueManagerServer);
 		parameters.put("issueTarget", issueTarget);
 		parameters.put("issueSubTarget", issueSubTarget);
 		parameters.put("issueFirstWriter", issueFirstWriter);
@@ -144,7 +146,7 @@ public class IssueDao {
 		return sqlSession.delete("issue.issueMinus", issuePrimaryKeyNum);
 	}
 
-	public int updateIssue(int issuePrimaryKeyNum, int issueKeyNum, String issueCustomer, String issueTitle, String issueTarget, String issueSubTarget, String issueFirstWriter, String issueTester, String issueFirstDate, String issueDate,
+	public int updateIssue(int issuePrimaryKeyNum, int issueKeyNum, String issueCustomer, String issueTitle, String issueManagerServer, String issueTarget, String issueSubTarget, String issueFirstWriter, String issueTester, String issueFirstDate, String issueDate,
 			String issueTosms, String issueTosrf, String issuePortal, String issueJava,
 			String issueWas, String total, String solution, String unresolved, String hold, String issueDivision, String issueOs, String issueWriter,
 			String issueAward, String issueMiddle, String issueUnder1, String issueUnder2, String issueUnder3, String issueUnder4,
@@ -156,6 +158,7 @@ public class IssueDao {
 		parameters.put("issueKeyNum", issueKeyNum);
 		parameters.put("issueCustomer", issueCustomer);
 		parameters.put("issueTitle", issueTitle);
+		parameters.put("issueManagerServer", issueManagerServer);
 		parameters.put("issueTarget", issueTarget);
 		parameters.put("issueSubTarget", issueSubTarget);
 		parameters.put("issueFirstWriter", issueFirstWriter);
@@ -262,6 +265,18 @@ public class IssueDao {
 		parameters.put("issueSubTarget", issueSubTarget);
 		return sqlSession.selectList("issue.getIssueOneImprovements", parameters);
 	}
+
+		public int updateManagerStatusChange(Issue issue) {
+		return sqlSession.update("issue.updateManagerStatusChange", issue);
+	}
+
+		public List<Integer> getIssueTimeOutList() {
+			return sqlSession.selectList("issue.getIssueTimeOutList");
+		}
+
+		public void updateTimeOut(Integer issueTimeOut) {
+			sqlSession.update("issue.updateTimeOut",issueTimeOut);
+		}
 
 }
 

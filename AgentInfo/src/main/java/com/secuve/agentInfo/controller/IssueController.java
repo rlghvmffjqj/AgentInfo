@@ -3,8 +3,10 @@ package com.secuve.agentInfo.controller;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.concurrent.locks.Lock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -414,6 +417,18 @@ public class IssueController {
         } finally {
             lock.unlock();
         }
+    }
+    
+    @Scheduled(cron = "0 0 * * * *") // 매 정각(1시간마다)
+    public void checkAndUpdateIssues() {
+    	try {
+	        List<Integer> issueTimeOutList = issueService.getIssueTimeOutList();
+	        for (Integer issueTimeOut : issueTimeOutList) {
+	        	issueService.updateTimeOut(issueTimeOut);
+			}
+    	} catch (Exception e) {
+			// TODO: handle exception
+		}
     }
 	
 }

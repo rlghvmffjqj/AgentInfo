@@ -202,7 +202,7 @@
 		    	<div style='text-align:right;'>
 			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 			    </div>
-			    <div class="searchbox" style="margin-bottom:20px; height: 200px;">
+			    <div class="searchbox" style="margin-bottom:20px; min-height: 250px; height: auto;">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
 			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="${issueTitle.issueCustomer}" readonly>
@@ -239,6 +239,13 @@
 			    		<label class="labelFontSize">WAS</label>
 			    		<input class="form-control titleInput" type="text" id="issueWas" name="issueWas" style="background: white !important;" value="${issueTitle.issueWas}" readonly>
 			    	</div>
+					<div class="col-lg-4" style="max-width: 90%; padding-right: 0px;">
+						<label class="labelFontSize">QA TEST 관리서버</label>
+						<input class="form-control titleInput" type="text" id="issueManagerServer" name="issueManagerServer"
+							style="background: white !important; width: 100%;" value="${issueTitle.issueManagerServer}" readonly>
+					</div>
+					<button type="button" class="btn btn-outline-info-nomal myBtn managerBtn" id="BtnDisable">미사용</button>
+					<button type="button" class="btn btn-outline-info-nomal myBtn managerBtn" id="BtnEnable" style="width: 80px;">사용</button>
 			    </div>
 			    
 			    <div style="height:25px; margin-left: 1%;">
@@ -752,6 +759,153 @@
 				$(".searchbos").remove();
 			});
 		}
+
+		let isLinkActive = false;
+
+        // 초기 상태 설정
+        const status = "${issueTitle.issueManagerServerStatus}".trim();
+        if (status === "use") {
+            isLinkActive = true;
+            $('#BtnEnable').addClass('btn-active');
+            $('#BtnDisable').addClass('btn-inactive');
+            $('#issueManagerServer').css({
+                'cursor': 'pointer',
+                'color': 'blue'
+            }).attr('title', $('#issueManagerServer').val()).removeClass('link-inactive').addClass('link-active');
+			$('#BtnEnable').prop('disabled', true);
+        } else {
+            $('#BtnEnable').addClass('btn-inactive');
+            $('#BtnDisable').addClass('btn-active');
+            $('#issueManagerServer').css({
+                'cursor': 'default',
+                'color': 'black'
+            }).removeAttr('title').removeClass('link-active').addClass('link-inactive');
+			$('#BtnDisable').prop('disabled', true);
+        }
+
+		var remainingTime = "${remainingTimeInSeconds}";
+		var interval = setInterval(updateBtnEnable, 1000);
+
+        $('#BtnEnable').click(function() {
+			var issueKeyNum = "${issueTitle.issueKeyNum}";
+			var issueManagerServer = "${issueTitle.issueManagerServer}";
+
+			if(issueManagerServer == "") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '관리서버 정보가 없을 경우 상태 변경이 불가능합니다.',
+				});
+				return false;
+			}
+
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issueRelay/managerStatusChange'/>",
+				data: {
+					"issueKeyNum": issueKeyNum,
+					"issueManagerServerStatus": "use"
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data == "OK") {
+						isLinkActive = true;
+            			$('#issueManagerServer').css({
+            			    'cursor': 'pointer',
+            			    'color': 'blue'
+            			}).attr('title', $('#issueManagerServer').val()).removeClass('link-inactive').addClass('link-active');
+            			$(this).addClass('btn-active').removeClass('btn-inactive');
+            			$('#BtnDisable').addClass('btn-inactive').removeClass('btn-active');
+						Swal.fire({
+							icon: 'success',
+							title: '사용!',
+							html: '관리서버 사용 상태로 변경하였습니다. <br> 관리서버 사용 후 미사용 전환 부탁드립니다.<br>(24시간 경과 시 자동 미사용 전환)',
+						});
+						remainingTime = 86400;
+						interval = setInterval(updateBtnEnable, 1000);
+						updateBtnEnable();
+						$('#BtnEnable').prop('disabled', true);
+        				$('#BtnDisable').prop('disabled', false);
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '상태변경에 실패 하였습니다.',
+						});
+					}
+			    }.bind(this),
+			    error: function(e) {
+			        console.log(e);
+			    }
+			});
+        });
+
+        $('#BtnDisable').click(function() {
+			var issueKeyNum = "${issueTitle.issueKeyNum}";
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/issueRelay/managerStatusChange'/>",
+				data: {
+					"issueKeyNum": issueKeyNum,
+					"issueManagerServerStatus": "unused"
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data == "OK") {
+						isLinkActive = false;
+            			$('#issueManagerServer').css({
+            			    'cursor': 'default',
+            			    'color': 'black'
+            			}).removeAttr('title').removeClass('link-active').addClass('link-inactive');
+            			$(this).addClass('btn-active').removeClass('btn-inactive');
+            			$('#BtnEnable').addClass('btn-inactive').removeClass('btn-active');
+						Swal.fire({
+							icon: 'success',
+							title: '미사용!',
+							text: '관리서버 사용 미상태로 변경하였습니다.',
+						});
+						$("#BtnEnable").text("사용");
+						remainingTime = 0;
+						$('#BtnDisable').prop('disabled', true);
+        				$('#BtnEnable').prop('disabled', false);
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '상태변경에 실패 하였습니다.',
+						});
+					}
+			    }.bind(this),
+			    error: function(e) {
+			        console.log(e);
+			    }
+			});	
+        });
+
+        $('#issueManagerServer').click(function() {
+            if (isLinkActive) {
+                window.open($(this).val(), '_blank');
+            }
+        });
+
+        function updateBtnEnable() {
+            if (remainingTime <= 0) {
+                clearInterval(interval);
+                return;
+				$('#BtnDisable').click();
+            }
+            
+            var hours = Math.floor(remainingTime / 3600);
+            var minutes = Math.floor((remainingTime % 3600) / 60);
+            var seconds = remainingTime % 60;
+            
+            $("#BtnEnable").text(hours + ":" + minutes + ":" + seconds);
+            
+            remainingTime--;
+        }
+		
+		updateBtnEnable();
+            
 	</script>
 	<style>
 		.scrollToTop {
@@ -1490,5 +1644,28 @@
 			font-size: 18px !important;
     		color: #00a545;
 		}
+
+		.managerBtn {
+			float: right;
+    		margin-top: 15px;
+    		font-size: 15px;
+    		height: 37px;
+		}
+
+		.link-active {
+            color: #5757ff; /* 링크 활성화 시 텍스트 색상 */
+        }
+
+        .link-inactive {
+            color: black; /* 링크 비활성화 시 텍스트 색상 */
+        }
+
+		.btn-active {
+            background-color: #b80c00; /* 버튼 비활성화 시 배경색 */
+            color: white;
+        }
+        .btn-inactive {
+            color: black;
+        }
 	</style>
 </html>

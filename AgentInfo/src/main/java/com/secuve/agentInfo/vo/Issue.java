@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.vo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -18,6 +19,9 @@ public class Issue {
 	private int issueSortNum;
 	private String issueCustomer;				// 고객사
 	private String issueTitle;					// Title
+	private String issueManagerServer;
+	private String issueManagerServerStatus;
+	private LocalDateTime issueManagerServerTimmer;
 	private String issueTarget;
 	private String issueSubTarget;
 	private String issueFirstDate;

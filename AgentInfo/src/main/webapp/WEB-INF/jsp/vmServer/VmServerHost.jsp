@@ -90,6 +90,15 @@
 		        		$('#modal').on('hidden.bs.modal', function () {
 		        			tableRefresh();
 		        		});
+					} else if(result == "ERROR") {
+						hideLoadingImage();
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '호스트 서버 연결에 실패하였습니다.',
+						});
+						$('#NotVmServerHostIpDoub').hide();
+						$('#NotVmServerHostNameDoub').hide();
 					} else if(result == "NotVmServerHostNameDoub") {
 						hideLoadingImage();
 						Swal.fire({

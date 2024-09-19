@@ -173,6 +173,10 @@
 		                                				<label class="labelFontSize marginBottom2">WAS</label>
 		                                				<input class="form-control" type="text" id="issueWas" name="issueWas" placeholder='WAS' value="${issueTitle.issueWas}">
 		                                			</div>
+													<div class="col-lg-4" style="max-width: 100%;">
+		                                				<label class="labelFontSize marginBottom2">QA TEST 관리서버</label>
+		                                				<input class="form-control" type="text" id="issueManagerServer" name="issueManagerServer" placeholder='https://127.0.0.1:8443/TOSMS' value="${issueTitle.issueManagerServer}">
+		                                			</div>
 		                                		</div>
 		                                		<!------- Grid ------->
 												<div class="jqGrid_wrapper" style="margin-bottom: 30px;">

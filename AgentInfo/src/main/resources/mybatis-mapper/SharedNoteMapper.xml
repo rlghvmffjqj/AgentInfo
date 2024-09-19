@@ -84,26 +84,24 @@
 		SELECT *
 		FROM sharedNote
 		WHERE sharedNoteDepartment = #{sharedNoteDepartment}
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="sharedNoteTitleCount != 0">
-				AND (
-					<trim prefix="" prefixOverrides="OR">
-						<foreach collection="sharedNoteTitle" item="arr">
-							OR sharedNoteTitle LIKE CONCAT('%',#{arr},'%')
-						</foreach>
-					</trim>
-				)
-			</if>
-			<if test="sharedNoteHashTagCount != 0">
-				AND (
-					<trim prefix="" prefixOverrides="OR">
-						<foreach collection="sharedNoteHashTag" item="arr">
-							OR sharedNoteHashTag LIKE CONCAT('%',#{arr},'%')
-						</foreach>
-					</trim>
-				)
-			</if>
-		</trim>
+		<if test="sharedNoteTitleCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="sharedNoteTitle" item="arr">
+						OR sharedNoteTitle LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
+		<if test="sharedNoteHashTagCount != 0">
+			AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="sharedNoteHashTag" item="arr">
+						OR sharedNoteHashTag LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+			)
+		</if>
 	</select>
 	
 	<update id="saveSharedNote">
