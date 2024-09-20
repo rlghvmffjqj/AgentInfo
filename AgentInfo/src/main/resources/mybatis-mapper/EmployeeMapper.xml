@@ -110,7 +110,15 @@
 	</select>
 	
 	<select id="getUserAlarm" parameterType="string" resultMap="userAlarm">
-		SELECT * FROM userAlarm WHERE userAlarmEmployeeId = #{userAlarmEmployeeId} GROUP BY userAlarmEmployeeId, userAlarmParameter LIMIT 5;
+		SELECT *,
+		       CASE 
+		           WHEN SUM(CASE WHEN userAlarmState = 'N' THEN 1 ELSE 0 END) > 0 THEN 'N'
+		           ELSE 'Y'
+		       END AS userAlarmStateN
+		FROM userAlarm 
+		WHERE userAlarmEmployeeId = #{userAlarmEmployeeId}
+		GROUP BY userAlarmEmployeeId, userAlarmParameter
+		ORDER BY userAlarmKeyNum DESC LIMIT 10;
 	</select>
 	
 	<insert id="setUserAlarm">

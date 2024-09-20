@@ -2,7 +2,9 @@ package com.secuve.agentInfo.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,7 @@ import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.QuestionAnswerService;
 import com.secuve.agentInfo.service.UsersService;
 import com.secuve.agentInfo.vo.Employee;
+import com.secuve.agentInfo.vo.UserAlarm;
 
 @Controller
 @RequestMapping(value = "/")
@@ -171,14 +174,22 @@ public class UsersController {
 	
 	@ResponseBody
 	@PostMapping(value = "/users/alarm")
-	public List Alarm(Principal principal) {
-		String role = employeeService.getUsersRole(principal.getName());
-		List list = new ArrayList();
-		if(role.equals("ADMIN")) {
-			list = questionAnswerService.getQuestionAnswerAlarm();
-		}
+	public Map Alarm(Principal principal) {
+//		String role = employeeService.getUsersRole(principal.getName());
+		List<UserAlarm> list = new ArrayList<UserAlarm>();
+//		if(role.equals("ADMIN")) {
+//			list = questionAnswerService.getQuestionAnswerAlarm();
+//		}
 		list = usersService.getUserAlarm(principal.getName());
-		return list;
+		int notRead = 0;
+		for(UserAlarm userAlarm : list) {
+			if(userAlarm.getUserAlarmStateN().equals("N"))
+				notRead += 1;
+		}
+		Map map = new HashMap();
+		map.put("list", list);
+		map.put("notRead", notRead);
+		return map;
 	}
 	
 	@ResponseBody

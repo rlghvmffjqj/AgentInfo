@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.EmployeeDao;
+import com.secuve.agentInfo.dao.IssueDao;
 import com.secuve.agentInfo.dao.IssueRelayDao;
 import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.IssueRelay;
@@ -24,7 +25,7 @@ import com.secuve.agentInfo.vo.UserAlarm;
 public class IssueRelayService {
 	@Autowired IssueRelayDao issueRelayDao;
 	@Autowired EmployeeDao employeeDao;
-	@Autowired IssueService issueService;
+	@Autowired IssueDao issueDao;
 	
 	public String createKey() {
 	    StringBuffer key = new StringBuffer();
@@ -104,11 +105,11 @@ public class IssueRelayService {
 		if(issueRelayList.size() == 0) {
 			issue.setIssueAnswerStatus("atmosphere");
 			issue.setIssuePrimaryKeyNum(issuePrimaryKeyNum);
-			issueService.updateIssueAnswerStatus(issue);
+			issueDao.updateIssueAnswerStatus(issue);
 		} else if(issueRelayList.get(issueRelayList.size()-1).getIssueRelayType().equals("QA")) {
 			issue.setIssueAnswerStatus("reRequest");
 			issue.setIssuePrimaryKeyNum(issuePrimaryKeyNum);
-			issueService.updateIssueAnswerStatus(issue);
+			issueDao.updateIssueAnswerStatus(issue);
 		}
 		return "OK";
 	}
