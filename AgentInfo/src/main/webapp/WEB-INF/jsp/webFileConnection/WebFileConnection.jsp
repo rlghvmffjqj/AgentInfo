@@ -272,7 +272,7 @@
 		$('#btnTxtSave').click(function() {
 			var textContent = $("#resultDiv div").map(function() {
                 return $(this).text();
-            }).get().join("\r\n");
+            }).get().join("\n");
 
             if (textContent.length === 0) {
                 Swal.fire({

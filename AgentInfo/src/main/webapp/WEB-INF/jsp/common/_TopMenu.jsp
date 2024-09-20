@@ -82,14 +82,13 @@
                     rowItem += "</li>";
                 } else {
                     if(item.userAlarmURL.includes("issue")) {
+                        rowItem += "<li class='waves-effect waves-light'>";
+                        rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
                         if(item.userAlarmStateN == 'N') {
-                            rowItem += "<li class='waves-effect waves-light' style='background:#efa9a9'>";
-                            rowItem += "<a href='#' style='color:#d70000; font-weight: bold;' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                            rowItem += "<img src='/AgentInfo/images/AlramRed.png' class='img-radius' alt='User-Profile-Image' style='width: 21px; height: 21px; border-radius: 0px; margin-right: 3px; margin-left: -2.5px;'>"+item.userAlarmTitle;
                         } else {
-                            rowItem += "<li class='waves-effect waves-light'>";
-                            rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
                         }
-                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
                         rowItem += "</a>";
                         rowItem += "</li>";
                     } else {
