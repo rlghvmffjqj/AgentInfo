@@ -1,21 +1,16 @@
 package com.secuve.agentInfo.controller;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.nio.file.Paths;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import com.secuve.agentInfo.vo.WebFileConnection;
-
 import com.hierynomus.smbj.SMBClient;
 import com.hierynomus.smbj.auth.AuthenticationContext;
 import com.hierynomus.smbj.connection.Connection;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
+import com.secuve.agentInfo.vo.WebFileConnection;
 
 @Controller
 public class WebFileConnectionController {
