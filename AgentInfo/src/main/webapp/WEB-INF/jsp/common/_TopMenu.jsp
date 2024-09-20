@@ -62,63 +62,80 @@
 	    type: 'post',
 	    async: false,
 	    success: function(result) {
-            var table = $(".nav-right");
-
-            if(result.length > 0) {
-                var rowItem = "<ul class='nav-right'>";
-                rowItem += "<li class='user-profile header-notification'>";
-                rowItem += "<a href='#!' class='waves-effect waves-light'>";
+            var table = $(".nav-right");           
+            var rowItem = "<ul class='nav-right'>";
+            rowItem += "<li class='user-profile header-notification'>";
+            rowItem += "<a href='#!' class='waves-effect waves-light'>";
+            if(result.notRead > 0) {
                 rowItem += "<img src='/AgentInfo/images/AlramRed.png' class='img-radius' alt='User-Profile-Image' style='width: 40px; height: 40px; border-radius: 0px'>";
-                rowItem += "</a>";
-                rowItem += "<ul class='show-notification profile-notification' style='min-width: 230px; max-width: 350px; width: max-content; max-height: 380px; overflow: auto;'>";
-                $.each(result, function(index, item) {
-                    if(item.questionKeyNum) {
-                        rowItem += "<li class='waves-effect waves-light'>";
-                        rowItem += "<a href='#' onclick='questionClick("+'"'+item.questionKeyNum+'"'+")'>";
-                        rowItem += "<i class='ti-bell'></i>"+item.questionTitle;
+            } else {
+                rowItem += "<img src='/AgentInfo/images/AlramBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 35px; height: 35px; border-radius: 0px'>";
+            }
+            rowItem += "</a>";
+            rowItem += "<ul class='show-notification profile-notification' style='min-width: 230px; max-width: 350px; width: max-content; max-height: 202px; overflow-y: auto;'>";
+            $.each(result.list, function(index, item) {
+                if(item.questionKeyNum) {
+                    rowItem += "<li class='waves-effect waves-light'>";
+                    rowItem += "<a href='#' onclick='questionClick("+'"'+item.questionKeyNum+'"'+")'>";
+                    rowItem += "<i class='ti-bell'></i>"+item.questionTitle;
+                    rowItem += "</a>";
+                    rowItem += "</li>";
+                } else {
+                    if(item.userAlarmURL.includes("issue")) {
+                        if(item.userAlarmStateN == 'N') {
+                            rowItem += "<li class='waves-effect waves-light' style='background:#efa9a9'>";
+                            rowItem += "<a href='#' style='color:#d70000; font-weight: bold;' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                        } else {
+                            rowItem += "<li class='waves-effect waves-light'>";
+                            rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                        }
+                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
                         rowItem += "</a>";
                         rowItem += "</li>";
                     } else {
-                        if(item.userAlarmURL.includes("issue")) {
-                            rowItem += "<li class='waves-effect waves-light'>";
-                            rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
-                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
-                            rowItem += "</a>";
-                            rowItem += "</li>";
-                        } else {
-                            rowItem += "<li class='waves-effect waves-light'>";
-                            rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
-                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
-                            rowItem += "</a>";
-                            rowItem += "</li>";
-                        }
+                        rowItem += "<li class='waves-effect waves-light'>";
+                        rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
+                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                        rowItem += "</a>";
+                        rowItem += "</li>";
                     }
-                });
-                rowItem += "</ul>";
-                rowItem += "</li>";
-                rowItem += "</ul>";
-                table.after(rowItem);
-            } else {
-                var rowItem = "<ul class='nav-right'>";
-                rowItem += "<li class='user-profile header-notification'>";
-                rowItem += "<a href='#!' class='waves-effect waves-light'>";
-                rowItem += "<img src='/AgentInfo/images/AlramBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 35px; height: 35px; border-radius: 0px'>";
-                rowItem += "</a>";
-                rowItem += "<ul class='show-notification profile-notification' style='width: 260px !important; max-height: 380px; overflow: auto;'>";
-                rowItem += "<li class='waves-effect waves-light'>";
-                rowItem += "표시할 알림이 존재 하지 않습니다.";
-                rowItem += "</li>";
-                rowItem += "</ul>";
-                rowItem += "</li>";
-                rowItem += "</ul>";
-                table.after(rowItem);
-            }
+                }
+            });
+            rowItem += "</ul>";
+            rowItem += "</li>";
+            rowItem += "</ul>";
+            table.after(rowItem);
+            setTimeout(() => {
+                $('.profile-notification').focus();
+            }, 0);
+
+            // } else {
+            //     var rowItem = "<ul class='nav-right'>";
+            //     rowItem += "<li class='user-profile header-notification'>";
+            //     rowItem += "<a href='#!' class='waves-effect waves-light'>";
+            //     rowItem += "<img src='/AgentInfo/images/AlramBlack.png' class='img-radius' alt='User-Profile-Image' style='width: 35px; height: 35px; border-radius: 0px'>";
+            //     rowItem += "</a>";
+            //     rowItem += "<ul class='show-notification profile-notification' style='width: 260px !important; max-height: 380px; overflow: auto;'>";
+            //     rowItem += "<li class='waves-effect waves-light'>";
+            //     rowItem += "표시할 알림이 존재 하지 않습니다.";
+            //     rowItem += "</li>";
+            //     rowItem += "</ul>";
+            //     rowItem += "</li>";
+            //     rowItem += "</ul>";
+            //     table.after(rowItem);
+            // }
 		},
 		error: function(error) {
 			console.log(error);
 		}
 	});
 </script>
+
+<style> 
+    .profile-notification::-webkit-scrollbar {
+        display: none; 
+    }
+</style>
 
 <script>
 /* =========== 프로필 조회 ========= */

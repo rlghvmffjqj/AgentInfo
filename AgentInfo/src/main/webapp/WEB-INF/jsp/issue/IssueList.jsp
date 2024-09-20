@@ -21,7 +21,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','URL','고객사','Title','Target','SubTarget','작성자','테스터','등록일자','전달일자','진행상태','전체','해결','미해결','보류','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
+					colNames:['Key','URL','고객사','Title','Target','SubTarget','작성자','테스터','등록일자','전달일자','진행상태','관리서버 사용유무','전체','해결','미해결','보류','TOSMS','TOSRF','PORTAL','JAVA','WAS'],
 					colModel:[
 						{name:'issueKeyNum', index:'issueKeyNum', align:'center', width: 35, hidden:true },
 						{name:'issueRelayUrl', index:'issueRelayUrl', align:'center', width: 80, formatter: urlFormatter},
@@ -34,6 +34,7 @@
 						{name:'issueFirstDate', index:'issueFirstDate', align:'center', width: 80},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'issueProceStatus', index:'issueProceStatus', align:'center', width: 80, formatter: stateFormatter},
+						{name:'issueManagerServerStatus', index:'issueManagerServerStatus', align:'center', width: 100, formatter: managerStateFormatter},
 						{name:'total', index:'total', align:'center', width: 50},
 						{name:'solution', index:'solution', align:'center', width: 50},
 						{name:'unresolved', index:'unresolved', align:'center', width: 50},
@@ -606,6 +607,16 @@
 
 		function urlOpen(url) {
 			window.open(url, '_blank');
+		}
+
+		function managerStateFormatter(value, options, row) {
+			var state = row.issueManagerServerStatus;
+
+			if(state == "use") {
+				return '<div><img src="/AgentInfo/images/use.png" style="width:55px;"></div';
+			} else {
+				return '<div><img src="/AgentInfo/images/unuse.png" style="width:55px;"></div';
+			} 
 		}
 	</script>
 </html>
