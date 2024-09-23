@@ -271,8 +271,10 @@
 
 		$('#btnTxtSave').click(function() {
 			var textContent = $("#resultDiv div").map(function() {
-                return $(this).text();
-            }).get().join("\n");
+    		    return $(this).text().trim().replace(/\s+/g, " "); // 모든 공백을 하나의 공백으로 줄임
+    		}).get().filter(function(text) {
+    		    return text.length > 0; // 빈 문자열 필터링
+    		}).join("\r\n");
 
             if (textContent.length === 0) {
                 Swal.fire({
