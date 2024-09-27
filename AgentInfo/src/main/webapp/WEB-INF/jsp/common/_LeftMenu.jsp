@@ -206,6 +206,8 @@
 			$('.questionAnswer').addClass('active');
 		} else if($.cookie('name') == 'packageAnalysis') {
 			$('.packageAnalysis').addClass('active');
+		} else if($.cookie('name') == 'empDump') {
+			$('.empDump').addClass('active');
 		} else if($.cookie('name') == 'serviceControl') {
 			$('.serviceControl').addClass('active');
 		} else if($.cookie('name') == 'sqlExecution') {
@@ -459,6 +461,15 @@
 		    </sec:authorize>
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 				<div class="pcoded-navigation-label" data-i18n="nav.category.forms">sub Main</div>
+				<ul class="pcoded-item pcoded-left-item">
+				    <li class="empDump">
+				        <a href="<c:url value='/empDump/list'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-save"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 인사정보 파일</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				    </li>
+				</ul>
 				<ul class="pcoded-item pcoded-left-item">
 				    <li class="packageAnalysis">
 				        <a href="<c:url value='/packageAnalysis/packageAnalysisUpload'/>" class="waves-effect waves-dark">
