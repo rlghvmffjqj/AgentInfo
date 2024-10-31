@@ -447,11 +447,17 @@
 			var customerName = $('#customerNameView').val();
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
 			issueDate = issueDate.replace(/\-/g, '');
 			if('${license.licenseType}' == '(구)') {
 				$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
 			} else {
-				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+				if(additionalInformation == "") {
+					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+				} else {
+					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+				}
+				
 			}
 		}
 		
@@ -518,8 +524,13 @@
 				var businessName = $('#businessNameSelf').val();
 			}
 			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			if(additionalInformation == "") {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+			}
 		});
 
 		$("#customerNameSelf").change(function() {
@@ -535,8 +546,38 @@
 				var businessName = $('#businessNameSelf').val();
 			}
 			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			if(additionalInformation == "") {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+			}
+		});
+
+		$("#additionalInformationView").change(function() {
+			if($('#customerNameChange').text() == "직접입력") {
+				var customerName = $('#customerNameView').val();
+			} else if($('#customerNameChange').text() == "선택입력") {
+				var customerName = $('#customerNameSelf').val();
+			}
+
+			if($('#businessNameChange').text() == "직접입력") {
+				var businessName = $('#businessNameView').val();
+			} else if($('#businessNameChange').text() == "선택입력") {
+				var businessName = $('#businessNameSelf').val();
+			}
+			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
+			issueDate = issueDate.replace(/\-/g, '');
+			var activeId = $('.customerManagentActive').attr('id');
+			if(activeId == "btnNewLicense") {
+				if(additionalInformation == "") {
+					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+				} else {
+					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+				}
+			}
 		});
 		
 		$("#businessNameView").change(function() {
@@ -552,8 +593,13 @@
 				var businessName = $('#businessNameSelf').val();
 			}
 			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			if(additionalInformation == "") {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+			}
 		});
 
 		$("#businessNameSelf").change(function() {
@@ -569,8 +615,13 @@
 				var businessName = $('#businessNameSelf').val();
 			}
 			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			if(additionalInformation == "") {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+			}
 		});
 		
 		$("#issueDateView").change(function() {
@@ -586,13 +637,18 @@
 				var businessName = $('#businessNameSelf').val();
 			}
 			var issueDate = $('#issueDateView').val();
+			var additionalInformation = $('#additionalInformationView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-
-			if('${license.licenseType}' == '(구)') {
+			var activeId = $('.customerManagentActive').attr('id');
+			if(activeId == "btnOldLicense") {
 				customerName = $('#customerNameOldView').val();
 				$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
 			} else {
+				if(additionalInformation == "") {
 				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+			} else {
+				$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+			}
 			}
 		});
 		

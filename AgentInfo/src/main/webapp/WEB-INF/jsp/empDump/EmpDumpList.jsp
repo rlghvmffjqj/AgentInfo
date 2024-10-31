@@ -134,6 +134,16 @@
 		$('#BtnInsert').click(function() {
 			var empDumpCount = $('#empDumpCount').val();
 			var empDumpCustomer = $('#empDumpCustomer').val();
+			
+			if(empDumpCustomer == "") {
+				Swal.fire(
+				  '실패!',
+				  '고객사를 선택 바랍니다.',
+				  'error'
+				)
+				return false;
+			}
+
 			$.ajax({
 			    type: 'POST',
 			    url: "<c:url value='/empDump/create'/>",
@@ -143,7 +153,12 @@
 				},
 			    async: false,
 			    success: function (data) {
-			    	
+			    	if(data == "OK")
+						Swal.fire(
+						  '성공!',
+						  '인사정보 생성 완료!',
+						  'success'
+						)
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
