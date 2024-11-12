@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="empDump">
+	<resultMap type="com.secuve.agentInfo.vo.empDump.IfUser" id="ifUser">
+		<result property="user_id" column="user_id"/>
+        <result property="user_number" column="user_number"/>
+        <result property="user_name" column="user_name"/>
+        <result property="user_phone" column="user_phone"/>
+        <result property="user_office" column="user_office"/>
+        <result property="user_email" column="user_email"/>
+        <result property="user_type_id" column="user_type_id"/>
+        <result property="user_type_name" column="user_type_name"/>
+        <result property="user_position_id" column="user_position_id"/>
+        <result property="user_position_name" column="user_position_name"/>
+        <result property="user_title_id" column="user_title_id"/>
+        <result property="user_title_name" column="user_title_name"/>
+        <result property="user_status_id" column="user_status_id"/>
+        <result property="user_status_name" column="user_status_name"/>
+        <result property="dept_id" column="dept_id"/>
+        <result property="dept_name" column="dept_name"/>
+        <result property="hierarchy_id" column="hierarchy_id"/>
+        <result property="hierarchy_name" column="hierarchy_name"/>
+	</resultMap>
+	
+	<resultMap type="com.secuve.agentInfo.vo.empDump.VwUser" id="vwUser">
+		<result property="user_id" column="user_id" />
+		<result property="user_name" column="user_name" />
+		<result property="user_email" column="user_email" />
+		<result property="user_tel" column="user_tel" />
+		<result property="user_mobile" column="user_mobile" />
+		<result property="user_dept" column="user_dept" />
+		<result property="user_dept_name" column="user_dept_name" />
+		<result property="pos_code" column="pos_code" />
+		<result property="pos_name" column="pos_name" />
+		<result property="user_type_sub" column="user_type_sub" />
+		<result property="approv_type" column="approv_type" />
+		<result property="other_group_id" column="other_group_id" />
+		<result property="user_custom01" column="user_custom01" />
+		<result property="user_custom02" column="user_custom02" />
+		<result property="user_custom03" column="user_custom03" />
+	</resultMap>
+	
+	<select id="getNHLifeDataList" resultMap="ifUser" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM if_user
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getNHLifeDataCount" resultType="_int">
+		SELECT COUNT(*) FROM if_user;
+	</select>
+	
+	<delete id="nhLifeDelete">
+		DELETE FROM if_user;
+	</delete>
+	
+	<insert id="nhLifeInsert">
+		INSERT INTO if_user (
+		    user_id,
+		    user_number,
+		    user_name,
+		    user_phone,
+		    user_office,
+		    user_email,
+		    user_type_id,
+		    user_type_name,
+		    user_position_id,
+		    user_position_name,
+		    user_title_id,
+		    user_title_name,
+		    user_status_id,
+		    user_status_name,
+		    dept_id,
+		    dept_name,
+		    hierarchy_id,
+		    hierarchy_name
+		) VALUES (
+		    #{user_id},
+		    #{user_number},
+		    #{user_name},
+		    #{user_phone},
+		    #{user_office},
+		    #{user_email},
+		    #{user_type_id},
+		    #{user_type_name},
+		    #{user_position_id},
+		    #{user_position_name},
+		    #{user_title_id},
+		    #{user_title_name},
+		    #{user_status_id},
+		    #{user_status_name},
+		    #{dept_id},
+		    #{dept_name},
+		    #{hierarchy_id},
+		    #{hierarchy_name}
+		);
+	</insert>
+
+	<select id="nhLifeAll" resultMap="ifUser">
+		SELECT * FROM if_user
+	</select>
+	
+	<select id="getKbankDataList" resultMap="vwUser" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM vw_USER
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getKbankDataCount" resultType="_int">
+		SELECT COUNT(*) FROM vw_USER;
+	</select>
+	
+	<insert id="kbankInsert" parameterType="vwUser">
+        INSERT INTO vw_USER (
+		    user_id,
+		    user_name,
+		    user_email,
+		    user_tel,
+		    user_mobile,
+		    user_dept,
+		    user_dept_name,
+		    pos_code,
+		    pos_name,
+		    user_type_sub,
+		    approv_type,
+		    other_group_id,
+		    user_custom01,
+		    user_custom02,
+		    user_custom03
+		) VALUES (
+		    #{user_id},
+		    #{user_name},
+		    #{user_email},
+		    #{user_tel},
+		    #{user_mobile},
+		    #{user_dept},
+		    #{user_dept_name},
+		    #{pos_code},
+		    #{pos_name},
+		    #{user_type_sub},
+		    #{approv_type},
+		    #{other_group_id},
+		    #{user_custom01},
+		    #{user_custom02},
+		    #{user_custom03}
+		);
+    </insert>
+    
+    <delete id="kbankDelete">
+    	DELETE FROM vw_USER;
+    </delete>
+    
+    <select id="kbankAll" resultMap="vwUser">
+    	SELECT * FROM vw_USER
+    </select>
+	
+</mapper>

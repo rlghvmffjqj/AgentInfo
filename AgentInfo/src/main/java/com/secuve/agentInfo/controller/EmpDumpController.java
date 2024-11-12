@@ -1,12 +1,16 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.service.EmpDumpService;
 import com.secuve.agentInfo.service.FavoritePageService;
+import com.secuve.agentInfo.vo.empDump.IfUser;
+import com.secuve.agentInfo.vo.empDump.VwUser;
 
 @Controller
 public class EmpDumpController {
@@ -24,28 +30,51 @@ public class EmpDumpController {
 	@GetMapping(value = "/empDump/list")
 	public String empDumpList(Model model, Principal principal, HttpServletRequest req) {
 		favoritePageService.insertFavoritePage(principal, req, "고객사 인사정보 파일");
-		
+		empDumpService.nhLifeDelete();
+		empDumpService.kbankDelete();
 
 		return "empDump/EmpDumpList";
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/empDumpEmpty")
-	public Map<String, Object> empDumpEmpty() {
+	@PostMapping(value = "/nhlifeData")
+	public Map<String, Object> empDumpNhlife(IfUser search) {
 		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("page", 0);
-		map.put("total", 0);
-		map.put("records", 0);
-		map.put("rows", null);
+		ArrayList<IfUser> list = new ArrayList<>(empDumpService.getNHLifeData(search));
+		
+		
+		int totalCount = empDumpService.getNHLifeDataCount();
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/kbankData")
+	public Map<String, Object> empDumpKbank(VwUser search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<VwUser> list = new ArrayList<>(empDumpService.getKbankData(search));
+		
+		
+		int totalCount = empDumpService.getKbankDataCount();
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
 		return map;
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/empDump/create")
-	public String create(String empDumpCount, String empDumpCustomer) {
-		empDumpService.create(empDumpCount, empDumpCustomer);
-		return "OK";
+	public String create(int empDumpCount, String empDumpCustomer) throws IOException {
+		return empDumpService.create(empDumpCount, empDumpCustomer);
+	}
+	
+	@GetMapping("/empDump/empDumpDownLoad")
+	public ResponseEntity<Resource> downLoad(String siteName) {
+	    return empDumpService.downLoad(siteName);
 	}
 	
 }
