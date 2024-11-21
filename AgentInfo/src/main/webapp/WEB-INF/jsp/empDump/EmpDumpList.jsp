@@ -111,6 +111,88 @@
 			        altRows: true,				// 라인 강조
 				});
 
+				$("#nhqvList").jqGrid({
+				    url: "<c:url value='/nhqvData'/>", // 데이터를 가져올 서버 URL
+				    mtype: 'POST',
+				    datatype: 'json', // 데이터 형식
+				    colNames: [
+					    '사번', '주민번호', '이름', '상태', '사무실 전화번호', '이메일', 
+					    '부서코드', '부서명', '직급코드', '직급'
+					],
+					colModel: [
+					    { name: 'sabun', index: 'sabun', align: 'center' },
+					    { name: 'jumin_no', index: 'jumin_no', align: 'center' },
+					    { name: 'name', index: 'name', align: 'center' },
+					    { name: 'status', index: 'status', align: 'center' },
+					    { name: 'office_tel', index: 'office_tel', align: 'center' },
+					    { name: 'mail_id', index: 'mail_id', align: 'center' },
+					    { name: 'org_cd', index: 'org_cd', align: 'center' },
+					    { name: 'org_nm', index: 'org_nm', align: 'center' },
+					    { name: 'pos_cd', index: 'pos_cd', align: 'center' },
+					    { name: 'pos_nm', index: 'pos_nm', align: 'center' }
+				    ],
+				    jsonReader: {
+				        repeatitems: false,
+				        id: 'sabun' // 서버 데이터의 primary key 필드
+				    },
+				    pager: '#nhqvPager',
+			        rowNum: 25,					// 보여중 행의 수
+			        sortname: 'sabun',	// 기본 정렬 
+			        sortorder: 'desc',			// 정렬 방식
+			        
+			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
+			        gridview: true,				// 그리드뷰 방식 랜더링
+			        sortable: true,				// 컬럼을 마우스 순서 변경
+			        height : '670',
+			        autowidth:true,				// 가로 넒이 자동조절
+			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
+			        altRows: true,				// 라인 강조
+				});
+
+
+				$("#samsunglifeList").jqGrid({
+				    url: "<c:url value='/samsunglifeData'/>", // 데이터를 가져올 서버 URL
+				    mtype: 'POST',
+				    datatype: 'json', // 데이터 형식
+				    colNames: [
+					    '타입', '사번', '계정명', '사원명', '직무 책임', '직무', '이메일', '휴대폰번호',
+					    '전화번호', '부서경로', '상위부서', '부서명', '상태', '회사'
+					],
+					colModel: [
+					    { name: 'empType', index: 'empType', align: 'center' },
+					    { name: 'empnum', index: 'empnum', align: 'center' },
+					    { name: 'accountname', index: 'accountname', align: 'center' },
+					    { name: 'empName', index: 'empName', align: 'center' },
+					    { name: 'jobTitle', index: 'jobTitle', align: 'center' },
+					    { name: 'jobName', index: 'jobName', align: 'center' },
+					    { name: 'email', index: 'email', align: 'center' },
+					    { name: 'mobile', index: 'mobile', align: 'center' },
+					    { name: 'phone', index: 'phone', align: 'center' },
+					    { name: 'deptFullPath', index: 'deptFullPath', align: 'center' },
+						{ name: 'deptParentPath', index: 'deptParentPath', align: 'center' },
+						{ name: 'deptName', index: 'deptName', align: 'center' },
+						{ name: 'empStatus', index: 'empStatus', align: 'center' },
+						{ name: 'company', index: 'company', align: 'center' },
+				    ],
+				    jsonReader: {
+				        repeatitems: false,
+				        id: 'accountname' // 서버 데이터의 primary key 필드
+				    },
+				    pager: '#samsunglifePager',
+			        rowNum: 25,					// 보여중 행의 수
+			        sortname: 'accountname',	// 기본 정렬 
+			        sortorder: 'desc',			// 정렬 방식
+			        
+			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
+			        gridview: true,				// 그리드뷰 방식 랜더링
+			        sortable: true,				// 컬럼을 마우스 순서 변경
+			        height : '670',
+			        autowidth:true,				// 가로 넒이 자동조절
+			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
+			        altRows: true,				// 라인 강조
+				});
+				
+
 			});
 			
 			$(window).on('resize.nhlifeList', function () {
@@ -121,7 +203,13 @@
 			    jQuery("#kbankList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 			});
 
-			
+			$(window).on('resize.nhqvList', function () {
+			    jQuery("#nhqvList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			});
+
+			$(window).on('resize.samsunglifeList', function () {
+			    jQuery("#samsunglifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			});
 		</script>
 	</head>
 	<body>
@@ -179,9 +267,10 @@
 																	<select class="form-control" id="empDumpCustomer" name="empDumpCustomer" data-size="5" data-actions-box="true">
 																		<option value="">--- 고객사 선택 ---</option>
 																		<option value="nhlife">NH농협생명</option>
-																		<option value="kbank">KB카드</option>
+																		<option value="kbank">K뱅크</option>
 																		<option value="nhqv">NH투자증권</option>
 																		<option value="btckorea">비티씨코리아닷컴</option>
+																		<option value="samsunglife">삼성생명</option>
 																	</select>
 																</td>
 																<td>
@@ -204,6 +293,19 @@
 																	</div>
 																	<!------- Grid ------->
 																	
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper" id="nhqvId" style="display: none;">
+																		<table id="nhqvList"></table>
+																		<div id="nhqvPager"></div>
+																	</div>
+																	<!------- Grid ------->
+
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper" id="samsunglifeId" style="display: none;">
+																		<table id="samsunglifeList"></table>
+																		<div id="samsunglifePager"></div>
+																	</div>
+																	<!------- Grid ------->
 																</td>
 															</tr>
 														</tbody>
@@ -226,6 +328,9 @@
 			var empDumpCustomer = $('#empDumpCustomer').val();
 			jQuery("#kbankList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 			jQuery("#nhlifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			jQuery("#nhqvList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			jQuery("#samsunglifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			
 			if(empDumpCustomer == "") {
 				Swal.fire(
 				  '실패!',
@@ -243,6 +348,10 @@
 				$("#nhlifeId").show();
 			} else if(empDumpCustomer == "kbank") {
 				$("#kbankId").show();
+			} else if(empDumpCustomer == "nhqv") {
+				$("#nhqvId").show();
+			} else if(empDumpCustomer == "samsunglife") {
+				$("#samsunglifeId").show();
 			}
 		});
 
@@ -276,7 +385,7 @@
 						  '인사정보 생성 완료!',
 						  'success'
 						)
-					} else if(data == "nhlifeOk") {
+					} else if(data == "nhlifeOK") {
 						Swal.fire(
 						  'NH농협생명 인사정보 생성 완료!',
 						  '다운로드된 SQL 파일을 실행바랍니다.<br>NH농협생명은 Tibero를 사용하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
@@ -287,19 +396,41 @@
 					} else if(data == "btckoreaOK") {
 						Swal.fire(
 						  '비티씨코리아닷컴 인사정보 생성 완료!',
-						  '다운로드된 SQL 파일을 실행바랍니다.<br>비티씨코리아닷컴은 Tibero를 사용하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>비티씨코리아닷컴은 <span style="color:red">Tibero</span>를 사용하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
 						  'success'
 						)
 						tableRefreshNH();
 						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
-					}else if(data == "kbankOk") {
+					}else if(data == "kbankOK") {
 						Swal.fire(
 						  'K뱅크 인사정보 생성 완료!',
-						  '다운로드된 SQL 파일을 실행바랍니다.<br>jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>K뱅크는 <span style="color:red">MySQL, MariaDB</span> 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
 						  'success'
 						)
 						tableRefreshKbank();
 						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
+					} else if(data == "nhqvOK") {
+						Swal.fire(
+						  'NH투자증권 인사정보 생성 완료!',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>NH투자증권은 <span style="color:red">MSSQL</span>을 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
+						  'success'
+						)
+						tableRefreshNhqv();
+						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
+					} else if(data == "samsunglifeOK") {
+						Swal.fire(
+						  '삼성생명 인사정보 생성 완료!',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>삼성생명은 <span style="color:red">MSSQL</span>을 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
+						  'success'
+						)
+						tableRefreshSamsunglife();
+						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
+					} else if(data == "FALSE") {
+						Swal.fire(
+						  '에러!',
+						  '테이블 생성 중 문제가 발생하였습니다.',
+						  'error'
+						)
 					} else {
 						Swal.fire(
 						  '실패!',
@@ -330,6 +461,23 @@
 			jqGrid.clearGridData();
 			jqGrid.trigger('reloadGrid');
 		}
+
+		function tableRefreshNhqv() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+
+			var jqGrid = $("#nhqvList");
+			jqGrid.clearGridData();
+			jqGrid.trigger('reloadGrid');
+		}
+
+		function tableRefreshSamsunglife() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+
+			var jqGrid = $("#samsunglifeList");
+			jqGrid.clearGridData();
+			jqGrid.trigger('reloadGrid');
+		}
+		
 		
 	</script>
 </html>

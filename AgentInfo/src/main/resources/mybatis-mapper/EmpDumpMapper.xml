@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="empDump">
+	<resultMap type="com.secuve.agentInfo.vo.empDump.ViewSamsung" id="viewSamsung"></resultMap>
+	
 	<resultMap type="com.secuve.agentInfo.vo.empDump.IfUser" id="ifUser">
 		<result property="user_id" column="user_id"/>
         <result property="user_number" column="user_number"/>
@@ -39,6 +41,19 @@
 		<result property="user_custom01" column="user_custom01" />
 		<result property="user_custom02" column="user_custom02" />
 		<result property="user_custom03" column="user_custom03" />
+	</resultMap>
+	
+	<resultMap type="com.secuve.agentInfo.vo.empDump.ViewNac" id="viewNac">
+		<result property="sabun" column="sabun" />
+		<result property="jumin_no" column="jumin_no" />
+		<result property="NAME" column="NAME" />
+		<result property="status" column="status" />
+		<result property="office_tel" column="office_tel" />
+		<result property="mail_id" column="mail_id" />
+		<result property="org_cd" column="org_cd" />
+		<result property="org_nm" column="org_nm" />
+		<result property="pos_cd" column="pos_cd" />
+		<result property="pos_nm" column="pos_nm" />
 	</resultMap>
 	
 	<select id="getNHLifeDataList" resultMap="ifUser" parameterType="string">
@@ -168,5 +183,148 @@
     <select id="kbankAll" resultMap="vwUser">
     	SELECT * FROM vw_USER
     </select>
-	
+    
+    <delete id="nhqvDelete">
+    	DELETE FROM view_nac_emp
+    </delete>
+    
+    <insert id="nhqvInsert" parameterType="viewNac">
+    	INSERT INTO view_nac_emp (sabun, jumin_no, NAME, status, office_tel, mail_id, org_cd, org_nm, pos_cd, pos_nm)
+    	VALUES(#{sabun}, #{jumin_no}, #{NAME}, #{status}, #{office_tel}, #{mail_id}, #{org_cd}, #{org_nm}, #{pos_cd}, #{pos_nm});
+    </insert>
+    
+    <select id="getNhqvData" resultMap="viewNac" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM view_nac_emp
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+    </select>
+    
+    <select id="nhqvAll" resultMap="viewNac">
+    	SELECT * FROM view_nac_emp
+    </select>
+    
+    <delete id="samsunglifeDeleteEmp">
+    	DELETE FROM view_secuve_employees;
+    </delete>
+    
+    <delete id="samsunglifeDeletePart">
+    	DELETE FROM view_secuve_partners;
+    </delete>
+    
+    <insert id="empSamsunglifeInsert" parameterType="viewSamsung">
+    	INSERT INTO view_secuve_employees (
+		    employeeid, 
+		    accountname, 
+		    koreanname, 
+		    jobresponsibility, 
+		    jobduty, 
+		    email, 
+		    mobilephone, 
+		    telephonenumber, 
+		    departmentcode, 
+		    employeestatus, 
+		    companyname
+		) VALUES
+		(#{employeeid}, #{accountname}, #{koreanname}, #{jobresponsibility}, #{jobduty}, #{email}, #{mobilephone}, #{telephonenumber}, #{departmentcode}, #{employeestatus}, #{companyname});
+    </insert>
+    
+    <insert id="partnerSamsunglifeInsert" parameterType="viewSamsung">
+    	INSERT INTO view_secuve_partners (
+		    empnum, 
+		    accountname, 
+		    koreanname, 
+		    jobposition, 
+		    email, 
+		    mobilephone, 
+		    officephone, 
+		    companyname, 
+		    employeestatus
+		) VALUES
+		(#{empnum}, #{accountname}, #{koreanname}, #{jobposition}, #{email}, #{mobilephone}, #{officephone}, #{companyname}, #{employeestatus});
+    </insert>
+    
+    <select id="getSamsunglifeData" resultMap="viewSamsung" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				WITH RECURSIVE dept_anc AS (
+				    SELECT 
+				        departmentcode,
+				        parentdepartmentcode,
+				        koreanname,
+				        1 AS lvl,
+				        CAST(CONCAT('/', koreanname) AS CHAR) AS path
+				    FROM view_secuve_department
+				    WHERE parentdepartmentcode IS NULL
+				    UNION ALL
+				    SELECT 
+				        a.departmentcode,
+				        a.parentdepartmentcode,
+				        a.koreanname,
+				        b.lvl + 1,
+				        CAST(CONCAT(b.path, '/', a.koreanname) AS CHAR)
+				    FROM view_secuve_department a
+				    JOIN dept_anc b
+				    ON a.parentdepartmentcode = b.departmentcode
+				)
+				SELECT 
+				    'employee' AS EmpType,
+				    emp.employeeid AS EmpNum,
+				    emp.accountname,
+				    emp.koreanname AS EmpName,
+				    emp.jobresponsibility AS JobTitle,
+				    emp.jobduty AS JobName,
+				    emp.email AS Email,
+				    emp.mobilephone AS Mobile,
+				    emp.telephonenumber AS Phone,
+				    s_anc.path AS DeptFullPath,
+				    LEFT(s_anc.path, CHAR_LENGTH(s_anc.path) - INSTR(REVERSE(s_anc.path), '/') + 1) AS DeptParentPath,
+				    s_anc.koreanname AS DeptName,
+				    emp.employeestatus AS EmpStatus,
+				    emp.companyname AS Company
+				FROM view_secuve_employees emp
+				LEFT JOIN dept_anc s_anc
+				ON emp.departmentcode = s_anc.departmentcode
+				
+				UNION ALL
+				
+				SELECT 
+				    'partner' AS EmpType,
+				    pat.empnum,
+				    pat.accountname,
+				    pat.koreanname AS EmpName,
+				    pat.jobposition AS JobTitle,
+				    '' AS JobName,
+				    pat.email AS Email,
+				    pat.mobilephone AS Mobile,
+				    pat.officephone AS Phone,
+				    CONCAT('/', pat.companyname) AS DeptFullPath,
+				    '/' AS DeptParentPath,
+				    pat.companyname AS DeptName,
+				    pat.employeestatus AS EmpStatus,
+				    pat.companyname AS Company
+				FROM view_secuve_partners pat
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+    </select>
+    
+    <select id="getSamsunglifeDataCount" resultType="_int">
+    	SELECT COUNT(*) 
+		FROM (
+		    SELECT 1 FROM view_secuve_employees
+		    UNION ALL
+		    SELECT 1 FROM view_secuve_partners
+		) AS combined;
+    </select>
+    
 </mapper>
