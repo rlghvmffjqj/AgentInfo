@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.secuve.agentInfo.service.EmpDumpService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.vo.empDump.IfUser;
+import com.secuve.agentInfo.vo.empDump.NACView;
+import com.secuve.agentInfo.vo.empDump.Shinhanlife;
 import com.secuve.agentInfo.vo.empDump.ViewNac;
 import com.secuve.agentInfo.vo.empDump.ViewSamsung;
 import com.secuve.agentInfo.vo.empDump.VwUser;
@@ -35,6 +37,8 @@ public class EmpDumpController {
 		empDumpService.kbankDelete();
 		empDumpService.nhqvDelete();
 		empDumpService.samsunglifeDelete();
+		empDumpService.shinhanlifeDelete();
+		empDumpService.finnqDelete();
 
 		return "empDump/EmpDumpList";
 	}
@@ -44,7 +48,6 @@ public class EmpDumpController {
 	public Map<String, Object> empDumpNhlife(IfUser search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<IfUser> list = new ArrayList<>(empDumpService.getNHLifeData(search));
-		
 		
 		int totalCount = empDumpService.getNHLifeDataCount();
 		map.put("page", search.getPage());
@@ -59,7 +62,6 @@ public class EmpDumpController {
 	public Map<String, Object> empDumpKbank(VwUser search) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<VwUser> list = new ArrayList<>(empDumpService.getKbankData(search));
-		
 		
 		int totalCount = empDumpService.getKbankDataCount();
 		map.put("page", search.getPage());
@@ -86,7 +88,6 @@ public class EmpDumpController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ViewNac> list = new ArrayList<>(empDumpService.getNhqvData(search));
 		
-		
 		int totalCount = empDumpService.getKbankDataCount();
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float) totalCount / search.getRows()));
@@ -101,8 +102,35 @@ public class EmpDumpController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ViewSamsung> list = new ArrayList<>(empDumpService.getSamsunglifeData(search));
 		
-		
 		int totalCount = empDumpService.getSamsunglifeDataCount();
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/shinhanlifeData")
+	public Map<String, Object> empDumpShinhanlife(Shinhanlife search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<Shinhanlife> list = new ArrayList<>(empDumpService.getShinhanlifeData(search));
+		
+		int totalCount = empDumpService.getShinhanlifeDataCount();
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/finnqData")
+	public Map<String, Object> empDumpFinnq(NACView search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<NACView> list = new ArrayList<>(empDumpService.getFinnqData(search));
+		
+		int totalCount = empDumpService.getFinnqDataCount();
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float) totalCount / search.getRows()));
 		map.put("records", totalCount);

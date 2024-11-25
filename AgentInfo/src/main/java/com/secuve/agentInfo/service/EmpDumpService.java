@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.EmpDumpDao;
 import com.secuve.agentInfo.vo.empDump.IfUser;
+import com.secuve.agentInfo.vo.empDump.NACView;
+import com.secuve.agentInfo.vo.empDump.Shinhanlife;
 import com.secuve.agentInfo.vo.empDump.ViewNac;
 import com.secuve.agentInfo.vo.empDump.ViewSamsung;
 import com.secuve.agentInfo.vo.empDump.VwUser;
@@ -49,6 +51,12 @@ public class EmpDumpService {
 			} else if(empDumpCustomer.equals("samsunglife")) {
 				samsunglife(empDumpCount);
 				return "samsunglifeOK";
+			} else if(empDumpCustomer.equals("shinhanlife")) {
+				shinhanlife(empDumpCount);
+				return "shinhanlifeOK";
+			} else if(empDumpCustomer.equals("finnq")) {
+				finnq(empDumpCount);
+				return "finnqOK";
 			}
 		} catch (Exception e) {
 			return "FALSE";
@@ -56,6 +64,20 @@ public class EmpDumpService {
 		return "OK";
 	}
 	
+	private void finnq(int empDumpCount) {
+		empDempDao.finnqDelete();
+		for (int i = 0; i < empDumpCount; i++) {
+			NACView user = new NACView();
+			user.setUser_id("E" + String.format("%03d", i + 1));
+			user.setUser_name("User " + (i + 1));
+			user.setUser_password("Pwd " + (i + 1));
+			user.setUser_dept(generateRandomDeptCode());
+			user.setUser_position(generateRandomPositionCode());
+			empDempDao.finnqInsert(user);
+		}
+		
+	}
+
 	public void nhlife(int empDumpCount) throws IOException {
 		empDempDao.nhLifeDelete();
 		for (int i = 0; i < empDumpCount; i++) {
@@ -155,7 +177,22 @@ public class EmpDumpService {
 		}
 	}
 	
+	public void shinhanlife(int empDumpCount) {
+		empDempDao.shinhanlifeDelete();
+		for (int i = 1; i <= empDumpCount; i++) {
+			Shinhanlife user = new Shinhanlife();
+			user.setEmpNum("EMP"+String.format("%03d", i));
+			user.setDeptCode("DEPT" + (random.nextInt(5) + 1));
+            user.setDeptName(generateRandomDept());
+            user.setAppointedStatus(generateRandomStatusShinhan());
+            empDempDao.shinhanlifeInsert(user);
+		}
+	}
 	
+	private String generateRandomStatusShinhan() {
+		String[] offices = {"01","02"};
+        return offices[random.nextInt(offices.length)];
+	}
 	
 	private String sabunRandomTitle() {
     	String[] title = {"3_", "9_"};
@@ -220,6 +257,16 @@ public class EmpDumpService {
         String[] positions = {"Manager", "Team Lead", "Analyst", "Associate", "Consultant"};
         return positions[random.nextInt(positions.length)];
     }
+    
+    private String generateRandomPositionCode() {
+    	String[] positions = {"222","223","221","224","225"};
+        return positions[random.nextInt(positions.length)];
+    }
+    
+    private String generateRandomDeptCode() {
+    	String[] positions = {"2222", "1111","3333","4444","5555"};
+        return positions[random.nextInt(positions.length)];
+    }
 
     private String generateRandomTitle() {
     	String[] title = {"연구원", "전임", "선인", "책임", "대표"};
@@ -256,10 +303,98 @@ public class EmpDumpService {
 			return kbankDownLoad();
 		} else if(siteName.equals("nhqv")) {
 			return nhqvDownLoad();
-		} else if(siteName.equals("nhqv")) {
+		} else if(siteName.equals("samsunglife")) {
 			return samsunglifeDownLoad();
+		} else if(siteName.equals("shinhanlife")) {
+			return shinhanlifeDownLoad();
+		} else if(siteName.equals("finnq")) {
+			return finnqDownLoad();
 		}
 		return null;
+	}
+
+	private ResponseEntity<Resource> finnqDownLoad() {
+		List<NACView> list = empDempDao.finnqAll();
+		StringBuilder data = new StringBuilder();
+		data.append("DROP TABLE IF EXISTS NAC_UserView; \n");
+		data.append("CREATE TABLE NAC_UserView (\n")
+		    .append("\tUSER_ID VARCHAR(50) NOT NULL, \n")
+		    .append("\tUSER_NAME VARCHAR(100), \n")
+		    .append("\tUSER_PASSWORD VARCHAR(255), \n")
+		    .append("\tUSER_DEPT VARCHAR(50), \n")
+		    .append("\tUSER_POSITION VARCHAR(50), \n")
+		    .append("\tPRIMARY KEY (USER_ID) \n")
+		    .append(");\n\n");
+		
+		for (NACView user : list) {
+			String insertStatement = String.format("INSERT INTO NAC_UserView (" +
+	                "user_id, user_name, user_password, user_dept, user_position) " +
+	                "VALUES ('%s', '%s', '%s', '%s', '%s');\n",
+	            user.getUser_id(), user.getUser_name(), user.getUser_password(),
+	            user.getUser_dept(), user.getUser_position());
+			data.append(insertStatement);
+		}
+	
+		data.append("\n\nDROP TABLE IF EXISTS NAC_PosView; \n");
+		data.append("CREATE TABLE NAC_PosView (\n")
+		    .append("\tPOSITION_CODE VARCHAR(50) NOT NULL, \n")
+		    .append("\tPOSITION_NAME VARCHAR(100), \n")
+		    .append("\tPRIMARY KEY (POSITION_CODE) \n")
+		    .append(");\n\n");
+		
+		data.append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('221', '연구원');\n")
+		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('222', '전임');\n")
+		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('223', '대표');\n")
+		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('224', '선임');\n")
+		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('225', '책임');\n\n\n");
+
+	
+		data.append("DROP TABLE IF EXISTS NAC_DeptView; \n");
+		data.append("CREATE TABLE NAC_DeptView (\n")
+		    .append("\tdept_code VARCHAR(100) NOT NULL, \n")
+		    .append("\tdept_pcode VARCHAR(100), \n")
+		    .append("\tdept_name VARCHAR(100) \n")
+		    .append(");\n\n");
+		
+		data.append("INSERT INTO NAC_DeptView (dept_code, dept_pcode, dept_name) VALUES ('0000', '', '핀크');\n")
+		    .append("INSERT INTO NAC_DeptView (dept_code, dept_pcode, dept_name) VALUES ('1111', '', '엔지니어부');\n")
+		    .append("INSERT INTO NAC_DeptView (dept_code, dept_pcode, dept_name) VALUES ('2222', '', '외주');\n")
+		    .append("INSERT INTO NAC_DeptView (dept_code, dept_pcode, dept_name) VALUES ('3333', '0000', '인사부');\n")
+		    .append("INSERT INTO NAC_DeptView (dept_code, dept_pcode, dept_name) VALUES ('4444', '0000', '영업부');\n")
+		    .append("INSERT INTO NAC_DeptView (dept_code, dept_pcode, dept_name) VALUES ('5555', '0000', '개발부');\n");
+
+		ByteArrayResource resource = new ByteArrayResource(data.toString().getBytes());
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	    try {
+	        String encodedFileName = URLEncoder.encode("핀크_HR.sql", StandardCharsets.UTF_8.toString());
+	        headers.setContentDispositionFormData("attachment", encodedFileName);
+	    } catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return ResponseEntity.ok().headers(headers).body(resource);
+	}
+
+	private ResponseEntity<Resource> shinhanlifeDownLoad() {
+		List<Shinhanlife> list = empDempDao.shinhanlifeAll();
+		StringBuilder data = new StringBuilder();
+		for (Shinhanlife user : list) {
+			data.append(user.getEmpNum()+", ,"+user.getDeptCode()+","+user.getDeptName()+","+user.getAppointedStatus()+"\n");
+		}
+		ByteArrayResource resource = new ByteArrayResource(data.toString().getBytes());
+
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	    try {
+	        String encodedFileName = URLEncoder.encode("userlist.txt", StandardCharsets.UTF_8.toString());
+	        headers.setContentDispositionFormData("attachment", encodedFileName);
+	    } catch (UnsupportedEncodingException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return ResponseEntity.ok().headers(headers).body(resource);
 	}
 
 	private ResponseEntity<Resource> kbankDownLoad() {
@@ -349,7 +484,6 @@ public class EmpDumpService {
 	            user.getApprov_type(), user.getOther_group_id(),
 	            user.getUser_custom01(), user.getUser_custom02(), user.getUser_custom03());
 			data.append(insertStatement);
-
 		}
 
 		ByteArrayResource resource = new ByteArrayResource(data.toString().getBytes());
@@ -517,7 +651,18 @@ public class EmpDumpService {
 		    .append("\tofficephone VARCHAR(20), \n")
 		    .append("\tcompanyname VARCHAR(100) NOT NULL, \n")
 		    .append("\temployeestatus VARCHAR(50) \n")
-		    .append("); \n\n\n");
+		    .append("); \n\n");
+		
+		// 리스트에 있는 모든 사용자 데이터에 대해 INSERT 쿼리 생성
+		for (ViewSamsung user : listPartner) {
+			String insertStatement = String.format("INSERT INTO view_secuve_partners (" +
+		            "empnum, accountname, koreanname, jobposition, email, mobilephone, officephone, companyname, employeestatus) " +
+		            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');\n\n",
+		        user.getEmpnum(), user.getAccountname(), user.getKoreanname(), user.getJobposition(),
+		        user.getEmail(), user.getMobilephone(), user.getOfficephone(), user.getCompanyname(), user.getEmployeestatus());
+			data.append(insertStatement);
+		}
+		data.append("\n");
 		
 	    data.append("DROP TABLE IF EXISTS view_secuve_employees; \n")
 		    .append("CREATE TABLE view_secuve_employees (\n")
@@ -532,35 +677,32 @@ public class EmpDumpService {
 		    .append("\tdepartmentcode VARCHAR(50), \n")
 		    .append("\temployeestatus VARCHAR(50), \n")
 		    .append("\tcompanyname VARCHAR(100) \n")
-		    .append("); \n\n\n");
+		    .append("); \n\n");
+	    
+	    // 리스트에 있는 모든 사용자 데이터에 대해 INSERT 쿼리 생성
+	 	for (ViewSamsung user : listEmp) {
+	 		String insertStatement = String.format("INSERT INTO view_secuve_employees (" +
+	 	            "employeeid, accountname, koreanname, jobresponsibility, jobduty, email, mobilephone, telephonenumber, departmentcode, employeestatus, companyname) " +
+	 	            "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');\n\n",
+	 	        user.getEmployeeid(), user.getAccountname(), user.getKoreanname(), user.getJobresponsibility(), user.getJobduty(),
+	 	        user.getEmail(), user.getMobilephone(), user.getTelephonenumber(), user.getDepartmentcode(), user.getEmployeestatus(), user.getCompanyname());
+	 		data.append(insertStatement);
+	 	}
+	 	data.append("\n");
 	    
 	    data.append("DROP TABLE IF EXISTS view_secuve_department; \n")
 		    .append("CREATE TABLE view_secuve_department (\n")
 		    .append("\tdepartmentcode VARCHAR(50) PRIMARY KEY, \n")
 		    .append("\tparentdepartmentcode VARCHAR(50) NULL, \n")
 		    .append("\tkoreanname VARCHAR(100) NOT NULL \n")
-		    .append("); \n");
+		    .append("); \n\n");
 	    
-	    data.append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG000',null,'삼성생명');\n")
-		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG001','ORG000','인사부');\n")
-		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG002','ORG000','기획부');\n")
-		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG003','ORG000','영업부');\n")
-		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG004','ORG000','엔지니어부');\n")
+	    data.append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG000',null,'삼성생명');\n\n")
+		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG001','ORG000','인사부');\n\n")
+		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG002','ORG000','기획부');\n\n")
+		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG003','ORG000','영업부');\n\n")
+		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG004','ORG000','엔지니어부');\n\n")
 		    .append("INSERT INTO view_secuve_department (departmentcode, parentdepartmentcode, koreanname) VALUES('ORG005','ORG000','개발부');\n");
-
-
-		
-		// 리스트에 있는 모든 사용자 데이터에 대해 INSERT 쿼리 생성
-		for (ViewNac user : list) {
-			String insertStatement = String.format("INSERT INTO view_nac_emp (" +
-	                "sabun, jumin_no, name, status, office_tel, mail_id, org_cd, pos_cd) " +
-	                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');\n",
-	            user.getSabun(), user.getJumin_no(), user.getNAME(),
-	            user.getStatus(), user.getOffice_tel(), user.getMail_id(),
-	            user.getOrg_cd(), user.getPos_cd());
-			data.append(insertStatement);
-
-		}
 
 		ByteArrayResource resource = new ByteArrayResource(data.toString().getBytes());
 
@@ -610,6 +752,30 @@ public class EmpDumpService {
 
 	public void samsunglifeDelete() {
 		empDempDao.samsunglifeDelete();
+	}
+
+	public List<Shinhanlife> getShinhanlifeData(Shinhanlife search) {
+		return empDempDao.getShinhanlifeData(search);
+	}
+
+	public int getShinhanlifeDataCount() {
+		return empDempDao.getShinhanlifeDataCount();
+	}
+
+	public void shinhanlifeDelete() {
+		empDempDao.shinhanlifeDelete();
+	}
+
+	public List<NACView> getFinnqData(NACView search) {
+		return empDempDao.getFinnqData(search);
+	}
+
+	public int getFinnqDataCount() {
+		return empDempDao.getFinnqDataCount();
+	}
+
+	public void finnqDelete() {
+		empDempDao.finnqDelete();
 	}
 
 }

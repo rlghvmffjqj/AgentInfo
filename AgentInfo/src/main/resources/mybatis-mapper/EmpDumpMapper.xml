@@ -3,6 +3,7 @@
         
 <mapper namespace="empDump">
 	<resultMap type="com.secuve.agentInfo.vo.empDump.ViewSamsung" id="viewSamsung"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.empDump.Shinhanlife" id="shinhanlife"></resultMap>
 	
 	<resultMap type="com.secuve.agentInfo.vo.empDump.IfUser" id="ifUser">
 		<result property="user_id" column="user_id"/>
@@ -54,6 +55,22 @@
 		<result property="org_nm" column="org_nm" />
 		<result property="pos_cd" column="pos_cd" />
 		<result property="pos_nm" column="pos_nm" />
+	</resultMap>
+	
+	<resultMap type="com.secuve.agentInfo.vo.empDump.NACView" id="nacView">
+		<result property="user_id" column="user_id" />
+		<result property="user_name" column="user_name" />
+		<result property="user_password" column="user_password" />
+		<result property="user_dept" column="user_dept" />
+		<result property="user_position" column="user_position" />
+		<result property="position_code" column="position_code" />
+		<result property="position_name" column="position_name" />
+		<result property="joblevel" column="joblevel" />
+		<result property="emptype" column="emptype" />
+		<result property="empstatus" column="empstatus" />
+		<result property="dept_code" column="dept_code" />
+		<result property="dept_pcode" column="dept_pcode" />
+		<result property="dept_name" column="dept_name" />
 	</resultMap>
 	
 	<select id="getNHLifeDataList" resultMap="ifUser" parameterType="string">
@@ -289,7 +306,7 @@
 				    s_anc.path AS DeptFullPath,
 				    LEFT(s_anc.path, CHAR_LENGTH(s_anc.path) - INSTR(REVERSE(s_anc.path), '/') + 1) AS DeptParentPath,
 				    s_anc.koreanname AS DeptName,
-				    emp.employeestatus AS EmpStatus,
+				    emp.employeestatus AS empstatus,
 				    emp.companyname AS Company
 				FROM view_secuve_employees emp
 				LEFT JOIN dept_anc s_anc
@@ -310,7 +327,7 @@
 				    CONCAT('/', pat.companyname) AS DeptFullPath,
 				    '/' AS DeptParentPath,
 				    pat.companyname AS DeptName,
-				    pat.employeestatus AS EmpStatus,
+				    pat.employeestatus AS empstatus,
 				    pat.companyname AS Company
 				FROM view_secuve_partners pat
 			) a
@@ -326,5 +343,83 @@
 		    SELECT 1 FROM view_secuve_partners
 		) AS combined;
     </select>
+    
+    <select id="samsunglifeEmpAll" resultMap="viewSamsung">
+    	SELECT * FROM view_secuve_employees;
+    </select>
+    
+    <select id="samsunglifePartnerAll" resultMap="viewSamsung">
+    	SELECT * FROM view_secuve_partners;
+    </select>
+    
+    <select id="getShinhanlifeData" resultMap="shinhanlife" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM shinhanlife
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+    </select>
+    
+    <select id="getShinhanlifeDataCount" resultType="_int">
+		SELECT COUNT(*) FROM shinhanlife;
+	</select>
+	
+	<delete id="shinhanlifeDelete">
+		DELETE FROM shinhanlife;
+	</delete>
+	
+	<insert id="shinhanlifeInsert" parameterType="shinhanlife">
+		INSERT INTO shinhanlife (empNum, deptCode, deptName, appointedStatus) VALUES(#{empNum}, #{deptCode}, #{deptName}, #{appointedStatus});
+	</insert>
+	
+	<select id="shinhanlifeAll" resultMap="shinhanlife">
+		SELECT * FROM shinhanlife;
+	</select>
+	
+	<select id="getFinnqData" resultMap="nacView" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				select user_id
+				   , user_name
+				   , user_password
+				   , d.dept_name
+				   , b.position_name
+				   , CASE WHEN user_position = '223' THEN 'L3' ELSE 'L1' END joblevel
+				   , CASE WHEN user_dept = '2222' THEN 'partner' ELSE 'employee' END AS emptype
+				   , 'work' as empstatus
+				from NAC_UserView a
+				     left outer join NAC_PosView b on a.user_position = b.position_code
+				     left outer join NAC_DeptView d on a.user_dept = d.dept_code
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getFinnqDataCount" resultType="_int">
+		select COUNT(*)
+		from NAC_UserView a
+		    left outer join NAC_PosView b on a.user_position = b.position_code
+	</select>
+	
+	<delete id="finnqDelete">
+		DELETE FROM NAC_UserView;
+	</delete>
+	
+	<insert id="finnqInsert" parameterType="nacView">
+		INSERT INTO NAC_UserView (user_id, user_name, user_password, user_dept, user_position)
+		VALUES(#{user_id},#{user_name},#{user_password},#{user_dept},#{user_position});
+	</insert>
+	
+	<select id="finnqAll" resultMap="nacView">
+		SELECT * FROM NAC_UserView;
+	</select>
     
 </mapper>
