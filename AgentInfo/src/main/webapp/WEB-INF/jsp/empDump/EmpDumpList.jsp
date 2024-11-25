@@ -191,6 +191,74 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: true,				// 라인 강조
 				});
+
+
+				$("#shinhanlifeList").jqGrid({
+				    url: "<c:url value='/shinhanlifeData'/>", // 데이터를 가져올 서버 URL
+				    mtype: 'POST',
+				    datatype: 'json', // 데이터 형식
+					colNames: [
+					    '사원번호', '부서코드', '부서명', '상태'
+					],
+					colModel: [
+					    { name: 'empNum', index: 'empNum', align: 'center' },
+					    { name: 'deptCode', index: 'deptCode', align: 'center' },
+					    { name: 'deptName', index: 'deptName', align: 'center' },
+					    { name: 'appointedStatus', index: 'appointedStatus', align: 'center' },
+				    ],
+				    jsonReader: {
+				        repeatitems: false,
+				        id: 'empNum' // 서버 데이터의 primary key 필드
+				    },
+				    pager: '#shinhanlifePager',
+			        rowNum: 25,					// 보여중 행의 수
+			        sortname: 'empNum',	// 기본 정렬 
+			        sortorder: 'desc',			// 정렬 방식
+			        
+			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
+			        gridview: true,				// 그리드뷰 방식 랜더링
+			        sortable: true,				// 컬럼을 마우스 순서 변경
+			        height : '670',
+			        autowidth:true,				// 가로 넒이 자동조절
+			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
+			        altRows: true,				// 라인 강조
+				});
+
+
+				$("#finnqList").jqGrid({
+				    url: "<c:url value='/finnqData'/>", // 데이터를 가져올 서버 URL
+				    mtype: 'POST',
+				    datatype: 'json', // 데이터 형식
+					colNames: [
+					    '아이디', '이름', '패스워드', '부서명','직위','레벨','타입','상태'
+					],
+					colModel: [
+					    { name: 'user_id', index: 'user_id', align: 'center' },
+					    { name: 'user_name', index: 'user_name', align: 'center' },
+					    { name: 'user_password', index: 'user_password', align: 'center' },
+					    { name: 'dept_name', index: 'dept_name', align: 'center' },
+						{ name: 'position_name', index: 'position_name', align: 'center' },
+						{ name: 'joblevel', index: 'joblevel', align: 'center' },
+						{ name: 'emptype', index: 'emptype', align: 'center' },
+						{ name: 'empstatus', index: 'empstatus', align: 'center' },
+				    ],
+				    jsonReader: {
+				        repeatitems: false,
+				        id: 'USER_ID' // 서버 데이터의 primary key 필드
+				    },
+				    pager: '#finnqPager',
+			        rowNum: 25,					// 보여중 행의 수
+			        sortname: 'USER_ID',	// 기본 정렬 
+			        sortorder: 'desc',			// 정렬 방식
+			        
+			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
+			        gridview: true,				// 그리드뷰 방식 랜더링
+			        sortable: true,				// 컬럼을 마우스 순서 변경
+			        height : '670',
+			        autowidth:true,				// 가로 넒이 자동조절
+			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
+			        altRows: true,				// 라인 강조
+				});
 				
 
 			});
@@ -209,6 +277,14 @@
 
 			$(window).on('resize.samsunglifeList', function () {
 			    jQuery("#samsunglifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			});
+
+			$(window).on('resize.shinhanlifeList', function () {
+			    jQuery("#shinhanlifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			});
+
+			$(window).on('resize.finnqList', function () {
+			    jQuery("#finnqList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 			});
 		</script>
 	</head>
@@ -271,6 +347,8 @@
 																		<option value="nhqv">NH투자증권</option>
 																		<option value="btckorea">비티씨코리아닷컴</option>
 																		<option value="samsunglife">삼성생명</option>
+																		<option value="shinhanlife">신한생명</option>
+																		<option value="finnq">핀크</option>
 																	</select>
 																</td>
 																<td>
@@ -306,6 +384,20 @@
 																		<div id="samsunglifePager"></div>
 																	</div>
 																	<!------- Grid ------->
+
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper" id="shinhanlifeId" style="display: none;">
+																		<table id="shinhanlifeList"></table>
+																		<div id="shinhanlifePager"></div>
+																	</div>
+																	<!------- Grid ------->
+
+																	<!------- Grid ------->
+																	<div class="jqGrid_wrapper" id="finnqId" style="display: none;">
+																		<table id="finnqList"></table>
+																		<div id="finnqPager"></div>
+																	</div>
+																	<!------- Grid ------->
 																</td>
 															</tr>
 														</tbody>
@@ -330,6 +422,9 @@
 			jQuery("#nhlifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 			jQuery("#nhqvList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 			jQuery("#samsunglifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			jQuery("#shinhanlifeList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			jQuery("#finnqList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+			
 			
 			if(empDumpCustomer == "") {
 				Swal.fire(
@@ -352,7 +447,12 @@
 				$("#nhqvId").show();
 			} else if(empDumpCustomer == "samsunglife") {
 				$("#samsunglifeId").show();
+			} else if(empDumpCustomer == "shinhanlife") {
+				$("#shinhanlifeId").show();
+			} else if(empDumpCustomer == "finnq") {
+				$("#finnqId").show();
 			}
+			
 		});
 
 
@@ -388,7 +488,7 @@
 					} else if(data == "nhlifeOK") {
 						Swal.fire(
 						  'NH농협생명 인사정보 생성 완료!',
-						  '다운로드된 SQL 파일을 실행바랍니다.<br>NH농협생명은 Tibero를 사용하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>NH농협생명은 <span style="color:red">Tibero</span>를 사용하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
 						  'success'
 						)
 						tableRefreshNH();
@@ -404,7 +504,7 @@
 					}else if(data == "kbankOK") {
 						Swal.fire(
 						  'K뱅크 인사정보 생성 완료!',
-						  '다운로드된 SQL 파일을 실행바랍니다.<br>K뱅크는 <span style="color:red">MySQL, MariaDB</span> 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>K뱅크는 <span style="color:red">MySQL, MariaDB</span> 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.<br><span style="color:red">!! K뱅크의 경우 TOSMS 20, 22 코드가 달라 전용 패키지로 재확인 필요</span>',
 						  'success'
 						)
 						tableRefreshKbank();
@@ -424,6 +524,22 @@
 						  'success'
 						)
 						tableRefreshSamsunglife();
+						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
+					} else if(data == "shinhanlifeOK") {
+						Swal.fire(
+						  '신한생명 인사정보 생성 완료!',
+						  '다운로드된 파일을 설정 경로에 배치바랍니다.<br>신한생명은 <span style="color:red">DB가 아닌 파일에서 데이터를 수집합니다.</span><br>파일은 TOSMS.conf의 hrSyncPath 경로의 파일을 사용하며 값이 없을 경우 "/home/eaiftp/hr/userlist.txt" 파일을 읽어 옵니다.<br><span style="color:blue">또 한, 신한생명의 경우 INSERT는 하지않고 UPDATE만 존재합니다. 즉, 동일한 사번 동일한 부서 코드가 존재해야 수정여부 확인이 가능합니다.</span>',
+						  'success'
+						)
+						tableRefreshShinhanlife();
+						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
+					} else if(data == "finnqOK") {
+						Swal.fire(
+						  '핀크 인사정보 생성 완료!',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>핀크는 <span style="color:red">모든 DB 호환</span> 가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.<br><span style="color:blue">다운로드된 쿼리는 MySQL 기준으로 생성된 쿼리입니다.</span>',
+						  'success'
+						)
+						tableRefreshFinnq();
 						location.href="<c:url value='/empDump/empDumpDownLoad?siteName="+empDumpCustomer+"'/>";
 					} else if(data == "FALSE") {
 						Swal.fire(
@@ -474,6 +590,22 @@
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 
 			var jqGrid = $("#samsunglifeList");
+			jqGrid.clearGridData();
+			jqGrid.trigger('reloadGrid');
+		}
+
+		function tableRefreshShinhanlife() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+
+			var jqGrid = $("#shinhanlifeList");
+			jqGrid.clearGridData();
+			jqGrid.trigger('reloadGrid');
+		}
+
+		function tableRefreshFinnq() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+
+			var jqGrid = $("#finnqList");
 			jqGrid.clearGridData();
 			jqGrid.trigger('reloadGrid');
 		}
