@@ -30,18 +30,19 @@
 		<result property="user_id" column="user_id" />
 		<result property="user_name" column="user_name" />
 		<result property="user_email" column="user_email" />
-		<result property="user_tel" column="user_tel" />
-		<result property="user_mobile" column="user_mobile" />
 		<result property="user_dept" column="user_dept" />
 		<result property="user_dept_name" column="user_dept_name" />
-		<result property="pos_code" column="pos_code" />
-		<result property="pos_name" column="pos_name" />
+		<result property="res_name" column="res_name" />
+		<result property="user_position_name" column="user_position_name" />
 		<result property="user_type_sub" column="user_type_sub" />
-		<result property="approv_type" column="approv_type" />
+		<result property="emptype" column="emptype" />
 		<result property="other_group_id" column="other_group_id" />
 		<result property="user_custom01" column="user_custom01" />
 		<result property="user_custom02" column="user_custom02" />
 		<result property="user_custom03" column="user_custom03" />
+		<result property="encodingsalt" column="encodingsalt" />
+		<result property="encodingtype" column="encodingtype" />
+		<result property="loginpwd" column="loginpwd" />
 	</resultMap>
 	
 	<resultMap type="com.secuve.agentInfo.vo.empDump.ViewNac" id="viewNac">
@@ -145,9 +146,30 @@
     	FROM
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
-    		FROM (
-				SELECT *
-				FROM vw_USER
+	    		FROM (
+					select
+				USER_ID
+				,USER_NAME
+				,USER_EMAIL
+				,''	AS PHONE	
+				,''	AS MOBILE
+				,USER_DEPT
+				,USER_DEPT_NAME
+				,res_name
+				,USER_POSITION_NAME
+				,CASE WHEN res_name in ('팀장','센터장') 
+					THEN 'L3' ELSE 'L1' END AS JOBLEVEL
+				,CASE WHEN USER_TYPE_SUB = '0' 
+					THEN 'partner' WHEN USER_TYPE_SUB = '1' 
+					THEN 'employee' ELSE  'partner' END AS EMPTYPE
+				,OTHER_GROUP_ID
+				,USER_CUSTOM01
+				,USER_CUSTOM02
+				,USER_CUSTOM03
+				,'8fc39a7d7d282f47' as encodingsalt
+				,'sha256' as encodingtype
+				,'f91c04fac50927ee68fa9479e6974fcd0f49a52ed5e0237d450d28ff62bc099d' as loginpwd
+			from vw_user
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
@@ -162,14 +184,11 @@
 		    user_id,
 		    user_name,
 		    user_email,
-		    user_tel,
-		    user_mobile,
 		    user_dept,
 		    user_dept_name,
-		    pos_code,
-		    pos_name,
+		    res_name,
+		    user_position_name,
 		    user_type_sub,
-		    approv_type,
 		    other_group_id,
 		    user_custom01,
 		    user_custom02,
@@ -178,14 +197,11 @@
 		    #{user_id},
 		    #{user_name},
 		    #{user_email},
-		    #{user_tel},
-		    #{user_mobile},
 		    #{user_dept},
 		    #{user_dept_name},
-		    #{pos_code},
-		    #{pos_name},
+		    #{res_name},
+		    #{user_position_name},
 		    #{user_type_sub},
-		    #{approv_type},
 		    #{other_group_id},
 		    #{user_custom01},
 		    #{user_custom02},

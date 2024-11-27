@@ -111,14 +111,11 @@ public class EmpDumpService {
 			user.setUser_id("E" + String.format("%03d", i));  // 예시: E001, E002, ...
 			user.setUser_name("User " + i);
 			user.setUser_email("user" + i + "@secuve.com");
-			user.setUser_tel(generateRandomPhoneNumber());
-			user.setUser_mobile("02-" + String.format("%04d", random.nextInt(10000)) + "-" + String.format("%04d", random.nextInt(10000)));
 			user.setUser_dept(generateRandomDept());
 			user.setUser_dept_name(user.getUser_dept());
-			user.setPos_code("P" + (random.nextInt(5) + 1));
-			user.setPos_name("Job " + (random.nextInt(5) + 1));
+			user.setRes_name(generateRandomTitle());
+			user.setUser_position_name(generateRandomPosition());
 			user.setUser_type_sub(random.nextBoolean() ? "0" : "1");
-			user.setApprov_type("Approval Type " + (random.nextInt(5) + 1));
 			user.setOther_group_id("OG" + (random.nextInt(5) + 1));
 			user.setUser_custom01("CustomField01-" + (random.nextInt(5) + 1));
 			user.setUser_custom02("CustomField02-" + (random.nextInt(5) + 1));
@@ -223,7 +220,7 @@ public class EmpDumpService {
 		else if(posCd.equals("POS004"))
 			return "과장";
 		else if(posCd.equals("POS005"))
-			return "대표";
+			return "센터장";
 		return "";
 	}
         
@@ -269,7 +266,7 @@ public class EmpDumpService {
     }
 
     private String generateRandomTitle() {
-    	String[] title = {"연구원", "전임", "선인", "책임", "대표"};
+    	String[] title = {"연구원", "전임", "선인", "책임", "센터장"};
         return title[random.nextInt(title.length)];
     }
     
@@ -344,7 +341,7 @@ public class EmpDumpService {
 		
 		data.append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('221', '연구원');\n")
 		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('222', '전임');\n")
-		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('223', '대표');\n")
+		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('223', '센터장');\n")
 		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('224', '선임');\n")
 		    .append("INSERT INTO NAC_PosView (POSITION_CODE, POSITION_NAME) VALUES ('225', '책임');\n\n\n");
 
@@ -400,8 +397,8 @@ public class EmpDumpService {
 	private ResponseEntity<Resource> kbankDownLoad() {
 		List<VwUser> list = empDempDao.kbankAll();
 		StringBuilder data = new StringBuilder();
+		data.append("################## TOS 쿼리 실행 START ##################### \n");
 		data.append("DROP TABLE IF EXISTS temp_employee; \n");
-		
 		data.append("CREATE TABLE temp_employee (\n")
 		    .append("\tEMPTYPE VARCHAR(20) DEFAULT NULL, \n")
 		    .append("\tEMPNUM VARCHAR(100) NOT NULL, \n")
@@ -431,13 +428,12 @@ public class EmpDumpService {
 		    .append("\tISMOVEDEPT VARCHAR(10) DEFAULT NULL, \n")
 		    .append("\tDN VARCHAR(512) DEFAULT NULL, \n")
 		    .append("\tSOURCE VARCHAR(10) DEFAULT NULL, \n")
-		    .append("\tJOBTITLECD VARCHAR(25) DEFAULT NULL, \n")
-		    .append("\tJOBPOSITIONCD VARCHAR(25) DEFAULT NULL, \n")
 		    .append("\tPRIMARY KEY (EMPNUM) \n")
-		    .append("); \n\n\n");
-		//
+		    .append("); \n");
+		data.append("################## TOS 쿼리 실행 END ##################### \n\n\n\n");
+
+		data.append("################## HR 쿼리 실행 START ##################### \n");
 		data.append("DROP TABLE IF EXISTS vw_dept; \n");
-		
 		data.append("CREATE TABLE vw_dept (\n")
 		    .append("\tDEPT_CODE VARCHAR(100) NOT NULL, \n")
 		    .append("\tHI_DEPT VARCHAR(100) DEFAULT '', \n")
@@ -449,42 +445,36 @@ public class EmpDumpService {
 		    .append("INSERT INTO vw_dept VALUES('영업부', '', '영업부');\n")
 		    .append("INSERT INTO vw_dept VALUES('엔지니어부', '', '엔지니어부');\n")
 		    .append("INSERT INTO vw_dept VALUES('개발부', '', '개발부');\n\n\n");
-		//
+
 		data.append("DROP TABLE IF EXISTS vw_USER; \n");
-		
 		data.append("CREATE TABLE vw_USER (\n")
 		    .append("\tuser_id VARCHAR(50), \n")          // EMPNUM -> user_id
 		    .append("\tuser_name VARCHAR(100), \n")       // EMPNAME -> user_name
 		    .append("\tuser_email VARCHAR(100), \n")      // EMAIL -> user_email
-		    .append("\tuser_tel VARCHAR(20), \n")         // PHONE -> user_tel
-		    .append("\tuser_mobile VARCHAR(20), \n")      // MOBILE -> user_mobile
 		    .append("\tuser_dept VARCHAR(50), \n")        // DEPTCODE -> user_dept
 		    .append("\tuser_dept_name VARCHAR(100), \n")  // DEPTNAME -> user_dept_name
-		    .append("\tpos_code VARCHAR(20), \n")         // POS_CODE -> pos_code
-		    .append("\tpos_name VARCHAR(100), \n")
+		    .append("\tres_name VARCHAR(100), \n")
+		    .append("\tuser_position_name VARCHAR(100), \n")
 		    .append("\tuser_type_sub VARCHAR(20), \n")
-		    .append("\tapprov_type VARCHAR(50), \n")      // APPROV_TYPE -> approv_type
 		    .append("\tother_group_id VARCHAR(50), \n")   // OTHER_GROUP_ID -> other_group_id
 		    .append("\tuser_custom01 VARCHAR(100), \n")   // USER_CUSTOM01 -> user_custom01
 		    .append("\tuser_custom02 VARCHAR(100), \n")   // USER_CUSTOM02 -> user_custom02
 		    .append("\tuser_custom03 VARCHAR(100) \n")   // USER_CUSTOM03 -> user_custom03
 		    .append(");\n\n\n");
 
-
 		// 리스트에 있는 모든 사용자 데이터에 대해 INSERT 쿼리 생성
 		for (VwUser user : list) {
 			String insertStatement = String.format("INSERT INTO vw_USER (" +
-	                "USER_ID, USER_NAME, USER_EMAIL, USER_TEL, USER_MOBILE, USER_DEPT, USER_DEPT_NAME, POS_CODE, " +
-	                "USER_TYPE_SUB, APPROV_TYPE, OTHER_GROUP_ID, USER_CUSTOM01, USER_CUSTOM02, USER_CUSTOM03) " +
-	                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', " +
-	                "'%s', '%s', '%s', '%s');\n",
-	            user.getUser_id(), user.getUser_name(), user.getUser_email(),
-	            user.getUser_tel(), user.getUser_mobile(), user.getUser_dept(),
-	            user.getUser_dept_name(), user.getPos_code(), user.getUser_type_sub(),
-	            user.getApprov_type(), user.getOther_group_id(),
-	            user.getUser_custom01(), user.getUser_custom02(), user.getUser_custom03());
+	                "USER_ID, USER_NAME, USER_EMAIL, USER_DEPT, USER_DEPT_NAME, res_name, " +
+	                "USER_POSITION_NAME, USER_TYPE_SUB, OTHER_GROUP_ID, USER_CUSTOM01, USER_CUSTOM02, USER_CUSTOM03) " +
+	                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', " +
+	                "'%s', '%s', '%s', '%s', '%s');\n\n",
+	            user.getUser_id(), user.getUser_name(), user.getUser_email(), user.getUser_dept(),
+	            user.getUser_dept_name(), user.getRes_name(), user.getUser_position_name(), user.getUser_type_sub(),
+	            user.getOther_group_id(), user.getUser_custom01(), user.getUser_custom02(), user.getUser_custom03());
 			data.append(insertStatement);
 		}
+		data.append("################## HR 쿼리 실행 END ##################### \n");
 
 		ByteArrayResource resource = new ByteArrayResource(data.toString().getBytes());
 
@@ -503,7 +493,7 @@ public class EmpDumpService {
 	private ResponseEntity<Resource> nhlifeDownLoad(String siteName) {
 		String customer = "";
 		if(siteName.equals("nhlife")) {
-			customer = "NHLife_HR.sql";
+			customer = "NH농협생명_HR.sql";
 		} else if(siteName.equals("btckorea")) {
 			customer = "비티씨코리아닷컴_HR.sql";
 		}
@@ -589,7 +579,7 @@ public class EmpDumpService {
 			.append("INSERT INTO view_nac_grd (pos_cd, pos_nm) VALUES('POS002','대리');\n")
 			.append("INSERT INTO view_nac_grd (pos_cd, pos_nm) VALUES('POS003','차장');\n")
 			.append("INSERT INTO view_nac_grd (pos_cd, pos_nm) VALUES('POS004','과장');\n")
-			.append("INSERT INTO view_nac_grd (pos_cd, pos_nm) VALUES('POS005','대표');\n\n\n");
+			.append("INSERT INTO view_nac_grd (pos_cd, pos_nm) VALUES('POS005','센터장');\n\n\n");
 	
 		data.append("DROP TABLE IF EXISTS view_nac_chf; \n")
 		    .append("CREATE TABLE view_nac_chf (\n")

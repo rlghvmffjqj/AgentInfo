@@ -71,23 +71,20 @@
 				    mtype: 'POST',
 				    datatype: 'json', // 데이터 형식
 				    colNames: [
-					    'User ID', 'User Name', 'Email', 'Phone', 'Mobile', 'Department Code', 
-					    'Department Name', 'Position Code', 'Position Name', 'User Type', 
-					    'Approval Type', 'Other Group ID', 'Custom Field 1', 'Custom Field 2', 
+					    '아이디', '이름', '이름', 
+					    '부서명', '직위', '직책', '레벨', '타입', 
+					    '다른 그룹ID', 'Custom Field 1', 'Custom Field 2', 
 					    'Custom Field 3'
 					],
 					colModel: [
 					    { name: 'user_id', index: 'user_id', align: 'center' },
 					    { name: 'user_name', index: 'user_name', align: 'center' },
 					    { name: 'user_email', index: 'user_email', align: 'center' },
-					    { name: 'user_tel', index: 'user_tel', align: 'center' },
-					    { name: 'user_mobile', index: 'user_mobile', align: 'center' },
-					    { name: 'user_dept', index: 'user_dept', align: 'center' },
 					    { name: 'user_dept_name', index: 'user_dept_name', align: 'center' },
-					    { name: 'pos_code', index: 'pos_code', align: 'center' },
-					    { name: 'pos_name', index: 'pos_name', align: 'center' },
-					    { name: 'user_type_sub', index: 'user_type_sub', align: 'center' },
-					    { name: 'approv_type', index: 'approv_type', align: 'center' },
+					    { name: 'res_name', index: 'res_name', align: 'center' },
+						{ name: 'user_position_name', index: 'user_position_name', align: 'center' },
+						{ name: 'joblevel', index: 'joblevel', align: 'center' },
+						{ name: 'emptype', index: 'emptype', align: 'center' },
 					    { name: 'other_group_id', index: 'other_group_id', align: 'center' },
 					    { name: 'user_custom01', index: 'user_custom01', align: 'center' },
 					    { name: 'user_custom02', index: 'user_custom02', align: 'center' },
@@ -504,7 +501,7 @@
 					}else if(data == "kbankOK") {
 						Swal.fire(
 						  'K뱅크 인사정보 생성 완료!',
-						  '다운로드된 SQL 파일을 실행바랍니다.<br>K뱅크는 <span style="color:red">MySQL, MariaDB</span> 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.<br><span style="color:red">!! K뱅크의 경우 TOSMS 20, 22 코드가 달라 전용 패키지로 재확인 필요</span>',
+						  '다운로드된 SQL 파일을 실행바랍니다.<br>K뱅크는 <span style="color:red">MySQL, MariaDB</span> 사용가능하며, jdbc.conf 파일의 HR에 JDBC 설정 정보를 입력해야 합니다.<br><span style="color:blue">temp_employee 테이블 생성 쿼리는 HR Databse가 아닌 TOS Database에서 실행해야합니다.</span>',
 						  'success'
 						)
 						tableRefreshKbank();
