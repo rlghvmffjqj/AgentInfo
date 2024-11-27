@@ -120,7 +120,7 @@
 					    { name: 'sabun', index: 'sabun', align: 'center' },
 					    { name: 'jumin_no', index: 'jumin_no', align: 'center' },
 					    { name: 'name', index: 'name', align: 'center' },
-					    { name: 'status', index: 'status', align: 'center' },
+					    { name: 'status', index: 'status', align: 'center', formatter: statusFormatter},
 					    { name: 'office_tel', index: 'office_tel', align: 'center' },
 					    { name: 'mail_id', index: 'mail_id', align: 'center' },
 					    { name: 'org_cd', index: 'org_cd', align: 'center' },
@@ -558,6 +558,13 @@
 			    }
 			});			
 		});
+
+		function statusFormatter(cellValue, options, rowdata, action) {
+			if(cellValue === "20") {
+				return "퇴사";
+			}
+			return "근무";
+		}
 		
 		function tableRefreshNH() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
