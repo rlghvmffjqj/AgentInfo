@@ -273,12 +273,18 @@
 		
 	</body>
 	<script>
+		var isAnimating = false;
 		function moveScroll(element, keyNum) {
+			if (isAnimating) {
+    		    return false; // 애니메이션 중이면 동작하지 않음
+    		}
+			isAnimating = true;
 			var parent = $(element).parent();
             var nextSibling = parent.next('.searchbos');
             if (nextSibling.length) {
                 nextSibling.slideUp(300, function() {
                     nextSibling.remove();
+					isAnimating = false;
                 });
 				return false;
 			}
@@ -391,6 +397,7 @@
 					itemLi.after(itemDiv);
 					$('#div'+data.issue.issuePrimaryKeyNum).hide();
 					$('#div'+data.issue.issuePrimaryKeyNum).slideDown(500);
+					isAnimating = false;
 				},
 				error: function(error) {
 					console.log(error);
