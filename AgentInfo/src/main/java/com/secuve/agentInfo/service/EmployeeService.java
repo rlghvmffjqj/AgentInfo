@@ -30,27 +30,31 @@ public class EmployeeService {
 	@Autowired Users users;
 	
 	public List<Employee> getEmployeeList(Employee search) {
-		List<Employee> list = new ArrayList<Employee>();
-		list = employeeDao.getEmployeeList(search);
-		for (Employee employee : list) {
-			if(employee.getUsersRole().equals("ADMIN")) {
-				employee.setUsersRole("관리자");
-			} else if(employee.getUsersRole().equals("ENGINEER")) {
-				employee.setUsersRole("엔지니어");
-			} else if(employee.getUsersRole().equals("QA")) {
-				employee.setUsersRole("QA");
-			} else if(employee.getUsersRole().equals("LICENSE")) {
-				employee.setUsersRole("라이선스 관리자");
-			} else if(employee.getUsersRole().equals("ENGINEERLEADER")) {
-				employee.setUsersRole("엔지니어 팀장");
-			} else if(employee.getUsersRole().equals("SALES")) {
-				employee.setUsersRole("영업");
-			} else {
-				employee.setUsersRole("일반 사용자");
-			} 
-		}
-		return list;
-	}
+        List<Employee> employees = employeeDao.getEmployeeList(search);
+        for (Employee employee : employees) {
+            employee.setUsersRole(getLocalizedRole(employee.getUsersRole()));
+        }
+        return employees;
+    }
+
+    private String getLocalizedRole(String role) {
+        switch (role) {
+            case "ADMIN":
+                return "관리자";
+            case "ENGINEER":
+                return "엔지니어";
+            case "QA":
+                return "QA";
+            case "LICENSE":
+                return "라이선스 관리자";
+            case "ENGINEERLEADER":
+                return "엔지니어 팀장";
+            case "SALES":
+                return "영업";
+            default:
+                return "일반 사용자";
+        }
+    }
 
 	public String delEmployee(String[] chkList) {
 		for(String employeeId: chkList) {
@@ -68,15 +72,18 @@ public class EmployeeService {
 
 
 	public String insertEmployee(Employee employee) {
-		if(employee.getEmployeeId().equals("") || employee.getEmployeeId() == "" ) { // 사원 번호가 비어있을경우 리턴
-			return "NotEmployeeId";
-		} else if(employee.getEmployeeName().equals("") || employee.getEmployeeName() == "") { // 사원 이름이 비어있을 경우 리턴
-			return "NotEmployeeName";
-		} else if(employee.getUsersPw().equals("") || employee.getUsersPw() == "") {	// 패스워드 미입력
-			return "NotUsersPw";
-		} else if(employeeDao.getEmployeeOne(employee.getEmployeeId()) != null) {	// 사용자 중복 확인
-			return "duplicateCheck";
-		}
+		if (employee.getEmployeeId().isEmpty()) {
+            return "NotEmployeeId";
+        }
+        if (employee.getEmployeeName().isEmpty()) {
+            return "NotEmployeeName";
+        }
+        if (employee.getUsersPw().isEmpty()) {
+            return "NotUsersPw";
+        }
+        if (employeeDao.getEmployeeOne(employee.getEmployeeId()) != null) {
+            return "duplicateCheck";
+        }
 		employee.setDepartmentParentPath(employee.getDepartmentFullPath().replace("/"+employee.getDepartmentName(), ""));
 		
 		int sucess = employeeDao.insertEmployee(employee);
@@ -95,34 +102,38 @@ public class EmployeeService {
 	}
 
 	public String updateEmployee(Employee employee) {
-		int sucess = 0;
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		if(employee.getEmployeeName().equals("") || employee.getEmployeeName() == "") { // 사원 이름이 비어있을 경우 리턴
-			return "NotEmployeeName";
-		}
-		if(!employee.getUsersPw().equals("") || employee.getUsersPw().equals(null)) {
-			employee.setUsersPw(passwordEncoder.encode(employee.getUsersPw()));
-			sucess = employeeDao.updateUsers(employee);
-		} else {
-			sucess = employeeDao.updateUsersRole(employee);
-		}
-		sucess *= employeeDao.updateEmployee(employee);
-		
-		if(sucess <= 0) 
-			return "FALSE";
-		return "OK";
-	}
+        if (employee.getEmployeeName().isEmpty()) {
+            return "NotEmployeeName";
+        }
 
-	public String updateDepartmentMove(String[] chkList, Employee employee) {
-		employee.setDepartmentParentPath(employee.getDepartmentFullPath().replace("/"+employee.getDepartmentName(), ""));
-		for(String employeeId: chkList) {
-			employee.setEmployeeId(employeeId);
-			int sucess =  employeeDao.updateDepartmentMove(employee);
-			if(sucess <= 0) 
-				return "FALSE";
-		}
-		return "OK";
-	}
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!employee.getUsersPw().isEmpty()) {
+            employee.setUsersPw(passwordEncoder.encode(employee.getUsersPw()));
+            if (employeeDao.updateUsers(employee) <= 0) {
+                return "FALSE";
+            }
+        } else if (employeeDao.updateUsersRole(employee) <= 0) {
+            return "FALSE";
+        }
+
+        if (employeeDao.updateEmployee(employee) <= 0) {
+            return "FALSE";
+        }
+        return "OK";
+    }
+
+	public String updateDepartmentMove(String[] employeeIds, Employee employee) {
+        employee.setDepartmentParentPath(
+                employee.getDepartmentFullPath().replace("/" + employee.getDepartmentName(), "")
+        );
+        for (String employeeId : employeeIds) {
+            employee.setEmployeeId(employeeId);
+            if (employeeDao.updateDepartmentMove(employee) <= 0) {
+                return "FALSE";
+            }
+        }
+        return "OK";
+    }
 
 	public List<String> getEmployeeId() {
 		return employeeDao.getEmployeeId();
@@ -133,21 +144,18 @@ public class EmployeeService {
 	}
 
 	public String loginSession(int loginSession, String employeeId) {
-		Date now = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date lastLogin = null;
-		try {
-			lastLogin = formatter.parse(employeeDao.loginSession(employeeId));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		Date expireTime = DateUtils.addMinutes(lastLogin, loginSession);
-		if(now.getTime() > expireTime.getTime()) {
-			return "TimeOut";
-		}
-		return "OK";
-	}
+        try {
+            String lastLoginString = employeeDao.loginSession(employeeId);
+            Date lastLogin = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lastLoginString);
+            Date expireTime = DateUtils.addMinutes(lastLogin, loginSession);
+            if (new Date().after(expireTime)) {
+                return "TimeOut";
+            }
+        } catch (ParseException e) {
+            return "Error";
+        }
+        return "OK";
+    }
 
 	public String getUsersRole(String usersId) {
 		return employeeDao.getUsersRole(usersId);
