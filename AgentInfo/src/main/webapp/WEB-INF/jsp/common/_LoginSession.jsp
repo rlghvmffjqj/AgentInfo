@@ -11,14 +11,14 @@
 
 	$(function () {
 	    // 세션 만료 시간 초기화
-	    initializeSessionExpiration();
+	    setTimerSessionTimeoutCheck();
 
 	    // 정기적인 세션 상태 확인
 	    setInterval(checkSessionTimeout, sessionCheckInterval);
 	});
 
 	// 세션 만료 시간 초기화 함수
-	function initializeSessionExpiration() {
+	function setTimerSessionTimeoutCheck() {
 	    const expirationTime = localStorage.getItem(localStorageKey);  // 기존 저장된 세션 만료 시간 가져오기
 	    const currentTime = Date.now();  // 현재 시간
 
@@ -56,6 +56,8 @@
 
 	// 세션 만료 처리
 	function sessionExpiration() {
+		localStorage.removeItem(localStorageKey);  // 로컬 스토리지에서 세션 만료 시간 삭제
+    	sessionStorage.clear();  // 세션 스토리지에서 모든 데이터 삭제 (필요한 경우)
 	    location.href="<c:url value='/users/logout' />";
 	}
 

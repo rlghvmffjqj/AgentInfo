@@ -45,7 +45,7 @@
                             </a>
                         </li>
                         <li class="waves-effect waves-light">
-                            <a href="<c:url value='/users/logout' />">
+                            <a href="javascript:void(0);" onclick="logout()">
                                 <i class="ti-layout-sidebar-left"></i> Logout
                             </a>
                         </li>
@@ -57,6 +57,15 @@
 </nav>
 
 <script>
+    function logout() {
+        // 로컬스토리지 및 세션스토리지에서 세션 데이터 삭제
+        localStorage.removeItem("sessionExpirationTime");  // 로컬스토리지에서 세션 만료 시간 삭제
+        sessionStorage.clear();  // 세션 스토리지에서 모든 데이터 삭제
+
+        // 서버 측 세션 종료 및 리다이렉션
+        location.href = "<c:url value='/users/logout' />";  // 로그아웃 요청
+    }
+    
     $.ajax({
 		url: "<c:url value='/users/alarm'/>",
 	    type: 'post',
