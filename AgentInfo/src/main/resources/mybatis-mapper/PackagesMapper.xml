@@ -10,9 +10,10 @@
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT p.*, c.categoryKeyNum FROM packages p, category c
+				SELECT p.*, c.categoryKeyNum 
+				FROM packages p
+                JOIN category c ON c.categoryValue = p.customerName
 				WHERE c.categoryName = 'customerName'
-				AND c.categoryValue = p.customerName
 					<include refid="sqlPackages" />
 			) a
 		) b
@@ -20,9 +21,10 @@
 	</select>
 	
 	<select id="getPackagesCount" resultType="_int">
-		SELECT COUNT(*) FROM packages p, category c
+		SELECT COUNT(*) 
+		FROM packages p
+		JOIN category c ON c.categoryValue = p.customerName
 		WHERE c.categoryName = 'customerName'
-		AND c.categoryValue = p.customerName
 			<include refid="sqlPackages" />
 	</select>
 	
@@ -49,9 +51,10 @@
 	</update>
 	
 	<select id="getPackagesListAll" resultMap="packages" parameterType="string">
-		SELECT c.categoryKeyNum, p.* FROM packages p, category c
+		SELECT c.categoryKeyNum, p.* 
+		FROM packages p JOIN category c
+		ON c.categoryValue = p.customerName
 		WHERE c.categoryName = 'customerName'
-		AND c.categoryValue = p.customerName
 			<include refid="sqlPackages" />
 		ORDER BY p.packagesKeyNumOrigin DESC;
 	</select>

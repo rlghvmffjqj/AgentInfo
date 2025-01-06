@@ -497,8 +497,8 @@
 						location.href="<c:url value='/issue/issueList'/>";
 					})
 				} else {
-					var resault = automaticUpdate();
-	    			if(resault == "OK") {
+					var result = automaticUpdate();
+	    			if(result == "OK") {
 	  					$.ajax({
 						    type: 'POST',
 						    url: "<c:url value='/issueRelay/relayModal'/>",
@@ -1236,9 +1236,9 @@
 						location.href="<c:url value='/issue/issueList'/>";
 					})
 				} else {
-					var resault = automaticUpdate();
+					var result = automaticUpdate();
 
-	    			if(resault == "OK") {
+	    			if(result == "OK") {
 						var frmData = document.form;
 						var url = "<c:url value='/issue/pdfView'/>";
 						window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
@@ -1276,9 +1276,9 @@
 						location.href="<c:url value='/issue/issueList'/>";
 					})
 				} else {
-					var resault = automaticUpdate();
+					var result = automaticUpdate();
 					var issueKeyNum = $('#issueKeyNum').val();
-					if(resault == "OK") {
+					if(result == "OK") {
 						$.ajax({
 		    			    type: 'POST',
 		    			    url: "<c:url value='/issueRelay/urlExport'/>",
@@ -1473,8 +1473,8 @@
 						location.href="<c:url value='/issue/issueList'/>";
 					})
 				} else {
-	    			var resault = automaticUpdate();
-	    			if(resault == "OK") {
+	    			var result = automaticUpdate();
+	    			if(result == "OK") {
 						var frmData = document.form;
 						var url = "<c:url value='/issue/pdfViewHistory'/>";
 						window.open("", "form", "height=1000,width=1000,scrollbars=yes,status=yes,toolbar=no,location=yes,directories=yes,resizable=no,menubar=no");
@@ -1569,7 +1569,7 @@
 				return "FALSE";
 			} else {
 				$('#NotIssueCustomer').hide();
-				var resault;
+				var result;
 				$.ajax({
 					url: "<c:url value='/issue/copy'/>",
 			        type: 'post',
@@ -1581,22 +1581,22 @@
 							$('#copy').hide();
 							$('#update').show();
 							$('#issueBtnType').val("update");
-							resault = "OK";
+							result = "OK";
 						} else {
 							Swal.fire({
 								icon: 'error',
 								title: '실패!',
 								text: '작업을 실패하였습니다.',
 							});
-							resault = "FALSE";
+							result = "FALSE";
 						}
 					},
 					error: function(error) {
 						console.log(error);
-						resault = "FALSE";
+						result = "FALSE";
 					}
 			    });
-				return resault;
+				return result;
 			}
 		}
 		
@@ -1608,7 +1608,7 @@
 			postData.push({name : "unresolved", value : $('#unresolved').text()});
 			postData.push({name : "hold", value : $('#hold').text()});
 			var issueCustomer = $('#issueCustomer').val();
-			var resault;
+			var result;
 			if(issueCustomer == "") {
 				$('#NotIssueCustomer').show();
 				Swal.fire({
@@ -1627,22 +1627,22 @@
 			        success: function(result) {
 			        	if(result == "OK") {
 							$('#downloadBtn').show();
-							resault = "OK";
+							result = "OK";
 						} else {
 							Swal.fire({
 								icon: 'error',
 								title: '실패!',
 								text: '작업을 실패하였습니다.',
 							});
-							resault = "FALSE";
+							result = "FALSE";
 						}
 					},
 					error: function(error) {
 						console.log(error);
-						resault = "FALSE";
+						result = "FALSE";
 					}
 			    });
-				return resault;
+				return result;
 			}
 		}
 
@@ -1770,8 +1770,8 @@
 										location.href="<c:url value='/issue/issueList'/>";
 									})
 								} else {
-									var resault = automaticUpdate();
-									if(resault == "OK") {
+									var result = automaticUpdate();
+									if(result == "OK") {
     			    					$.ajax({
     			    					    url: "<c:url value='/issue/checkUserStatus'/>",
     			    					    type: 'GET',

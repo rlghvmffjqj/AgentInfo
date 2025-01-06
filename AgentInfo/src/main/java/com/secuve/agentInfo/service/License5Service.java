@@ -121,7 +121,7 @@ public class License5Service {
 	}
 	
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
-		String resault = "OK";
+		String result = "OK";
 		String route = "";
 		if(license.getLicenseTypeView().equals("(신)"))
 			if(!isValidMacAddress(license.getMacAddressView())) {
@@ -142,10 +142,10 @@ public class License5Service {
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
 				if(license.getLicenseTypeView().equals("(신)"))
-					resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
+					result = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
 				if(license.getLicenseTypeView().equals("(구)"))
-					resault = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
-				license.setSerialNumberView(resault);
+					result = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
+				license.setSerialNumberView(result);
 			} catch (Exception e) {
 				System.out.println(e);
 				LOGGER.debug("Agent 연결 실패");
@@ -153,7 +153,7 @@ public class License5Service {
 			}
 		}
 		
-		if(!resault.equals("FALSE")) {
+		if(!result.equals("FALSE")) {
 			int check = license5Dao.serialNumberCheck(license.getSerialNumberView());
 			if(check > 0) {
 				LOGGER.debug("시리얼 넘버 중복 ERROR");
@@ -175,7 +175,7 @@ public class License5Service {
 			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
 			return "FALSE";
 		}
-		return resault;
+		return result;
 	}
 	
 	public static boolean isValidMacAddress(String macAddress) {
@@ -190,7 +190,7 @@ public class License5Service {
     }
 	
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
-		String resault = "OK";
+		String result = "OK";
 		String route = "";
 		if(license.getLicenseTypeView().equals("(신)"))
 			if(!isValidMacAddress(license.getMacAddressView())) {
@@ -208,17 +208,17 @@ public class License5Service {
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
 				if(license.getLicenseTypeView().equals("(신)"))
-					resault = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
+					result = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
 				if(license.getLicenseTypeView().equals("(구)"))
-					resault = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
-				license.setSerialNumberView(resault);
+					result = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
+				license.setSerialNumberView(result);
 			} catch (Exception e) {
 				LOGGER.debug("Agent 연결 실패");
 				return "NOTCONNECT";
 			}
 		}
 		
-		if(!resault.equals("FALSE")) {
+		if(!result.equals("FALSE")) {
 			int check = license5Dao.serialNumberCheck(license.getSerialNumberView());
 			if(!license5Dao.getLicenseOne(license.getLicenseKeyNum()).getSerialNumber().equals(license.getSerialNumberView())) {
 				if(check > 0) {
@@ -241,7 +241,7 @@ public class License5Service {
 			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
 			return "FALSE";
 		}
-		return resault;
+		return result;
 	}
 	
 	public String LinuxLicenseIssued50(String ip, String route, License5 license) throws UnsupportedEncodingException {

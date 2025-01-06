@@ -294,8 +294,8 @@
 					"functionTestSettingDivision": "TOSMS",
 				},
 				async: false,
-				success: function(resault) {
-					functionTestForm(resault);
+				success: function(result) {
+					functionTestForm(result);
 				},
 				error: function(error) {
 					console.log(error);
@@ -317,8 +317,8 @@
 					"functionTestSettingDivision": "Agent",
 				},
 				async: false,
-				success: function(resault) {
-					functionTestForm(resault);
+				success: function(result) {
+					functionTestForm(result);
 				},
 				error: function(error) {
 					console.log(error);

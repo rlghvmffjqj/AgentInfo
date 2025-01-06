@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +38,11 @@ public class IssueService {
 		return formatter.format(now);
 	}
 
-	public Map insertIssue(Issue issue, Principal principal) {
-		Map map = new HashMap();
+	public Map<String, Object> insertIssue(Issue issue, Principal principal) {
+		Map<String, Object> map = new HashMap<>();
 		issue.setIssueKeyNum(IssueKeyNum(issue.getIssueKeyNum()));
 		map.put("issueKeyNum", issue.getIssueKeyNum());
+		
 		LocalDate currentDate = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		issue.setIssueFirstDate(currentDate.format(formatter));
@@ -49,53 +51,73 @@ public class IssueService {
 		int success = 1;
 		issue = oneDate(issue);
 		for(int i=0; i < issue.getIssueOsList().size(); i++) {
-			success *= issueDao.insertIssue(issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueManagerServer(), issue.getIssueTarget(), issue.getIssueSubTarget(), issue.getIssueFirstWriter(), issue.getIssueFirstDate(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
+			success *= issueDao.insertIssue(issue.getIssueKeyNum(), 
+										issue.getIssueCustomer(), 
+										issue.getIssueTitle(), 
+										issue.getIssueManagerServer(), 
+										issue.getIssueTarget(), 
+										issue.getIssueSubTarget(), 
+										issue.getIssueFirstWriter(), 
+										issue.getIssueFirstDate(), 
+										issue.getIssueDate(), 
+										issue.getIssueTosms(), 
+										issue.getIssueTosrf(), 
+										issue.getIssuePortal(), 
+										issue.getIssueJava(), 
+										issue.getIssueWas(), 
+										issue.getTotal(), 
+										issue.getSolution(), 
+										issue.getUnresolved(), 
+										issue.getHold(), 
+										issue.getIssueDivisionList().get(i), 
+										issue.getIssueOsList().get(i), 
+										issue.getIssueWriterList().get(i), 
+										issue.getIssueAwardList().get(i), 
+										issue.getIssueMiddleList().get(i), 
+										issue.getIssueUnder1List().get(i), 
+										issue.getIssueUnder2List().get(i), 
+										issue.getIssueUnder3List().get(i), 
+										issue.getIssueUnder4List().get(i), 
+										issue.getIssueFlawNumList().get(i), 
+										issue.getIssueEffectList().get(i), 
+										issue.getIssueTextResultList().get(i), 
+										issue.getIssueApplyYnList().get(i), 
+										issue.getIssueConfirmList().get(i), 
+										issue.getIssueObstacleList().get(i), 
+										issue.getIssueNoteList().get(i), 
+										issue.getIssueRegistrant(), 
+										issue.getIssueRegistrationDate(), 
+										issue.getIssueModifier(), 
+										issue.getIssueModifiedDate());
 		}
-		if (success <= 0) {
-			map.put("result", "FALSE");
-		} else {
-			map.put("result", "OK");
-			map.put("issueKeyNum", issue.getIssueKeyNum());
-		}
-		return map;
+		map.put("result", success <= 0 ? "FALSE" : "OK");
+	    if (success > 0) {
+	        map.put("issueKeyNum", issue.getIssueKeyNum());
+	    }
+
+	    return map;
 	}
 	
 	public Issue oneDate(Issue issue) {
-		List<String> list = new ArrayList<String>();
-		list.add("");
-		if(issue.getIssueDivisionList().size() == 0) 
-			issue.setIssueDivisionList(list);
-		if(issue.getIssueOsList().size() == 0) 
-			issue.setIssueOsList(list);
-		if(issue.getIssueWriterList().size() == 0)
-			issue.setIssueWriterList(list);
-		if(issue.getIssueAwardList().size() == 0) 
-			issue.setIssueAwardList(list);
-		if(issue.getIssueMiddleList().size() == 0) 
-			issue.setIssueMiddleList(list);
-		if(issue.getIssueUnder1List().size() == 0) 
-			issue.setIssueUnder1List(list);
-		if(issue.getIssueUnder2List().size() == 0) 
-			issue.setIssueUnder2List(list);
-		if(issue.getIssueUnder3List().size() == 0) 
-			issue.setIssueUnder3List(list);
-		if(issue.getIssueUnder4List().size() == 0) 
-			issue.setIssueUnder4List(list);
-		if(issue.getIssueFlawNumList().size() == 0) 
-			issue.setIssueFlawNumList(list);
-		if(issue.getIssueEffectList().size() == 0) 
-			issue.setIssueEffectList(list);
-		if(issue.getIssueTextResultList().size() == 0) 
-			issue.setIssueTextResultList(list);
-		if(issue.getIssueApplyYnList().size() == 0) 
-			issue.setIssueApplyYnList(list);
-		if(issue.getIssueConfirmList().size() == 0) 
-			issue.setIssueConfirmList(list);
-		if(issue.getIssueObstacleList().size() == 0) 
-			issue.setIssueObstacleList(list);
-		if(issue.getIssueNoteList().size() == 0) 
-			issue.setIssueNoteList(list);
-		
+		List<String> emptyList = Collections.singletonList("");  // List with one empty string element.
+
+	    issue.setIssueDivisionList(issue.getIssueDivisionList().isEmpty() ? emptyList : issue.getIssueDivisionList());
+	    issue.setIssueOsList(issue.getIssueOsList().isEmpty() ? emptyList : issue.getIssueOsList());
+	    issue.setIssueWriterList(issue.getIssueWriterList().isEmpty() ? emptyList : issue.getIssueWriterList());
+	    issue.setIssueAwardList(issue.getIssueAwardList().isEmpty() ? emptyList : issue.getIssueAwardList());
+	    issue.setIssueMiddleList(issue.getIssueMiddleList().isEmpty() ? emptyList : issue.getIssueMiddleList());
+	    issue.setIssueUnder1List(issue.getIssueUnder1List().isEmpty() ? emptyList : issue.getIssueUnder1List());
+	    issue.setIssueUnder2List(issue.getIssueUnder2List().isEmpty() ? emptyList : issue.getIssueUnder2List());
+	    issue.setIssueUnder3List(issue.getIssueUnder3List().isEmpty() ? emptyList : issue.getIssueUnder3List());
+	    issue.setIssueUnder4List(issue.getIssueUnder4List().isEmpty() ? emptyList : issue.getIssueUnder4List());
+	    issue.setIssueFlawNumList(issue.getIssueFlawNumList().isEmpty() ? emptyList : issue.getIssueFlawNumList());
+	    issue.setIssueEffectList(issue.getIssueEffectList().isEmpty() ? emptyList : issue.getIssueEffectList());
+	    issue.setIssueTextResultList(issue.getIssueTextResultList().isEmpty() ? emptyList : issue.getIssueTextResultList());
+	    issue.setIssueApplyYnList(issue.getIssueApplyYnList().isEmpty() ? emptyList : issue.getIssueApplyYnList());
+	    issue.setIssueConfirmList(issue.getIssueConfirmList().isEmpty() ? emptyList : issue.getIssueConfirmList());
+	    issue.setIssueObstacleList(issue.getIssueObstacleList().isEmpty() ? emptyList : issue.getIssueObstacleList());
+	    issue.setIssueNoteList(issue.getIssueNoteList().isEmpty() ? emptyList : issue.getIssueNoteList());
+
 		return issue;
 	}
 	
@@ -175,7 +197,47 @@ public class IssueService {
 		int success = 1;
 		issue = oneDate(issue);
 		for(int i=0; i < issue.getIssueOsList().size(); i++) {
-			success *= issueDao.updateIssue(issue.getIssuePrimaryKeyNumList().get(i), issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueManagerServer(), issue.getIssueTarget(), issue.getIssueSubTarget(), issue.getIssueFirstWriter(), issueTester.toString(), issue.getIssueFirstDate(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
+			success *= issueDao.updateIssue(issue.getIssuePrimaryKeyNumList().get(i), 
+					issue.getIssueKeyNum(), 
+					issue.getIssueCustomer(),
+					issue.getIssueTitle(), 
+					issue.getIssueManagerServer(), 
+					issue.getIssueTarget(), 
+					issue.getIssueSubTarget(), 
+					issue.getIssueFirstWriter(), 
+					issueTester.toString(), 
+					issue.getIssueFirstDate(), 
+					issue.getIssueDate(), 
+					issue.getIssueTosms(), 
+					issue.getIssueTosrf(), 
+					issue.getIssuePortal(), 
+					issue.getIssueJava(), 
+					issue.getIssueWas(), 
+					issue.getTotal(), 
+					issue.getSolution(), 
+					issue.getUnresolved(), 
+					issue.getHold(), 
+					issue.getIssueDivisionList().get(i), 
+					issue.getIssueOsList().get(i), 
+					issue.getIssueWriterList().get(i), 
+					issue.getIssueAwardList().get(i), 
+					issue.getIssueMiddleList().get(i), 
+					issue.getIssueUnder1List().get(i), 
+					issue.getIssueUnder2List().get(i), 
+					issue.getIssueUnder3List().get(i), 
+					issue.getIssueUnder4List().get(i), 
+					issue.getIssueFlawNumList().get(i), 
+					issue.getIssueEffectList().get(i), 
+					issue.getIssueTextResultList().get(i), 
+					issue.getIssueApplyYnList().get(i), 
+					issue.getIssueConfirmList().get(i), 
+					issue.getIssueObstacleList().get(i), 
+					issue.getIssueNoteList().get(i), 
+					issue.getIssueRegistrant(), 
+					issue.getIssueRegistrationDate(), 
+					issue.getIssueModifier(), 
+					issue.getIssueModifiedDate()
+			);
 		}
 		if (success <= 0) {
 			return "FALSE";
@@ -188,7 +250,7 @@ public class IssueService {
 		return "OK";
 	}
 
-	public Map copyIssue(Issue issue, Principal principal) {
+	public Map<String, Object> copyIssue(Issue issue, Principal principal) {
 		issue.setIssueKeyNum(0);
 		return insertIssue(issue, principal);
 	}
@@ -199,7 +261,7 @@ public class IssueService {
 		int unresolved = 0;
 		int hold = 0;
 		boolean check = false;
-		int resault = 1;
+		int result = 1;
 		List<Issue> issue = new ArrayList<Issue>(); 
 		for (int issueKeyNum : chkList) {
 			issue.add(issueDao.getIssueOneMerge(issueKeyNum));
@@ -232,14 +294,11 @@ public class IssueService {
 		
 		int newKeyNum =  IssueKeyNum(0);
 		for (int issueKeyNum : chkList) {
-			resault *= issueDao.setIssueKeyNum(issueKeyNum, newKeyNum, total, solution, unresolved, hold);
+			result *= issueDao.setIssueKeyNum(issueKeyNum, newKeyNum, total, solution, unresolved, hold);
 			issueHistoryService.setIssueKeyNumUpdate(issueKeyNum, newKeyNum);
 		}
 		
-		if(resault >= 1) {
-			return "OK";
-		}
-		return "FALSE";
+		return result >= 1 ? "OK" : "FALSE";
 	}
 
 	public List<Issue> getIssuePDFOne(int issueKeyNum, String[] chkSelectBox) {
@@ -266,18 +325,15 @@ public class IssueService {
 	}
 
 	public String issueMinus(int issuePrimaryKeyNum) {
-		int resault = issueDao.issueMinus(issuePrimaryKeyNum);
-		if(resault >= 1) {
-			return "OK";
-		}
-		return "FALSE";
+		int result = issueDao.issueMinus(issuePrimaryKeyNum);
+		 return result >= 1 ? "OK" : "FALSE";
 	}
 	
 	public String getIssueSortNumUp(int issueKeyNum, int issueSortNum, int issuePrimaryKeyNum) {
 		int fineIssueSortNum = issueDao.getIssueSortNumUp(issueKeyNum, issueSortNum);
-		int resault = issueDao.upIssueSortNum(fineIssueSortNum);
-		resault *=  issueDao.changIssueSortNum(issuePrimaryKeyNum, fineIssueSortNum);
-		if(resault >= 1) {
+		int result = issueDao.upIssueSortNum(fineIssueSortNum);
+		result *=  issueDao.changIssueSortNum(issuePrimaryKeyNum, fineIssueSortNum);
+		if(result >= 1) {
 			return "OK";
 		}
 		return "FALSE";
@@ -289,12 +345,9 @@ public class IssueService {
 	}
 
 	public String changIssueSortNum(Issue issue, Issue findIssue) {
-		int resault = issueDao.changIssueSortNum(findIssue.getIssuePrimaryKeyNum(), issue.getIssueSortNum());
-		resault *= issueDao.changIssueSortNum(issue.getIssuePrimaryKeyNum(), findIssue.getIssueSortNum());
-		if(resault >= 1) {
-			return "OK";
-		}
-		return "FALSE";
+		int result = issueDao.changIssueSortNum(findIssue.getIssuePrimaryKeyNum(), issue.getIssueSortNum());
+		result *= issueDao.changIssueSortNum(issue.getIssuePrimaryKeyNum(), findIssue.getIssueSortNum());
+		return result >= 1 ? "OK" : "FALSE";
 	}
 
 	public List<Issue> getIssueOneIssueApplyYn(int issueKeyNum) {
@@ -311,11 +364,9 @@ public class IssueService {
 		userAlarm.setUserAlarmModifier(employeeId);
 		userAlarm.setUserAlarmModifiedDate(nowDate());
 		userAlarm.setUserAlarmParameter(userAlarmParameter);
-		int resault = employeeDao.updateUserAlarm(userAlarm);
-		if(resault >= 1) {
-			return "OK";
-		}
-		return "FALSE";
+		int result = employeeDao.updateUserAlarm(userAlarm);
+		
+		return result >= 1 ? "OK" : "FALSE";
 	}
 
 	public void issueSortNumPlus(int issueSortNum) {
@@ -387,9 +438,9 @@ public class IssueService {
 			issue.setIssueManagerServerTimmer(null);
 		}
 		int success = issueDao.updateManagerStatusChange(issue);
-		if (success <= 0)
-			return "FALSE";
-		return "OK";
+		
+		return success <= 0 ? "OK" : "FALSE";
+
 	}
 
 	public long getRemainingTimeInSeconds(LocalDateTime issueManagerServerTimmer) {

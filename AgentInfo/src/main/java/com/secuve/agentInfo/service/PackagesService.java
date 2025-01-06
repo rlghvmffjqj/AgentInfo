@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.CustomerInfoDao;
@@ -827,9 +831,6 @@ public class PackagesService {
 	 */
 	@SuppressWarnings({ "deprecation", "resource" })
 	public String importPackagesCSV(MultipartFile mfile, Principal principal) throws IOException {
-		Date date = null;
-		String cellString;
-
 		// OPCPackage opcPackage = OPCPackage.open(mfile.getInputStream());
 		HSSFWorkbook workbook = new HSSFWorkbook(mfile.getInputStream());
 		// 첫번째 시트 불러오기
@@ -1070,7 +1071,8 @@ public class PackagesService {
 	public void packageUidLog(Packages packages, Principal principal, String event) {
 		PackageUidLog packageUidLog = new PackageUidLog();
 		packageUidLog.setPackagesKeyNum(packages.getPackagesKeyNum());
-		if(event == "DELETE" || event.equals("적용") || event.equals("대기") || event.equals("배포완료")) {
+		
+		if ("DELETE".equals(event) || event.equals("적용") || event.equals("대기") || event.equals("배포완료")) {
 			packageUidLog.setUidCustomerName(packages.getCustomerName());
 			packageUidLog.setUidOsDetailVersion(packages.getOsDetailVersion());
 			packageUidLog.setUidPackageName(packages.getPackageName());
@@ -1079,7 +1081,7 @@ public class PackagesService {
 			packageUidLog.setUidOsDetailVersion(packages.getOsDetailVersionView());
 			packageUidLog.setUidPackageName(packages.getPackageNameView());
 		}
-		packageUidLog.setPackagesKeyNum(packages.getPackagesKeyNum());
+	
 		packageUidLog.setUidEvent(event);
 		packageUidLog.setUidUser(principal.getName());
 		packageUidLog.setUidTime(nowDate());
@@ -1103,30 +1105,26 @@ public class PackagesService {
 	 * @return
 	 */
 	public Packages selfInput(Packages packages) {
-		if(packages.getManagementServerSelf().length() > 0) 
-			packages.setManagementServerView(packages.getManagementServerSelf());
-		if(packages.getGeneralCustomSelf().length() > 0)
-			packages.setGeneralCustomView(packages.getGeneralCustomSelf());
-		if(packages.getAgentVerSelf().length() > 0)
-			packages.setAgentVerView(packages.getAgentVerSelf());
-		if(packages.getOsTypeSelf().length() > 0)
-			packages.setOsTypeView(packages.getOsTypeSelf());
-		if(packages.getAgentOSSelf().length() > 0)
-			packages.setAgentOSView(packages.getAgentOSSelf());
-		if(packages.getExistingNewSelf().length() > 0)
-			packages.setExistingNewView(packages.getExistingNewSelf());
-		if(packages.getRequestProductCategorySelf().length() > 0)
-			packages.setRequestProductCategoryView(packages.getRequestProductCategorySelf());
-		if(packages.getDeliveryMethodSelf().length() > 0)
-			packages.setDeliveryMethodView(packages.getDeliveryMethodSelf());
-		if(packages.getPurchaseCategorySelf().length() > 0)
-			packages.setPurchaseCategoryView(packages.getPurchaseCategorySelf());
-		if(packages.getCustomerNameSelf().length() > 0)
-			packages.setCustomerNameView(packages.getCustomerNameSelf());
-		if(packages.getBusinessNameSelf().length() > 0)
-			packages.setBusinessNameView(packages.getBusinessNameSelf());
+		updateViewIfNotEmpty(packages::getManagementServerSelf, packages::setManagementServerView);
+	    updateViewIfNotEmpty(packages::getGeneralCustomSelf, packages::setGeneralCustomView);
+	    updateViewIfNotEmpty(packages::getAgentVerSelf, packages::setAgentVerView);
+	    updateViewIfNotEmpty(packages::getOsTypeSelf, packages::setOsTypeView);
+	    updateViewIfNotEmpty(packages::getAgentOSSelf, packages::setAgentOSView);
+	    updateViewIfNotEmpty(packages::getExistingNewSelf, packages::setExistingNewView);
+	    updateViewIfNotEmpty(packages::getRequestProductCategorySelf, packages::setRequestProductCategoryView);
+	    updateViewIfNotEmpty(packages::getDeliveryMethodSelf, packages::setDeliveryMethodView);
+	    updateViewIfNotEmpty(packages::getPurchaseCategorySelf, packages::setPurchaseCategoryView);
+	    updateViewIfNotEmpty(packages::getCustomerNameSelf, packages::setCustomerNameView);
+	    updateViewIfNotEmpty(packages::getBusinessNameSelf, packages::setBusinessNameView);
 		
 		return packages;
+	}
+	
+	private void updateViewIfNotEmpty(Supplier<String> getter, Consumer<String> setter) {
+	    String value = getter.get();
+	    if (StringUtils.hasText(value)) {
+	        setter.accept(value);
+	    }
 	}
 	
 	/**
@@ -1135,39 +1133,26 @@ public class PackagesService {
 	 * @param principal
 	 */
 	public void categoryCheck(Packages packages, Principal principal) {
-		if (categoryService.getCategory("managementServer", packages.getManagementServerView()) == 0) {
-			categoryService.setCategory("managementServer", packages.getManagementServerView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("generalCustom", packages.getGeneralCustomView()) == 0) {
-			categoryService.setCategory("generalCustom", packages.getGeneralCustomView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("agentVer", packages.getAgentVerView()) == 0) {
-			categoryService.setCategory("agentVer", packages.getAgentVerView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("osType", packages.getOsTypeView()) == 0) {
-			categoryService.setCategory("osType", packages.getOsTypeView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("agentOS", packages.getAgentOSView()) == 0) {
-			categoryService.setCategory("agentOS", packages.getAgentOSView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("existingNew", packages.getExistingNewView()) == 0) {
-			categoryService.setCategory("existingNew", packages.getExistingNewView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("requestProductCategory", packages.getRequestProductCategoryView()) == 0) {
-			categoryService.setCategory("requestProductCategory", packages.getRequestProductCategoryView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("deliveryMethod", packages.getDeliveryMethodView()) == 0) {
-			categoryService.setCategory("deliveryMethod", packages.getDeliveryMethodView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("purchaseCategory", packages.getPurchaseCategoryView()) == 0) {
-			categoryService.setCategory("purchaseCategory", packages.getPurchaseCategoryView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("customerName", packages.getCustomerNameView()) == 0) {
-			categoryService.setCategory("customerName", packages.getCustomerNameView(), principal.getName(), nowDate());
-		}
-		if (categoryService.getCategory("businessName", packages.getBusinessNameView()) == 0) {
-			categoryService.setCategory("businessName", packages.getBusinessNameView(), principal.getName(), nowDate());
-		}
+		String currentUser = principal.getName();
+	    String currentTime = nowDate();
+
+	    checkAndInsertCategory("managementServer", packages.getManagementServerView(), currentUser, currentTime);
+	    checkAndInsertCategory("generalCustom", packages.getGeneralCustomView(), currentUser, currentTime);
+	    checkAndInsertCategory("agentVer", packages.getAgentVerView(), currentUser, currentTime);
+	    checkAndInsertCategory("osType", packages.getOsTypeView(), currentUser, currentTime);
+	    checkAndInsertCategory("agentOS", packages.getAgentOSView(), currentUser, currentTime);
+	    checkAndInsertCategory("existingNew", packages.getExistingNewView(), currentUser, currentTime);
+	    checkAndInsertCategory("requestProductCategory", packages.getRequestProductCategoryView(), currentUser, currentTime);
+	    checkAndInsertCategory("deliveryMethod", packages.getDeliveryMethodView(), currentUser, currentTime);
+	    checkAndInsertCategory("purchaseCategory", packages.getPurchaseCategoryView(), currentUser, currentTime);
+	    checkAndInsertCategory("customerName", packages.getCustomerNameView(), currentUser, currentTime);
+	    checkAndInsertCategory("businessName", packages.getBusinessNameView(), currentUser, currentTime);
+	}
+	
+	private void checkAndInsertCategory(String category, String value, String user, String time) {
+	    if (StringUtils.hasText(value) && categoryService.getCategory(category, value) == 0) {
+	        categoryService.setCategory(category, value, user, time);
+	    }
 	}
 	
 	/**
@@ -1267,44 +1252,31 @@ public class PackagesService {
 	 * OS종류별 최대 배포 Agent 버전 차트
 	 * @return
 	 */
-	public Map<String,List> getAgentVer() {
-		Map<String, List> map = new HashMap();
-		List<String> name = new ArrayList<String>();
-		List<Integer> count = new ArrayList<Integer>();
-		String topAgentVer;
-		String topAgentVerArr[];
-		String osType = null;
-		for(int i=0; i<5; i++) {
-			if(osType == "" || osType == null)
-				osType = "Linux";
-			else if(osType == "Linux")
-				osType = "Windows";
-			else if(osType == "Windows")
-				osType = "AIX";
-			else if(osType == "AIX")
-				osType = "HP-UX";
-			else if(osType == "HP-UX")
-				osType = "Solaris";
-			topAgentVer = packagesDao.getTopAgentVer(osType);
-			if(topAgentVer == null)
-				topAgentVer = "Not Exist";
-			topAgentVerArr = topAgentVer.split("-");
-			Packages packages = new Packages();
-			try {
-				packages = packagesDao.getAgentVer(topAgentVerArr[0]);
-				topAgentVerArr = packages.getChartName().split("-");
-			} catch (Exception e) {
-				packages.setChartName("Not Exist");
-			}
-			
-			name.add(osType+". " + topAgentVerArr[0]);
-			count.add(packages.getChartCount());
-		}
-		
-		map.put("name", name);
-		map.put("count", count);
-		
-		return map;
+	public Map<String, List<?>> getAgentVer() {
+	    Map<String, List<?>> result = new HashMap<>();
+	    List<String> names = new ArrayList<>();
+	    List<Integer> counts = new ArrayList<>();
+	    
+	    String[] osTypes = {"Linux", "Windows", "AIX", "HP-UX", "Solaris"};
+	    for (String osType : osTypes) {
+	        String topAgentVer = Optional.ofNullable(packagesDao.getTopAgentVer(osType)).orElse("Not Exist");
+	        String[] topAgentVerArr = topAgentVer.split("-");
+	        Packages packages;
+
+	        try {
+	            packages = packagesDao.getAgentVer(topAgentVerArr[0]);
+	        } catch (Exception e) {
+	            packages = new Packages();
+	            packages.setChartName("Not Exist");
+	        }
+
+	        names.add(osType + ". " + topAgentVerArr[0]);
+	        counts.add(packages.getChartCount());
+	    }
+
+	    result.put("name", names);
+	    result.put("count", counts);
+	    return result;
 	}
 
 	/**
@@ -1365,21 +1337,17 @@ public class PackagesService {
 	 * 고객사별 패키지 배포 수량 TOP 7
 	 * @return
 	 */
-	public Map<String, List> getCustomerName(String customerNameYear) {
-		Map<String, List> map = new HashMap();
-		List<String> name = new ArrayList<String>();
-		List<Integer> count = new ArrayList<Integer>();
-		
-		List<Packages> packagesList = packagesDao.getCustomerName(customerNameYear);
-		
-		for(Packages packages: packagesList) {
-			name.add(packages.getChartName());
-			count.add(packages.getChartCount());
-		}
-		map.put("name", name);
-		map.put("count", count);
-
-		return map;
+	public Map<String, List<?>> getCustomerName(String customerNameYear) {
+		List<String> names = new ArrayList<>();
+        List<Integer> counts = new ArrayList<>();
+        for (Packages packages : packagesDao.getCustomerName(customerNameYear)) {
+            names.add(packages.getChartName());
+            counts.add(packages.getChartCount());
+        }
+        Map<String, List<?>> result = new HashMap<>();
+        result.put("name", names);
+        result.put("count", counts);
+        return result;
 	}
 	
 	/**
@@ -1416,17 +1384,14 @@ public class PackagesService {
 
 	public String stateChange(int[] chkList, String statusComment, String stateView, Principal principal) {
 		for (int packagesKeyNum : chkList) {
-			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-			int success = packagesDao.stateChange(packagesKeyNum, statusComment, stateView);
-
-			// uid 로그 기록
-			if (success > 0) {
-				packageUidLog(packages, principal, stateView);
-			} else {
-				return "FALSE";
-			}
-		}
-		return "OK";
+            Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
+            if (packagesDao.stateChange(packagesKeyNum, statusComment, stateView) > 0) {
+                packageUidLog(packages, principal, stateView);
+            } else {
+                return "FALSE";
+            }
+        }
+        return "OK";
 	}
 
 	public void updateProduct(int[] chkList, Principal principal) {

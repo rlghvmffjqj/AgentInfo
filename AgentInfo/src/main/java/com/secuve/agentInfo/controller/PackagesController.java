@@ -354,7 +354,7 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/agentVer")
-	public Map<String, List> chartAgentVer() {
+	public Map<String, List<?>> chartAgentVer() {
 		return packagesService.getAgentVer();
 	}
 
@@ -382,7 +382,7 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/customerName")
-	public Map<String, List> chartCustomerName(String customerNameYear) {
+	public Map<String, List<?>> chartCustomerName(String customerNameYear) {
 		return packagesService.getCustomerName(customerNameYear);
 	}
 	

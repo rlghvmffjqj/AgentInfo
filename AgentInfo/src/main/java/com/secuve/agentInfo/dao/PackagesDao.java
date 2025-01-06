@@ -15,6 +15,14 @@ import com.secuve.agentInfo.vo.Packages;
 @Repository
 public class PackagesDao {
 	@Autowired SqlSessionTemplate sqlSession;
+	
+	private Map<String, Object> createParameterMap(Object... keyValues) {
+        Map<String, Object> parameters = new HashMap<>();
+        for (int i = 0; i < keyValues.length; i += 2) {
+            parameters.put((String) keyValues[i], keyValues[i + 1]);
+        }
+        return parameters;
+    }
 
 	public List<Packages> getPackagesList(Packages search) {
 		return sqlSession.selectList("packages.getPackages", search);
@@ -81,11 +89,11 @@ public class PackagesDao {
 	}
 
 	public int stateChange(int packagesKeyNum, String statusComment, String stateView) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("packagesKeyNum", packagesKeyNum);
-		parameters.put("statusComment", statusComment);
-		parameters.put("stateView", stateView);
-		
+		Map<String, Object> parameters = createParameterMap(
+		    "packagesKeyNum", packagesKeyNum,
+		    "statusComment", statusComment,
+		    "stateView", stateView
+		);
 		return sqlSession.update("packages.stateChange", parameters);
 	}
 
@@ -98,20 +106,20 @@ public class PackagesDao {
 	}
 
 	public void updateCategoryNameAll(String categoryName, String categoryValue, String categoryValueNew) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("categoryName", categoryName);
-		parameters.put("categoryValue", categoryValue);
-		parameters.put("categoryValueNew", categoryValueNew);
-		
+		Map<String, Object> parameters = createParameterMap(
+	        "categoryName", categoryName,
+	        "categoryValue", categoryValue,
+	        "categoryValueNew", categoryValueNew
+	    );
 		sqlSession.update("packages.updateCategoryNameAll", parameters);
 	}
 
 	public void updateBussinessNameAll(String categoryCustomerName, String categoryBusinessName, String categoryBusinessNameNew) {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("categoryCustomerName", categoryCustomerName);
-		parameters.put("categoryBusinessName", categoryBusinessName);
-		parameters.put("categoryBusinessNameNew", categoryBusinessNameNew);
-		
+		Map<String, Object> parameters = createParameterMap(
+	        "categoryCustomerName", categoryCustomerName,
+	        "categoryBusinessName", categoryBusinessName,
+	        "categoryBusinessNameNew", categoryBusinessNameNew
+	    );
 		sqlSession.update("packages.updateBussinessNameAll", parameters);
 		
 	}

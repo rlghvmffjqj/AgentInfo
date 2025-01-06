@@ -115,7 +115,7 @@ public class LogGriffinService {
 	}
 
 	public String loggriffinUpdate(LogGriffin license, Principal principal) throws ParseException {
-		String resault = "OK";
+		String result = "OK";
 		if(!isValidMacAddress(license.getMacAddressView())) {
 			return "NotMacAddress";
 		}
@@ -128,15 +128,15 @@ public class LogGriffinService {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				resault = logGriffinIssued(ip, route, license).replaceAll("\"", "");
-				license.setSerialNumberView(resault);
+				result = logGriffinIssued(ip, route, license).replaceAll("\"", "");
+				license.setSerialNumberView(result);
 			} catch (Exception e) {
 				LOGGER.debug("Agent 연결 실패");
 				return "NOTCONNECT";
 			}
 		}
 		
-		if(!resault.equals("FALSE")) {
+		if(!result.equals("FALSE")) {
 			int check = logGriffinDao.serialNumberCheck(license.getSerialNumberView());
 			if(logGriffinDao.getLicenseOne(license.getLogGriffinKeyNum()).getSerialNumber() != license.getSerialNumberView()) {
 				if(check > 0) {
@@ -156,7 +156,7 @@ public class LogGriffinService {
 			LOGGER.debug("LogGRIFFIN 라이선스 발급 ERROR");
 			return "FALSE";
 		}
-		return resault;
+		return result;
 		
 	}
 	
@@ -222,7 +222,7 @@ public class LogGriffinService {
 	}
 
 	public String loggriffinIssued(LogGriffin license, Principal principal) throws ParseException {
-		String resault = "OK";
+		String result = "OK";
 		if(!isValidMacAddress(license.getMacAddressView())) {
 			return "NotMacAddress";
 		}
@@ -238,8 +238,8 @@ public class LogGriffinService {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				resault = logGriffinIssued(ip, route, license).replaceAll("\"", "");
-				license.setSerialNumberView(resault);
+				result = logGriffinIssued(ip, route, license).replaceAll("\"", "");
+				license.setSerialNumberView(result);
 			} catch (Exception e) {
 				System.out.println(e);
 				LOGGER.debug("Agent 연결 실패");
@@ -247,7 +247,7 @@ public class LogGriffinService {
 			}
 		}
 		
-		if(!resault.equals("FALSE")) {
+		if(!result.equals("FALSE")) {
 			int check = logGriffinDao.serialNumberCheck(license.getSerialNumberView());
 			if(check > 0) {
 				LOGGER.debug("시리얼 넘버 중복 ERROR");
@@ -265,7 +265,7 @@ public class LogGriffinService {
 			LOGGER.debug("LogGRIFFIN 라이선스 발급 ERROR");
 			return "FALSE";
 		}
-		return resault;
+		return result;
 	}
 
 	public LogGriffin getLicenseOne(int logGriffinKeyNum) {

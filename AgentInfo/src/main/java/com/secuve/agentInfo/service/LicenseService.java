@@ -92,7 +92,7 @@ public class LicenseService {
 	}
 
 	public String linuxIssuedLicense20(License license, Principal principal) {
-		String resault = null;
+		String result = null;
 		String answer = "";
 		String firstStr = license.getOsTypeView().toUpperCase()+" "+license.getOsVersionView()+" "+license.getKernelVersionView();
 		String lastStr = period(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf()))+" "+license.getMacUmlHostIdView();
@@ -101,13 +101,13 @@ public class LicenseService {
 			return "NotRoute";
 		}
 		try {
-			resault = LinuxLicenseIssued20(route, firstStr, lastStr);
+			result = LinuxLicenseIssued20(route, firstStr, lastStr);
 		} catch (Exception e) {
 			return "NOTCONNECT";
 		}
 		// 대괄호 외 대괄호 제거
-		for(int i=1; i<resault.length()-1; i++) {
-			answer += resault.charAt(i);
+		for(int i=1; i<result.length()-1; i++) {
+			answer += result.charAt(i);
 		}
 		license.setLicenseIssueAnswer(answer);
 		// 라이선스 발급 후 메시지에서 불필요 내용 제거
@@ -152,20 +152,20 @@ public class LicenseService {
 	}
 	
 	public String linuxIssuedLicense50(License license, Principal principal) {
-		String resault = null;
+		String result = null;
 		String answer = "";
 		String route = licenseDao.getRoute("linuxLicense50Route");
 		if(route == null || route.equals("") || route == "") {
 			return "NotRoute";
 		}
 		try {
-			resault = LinuxLicenseIssued50(route);
+			result = LinuxLicenseIssued50(route);
 		} catch (Exception e) {
 			return "NOTCONNECT";
 		}
 		// 대괄호 외 대괄호 제거
-		for(int i=1; i<resault.length()-1; i++) {
-			answer += resault.charAt(i);
+		for(int i=1; i<result.length()-1; i++) {
+			answer += result.charAt(i);
 		}
 		license.setLicenseIssueAnswer(answer);
 		// 라이선스 발급 후 메시지에서 불필요 내용 제거

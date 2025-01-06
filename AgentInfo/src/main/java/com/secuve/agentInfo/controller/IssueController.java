@@ -46,21 +46,13 @@ public class IssueController {
 	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
 		favoritePageService.insertFavoritePage(principal, req, "이슈 목록");
 		
-		List<String> issueCustomer = issueService.getSelectInput("issueCustomer");
-		List<String> issueTitle = issueService.getSelectInput("issueTitle");
-		List<String> issueTosms = issueService.getSelectInput("issueTosms");
-		List<String> issueTosrf = issueService.getSelectInput("issueTosrf");
-		List<String> issuePortal = issueService.getSelectInput("issuePortal");
-		List<String> issueJava = issueService.getSelectInput("issueJava");
-		List<String> issueWas = issueService.getSelectInput("issueWas");
-		
-		model.addAttribute("issueCustomer", issueCustomer);
-		model.addAttribute("issueTitle", issueTitle);
-		model.addAttribute("issueTosms", issueTosms);
-		model.addAttribute("issueTosrf", issueTosrf);
-		model.addAttribute("issuePortal", issuePortal);
-		model.addAttribute("issueJava", issueJava);
-		model.addAttribute("issueWas", issueWas);
+		model.addAttribute("issueCustomer", issueService.getSelectInput("issueCustomer"));
+        model.addAttribute("issueTitle", issueService.getSelectInput("issueTitle"));
+        model.addAttribute("issueTosms", issueService.getSelectInput("issueTosms"));
+        model.addAttribute("issueTosrf", issueService.getSelectInput("issueTosrf"));
+        model.addAttribute("issuePortal", issueService.getSelectInput("issuePortal"));
+        model.addAttribute("issueJava", issueService.getSelectInput("issueJava"));
+        model.addAttribute("issueWas", issueService.getSelectInput("issueWas"));
 		
 		return "issue/IssueList";
 	}
@@ -68,11 +60,10 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue")
 	public Map<String, Object> Issue(Issue search) {
-		//search.setIssueProceStatus(String.join(",",search.getIssueProceStatusMulti()));
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<Issue> list = new ArrayList<>(issueService.getIssueList(search));
-
 		int totalCount = issueService.getIssueListCount(search);
+		
 		map.put("page", search.getPage());
 		map.put("total", Math.ceil((float) totalCount / search.getRows()));
 		map.put("records", totalCount);
@@ -86,6 +77,7 @@ public class IssueController {
 		Issue issue = new Issue();
 		issue.setIssueKeyNum(0);
 		issueList.add(issue);
+		
 		model.addAttribute("issue",issueList);
 		model.addAttribute("issueTitle", issue);
 		model.addAttribute("viewType", "insert");
@@ -95,12 +87,11 @@ public class IssueController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issue/issueSave")
-	public Map IssueSave(Issue issue, Principal principal) {
+	public Map<String, Object> IssueSave(Issue issue, Principal principal) {
 		issue.setIssueRegistrant(principal.getName());
 		issue.setIssueRegistrationDate(issueService.nowDate());
 		
-		Map result = issueService.insertIssue(issue, principal);
-		return result;
+		return issueService.insertIssue(issue, principal);
 	}
 	
 	@ResponseBody
@@ -126,25 +117,25 @@ public class IssueController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issue/copy")
-	public Map IssueCopy(Issue issue, Principal principal) {
+	public Map<String, Object> IssueCopy(Issue issue, Principal principal) {
 		issue.setIssueModifier(principal.getName());
 		issue.setIssueModifiedDate(issueService.nowDate());
 		
-		Map result = issueService.copyIssue(issue, principal);
-		return result;
+		return issueService.copyIssue(issue, principal);
 	}
 	
 	@Autowired private Lock lock;
     @Autowired private Set<String> usersInUpdateView;
-    Map<String, String> lockMap = new HashMap<String, String>();
+    Map<String, String> lockMap = new HashMap<>();
     
 	@GetMapping(value = "/issue/updateView")
 	public String UpdateView(Model model, Principal principal, int issueKeyNum) {
 		Issue issueTitle = issueService.getIssueOneTitle(issueKeyNum);
-		ArrayList<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
-		ArrayList<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
-		ArrayList<Integer> alarmIndex = new ArrayList<>(employeeService.getAlarmIndex(issueKeyNum, principal.getName()));
-		ArrayList<Integer> issuePrimaryKeyNumList = new ArrayList<>(issueRelayService.getIssuePrimaryKeyNumList(issueKeyNum));
+		List<Issue> issue = new ArrayList<>(issueService.getIssueOne(issueKeyNum));
+		List<IssueRelay> issueRelayList = new ArrayList<>(issueRelayService.getIssueRelayList(issueKeyNum));
+		List<Integer> alarmIndex = new ArrayList<>(employeeService.getAlarmIndex(issueKeyNum, principal.getName()));
+		List<Integer> issuePrimaryKeyNumList = new ArrayList<>(issueRelayService.getIssuePrimaryKeyNumList(issueKeyNum));
+		
 		employeeService.updateAlarmY(issueKeyNum, principal.getName());
 		
 		model.addAttribute("viewType", "update");
@@ -154,17 +145,17 @@ public class IssueController {
 		model.addAttribute("issueRelayList", issueRelayList);
 		model.addAttribute("issuePrimaryKeyNumList", issuePrimaryKeyNumList);
 		model.addAttribute("alarmIndex", alarmIndex);
+		
 		lock.lock(); // Lock 획득
         try {
             if (usersInUpdateView.contains("issue_"+issueKeyNum)) {
-            	System.out.println(usersInUpdateView.iterator());
                 // 다른 사용자가 이미 해당 페이지에 접근 중이므로 읽기 전용 페이지를 반환
             	model.addAttribute("connecter", employeeService.getEmployeeOne(lockMap.get("issue_"+issueKeyNum)).getEmployeeName());
                 return "issue/IssueReadView";
             } else {
                 // 첫 번째 사용자가 해당 페이지에 접근한 경우 사용자 집합에 추가
                 usersInUpdateView.add("issue_"+issueKeyNum);
-                if(lockMap.get("issue_"+issueKeyNum) == "" || lockMap.get("issue_"+issueKeyNum) == null) {
+                if(lockMap.get("issue_"+issueKeyNum) == null || lockMap.get("issue_"+issueKeyNum).isEmpty()) {
                 	lockMap.put("issue_"+issueKeyNum, principal.getName());
                 }
             }
@@ -337,6 +328,7 @@ public class IssueController {
 	public int IssuePlus(Principal principal, Issue issue) {
 		Issue issueOne = issueService.getIssuePrimaryOne(issue.getIssuePrimaryKeyNum());
 		issueService.issueSortNumPlus(issueOne.getIssueSortNum());
+		
 		issue = issueService.getIssueKeyNumOne(issue.getIssueKeyNum());
 		issue.setIssueSortNum(issueOne.getIssueSortNum()+1);
 		issue.setIssueRegistrant(principal.getName());
@@ -421,7 +413,7 @@ public class IssueController {
 	        	issueService.updateTimeOut(issueTimeOut);
 			}
     	} catch (Exception e) {
-			// TODO: handle exception
+    		e.printStackTrace();
 		}
     }
 	
