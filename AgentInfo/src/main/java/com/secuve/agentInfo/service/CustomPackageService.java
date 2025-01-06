@@ -45,9 +45,9 @@ public class CustomPackageService {
 		
 		selfInput(customPackage);
 		customPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
-		int sucess = customPackageDao.insertCustomPackage(customPackage);
+		int success = customPackageDao.insertCustomPackage(customPackage);
 
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		categoryService.insertCustomerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryCheck(customPackage, principal);
@@ -63,9 +63,9 @@ public class CustomPackageService {
 		
 		selfInput(customPackage);
 		customPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
-		int sucess = customPackageDao.updateCustomPackage(customPackage);
+		int success = customPackageDao.updateCustomPackage(customPackage);
 
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		categoryService.insertCustomerBusinessMapping(customPackage.getCustomerNameView(), customPackage.getBusinessNameView());
 		categoryCheck(customPackage, principal);
@@ -133,8 +133,8 @@ public class CustomPackageService {
 
 	public String deleteCustomPackage(int[] chkList) {
 		for(int customPackageKeyNum: chkList) {
-			int sucess = customPackageDao.deleteCustomPackage(customPackageKeyNum);
-			if(sucess <= 0) 
+			int success = customPackageDao.deleteCustomPackage(customPackageKeyNum);
+			if(success <= 0) 
 				return "FALSE";
 		}
 		return "OK";

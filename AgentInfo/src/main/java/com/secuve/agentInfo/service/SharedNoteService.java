@@ -52,8 +52,8 @@ public class SharedNoteService {
 		} catch (Exception e) {
 		}
 		sharedNote.setSharedNoteSort(++sharedNoteSort);
-		int sucess = sharedNoteDao.insertSharedNote(sharedNote);
-		if (sucess <= 0) {
+		int success = sharedNoteDao.insertSharedNote(sharedNote);
+		if (success <= 0) {
 			map.put("result", "FALSE");
 			return map;
 		}
@@ -99,8 +99,8 @@ public class SharedNoteService {
 				return "Existence";
 			}
 		}
-		int sucess = sharedNoteDao.updateSharedNote(sharedNote);
-		if (sucess <= 0)
+		int success = sharedNoteDao.updateSharedNote(sharedNote);
+		if (success <= 0)
 			return "FALSE";
 		sharedNote.setSharedNoteRegistrant(principal.getName());
 		
@@ -114,8 +114,8 @@ public class SharedNoteService {
 
 	public String delSharedNote(String sharedNoteKeyNumStr) {
 		int sharedNoteKeyNum = Integer.parseInt(sharedNoteKeyNumStr);
-		int sucess = sharedNoteDao.delSharedNote(sharedNoteKeyNum);
-		if (sucess <= 0)
+		int success = sharedNoteDao.delSharedNote(sharedNoteKeyNum);
+		if (success <= 0)
 			return "FALSE";
 		List<String> sharedNoteFileNames = sharedNoteDao.getSharedNoteFileName(sharedNoteKeyNum);
 		for (String sharedNoteFileName : sharedNoteFileNames) {
@@ -131,16 +131,16 @@ public class SharedNoteService {
 
 	public String saveSharedNote(List<Integer> sharedNoteKeyNum) {
 		SharedNote sharedNote = new SharedNote();
-		int sucess = 1;
+		int success = 1;
 		int sharedNoteSort = 0;
 		try {
 			sharedNoteSort =  sharedNoteDao.sharedNoteSort();
 		} catch (Exception e) {
 		}
 		for(int i=0; i<sharedNoteKeyNum.size(); i++) {
-			sucess *= sharedNoteDao.saveSharedNote(sharedNoteKeyNum.get(i), ++sharedNoteSort);
+			success *= sharedNoteDao.saveSharedNote(sharedNoteKeyNum.get(i), ++sharedNoteSort);
 		}
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}

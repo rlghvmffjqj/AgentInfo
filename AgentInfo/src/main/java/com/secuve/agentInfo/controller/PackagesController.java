@@ -1,6 +1,5 @@
 package com.secuve.agentInfo.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +38,12 @@ public class PackagesController {
 	@Autowired SendPackageService sendPackageService;
 	@Autowired FavoritePageService favoritePageService;
 	
+	private static final String[] CATEGORY_KEYS = {
+	        "existingNew", "managementServer", "generalCustom", "osType", 
+	        "requestProductCategory", "deliveryMethod", "purchaseCategory", 
+	        "agentVer", "agentOS", "customerName"
+	    };
+	
 
 	/**
 	 * 패키지 리스트 이동
@@ -48,37 +52,18 @@ public class PackagesController {
 	 * @return
 	 */
 	@GetMapping(value = "/packages/list")
-	public String PackagesList(Model model, Principal principal, HttpServletRequest req) {
-		favoritePageService.insertFavoritePage(principal, req, "패키지 배포 관리");
-		
-		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> categoryBusinessName = categoryService.getCategoryBusinessNameList();
-		List<String> existingNew = categoryService.getCategoryValue("existingNew");
-		List<String> managementServer = categoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
-		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
-		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
-		List<String> agentVer = categoryService.getCategoryValue("agentVer");
-		List<String> agentOS = categoryService.getCategoryValue("agentOS");
-		List<String> customerId = categoryService.getCategoryKeyNum();
-		
-		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", categoryBusinessName);
-		model.addAttribute("existingNew", existingNew);
-		model.addAttribute("managementServer", managementServer);
-		model.addAttribute("generalCustom", generalCustom);
-		model.addAttribute("osType", osType);
-		model.addAttribute("requestProductCategory", requestProductCategory);
-		model.addAttribute("deliveryMethod", deliveryMethod);
-		model.addAttribute("purchaseCategory", purchaseCategory);
-		model.addAttribute("agentVer", agentVer);
-		model.addAttribute("agentOS", agentOS);
-		model.addAttribute("customerId", customerId);
+    public String packagesList(Model model, Principal principal, HttpServletRequest req) {
+        favoritePageService.insertFavoritePage(principal, req, "패키지 배포 관리");
 
-		return "packages/PackagesList";
-	}
+        for (String key : CATEGORY_KEYS) {
+            model.addAttribute(key, categoryService.getCategoryValue(key));
+        }
+
+        model.addAttribute("businessName", categoryService.getCategoryBusinessNameList());
+        model.addAttribute("customerId", categoryService.getCategoryKeyNum());
+
+        return "packages/PackagesList";
+    }
 
 	/**
 	 * 패키지 데이터 조회
@@ -87,18 +72,19 @@ public class PackagesController {
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping(value = "/packages")
-	public Map<String, Object> Package(Packages search) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<Packages> list = new ArrayList<>(packagesService.getPackagesList(search));
+    @PostMapping(value = "/packages")
+    public Map<String, Object> getPackages(Packages search) {
+        Map<String, Object> response = new HashMap<>();
+        List<Packages> packagesList = packagesService.getPackagesList(search);
+        int totalCount = packagesService.getPackagesListCount(search);
 
-		int totalCount = packagesService.getPackagesListCount(search);
-		map.put("page", search.getPage());
-		map.put("total", Math.ceil((float) totalCount / search.getRows()));
-		map.put("records", totalCount);
-		map.put("rows", list);
-		return map;
-	}
+        response.put("page", search.getPage());
+        response.put("total", Math.ceil((float) totalCount / search.getRows()));
+        response.put("records", totalCount);
+        response.put("rows", packagesList);
+
+        return response;
+    }
 
 	/**
 	 * 패키지 삭제
@@ -121,27 +107,9 @@ public class PackagesController {
 	 */
 	@PostMapping(value = "/packages/insertView")
 	public String InsertPackagesView(Model model, Packages packages) {
-		List<String> existingNew = categoryService.getCategoryValue("existingNew");
-		List<String> managementServer = categoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
-		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
-		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
-		List<String> agentVer = categoryService.getCategoryValue("agentVer");
-		List<String> agentOS = categoryService.getCategoryValue("agentOS");
-		List<String> customerName = categoryService.getCategoryValue("customerName");
-
-		model.addAttribute("existingNew", existingNew);
-		model.addAttribute("managementServer", managementServer);
-		model.addAttribute("generalCustom", generalCustom);
-		model.addAttribute("osType", osType);
-		model.addAttribute("requestProductCategory", requestProductCategory);
-		model.addAttribute("deliveryMethod", deliveryMethod);
-		model.addAttribute("purchaseCategory", purchaseCategory);
-		model.addAttribute("agentVer", agentVer);
-		model.addAttribute("agentOS", agentOS);
-		model.addAttribute("customerName", customerName);
+		for (String key : CATEGORY_KEYS) {
+            model.addAttribute(key, categoryService.getCategoryValue(key));
+        }
 		model.addAttribute("viewType", "insert").addAttribute("packages", packages);
 		return "/packages/PackagesView";
 	}
@@ -159,8 +127,9 @@ public class PackagesController {
 		packages.setPackagesRegistrant(principal.getName());
 		packages.setPackagesRegistrationDate(packagesService.nowDate());
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 		String result = packagesService.insertPackages(packages, principal);
+		
 		map.put("packagesKeyNum", packages.getPackagesKeyNum());
 		map.put("result", result);
 		return map;
@@ -178,31 +147,13 @@ public class PackagesController {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
 		SendPackage sendPackage = sendPackageService.getPackageOne(packagesKeyNum);
 
-		List<String> existingNew = categoryService.getCategoryValue("existingNew");
-		List<String> managementServer = categoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
-		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
-		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
-		List<String> agentVer = categoryService.getCategoryValue("agentVer");
-		List<String> agentOS = categoryService.getCategoryValue("agentOS");
-		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryBusinessValue(packages.getCustomerName());
-
-		model.addAttribute("existingNew", existingNew);
-		model.addAttribute("managementServer", managementServer);
-		model.addAttribute("generalCustom", generalCustom);
-		model.addAttribute("osType", osType);
-		model.addAttribute("requestProductCategory", requestProductCategory);
-		model.addAttribute("deliveryMethod", deliveryMethod);
-		model.addAttribute("purchaseCategory", purchaseCategory);
-		model.addAttribute("agentVer", agentVer);
-		model.addAttribute("agentOS", agentOS);
-		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		for (String key : CATEGORY_KEYS) {
+            model.addAttribute(key, categoryService.getCategoryValue(key));
+        }
+		model.addAttribute("businessName", categoryService.getCategoryBusinessValue(packages.getCustomerName()));
 		model.addAttribute("sendPackage", sendPackage);
 		model.addAttribute("viewType", "update").addAttribute("packages", packages);
+		
 		return "/packages/PackagesView";
 	}
 
@@ -235,37 +186,39 @@ public class PackagesController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@PostMapping(value = "/packages/import")
-	public String Import(HttpServletRequest request, Packages packages, Principal principal,
-			@RequestParam("file") MultipartFile mfile) throws Exception {
-		String result = "FALSE";
+    @PostMapping(value = "/packages/import")
+    public String importPackages(@RequestParam("file") MultipartFile mfile, Packages packages, Principal principal) {
+        if (mfile.isEmpty()) {
+            return "FALSE";
+        }
 
-		if (mfile.isEmpty()) {
-			System.out.println("파일이 존재 하지 않습니다.");
-		}
+        String filename = mfile.getOriginalFilename();
+        String fileExt = FilenameUtils.getExtension(filename);
 
-		BufferedReader rd = null;
-		try {
-			String filename = mfile.getOriginalFilename();
-			String fileext = FilenameUtils.getExtension(filename);
-			if (fileext.equalsIgnoreCase("csv") == true) {
-				result = packagesService.importPackagesCSV(mfile, principal);
-			} else if (fileext.equalsIgnoreCase("xlsx") == true) {
-				if (packages.getExcelImportYear().equals("2019년"))
-					result = packagesService.importPackagesXlxs2019(mfile, principal);
-				if (packages.getExcelImportYear().equals("2021년"))
-					result = packagesService.importPackagesXlxs2021(mfile, principal);
-				if (packages.getExcelImportYear().equals("2022년"))
-					result = packagesService.importPackagesXlxs2022(mfile, principal);
-			}
-		} catch (IOException e) {
-			System.out.println("에러 : " + e);
-		} finally {
-			IOUtils.closeQuietly(rd);
-		}
-
-		return result;
-	}
+        try {
+            if ("csv".equalsIgnoreCase(fileExt)) {
+                return packagesService.importPackagesCSV(mfile, principal);
+            } else if ("xlsx".equalsIgnoreCase(fileExt)) {
+                return importExcelByYear(mfile, packages.getExcelImportYear(), principal);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "FALSE";
+    }
+	
+	private String importExcelByYear(MultipartFile file, String year, Principal principal) throws IOException {
+        switch (year) {
+            case "2019년":
+                return packagesService.importPackagesXlxs2019(file, principal);
+            case "2021년":
+                return packagesService.importPackagesXlxs2021(file, principal);
+            case "2022년":
+                return packagesService.importPackagesXlxs2022(file, principal);
+            default:
+                return "FALSE";
+        }
+    }
 
 	/**
 	 * Excel Import Model
@@ -298,13 +251,13 @@ public class PackagesController {
 
 		List list = packagesService.listAll(packages);
 
-		if (packages.getDeliveryDateStart() != "" && packages.getDeliveryDateEnd() != "") {
-			filename = packages.getDeliveryDateStart() + " - " + packages.getDeliveryDateEnd() + ".csv";
-		}
+		if (!packages.getDeliveryDateStart().isEmpty() && !packages.getDeliveryDateEnd().isEmpty()) {
+	        filename = packages.getDeliveryDateStart() + " - " + packages.getDeliveryDateEnd() + ".csv";
+	    }
 
-		try {
-			if (packages.getDeliveryDateStart() != "" && packages.getDeliveryDateEnd() == ""
-					|| packages.getDeliveryDateStart() == "" && packages.getDeliveryDateEnd() != "") {
+	    try {
+	        if ((!packages.getDeliveryDateStart().isEmpty() && packages.getDeliveryDateEnd().isEmpty())
+	                || (packages.getDeliveryDateStart().isEmpty() && !packages.getDeliveryDateEnd().isEmpty())) {
 				filename = "전달일자 범위 오류.csv";
 				list = new ArrayList<Object>();
 			}
@@ -325,30 +278,12 @@ public class PackagesController {
 	public String CopyPackagesView(Model model, int packagesKeyNum) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
 
-		List<String> existingNew = categoryService.getCategoryValue("existingNew");
-		List<String> managementServer = categoryService.getCategoryValue("managementServer");
-		List<String> generalCustom = categoryService.getCategoryValue("generalCustom");
-		List<String> osType = categoryService.getCategoryValue("osType");
-		List<String> requestProductCategory = categoryService.getCategoryValue("requestProductCategory");
-		List<String> deliveryMethod = categoryService.getCategoryValue("deliveryMethod");
-		List<String> purchaseCategory = categoryService.getCategoryValue("purchaseCategory");
-		List<String> agentVer = categoryService.getCategoryValue("agentVer");
-		List<String> agentOS = categoryService.getCategoryValue("agentOS");
-		List<String> customerName = categoryService.getCategoryValue("customerName");
-		List<String> businessName = categoryService.getCategoryBusinessValue(packages.getCustomerName());
-
-		model.addAttribute("existingNew", existingNew);
-		model.addAttribute("managementServer", managementServer);
-		model.addAttribute("generalCustom", generalCustom);
-		model.addAttribute("osType", osType);
-		model.addAttribute("requestProductCategory", requestProductCategory);
-		model.addAttribute("deliveryMethod", deliveryMethod);
-		model.addAttribute("purchaseCategory", purchaseCategory);
-		model.addAttribute("agentVer", agentVer);
-		model.addAttribute("agentOS", agentOS);
-		model.addAttribute("customerName", customerName);
-		model.addAttribute("businessName", businessName);
+		for (String key : CATEGORY_KEYS) {
+            model.addAttribute(key, categoryService.getCategoryValue(key));
+        }
+		model.addAttribute("businessName", categoryService.getCategoryBusinessValue(packages.getCustomerName()));
 		model.addAttribute("viewType", "copy").addAttribute("packages", packages);
+		
 		return "/packages/PackagesView";
 	}
 
@@ -361,17 +296,17 @@ public class PackagesController {
 	 */
 	@ResponseBody
 	@PostMapping(value = "/packages/copy")
-	public Map copyPackages(Packages packages, Principal principal) {
+	public Map<String, Object> copyPackages(Packages packages, Principal principal) {
 		packages.setPackagesRegistrant(principal.getName());
 		packages.setPackagesRegistrationDate(packagesService.nowDate());
 		
 		String sendPackageRandomUrl = "";
 		SendPackage sendPackage = sendPackageService.getPackageOne(packages.getPackagesKeyNum());
-		try {
-			sendPackageRandomUrl = sendPackage.getSendPackageRandomUrl();
-		} catch (Exception e) {}
+		if (sendPackage != null) {
+	        sendPackageRandomUrl = sendPackage.getSendPackageRandomUrl();
+	    }
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 		String result = packagesService.copyPackages(packages, principal);
 		map.put("packagesKeyNum", packages.getPackagesKeyNum());
 		map.put("sendPackageRandomUrl", sendPackageRandomUrl);
@@ -387,9 +322,7 @@ public class PackagesController {
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/managementServer")
 	public List<Integer> chartManagementServer(String managementServerYear) {
-		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getChartManagementServer(managementServerYear);
-		return list;
+		return packagesService.getChartManagementServer(managementServerYear);
 	}
 
 	/**
@@ -400,9 +333,7 @@ public class PackagesController {
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/osType")
 	public List<Integer> chartOsType(String osTypeYear) {
-		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getOsType(osTypeYear);
-		return list;
+		return packagesService.getOsType(osTypeYear);
 	}
 
 	/**
@@ -413,9 +344,7 @@ public class PackagesController {
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/requestProductCategory")
 	public List<Integer> chartRequestProductCategory(String requestProductCategoryYear) {
-		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getChartRequestProductCategory(requestProductCategoryYear);
-		return list;
+		return packagesService.getChartRequestProductCategory(requestProductCategoryYear);
 	}
 
 	/**
@@ -426,9 +355,7 @@ public class PackagesController {
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/agentVer")
 	public Map<String, List> chartAgentVer() {
-		Map<String, List> map = new HashMap<String, List>();
-		map = packagesService.getAgentVer();
-		return map;
+		return packagesService.getAgentVer();
 	}
 
 	/**
@@ -439,17 +366,13 @@ public class PackagesController {
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/deliveryData")
 	public List<Integer> chartDeliveryData(String deliveryDataYear) {
-		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getDeliveryData(deliveryDataYear);
-		return list;
+		return packagesService.getDeliveryData(deliveryDataYear);
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/deliveryAvgData")
 	public List<Integer> chartDeliveryAvgData() {
-		List<Integer> list = new ArrayList<Integer>();
-		list = packagesService.getDeliveryAvgData();
-		return list;
+		return packagesService.getDeliveryAvgData();
 	}
 
 	/**
@@ -460,9 +383,7 @@ public class PackagesController {
 	@ResponseBody
 	@PostMapping(value = "/packages/chart/customerName")
 	public Map<String, List> chartCustomerName(String customerNameYear) {
-		Map<String, List> map = new HashMap<String, List>();
-		map = packagesService.getCustomerName(customerNameYear);
-		return map;
+		return packagesService.getCustomerName(customerNameYear);
 	}
 	
 	/**
@@ -488,9 +409,9 @@ public class PackagesController {
 
 		Map<String, String> map = new HashMap<String, String>();
 		String result = packagesService.stateChange(chkList, statusComment, stateView, principal);
-		if(stateView.equals("적용")) {
-			packagesService.updateProduct(chkList, principal);
-		}
+		if ("적용".equals(stateView)) {
+	        packagesService.updateProduct(chkList, principal);
+	    }
 		map.put("result", result);
 		return map;
 	}
@@ -500,5 +421,6 @@ public class PackagesController {
 	public String OverseasMove(@RequestParam int[] chkList, Principal principal) {
 		return packagesService.overseasMove(chkList, principal);
 	}
+	
 	
 }

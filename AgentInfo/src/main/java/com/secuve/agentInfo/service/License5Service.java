@@ -161,12 +161,12 @@ public class License5Service {
 			}
 			license = licenseInputFormat(license);
 			license.setLicenseState("issued");
-			int sucess = license5Dao.issuedLicense(license);
+			int success = license5Dao.issuedLicense(license);
 			categoryCheck(license, principal);
 			categoryService.insertCustomerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
 		
 			// 로그 기록
-			if (sucess <= 0) {
+			if (success <= 0) {
 				LOGGER.debug("리눅스 라이선스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
@@ -227,12 +227,12 @@ public class License5Service {
 				}
 			}
 			license = licenseInputFormat(license);
-			int sucess = license5Dao.updateLicense(license);
+			int success = license5Dao.updateLicense(license);
 			categoryCheck(license, principal);
 			categoryService.insertCustomerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
 		
 			// 로그 기록
-			if (sucess <= 0) {
+			if (success <= 0) {
 				LOGGER.debug("리눅스 라이선스 5.0 발급 INSERT ERROR");
 				return "FALSE";
 			}
@@ -387,11 +387,11 @@ public class License5Service {
 	public String delLicense(int[] chkList, Principal principal) {
 		for (int licenseKeyNum : chkList) {
 			License5 license = license5Dao.getLicenseOne(licenseKeyNum);
-			int sucess = license5Dao.delLicense(licenseKeyNum);
+			int success = license5Dao.delLicense(licenseKeyNum);
 
 			// 로그 기록
-			if (sucess > 0) {
-			} else if (sucess <= 0) {
+			if (success > 0) {
+			} else if (success <= 0) {
 				LOGGER.debug("라이선스 DELETE ERROR");
 				return "FALSE";
 			}
@@ -550,23 +550,23 @@ public class License5Service {
 	}
 
 	public Map<String, Object> licenseXmlImport(List<MultipartFile> fileList, Principal principal) {
-		int sucess = 0;
+		int success = 0;
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		for (MultipartFile xmlFile : fileList) {
 			License5 license = new License5();
 			license.setLicenseIssuanceRegistrant(principal.getName());
 			license.setLicenseIssuanceRegistrationDate(nowDate());
-			sucess += licenseXmlInsert(license, xmlFile);
-			if(sucess == -1) {
+			success += licenseXmlInsert(license, xmlFile);
+			if(success == -1) {
 				map.put("result", "Duplication");
 				return map;
 			}
 		}
 		
-		if(sucess > 0) {
+		if(success > 0) {
 			map.put("result", "OK");
-			map.put("sucess", sucess);
+			map.put("success", success);
 		} else {
 			map.put("result", "FALSE");
 		}
@@ -693,8 +693,8 @@ public class License5Service {
 		license.setLicenseFilePathView("");
 		license.setLicenseState("request");
 		license = licenseInputFormat(license);
-		int sucess = license5Dao.issuedLicense(license);
-		if (sucess <= 0) {
+		int success = license5Dao.issuedLicense(license);
+		if (success <= 0) {
 			return "FALSE";
 		}
 		return "OK";

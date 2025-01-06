@@ -145,10 +145,10 @@ public class LogGriffinService {
 				}
 			}
 			license = licenseInputFormat(license);
-			int sucess = logGriffinDao.updateLicense(license);
+			int success = logGriffinDao.updateLicense(license);
 		
 			// 로그 기록
-			if (sucess <= 0) {
+			if (success <= 0) {
 				LOGGER.debug("LogGRIFFIN 라이선스 발급 INSERT ERROR");
 				return "FALSE";
 			}
@@ -254,10 +254,10 @@ public class LogGriffinService {
 				return "Duplication";
 			}
 			license = licenseInputFormat(license);
-			int sucess = logGriffinDao.issuedLicense(license);
+			int success = logGriffinDao.issuedLicense(license);
 		
 			// 로그 기록
-			if (sucess <= 0) {
+			if (success <= 0) {
 				LOGGER.debug("LogGRIFFIN 라이선스 발급 INSERT ERROR");
 				return "FALSE";
 			}
@@ -284,11 +284,11 @@ public class LogGriffinService {
 
 	public String delLicense(int[] chkList, Principal principal) {
 		for (int logGriffinKeyNum : chkList) {
-			int sucess = logGriffinDao.delLicense(logGriffinKeyNum);
+			int success = logGriffinDao.delLicense(logGriffinKeyNum);
 
 			// 로그 기록
-			if (sucess > 0) {
-			} else if (sucess <= 0) {
+			if (success > 0) {
+			} else if (success <= 0) {
 				LOGGER.debug("라이선스 DELETE ERROR");
 				return "FALSE";
 			}
@@ -423,23 +423,23 @@ public class LogGriffinService {
 	}
 
 	public Map<String, Object> licenseYmlImport(List<MultipartFile> fileList, Principal principal) {
-		int sucess = 0;
+		int success = 0;
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		for (MultipartFile ymlFile : fileList) {
 			LogGriffin license = new LogGriffin();
 			license.setLogGriffinRegistrant(principal.getName());
 			license.setLogGriffinRegistrationDate(nowDate());
-			sucess += licenseYmlInsert(license, ymlFile);
-			if(sucess == -1) {
+			success += licenseYmlInsert(license, ymlFile);
+			if(success == -1) {
 				map.put("result", "LicenseYaml");
 				return map;
 			}
 		}
 		
-		if(sucess > 0) {
+		if(success > 0) {
 			map.put("result", "OK");
-			map.put("sucess", sucess);
+			map.put("success", success);
 		} else {
 			map.put("result", "FALSE");
 		}

@@ -123,10 +123,10 @@ public class LicenseService {
 			license = BtnTypeKeyManagement(license);
 			license.setLicenseIssueKey(answer);
 			license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
-			int sucess = licenseDao.issuedLicense(license);
+			int success = licenseDao.issuedLicense(license);
 		
 			// 로그 기록
-			if (sucess > 0) {
+			if (success > 0) {
 				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "LINUX");
 			} else {
 				LOGGER.debug("리눅스 라이선스 2.0 발급 INSERT ERROR");
@@ -182,10 +182,10 @@ public class LicenseService {
 			license.setLicenseIssueKey(answer);
 			license.setLicenseIssueKey("LINUX5.0");
 			license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
-			int sucess = licenseDao.issuedLicense(license);
+			int success = licenseDao.issuedLicense(license);
 		
 			// 로그 기록
-			if (sucess > 0) {
+			if (success > 0) {
 				licenseUidLogService.insertLicenseUidLog(license, principal, "INSERT", "LINUX");
 			} else {
 				LOGGER.debug("리눅스 라이선스 5.0 발급 INSERT ERROR");
@@ -311,10 +311,10 @@ public class LicenseService {
 		license = BtnTypeKeyManagement(license);
 		license.setLicenseIssueKey("none");
 		license.setPeriodView(periodSelf(license.getPeriodView(), Integer.parseInt(license.getPeriodYearSelf()), Integer.parseInt(license.getPeriodMonthSelf()), Integer.parseInt(license.getPeriodDaySelf())));
-		int sucess = licenseDao.issuedLicense(license);
+		int success = licenseDao.issuedLicense(license);
 		String route = licenseDao.getRoute("windowsLicenseRoute");
 		// 로그 기록
-		if (sucess > 0) {
+		if (success > 0) {
 			WindowsLicenseIssued(request, route);
 			return license.getLicenseKeyNum();
 		} else {
@@ -382,12 +382,12 @@ public class LicenseService {
 	public String delLicense(int[] chkList, Principal principal) {
 		for (int licenseKeyNum : chkList) {
 			License license = licenseDao.getLicenseOne(licenseKeyNum);
-			int sucess = licenseDao.delLicense(licenseKeyNum);
+			int success = licenseDao.delLicense(licenseKeyNum);
 
 			// 로그 기록
-			if (sucess > 0) {
+			if (success > 0) {
 				licenseUidLogService.insertLicenseUidLog(license, principal, "DELETE", "ALL");
-			} else if (sucess <= 0) {
+			} else if (success <= 0) {
 				LOGGER.debug("라이선스 DELETE ERROR");
 				return "FALSE";
 			}
@@ -396,8 +396,8 @@ public class LicenseService {
 	}
 
 	public String saveLicenseKey(String licenseIssueKey, int licenseKeyNum, Principal principal) {
-		int sucess = licenseDao.saveLicenseKey(licenseIssueKey, licenseKeyNum);
-		if(sucess <= 0) {
+		int success = licenseDao.saveLicenseKey(licenseIssueKey, licenseKeyNum);
+		if(success <= 0) {
 			LOGGER.debug("라이선스 INSERT ERROR");
 			return "FALSE";
 		} 

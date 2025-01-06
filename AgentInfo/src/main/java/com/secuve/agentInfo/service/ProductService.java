@@ -48,13 +48,13 @@ public class ProductService {
 			return "NotCustomerName";
 		}
 		selfInput(product);
-		int sucess = productDao.insertProduct(product);
+		int success = productDao.insertProduct(product);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryCheck(product, principal);
 		}
-		return parameter(sucess);
+		return parameter(success);
 	}
 	
 	public void categoryCheck(Product product, Principal principal) {
@@ -86,27 +86,27 @@ public class ProductService {
 			return "NotCustomerName";
 		}
 		selfInput(product);
-		int sucess = productDao.updateProduct(product);
+		int success = productDao.updateProduct(product);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryCheck(product, principal);
 		}
-		return parameter(sucess);
+		return parameter(success);
 	}
 
 	public String delProduct(int[] chkList, Principal principal) {
 		for (int productKeyNum : chkList) {
-			int sucess = productDao.delProduct(productKeyNum);
+			int success = productDao.delProduct(productKeyNum);
 
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
 	}
 	
-	public String parameter(int sucess) {
-		if (sucess <= 0)
+	public String parameter(int success) {
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}

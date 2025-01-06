@@ -47,12 +47,12 @@ public class CalendarService {
 		if(overlap >= 1) {
 			return "overlap";
 		}
-		int sucess = calendarDao.InsertCalendarList(calendar.getCalendarListContents(), calendar.getCalendarListColor(), calendar.getCalendarListRegistrant(), calendar.getCalendarListRegistrationDate());
-		return parameter(sucess);
+		int success = calendarDao.InsertCalendarList(calendar.getCalendarListContents(), calendar.getCalendarListColor(), calendar.getCalendarListRegistrant(), calendar.getCalendarListRegistrationDate());
+		return parameter(success);
 	}
 	
-	public String parameter(int sucess) {
-		if (sucess <= 0)
+	public String parameter(int success) {
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -83,13 +83,13 @@ public class CalendarService {
 		calendar.setCalendarStart(formatter.format(start));
 		calendar.setCalendarEnd(formatter.format(end));
 		
-		int sucess = calendarDao.updateCalendar(calendar);
-		return parameter(sucess);
+		int success = calendarDao.updateCalendar(calendar);
+		return parameter(success);
 	}
 
 	public String DeleteCalendar(int calendarKeyNum, String calendarRegistrant) {
-		int sucess = calendarDao.deleteCalendar(calendarKeyNum, calendarRegistrant);
-		return parameter(sucess);
+		int success = calendarDao.deleteCalendar(calendarKeyNum, calendarRegistrant);
+		return parameter(success);
 	}
 
 	public Calendar getCalendarOne(int calendarKeyNum, String calendarRegistrant) {
@@ -108,8 +108,8 @@ public class CalendarService {
 			return "DateOver";
 		}	
 		
-		int sucess = calendarDao.saveCalendar(calendar);
-		return parameter(sucess);
+		int success = calendarDao.saveCalendar(calendar);
+		return parameter(success);
 	}
 
 	public void calendarScheduler() {

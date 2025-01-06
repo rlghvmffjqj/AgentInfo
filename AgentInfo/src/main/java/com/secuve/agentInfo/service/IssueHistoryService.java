@@ -53,8 +53,8 @@ public class IssueHistoryService {
 		issueHistory.setIssueHistoryRegistrant(issue.getIssueRegistrant());
 		issueHistory.setIssueHistoryRegistrationDate(issue.getIssueRegistrationDate());
 		
-		int sucess = issueHistoryDao.insertIssueHistory(issueHistory);
-		if (sucess <= 0) {
+		int success = issueHistoryDao.insertIssueHistory(issueHistory);
+		if (success <= 0) {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");
@@ -64,8 +64,8 @@ public class IssueHistoryService {
 
 	public Map<String, String> deleteIssueHistory(String issueHistoryPdf) {
 		Map<String, String> map = new HashMap<>();
-		int sucess = issueHistoryDao.deleteIssueHistory(issueHistoryPdf);
-		if (sucess <= 0) {
+		int success = issueHistoryDao.deleteIssueHistory(issueHistoryPdf);
+		if (success <= 0) {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");

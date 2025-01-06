@@ -64,8 +64,8 @@ public class CustomerConsolidationService {
 			return "Duplication";
 		}
 		
-		int sucess = customerConsolidationDao.insertSales(customerConsolidation);
-		if (sucess <= 0)
+		int success = customerConsolidationDao.insertSales(customerConsolidation);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -85,8 +85,8 @@ public class CustomerConsolidationService {
 			}
 		}
 		
-		int sucess = customerConsolidationDao.updateSales(customerConsolidation);
-		if (sucess <= 0)
+		int success = customerConsolidationDao.updateSales(customerConsolidation);
+		if (success <= 0)
 			return "FALSE";
 		customerConsolidationDao.updateSalesSecurity(customerConsolidation, customerConsolidationOne);
 		license5Dao.updateSalesLicense(customerConsolidation, customerConsolidationOne);
@@ -109,9 +109,9 @@ public class CustomerConsolidationService {
 		for (int customerConsolidationsKeyNum : chkList) {
 			customerConsolidation.setCustomerConsolidationKeyNum(customerConsolidationsKeyNum);
 			customerConsolidation.setCustomerConsolidationDepartment(customerConsolidationDepartment);
-			int sucess = customerConsolidationDao.delCustomerConsolidation(customerConsolidation);
+			int success = customerConsolidationDao.delCustomerConsolidation(customerConsolidation);
 
-			if (sucess <= 0) {
+			if (success <= 0) {
 				if(customerConsolidationDepartment.equals("영업본부")) 
 					mismatch = "SalesMISMATCH";
 				else if(customerConsolidationDepartment.equals("보안기술사업본부"))
@@ -144,8 +144,8 @@ public class CustomerConsolidationService {
 			return "Duplication";
 		}
 		
-		int sucess = customerConsolidationDao.insertSecurityInfo(customerConsolidation);
-		if (sucess <= 0)
+		int success = customerConsolidationDao.insertSecurityInfo(customerConsolidation);
+		if (success <= 0)
 			return "FALSE";
 //		try {
 //			String customer = customerConsolidationOne.getCustomerConsolidationCustomer();
@@ -187,8 +187,8 @@ public class CustomerConsolidationService {
 			}
 		}
 		
-		int sucess = customerConsolidationDao.updateSecurityInfo(customerConsolidation);
-		if (sucess <= 0)
+		int success = customerConsolidationDao.updateSecurityInfo(customerConsolidation);
+		if (success <= 0)
 			return "FALSE";
 		
 //		if(!customerConsolidation.getCustomerConsolidationEngineerIdView().equals(customerConsolidationOne.getCustomerConsolidationEngineerId())) {

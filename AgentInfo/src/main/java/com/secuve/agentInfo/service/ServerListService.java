@@ -94,9 +94,9 @@ public class ServerListService {
 			}
 		}
 		/* ========== 박범수 연구원 요청 종료 ========= */
-		int sucess = serverListDao.insertServerList(serverList);
+		int success = serverListDao.insertServerList(serverList);
 		
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -134,8 +134,8 @@ public class ServerListService {
 	
 	public String delServerList(int[] chkList, Principal principal) {
 		for (int serverListKeyNum : chkList) {
-			int sucess = serverListDao.delServerList(serverListKeyNum);
-			if (sucess <= 0)
+			int success = serverListDao.delServerList(serverListKeyNum);
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
@@ -179,17 +179,17 @@ public class ServerListService {
 			}
 		}
 		/* ========== 박범수 연구원 요청 종료 ========= */
-		int sucess = serverListDao.updateServerList(serverList);
-		if (sucess <= 0)
+		int success = serverListDao.updateServerList(serverList);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
 
 	public String stateChange(int[] chkList, String stateView) {
 		for (int serverListKeyNum : chkList) {
-			int sucess = serverListDao.stateChange(serverListKeyNum, stateView);
+			int success = serverListDao.stateChange(serverListKeyNum, stateView);
 
-			if (sucess <= 0) 
+			if (success <= 0) 
 				return "FALSE";
 		}
 		return "OK";

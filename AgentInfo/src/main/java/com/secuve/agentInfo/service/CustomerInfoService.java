@@ -41,15 +41,15 @@ public class CustomerInfoService {
 		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > 0) {
 			return "Overlap";
 		}
-		int sucess = customerInfoDao.insertCustomerInfo(customerInfo);
+		int success = customerInfoDao.insertCustomerInfo(customerInfo);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
 			customerUidLog(customerInfo, principal, "INSERT");
 		}
-		return parameter(sucess);
+		return parameter(success);
 	}
 	
 	public void customerUidLog(CustomerInfo customerInfo, Principal principal, String event) {
@@ -90,8 +90,8 @@ public class CustomerInfoService {
 		return customerInfo;
 	}
 	
-	public String parameter(int sucess) {
-		if (sucess <= 0)
+	public String parameter(int success) {
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -117,13 +117,13 @@ public class CustomerInfoService {
 			return "NotCustomerName";
 		}
 		selfInput(customerInfo);
-		int sucess = 0;
+		int success = 0;
 		
 		int division = customerInfoDao.getCustomerInfoDivision(customerInfo.getCustomerInfoKeyNum(), customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification());
 		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > division) {
 			return "Overlap";
 		}
-		sucess = customerInfoDao.updateCustomerInfo(customerInfo);
+		success = customerInfoDao.updateCustomerInfo(customerInfo);
 		
 		if(customerInfoDao.getCustomerInfoCount(customerInfo.getCustomerName(), customerInfo.getBusinessName(), customerInfo.getNetworkClassification()) > 1) {
 			return "Overlap";
@@ -131,12 +131,12 @@ public class CustomerInfoService {
 		
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(customerInfo.getCustomerName(), customerInfo.getBusinessName());
 			categoryCheck(customerInfo, principal);
 			customerUidLog(customerInfo, principal, "UPDATE");
 		}
-		return parameter(sucess);
+		return parameter(success);
 	}
 
 	public List<CustomerInfo> getCustomerInfoList(String customerName) {
@@ -146,13 +146,13 @@ public class CustomerInfoService {
 	public String deleteCustomerInfo(ArrayList<CustomerInfo> chkList, Principal principal) {
 		for (CustomerInfo customerInfo : chkList) {
 			CustomerInfo customerInfoSub = customerInfoDao.getCustomerInfoOne(customerInfo.getCustomerInfoKeyNum());
-			int sucess = customerInfoDao.deleteCustomerInfo(customerInfo.getCustomerInfoKeyNum());
+			int success = customerInfoDao.deleteCustomerInfo(customerInfo.getCustomerInfoKeyNum());
 
-			if(sucess > 0) {
+			if(success > 0) {
 				customerUidLog(customerInfoSub, principal, "DELETE");
 			}
 			
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";

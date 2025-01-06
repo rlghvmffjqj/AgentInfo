@@ -38,8 +38,8 @@ public class TestCaseService {
 			map.put("result", "Duplication");
 			return map;
 		}
-		int sucess = testCaseDao.insertTestCaseForm(testCase);
-		if (sucess <= 0) {
+		int success = testCaseDao.insertTestCaseForm(testCase);
+		if (success <= 0) {
 			map.put("result", "FALSE");
 			return map;
 		}
@@ -49,8 +49,8 @@ public class TestCaseService {
 	}
 
 	public String delTestCaseForm(TestCase testCase) {
-		int sucess = testCaseDao.delTestCaseForm(testCase);
-		if (sucess <= 0)
+		int success = testCaseDao.delTestCaseForm(testCase);
+		if (success <= 0)
 			return "FALSE";
 		testCaseDao.delTestCaseFormRoute(testCase);
 		testCaseDao.delTestCaseFormContents(testCase);
@@ -60,8 +60,8 @@ public class TestCaseService {
 	public String updateTestCaseForm(TestCase testCase) {
 		if(testCaseDao.testCaseFormNameDuplication(testCase.getTestCaseFormName()) > 0) 
 			return "Duplication";
-		int sucess = testCaseDao.updateTestCaseForm(testCase);
-		if (sucess <= 0)
+		int success = testCaseDao.updateTestCaseForm(testCase);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -74,7 +74,7 @@ public class TestCaseService {
 	}
 	
 	public String insertRoute(TestCase testCase) {
-		int sucess = 0;
+		int success = 0;
 		
 		if(testCase.getTestCaseRouteGroupNum() == 0) {
 			try { testCase.setTestCaseRouteGroupNum(testCaseDao.getMaxTestCaseRouteGroupNum()+1); } 
@@ -93,26 +93,26 @@ public class TestCaseService {
 			return "Empty";
 		}
 		if(overlap == null) {
-			sucess = testCaseDao.insertRoute(testCase);
+			success = testCaseDao.insertRoute(testCase);
 			testCaseDao.updateRouteDate(testCase);
 		} else {
 			return "Overlap";
 		}
-		if(sucess > 0) {
+		if(success > 0) {
 			return "OK";
 		}
 		return "FAIL";
 	}
 
 	public String deleteRoute(TestCase testCase) {
-		int sucess = 0;
+		int success = 0;
 		List<TestCase> subTestCase = testCaseDao.getTestCaseRouteParentPath(testCase.getTestCaseRouteFullPath());
 		if(subTestCase.size() == 0) {
-			sucess = testCaseDao.deleteRoute(testCase);
+			success = testCaseDao.deleteRoute(testCase);
 		} else {
 			return "SubRoute";
 		}
-		if(sucess > 0) {
+		if(success > 0) {
 			testCaseDao.deleteTestCaseRouteContents(testCase.getTestCaseRouteKeyNum());
 			return "OK";
 		}
@@ -178,8 +178,8 @@ public class TestCaseService {
 
 	public Map testCaseContentsInsert(TestCase testCase) {
 		Map map = new HashMap();
-		int sucess = testCaseDao.testCaseDoubleCheck(testCase.getTestCaseRouteKeyNum());
-		if(sucess > 0) {
+		int success = testCaseDao.testCaseDoubleCheck(testCase.getTestCaseRouteKeyNum());
+		if(success > 0) {
 			map.put("result", "FALSE");
 			return map;
 		}
@@ -190,16 +190,16 @@ public class TestCaseService {
 	}
 
 	public String testCaseContentsUpdate(TestCase testCase) {
-		int sucess = testCaseDao.testCaseContentsUpdate(testCase);
-		if(sucess > 0) {
+		int success = testCaseDao.testCaseContentsUpdate(testCase);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String testCaseContentsDelete(int testCaseRouteKeyNum) {
-		int sucess = testCaseDao.testCaseContentsDelete(testCaseRouteKeyNum);
-		if(sucess > 0) {
+		int success = testCaseDao.testCaseContentsDelete(testCaseRouteKeyNum);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
@@ -208,8 +208,8 @@ public class TestCaseService {
 	public String deleteTestCase(int[] chkList) {
 		for (int testCaseRouteGroupNum : chkList) {
 			List<TestCase> testCaseList = testCaseDao.getTestCaseRouteKeyNum(testCaseRouteGroupNum);
-			int sucess = testCaseDao.deleteTestCase(testCaseRouteGroupNum);
-			if (sucess <= 0)
+			int success = testCaseDao.deleteTestCase(testCaseRouteGroupNum);
+			if (success <= 0)
 				return "FALSE";
 			for (TestCase testCase : testCaseList) {
 				testCaseDao.deleteTestCaseRouteContents(testCase.getTestCaseRouteKeyNum());

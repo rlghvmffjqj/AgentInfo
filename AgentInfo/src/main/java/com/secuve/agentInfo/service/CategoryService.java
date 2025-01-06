@@ -58,8 +58,8 @@ public class CategoryService {
 		}
 		
 		for(int categoryKeyNum: chkList) {
-			int sucess = categoryDao.delCategory(categoryKeyNum);
-			if(sucess <= 0) 
+			int success = categoryDao.delCategory(categoryKeyNum);
+			if(success <= 0) 
 				return "FALSE";
 		}
 		return "OK";
@@ -71,9 +71,9 @@ public class CategoryService {
 		if(categoryDao.getCategoryCheck(category) != null)
 			return "duplicateCheck";
 		
-		int sucess = categoryDao.insertCategory(category);
+		int success = categoryDao.insertCategory(category);
 		
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		return "OK";
 	}
@@ -93,9 +93,9 @@ public class CategoryService {
 			if(categoryDao.getCategoryCheck(category) != null)
 				return "duplicateCheck";
 		}
-		int sucess = categoryDao.updateCategory(category);
+		int success = categoryDao.updateCategory(category);
 		
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		
 		categoryDao.updateCategoryBusinessAll(categoryValue, categoryValueNew);
@@ -202,9 +202,9 @@ public class CategoryService {
 		if(categoryDao.getCategoryBusinessCheck(category) != null)
 			return "duplicateCheck";
 		
-		int sucess = categoryDao.insertCategoryBusiness(category);
+		int success = categoryDao.insertCategoryBusiness(category);
 		
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		return "OK";
 	}
@@ -223,9 +223,9 @@ public class CategoryService {
 				return "duplicateCheck";
 		}
 		
-		int sucess = categoryDao.updateCategoryBusiness(category);
+		int success = categoryDao.updateCategoryBusiness(category);
 		
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		
 		packagesDao.updateBussinessNameAll(categoryCustomerName, categoryBusinessName, categoryBusinessNameNew);
@@ -246,8 +246,8 @@ public class CategoryService {
 		}
 		
 		for(int categoryBusinessKeyNum: chkList) {
-			int sucess = categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
-			if(sucess <= 0) 
+			int success = categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
+			if(success <= 0) 
 				return "FALSE";
 		}
 		return "OK";
@@ -303,7 +303,7 @@ public class CategoryService {
 	}
 
 	public String updateMerge(int[] chkList, String categoryName, String categoryValueView) {
-		int sucess = 1;
+		int success = 1;
 		String categoryValue = "";
 		int selectCategoryKeyNum = categoryDao.getCategoryKeyNumOne(categoryName, categoryValueView);
 		for(int categoryKeyNum: chkList) {
@@ -312,10 +312,10 @@ public class CategoryService {
 				packagesDao.updateCategoryNameAll(categoryName, categoryValue, categoryValueView);
 				categoryDao.updateCategoryBusinessAll(categoryValue, categoryValueView);
 				
-				sucess *= categoryDao.delCategory(categoryKeyNum);
+				success *= categoryDao.delCategory(categoryKeyNum);
 			}
 		}
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		return "OK";
 	}
@@ -329,7 +329,7 @@ public class CategoryService {
 	}
 
 	public String updateBusinessMerge(int[] chkList, String categoryBusinessNameView) {
-		int sucess = 1;
+		int success = 1;
 		String categoryBusinessName = "";
 		String categoryCustomerName = categoryDao.getCategoryBusinessOne(chkList[0]).getCategoryCustomerName();
 		int selectCategoryBusinessKeyNum = categoryDao.getCategoryBusinessKeyNumOne(categoryCustomerName, categoryBusinessNameView);
@@ -337,10 +337,10 @@ public class CategoryService {
 			if(selectCategoryBusinessKeyNum != categoryBusinessKeyNum) {
 				categoryBusinessName = categoryDao.getCategoryBusinessOne(categoryBusinessKeyNum).getCategoryBusinessName();
 				packagesDao.updateBussinessNameAll(categoryCustomerName, categoryBusinessName, categoryBusinessNameView);
-				sucess *= categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
+				success *= categoryDao.delCategoryBusiness(categoryBusinessKeyNum);
 			}
 		}
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		return "OK";
 	}

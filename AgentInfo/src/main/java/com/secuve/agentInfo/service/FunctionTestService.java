@@ -55,7 +55,7 @@ public class FunctionTestService {
 		
 		functionTestDao.delFunctionTest(functionTest.getFunctionTestKeyNum());
 		
-		int sucess = 1;
+		int success = 1;
 		functionTest = oneDate(functionTest);
 		for(int i=0; i < functionTest.getFunctionTestSubCategoryStateList().size(); i++) {
 			try {
@@ -63,9 +63,9 @@ public class FunctionTestService {
 			} catch (Exception e) {
 				functionTestResultList.add(null);
 			}
-			sucess *= functionTestDao.insertFunctionTest(functionTest.getFunctionTestKeyNum(), functionTest.getFunctionTestCustomer(), functionTest.getFunctionTestTitle(), functionTest.getFunctionTestDate(), functionTest.getFunctionTestSettingSubCategoryKeyNumList().get(i), functionTest.getFunctionTestSubCategoryStateList().get(i), functionTest.getFunctionTestSubCategoryFailReasonList().get(i), functionTestResultList.get(i), functionTest.getFunctionTestType(), functionTest.getFunctionTestRegistrant(), functionTest.getFunctionTestRegistrationDate(), functionTest.getFunctionTestModifier(), functionTest.getFunctionTestModifiedDate());
+			success *= functionTestDao.insertFunctionTest(functionTest.getFunctionTestKeyNum(), functionTest.getFunctionTestCustomer(), functionTest.getFunctionTestTitle(), functionTest.getFunctionTestDate(), functionTest.getFunctionTestSettingSubCategoryKeyNumList().get(i), functionTest.getFunctionTestSubCategoryStateList().get(i), functionTest.getFunctionTestSubCategoryFailReasonList().get(i), functionTestResultList.get(i), functionTest.getFunctionTestType(), functionTest.getFunctionTestRegistrant(), functionTest.getFunctionTestRegistrationDate(), functionTest.getFunctionTestModifier(), functionTest.getFunctionTestModifiedDate());
 		}
-		if (sucess <= 0) {
+		if (success <= 0) {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");
@@ -112,9 +112,9 @@ public class FunctionTestService {
 
 	public String delFunctionTest(int[] chkList) {
 		for (int functionTestKeyNum : chkList) {
-			int sucess = functionTestDao.delFunctionTest(functionTestKeyNum);
+			int success = functionTestDao.delFunctionTest(functionTestKeyNum);
 
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
@@ -144,8 +144,8 @@ public class FunctionTestService {
 	}
 
 	public String resultSave(FunctionTest functionTest) {
-		int sucess = functionTestDao.resultSave(functionTest);
-		if(sucess > 0) {
+		int success = functionTestDao.resultSave(functionTest);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";

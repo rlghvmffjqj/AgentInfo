@@ -36,8 +36,8 @@ public class QuestionAnswerService {
 			return "NotDetail";
 		}
 		
-		int sucess = questionAnswerDao.insertQuestion(question);
-		if (sucess <= 0)
+		int success = questionAnswerDao.insertQuestion(question);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -53,8 +53,8 @@ public class QuestionAnswerService {
 	public Map<String, String> insertAnswer(Answer answer) {
 		questionAnswerDao.deleteAnswer(answer);
 		Map<String, String> map = new HashMap<String, String>();
-		int sucess = questionAnswerDao.insertAnswer(answer);
-		if (sucess <= 0)
+		int success = questionAnswerDao.insertAnswer(answer);
+		if (success <= 0)
 			map.put("result", "FALSE") ;
 		questionAnswerDao.updateQuestionState(answer);
 		
@@ -86,8 +86,8 @@ public class QuestionAnswerService {
 	}
 
 	public String deleteQuestion(Question question) {
-		int sucess = questionAnswerDao.deleteQuestion(question);
-		if (sucess <= 0)
+		int success = questionAnswerDao.deleteQuestion(question);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -99,8 +99,8 @@ public class QuestionAnswerService {
 		} else {
 			question.setQuestionState("재 답변 요청");
 		}
-		int sucess = questionAnswerDao.updateQuestion(question);
-		if (sucess <= 0)
+		int success = questionAnswerDao.updateQuestion(question);
+		if (success <= 0)
 			map.put("result", "FALSE") ;
 		map.put("result", "OK");
 		map.put("detail", question.getQuestionDetail());

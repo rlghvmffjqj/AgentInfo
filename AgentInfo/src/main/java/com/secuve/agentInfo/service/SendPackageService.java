@@ -60,8 +60,8 @@ public class SendPackageService {
 				}
 			}
 		}
-		int sucess = sendPackageDao.insertSendPackage(sendPackage);
-		if (sucess <= 0) {
+		int success = sendPackageDao.insertSendPackage(sendPackage);
+		if (success <= 0) {
 			resultMap.put("result", "FALSE");
 			return resultMap;
 		}
@@ -138,11 +138,11 @@ public class SendPackageService {
 
 	public String deleteSendPackage(int[] chkList) {
 		for(int sendPackageKeyNum: chkList) {
-			//int sucess = sendPackageDao.updateSendPackageFlagKey(sendPackageKeyNum);
+			//int success = sendPackageDao.updateSendPackageFlagKey(sendPackageKeyNum);
 			SendPackage sendPackage = sendPackageDao.getSendPackageOne(sendPackageKeyNum);
 			fileDelete(sendPackage.getSendPackageName()+"_"+sendPackage.getSendPackageRandomUrl());
-			int sucess = sendPackageDao.deleteSendPackage(sendPackageKeyNum);
-			if(sucess <= 0) 
+			int success = sendPackageDao.deleteSendPackage(sendPackageKeyNum);
+			if(success <= 0) 
 				return "FALSE";
 		}
 		return "OK";
@@ -157,7 +157,7 @@ public class SendPackageService {
 	}
 
 	public String updateSendPackage(SendPackage sendPackage)  {
-		int sucess = 0;
+		int success = 0;
 		sendPackage = selfCheck(sendPackage);
 		if(sendPackage.getSendPackageStartDateView().length() > 10) {
 			sendPackage.setSendPackageStartDateView(sendPackage.getSendPackageStartDateView().replaceAll("/", "-").substring(0,13));
@@ -166,8 +166,8 @@ public class SendPackageService {
 			sendPackage.setSendPackageEndDateView(sendPackage.getSendPackageEndDateView().replaceAll("/", "-").substring(0,13));
 		}
 			sendPackage.setSendPackageKeyNum(sendPackage.getSendPackageKeyNum());
-			sucess = sendPackageDao.updateSendPackage(sendPackage);
-		if (sucess <= 0)
+			success = sendPackageDao.updateSendPackage(sendPackage);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -255,8 +255,8 @@ public class SendPackageService {
 			fileDelete(sendPackageOld.getSendPackageName()+"_"+sendPackageOld.getSendPackageRandomUrl());
 			fileDownload(sendPackage, sendPackageView);
 		} 
-		int sucess = sendPackageDao.updateSendPackage(sendPackage);
-		if (sucess <= 0)
+		int success = sendPackageDao.updateSendPackage(sendPackage);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}

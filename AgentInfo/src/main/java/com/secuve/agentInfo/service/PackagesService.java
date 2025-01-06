@@ -82,22 +82,32 @@ public class PackagesService {
 	 * @return
 	 */
 	public String delPackages(int[] chkList, Principal principal) {
+		if (chkList == null || chkList.length == 0) {
+            return "FALSE";
+        }
+		
 		for (int packagesKeyNum : chkList) {
-			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-			int sucess = packagesDao.delPackages(packagesKeyNum);
-			List<SendPackage> sendPackageList =  sendPackageDao.getSendPackageListPackages(packagesKeyNum);
-			for(SendPackage sendPackage : sendPackageList) {
-				sendPackageService.updateDelete(sendPackage.getSendPackageKeyNum());
-			}
-
-			// uid 로그 기록
-			if (sucess > 0) {
+			try {
+				Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
+                if (packages == null) {
+                    continue;
+                }
+                
+                int success = packagesDao.delPackages(packagesKeyNum);
+                if (success <= 0) {
+                	throw new Exception("Key = " + packagesKeyNum + " 데이터가 존재하지 않습니다.");
+                }
+                
+				List<SendPackage> sendPackageList =  sendPackageDao.getSendPackageListPackages(packagesKeyNum);
+				for(SendPackage sendPackage : sendPackageList) {
+					sendPackageService.updateDelete(sendPackage.getSendPackageKeyNum());
+				}
+	
 				packageUidLog(packages, principal, "DELETE");
 				trash(packages, principal);
-			}
-
-			if (sucess <= 0)
-				return "FALSE";
+			} catch (Exception e) {
+                return "FALSE";  // 에러 발생 시 즉시 반환
+            }
 		}
 		return "OK";
 	}
@@ -110,36 +120,45 @@ public class PackagesService {
 	 * @return
 	 */
 	public String insertPackages(Packages packages, Principal principal) {
+		if (packages == null) {
+            return "FALSE";
+        }
+		
 		if (packages.getCustomerNameSelf().length() > 0) {
 			packages.setCustomerNameView(packages.getCustomerNameSelf());
 		}
-		if (packages.getCustomerNameView().equals("") || packages.getCustomerNameView() == "") { // 고객사명 값이 비어있을 경우
+		
+		if (packages.getCustomerNameView().isEmpty()) {
 			return "NotCustomerName";
 		}
+		
 		selfInput(packages);
 		packages.setState("배포완료");
 		packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
-		int sucess = packagesDao.insertPackages(packages);
-
-		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
-			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
-			categoryCheck(packages, principal);
-			packageUidLog(packages, principal, "INSERT");
-		}
-		if (sucess <= 0)
-			return "FALSE";
+		
+		try {
+			int success = packagesDao.insertPackages(packages);
+	
+			// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
+			if (success > 0) {
+				categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+				categoryCheck(packages, principal);
+				packageUidLog(packages, principal, "INSERT");
+			} else {
+				return "FALSE";
+			}
+		} catch (Exception e) {
+            return "FALSE";
+        }
 		return "OK";
 	}
 	
 	public int PackagesKeyNumOrigin() {
-		int packagesKeyNumOrigin = 1;
 		try {
-			packagesKeyNumOrigin = packagesDao.getPackagesKeyNumOrigin();
-		} catch (Exception e) {
-			return packagesKeyNumOrigin;
-		}
-		return ++packagesKeyNumOrigin;
+            return packagesDao.getPackagesKeyNumOrigin() + 1; // 1 증가 후 반환
+        } catch (Exception e) {
+            return 1; // 기본값 1 반환
+        }
 	}
 
 	/**
@@ -152,23 +171,29 @@ public class PackagesService {
 		if (packages.getCustomerNameSelf().length() > 0) {
 			packages.setCustomerNameView(packages.getCustomerNameSelf());
 		}
-		if (packages.getCustomerNameView().equals("") || packages.getCustomerNameView() == "") { // 고객사명 값이 비어있을 경우
+		
+		if (isCustomerNameInvalid(packages)) {
 			return "NotCustomerName";
 		}
+		
 		packagesDao.plusPackagesKeyNumOrigin(packages.getPackagesKeyNumOrigin()); // 복사 대상 윗 데이터 +1
 		packages.setPackagesKeyNumOrigin(packages.getPackagesKeyNumOrigin() + 1); // 빈 공간 값 저장
 		selfInput(packages);
-		int sucess = packagesDao.insertPackages(packages);
+		
+		int success = packagesDao.insertPackages(packages);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			packageUidLog(packages, principal, "INSERT");
 		}
-		if (sucess <= 0)
-			return "FALSE";
-		return "OK";
+		
+		return success > 0 ? "OK" : "FALSE";
+	}
+	
+	private boolean isCustomerNameInvalid(Packages packages) {
+	    return packages.getCustomerNameView() == null || packages.getCustomerNameView().isEmpty();
 	}
 
 	/**
@@ -196,15 +221,15 @@ public class PackagesService {
 			return "NotCustomerName";
 		}
 		selfInput(packages);
-		int sucess = packagesDao.updatePackages(packages);
+		int success = packagesDao.updatePackages(packages);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
 			categoryCheck(packages, principal);
 			packageUidLog(packages, principal, "UPDATE");
 		}
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -1392,10 +1417,10 @@ public class PackagesService {
 	public String stateChange(int[] chkList, String statusComment, String stateView, Principal principal) {
 		for (int packagesKeyNum : chkList) {
 			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-			int sucess = packagesDao.stateChange(packagesKeyNum, statusComment, stateView);
+			int success = packagesDao.stateChange(packagesKeyNum, statusComment, stateView);
 
 			// uid 로그 기록
-			if (sucess > 0) {
+			if (success > 0) {
 				packageUidLog(packages, principal, stateView);
 			} else {
 				return "FALSE";
@@ -1470,8 +1495,8 @@ public class PackagesService {
 	public String overseasMove(int[] chkList, Principal principal) {
 		for (int packagesKeyNum : chkList) {
 			Packages packages = packagesDao.getPackagesOne(packagesKeyNum);
-			int sucess = packagesDao.delPackages(packagesKeyNum);
-			if (sucess <= 0) return "FALSE";
+			int success = packagesDao.delPackages(packagesKeyNum);
+			if (success <= 0) return "FALSE";
 			overseasMove(packages);
 		}
 		return "OK";

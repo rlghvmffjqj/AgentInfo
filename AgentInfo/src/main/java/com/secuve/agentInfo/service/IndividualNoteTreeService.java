@@ -27,7 +27,7 @@ public class IndividualNoteTreeService {
 	}
 
 	public String insertIndividualNoteTree(IndividualNoteTree individualNoteTree) {
-		int sucess = 0;
+		int success = 0;
 		if(individualNoteTree.getIndividualNoteTreeName().contains("/")) {
 			return "Slash";
 		}
@@ -41,22 +41,22 @@ public class IndividualNoteTreeService {
 			return "Empty";
 		}
 		if(overlap == null) {
-			sucess = individualNoteTreeDao.insertIndividualNoteTree(individualNoteTree);
+			success = individualNoteTreeDao.insertIndividualNoteTree(individualNoteTree);
 		} else {
 			return "Overlap";
 		}
-		return resultReturn(sucess);
+		return resultReturn(success);
 	}
 
 	public String deleteIndividualNoteTree(IndividualNoteTree individualNoteTree) {
-		int sucess = 0;
+		int success = 0;
 		List<IndividualNoteTree> subIndividualNoteTree = individualNoteTreeDao.getIndividualNoteTreeParentPath(individualNoteTree);
 		if(subIndividualNoteTree.size() == 0) {
-			sucess = individualNoteTreeDao.deleteIndividualNoteTree(individualNoteTree);
+			success = individualNoteTreeDao.deleteIndividualNoteTree(individualNoteTree);
 		} else {
 			return "SubIndividualNoteTree";
 		}
-		return resultReturn(sucess);
+		return resultReturn(success);
 	}
 	
 	public String updateIndividualNoteTree(IndividualNoteTree individualNoteTree) {
@@ -110,8 +110,8 @@ public class IndividualNoteTreeService {
 		return ordIndividualNoteTree;
 	}
 	
-	public String resultReturn(int sucess) {
-		if(sucess > 0) {
+	public String resultReturn(int success) {
+		if(success > 0) {
 			return "OK";
 		}
 		return "FAIL";

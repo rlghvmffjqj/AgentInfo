@@ -66,16 +66,16 @@ public class VmServerService {
 		if(vmServerDao.getVmServerHostValidity("vmServerHostIp",vmServerHost.getVmServerHostIpView()) > 0) {
 			return "NotVmServerHostIpDoub";
 		}
-		int sucess = vmServerDao.insertVmServerHost(vmServerHost);
-		if (sucess <= 0)
+		int success = vmServerDao.insertVmServerHost(vmServerHost);
+		if (success <= 0)
 			return "FALSE";
 		try {
 			List<VmServer> vmServerList = insertSync(vmServerHost.getVmServerHostIpView());
 			for (VmServer vmServer : vmServerList) {
 				vmServer.setVmServerHostName(vmServerHost.getVmServerHostNameView());
-				sucess *= vmServerDao.insertVmServer(vmServer);
+				success *= vmServerDao.insertVmServer(vmServer);
 			}
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		} catch (Exception e) {
 			return "ERROR";
@@ -148,13 +148,13 @@ public class VmServerService {
 	}
 
 	public String deleteVmServerHost(List<String> vmServerHostNameList) {
-		int sucess = 1;
+		int success = 1;
 		for(String vmServerHostName : vmServerHostNameList) {
-			sucess *= vmServerDao.deleteVmServerHost(vmServerHostName);
-			if (sucess <= 0)
+			success *= vmServerDao.deleteVmServerHost(vmServerHostName);
+			if (success <= 0)
 				return "FALSE";
-			sucess *= vmServerDao.deleteVmServer(vmServerHostName);
-			if (sucess <= 0)
+			success *= vmServerDao.deleteVmServer(vmServerHostName);
+			if (success <= 0)
 				return "FALSE";
 		}
 		
@@ -166,16 +166,16 @@ public class VmServerService {
 	}
 
 	public String synchronization() {
-		int sucess = 1;
+		int success = 1;
 		vmServerDao.deleteAllVmServer();
 		List<VmServerHost> vmServerHostList = vmServerDao.getVmServerHost();
 		for(VmServerHost vmServerHost : vmServerHostList) {
 			List<VmServer> vmServerList = insertSync(vmServerHost.getVmServerHostIp());
 			for (VmServer vmServer : vmServerList) {
 				vmServer.setVmServerHostName(vmServerHost.getVmServerHostName());
-				sucess *= vmServerDao.insertVmServer(vmServer);
+				success *= vmServerDao.insertVmServer(vmServer);
 			}
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";

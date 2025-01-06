@@ -48,12 +48,12 @@ public class SharedCalendarService {
 		if(overlap >= 1) {
 			return "overlap";
 		}
-		int sucess = sharedCalendarDao.InsertSharedCalendarList(sharedCalendar.getSharedCalendarListContents(), sharedCalendar.getSharedCalendarListColor(), sharedCalendar.getSharedCalendarListDepartment(), sharedCalendar.getSharedCalendarListRegistrant(), sharedCalendar.getSharedCalendarListRegistrationDate());
-		return parameter(sucess);
+		int success = sharedCalendarDao.InsertSharedCalendarList(sharedCalendar.getSharedCalendarListContents(), sharedCalendar.getSharedCalendarListColor(), sharedCalendar.getSharedCalendarListDepartment(), sharedCalendar.getSharedCalendarListRegistrant(), sharedCalendar.getSharedCalendarListRegistrationDate());
+		return parameter(success);
 	}
 	
-	public String parameter(int sucess) {
-		if (sucess <= 0)
+	public String parameter(int success) {
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -84,13 +84,13 @@ public class SharedCalendarService {
 		sharedCalendar.setSharedCalendarStart(formatter.format(start));
 		sharedCalendar.setSharedCalendarEnd(formatter.format(end));
 		
-		int sucess = sharedCalendarDao.updateSharedCalendar(sharedCalendar);
-		return parameter(sucess);
+		int success = sharedCalendarDao.updateSharedCalendar(sharedCalendar);
+		return parameter(success);
 	}
 
 	public String DeleteSharedCalendar(int sharedCalendarKeyNum, String sharedCalendarDepartment) {
-		int sucess = sharedCalendarDao.deleteSharedCalendar(sharedCalendarKeyNum, sharedCalendarDepartment);
-		return parameter(sucess);
+		int success = sharedCalendarDao.deleteSharedCalendar(sharedCalendarKeyNum, sharedCalendarDepartment);
+		return parameter(success);
 	}
 
 	public SharedCalendar getSharedCalendarOne(int sharedCalendarKeyNum, String sharedCalendarDepartment) {
@@ -109,8 +109,8 @@ public class SharedCalendarService {
 			return "DateOver";
 		}	
 		
-		int sucess = sharedCalendarDao.saveSharedCalendar(sharedCalendar);
-		return parameter(sucess);
+		int success = sharedCalendarDao.saveSharedCalendar(sharedCalendar);
+		return parameter(success);
 	}
 
 	public void sharedCalendarScheduler() {

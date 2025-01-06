@@ -83,19 +83,19 @@ public class PackagesInternationalService {
 	public String delPackagesInternational(int[] chkList, Principal principal) {
 		for (int packagesInternationalKeyNum : chkList) {
 			PackagesInternational packagesInternational = packagesInternationalDao.getPackagesInternationalOne(packagesInternationalKeyNum);
-			int sucess = packagesInternationalDao.delPackagesInternational(packagesInternationalKeyNum);
+			int success = packagesInternationalDao.delPackagesInternational(packagesInternationalKeyNum);
 			List<SendPackage> sendPackageList =  sendPackageDao.getSendPackageListPackages(packagesInternationalKeyNum);
 			for(SendPackage sendPackage : sendPackageList) {
 				sendPackageService.updateDelete(sendPackage.getSendPackageKeyNum());
 			}
 
 			// uid 로그 기록
-			if (sucess > 0) {
+			if (success > 0) {
 				packageUidLog(packagesInternational, principal, "DELETE");
 				trash(packagesInternational, principal);
 			}
 
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
@@ -118,15 +118,15 @@ public class PackagesInternationalService {
 		selfInput(packagesInternational);
 		packagesInternational.setState("배포완료");
 		packagesInternational.setPackagesInternationalKeyNumOrigin(PackagesInternationalKeyNumOrigin());
-		int sucess = packagesInternationalDao.insertPackagesInternational(packagesInternational);
+		int success = packagesInternationalDao.insertPackagesInternational(packagesInternational);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(packagesInternational.getCustomerNameView(), packagesInternational.getBusinessNameView());
 			categoryCheck(packagesInternational, principal);
 			packageUidLog(packagesInternational, principal, "INSERT");
 		}
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -157,15 +157,15 @@ public class PackagesInternationalService {
 		packagesInternationalDao.plusPackagesInternationalKeyNumOrigin(packagesInternational.getPackagesInternationalKeyNumOrigin()); // 복사 대상 윗 데이터 +1
 		packagesInternational.setPackagesInternationalKeyNumOrigin(packagesInternational.getPackagesInternationalKeyNumOrigin() + 1); // 빈 공간 값 저장
 		selfInput(packagesInternational);
-		int sucess = packagesInternationalDao.insertPackagesInternational(packagesInternational);
+		int success = packagesInternationalDao.insertPackagesInternational(packagesInternational);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(packagesInternational.getCustomerNameView(), packagesInternational.getBusinessNameView());
 			categoryCheck(packagesInternational, principal);
 			packageUidLog(packagesInternational, principal, "INSERT");
 		}
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -195,15 +195,15 @@ public class PackagesInternationalService {
 			return "NotCustomerName";
 		}
 		selfInput(packagesInternational);
-		int sucess = packagesInternationalDao.updatePackagesInternational(packagesInternational);
+		int success = packagesInternationalDao.updatePackagesInternational(packagesInternational);
 
 		// uid 로그 기록 & 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(packagesInternational.getCustomerNameView(), packagesInternational.getBusinessNameView());
 			categoryCheck(packagesInternational, principal);
 			packageUidLog(packagesInternational, principal, "UPDATE");
 		}
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -1391,10 +1391,10 @@ public class PackagesInternationalService {
 	public String stateChange(int[] chkList, String statusComment, String stateView, Principal principal) {
 		for (int packagesInternationalKeyNum : chkList) {
 			PackagesInternational packagesInternational = packagesInternationalDao.getPackagesInternationalOne(packagesInternationalKeyNum);
-			int sucess = packagesInternationalDao.stateChange(packagesInternationalKeyNum, statusComment, stateView);
+			int success = packagesInternationalDao.stateChange(packagesInternationalKeyNum, statusComment, stateView);
 
 			// uid 로그 기록
-			if (sucess > 0) {
+			if (success > 0) {
 				packageUidLog(packagesInternational, principal, stateView);
 			} else {
 				return "FALSE";
@@ -1471,8 +1471,8 @@ public class PackagesInternationalService {
 		PackagesService packagesService = new PackagesService();
 		for (int packagesInternationalKeyNum : chkList) {
 			PackagesInternational packagesInternational = packagesInternationalDao.getPackagesInternationalOne(packagesInternationalKeyNum);
-			int sucess = packagesInternationalDao.delPackagesInternational(packagesInternationalKeyNum);
-			if (sucess <= 0)return "FALSE";
+			int success = packagesInternationalDao.delPackagesInternational(packagesInternationalKeyNum);
+			if (success <= 0)return "FALSE";
 			domesticMove(packagesInternational);
 		}
 		return "OK";

@@ -45,16 +45,16 @@ public class FunctionTestSettingService {
 	}
 
 	public String formChange(FunctionTestSetting functionTestSetting) {
-		int sucess = functionTestSettingDao.formChange(functionTestSetting);
-		if(sucess > 0) {
+		int success = functionTestSettingDao.formChange(functionTestSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String formMinus(Integer functionTestSettingFormKeyNum) {
-		int sucess = functionTestSettingDao.formMinus(functionTestSettingFormKeyNum);
-		if(sucess > 0) {
+		int success = functionTestSettingDao.formMinus(functionTestSettingFormKeyNum);
+		if(success > 0) {
 			functionTestSettingDao.formCategoryMinus(functionTestSettingFormKeyNum);
 			functionTestSettingDao.formSubCategoryMinus(functionTestSettingFormKeyNum);
 			functionTestSettingDao.formDetailMinus(functionTestSettingFormKeyNum);
@@ -118,24 +118,24 @@ public class FunctionTestSettingService {
 	}
 
 	public String categorySave(FunctionTestSetting functionTestSetting) {
-		int sucess = functionTestSettingDao.categorySave(functionTestSetting);
-		if(sucess > 0) {
+		int success = functionTestSettingDao.categorySave(functionTestSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String subCategorySave(FunctionTestSetting functionTestSetting) {
-		int sucess = functionTestSettingDao.subCategorySave(functionTestSetting);
-		if(sucess > 0) {
+		int success = functionTestSettingDao.subCategorySave(functionTestSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String categoryMinus(FunctionTestSetting functionTestSetting) {
-		int sucess = functionTestSettingDao.categoryMinus(functionTestSetting);
-		if(sucess > 0) {
+		int success = functionTestSettingDao.categoryMinus(functionTestSetting);
+		if(success > 0) {
 			functionTestSettingDao.categorySubCategoryMinus(functionTestSetting);
 			functionTestSettingDao.categoryDetailMinus(functionTestSetting);
 			return "OK";
@@ -144,8 +144,8 @@ public class FunctionTestSettingService {
 	}
 
 	public String subCategoryMinus(FunctionTestSetting functionTestSetting) {
-		int sucess = functionTestSettingDao.subCategoryMinus(functionTestSetting);
-		if(sucess > 0) {
+		int success = functionTestSettingDao.subCategoryMinus(functionTestSetting);
+		if(success > 0) {
 			functionTestSettingDao.subCategoryDetailMinus(functionTestSetting);
 			return "OK";
 		}
@@ -157,12 +157,12 @@ public class FunctionTestSettingService {
 	}
 
 	public String functionTestSettingDetailSave(FunctionTestSetting functionTestSetting) {
-		int sucess = 0; 
+		int success = 0; 
 		if(functionTestSetting.getFunctionTestSettingDetailKeyNum() == null) 
-			sucess = functionTestSettingDao.functionTestSettingDetailInsert(functionTestSetting);
+			success = functionTestSettingDao.functionTestSettingDetailInsert(functionTestSetting);
 		else
-			sucess = functionTestSettingDao.functionTestSettingDetailUpdate(functionTestSetting);
-		if(sucess > 0) {
+			success = functionTestSettingDao.functionTestSettingDetailUpdate(functionTestSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";

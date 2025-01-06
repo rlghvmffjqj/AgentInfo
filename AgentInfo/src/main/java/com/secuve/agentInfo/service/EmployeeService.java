@@ -58,9 +58,9 @@ public class EmployeeService {
 
 	public String delEmployee(String[] chkList) {
 		for(String employeeId: chkList) {
-			int sucess = employeeDao.delEmployee(employeeId);
-			sucess *= employeeDao.delUsers(employeeId);
-			if(sucess <= 0) 
+			int success = employeeDao.delEmployee(employeeId);
+			success *= employeeDao.delUsers(employeeId);
+			if(success <= 0) 
 				return "FALSE";
 		}
 		return "OK";
@@ -86,13 +86,13 @@ public class EmployeeService {
         }
 		employee.setDepartmentParentPath(employee.getDepartmentFullPath().replace("/"+employee.getDepartmentName(), ""));
 		
-		int sucess = employeeDao.insertEmployee(employee);
+		int success = employeeDao.insertEmployee(employee);
 		users.setUsersId(employee.getEmployeeId());
 		users.setUsersPw(employee.getUsersPw());
 		users.setUsersRole(employee.getUsersRole());
 		users.setPwdChangeYn(employee.getPwdChangeYn());
 		
-		if(sucess <= 0) 
+		if(success <= 0) 
 			return "FALSE";
 		return usersService.save(users);
 	}

@@ -33,16 +33,16 @@ public class CheckListSettingService {
 	}
 
 	public String formChange(CheckListSetting checkListSetting) {
-		int sucess = checkListSettingDao.formChange(checkListSetting);
-		if(sucess > 0) {
+		int success = checkListSettingDao.formChange(checkListSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String formMinus(Integer checkListSettingFormKeyNum) {
-		int sucess = checkListSettingDao.formMinus(checkListSettingFormKeyNum);
-		if(sucess > 0) {
+		int success = checkListSettingDao.formMinus(checkListSettingFormKeyNum);
+		if(success > 0) {
 			checkListSettingDao.formCategoryMinus(checkListSettingFormKeyNum);
 			checkListSettingDao.formSubCategoryMinus(checkListSettingFormKeyNum);
 			checkListSettingDao.formDetailMinus(checkListSettingFormKeyNum);
@@ -84,24 +84,24 @@ public class CheckListSettingService {
 	}
 
 	public String categorySave(CheckListSetting checkListSetting) {
-		int sucess = checkListSettingDao.categorySave(checkListSetting);
-		if(sucess > 0) {
+		int success = checkListSettingDao.categorySave(checkListSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String subCategorySave(CheckListSetting checkListSetting) {
-		int sucess = checkListSettingDao.subCategorySave(checkListSetting);
-		if(sucess > 0) {
+		int success = checkListSettingDao.subCategorySave(checkListSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";
 	}
 
 	public String categoryMinus(CheckListSetting checkListSetting) {
-		int sucess = checkListSettingDao.categoryMinus(checkListSetting);
-		if(sucess > 0) {
+		int success = checkListSettingDao.categoryMinus(checkListSetting);
+		if(success > 0) {
 			checkListSettingDao.categorySubCategoryMinus(checkListSetting);
 			checkListSettingDao.categoryDetailMinus(checkListSetting);
 			return "OK";
@@ -110,8 +110,8 @@ public class CheckListSettingService {
 	}
 
 	public String subCategoryMinus(CheckListSetting checkListSetting) {
-		int sucess = checkListSettingDao.subCategoryMinus(checkListSetting);
-		if(sucess > 0) {
+		int success = checkListSettingDao.subCategoryMinus(checkListSetting);
+		if(success > 0) {
 			checkListSettingDao.subCategoryDetailMinus(checkListSetting);
 			return "OK";
 		}
@@ -123,12 +123,12 @@ public class CheckListSettingService {
 	}
 
 	public String checkListSettingDetailSave(CheckListSetting checkListSetting) {
-		int sucess = 0; 
+		int success = 0; 
 		if(checkListSetting.getCheckListSettingDetailKeyNum() == null) 
-			sucess = checkListSettingDao.checkListSettingDetailInsert(checkListSetting);
+			success = checkListSettingDao.checkListSettingDetailInsert(checkListSetting);
 		else
-			sucess = checkListSettingDao.checkListSettingDetailUpdate(checkListSetting);
-		if(sucess > 0) {
+			success = checkListSettingDao.checkListSettingDetailUpdate(checkListSetting);
+		if(success > 0) {
 			return "OK";
 		}
 		return "FALSE";

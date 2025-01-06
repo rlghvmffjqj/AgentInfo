@@ -35,8 +35,8 @@ public class RequestsService {
 	}
 
 	public String insertRequests(Requests requests) {
-		int sucess = requestsDao.insertRequests(requests);
-		if (sucess <= 0)
+		int success = requestsDao.insertRequests(requests);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -53,8 +53,8 @@ public class RequestsService {
 	}
 
 	public String updateRequests(Requests requests, Principal principal) {
-		int sucess = requestsDao.updateRequests(requests);
-		if (sucess <= 0)
+		int success = requestsDao.updateRequests(requests);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -64,9 +64,9 @@ public class RequestsService {
 		requests.setRequestsState(requestsState);
 		for (int requestsKeyNum : chkList) {
 			requests.setRequestsKeyNum(requestsKeyNum);
-			int sucess = requestsDao.updateRequests(requests);
+			int success = requestsDao.updateRequests(requests);
 
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";

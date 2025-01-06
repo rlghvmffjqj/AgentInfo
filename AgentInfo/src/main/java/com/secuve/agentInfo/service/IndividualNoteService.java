@@ -52,8 +52,8 @@ public class IndividualNoteService {
 		} catch (Exception e) {
 		}
 		individualNote.setIndividualNoteSort(++individualNoteSort);
-		int sucess = individualNoteDao.insertIndividualNote(individualNote);
-		if (sucess <= 0) {
+		int success = individualNoteDao.insertIndividualNote(individualNote);
+		if (success <= 0) {
 			map.put("result", "FALSE");
 			return map;
 		}
@@ -99,8 +99,8 @@ public class IndividualNoteService {
 				return "Existence";
 			}
 		}
-		int sucess = individualNoteDao.updateIndividualNote(individualNote);
-		if (sucess <= 0)
+		int success = individualNoteDao.updateIndividualNote(individualNote);
+		if (success <= 0)
 			return "FALSE";
 		individualNote.setIndividualNoteRegistrant(principal.getName());
 		
@@ -114,8 +114,8 @@ public class IndividualNoteService {
 
 	public String delIndividualNote(String individualNoteKeyNumStr) {
 		int individualNoteKeyNum = Integer.parseInt(individualNoteKeyNumStr);
-		int sucess = individualNoteDao.delIndividualNote(individualNoteKeyNum);
-		if (sucess <= 0)
+		int success = individualNoteDao.delIndividualNote(individualNoteKeyNum);
+		if (success <= 0)
 			return "FALSE";
 		List<String> individualNoteFileNames = individualNoteDao.getIndividualNoteFileName(individualNoteKeyNum);
 		for (String individualNoteFileName : individualNoteFileNames) {
@@ -131,16 +131,16 @@ public class IndividualNoteService {
 
 	public String saveIndividualNote(List<Integer> individualNoteKeyNum) {
 		IndividualNote individualNote = new IndividualNote();
-		int sucess = 1;
+		int success = 1;
 		int individualNoteSort = 0;
 		try {
 			individualNoteSort =  individualNoteDao.individualNoteSort();
 		} catch (Exception e) {
 		}
 		for(int i=0; i<individualNoteKeyNum.size(); i++) {
-			sucess *= individualNoteDao.saveIndividualNote(individualNoteKeyNum.get(i), ++individualNoteSort);
+			success *= individualNoteDao.saveIndividualNote(individualNoteKeyNum.get(i), ++individualNoteSort);
 		}
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}

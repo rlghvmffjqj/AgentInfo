@@ -48,12 +48,12 @@ public class CheckListService {
 		checkList.setCheckListKeyNum(CheckListKeyNum(checkList.getCheckListKeyNum()));
 		map.put("checkListKeyNum", checkList.getCheckListKeyNum());
 		
-		int sucess = 1;
+		int success = 1;
 		checkList = oneDate(checkList);
 		for(int i=0; i < checkList.getCheckListSubCategoryStateList().size(); i++) {
-			sucess *= checkListDao.insertCheckList(checkList.getCheckListKeyNum(), checkList.getCheckListCustomer(), checkList.getCheckListTitle(), checkList.getCheckListDate(), checkList.getCheckListSettingSubCategoryKeyNumList().get(i), checkList.getCheckListSubCategoryStateList().get(i), checkList.getCheckListSubCategoryFailReasonList().get(i), checkList.getCheckListRegistrant(), checkList.getCheckListRegistrationDate(), checkList.getCheckListModifier(), checkList.getCheckListModifiedDate());
+			success *= checkListDao.insertCheckList(checkList.getCheckListKeyNum(), checkList.getCheckListCustomer(), checkList.getCheckListTitle(), checkList.getCheckListDate(), checkList.getCheckListSettingSubCategoryKeyNumList().get(i), checkList.getCheckListSubCategoryStateList().get(i), checkList.getCheckListSubCategoryFailReasonList().get(i), checkList.getCheckListRegistrant(), checkList.getCheckListRegistrationDate(), checkList.getCheckListModifier(), checkList.getCheckListModifiedDate());
 		}
-		if (sucess <= 0) {
+		if (success <= 0) {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");
@@ -101,9 +101,9 @@ public class CheckListService {
 
 	public String delCheckList(int[] chkList) {
 		for (int checkListKeyNum : chkList) {
-			int sucess = checkListDao.delCheckList(checkListKeyNum);
+			int success = checkListDao.delCheckList(checkListKeyNum);
 
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";

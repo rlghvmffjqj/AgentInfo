@@ -44,12 +44,12 @@ public class ServerCalendarService {
 		if(overlap >= 1) {
 			return "overlap";
 		}
-		int sucess = serverCalendarDao.InsertServerCalendarList(serverCalendar.getServerCalendarListContents(), serverCalendar.getServerCalendarListColor(), serverCalendar.getServerCalendarListDepartment(), serverCalendar.getServerCalendarListRegistrant(), serverCalendar.getServerCalendarListRegistrationDate());
-		return parameter(sucess);
+		int success = serverCalendarDao.InsertServerCalendarList(serverCalendar.getServerCalendarListContents(), serverCalendar.getServerCalendarListColor(), serverCalendar.getServerCalendarListDepartment(), serverCalendar.getServerCalendarListRegistrant(), serverCalendar.getServerCalendarListRegistrationDate());
+		return parameter(success);
 	}
 	
-	public String parameter(int sucess) {
-		if (sucess <= 0)
+	public String parameter(int success) {
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
@@ -80,13 +80,13 @@ public class ServerCalendarService {
 		serverCalendar.setServerCalendarStart(formatter.format(start));
 		serverCalendar.setServerCalendarEnd(formatter.format(end));
 		
-		int sucess = serverCalendarDao.updateServerCalendar(serverCalendar);
-		return parameter(sucess);
+		int success = serverCalendarDao.updateServerCalendar(serverCalendar);
+		return parameter(success);
 	}
 
 	public String DeleteServerCalendar(int serverCalendarKeyNum, String serverCalendarDepartment) {
-		int sucess = serverCalendarDao.deleteServerCalendar(serverCalendarKeyNum, serverCalendarDepartment);
-		return parameter(sucess);
+		int success = serverCalendarDao.deleteServerCalendar(serverCalendarKeyNum, serverCalendarDepartment);
+		return parameter(success);
 	}
 
 	public ServerCalendar getServerCalendarOne(int serverCalendarKeyNum, String serverCalendarDepartment) {
@@ -105,8 +105,8 @@ public class ServerCalendarService {
 			return "DateOver";
 		}	
 		
-		int sucess = serverCalendarDao.saveServerCalendar(serverCalendar);
-		return parameter(sucess);
+		int success = serverCalendarDao.saveServerCalendar(serverCalendar);
+		return parameter(success);
 	}
 
 	public void serverCalendarScheduler() {

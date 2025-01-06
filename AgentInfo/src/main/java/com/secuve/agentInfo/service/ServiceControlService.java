@@ -137,8 +137,8 @@ public class ServiceControlService {
 
 	public String delServiceControl(int[] chkList, Principal principal) {
 		for (int serviceControlKeyNum : chkList) {
-			int sucess = serviceControlDao.delServiceControl(serviceControlKeyNum);
-			if (sucess <= 0)
+			int success = serviceControlDao.delServiceControl(serviceControlKeyNum);
+			if (success <= 0)
 				return "FALSE";
 		}
 		// serviceControlSynchronization()  // 동기화
@@ -340,17 +340,17 @@ public class ServiceControlService {
 	}
 
 	public String setServiceControlUpdate(ServiceControl serviceControl) {
-		int sucess = 0;
-		sucess = serviceControlDao.setServiceControlUpdate(serviceControl);
-		if (sucess <= 0)
+		int success = 0;
+		success = serviceControlDao.setServiceControlUpdate(serviceControl);
+		if (success <= 0)
 			return "FALSE";
 		return serviceControlSynchronization();
 	}
 
 	public String setRouteSetting(ServiceControl serviceControl) {
-		int sucess = 0;
-		sucess = serviceControlDao.setRouteSetting(serviceControl);
-		if (sucess <= 0)
+		int success = 0;
+		success = serviceControlDao.setRouteSetting(serviceControl);
+		if (success <= 0)
 			return "FALSE";
 		return serviceControlSynchronization();
 	}

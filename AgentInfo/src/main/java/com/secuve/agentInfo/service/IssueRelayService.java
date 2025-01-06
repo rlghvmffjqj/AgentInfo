@@ -57,8 +57,8 @@ public class IssueRelayService {
 
 	public Map insertIssueRelay(IssueRelay issueRelay) {
 		Map resultMap = new HashMap();
-		int sucess = issueRelayDao.insertIssueRelay(issueRelay);
-		if (sucess <= 0) {
+		int success = issueRelayDao.insertIssueRelay(issueRelay);
+		if (success <= 0) {
 			resultMap.put("result", "FALSE"); 
 			return resultMap;
 		}
@@ -90,15 +90,15 @@ public class IssueRelayService {
 	}
 
 	public String updateIssueRelay(IssueRelay issueRelay) {
-		int sucess = issueRelayDao.updateIssueRelay(issueRelay);
-		if (sucess <= 0)
+		int success = issueRelayDao.updateIssueRelay(issueRelay);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}
 
 	public String delIssueRelay(int issueRelayKeyNum, int issuePrimaryKeyNum) {
-		int sucess = issueRelayDao.delIssueRelay(issueRelayKeyNum);
-		if (sucess <= 0)
+		int success = issueRelayDao.delIssueRelay(issueRelayKeyNum);
+		if (success <= 0)
 			return "FALSE";
 		List<IssueRelay> issueRelayList = issueRelayDao.getIssueRelayIssuePrimaryKeyNumList(issuePrimaryKeyNum);
 		Issue issue = new Issue();

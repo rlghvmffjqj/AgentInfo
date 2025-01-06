@@ -46,12 +46,12 @@ public class IssueService {
 		issue.setIssueFirstDate(currentDate.format(formatter));
 		issue.setIssueFirstWriter(employeeDao.getEmployeeOne(principal.getName()).getEmployeeName());
 		
-		int sucess = 1;
+		int success = 1;
 		issue = oneDate(issue);
 		for(int i=0; i < issue.getIssueOsList().size(); i++) {
-			sucess *= issueDao.insertIssue(issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueManagerServer(), issue.getIssueTarget(), issue.getIssueSubTarget(), issue.getIssueFirstWriter(), issue.getIssueFirstDate(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
+			success *= issueDao.insertIssue(issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueManagerServer(), issue.getIssueTarget(), issue.getIssueSubTarget(), issue.getIssueFirstWriter(), issue.getIssueFirstDate(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
 		}
-		if (sucess <= 0) {
+		if (success <= 0) {
 			map.put("result", "FALSE");
 		} else {
 			map.put("result", "OK");
@@ -148,9 +148,9 @@ public class IssueService {
 
 	public String delIssue(int[] chkList) {
 		for (int issueKeyNum : chkList) {
-			int sucess = issueDao.delIssue(issueKeyNum);
+			int success = issueDao.delIssue(issueKeyNum);
 			employeeDao.delUserAlarm(issueKeyNum);
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 			
 			issueHistoryService.issueDeleteHistory(issueKeyNum);
@@ -172,12 +172,12 @@ public class IssueService {
             }
             issueTester.append(value);
         }
-		int sucess = 1;
+		int success = 1;
 		issue = oneDate(issue);
 		for(int i=0; i < issue.getIssueOsList().size(); i++) {
-			sucess *= issueDao.updateIssue(issue.getIssuePrimaryKeyNumList().get(i), issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueManagerServer(), issue.getIssueTarget(), issue.getIssueSubTarget(), issue.getIssueFirstWriter(), issueTester.toString(), issue.getIssueFirstDate(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
+			success *= issueDao.updateIssue(issue.getIssuePrimaryKeyNumList().get(i), issue.getIssueKeyNum(), issue.getIssueCustomer(), issue.getIssueTitle(), issue.getIssueManagerServer(), issue.getIssueTarget(), issue.getIssueSubTarget(), issue.getIssueFirstWriter(), issueTester.toString(), issue.getIssueFirstDate(), issue.getIssueDate(), issue.getIssueTosms(), issue.getIssueTosrf(), issue.getIssuePortal(), issue.getIssueJava(), issue.getIssueWas(), issue.getTotal(), issue.getSolution(), issue.getUnresolved(), issue.getHold(), issue.getIssueDivisionList().get(i), issue.getIssueOsList().get(i), issue.getIssueWriterList().get(i), issue.getIssueAwardList().get(i), issue.getIssueMiddleList().get(i), issue.getIssueUnder1List().get(i), issue.getIssueUnder2List().get(i), issue.getIssueUnder3List().get(i), issue.getIssueUnder4List().get(i), issue.getIssueFlawNumList().get(i), issue.getIssueEffectList().get(i), issue.getIssueTextResultList().get(i), issue.getIssueApplyYnList().get(i), issue.getIssueConfirmList().get(i), issue.getIssueObstacleList().get(i), issue.getIssueNoteList().get(i), issue.getIssueRegistrant(), issue.getIssueRegistrationDate(), issue.getIssueModifier(), issue.getIssueModifiedDate());
 		}
-		if (sucess <= 0) {
+		if (success <= 0) {
 			return "FALSE";
 		} 
 		List<Issue> issueApplyList = issueDao.getIssueApplyYn(issue.getIssueKeyNum());
@@ -329,8 +329,8 @@ public class IssueService {
 
 	public String proceStatusChange(int[] chkList, String issueProceStatus) {
 		for (int issueKeyNum : chkList) {
-			int sucess = issueDao.proceStatusChange(issueKeyNum, issueProceStatus);
-			if (sucess <= 0)
+			int success = issueDao.proceStatusChange(issueKeyNum, issueProceStatus);
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
@@ -386,8 +386,8 @@ public class IssueService {
 		} else {
 			issue.setIssueManagerServerTimmer(null);
 		}
-		int sucess = issueDao.updateManagerStatusChange(issue);
-		if (sucess <= 0)
+		int success = issueDao.updateManagerStatusChange(issue);
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}

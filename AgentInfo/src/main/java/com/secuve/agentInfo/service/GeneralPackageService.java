@@ -46,9 +46,9 @@ public class GeneralPackageService {
 		
 		selfInput(generalPackage);
 		generalPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
-		int sucess = generalPackageDao.insertGeneralPackage(generalPackage);
+		int success = generalPackageDao.insertGeneralPackage(generalPackage);
 
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		categoryCheck(generalPackage, principal);
 		fileDownload(generalPackage, releaseNotesView);
@@ -63,9 +63,9 @@ public class GeneralPackageService {
 		
 		selfInput(generalPackage);
 		generalPackage.setReleaseNotes(releaseNotesView.getOriginalFilename());
-		int sucess = generalPackageDao.updateGeneralPackage(generalPackage);
+		int success = generalPackageDao.updateGeneralPackage(generalPackage);
 
-		if (sucess <= 0)
+		if (success <= 0)
 			return "FALSE";
 		categoryCheck(generalPackage, principal);
 		fileDownload(generalPackage, releaseNotesView);
@@ -87,8 +87,8 @@ public class GeneralPackageService {
 	
 	public String deleteGeneralPackage(int[] chkList) {
 		for(int generalPackageKeyNum: chkList) {
-			int sucess = generalPackageDao.deleteGeneralPackage(generalPackageKeyNum);
-			if(sucess <= 0) 
+			int success = generalPackageDao.deleteGeneralPackage(generalPackageKeyNum);
+			if(success <= 0) 
 				return "FALSE";
 		}
 		return "OK";

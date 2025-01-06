@@ -42,14 +42,14 @@ public class CustomerService {
 			return "NotCustomerName";
 		}
 		selfInput(customer);
-		int sucess = customerDao.insertCustomer(customer);
+		int success = customerDao.insertCustomer(customer);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
-		return parameter(sucess);
+		return parameter(success);
 	}
 	
 	public Customer selfInput(Customer customer) {
@@ -62,9 +62,9 @@ public class CustomerService {
 
 	public String delCustomer(int[] chkList, Principal principal) {
 		for (int customerKeyNum : chkList) {
-			int sucess = customerDao.delCustomer(customerKeyNum);
+			int success = customerDao.delCustomer(customerKeyNum);
 
-			if (sucess <= 0)
+			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
@@ -82,14 +82,14 @@ public class CustomerService {
 			return "NotCustomerName";
 		}
 		selfInput(customer);
-		int sucess = customerDao.updateCustomer(customer);
+		int success = customerDao.updateCustomer(customer);
 		
 		// 카테고리 추가 & 고객사 비즈니스 매핑
-		if (sucess > 0) {
+		if (success > 0) {
 			categoryService.insertCustomerBusinessMapping(customer.getCustomerNameView(), customer.getBusinessNameView());
 			categoryCheck(customer, principal);
 		}
-		return parameter(sucess);
+		return parameter(success);
 	}
 	
 	public Customer customerSearch(Customer search) {
@@ -107,8 +107,8 @@ public class CustomerService {
 		}
 	}
 	
-	public String parameter(int sucess) {
-		if (sucess <= 0)
+	public String parameter(int success) {
+		if (success <= 0)
 			return "FALSE";
 		return "OK";
 	}

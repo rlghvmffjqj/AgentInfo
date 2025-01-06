@@ -25,7 +25,7 @@ public class DepartmentService {
 	}
 
 	public String insertDepartment(Department department) {
-		int sucess = 0;
+		int success = 0;
 		if(department.getDepartmentParentPath().equals("/")) {
 			department.setDepartmentFullPath("/"+department.getDepartmentName());
 		} else {
@@ -36,22 +36,22 @@ public class DepartmentService {
 			return "Empty";
 		}
 		if(overlap == null) {
-			sucess = departmentDao.insertDepartment(department);
+			success = departmentDao.insertDepartment(department);
 		} else {
 			return "Overlap";
 		}
-		return resultReturn(sucess);
+		return resultReturn(success);
 	}
 
 	public String deleteDepartment(Department department) {
-		int sucess = 0;
+		int success = 0;
 		List<Department> subDepartment = departmentDao.getDepartmentParentPath(department.getDepartmentFullPath());
 		if(subDepartment.size() == 0) {
-			sucess = departmentDao.deleteDepartment(department);
+			success = departmentDao.deleteDepartment(department);
 		} else {
 			return "SubDepartment";
 		}
-		return resultReturn(sucess);
+		return resultReturn(success);
 	}
 	
 	public String updateDepartment(Department department) {
@@ -102,8 +102,8 @@ public class DepartmentService {
 		return ordDepartment;
 	}
 	
-	public String resultReturn(int sucess) {
-		if(sucess > 0) {
+	public String resultReturn(int success) {
+		if(success > 0) {
 			return "OK";
 		}
 		return "FAIL";

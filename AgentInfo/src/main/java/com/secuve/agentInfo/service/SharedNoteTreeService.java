@@ -27,7 +27,7 @@ public class SharedNoteTreeService {
 	}
 
 	public String insertSharedNoteTree(SharedNoteTree sharedNoteTree) {
-		int sucess = 0;
+		int success = 0;
 		if(sharedNoteTree.getSharedNoteTreeName().contains("/")) {
 			return "Slash";
 		}
@@ -41,22 +41,22 @@ public class SharedNoteTreeService {
 			return "Empty";
 		}
 		if(overlap == null) {
-			sucess = sharedNoteTreeDao.insertSharedNoteTree(sharedNoteTree);
+			success = sharedNoteTreeDao.insertSharedNoteTree(sharedNoteTree);
 		} else {
 			return "Overlap";
 		}
-		return resultReturn(sucess);
+		return resultReturn(success);
 	}
 
 	public String deleteSharedNoteTree(SharedNoteTree sharedNoteTree) {
-		int sucess = 0;
+		int success = 0;
 		List<SharedNoteTree> subSharedNoteTree = sharedNoteTreeDao.getSharedNoteTreeParentPath(sharedNoteTree);
 		if(subSharedNoteTree.size() == 0) {
-			sucess = sharedNoteTreeDao.deleteSharedNoteTree(sharedNoteTree);
+			success = sharedNoteTreeDao.deleteSharedNoteTree(sharedNoteTree);
 		} else {
 			return "SubSharedNoteTree";
 		}
-		return resultReturn(sucess);
+		return resultReturn(success);
 	}
 	
 	public String updateSharedNoteTree(SharedNoteTree sharedNoteTree) {
@@ -110,8 +110,8 @@ public class SharedNoteTreeService {
 		return ordSharedNoteTree;
 	}
 	
-	public String resultReturn(int sucess) {
-		if(sucess > 0) {
+	public String resultReturn(int success) {
+		if(success > 0) {
 			return "OK";
 		}
 		return "FAIL";

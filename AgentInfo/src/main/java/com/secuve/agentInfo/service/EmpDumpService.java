@@ -266,7 +266,7 @@ public class EmpDumpService {
     }
 
     private String generateRandomTitle() {
-    	String[] title = {"연구원", "전임", "선인", "책임", "센터장"};
+    	String[] title = {"연구원", "전임", "선임", "책임", "센터장"};
         return title[random.nextInt(title.length)];
     }
     
