@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.SharedNoteService;
@@ -33,6 +34,7 @@ public class SharedNoteController {
 	@Autowired SharedNoteService sharedNoteService;
 	@Autowired EmployeeService employeeService;
 	@Autowired FavoritePageService favoritePageService;
+	@Autowired XssConfig xssConfig;
 	
 	@GetMapping(value = "/sharedNote/list")
 	public ModelAndView SharedNoteList(ModelAndView mav, Principal principal, HttpServletRequest req) {
@@ -55,6 +57,7 @@ public class SharedNoteController {
 	@PostMapping(value = "/sharedNote/insert")
 	public Map InsertSharedNote(SharedNote sharedNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
 		String departmentName = employeeService.getEmployeeDepartment(principal.getName());
+		sharedNote.setSharedNoteContentsView(xssConfig.sanitize(sharedNote.getSharedNoteContentsView()));
 		sharedNote.setSharedNoteRegistrant(principal.getName());
 		sharedNote.setSharedNoteRegistrationDate(sharedNoteService.nowDate());
 		sharedNote.setSharedNoteModifier(principal.getName());
@@ -93,6 +96,7 @@ public class SharedNoteController {
 	@ResponseBody
 	@PostMapping(value = "/sharedNote/update")
 	public Map UpdateSharedNote(SharedNote sharedNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
+		sharedNote.setSharedNoteContentsView(xssConfig.sanitize(sharedNote.getSharedNoteContentsView()));
 		sharedNote.setSharedNoteModifier(principal.getName());
 		sharedNote.setSharedNoteModifiedDate(sharedNoteService.nowDate());
 		sharedNote.setSharedNoteContentsView(sharedNote.getSharedNoteContentsView().replace("'", "&#39;"));

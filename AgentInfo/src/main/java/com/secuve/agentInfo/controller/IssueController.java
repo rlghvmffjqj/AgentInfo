@@ -25,6 +25,7 @@ import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
+import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.IssueRelayService;
@@ -41,6 +42,7 @@ public class IssueController {
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired IssueRelayService issueRelayService;
 	@Autowired EmployeeService employeeService;
+	@Autowired XssConfig xssConfig;
 	
 	@GetMapping(value = "/issue/issueList")
 	public String IssueList(Model model, Principal principal, HttpServletRequest req) {
@@ -88,6 +90,11 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue/issueSave")
 	public Map<String, Object> IssueSave(Issue issue, Principal principal) {
+		List<String> listStr = new ArrayList<>();
+		for(int i=0; i < issue.getIssueObstacleList().size(); i++) {
+			listStr.add(xssConfig.sanitize(issue.getIssueObstacleList().get(i)));
+		}
+		issue.setIssueObstacleList(listStr);
 		issue.setIssueRegistrant(principal.getName());
 		issue.setIssueRegistrationDate(issueService.nowDate());
 		
@@ -109,6 +116,11 @@ public class IssueController {
 	@ResponseBody
 	@PostMapping(value = "/issue/update")
 	public String IssueUpdate(Issue issue, Principal principal) {
+		List<String> listStr = new ArrayList<>();
+		for(int i=0; i < issue.getIssueObstacleList().size(); i++) {
+			listStr.add(xssConfig.sanitize(issue.getIssueObstacleList().get(i)));
+		}
+		issue.setIssueObstacleList(listStr);
 		issue.setIssueModifier(principal.getName());
 		issue.setIssueModifiedDate(issueService.nowDate());
 		

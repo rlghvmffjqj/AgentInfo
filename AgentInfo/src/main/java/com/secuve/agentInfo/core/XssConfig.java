@@ -3,6 +3,12 @@ package com.secuve.agentInfo.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Entities;
+import org.jsoup.select.Elements;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,4 +50,19 @@ public class XssConfig implements WebMvcConfigurer {
 		return filterRegistration;
 	}
 	
+	public static String sanitize(String html) {
+		String decodedHtml = StringEscapeUtils.unescapeHtml4(html);
+        Document document = Jsoup.parse(decodedHtml);
+
+        String[] tagsToRemove = {"script", "button", "iframe", "object", "embed", "applet", "svg"};
+
+        for (String tag : tagsToRemove) {
+            Elements elements = document.select(tag);
+            while (!elements.isEmpty()) {
+                elements.remove();
+                elements = document.select(tag); // 다시 선택하여 남은 태그를 제거
+            }
+        }
+        return document.html();
+    }
 }

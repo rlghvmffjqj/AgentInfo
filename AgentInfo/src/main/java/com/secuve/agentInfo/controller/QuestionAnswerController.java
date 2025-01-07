@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.QuestionAnswerService;
@@ -27,6 +28,7 @@ public class QuestionAnswerController {
 	@Autowired QuestionAnswerService questionAnswerService;
 	@Autowired EmployeeService employeeService;
 	@Autowired FavoritePageService favoritePageService;
+	@Autowired XssConfig xssConfig;
 	
 	@GetMapping(value = "/questionAnswer/list")
 	public String QuestionAnswerList(Model model, Principal principal, HttpServletRequest req) {
@@ -72,6 +74,7 @@ public class QuestionAnswerController {
 	@ResponseBody
 	@PostMapping(value = "/question/insert")
 	public String InsertQuestion(Question question, Principal principal) {
+		question.setQuestionDetail(xssConfig.sanitize(question.getQuestionDetail()));
 		question.setQuestionRegistrant(principal.getName());
 		// Date formatter 현재 시간
 		Date now = new Date();
@@ -117,6 +120,7 @@ public class QuestionAnswerController {
 	@ResponseBody
 	@PostMapping(value = "/answer/insert")
 	public Map<String, String> InsertAnswer(Answer answer, Principal principal) {
+		answer.setAnswerDetail(xssConfig.sanitize(answer.getAnswerDetail()));
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -138,6 +142,7 @@ public class QuestionAnswerController {
 	@ResponseBody
 	@PostMapping(value = "/question/update")
 	public Map<String, String> UpdateQuestion(Question question, Principal principal) {
+		question.setQuestionDetail(xssConfig.sanitize(question.getQuestionDetail()));
 		question.setQuestionRegistrant(principal.getName());
 		// Date formatter 현재 시간
 		Date now = new Date();

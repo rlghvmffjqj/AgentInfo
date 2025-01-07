@@ -9,6 +9,7 @@ import java.security.Principal;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.vo.MailSend;
 
 @Controller
 public class MailSendController {
+	@Autowired XssConfig xssConfig;
 	
 	@GetMapping(value = "/mailSend/write")
 	public String MailWrite() {
@@ -30,6 +33,7 @@ public class MailSendController {
 	@ResponseBody
 	@PostMapping(value = "/mailSend/send")
 	public String MailSend(MailSend mailSend, MultipartFile mailAttFile, Principal principal) {
+		mailSend.setMailText(xssConfig.sanitize(mailSend.getMailText()));
 		String host = "mail.secuve.com";                                                                           
 		String port = "25";                                                                           
 		String password = "";                                                                   

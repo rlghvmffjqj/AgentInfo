@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.service.IssueRelayService;
 import com.secuve.agentInfo.service.IssueService;
 import com.secuve.agentInfo.vo.Issue;
@@ -28,6 +29,7 @@ import com.secuve.agentInfo.vo.IssueRelay;
 public class IssueRelayController {
 	@Autowired IssueRelayService issueRelayService;
 	@Autowired IssueService issueService;
+	@Autowired XssConfig xssConfig;
 	
 	@PostMapping(value = "/issueRelay/urlExport")
 	public String InsertPackagesView(Model model, IssueRelay issueRelay, String issueCustomer, String issueTitle) throws UnknownHostException {
@@ -117,8 +119,12 @@ public class IssueRelayController {
 	@PostMapping(value = "/issueRelay/relay")
 	public Map Relay(IssueRelay issueRelay) {
 		Map resultMap = new HashMap();
+		issueRelay.setIssueRelayDetail(xssConfig.sanitize(issueRelay.getIssueRelayDetail()));
 		IssueRelay issueRelayOne = issueRelayService.getIssueRelayIssueOne(issueRelay.getIssueKeyNum());
-		issueRelayOne.setIssueRelayStatus(issueRelay.getIssueRelayStatus());
+		if(!issueRelay.getIssueRelayType().equals("QA")) {
+			issueRelayOne.setIssueRelayStatus(issueRelay.getIssueRelayStatus());
+		}
+		
 		if(issueRelayOne == null) {
 			resultMap.put("result", "UrlExport");
 			return resultMap;
@@ -194,6 +200,7 @@ public class IssueRelayController {
 	@ResponseBody
 	@PostMapping(value = "/issueRelay/relayUpdate")
 	public String RelayUpdate(IssueRelay issueRelay) {
+		issueRelay.setIssueRelayDetail(xssConfig.sanitize(issueRelay.getIssueRelayDetail()));
 		issueRelay.setIssueRelayDate(issueRelayService.nowDate());
 		Issue issue = issueService.getIssuePrimaryOne(issueRelay.getIssuePrimaryKeyNum());
 		if(issueRelay.getIssueRelayType().equals("개발"))

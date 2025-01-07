@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.IndividualNoteService;
 import com.secuve.agentInfo.vo.IndividualNote;
@@ -31,6 +32,7 @@ import com.secuve.agentInfo.vo.IndividualNote;
 public class IndividualNoteController {
 	@Autowired IndividualNoteService individualNoteService;
 	@Autowired FavoritePageService favoritePageService;
+	@Autowired XssConfig xssConfig;
 	
 	@GetMapping(value = "/individualNote/list")
 	public ModelAndView IndividualNoteList(ModelAndView mav, Principal principal, HttpServletRequest req) {
@@ -51,6 +53,7 @@ public class IndividualNoteController {
 	@ResponseBody
 	@PostMapping(value = "/individualNote/insert")
 	public Map InsertIndividualNote(IndividualNote individualNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
+		individualNote.setIndividualNoteContentsView(xssConfig.sanitize(individualNote.getIndividualNoteContentsView()));
 		individualNote.setIndividualNoteRegistrant(principal.getName());
 		individualNote.setIndividualNoteRegistrationDate(individualNoteService.nowDate());
 		individualNote.setIndividualNoteModifier(principal.getName());
@@ -87,6 +90,7 @@ public class IndividualNoteController {
 	@ResponseBody
 	@PostMapping(value = "/individualNote/update")
 	public Map UpdateIndividualNote(IndividualNote individualNote, Principal principal, @RequestParam(value="fileInput", required=false) List<MultipartFile> fileInput) throws IllegalStateException, IOException {
+		individualNote.setIndividualNoteContentsView(xssConfig.sanitize(individualNote.getIndividualNoteContentsView()));
 		individualNote.setIndividualNoteModifier(principal.getName());
 		individualNote.setIndividualNoteModifiedDate(individualNoteService.nowDate());
 		individualNote.setIndividualNoteContentsView(individualNote.getIndividualNoteContentsView().replace("'", "&#39;"));
