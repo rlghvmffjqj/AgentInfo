@@ -32,7 +32,7 @@
 			</div>
 			<div class="functionTextareaDiv">${functionTestSettingDetail.functionTestSettingDetailExpectation}</div>
 		</c:if>
-		<div class="functionSpanDiv"></div>
+		
 		<div class='detailSaveDiv'><button class="btn btn-outline-info-add myBtn" onClick="btnClose();">닫기</button></div>
 	</body>
 	
@@ -48,6 +48,7 @@
 		    padding-top: 10px;
 		    padding-top: 5%;
 			background-color: white;
+			border-top: 1px solid #d4d4d4;
 		}
 		
 		.noneDetail {
@@ -77,7 +78,9 @@
 
 		.functionSpanDiv {
 			padding: 15px;
-			background: white;
+			background: #95c1b68a; 
+			text-align: center;
+			border-radius: 40px;
 		}
 
 		.functionSpan {
@@ -93,6 +96,10 @@
 			padding: 10px;
 			background-color: white;
 			resize: none;
+			margin: 2%;
+    		border: none;
+			padding: 5px;
+			color: black;
 		}
 
 		p {
@@ -104,6 +111,12 @@
 			background-color: white; 
 			min-height: 200px;
 			padding: 5px;
+			margin: 2%;
+    		border: none;
+		}
+
+		img {
+			border-radius: 5px;
 		}
 	</style>
 	

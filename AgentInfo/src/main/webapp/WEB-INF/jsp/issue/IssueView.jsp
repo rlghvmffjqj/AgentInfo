@@ -1608,7 +1608,7 @@
 			postData.push({name : "unresolved", value : $('#unresolved').text()});
 			postData.push({name : "hold", value : $('#hold').text()});
 			var issueCustomer = $('#issueCustomer').val();
-			var result;
+			var result2;
 			if(issueCustomer == "") {
 				$('#NotIssueCustomer').show();
 				Swal.fire({
@@ -1616,7 +1616,7 @@
 					title: '실패!',
 					text: '고객사 필수 입력 바랍니다.',
 				});
-				return "FALSE";
+				result2 = "FALSE";
 			} else {
 				$('#NotIssueCustomer').hide();
 				$.ajax({
@@ -1627,22 +1627,22 @@
 			        success: function(result) {
 			        	if(result == "OK") {
 							$('#downloadBtn').show();
-							result = "OK";
+							result2 = "OK";
 						} else {
 							Swal.fire({
 								icon: 'error',
 								title: '실패!',
 								text: '작업을 실패하였습니다.',
 							});
-							result = "FALSE";
+							result2 = "FALSE";
 						}
 					},
 					error: function(error) {
 						console.log(error);
-						result = "FALSE";
+						result2 = "FALSE";
 					}
 			    });
-				return result;
+				return result2;
 			}
 		}
 
