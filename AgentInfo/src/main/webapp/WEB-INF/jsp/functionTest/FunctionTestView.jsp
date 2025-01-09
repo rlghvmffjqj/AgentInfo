@@ -47,8 +47,8 @@
 						</div>
 							<form id="form" name="form" method ="post">
 			                	<div>
-			                		<button class='btn btn-secondary divisionActive' type="button" id='TOSMS' style='float: left;'>통합관리</button>
-			                		<button class='btn btn-secondary' type="button"  id='Agent'>정책관리</button>
+			                		<button class='btn btn-secondary divisionActive' type="button" id='TOSMS' style='float: left; border-radius: 10px !important;'>통합관리</button>
+			                		<button class='btn btn-secondary' type="button" style="border-radius: 10px !important;" id='Agent'>정책관리</button>
 			                		<input type='hidden' id='functionTestSettingDivision' name='functionTestSettingDivision' value='TOSMS'>
 			                	</div>
 				                <div class='main-body'>
