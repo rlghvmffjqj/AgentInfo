@@ -66,6 +66,11 @@
 		    text-align: center;
 		    padding-top: 10px;
 		}
+
+		p {
+			color: black;
+			font-size: 15px;
+		}
 	</style>
 
 </html>

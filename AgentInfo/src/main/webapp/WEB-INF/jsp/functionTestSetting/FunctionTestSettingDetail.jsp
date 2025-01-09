@@ -94,7 +94,9 @@
 
 		.functionSpanDiv {
 			padding: 15px;
-			background: white;
+			background: #95c1b68a; 
+			text-align: center;
+			border-radius: 40px;
 		}
 
 		.functionSpan {
@@ -108,6 +110,28 @@
 			height: 100px; 
 			border: 1px solid #c5c5c5; 
 			padding: 10px;
+			background-color: white;
+			resize: none;
+			margin: 2%;
+    		border: none;
+			font-size: 12px;
+			color: black;
+		}
+
+		.summerNoteSize {
+			border: none;
+		}
+
+		.note-frame {
+			border: none !important;
+		}
+
+		.note-editing-area {
+			margin: 2%;
+		}
+
+		p {
+			color: black;
 		}
 	</style>
 

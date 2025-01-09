@@ -40,9 +40,9 @@ public class IssueRelayController {
 		} else {
 			String localIp = InetAddress.getLocalHost().getHostAddress();
 			if(localIp.equals("172.16.100.90")) {
-				url = "https://172.16.100.90:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+				url = "https://172.16.100.90/AgentInfo/issueRelay/"+issueRelayService.createKey();
 			} else {
-				url = "https://qa.secuve.kro.kr:8443/AgentInfo/issueRelay/"+issueRelayService.createKey();
+				url = "https://qa.secuve.com/AgentInfo/issueRelay/"+issueRelayService.createKey();
 			}
 			issueRelay.setIssueRelayUrl(url);
 			issueRelay.setIssueRelayDate(issueRelayService.nowDate());

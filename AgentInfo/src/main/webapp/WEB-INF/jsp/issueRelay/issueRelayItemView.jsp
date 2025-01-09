@@ -512,7 +512,8 @@
 					"issueRelayDetail": "해당 이슈를 수정완료 하였습니다.",
 					"issuePrimaryKeyNum": issuePrimaryKeyNum,
 					"issueKeyNum": issueKeyNum,
-					"issueRelayType": "개발"
+					"issueRelayType": "개발",
+					"issueRelayStatus": "해결"
 				},
 	    	    async: false,
 	    	    success: function(result) {
@@ -572,7 +573,8 @@
 					"issueRelayDetail": "해당 이슈는 오탐입니다.",
 					"issuePrimaryKeyNum": issuePrimaryKeyNum,
 					"issueKeyNum": issueKeyNum,
-					"issueRelayType": "개발"
+					"issueRelayType": "개발",
+					"issueRelayStatus": "오탐"
 				},
 	    	    async: false,
 	    	    success: function(result) {

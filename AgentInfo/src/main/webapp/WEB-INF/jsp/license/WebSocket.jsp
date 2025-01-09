@@ -21,7 +21,7 @@
 	            });
 	
 	            
-	            const websocket = new WebSocket("wss://localhost:8443/AgentInfo/licensSocket");
+	            const websocket = new WebSocket("wss://localhost/AgentInfo/licensSocket");
 	
 	            websocket.onmessage = onMessage;
 	            websocket.onopen = onOpen;
