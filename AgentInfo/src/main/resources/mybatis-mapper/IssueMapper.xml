@@ -220,6 +220,15 @@
 				</trim>
 				)
 			</if>
+			<if test="issueFirstWriter != null and issueFirstWriter != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="issueFirstWriterArr" item="arr">
+						OR i.issueFirstWriter LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
 			<if test="issueTosms != null and issueTosms != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">

@@ -5,7 +5,7 @@
 <div class="modelHead">
 	<div class="modelHeadFont">암호 변경</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 200px;">
+<div class="modal-body modalBody" style="width: 100%; height: 180px;">
 	<table class="top10">
 		<tbody>
 			<tr>
@@ -16,8 +16,8 @@
 				<td><span class="colorRed fontSize10" id="NotOldPwd" style="display: none">기존 암호를 입력해주세요.</span></td>
 				<td><span class="colorRed fontSize10" id="NotPassword" style="display: none">기존암호가 일치하지 않습니다.</span></td>
 			</tr>
-			<tr>
-				<td colspan='2'><div style="width:100%; outline: rosybrown 0.1px solid; margin-top: 10px; margin-bottom: 15px;"></div></td>
+			<tr style="height: 25px;">
+				<td colspan='2'><div style="width:100%; outline: #c2ac8a 0.1px solid; margin-top: 10px; margin-bottom: 15px;"></div></td>
 			</tr>
 			<tr>
 				<td>새암호 : </td>
@@ -43,6 +43,12 @@
 </div>
 
 <script>
+	$(function() {
+    	setTimeout(function() {
+	        $('#oldPwd').focus();
+	    }, 500);
+	});
+
 	/* =========== 패스워드 변경 ========= */
 	function btnPwdChange() {
 		var oldPwd = $('#oldPwd').val();

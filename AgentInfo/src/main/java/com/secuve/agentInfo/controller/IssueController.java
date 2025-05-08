@@ -55,7 +55,8 @@ public class IssueController {
         model.addAttribute("issuePortal", issueService.getSelectInput("issuePortal"));
         model.addAttribute("issueJava", issueService.getSelectInput("issueJava"));
         model.addAttribute("issueWas", issueService.getSelectInput("issueWas"));
-		
+        model.addAttribute("issueFirstWriter", issueService.getSelectInput("issueFirstWriter"));
+        
 		return "issue/IssueList";
 	}
 	

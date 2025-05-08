@@ -74,6 +74,7 @@ public class Issue {
 	
 	private String[] issueCustomerArr;
 	private String[] issueTitleArr;
+	private String[] issueFirstWriterArr;
 	private String[] issueTosmsArr;
 	private String[] issueTosrfArr;
 	private String[] issuePortalArr;

@@ -21,6 +21,8 @@
 			  border-bottom: 1px solid #444444;
 			  border-left: 1px solid #444444;
 			  padding: 3px;
+			  white-space: normal;
+
 			}
 			th:first-child, td:first-child {
 			  border-left: none;
@@ -70,12 +72,12 @@
 				border-top: 1px solid #0A8FFF;
 				padding: 10px;
 				display: inline-block;
-				width: 100%;
 				box-shadow: 5px 5px 5px darkgrey;
 				border-radius: 15px;
 				margin-left: -1%;
     			margin-bottom: 3%;
     			margin-top: 1%;
+				min-width: 800px;
 			}
 			.searchbox {
 				background: #00ff2005;
@@ -141,10 +143,9 @@
 				outline: 1px solid lightgray; 
 				border-radius: 5px;
     			min-height: 20px;
-    			width:100% !important;
     			height:100%;
-    			overflow:hidden;
-    			margin:0 auto;
+    			margin:0;
+				color: black;
 			}
 			
 			b {
@@ -166,6 +167,7 @@
     			color: white;
 				background: #95C1B6 !important;
 				border-radius: 10px;
+				min-width: 850px;
 			}
 
 			.pageBreak {
@@ -177,6 +179,7 @@
 				margin-left: 10%;
     			margin-right: 10%;
 				background-image: none;
+				overflow: scroll;
 			}
 
 			.noneForm {
@@ -202,7 +205,7 @@
 		    	<div style='text-align:right;'>
 			    	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 			    </div>
-			    <div class="searchbox" style="margin-bottom:20px; min-height: 250px; height: auto;">
+			    <div class="searchbox" style="margin-bottom:20px; min-height: 250px; height: auto; min-width: 850px;">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
 			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="${issueTitle.issueCustomer}" readonly>
@@ -406,7 +409,7 @@
 					itemDiv += "<tr>";
 					itemDiv += "<td class='alignCenter'>장애내용</td>";
 					itemDiv += "<td colspan='3'>";
-					itemDiv += "<div class='obstacleText' style='min-height: 150px; white-space: break-spaces; padding: 10px;'>"+data.issue.issueObstacle+"</div>";
+					itemDiv += "<div class='obstacleText' style='min-height: 150px; line-height: 25px; padding: 10px; color: black;'>"+data.issue.issueObstacle+"</div>";
 					itemDiv += "</td>";
 					itemDiv += "</tr>";
 					itemDiv += "<tr>";
@@ -430,10 +433,10 @@
 							} else {
 								itemDiv += "<td style='width: 70px;'></td>";
 							}
-							itemDiv += "<td style='background-color: white;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
+							itemDiv += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
 							itemDiv += issueRelay.issueRelayDetail;
 							itemDiv += "</td>";
-							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
 							itemDiv += "<span>"+issueRelay.issueRelayDate+"</span>";
 							if(data.issue.issueApplyYn == '미해결') {
 								if(issueRelay.issueRelayType == "개발") {
@@ -468,15 +471,15 @@
 			});
 		}
 
-		document.addEventListener("DOMContentLoaded", function() {
-       		autoResize();
-    	});
+		//document.addEventListener("DOMContentLoaded", function() {
+       	//	autoResize();
+    	//});
 
-    	function autoResize() {
-    	    const textarea = document.getElementById("issueNoteList");
-    	    textarea.style.height = "auto"; // 높이를 자동으로 조정하도록 설정
-    	    textarea.style.height = textarea.scrollHeight + "px"; // 스크롤 높이로 설정
-    	}
+    	//function autoResize() {
+    	//    const textarea = document.getElementById("issueNoteList");
+    	//    textarea.style.height = "auto"; // 높이를 자동으로 조정하도록 설정
+    	//    textarea.style.height = textarea.scrollHeight + "px"; // 스크롤 높이로 설정
+    	//}
 
 		var exObj = "";
 		var exIssuePrimaryKeyNum = '';
@@ -530,10 +533,10 @@
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
 							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>해결</td>";
-							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
+							rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+result.issueRelayKeyNum+"'>";
 							rowItem += "해당 이슈를 수정완료 하였습니다.";
 							rowItem += "</td>";
-							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
 							rowItem += "<span>"+getCurrentTime()+" </span>";
 							rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
 							rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
@@ -591,10 +594,10 @@
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
 							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>오탐</td>";
-							rowItem += "<td style='background-color: white;' id='detail_"+result.issueRelayKeyNum+"'>";
+							rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+result.issueRelayKeyNum+"'>";
 							rowItem += "해당 이슈는 오탐입니다.";
 							rowItem += "</td>";
-							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
 							rowItem += "<span>"+getCurrentTime()+" </span>";
 							rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+")'>수정</button>";
 							rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+result.issueRelayKeyNum+","+issuePrimaryKeyNum+",this)'>삭제</button>";
@@ -635,10 +638,10 @@
 			rowItem += "<tr style='height: 50px;'>";
 			rowItem += "<td class='alignCenter'>개발</td>";
 			rowItem += "<td class='statusTd' id='status_"+data.issueRelayKeyNum+"'>"+data.issueRelayStatus+"</td>";
-			rowItem += "<td style='background-color: white;' id='detail_"+data.issueRelayKeyNum+"'>";
+			rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+data.issueRelayKeyNum+"'>";
 			rowItem += data.issueRelayDetail;
 			rowItem += "</td>";
-			rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+			rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
 			rowItem += "<span>"+getCurrentTime()+" </span>";
 			rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+data.issueRelayKeyNum+","+data.issuePrimaryKeyNum+")'>수정</button>";
 			rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+data.issueRelayKeyNum+","+data.issuePrimaryKeyNum+",this)'>삭제</button>";
@@ -943,6 +946,7 @@
 		li {
 			font-size: 20px;
     		font-weight: bold;
+			min-width: 800px;
 		}
 
 		#btnRelay {
@@ -1675,6 +1679,10 @@
         }
         .btn-inactive {
             color: black;
+        }
+        
+        p {
+        	padding: 0px;
         }
 	</style>
 </html>

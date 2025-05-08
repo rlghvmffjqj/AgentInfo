@@ -72,6 +72,8 @@
 			  border-bottom: 1px solid #444444;
 			  border-left: 1px solid #444444;
 			  padding: 3px;
+			  font-family: system-ui;
+			  font-size: 12px;
 			}
 			th:first-child, td:first-child {
 			  border-left: none;
@@ -207,7 +209,7 @@
 		                                		<div style='text-align:right;'>
 					                              	Total:<label class="labelFontSize15" id="total">${issueTitle.total}</label>해결:<label class="labelFontSize15" id="solution">${issueTitle.solution}</label>미해결:<label class="labelFontSize15" id="unresolved">${issueTitle.unresolved}</label>보류<label class="labelFontSize15" id="hold">${issueTitle.hold}</label>
 					                            </div>
-		                                		<div class="searchbos issueStyle">
+		                                		<div class="searchbos issueStyle" style="background: #FBF9F8;">
 			                                		<div class="plus">
 			                                			<div><div><div id="blank"></div></div></div>
 			                                			<c:forEach var="list" items="${issue}">

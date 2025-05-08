@@ -216,6 +216,8 @@
 			$('.webControl').addClass('active');
 		}  else if($.cookie('name') == 'webFileConnection') {
 			$('.webFileConnection').addClass('active');
+		} else if($.cookie('name') == 'resultsReport') {
+			$('.resultsReport').addClass('active');
 		}
 	});
 </script>
@@ -258,6 +260,17 @@
 		    	        <a href="<c:url value='/packagesInternational/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-harddrives"></i><b>FC</b></span>
 		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">패키지 배포 관리 [국외]</span>
+		    	            <span class="pcoded-mcaret"></span>
+		    	        </a>
+		    	    </li>
+		    	</ul>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ADMIN','QA')">
+				<ul class="pcoded-item pcoded-left-item">
+		    	    <li class="resultsReport">
+		    	        <a href="<c:url value='/resultsReport/list'/>" class="waves-effect waves-dark">
+		    	            <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
+		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">결과 보고서</span>
 		    	            <span class="pcoded-mcaret"></span>
 		    	        </a>
 		    	    </li>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="resultsReport">
+	<resultMap type="com.secuve.agentInfo.vo.ResultsReport" id="resultsReport"></resultMap>
+	
+	<select id="getResultsReport" resultMap="resultsReport" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM resultsReport
+					<include refid="sqlResultsReport" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getResultsReportCount" resultType="_int">
+		SELECT COUNT(*) FROM resultsReport
+			<include refid="sqlResultsReport" />
+	</select>
+	
+	<insert id="insertResultsReport">
+		INSERT INTO resultsReport(resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportRegistrant,resultsReportRegistrationDate)
+		VALUES(#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
+	</insert>
+	
+	<select id="resultsReportKeyNumMax" resultType="_int">
+		SELECT MAX(resultsReportKeyNum) FROM resultsreport;
+	</select>	
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlResultsReport">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="resultsReportNumber != null and resultsReportNumber != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="resultsReportNumberArr" item="arr">
+						OR resultsReportNumber LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="resultsReportCustomerName != null and resultsReportCustomerName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="resultsReportCustomerNameArr" item="arr">
+						OR resultsReportCustomerName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="resultsReportClient != null and resultsReportClient != ''">
+				AND resultsReportClient LIKE CONCAT('%',#{resultsReportClient},'%')
+			</if>
+			<if test="resultsReportVerifier != null and resultsReportVerifier != ''">
+				AND resultsReportVerifier LIKE CONCAT('%',#{resultsReportVerifier},'%')
+			</if>
+			<if test="resultsReportReviewer != null and resultsReportReviewer != ''">
+				AND resultsReportReviewer LIKE CONCAT('%',#{resultsReportReviewer},'%')
+			</if>
+			<if test="resultsReportDateStart != null and resultsReportDateStart != ''">
+				AND resultsReportDate BETWEEN #{resultsReportDateStart} AND #{resultsReportDateEnd}
+			</if>
+		</trim>
+	</sql>
+</mapper>

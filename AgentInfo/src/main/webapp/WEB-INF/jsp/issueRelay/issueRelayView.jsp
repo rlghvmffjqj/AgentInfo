@@ -305,7 +305,7 @@
 									<tr>
 										<td class="alignCenter">장애내용</td>
 					 					<td colspan='3'>
-					 						<div class="obstacleText" style="min-height: 150px; white-space: break-spaces; padding: 10px;">${list.issueObstacle}</div>
+					 						<div class="obstacleText" style="min-height: 150px; line-height: 30px; padding: 10px;">${list.issueObstacle}</div>
 					 					</td>
 					 				</tr>
 					 				<tr>
@@ -1265,5 +1265,9 @@
 		.txt {
 		  display: block;
 		}
+		
+		p {
+        	padding: 0px;
+        }
 	</style>
 </html>

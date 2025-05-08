@@ -126,6 +126,14 @@
 										</select>
 									</div>
 									<div class="col-lg-2">
+										<label class="labelFontSize">작성자</label>
+									  <select class="form-control selectpicker" id="issueFirstWriterMulti" name="issueFirstWriterMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+										  <c:forEach var="item" items="${issueFirstWriter}">
+											  <option value="${item}"><c:out value="${item}"/></option>
+										  </c:forEach>
+									  </select>
+									</div>
+									<div class="col-lg-2">
 										<label class="labelFontSize">진행 상태</label>
 									  <select class="form-control selectpicker" id="issueProceStatusMulti" name="issueProceStatusMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 											<option value="progress" selected>진행 중</option>
@@ -177,7 +185,8 @@
 									<input type="hidden" id="issueTarget" name="issueTarget" class="form-control" value="${issueTarget}">
 									<input type="hidden" id="issueSubTarget" name="issueSubTarget" class="form-control" value="${issueSubTarget}">
 		              				<input type="hidden" id="issueTitle" name="issueTitle" class="form-control">
-									  <input type="hidden" id="issueProceStatus" name="issueProceStatus" class="form-control">
+									<input type="hidden" id="issueFirstWriter" name="issueFirstWriter" class="form-control">
+									<input type="hidden" id="issueProceStatus" name="issueProceStatus" class="form-control">
 		              				<input type="hidden" id="issueTosms" name="issueTosms" class="form-control">
 		              				<input type="hidden" id="issueTosrf" name="issueTosrf" class="form-control">
 		              				<input type="hidden" id="issuePortal" name="issuePortal" class="form-control">
@@ -268,6 +277,7 @@
 		function tableRefresh() {
 			$('#issueCustomer').val($('#issueCustomerMulti').val().join());
 			$('#issueTitle').val($('#issueTitleMulti').val().join());
+			$('#issueFirstWriter').val($('#issueFirstWriterMulti').val().join());
 			$('#issueProceStatus').val($('#issueProceStatusMulti').val().join());
 			$('#issueTosms').val($('#issueTosmsMulti').val().join());
 			$('#issueTosrf').val($('#issueTosrfMulti').val().join());

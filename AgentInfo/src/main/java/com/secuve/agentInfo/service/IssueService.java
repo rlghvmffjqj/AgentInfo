@@ -132,6 +132,7 @@ public class IssueService {
 	public Issue issueSearch(Issue search) {
 		search.setIssueCustomerArr(search.getIssueCustomer().split(","));
 		search.setIssueTitleArr(search.getIssueTitle().split(","));
+		search.setIssueFirstWriterArr(search.getIssueFirstWriter().split(","));
 		search.setIssueTosmsArr(search.getIssueTosms().split(","));
 		search.setIssueTosrfArr(search.getIssueTosrf().split(","));
 		search.setIssuePortalArr(search.getIssuePortal().split(","));

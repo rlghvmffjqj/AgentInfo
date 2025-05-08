@@ -21,6 +21,7 @@
 			  border-bottom: 1px solid #444444;
 			  border-left: 1px solid #444444;
 			  padding: 3px;
+			  white-space: normal;
 			}
 			th:first-child, td:first-child {
 			  border-left: none;
@@ -76,6 +77,7 @@
 				margin-left: -1%;
     			margin-bottom: 3%;
     			margin-top: 1%;
+				min-width: 800px;
 			}
 			.searchbox {
 				background: #f5f5f5;
@@ -166,6 +168,7 @@
     			color: white;
 				background: #cfa875cc !important;
 				border-radius: 10px;
+				min-width: 850px;
 			}
 
 			.pageBreak {
@@ -177,6 +180,7 @@
 				margin-left: 10%;
     			margin-right: 10%;
 				background-image: none;
+				overflow: scroll;
 			}
 
 			.noneForm {
@@ -216,7 +220,7 @@
 		<div style="padding-top: 20px;">
 		    <div>
 
-			    <div class="searchbox" style="margin-bottom:20px; height: 200px;">
+			    <div class="searchbox" style="margin-bottom:20px; height: 200px; min-width: 850px;">
 			    	<div class="col-lg-3">
 			    		<label class="labelFontSize">고객사</label>
 			    		<input class="form-control titleInput" type="text" id="issueCustomer" name="issueCustomer" style="background: white !important;" value="">
@@ -246,9 +250,9 @@
 			    <div style="width: 100%; height: auto;">
 				    <ol>
 				    	<c:forEach var="list" items="${issue}">
-				    		<li class="listLi" id="item${list.issuePrimaryKeyNum}" style="height:34px; width: 70vw;">
+				    		<li class="listLi" id="item${list.issuePrimaryKeyNum}" style="height:34px !important; width: 70vw;">
 								<a onClick="moveScroll(this, '${list.issuePrimaryKeyNum}');" style="font-size: 18px;">
-									<div style="width: 80%; height:25px; overflow: hidden; float: left;">
+									<div style="width: 80%; height:18px; overflow: hidden; float: left; min-width: 600px;">
 										<span style="float: left;">
 											<div class="titleDiv customerSerach">${list.issueCustomer}</div><div class="titleDiv titleSearch"> | ${list.issueTitle} </div><div class="titleDiv"> | ${list.issueDivision}</div>
 										</span>
@@ -348,7 +352,7 @@
 					itemDiv += "<tr>";
 					itemDiv += "<td class='alignCenter'>장애내용</td>";
 					itemDiv += "<td colspan='3'>";
-					itemDiv += "<div class='obstacleText' style='min-height: 150px; white-space: break-spaces; padding: 10px;'>"+data.issue.issueObstacle+"</div>";
+					itemDiv += "<div class='obstacleText' style='min-height: 150px; line-height: 30px; padding: 10px;'>"+data.issue.issueObstacle+"</div>";
 					itemDiv += "</td>";
 					itemDiv += "</tr>";
 					itemDiv += "<tr>";
@@ -372,10 +376,10 @@
 							} else {
 								itemDiv += "<td style='width: 70px;'></td>";
 							}
-							itemDiv += "<td style='background-color: white;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
+							itemDiv += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
 							itemDiv += issueRelay.issueRelayDetail;
 							itemDiv += "</td>";
-							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
 							itemDiv += "<span>"+issueRelay.issueRelayDate+"</span>";
 							if(issueRelay.issueRelayType == "개발") {
 								itemDiv += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+issueRelay.issueRelayKeyNum+","+issueRelay.issuePrimaryKeyNum+")'>수정</button>";
@@ -507,10 +511,10 @@
 				rowItem += "<tr style='height: 50px;'>";
 				rowItem += "<td class='alignCenter'>개발</td>";
 				rowItem += "<td class='statusTd' id='status_"+data.issueRelayKeyNum+"'>"+data.issueRelayStatus+"</td>";
-				rowItem += "<td style='background-color: white;' id='detail_"+data.issueRelayKeyNum+"'>";
+				rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+data.issueRelayKeyNum+"'>";
 				rowItem += data.issueRelayDetail;
 				rowItem += "</td>";
-				rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right;'>";
+				rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
 				rowItem += "<span>"+getCurrentTime()+" </span>";
 				rowItem += "<button class='btn btn-outline-info-nomal myBtn' onClick='btnUpdate("+data.issueRelayKeyNum+","+data.issuePrimaryKeyNum+")'>수정</button>";
 				rowItem += "<button class='btn btn-outline-info-del myBtn' onClick='btnDelete("+data.issueRelayKeyNum+","+data.issuePrimaryKeyNum+",this)'>삭제</button>";
@@ -754,6 +758,7 @@
 		li {
 			font-size: 20px;
     		font-weight: bold;
+			min-width: 750px;
 		}
 
 		#btnRelay {
@@ -1464,5 +1469,9 @@
 			font-size: 18px !important;
     		color: #a50000;
 		}
+		
+		p {
+        	padding: 0px;
+        }
 	</style>
 </html>

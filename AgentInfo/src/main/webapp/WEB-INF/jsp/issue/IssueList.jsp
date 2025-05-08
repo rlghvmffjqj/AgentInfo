@@ -172,11 +172,19 @@
 														<option value="Agent">Agent</option>
 														<option value="기타">기타</option>
 												  </select>
-											  </div>
+											    </div>
+												<div class="col-lg-2">
+													<label class="labelFontSize">작성자</label>
+												  <select class="form-control selectpicker" id="issueFirstWriterMulti" name="issueFirstWriterMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+													  <c:forEach var="item" items="${issueFirstWriter}">
+														  <option value="${item}"><c:out value="${item}"/></option>
+													  </c:forEach>
+												  </select>
+											    </div>
 												<div class="col-lg-2">
 													<label class="labelFontSize">진행 상태</label>
 													<select class="form-control selectpicker" id="issueProceStatusMulti" name="issueProceStatusMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<option value=""><c:out value=""/></option>
+															<!-- <option value=""><c:out value=""/></option> -->
 															<option value="progress" selected>진행 중</option>
 															<option value="request" selected>처리 완료 요청</option>
 															<option value="complete">처리 완료</option>
@@ -224,6 +232,7 @@
 												</div>
 		                      					<input type="hidden" id="issueCustomer" name="issueCustomer" class="form-control">
 		                      					<input type="hidden" id="issueTitle" name="issueTitle" class="form-control">
+												<input type="hidden" id="issueFirstWriter" name="issueFirstWriter" class="form-control">
 												<input type="hidden" id="issueProceStatus" name="issueProceStatus" class="form-control">
 		                      					<input type="hidden" id="issueTosms" name="issueTosms" class="form-control">
 		                      					<input type="hidden" id="issueTosrf" name="issueTosrf" class="form-control">
@@ -370,12 +379,14 @@
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#issueCustomer').val($('#issueCustomerMulti').val().join());
 			$('#issueTitle').val($('#issueTitleMulti').val().join());
+			$('#issueFirstWriter').val($('#issueFirstWriterMulti').val().join());
 			$('#issueProceStatus').val($('#issueProceStatusMulti').val().join());
 			$('#issueTosms').val($('#issueTosmsMulti').val().join());
 			$('#issueTosrf').val($('#issueTosrfMulti').val().join());
 			$('#issuePortal').val($('#issuePortalMulti').val().join());
 			$('#issueJava').val($('#issueJavaMulti').val().join());
 			$('#issueWas').val($('#issueWasMulti').val().join());
+			
 			
 			var _postDate = $("#form").serializeObject();
 			

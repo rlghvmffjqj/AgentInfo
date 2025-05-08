@@ -219,23 +219,18 @@ public class IssueRelayController {
 	public String IssueList(Model model, Principal principal, HttpServletRequest req, String target) {
 		Map<String, String> targetMap = issueService.targetDivision(target);
 		
-		List<String> issueCustomer = issueService.getSelectInputTarget("issueCustomer", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
-		List<String> issueTitle = issueService.getSelectInputTarget("issueTitle", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
-		List<String> issueTosms = issueService.getSelectInputTarget("issueTosms", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
-		List<String> issueTosrf = issueService.getSelectInputTarget("issueTosrf", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
-		List<String> issuePortal = issueService.getSelectInputTarget("issuePortal", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
-		List<String> issueJava = issueService.getSelectInputTarget("issueJava", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
-		List<String> issueWas = issueService.getSelectInputTarget("issueWas", targetMap.get("issueTarget"), targetMap.get("issueSubTarget"));
 		
-		model.addAttribute("issueCustomer", issueCustomer);
-		model.addAttribute("issueTitle", issueTitle);
-		model.addAttribute("issueTosms", issueTosms);
-		model.addAttribute("issueTosrf", issueTosrf);
-		model.addAttribute("issuePortal", issuePortal);
-		model.addAttribute("issueJava", issueJava);
-		model.addAttribute("issueWas", issueWas);
+		
+		model.addAttribute("issueCustomer", issueService.getSelectInputTarget("issueCustomer", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
+		model.addAttribute("issueTitle", issueService.getSelectInputTarget("issueTitle", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
+		model.addAttribute("issueTosms", issueService.getSelectInputTarget("issueTosms", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
+		model.addAttribute("issueTosrf", issueService.getSelectInputTarget("issueTosrf", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
+		model.addAttribute("issuePortal", issueService.getSelectInputTarget("issuePortal", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
+		model.addAttribute("issueJava", issueService.getSelectInputTarget("issueJava", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
+		model.addAttribute("issueWas", issueService.getSelectInputTarget("issueWas", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
 		model.addAttribute("issueTarget", targetMap.get("issueTarget"));
 		model.addAttribute("issueSubTarget", targetMap.get("issueSubTarget"));
+		model.addAttribute("issueFirstWriter", issueService.getSelectInputTarget("issueFirstWriter", targetMap.get("issueTarget"), targetMap.get("issueSubTarget")));
 		model.addAttribute("target", target);
 		
 		return "/issueRelay/IssueRelayList";
