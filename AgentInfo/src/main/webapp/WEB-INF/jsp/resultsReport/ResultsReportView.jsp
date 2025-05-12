@@ -553,8 +553,8 @@
 																		<th class="tableTd tableCenter"><input class="borderDotted" type="text" value="1. 해당사항 없음"></th>
 																	</tr>
 																	<tr>
-																		<td class="tableTd tableCenter width15p" style="width: 15%;"><input class="inputCenter borderDotted" type="text" value="테스트 절차"></td>
-																		<td class="tableTd tableCenter width15p" style="width: 85%; min-height: 50px;"><textarea class="borderDotted" oninput="autoResize(this)" style="resize:none;">해당사항 없음</textarea></td>
+																		<td class="tableTd tableCenter testLeft width15p" style="width: 15%;"><input class="inputCenter borderDotted" type="text" value="테스트 절차"></td>
+																		<td class="tableTd width15p" style="width: 85%; min-height: 50px;"><textarea class="borderDotted scenarioTextarea" oninput="autoResize(this)" style="resize:none;">해당사항 없음</textarea></td>
 																	</tr>
 																</table>
 															</div>
@@ -980,14 +980,14 @@
 			const formattedDate2 = today.getFullYear() + ". " +
   		                        String(today.getMonth() + 1).padStart(2, '0') + ". " +
   		                        String(today.getDate()).padStart(2, '0')
-  		  $('#testDate').val(formattedDate2 + " ~ " + formattedDate2);
+  		  $('#resultsReportTestDate').val(formattedDate2 + " ~ " + formattedDate2);
   		});
 
 		/* =========== 전달일자 오늘 날짜 입력 ========= */
 		// document.getElementById('resultsReportDate').value = new Date().toISOString().substring(0, 10);
 		$('#BtnPDFexport').click(function() {
 			var styles = $("style#pdfStyle").html();
-			var htmlContent = $('.writeDiv').html();
+			var htmlContent = domupPDFdate();
 			var jsp = "<style>" + styles + "</style>" + htmlContent;
 
 			var resultsReportKeyNum = String(1).padStart(4, '0');;
@@ -1196,9 +1196,8 @@
 
 
         // 행 삭제
-        $("#deleteRow").click(function () {
+        $("#deleteRow").click(function () {		
 			const $report = $(selectedCells[0]).closest("table");
-
 		    if (selectedCells.length !== 1) {
 		        Swal.fire({
 		            icon: 'error',
@@ -1231,8 +1230,18 @@
 		    }
 		
 		    let $rowsToDelete = $rows.slice(rowIndex, rowIndex + deleteCount);
+
+			// 삭제 전 데이터 보존을 위해 앞쪽에 위치(KIHO)
+			var tableId = $report[0].id;
+			if(tableId === "report6") {
+				delCommVerification();
+			}
+
+			if(tableId === "report9") {
+				delCommVerification2();
+			}
 		
-		    // 셀 복사 후 아래 행으로 이관 (rowspan, colspan 모두)
+		    //셀 복사 후 아래 행으로 이관 (rowspan, colspan 모두)
 		    $rowsToDelete.each(function (rIdx, tr) {
 		        let $tr = $(tr);
 		        $tr.children("td, th").each(function () {
@@ -1281,13 +1290,18 @@
 		    });
 		
 		    $rowsToDelete.remove();
-		    selectedCells = [];
-		    clearSelection();
-
-			var tableId = $report[0].id;
+		    
 			if(tableId === "report7") {
 				delVerification(rowIndex);
 			}
+
+			if(tableId === "report11") {
+				delVerification2(rowIndex);
+			}
+
+			clearSelection();
+			selectedCells = [];
+
 		});
 
 
@@ -1474,8 +1488,8 @@
 		                    <td class="tableTd tableCenter width15p" style="width: 15%;">
 		                        <input class="inputCenter borderDotted" type="text" value="테스트 절차">
 		                    </td>
-		                    <td class="tableTd tableCenter width15p" style="width: 85%; min-height: 50px;">
-		                        <textarea class="borderDotted autoResize" style="resize:none;">해당사항 없음</textarea>
+		                    <td class="tableTd width15p" style="width: 85%; min-height: 50px;">
+		                        <textarea class="borderDotted scenarioTextarea" oninput="autoResize(this)" style="resize:none;">해당사항 없음</textarea>
 		                    </td>
 		                </tr>
 		            </table>
@@ -1538,8 +1552,8 @@
 		                    <td class="tableTd tableCenter width15p" style="width: 15%;">
 		                        <input class="inputCenter borderDotted" type="text" value="테스트 절차">
 		                    </td>
-		                    <td class="tableTd tableCenter width15p" style="width: 85%; min-height: 50px;">
-		                        <textarea class="borderDotted autoResize" style="resize:none;">해당사항 없음</textarea>
+		                    <td class="tableTd width15p" style="width: 85%; min-height: 50px;">
+		                        <textarea class="borderDotted scenarioTextarea" oninput="autoResize(this)" style="resize:none;">해당사항 없음</textarea>
 		                    </td>
 		                </tr>
 		            </table>
@@ -1807,54 +1821,176 @@
     		});
 		}
 
-		function verificationTest2(rowIndex) {
-		    const inputVal = $('#report7 tbody tr').eq(rowIndex).find('td').first().find('input').val().trim();
+		function delCommVerification() {
+			const $selectedCell = $(selectedCells[0]);
+    		const $report6 = $selectedCell.closest("table");
+    		const $rows6 = $report6.find("tr");
+
+    		// 2. 선택된 셀의 행 인덱스와 열 인덱스 계산
+    		const rowIndex2 = $rows6.index($selectedCell.closest("tr"));
+    		const cellIndex = $selectedCell.closest("tr").children().index($selectedCell);
+
+    		// 3. report9에서 동일한 위치의 셀 찾기
+    		const $report9 = $("#report9");
+    		const $rows9 = $report9.find("tr");
+    		const $targetRow9 = $rows9.eq(rowIndex2);  // 동일한 행
+    		const $targetCell9 = $targetRow9.children().eq(cellIndex);  // 동일한 열의 셀
+
+			$targetCell9.addClass("selected");
+			selectedCells = [$targetCell9[0]]; 
+
+    		// 4. selectedCells[0]을 report9의 해당 셀로 변경
+
+			const $report = $targetCell9.closest("table");
 		
-		    // 아래쪽 <p>에 있는 borderDotted input 중 '1.3.'으로 시작하는 것만 필터링
-		    const targetInputs = $('p input.borderDotted').filter(function () {
-		        return $(this).val().trim().startsWith('1.3.');
+		    let $cell = $targetCell9;
+		    let $row = $cell.closest("tr");
+		    let $table = $row.closest("table");
+		    let $rows = $table.find("tr");
+		    let rowIndex = $rows.index($row);
+		
+		    let rowspan = parseInt($cell.attr("rowspan")) || 1;
+		    let deleteCount = rowspan;
+		
+		    let $rowsToDelete = $rows.slice(rowIndex, rowIndex + deleteCount);
+		
+		    // 셀 복사 후 아래 행으로 이관 (rowspan, colspan 모두)
+		    $rowsToDelete.each(function (rIdx, tr) {
+		        let $tr = $(tr);
+		        $tr.children("td, th").each(function () {
+		            let $cell = $(this);
+		            let rowspan = parseInt($cell.attr("rowspan")) || 1;
+		            let colspan = parseInt($cell.attr("colspan")) || 1;
+		            let cellIndex = $cell.index();
+				
+		            if (rowspan > 1) {
+		                let $targetRow = $rows.eq(rowIndex + 1); // 다음 행
+					
+		                if ($targetRow.length) {
+		                    let $clone = $cell.clone().removeAttr("rowspan");
+		                    $cell.remove();
+						
+		                    // 다음 행의 적절한 위치에 삽입
+		                    let $nextCells = $targetRow.children("td, th");
+		                    if (cellIndex >= $nextCells.length) {
+		                        $targetRow.append($clone);
+		                    } else {
+		                        $nextCells.eq(cellIndex).before($clone);
+		                    }
+						
+		                    // 남은 rowspan 조정
+		                    $clone.attr("rowspan", rowspan - 1);
+		                }
+		            } else {
+		                $cell.remove(); // rowspan 아닌 경우는 그냥 삭제
+		            }
+		        });
 		    });
 		
-		    // 해당 index에 맞는 input만 값 갱신
-		    const target = targetInputs.eq(rowIndex);
-		    if (target.length) {
-		        const originalVal = target.val();
-		        const prefixMatch = originalVal.match(/^1\.3\.\d+\.\s*/); // 예: '1.3.1. ' 패턴 추출
-		        const prefix = prefixMatch ? prefixMatch[0] : '';
-		        target.val(prefix + inputVal);
-		    }
+		    // 다른 셀의 rowspan 보정 (삭제 영역 포함된 셀)
+		    $rows.each(function (i, tr) {
+		        $(tr).children("td[rowspan], th[rowspan]").each(function () {
+		            let $rCell = $(this);
+		            let span = parseInt($rCell.attr("rowspan")) || 1;
+		            let rIndex = $rows.index(tr);
+		            let rEnd = rIndex + span - 1;
+				
+		            if (rIndex < rowIndex && rEnd >= rowIndex) {
+		                let overlap = Math.min(rEnd, rowIndex + deleteCount - 1) - rowIndex + 1;
+		                $rCell.attr("rowspan", span - overlap);
+		            }
+		        });
+		    });
+		
+		    $rowsToDelete.remove();
+		    selectedCells = [];
+		    clearSelection();
 		}
 
+		function delCommVerification2() {
+			const $selectedCell = $(selectedCells[0]);
+    		const $report9 = $selectedCell.closest("table");
+    		const $rows9 = $report9.find("tr");
 
-		$(document).ready(function () {
-		    verificationTest();
-			commVerification();
-		});
+    		// 2. 선택된 셀의 행 인덱스와 열 인덱스 계산
+    		const rowIndex2 = $rows9.index($selectedCell.closest("tr"));
+    		const cellIndex = $selectedCell.closest("tr").children().index($selectedCell);
 
-		function delVerification(rowIndex) {
-			rowIndex = rowIndex - 1;
-		    const $container = $('#scenario').parent();
+    		// 3. report6에서 동일한 위치의 셀 찾기
+    		const $report6 = $("#report6");
+    		const $rows6 = $report6.find("tr");
+    		const $targetRow6 = $rows6.eq(rowIndex2);  // 동일한 행
+    		const $targetCell6 = $targetRow6.children().eq(cellIndex);  // 동일한 열의 셀
 
-		    // 1. 선택된 행의 index에 해당하는 시나리오 삭제
-		    const $report8Tables = $container.find('table.report8');
-		    if ($report8Tables.length > rowIndex) {
-		        const targetTable = $report8Tables.eq(rowIndex);
-		        const report8Wrapper = targetTable.closest('div'); // 해당 테이블을 감싸는 div
-			
-		        // 해당 div와 그 이전의 <p> 요소 삭제
-		        report8Wrapper.prev('p').remove();
-		        report8Wrapper.remove();
-		    }
+			$targetCell6.addClass("selected");
+			selectedCells = [$targetCell6[0]]; 
+
+    		// 4. selectedCells[0]을 report6의 해당 셀로 변경
+
+			const $report = $targetCell6.closest("table");
 		
-		    // 2. report11 테이블에서 선택된 행 삭제
-		    const $report11Rows = $('#report11 tbody tr');
-		    if ($report11Rows.length > rowIndex) {
-		        $report11Rows.eq(rowIndex).remove();  // 해당 rowIndex의 tr 삭제
-		    }
+		    let $cell = $targetCell6;
+		    let $row = $cell.closest("tr");
+		    let $table = $row.closest("table");
+		    let $rows = $table.find("tr");
+		    let rowIndex = $rows.index($row);
 		
-		    // 3. 입력 동기화 다시 바인딩
-		    verificationTest();
-			commVerification();
+		    let rowspan = parseInt($cell.attr("rowspan")) || 1;
+		    let deleteCount = rowspan;
+		
+		    let $rowsToDelete = $rows.slice(rowIndex, rowIndex + deleteCount);
+		
+		    // 셀 복사 후 아래 행으로 이관 (rowspan, colspan 모두)
+		    $rowsToDelete.each(function (rIdx, tr) {
+		        let $tr = $(tr);
+		        $tr.children("td, th").each(function () {
+		            let $cell = $(this);
+		            let rowspan = parseInt($cell.attr("rowspan")) || 1;
+		            let colspan = parseInt($cell.attr("colspan")) || 1;
+		            let cellIndex = $cell.index();
+				
+		            if (rowspan > 1) {
+		                let $targetRow = $rows.eq(rowIndex + 1); // 다음 행
+					
+		                if ($targetRow.length) {
+		                    let $clone = $cell.clone().removeAttr("rowspan");
+		                    $cell.remove();
+						
+		                    // 다음 행의 적절한 위치에 삽입
+		                    let $nextCells = $targetRow.children("td, th");
+		                    if (cellIndex >= $nextCells.length) {
+		                        $targetRow.append($clone);
+		                    } else {
+		                        $nextCells.eq(cellIndex).before($clone);
+		                    }
+						
+		                    // 남은 rowspan 조정
+		                    $clone.attr("rowspan", rowspan - 1);
+		                }
+		            } else {
+		                $cell.remove(); // rowspan 아닌 경우는 그냥 삭제
+		            }
+		        });
+		    });
+		
+		    // 다른 셀의 rowspan 보정 (삭제 영역 포함된 셀)
+		    $rows.each(function (i, tr) {
+		        $(tr).children("td[rowspan], th[rowspan]").each(function () {
+		            let $rCell = $(this);
+		            let span = parseInt($rCell.attr("rowspan")) || 1;
+		            let rIndex = $rows.index(tr);
+		            let rEnd = rIndex + span - 1;
+				
+		            if (rIndex < rowIndex && rEnd >= rowIndex) {
+		                let overlap = Math.min(rEnd, rowIndex + deleteCount - 1) - rowIndex + 1;
+		                $rCell.attr("rowspan", span - overlap);
+		            }
+		        });
+		    });
+		
+		    $rowsToDelete.remove();
+		    selectedCells = [];
+		    clearSelection();
 		}
 
 		/* =========== Ctrl + S 사용시 저장 ========= */
@@ -1868,6 +2004,7 @@
 		}
 
 		function resultsReportSave() {
+			$("#selectNone").click();
 			var resultsReportCustomerName = $("#resultsReportCustomerName").val();
 			var resultsReportNumber = $("#resultsReportNumber").val();
 			var resultsReportClient = $("#resultsReportClient").val();
@@ -1875,7 +2012,7 @@
 			var resultsReportReviewer = $("#resultsReportReviewer").val();
 			var resultsReportDate = $("#resultsReportDate").val();
 			var resultsReportTestDate = $("#resultsReportTestDate").val();
-			var resultsReportContent = $('.writeDiv').html();
+			var resultsReportContent = domupdate();
 			if(resultsReportNumber == "") {
 				Swal.fire({
 					icon: 'error',
@@ -1930,6 +2067,98 @@
 			    });
 			}
 		}
+
+		function domupdate() {
+			var cloned = $('.writeDiv').clone();
+
+			// input, textarea, select 요소의 현재 값을 속성에 반영
+			cloned.find('input, textarea, select').each(function() {
+			    var $el = $(this);
+			
+			    if ($el.is('input')) {
+			        var type = $el.attr('type');
+			        if (type === 'checkbox' || type === 'radio') {
+			            if ($el.prop('checked')) {
+			                $el.attr('checked', 'checked');
+			            } else {
+			                $el.removeAttr('checked');
+			            }
+			        } else {
+			            $el.attr('value', $el.val());
+			        }
+			    } else if ($el.is('textarea')) {
+			        $el.text($el.val()); // 텍스트 영역은 내부 텍스트로 값 반영
+			    } else if ($el.is('select')) {
+			        $el.find('option').each(function() {
+			            if ($(this).prop('selected')) {
+			                $(this).attr('selected', 'selected');
+			            } else {
+			                $(this).removeAttr('selected');
+			            }
+			        });
+			    }
+			});
+
+			var resultsReportContent = cloned.html();
+			return resultsReportContent;
+		}
+
+		function domupPDFdate() {
+		  	// 1. .writeDiv 복제
+			  var cloned = $('.writeDiv').clone();
+
+			// 2. input, select, textarea 값 반영
+			cloned.find('input, select, textarea').each(function () {
+			  var $el = $(this);
+			
+			  if ($el.is('input')) {
+				var type = $el.attr('type');
+				if (type === 'checkbox' || type === 'radio') {
+				  if ($el.prop('checked')) {
+					$el.attr('checked', 'checked');
+				  } else {
+					$el.removeAttr('checked');
+				  }
+				} else {
+				  $el.attr('value', $el.val());
+				}
+			  } else if ($el.is('select')) {
+				$el.find('option').each(function () {
+				  if ($(this).prop('selected')) {
+					$(this).attr('selected', 'selected');
+				  } else {
+					$(this).removeAttr('selected');
+				  }
+				});
+			  } else if ($el.is('textarea')) {
+				if ($el.hasClass('scenarioTextarea')) {
+				  // 👉 scenarioTextarea만 <div>로 변환
+				  var content = $el.val()
+					.replace(/</g, "&lt;")
+					.replace(/>/g, "&gt;")
+					.replace(/\n/g, "<br/>");
+				
+				  var style = $el.attr('style') || '';
+				  style = style.replace(/height\s*:\s*[^;]+;?/gi, ''); // 기존 height 제거
+				  style += ' min-height:50px; text-align:left; white-space:pre-wrap;';
+				
+				  var div = $('<div></div>')
+					.addClass($el.attr('class'))
+					.attr('style', style)
+					.html(content);
+				
+				  $el.replaceWith(div);
+				} else {
+				  // ✅ 그 외 textarea는 값만 반영
+				  $el.text($el.val());
+				}
+			  }
+			});
+
+			// 3. 최종 HTML 반환
+			return cloned.html();
+		}
+
 	</script>
 
 	<style>

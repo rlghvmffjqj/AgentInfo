@@ -53,12 +53,18 @@ public class ResultsReportController {
 	}
 	
 	@GetMapping(value = "/resultsReport/insertView")
-	public String ExistingNew(Model model, Principal principal) {
+	public String ResultsReportInsertView(Model model, Principal principal) {
 		model.addAttribute("username", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
-		model.addAttribute("viewType","insert");
 		model.addAttribute("yearDate", resultsReportService.yearDate());
 		model.addAttribute("maxNumber", resultsReportService.resultsReportKeyNumMax());
 		return "/resultsReport/ResultsReportView";
+	}
+	
+	@GetMapping(value = "/resultsReport/updateView")
+	public String ResultsReportUpdateView(Model model, String resultsReportNumber) {
+		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReportNumber);
+		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
+		return "/resultsReport/ResultsReportUpdateView";
 	}
 	
 	@ResponseBody
@@ -106,6 +112,18 @@ public class ResultsReportController {
 	public String resultsReportSave(ResultsReport resultsReport, Principal principal) {
 		resultsReport.setResultsReportRegistrant(principal.getName());
 		resultsReport.setResultsReportRegistrationDate(resultsReportService.nowDate());
+		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReport.getResultsReportNumber());
+		if(resultsReportOne != null) {
+			resultsReport.setResultsReportModifiedDate(principal.getName());
+			resultsReport.setResultsReportModifiedDate(resultsReportService.nowDate());
+			return resultsReportService.updateResultsReport(resultsReport);
+		}
 		return resultsReportService.insertResultsReport(resultsReport);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/resultsReport/delete")
+	public String ResultsReportDelete(@RequestParam int[] chkList) {
+		return resultsReportService.delResultsReport(chkList);
 	}
 }

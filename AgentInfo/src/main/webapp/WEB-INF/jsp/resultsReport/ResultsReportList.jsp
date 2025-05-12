@@ -243,7 +243,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.resultsReportKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.resultsReportNumber+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 		
 		/* =========== Enter 검색 ========= */
@@ -319,20 +319,7 @@
 		
 		/* =========== 결과 보고서 수정 Modal ========= */
 		function updateView(data) {
-			$.ajax({
-		        type: 'POST',
-		        url: "<c:url value='/resultsReport/updateView'/>",
-		        data: {"resultsReportKeyNum" : data},
-		        async: false,
-		        success: function (data) {
-		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
-		            $.modal(data, 'resultsReport'); //modal창 호출
-		        },
-		        error: function(e) {
-		            // TODO 에러 화면
-		        }
-		    });
+			location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+data;
 		}
 
 		/* =========== 작성일자 업데이트 ========= */

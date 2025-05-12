@@ -32,6 +32,18 @@
 		SELECT MAX(resultsReportKeyNum) FROM resultsreport;
 	</select>	
 	
+	<select id="getResultsReportOne" resultMap="resultsReport" parameterType="string">
+		SELECT * FROM resultsreport WHERE resultsReportNumber = #{resultsReportNumber};
+	</select>
+	
+	<update id="updateResultsReport">
+		UPDATE resultsreport SET resultsReportCustomerName=#{resultsReportCustomerName}, resultsReportClient=#{resultsReportClient}, resultsReportVerifier=#{resultsReportVerifier}, resultsReportReviewer=#{resultsReportReviewer}, resultsReportDate=#{resultsReportDate}, resultsReportTestDate=#{resultsReportTestDate}, resultsReportContent=#{resultsReportContent}, resultsReportModifier=#{resultsReportModifier}, resultsReportModifiedDate=#{resultsReportModifiedDate}
+		WHERE resultsReportNumber = #{resultsReportNumber};
+	</update>
+	
+	<delete id="delResultsReport">
+		DELETE FROM resultsreport WHERE resultsReportKeyNum = #{resultsReportKeyNum};
+	</delete>
 	
 	<!-- ==================================================================================== -->
 	

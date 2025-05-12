@@ -28,4 +28,16 @@ public class ResultsReportDao {
 		return sqlSession.selectOne("resultsReport.resultsReportKeyNumMax");
 	}
 
+	public ResultsReport getResultsReportOne(String resultsReportNumber) {
+		return sqlSession.selectOne("resultsReport.getResultsReportOne", resultsReportNumber);
+	}
+
+	public int updateResultsReport(ResultsReport resultsReport) {
+		return sqlSession.update("resultsReport.updateResultsReport", resultsReport);
+	}
+
+	public int delResultsReport(int resultsReportKeyNum) {
+		return sqlSession.delete("resultsReport.delResultsReport", resultsReportKeyNum);
+	}
+
 }

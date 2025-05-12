@@ -55,8 +55,27 @@ public class ResultsReportService {
 			resultsReportKeyNumMax = resultsReportDao.resultsReportKeyNumMax();
 		} catch (Exception e) {
 		}
-		String formatted = String.format("%04d", resultsReportKeyNumMax);
+		String formatted = String.format("%04d", resultsReportKeyNumMax+1);
 
 		return formatted;
+	}
+
+	public ResultsReport getResultsReportOne(String resultsReportNumber) {
+		return resultsReportDao.getResultsReportOne(resultsReportNumber);
+	}
+
+	public String updateResultsReport(ResultsReport resultsReport) {
+		int success = 1;
+		resultsReportDao.updateResultsReport(resultsReport);
+		return success <= 0 ? "FALSE" : "OK";
+	}
+
+	public String delResultsReport(int[] chkList) {
+		for (int resultsReportKeyNum : chkList) {
+			int success = resultsReportDao.delResultsReport(resultsReportKeyNum);
+			if (success <= 0)
+				return "FALSE";
+		}
+		return "OK";
 	}
 }
