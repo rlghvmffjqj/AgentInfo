@@ -67,6 +67,16 @@ public class ResultsReportController {
 		return "/resultsReport/ResultsReportUpdateView";
 	}
 	
+	@GetMapping(value = "/resultsReport/copyView")
+	public String ResultsReportCopyView(Model model, Principal principal, String resultsReportNumber) {
+		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReportNumber);
+		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
+		model.addAttribute("username", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
+		model.addAttribute("yearDate", resultsReportService.yearDate());
+		model.addAttribute("maxNumber", resultsReportService.resultsReportKeyNumMax());
+		return "/resultsReport/ResultsReportCopyView";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/resultsReport/pdf")
 	public String PDF(StringBuffer jsp, String resultsReportKeyNum, String resultsReportCustomerName, String resultsReportDate, Principal principal, Model model) {
@@ -109,15 +119,9 @@ public class ResultsReportController {
 	
 	@ResponseBody
 	@PostMapping(value = "/resultsReport/resultsReportSave")
-	public String resultsReportSave(ResultsReport resultsReport, Principal principal) {
+	public Map<String, String> resultsReportSave(ResultsReport resultsReport, Principal principal) {
 		resultsReport.setResultsReportRegistrant(principal.getName());
 		resultsReport.setResultsReportRegistrationDate(resultsReportService.nowDate());
-		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReport.getResultsReportNumber());
-		if(resultsReportOne != null) {
-			resultsReport.setResultsReportModifiedDate(principal.getName());
-			resultsReport.setResultsReportModifiedDate(resultsReportService.nowDate());
-			return resultsReportService.updateResultsReport(resultsReport);
-		}
 		return resultsReportService.insertResultsReport(resultsReport);
 	}
 	
@@ -126,4 +130,21 @@ public class ResultsReportController {
 	public String ResultsReportDelete(@RequestParam int[] chkList) {
 		return resultsReportService.delResultsReport(chkList);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/resultsReport/resultsReportUpdate")
+	public String resultsReportUpdate(ResultsReport resultsReport, Principal principal) {
+		resultsReport.setResultsReportModifiedDate(principal.getName());
+		resultsReport.setResultsReportModifiedDate(resultsReportService.nowDate());
+		return resultsReportService.updateResultsReport(resultsReport);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/resultsReport/resultsReportCopy")
+	public Map<String, String> resultsReportCopy(ResultsReport resultsReport, Principal principal) {
+		resultsReport.setResultsReportRegistrant(principal.getName());
+		resultsReport.setResultsReportRegistrationDate(resultsReportService.nowDate());
+		return resultsReportService.insertResultsReport(resultsReport);
+	}
+	
 }

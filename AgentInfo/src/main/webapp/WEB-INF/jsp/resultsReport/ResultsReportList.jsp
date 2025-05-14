@@ -184,10 +184,11 @@
 														<tbody>
 															<tr>
 																<td style="font-weight:bold;">결과 보고서 관리 :
-																	<sec:authorize access="hasRole('ADMIN')">
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																	</sec:authorize>
+																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="templateAdd();">템플릿 등록</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="templateDel();">템플릿 해제</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'resultsReportList');">컬럼 선택</button>
 																</td>
 															</tr>
@@ -316,6 +317,34 @@
 				})
 			}
 		});
+
+		$('#BtnCopy').click(function() {
+			var resultNumber = "";
+			var chkList = $("#list").getGridParam('selarrrow');
+			var rowData = $("#list").getRowData(chkList).resultsReportNumber;
+			var match = rowData.match(/updateView\('([^']+)'\)/);
+
+			if (match && match[1]) {
+			    resultNumber = match[1]; // "QA-2025-0033"
+			    
+			}
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else if(chkList.length > 1) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '복사할 행을 한 개만 선택해주시기 바랍니다.',    
+				});   
+			} else {
+				location.href="<c:url value='/resultsReport/copyView'/>?resultsReportNumber="+resultNumber;	
+			}
+			
+		});
 		
 		/* =========== 결과 보고서 수정 Modal ========= */
 		function updateView(data) {
@@ -345,6 +374,13 @@
 	            }
 	        });
 		});
+
+		function templateAdd() {
+			var chkList = $("#list").getGridParam('selarrrow');
+		}
 		
+		function templateDel() {
+			var chkList = $("#list").getGridParam('selarrrow');
+		}
 	</script>
 </html>

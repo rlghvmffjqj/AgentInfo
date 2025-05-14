@@ -2,7 +2,9 @@ package com.secuve.agentInfo.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +44,15 @@ public class ResultsReportService {
 	}
 
 
-	public String insertResultsReport(ResultsReport resultsReport) {
+	public Map<String, String> insertResultsReport(ResultsReport resultsReport) {
+		Map<String, String> map = new HashMap<>();
 		int success = 1;
 		resultsReportDao.insertResultsReport(resultsReport);
-		return success <= 0 ? "FALSE" : "OK";
+		map.put("result", success <= 0 ? "FALSE" : "OK");
+		if (success > 0) {
+	        map.put("resultsReportNumber", resultsReport.getResultsReportNumber());
+	    }
+		return map;
 		
 	}
 

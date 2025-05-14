@@ -100,7 +100,7 @@
 														<table class="report2" id="report2" style="width: 100%; border-collapse: collapse;">
 															<tr>
 																<td class="tableTd tableCenter"><input class="inputCenter borderDotted" type="text" value="검증자/검토자"></td>
-																<td class="tableTd"><input class="inputCenter borderDotted" type="text" value="${username} / 양기석"></td>
+																<td class="tableTd"><input class="inputCenter borderDotted" id="resultsReportVerifier2" type="text" value="${username} / 양기석"></td>
 																<td class="tableTd tableCenter"><input class="inputCenter borderDotted" type="text" value="테스트일정"></td>
 																<td class="tableTd"><input class="borderDotted" id="resultsReportTestDate" type="text" value="2025. XX. XX ~ 2025. XX .XX"></td>
 															</tr>
@@ -1821,6 +1821,29 @@
     		});
 		}
 
+		function verificationTest2(rowIndex) {
+		    const inputVal = $('#report7 tbody tr').eq(rowIndex).find('td').first().find('input').val().trim();
+		
+		    // 아래쪽 <p>에 있는 borderDotted input 중 '1.3.'으로 시작하는 것만 필터링
+		    const targetInputs = $('p input.borderDotted').filter(function () {
+		        return $(this).val().trim().startsWith('1.3.');
+		    });
+		
+		    // 해당 index에 맞는 input만 값 갱신
+		    const target = targetInputs.eq(rowIndex);
+		    if (target.length) {
+		        const originalVal = target.val();
+		        const prefixMatch = originalVal.match(/^1\.3\.\d+\.\s*/); // 예: '1.3.1. ' 패턴 추출
+		        const prefix = prefixMatch ? prefixMatch[0] : '';
+		        target.val(prefix + inputVal);
+		    }
+		}
+
+		$(document).ready(function () {
+		    verificationTest();
+			commVerification();
+		});
+
 		function delCommVerification() {
 			const $selectedCell = $(selectedCells[0]);
     		const $report6 = $selectedCell.closest("table");
@@ -1993,6 +2016,58 @@
 		    clearSelection();
 		}
 
+		function delVerification(rowIndex) {
+			rowIndex = rowIndex - 1;
+		    const $container = $('#scenario').parent();
+
+		    // 1. 선택된 행의 index에 해당하는 시나리오 삭제
+		    const $report8Tables = $container.find('table.report8');
+		    if ($report8Tables.length > rowIndex) {
+		        const targetTable = $report8Tables.eq(rowIndex);
+		        const report8Wrapper = targetTable.closest('div'); // 해당 테이블을 감싸는 div
+			
+		        // 해당 div와 그 이전의 <p> 요소 삭제
+		        report8Wrapper.prev('p').remove();
+		        report8Wrapper.remove();
+		    }
+		
+		    // 2. report11 테이블에서 선택된 행 삭제
+		    const $report11Rows = $('#report11 tbody tr');
+		    if ($report11Rows.length > rowIndex) {
+		        $report11Rows.eq(rowIndex).remove();  // 해당 rowIndex의 tr 삭제
+		    }
+		
+		    // 3. 입력 동기화 다시 바인딩
+		    verificationTest();
+			commVerification();
+		}
+
+		function delVerification2(rowIndex) {
+			rowIndex = rowIndex - 1;
+		    const $container = $('#scenario').parent();
+
+		    // 1. 선택된 행의 index에 해당하는 시나리오 삭제
+		    const $report11Tables = $container.find('table.report11');
+		    if ($report11Tables.length > rowIndex) {
+		        const targetTable = $report11Tables.eq(rowIndex);
+		        const report11Wrapper = targetTable.closest('div'); // 해당 테이블을 감싸는 div
+			
+		        // 해당 div와 그 이전의 <p> 요소 삭제
+		        report11Wrapper.prev('p').remove();
+		        report11Wrapper.remove();
+		    }
+		
+		    // 2. report8 테이블에서 선택된 행 삭제
+		    const $report8Rows = $('#report8 tbody tr');
+		    if ($report8Rows.length > rowIndex) {
+		        $report8Rows.eq(rowIndex).remove();  // 해당 rowIndex의 tr 삭제
+		    }
+		
+		    // 3. 입력 동기화 다시 바인딩
+		    verificationTest();
+			commVerification();
+		}
+
 		/* =========== Ctrl + S 사용시 저장 ========= */
 		document.onkeydown = function(e) {
 		    if (e.which == 17)  isCtrl = true;
@@ -2034,8 +2109,8 @@
 						"resultsReportTestDate" : resultsReportTestDate
 					},
 			        async: false,
-			        success: function(result) {
-			        	if(result == "OK") {
+			        success: function(result2) {
+			        	if(result2.result == "OK") {
 			        		Swal.fire({
 								  title: '저장 완료!',
 								  text: "결과 보고서를 PDF로 출력하시겠습니까?",
@@ -2050,7 +2125,7 @@
 									// location.href="<c:url value='/resultsReport/list'/>";
 									$('#BtnPDFexport').click();  // 클릭 이벤트 트리거
 								} else {
-									// location.href="<c:url value='/issue/updateView'/>?issueKeyNum="+issueKeyNum;
+									location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+result2.resultsReportNumber;
 								}
 							})
 						} else {

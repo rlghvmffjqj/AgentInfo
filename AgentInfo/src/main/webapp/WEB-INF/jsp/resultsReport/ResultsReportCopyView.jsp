@@ -67,6 +67,24 @@
 	</body>
 
 	<script>
+		$(document).ready(function() {
+  		  const today = new Date();
+  		  const formattedDate1 = today.getFullYear() + "년 " +
+  		                        String(today.getMonth() + 1).padStart(2, '0') + "월 " +
+  		                        String(today.getDate()).padStart(2, '0') + "일";
+  		  $('.title5 input').val(formattedDate1);
+
+			const formattedDate2 = today.getFullYear() + ". " +
+  		                        String(today.getMonth() + 1).padStart(2, '0') + ". " +
+  		                        String(today.getDate()).padStart(2, '0')
+  		  $('#resultsReportTestDate').val(formattedDate2 + " ~ " + formattedDate2);
+
+		  $('#resultsReportVerifier').val("QA / ${username}");
+		  $('#resultsReportVerifier2').val("${username} / 양기석");
+		  $('#resultsReportNumber').val("QA-${yearDate}-${maxNumber}");
+
+  		});
+
 		/* =========== 전달일자 오늘 날짜 입력 ========= */
 		// document.getElementById('resultsReportDate').value = new Date().toISOString().substring(0, 10);
 		$('#BtnPDFexport').click(function() {
@@ -1180,7 +1198,7 @@
 				});
 			} else {
 				$.ajax({
-					url: "<c:url value='/resultsReport/resultsReportUpdate'/>",
+					url: "<c:url value='/resultsReport/resultsReportCopy'/>",
 			        type: 'post',
 			        data: {
 						"resultsReportNumber" : resultsReportNumber,
@@ -1193,8 +1211,8 @@
 						"resultsReportTestDate" : resultsReportTestDate
 					},
 			        async: false,
-			        success: function(result) {
-			        	if(result == "OK") {
+			        success: function(result2) {
+			        	if(result2.result == "OK") {
 			        		Swal.fire({
 								  title: '저장 완료!',
 								  text: "결과 보고서를 PDF로 출력하시겠습니까?",
@@ -1209,7 +1227,7 @@
 									// location.href="<c:url value='/resultsReport/list'/>";
 									$('#BtnPDFexport').click();  // 클릭 이벤트 트리거
 								} else {
-									// location.href="<c:url value='/issue/updateView'/>?issueKeyNum="+issueKeyNum;
+									location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+result2.resultsReportNumber;
 								}
 							})
 						} else {
