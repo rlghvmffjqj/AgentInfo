@@ -5,7 +5,7 @@
 
 <script>
 	var loginSession = "${sessionTimeOut}";
-	var sessionCheckInterval = 2 * 60 * 1000;  // 2분 간격으로 체크 (밀리초)
+	var sessionCheckInterval = 3 * 60 * 1000;  // 3분 간격으로 체크 (밀리초)
 	var warningTime = 1 * 60 * 1000;  // 1분 전 알림 (밀리초)
 	var localStorageKey = "sessionExpirationTime";  // 로컬스토리지 키
 
@@ -20,38 +20,56 @@
 	// 세션 만료 시간 초기화 함수
 	function setTimerSessionTimeoutCheck() {
 	    const expirationTime = localStorage.getItem(localStorageKey);  // 기존 저장된 세션 만료 시간 가져오기
-	    const currentTime = Date.now();  // 현재 시간
 
-	    // 만약 세션 시간이 이미 존재하면, 기존 만료 시간을 그대로 두고, 10분 연장
-	    if (expirationTime) {
-	        const remainingTime = expirationTime - currentTime;  // 남은 시간 계산
-	        let newExpirationTime = currentTime + remainingTime;  // 남은 시간 그대로 유지
-
-	        // 만약 남은 시간이 10분 이하라면 10분으로 설정
-        	if (remainingTime <= 10 * 60 * 1000) {
-        	    newExpirationTime = currentTime + 10 * 60 * 1000;  // 10분으로 변경
-        	}
-
-	        localStorage.setItem(localStorageKey, newExpirationTime);
-	    } else {
-	        // 최초 로그인 시 세션 만료 시간을 설정 (60분 후)
-	        const newExpirationTime = currentTime + loginSession * 60 * 1000;
-	        localStorage.setItem(localStorageKey, newExpirationTime);
-	    }
+		if (!expirationTime) {
+	    	const currentTime = Date.now();  // 현재 시간
+			const newExpirationTime = currentTime + loginSession * 60 * 1000;
+	    	localStorage.setItem(localStorageKey, newExpirationTime);
+		}
 	}
 
 	// 세션 상태 확인 함수
 	function checkSessionTimeout() {
-	    const expirationTime = localStorage.getItem(localStorageKey);  // 저장된 만료 시간
-	    const currentTime = Date.now();  // 현재 시간
-
-	    // 세션 만료 확인
-	    if (expirationTime && currentTime > expirationTime) {
-	        sessionExpiration();  // 세션 만료 시 로그아웃 처리
-	    } else if (expirationTime && expirationTime - currentTime <= warningTime) {
-	        // 세션 만료 1분 전
-	        showSessionExtensionNotification();  // 세션 연장 알림
-	    }
+		const expirationTime = Number(localStorage.getItem(localStorageKey));  // 문자열을 숫자로 변환
+		const currentTime = Date.now();  // 현재 시간
+		let lastTime = "0";
+		
+		// 서버에서 최근 사용자 활동 시간 받아오기
+		$.ajax({
+			type: 'POST',
+			url: "<c:url value='/users/lastTime'/>",
+			traditional: true,
+			async: false,
+			success: function (data) {
+				lastTime = data;
+			},
+			error: function (e) {
+				console.error("lastTime 요청 실패", e);
+			}
+		});
+	
+		if (!lastTime || lastTime === "0") {
+			console.warn("lastTime 값이 비어 있거나 잘못되었습니다.");
+			return;
+		}
+	
+		const isoDateString = lastTime.replace(" ", "T");
+		const targetTime = new Date(isoDateString).getTime();
+	
+		// 1. 세션이 기본 1시간을 초과한 경우에만 판단
+		if (currentTime > expirationTime) {
+			const elapsedSinceLastTime = currentTime - targetTime;
+		
+			// 2. lastTime 기준으로 10분 이상 아무 활동이 없으면 로그아웃
+			if (elapsedSinceLastTime >= 10 * 60 * 1000) {
+				sessionExpiration();
+			}
+		} else {
+			// 3. 아직 기본 세션 시간이 안 지났고, 만료까지 1분 이하라면 연장 여부 묻기
+			if (expirationTime - currentTime <= warningTime) {
+				showSessionExtensionNotification();
+			}
+		}
 	}
 
 	// 세션 만료 처리

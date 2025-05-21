@@ -94,7 +94,6 @@
 		<div id="pcoded" class="pcoded iscollapsed">
 			<div class="pcoded-overlay-box"></div>
 			<div class="pcoded-container navbar-wrapper">
-				<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 				<%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
 				<div class="pcoded-main-container" style="margin-top: 56px;">
 					<div class="pcoded-wrapper">

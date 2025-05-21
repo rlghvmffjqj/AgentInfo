@@ -20,6 +20,7 @@ public class ResultsReport {
 	private String resultsReportContent;
 	private String resultsReportDate;
 	private String resultsReportTestDate;
+	private String resultsReportTemplate;
 	
 	
 	private String[] resultsReportNumberArr;

@@ -137,6 +137,17 @@
 			console.log(error);
 		}
 	});
+
+    $.ajax({
+	    type: 'POST',
+	    url: "<c:url value='/users/lastTimeUpdate'/>",
+        async: false,
+	    success: function () {
+	    	
+	    },
+	    error: function(e) {
+	    }
+	});	
 </script>
 
 <style> 

@@ -12,7 +12,25 @@
 		    	$.cookie('name','resultsReport');
 		    });
 		</script>
+		<style>
+			.template-row-highlight {
+			    background: #ffa438ab !important;
+			}
+
+			.template-row-highlight:hover {
+			    background: #fcc179ab !important;
+			}
+		</style>
+
 		<script>
+			function templateFormatter(cellValue, options, rowdata, action) {
+			    const backgroundStyle = rowdata.resultsReportTemplate === 'on' 
+			        ? 'background: #ffffcc;'
+			        : '';
+			    return `<div style="${backgroundStyle}">${cellValue != null ? cellValue : ''}</div>`;
+			}
+
+
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
@@ -20,7 +38,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['문서 번호','고객사명','의뢰자','검증자','검토자','문서 작성일','테스트 일정'],
+					colNames:['문서 번호','고객사명','의뢰자','검증자','검토자','문서 작성일','테스트 일정','템플릿 적용 여부'],
 					colModel:[
 						{name:'resultsReportNumber', index:'resultsReportNumber', align:'center', width: 250, formatter: linkFormatter},
 						{name:'resultsReportCustomerName', index:'resultsReportCustomerName', align:'center', width: 250},
@@ -29,7 +47,15 @@
 						{name:'resultsReportReviewer', index:'resultsReportReviewer', align:'center', width: 200},
 						{name:'resultsReportDate', index:'resultsReportDate', align:'center', width: 200},
 						{name:'resultsReportTestDate', index:'resultsReportTestDate', align:'center', width: 200},
+						{name:'resultsReportTemplate', index:'resultsReportTemplate', align:'center', width: 100, formatter: templateFormatter, hidden:true},
 					],
+					rowattr: function(rowData) {
+					    console.log("rowData:", rowData); // 확인용 로그
+						console.log(rowData.resultsReportTemplate?.toLowerCase());
+					    if (rowData.resultsReportTemplate?.toLowerCase() === 'on') {
+					        return { "class": "template-row-highlight" };
+					    }
+					},
 					jsonReader : {
 			        	id: 'resultsReportKeyNum',
 			        	repeatitems: false
@@ -246,6 +272,7 @@
 		function linkFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="updateView('+"'"+rowdata.resultsReportNumber+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
+
 		
 		/* =========== Enter 검색 ========= */
 		$("input[type=text]").keypress(function(event) {
@@ -321,13 +348,7 @@
 		$('#BtnCopy').click(function() {
 			var resultNumber = "";
 			var chkList = $("#list").getGridParam('selarrrow');
-			var rowData = $("#list").getRowData(chkList).resultsReportNumber;
-			var match = rowData.match(/updateView\('([^']+)'\)/);
-
-			if (match && match[1]) {
-			    resultNumber = match[1]; // "QA-2025-0033"
-			    
-			}
+			
 			if(chkList == 0) {
 				Swal.fire({               
 					icon: 'error',          
@@ -341,6 +362,12 @@
 					text: '복사할 행을 한 개만 선택해주시기 바랍니다.',    
 				});   
 			} else {
+				var rowData = $("#list").getRowData(chkList).resultsReportNumber;
+				var match = rowData.match(/updateView\('([^']+)'\)/);
+
+				if (match && match[1]) {
+				    resultNumber = match[1];
+				}
 				location.href="<c:url value='/resultsReport/copyView'/>?resultsReportNumber="+resultNumber;	
 			}
 			
@@ -377,10 +404,102 @@
 
 		function templateAdd() {
 			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '템플릿 등록!',
+					  text: "선택한 결과 보고서를 템플릿으로 지정하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/resultsReport/templateAdd'/>",
+						type: "POST",
+						data: {chkList: chkList},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '템플릿 등록 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '템플릿 등록 실패하였습니다.',
+								  'error'
+								)
+							tableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
 		}
 		
 		function templateDel() {
 			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '템플릿 해제!',
+					  text: "선택한 결과 보고서를 템플릿 해제 하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/resultsReport/templateDel'/>",
+						type: "POST",
+						data: {chkList: chkList},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '템플릿 해제 하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '템플릿 등록 실패하였습니다.',
+								  'error'
+								)
+							tableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
 		}
 	</script>
 </html>

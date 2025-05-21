@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 <div class="modal-body" style="width: 100%; height: auto; min-height: 300px;">
 	<label>이슈 제목</label>
 	<input type="text" id="issueConfirm" name="issueConfirm" class="form-control viewForm" value="${issueConfirm}" style="font-weight: bold; font-size: 14px !important; background: aliceblue; color: #0c0067ba;" readonly>

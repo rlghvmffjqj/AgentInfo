@@ -13,7 +13,6 @@
 	<div id="pcoded" class="pcoded iscollapsed">
 		<div class="pcoded-overlay-box"></div>
 		<div class="pcoded-container navbar-wrapper">
-			<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 			<%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
 			<div class="pcoded-main-container" style="margin-top: 56px;">
 				<div class="pcoded-wrapper">
@@ -65,30 +64,22 @@
 												<div class="titleScope5">
 													<div class="title7"><input class="title7 borderDotted" type="text" value="문서 식별"></div>
 													<div>
-														<table class="report1" id="report1">
+														<table class="report1" id="report1" style="display: inline-table;">
 															<tr>
-																<td class="width10p"></td>
 																<td class="table1"><input class="borderDotted" type="text" value="■ 문서 번호"></td>
-																<td class="table2"><input class="borderDotted" id="resultsReportNumber" type="text" value="QA-${yearDate}-${maxNumber}"></td>
-																<td class="width10p"></td>
+																<td class="table2"><input class="borderDotted" id="resultsReportNumber" type="text" value="QA-${yearDate}-${maxNumber}" readonly></td>
 															</tr>
 															<tr>
-																<td class="width10p"></td>
 																<td class="table1"><input class="borderDotted" type="text" value="■  의뢰자"></td>
 																<td class="table2"><input class="borderDotted" id="resultsReportClient" type="text" value="기술지원 1팀 / 김XX 연구원"></td>
-																<td class="width10p"></td>
 															</tr>
 															<tr>
-																<td class="width10p"></td>
 																<td class="table1"><input class="borderDotted" type="text" value="■  검증자"></td>
 																<td class="table2"><input class="borderDotted" id="resultsReportVerifier" type="text" value="QA / ${username}"></td>
-																<td class="width10p"></td>
 															</tr>
 															<tr>
-																<td class="width10p"></td>
 																<td class="table1"><input class="borderDotted" type="text" value="■  검토자"></td>
 																<td class="table2"><input class="borderDotted" id="resultsReportReviewer" type="text" value="QA / 양기석 팀장"></td>
-																<td class="width10p"></td>
 															</tr>
 														</table>
 													</div>

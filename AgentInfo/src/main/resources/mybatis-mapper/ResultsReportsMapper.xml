@@ -8,7 +8,7 @@
 		SELECT *
     	FROM
     	(
-    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		SELECT ROW_NUMBER() OVER(ORDER BY CASE WHEN resultsReportTemplate = 'on' THEN 0 ELSE 1 END, ${sidx} ${sord}) RowNo, a.*
     		FROM (
 				SELECT *
 				FROM resultsReport
@@ -45,6 +45,13 @@
 		DELETE FROM resultsreport WHERE resultsReportKeyNum = #{resultsReportKeyNum};
 	</delete>
 	
+	<update id="setTemplateAdd">
+		UPDATE resultsreport SET resultsReportTemplate = 'on' WHERE resultsReportKeyNum = #{resultsReportKeyNum};
+	</update>
+	
+	<delete id="setTemplateDel">
+		UPDATE resultsreport SET resultsReportTemplate = '' WHERE resultsReportKeyNum = #{resultsReportKeyNum};
+	</delete>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlResultsReport">

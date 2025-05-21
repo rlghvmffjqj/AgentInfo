@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <c:if test="${viewType eq 'insert'}">
 	<div class="modal-body" style="width: 100%; height: 170px;">

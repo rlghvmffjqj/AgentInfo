@@ -155,4 +155,12 @@ public class EmployeeDao {
 		parameters.put("employeeId", employeeId);
 		sqlSession.update("employee.updateAlarmY", parameters);
 	}
+
+	public void setLastTimeUpdate(String usersId) {
+		sqlSession.update("employee.setLastTimeUpdate", usersId);
+	}
+
+	public String getLastTime(String usersId) {
+		return sqlSession.selectOne("employee.getLastTime", usersId);
+	}
 }

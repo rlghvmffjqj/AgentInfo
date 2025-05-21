@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <div class="modelHead">
 	<div class="modelHeadFont">경로 설정<span style="font-size: 14px; color: #ff4d4d;">(서비스 경로가 서로 다를 경우 입력 바랍니다.)</span></div>

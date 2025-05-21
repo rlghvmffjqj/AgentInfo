@@ -161,6 +161,14 @@
 		AND userAlarmParameter = ${issueKeyNum}
 		AND userAlarmParameterSub != 0;
 	</update>
+	
+	<update id="setLastTimeUpdate">
+		UPDATE users SET lastTime = NOW() WHERE usersId = #{usersId};
+	</update>
+	
+	<select id="getLastTime" parameterType="string" resultType="string">
+		SELECT lastTime FROM users WHERE usersId = #{usersId};
+	</select>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

@@ -85,4 +85,22 @@ public class ResultsReportService {
 		}
 		return "OK";
 	}
+
+	public String setTemplateAdd(int[] chkList) {
+		for (int resultsReportKeyNum : chkList) {
+			int success = resultsReportDao.setTemplateAdd(resultsReportKeyNum);
+			if (success <= 0)
+				return "FALSE";
+		}
+		return "OK";
+	}
+
+	public String setTemplateDel(int[] chkList) {
+		for (int resultsReportKeyNum : chkList) {
+			int success = resultsReportDao.setTemplateDel(resultsReportKeyNum);
+			if (success <= 0)
+				return "FALSE";
+		}
+		return "OK";
+	}
 }

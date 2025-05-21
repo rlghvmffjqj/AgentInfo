@@ -184,4 +184,12 @@ public class UsersService implements UserDetailsService{
 			return "FALSE";
 		}
 	}
+
+	public void setLastTimeUpdate(String usersId) {
+		employeeDao.setLastTimeUpdate(usersId);
+	}
+
+	public String getLastTime(String usersId) {
+		return employeeDao.getLastTime(usersId);
+	}
 }

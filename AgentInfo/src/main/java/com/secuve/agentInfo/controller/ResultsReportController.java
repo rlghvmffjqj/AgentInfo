@@ -147,4 +147,16 @@ public class ResultsReportController {
 		return resultsReportService.insertResultsReport(resultsReport);
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/resultsReport/templateAdd")
+	public String ResultsReportTemplateAdd(@RequestParam int[] chkList) {
+		return resultsReportService.setTemplateAdd(chkList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/resultsReport/templateDel")
+	public String ResultsReportTemplateDel(@RequestParam int[] chkList) {
+		return resultsReportService.setTemplateDel(chkList);
+	}
+	
 }

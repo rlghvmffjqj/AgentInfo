@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
 
 <div class="modal-body" style="width: 100%; height: auto; min-height: 600px; max-height: 800px; overflow-y: scroll; color: black; font-size: 14px; line-height: 1.2; font-family: emoji;">
 	<div class="card-block margin10">

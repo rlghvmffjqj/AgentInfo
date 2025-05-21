@@ -40,4 +40,12 @@ public class ResultsReportDao {
 		return sqlSession.delete("resultsReport.delResultsReport", resultsReportKeyNum);
 	}
 
+	public int setTemplateAdd(int resultsReportKeyNum) {
+		return sqlSession.update("resultsReport.setTemplateAdd", resultsReportKeyNum);
+	}
+
+	public int setTemplateDel(int resultsReportKeyNum) {
+		return sqlSession.update("resultsReport.setTemplateDel", resultsReportKeyNum);
+	}
+
 }

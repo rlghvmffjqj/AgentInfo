@@ -229,4 +229,16 @@ public class UsersController {
 	public String errorPage() {
 		return "/Error";
 	}
+	
+	@ResponseBody
+	@PostMapping("/users/lastTimeUpdate") 
+	public void LastTimeUpdate(Principal principal) {
+		usersService.setLastTimeUpdate(principal.getName());
+	}
+	
+	@ResponseBody
+	@PostMapping("/users/lastTime") 
+	public String LastTime(Principal principal) {
+		return usersService.getLastTime(principal.getName());
+	}
 }
