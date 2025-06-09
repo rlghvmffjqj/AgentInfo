@@ -905,7 +905,7 @@
 		}
 
 		function verificationTest2(rowIndex) {
-		    const inputVal = $('#report7 tbody tr').eq(rowIndex).find('td').first().find('input').val().trim();
+		    const inputVal = $('#report7 tbody tr').eq(rowIndex).find('td').eq(1).find('input').val().trim();
 		
 		    // 아래쪽 <p>에 있는 borderDotted input 중 '1.3.'으로 시작하는 것만 필터링
 		    const targetInputs = $('p input.borderDotted').filter(function () {
