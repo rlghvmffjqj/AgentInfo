@@ -385,12 +385,12 @@
 							<div style="width: 16%;	height: 15px; float: left;"></div>
 						</c:if>
 						<c:if test="${fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
-							<p class="text" style="color: green;">
+							<p class="text" id="p_${list.issuePrimaryKeyNum}" style="color: green;">
 								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
 							</p>
 						</c:if>
 						<c:if test="${!fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
-							<p class="text">
+							<p class="text" id="p_${list.issuePrimaryKeyNum}">
 								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
 							</p>
 						</c:if>
@@ -402,6 +402,38 @@
 	</body>
 
 	<script>
+		function getCurrentVisibleKeynum() {
+		    let currentKeyNum = null;
+		    $('.issue:visible').each(function () {
+		        const rect = this.getBoundingClientRect();
+		        if (rect.top >= 0 && rect.top < window.innerHeight) {
+		            currentKeyNum = $(this).data('keynum');
+		            return false;
+		        }
+		    });
+		    return currentKeyNum;
+		}
+		
+		$(window).on('scroll', function () {
+		    const visibleKey = getCurrentVisibleKeynum();
+		
+		    // 모든 p 초기화
+		    $('#fixedDiv .text').css({
+		        color: '', // 기본값으로 초기화
+		        fontWeight: '' // bold 제거
+		    });
+		
+		    if (visibleKey) {
+		        const targetP = $('#p_' + visibleKey);
+		        if (targetP.length > 0) {
+		            targetP.css({
+		                color: 'rgb(0 94 255)',
+		                fontWeight: 'bold'
+		            });
+		        }
+		    }
+		});
+
 		$(function() {
 			Swal.fire({
 				icon: 'info',
@@ -496,9 +528,10 @@
 			$("input:checkbox[id='ChkSolution']").prop("checked",  true);
 			$("input:checkbox[id='ChkUnresolved']").prop("checked", true);
 			$("input:checkbox[id='ChkHold']").prop("checked", true);
-			setTimeout(function() {
-				$("#ChkSolution").click();
-			}, 500);
+		});
+
+		$(window).on('load', function() {
+		    $("#ChkSolution").click();
 		});
 
 		/* =========== Total 체크박스 ========= */
