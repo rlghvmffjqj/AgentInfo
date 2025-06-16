@@ -383,6 +383,16 @@ p {
     max-width: 730px;
 }
 
+.modal-resultsReportDelNote {
+	top: 20%;
+    max-width: 370px;
+}
+
+.modal-resultsReportTemplateList {
+	top: 20%;
+    max-width: 500px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

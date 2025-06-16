@@ -77,30 +77,28 @@ public class ResultsReportService {
 		return success <= 0 ? "FALSE" : "OK";
 	}
 
-	public String delResultsReport(int[] chkList) {
+	public String delResultsReport(int[] chkList, String resultsreportDelNote) {
 		for (int resultsReportKeyNum : chkList) {
-			int success = resultsReportDao.delResultsReport(resultsReportKeyNum);
+			int success = resultsReportDao.delResultsReport(resultsReportKeyNum, resultsreportDelNote);
 			if (success <= 0)
 				return "FALSE";
 		}
 		return "OK";
 	}
 
-	public String setTemplateAdd(int[] chkList) {
-		for (int resultsReportKeyNum : chkList) {
-			int success = resultsReportDao.setTemplateAdd(resultsReportKeyNum);
-			if (success <= 0)
-				return "FALSE";
+	public String resultsReportTemplateKeyNum() {
+		int resultsReportKeyNumMax = 1;
+		try {
+			resultsReportKeyNumMax = resultsReportDao.resultsReportTemplateKeyNum();
+		} catch (Exception e) {
 		}
-		return "OK";
+		String formatted = String.format("%02d", resultsReportKeyNumMax+1);
+
+		return "Template-"+formatted;
 	}
 
-	public String setTemplateDel(int[] chkList) {
-		for (int resultsReportKeyNum : chkList) {
-			int success = resultsReportDao.setTemplateDel(resultsReportKeyNum);
-			if (success <= 0)
-				return "FALSE";
-		}
-		return "OK";
+	public List<ResultsReport> getResultsReportTemplatList() {
+		return resultsReportDao.getResultsReportTemplatList();
 	}
+
 }

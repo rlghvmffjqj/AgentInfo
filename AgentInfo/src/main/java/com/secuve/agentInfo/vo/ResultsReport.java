@@ -21,7 +21,7 @@ public class ResultsReport {
 	private String resultsReportDate;
 	private String resultsReportTestDate;
 	private String resultsReportTemplate;
-	
+	private String resultsreportDelNote;
 	
 	private String[] resultsReportNumberArr;
 	private String[] resultsReportCustomerNameArr;

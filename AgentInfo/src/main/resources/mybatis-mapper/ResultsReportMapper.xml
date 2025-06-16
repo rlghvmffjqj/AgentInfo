@@ -24,8 +24,8 @@
 	</select>
 	
 	<insert id="insertResultsReport">
-		INSERT INTO resultsReport(resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportRegistrant,resultsReportRegistrationDate)
-		VALUES(#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
+		INSERT INTO resultsReport(resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportTemplate,resultsReportRegistrant,resultsReportRegistrationDate)
+		VALUES(#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportTemplate},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
 	</insert>
 	
 	<select id="resultsReportKeyNumMax" resultType="_int">
@@ -42,16 +42,17 @@
 	</update>
 	
 	<delete id="delResultsReport">
-		DELETE FROM resultsreport WHERE resultsReportKeyNum = #{resultsReportKeyNum};
+		UPDATE resultsreport set resultsReportTemplate = 'del', resultsreportDelNote = #{resultsreportDelNote}  WHERE resultsReportKeyNum = #{resultsReportKeyNum};
 	</delete>
 	
-	<update id="setTemplateAdd">
-		UPDATE resultsreport SET resultsReportTemplate = 'on' WHERE resultsReportKeyNum = #{resultsReportKeyNum};
-	</update>
+	<select id="resultsReportTemplateKeyNum" resultType="_int">
+		SELECT NEXTVAL(resultsReportTemplate_seq);
+	</select>
 	
-	<delete id="setTemplateDel">
-		UPDATE resultsreport SET resultsReportTemplate = '' WHERE resultsReportKeyNum = #{resultsReportKeyNum};
-	</delete>
+	<select id="getResultsReportTemplatList" resultMap="resultsReport">
+		SELECT resultsReportNumber, resultsReportCustomerName FROM resultsreport WHERE resultsReportTemplate = 'on';
+	</select>
+
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlResultsReport">
@@ -86,6 +87,15 @@
 			<if test="resultsReportDateStart != null and resultsReportDateStart != ''">
 				AND resultsReportDate BETWEEN #{resultsReportDateStart} AND #{resultsReportDateEnd}
 			</if>
+			<if test="resultsReportTemplate == 'on'">
+				AND resultsReportTemplate = 'on' 
+			</if>
+			<if test="resultsReportTemplate == ''">
+				AND resultsReportTemplate IS NULL
+   			</if>
+   			<if test="resultsReportTemplate == 'del'">
+				AND resultsReportTemplate = 'del' 
+   			</if>
 		</trim>
 	</sql>
 </mapper>

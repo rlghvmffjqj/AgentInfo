@@ -47,6 +47,9 @@ $.modal = function (modalContent, size) {
 	if(size=='employeeView') html += ' modal-employeeView';
 	if(size=='issueRelayUrl') html += ' modal-issueRelayUrl';
 	if(size=='issueRelayModal') html += ' modal-issueRelayModal';
+	if(size=='resultsReportDelNote') html += ' modal-resultsReportDelNote';
+	if(size=='resultsReportTemplateList') html += ' modal-resultsReportTemplateList';
+	
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

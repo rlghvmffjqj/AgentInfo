@@ -20,6 +20,25 @@
 			.template-row-highlight:hover {
 			    background: #fcc179ab !important;
 			}
+
+			.template-row-highlightDel {
+			    background: #ff7070 !important;
+			}
+
+			.template-row-highlightDel:hover {
+			    background: #ff7070d6 !important;
+				color: rgb(26, 26, 26);
+				border-color: rgba(224, 207, 194, 0.527);
+			}
+
+
+			.templateColor {
+				background-color: #ffa438ab !important;
+			}
+
+			.deleteColor {
+				background-color: #ff7070;
+			}
 		</style>
 
 		<script>
@@ -30,7 +49,6 @@
 			    return `<div style="${backgroundStyle}">${cellValue != null ? cellValue : ''}</div>`;
 			}
 
-
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
@@ -38,22 +56,26 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['문서 번호','고객사명','의뢰자','검증자','검토자','문서 작성일','테스트 일정','템플릿 적용 여부'],
+					colNames:['문서 번호','고객사명','의뢰자','검증자','검토자','문서 작성일','테스트 일정','템플릿 적용 여부','노트'],
 					colModel:[
-						{name:'resultsReportNumber', index:'resultsReportNumber', align:'center', width: 250, formatter: linkFormatter},
-						{name:'resultsReportCustomerName', index:'resultsReportCustomerName', align:'center', width: 250},
+						{name:'resultsReportNumber', index:'resultsReportNumber', align:'center', width: 200, formatter: linkFormatter},
+						{name:'resultsReportCustomerName', index:'resultsReportCustomerName', align:'center', width: 200},
 						{name:'resultsReportClient', index:'resultsReportClient', align:'center', width: 200},
-						{name:'resultsReportVerifier', index:'resultsReportVerifier', align:'center', width: 200},
-						{name:'resultsReportReviewer', index:'resultsReportReviewer', align:'center', width: 200},
+						{name:'resultsReportVerifier', index:'resultsReportVerifier', align:'center', width: 120},
+						{name:'resultsReportReviewer', index:'resultsReportReviewer', align:'center', width: 120},
 						{name:'resultsReportDate', index:'resultsReportDate', align:'center', width: 200},
 						{name:'resultsReportTestDate', index:'resultsReportTestDate', align:'center', width: 200},
 						{name:'resultsReportTemplate', index:'resultsReportTemplate', align:'center', width: 100, formatter: templateFormatter, hidden:true},
+						{name:'resultsreportDelNote', index:'resultsreportDelNote', align:'center', width: 250},
 					],
 					rowattr: function(rowData) {
 					    console.log("rowData:", rowData); // 확인용 로그
 						console.log(rowData.resultsReportTemplate?.toLowerCase());
 					    if (rowData.resultsReportTemplate?.toLowerCase() === 'on') {
 					        return { "class": "template-row-highlight" };
+					    }
+						if (rowData.resultsReportTemplate?.toLowerCase() === 'del') {
+					        return { "class": "template-row-highlightDel" };
 					    }
 					},
 					jsonReader : {
@@ -189,6 +211,8 @@
 	                      						</div>
 	                      						<input type="hidden" id="resultsReportNumber" name="resultsReportNumber" class="form-control">
 		                      					<input type="hidden" id="resultsReportCustomerName" name="resultsReportCustomerName" class="form-control">
+												<input type="hidden" id="resultsReportTemplate" name="resultsReportTemplate" class="form-control">
+												<input type="hidden" id="resultsreportDelNote" name="resultsreportDelNote" class="form-control">
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
 														<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -213,9 +237,12 @@
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCopy">복사</button>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="templateAdd();">템플릿 등록</button>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="templateDel();">템플릿 해제</button>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'resultsReportList');">컬럼 선택</button>
+																	<!-- <button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'resultsReportList');">컬럼 선택</button> -->
+																	 <button class="btn btn-outline-info-nomal myBtn" onclick="reportGet();">보고서 조회</button>
+																	<button class="btn btn-outline-info-nomal myBtn templateColor" onclick="templateAdd();">템플릿 등록</button>
+																	<button class="btn btn-outline-info-nomal myBtn templateColor" onclick="templateGet();">템플릿 조회</button>
+																	<button class="btn btn-outline-info-nomal myBtn deleteColor" onclick="deleteGet();">삭제 보고서 조회</button>
+																	
 																</td>
 															</tr>
 															<tr>
@@ -246,7 +273,22 @@
 	<script>
 		/* =========== 결과 보고서 추가 Modal ========= */
 		$('#BtnInsert').click(function() {
-			location.href="<c:url value='/resultsReport/insertView'/>";
+			// location.href="<c:url value='/resultsReport/insertView'/>";
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/resultsReport/insertTemplatList'/>",
+			    async: false,
+			    success: function (data) {
+			    	$.modal(data, 'resultsReportTemplateList'); //modal창 호출
+					modalOpened = true; // 모달이 열렸음을 표시
+			    },
+			    error: function(e) {
+			        alert(e);
+			    },
+				complete: function() {
+        	    	modalOpened = false; // 요청이 완료되면 모달이 닫혔다고 가정
+        		}
+			});
 		});
 		
 		/* =========== 검색 ========= */
@@ -314,36 +356,58 @@
 					  confirmButtonText: 'OK'
 				}).then((result) => {
 				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/resultsReport/delete'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '삭제 완료하였습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '삭제 실패하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
+					  	$.ajax({
+		        		    type: 'POST',
+		        		    url: "<c:url value='/resultsReport/deleteNote'/>",
+		        		    async: false,
+		        		    success: function (data) {
+		        		    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+									location.reload();
+		        		        $.modal(data, 'resultsReportDelNote'); //modal창 호출
+		        		    },
+		        		    error: function(e) {
+		        		        // TODO 에러 화면
+		        		    }
+		        		});
 				  	}
 				})
 			}
+			
 		});
+
+		function deletelst() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			var resultsreportDelNote = $('#resultsreportDelNote').val();
+			$.ajax({
+				url: "<c:url value='/resultsReport/delete'/>",
+				type: "POST",
+				data: {
+					"chkList": chkList,
+					"resultsreportDelNote": resultsreportDelNote
+				},
+				dataType: "text",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					if(data == "OK")
+						Swal.fire(
+						  '성공!',
+						  '삭제 완료하였습니다.',
+						  'success'
+						)
+					else
+						Swal.fire(
+						  '실패!',
+						  '삭제 실패하였습니다.',
+						  'error'
+						)
+					tableRefresh();
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});  	
+		}
 
 		$('#BtnCopy').click(function() {
 			var resultNumber = "";
@@ -403,103 +467,24 @@
 		});
 
 		function templateAdd() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				Swal.fire({
-					  title: '템플릿 등록!',
-					  text: "선택한 결과 보고서를 템플릿으로 지정하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/resultsReport/templateAdd'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '템플릿 등록 완료하였습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '템플릿 등록 실패하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
-				  	}
-				})
-			}
+			location.href="<c:url value='/resultsReport/templateAdd'/>";
+		}
+
+		function templateGet() {
+			$('#resultsReportTemplate').val('on');
+			tableRefresh();
 		}
 		
-		function templateDel() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				Swal.fire({
-					  title: '템플릿 해제!',
-					  text: "선택한 결과 보고서를 템플릿 해제 하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/resultsReport/templateDel'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '템플릿 해제 하였습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '템플릿 등록 실패하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
-				  	}
-				})
-			}
+		function reportGet() {
+			$('#resultsReportTemplate').val('');
+			tableRefresh();
 		}
+
+		function deleteGet() {
+			$('#resultsReportTemplate').val('del');
+			tableRefresh();
+		}
+
+		
 	</script>
 </html>

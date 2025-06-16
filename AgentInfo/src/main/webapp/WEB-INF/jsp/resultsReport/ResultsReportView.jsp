@@ -945,7 +945,8 @@
 										</div>
 									</div>
 								</div>
-							</form> 
+							</form>
+							<input type="hidden" id="resultsReportTemplate" name="resultsReportTemplate" class="form-control" value="${resultsReportTemplate}">
 							<div style="position: fixed; top: 95%; right: 20px;">
 								<button class="btn btn-outline-info-add myBtn" type="button" id="addRow">행 추가</button>
 								<button class="btn btn-outline-info-del myBtn" type="button" id="deleteRow">행 삭제</button>
@@ -2078,6 +2079,7 @@
 			var resultsReportReviewer = $("#resultsReportReviewer").val();
 			var resultsReportDate = $("#resultsReportDate").val();
 			var resultsReportTestDate = $("#resultsReportTestDate").val();
+			var resultsReportTemplate = $("#resultsReportTemplate").val();
 			var resultsReportContent = domupdate();
 			if(resultsReportNumber == "") {
 				Swal.fire({
@@ -2097,7 +2099,8 @@
 						"resultsReportReviewer" : resultsReportReviewer,
 						"resultsReportContent" : resultsReportContent,
 						"resultsReportDate" : resultsReportDate,
-						"resultsReportTestDate" : resultsReportTestDate
+						"resultsReportTestDate" : resultsReportTestDate,
+						"resultsReportTemplate" : resultsReportTemplate
 					},
 			        async: false,
 			        success: function(result2) {

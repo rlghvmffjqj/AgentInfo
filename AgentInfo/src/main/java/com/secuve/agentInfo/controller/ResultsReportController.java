@@ -127,8 +127,8 @@ public class ResultsReportController {
 	
 	@ResponseBody
 	@PostMapping(value = "/resultsReport/delete")
-	public String ResultsReportDelete(@RequestParam int[] chkList) {
-		return resultsReportService.delResultsReport(chkList);
+	public String ResultsReportDelete(@RequestParam int[] chkList, @RequestParam String resultsreportDelNote) {
+		return resultsReportService.delResultsReport(chkList, resultsreportDelNote);
 	}
 	
 	@ResponseBody
@@ -147,16 +147,25 @@ public class ResultsReportController {
 		return resultsReportService.insertResultsReport(resultsReport);
 	}
 	
-	@ResponseBody
-	@PostMapping(value = "/resultsReport/templateAdd")
-	public String ResultsReportTemplateAdd(@RequestParam int[] chkList) {
-		return resultsReportService.setTemplateAdd(chkList);
+	@GetMapping(value = "/resultsReport/templateAdd")
+	public String ResultsReportTemplateAdd(Model model, Principal principal) {
+		model.addAttribute("username", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
+		model.addAttribute("yearDate", resultsReportService.yearDate());
+		model.addAttribute("maxNumber", resultsReportService.resultsReportTemplateKeyNum());
+		model.addAttribute("resultsReportTemplate", "on");
+		return "/resultsReport/ResultsReportView";
 	}
 	
-	@ResponseBody
-	@PostMapping(value = "/resultsReport/templateDel")
-	public String ResultsReportTemplateDel(@RequestParam int[] chkList) {
-		return resultsReportService.setTemplateDel(chkList);
+	@PostMapping(value = "/resultsReport/deleteNote")
+	public String DeleteNote() {
+		return "/resultsReport/DeleteNote";
+	}
+	
+	@PostMapping(value = "/resultsReport/insertTemplatList")
+	public String InsertTemplatList(Model model) {
+		ArrayList<ResultsReport> list = new ArrayList<>(resultsReportService.getResultsReportTemplatList());
+		model.addAttribute("resultsReportTemplatList", list);
+		return "/resultsReport/InsertTemplatList";
 	}
 	
 }

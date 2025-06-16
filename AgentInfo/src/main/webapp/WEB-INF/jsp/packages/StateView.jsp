@@ -7,7 +7,7 @@
 <div class="modelHead">
 	<div class="modelHeadFont">상태 변경</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 360px;">
+<div class="modal-body modalBody" style="width: 100%; height: 360px; margin-left: 25px;">
 	<table>
 		<tbody>
 			<tr class="hight60">
