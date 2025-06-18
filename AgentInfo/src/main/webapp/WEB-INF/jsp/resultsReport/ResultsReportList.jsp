@@ -69,8 +69,6 @@
 						{name:'resultsreportDelNote', index:'resultsreportDelNote', align:'center', width: 250},
 					],
 					rowattr: function(rowData) {
-					    console.log("rowData:", rowData); // 확인용 로그
-						console.log(rowData.resultsReportTemplate?.toLowerCase());
 					    if (rowData.resultsReportTemplate?.toLowerCase() === 'on') {
 					        return { "class": "template-row-highlight" };
 					    }
@@ -332,6 +330,10 @@
 		$('#btnReset').click(function() {
 			$("input[type='text']").val("");
 			$('.selectpicker').val('');
+	        $('.filter-option-inner-inner').text('');
+
+			$("input[type='date']").val("");
+			$("#dateFull").prop("checked",true);
 	        
 			tableRefresh();
 		});

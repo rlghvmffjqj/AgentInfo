@@ -34,7 +34,8 @@ public class ResultsReportController {
 	@GetMapping(value = "/resultsReport/list")
 	public String ResultsReportList(Model model, Principal principal, HttpServletRequest req) {
 		favoritePageService.insertFavoritePage(principal, req, "결과 보고서");
-
+		model.addAttribute("resultsReportCustomerName", resultsReportService.getSelectInput("resultsReportCustomerName"));
+        model.addAttribute("resultsReportNumber", resultsReportService.getSelectInput("resultsReportNumber"));
 		return "resultsReport/ResultsReportList";
 	}
 	

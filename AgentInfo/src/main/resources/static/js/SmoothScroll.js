@@ -398,7 +398,11 @@ function keydown(event) {
     
     var shift, x = 0, y = 0;
     var elem = overflowingAncestor(activeElement);
-    var clientHeight = elem.clientHeight;
+    var clientHeight = 0;
+    if (elem) {
+  		clientHeight = elem.clientHeight;
+	}
+
 
     if (elem == document.body) {
         clientHeight = window.innerHeight;

@@ -391,11 +391,26 @@
 	}
 
 	// 쿠기에 값 읽어오기
-	function loadCookie(id)
-	{
-		var json = $.cookie(id);
+	//function loadCookie(id)
+	//{
+	//	var json = $.cookie(id);
 		//console.log(json);
-		return $.evalJSON(json);
+	//	return $.evalJSON(json);
+	//}
+	
+	function loadCookie(id) {
+	    var json = $.cookie(id);
+	
+	    if (json && json !== "undefined") {
+	        try {
+	            return $.evalJSON(json);
+	        } catch (e) {
+	            console.error("Invalid JSON in cookie '" + id + "':", json);
+	            return null; // or default value
+	        }
+	    }
+	
+	    return null; // or {} or default value
 	}
 
 	// 쿠기에 저장된 값 삭제

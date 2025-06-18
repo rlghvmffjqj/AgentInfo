@@ -1255,3 +1255,9 @@ a:hover {
 .tooltip {
 	display: none;
 }
+
+.pcoded .pcoded-navbar .pcoded-item .pcoded-hasmenu .pcoded-submenu li > a > .pcoded-mtext {
+	font-size: 14px;
+	font-family: system-ui;
+}
+	

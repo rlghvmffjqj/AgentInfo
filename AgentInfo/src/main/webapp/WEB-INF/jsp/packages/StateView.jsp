@@ -71,9 +71,8 @@
 					});
 					$('#modal').modal("hide"); // 모달 닫기
 					$('#modal').on('hidden.bs.modal', function () {
-						reloadView();
+						tableRefresh();
 					});
-					tableRefresh();
 				} else{
 					Swal.fire({
 						icon: 'error',

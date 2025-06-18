@@ -101,4 +101,8 @@ public class ResultsReportService {
 		return resultsReportDao.getResultsReportTemplatList();
 	}
 
+	public List<String> getSelectInput(String selectInput) {
+		return resultsReportDao.getSelectInput(selectInput);
+	}
+
 }

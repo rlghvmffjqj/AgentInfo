@@ -62,4 +62,8 @@ public class ResultsReportDao {
 		return sqlSession.selectList("resultsReport.getResultsReportTemplatList");
 	}
 
+	public List<String> getSelectInput(String selectInput) {
+		return sqlSession.selectList("resultsReport.getSelectInput", selectInput);
+	}
+
 }

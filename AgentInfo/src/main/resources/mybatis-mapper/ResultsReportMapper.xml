@@ -53,6 +53,9 @@
 		SELECT resultsReportNumber, resultsReportCustomerName FROM resultsreport WHERE resultsReportTemplate = 'on';
 	</select>
 
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM resultsreport WHERE ${selectInput} != '';
+	</select>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlResultsReport">
@@ -85,7 +88,7 @@
 				AND resultsReportReviewer LIKE CONCAT('%',#{resultsReportReviewer},'%')
 			</if>
 			<if test="resultsReportDateStart != null and resultsReportDateStart != ''">
-				AND resultsReportDate BETWEEN #{resultsReportDateStart} AND #{resultsReportDateEnd}
+				AND STR_TO_DATE(resultsReportDate, '%Y년 %m월 %d일') BETWEEN #{resultsReportDateStart} AND #{resultsReportDateEnd}
 			</if>
 			<if test="resultsReportTemplate == 'on'">
 				AND resultsReportTemplate = 'on' 
