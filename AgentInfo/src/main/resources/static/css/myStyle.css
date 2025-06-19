@@ -1260,4 +1260,15 @@ a:hover {
 	font-size: 14px;
 	font-family: system-ui;
 }
+
+.ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+    background: #fff2e0;
+    height: 40px;
+    font-weight: bold;
+    font-family: system-ui;
+}
+
+.ui-jqgrid .ui-jqgrid-hdiv {
+	background: #fff2e0 !important;
+}
 	
