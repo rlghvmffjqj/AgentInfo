@@ -729,11 +729,24 @@
 			$('.categoryDiv').hide();
 			$('#categoryDiv_'+number).show();
 
-			$(".functionBck").css("background-color", "#C99751");	
-			$(".functionBck").css("color", "white");
-			$(".functionBck").css("font-weight", "bold");
-			$(".functionTest"+number).css("background-color", "#915F19");
-			$(".functionTest"+number).css("color", "#fbfb59");
+			$(".functionBck")
+			  .removeClass("selectForm")
+			  .css("background-color", "#C99751")
+			  .css("color", "white")
+			  .hover(
+			    function () {
+			      $(this).css("background-color", "#A66B1F");
+			    },
+			    function () {
+			      // 호버 해제 시: 선택된 버튼만 별도 색상 유지
+			      if (!$(this).hasClass("selectForm")) {
+			        $(this).css("background-color", "#C99751");
+			      }
+			    }
+			  );
+		  
+				// 선택된 버튼 강조 및 selectForm 클래스 부여
+			$(".functionTest" + number).addClass("selectForm");
 		}
 		
 		function subCategoryDetail(number, number2, number3) {
@@ -992,6 +1005,13 @@
 			min-width:70%;
 			width: auto; 
 			height: 50px;
+		}
+
+		.selectForm {
+		  height: 50px !important;
+		  background-color: #c5553a !important;
+		  color: white !important;
+		  font-size: 13px !important;
 		}
 	</style>
 </html>

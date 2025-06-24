@@ -286,9 +286,8 @@
 			<if test="issueDateStart != null and issueDateStart != ''">
 				AND i.issueDate BETWEEN #{issueDateStart} AND #{issueDateEnd}
 			</if>
-			<if test="requestType == 'development'">
+			<if test="issueTarget != null and issueTarget != ''">
 				AND issueTarget = #{issueTarget}
-				AND issueSubTarget LIKE CONCAT('%',#{issueSubTarget},'%')
 			</if>
 		</trim>
 	</sql>

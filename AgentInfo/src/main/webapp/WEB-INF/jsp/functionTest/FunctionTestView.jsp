@@ -328,14 +328,29 @@
 		function functionTestForm(number) {
 			$('.categorySmallDiv').show();
 			$('.categoryDiv').hide();
-			$('#categoryDiv_'+number).show();
+			$('#categoryDiv_' + number).show();
 
-			$(".functionBck").css("background-color", "#C99751");	
-			$(".functionBck").css("color", "white");	
-			$(".functionTest"+number).css("background-color", "#915F19");
-			$(".functionTest"+number).css("color", "#fbfb59");
-			
+				// 모든 버튼 초기화
+			$(".functionBck")
+			  .removeClass("selectForm")
+			  .css("background-color", "#C99751")
+			  .css("color", "white")
+			  .hover(
+			    function () {
+			      $(this).css("background-color", "#A66B1F");
+			    },
+			    function () {
+			      // 호버 해제 시: 선택된 버튼만 별도 색상 유지
+			      if (!$(this).hasClass("selectForm")) {
+			        $(this).css("background-color", "#C99751");
+			      }
+			    }
+			  );
+		  
+				// 선택된 버튼 강조 및 selectForm 클래스 부여
+			$(".functionTest" + number).addClass("selectForm");
 		}
+		
 		
 		function subCategoryDetail(number) {
 			var url = "<c:url value='/functionTest/detailView?functionTestSettingSubCategoryKeyNum="+number+"'/>";
@@ -768,7 +783,7 @@
 			width: auto;
     		min-width: 140px;
 		    font-weight: bold;
-		    font-size: 14px;
+		    font-size: 13px;
 		    height: 55px;
 		}
 		
@@ -852,5 +867,13 @@
 		.fontFamilyRl {
 			font-family: revert-layer;
 		}
+
+		.selectForm {
+		  height: 55px !important;
+		  background-color: #c5553a !important;
+		  color: white !important;
+		  font-size: 14px !important;
+		}
+
 	</style>
 </html>

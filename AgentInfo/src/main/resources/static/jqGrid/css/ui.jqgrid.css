@@ -26,9 +26,14 @@
 	border-top: 0 none;
 	box-sizing:content-box;
 }
-.ui-jqgrid .ui-jqgrid-caption {text-align: left;}
+.ui-jqgrid .ui-jqgrid-caption {
+	text-align: left;
+	height: 30px;
+    background: #eaa66b;
+}
 .ui-jqgrid .ui-jqgrid-title {
-	padding: .2em .1em .1em;
+	padding: 0.5em 1.1em .1em;
+    font-size: 14px;
 	position: absolute; 
 }
 .ui-jqgrid .ui-jqgrid-titlebar-close { position: absolute;top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height:18px; cursor:pointer;}

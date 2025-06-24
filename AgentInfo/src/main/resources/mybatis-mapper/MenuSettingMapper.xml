@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="menuSetting">
+	<resultMap type="com.secuve.agentInfo.vo.MenuSetting" id="menuSetting"></resultMap>
+	
+	<select id="getMainMenuSetting" resultMap="menuSetting" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM menuSetting
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getMainMenuSettingCount" resultType="_int">
+		SELECT COUNT(*) FROM menuSetting
+	</select>
+	
+	<select id="getSubMenuSetting" resultMap="menuSetting" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM menuSetting
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getSubMenuSettingCount" resultType="_int">
+		SELECT COUNT(*) FROM menuSetting
+	</select>
+	
+	
+</mapper>
