@@ -108,9 +108,9 @@
 		                      						<div style="padding-left:15px; width:100%; float: left;">
 		                      							<label class="labelFontSize">발급일자</label>
 		                      							<div>
-															<input class="form-control" style="width: 14.9%; float: left;" type="date" id="licenseUidLogIssueDateStart" name="licenseUidLogIssueDateStart" max="9999-12-31">
+															<input class="form-control" style="width: 12%; float: left;" type="date" id="licenseUidLogIssueDateStart" name="licenseUidLogIssueDateStart" max="9999-12-31">
 															<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-															<input class="form-control" style="width: 14.9%; float: left;" type="date" id="licenseUidLogIssueDateEnd" name="licenseUidLogIssueDateEnd" max="9999-12-31">
+															<input class="form-control" style="width: 12%; float: left;" type="date" id="licenseUidLogIssueDateEnd" name="licenseUidLogIssueDateEnd" max="9999-12-31">
 														</div>
 														<div style="padding-left: 50px; float: left;">
 															<div class="form-check radioDate">

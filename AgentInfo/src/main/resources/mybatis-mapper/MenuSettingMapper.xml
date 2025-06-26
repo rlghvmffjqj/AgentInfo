@@ -12,13 +12,14 @@
     		FROM (
 				SELECT *
 				FROM menuSetting
+				WHERE menuType = 'main'
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getMainMenuSettingCount" resultType="_int">
-		SELECT COUNT(*) FROM menuSetting
+		SELECT COUNT(*) FROM menuSetting WHERE menuType = 'main';
 	</select>
 	
 	<select id="getSubMenuSetting" resultMap="menuSetting" parameterType="string">
@@ -29,14 +30,35 @@
     		FROM (
 				SELECT *
 				FROM menuSetting
+				WHERE menuType = 'sub'
+				AND menuParentKeyNum = #{menuParentKeyNum}
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
 	<select id="getSubMenuSettingCount" resultType="_int">
-		SELECT COUNT(*) FROM menuSetting
+		SELECT COUNT(*) FROM menuSetting WHERE menuType = 'sub' AND menuParentKeyNum = #{menuParentKeyNum};
 	</select>
 	
+	<insert id="insertMenuSetting">
+		INSERT INTO menuSetting(menuSort, menuType, menuTitle, menuParentKeyNum, menuSettingRegistrant, menuSettingRegistrationDate)
+		VALUES(#{menuSort},#{menuType},#{menuTitle},#{menuParentKeyNum},#{menuSettingRegistrant},#{menuSettingRegistrationDate});
+	</insert>
 	
+	<select id="getMenuSettingOne" parameterType="_int" resultMap="menuSetting">
+		SELECT * FROM menuSetting WHERE menuKeyNum = #{menuKeyNum};
+	</select>
+	
+	<update id="updateMenuSetting">
+		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle} WHERE menuKeyNum = #{menuKeyNum};
+	</update>
+	
+	<delete id="delMenuSetting" parameterType="_int">
+		DELETE FROM menuSetting WHERE menuKeyNum = #{menuKeyNum};
+	</delete>
+	
+	<select id="getMenuList" resultMap="menuSetting">
+		SELECT * FROM menuSetting ORDER BY menuSort ASC;
+	</select>
 </mapper>

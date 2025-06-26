@@ -6350,7 +6350,7 @@ table tbody .border-bottom-info td {
     position: relative; }
     .pcoded .pcoded-navbar .pcoded-item > li > a {
       display: block;
-      font-size: 14px;
+      font-size: 12px;
       padding: 0 15px;
       text-decoration: none;
       position: relative;
@@ -6704,7 +6704,7 @@ table tbody .border-bottom-info td {
 .pcoded[theme-layout="vertical"] .pcoded-navbar .pcoded-item .pcoded-hasmenu .pcoded-submenu {
   width: 80%;
   list-style: outside none none;
-  margin: 15px auto;
+  margin: 10px auto;
   opacity: 0;
   visibility: hidden;
   position: absolute; }
@@ -6993,7 +6993,7 @@ table tbody .border-bottom-info td {
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-header .pcoded-right-header {
   margin-left: 235px; }
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-content {
-  margin-left: 235px; }
+  margin-left: 200px; }
 .pcoded[theme-layout="vertical"][vertical-placement="right"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-header.iscollapsed .pcoded-right-header,
 .pcoded[theme-layout="vertical"][vertical-placement="right"][vertical-nav-type="expanded"][vertical-effect="shrink"] .pcoded-header .pcoded-right-header {
   margin-right: 235px; }
@@ -8580,7 +8580,7 @@ body.menu-bottom #collapse-menu {
 .btn {
   border-radius: 2px;
   text-transform: capitalize;
-  font-size: 12px;
+  font-size: 11px;
   padding: 9px 12px;
   cursor: pointer; }
   @media only screen and (max-width: 480px) {

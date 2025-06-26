@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="modal-body" style="width: 100%; height: auto; min-height: 300px;">
 	<label>이슈 제목</label>
-	<input type="text" id="issueConfirm" name="issueConfirm" class="form-control viewForm" value="${issueConfirm}" style="border: none; font-weight: bold; font-size: 14px !important; background: aliceblue; color: #0c0067ba;" readonly>
+	<input type="text" id="issueConfirm" name="issueConfirm" class="form-control viewForm" value="${issueConfirm}" style="border: none; font-weight: bold; font-size: 14px !important; background: aliceblue; color: #0c0067ba; border-top: 1px solid #e9ecef; border-radius: 0 !important; margin-left: -1%;" readonly>
 	<textarea class="summerNoteSize" rows="5" id="issueRelayDetail" name="issueRelayDetail" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="수정 사항 및 기타 사항을 입력해주세요.">${issueRelayDetail}</textarea>
 	<c:if test="${issueRelayType eq '개발'}">
 		<div class="radio-container">
@@ -207,7 +207,7 @@
 		position: relative;
 		padding-left: 35px;
 		user-select: none;
-		font-size: 16px;
+		font-size: 14px;
 		color: #333;
 		width: 25%;
 		float: left;

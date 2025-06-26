@@ -63,7 +63,7 @@
 			<div style="text-align: center; background: #cfa875cc; height: 60px; padding-top: 1.5vh; font-family: math;">
 				<h3 style="color: white;">QA 이슈 목록</h3>
 			</div>
-			<div class="pcoded-main-container" style="margin-top: 56px;">
+			<div class="pcoded-main-container" style="margin-top: 56px; margin-left: 30px; margin-right: 30px;">
 				<div class="pcoded-wrapper">
                     <div class="main-body">
                         <div class="ibox">
@@ -72,9 +72,9 @@
 									<div style="padding-left:15px; width:100%; float: left;">
 										<label class="labelFontSize">전달일자</label>
 										<div>
-										  <input class="form-control" style="width: 14.9%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
+										  <input class="form-control" style="width: 12%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
 										  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-										  <input class="form-control" style="width: 14.9%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
+										  <input class="form-control" style="width: 12%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
 									  </div>
 									  <div style="padding-left: 50px; float: left;">
 										  <div class="form-check radioDate">
@@ -205,7 +205,7 @@
 									</form>
 		             			</div>
 	             			 </div>
-			               	 	<table style="width:99%;">
+			               	 	<table style="width:100%;">
 									<tbody><tr>
 										<td style="padding:0px 0px 0px 0px;" class="box">
 											<table style="width:100%">

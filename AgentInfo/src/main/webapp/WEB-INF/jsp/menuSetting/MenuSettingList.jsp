@@ -10,30 +10,28 @@
 	    		$.cookie('name','menuSetting');
 	    	});
     	</script>
-		<script>
+		<script>	
 			$(document).ready(function(){
-				var formData = $('#form').serializeObject();
 				$("#mainList").jqGrid({
 					url: "<c:url value='/menuSetting/main'/>",
 					mtype: 'POST',
-					postData: formData,
 					datatype: 'json',
 					colNames:['Key','순서','타이틀'],
 					colModel:[
 						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 40, hidden:true },
 						{name:'menuSort', index:'menuSort', align:'center', width: 150, formatter: mainLinkFormatter},
-						{name:'menuTitle', index:'menuTitle', align:'center', width: 300},
+						{name:'menuTitle', index:'menuTitle', align:'center', width: 325},
 					],
 					jsonReader : {
-			        	id: 'menuSort',
+			        	id: 'menuKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#mainPager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        sortname: 'menuSort', 		// 기본 정렬 
-			        sortorder: 'desc',			// 정렬 방식
+			        sortorder: 'asc',			// 정렬 방식
 			        
-			        multiselect: true,			// 체크박스를 이용한 다중선택
+			        // multiselect: true,			// 체크박스를 이용한 다중선택
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
@@ -41,38 +39,33 @@
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
-				}); 
-	 		});
-			
-			$(window).on('resize.list', function () {
-			    jQuery("#subList").jqGrid( 'setGridWidth', $(".menuSettingDiv").width() );
-				jQuery("#itemList").jqGrid( 'setGridWidth', $(".menuSettingDiv").width() );
-				jQuery("#mainList").jqGrid( 'setGridWidth', $(".menuSettingDiv").width() );
-			});
-			
-			$(document).ready(function(){
-				var formData = $('#form').serializeObject();
+					onSelectRow: function (rowId) {
+  						// var rowData = $("#mainList").jqGrid('getRowData', rowId);
+						selectSubMenu(rowId)
+  						
+  					}
+				});
+
 				$("#subList").jqGrid({
 					url: "<c:url value='/menuSetting/sub'/>",
 					mtype: 'POST',
-					postData: formData,
 					datatype: 'json',
 					colNames:['Key','순서','타이틀'],
 					colModel:[
 						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 40, hidden:true },
 						{name:'menuSort', index:'menuSort', align:'center', width: 150, formatter: subLinkFormatter},
-						{name:'menuTitle', index:'menuTitle', align:'center', width: 300},
+						{name:'menuTitle', index:'menuTitle', align:'center', width: 325},
 					],
 					jsonReader : {
-			        	id: 'menuSort',
+			        	id: 'menuKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#subPager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        sortname: 'menuSort', 		// 기본 정렬 
-			        sortorder: 'desc',			// 정렬 방식
+			        sortorder: 'asc',			// 정렬 방식
 			        
-			        multiselect: true,			// 체크박스를 이용한 다중선택
+			        // multiselect: true,			// 체크박스를 이용한 다중선택
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
@@ -81,32 +74,28 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-	 		});
 
-			$(document).ready(function(){
-				var formData = $('#form').serializeObject();
 				$("#itemList").jqGrid({
 					url: "<c:url value='/itemSetting'/>",
 					mtype: 'POST',
-					postData: formData,
 					datatype: 'json',
 					colNames:['Key','순서','컬럼명','타입'],
 					colModel:[
 						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 40, hidden:true },
 						{name:'menuSort', index:'menuSort', align:'center', width: 100, formatter: itemLinkFormatter},
-						{name:'menuTitle', index:'menuTitle', align:'center', width: 160},
+						{name:'menuTitle', index:'menuTitle', align:'center', width: 200},
 						{name:'menuTitle', index:'menuTitle', align:'center', width: 170},
 					],
 					jsonReader : {
-			        	id: 'menuSort',
+			        	id: 'menuKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#itemPager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        sortname: 'menuSort', 		// 기본 정렬 
-			        sortorder: 'desc',			// 정렬 방식
+			        sortorder: 'asc',			// 정렬 방식
 			        
-			        multiselect: true,			// 체크박스를 이용한 다중선택
+			        // multiselect: true,			// 체크박스를 이용한 다중선택
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
@@ -115,6 +104,12 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
+
+				$(window).on('resize.list', function () {
+			    	jQuery("#subList").jqGrid( 'setGridWidth', $(".menuSettingDiv").width() );
+					jQuery("#itemList").jqGrid( 'setGridWidth', $(".menuSettingDiv").width() );
+					jQuery("#mainList").jqGrid( 'setGridWidth', $(".menuSettingDiv").width() );
+				});
 	 		});
 			
 		</script>
@@ -158,15 +153,15 @@
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<div style="float: left;">
-															<span class="menuSettingTitle">대메뉴</span>
+															<span class="menuSettingTitle">메인 메뉴</span>
 															<div class="menuSettingDiv">
-																<table style="width: 25vw;">
+																<table class="menuSettingTable">
 																	<tbody>
 																		<tr>
 																			<td style="font-weight:bold;">
 																				<button class="btn btn-outline-info-add myBtn" id="BtnMainInsert">추가</button>
 																				<button class="btn btn-outline-info-nomal myBtn" id="BtnMainUpdate">수정</button>
-																				<button class="btn btn-outline-info-del myBtn" id="BtnMainDelect">삭제</button>
+																				<button class="btn btn-outline-info-del myBtn" id="BtnMainDelete">삭제</button>
 																			</td>
 																		</tr>
 																		<tr>
@@ -184,15 +179,15 @@
 															</div>
 														</div>
 														<div style="float: left; padding-left: 1.5vw;">
-															<span class="menuSettingTitle">중메뉴</span>
+															<span class="menuSettingTitle">서브 메뉴</span>
 															<div class="menuSettingDiv">
-																<table style="width:25vw;">
+																<table class="menuSettingTable">
 																	<tbody>
 																		<tr>
 																			<td style="font-weight:bold;">
 																				<button class="btn btn-outline-info-add myBtn" id="BtnSubInsert">추가</button>
 																				<button class="btn btn-outline-info-nomal myBtn" id="BtnSubUpdate">수정</button>
-																				<button class="btn btn-outline-info-del myBtn" id="BtnSubDelect">삭제</button>
+																				<button class="btn btn-outline-info-del myBtn" id="BtnSubDelete">삭제</button>
 																			</td>
 																		</tr>
 																		<tr>
@@ -210,15 +205,15 @@
 															</div>
 														</div>
 														<div style="float: left; padding-left: 1.5vw;">
-															<span class="menuSettingTitle">아이템</span>
+															<span class="menuSettingTitle">컬럼</span>
 															<div class="menuSettingDiv">
-																<table style="width:25vw;">
+																<table class="menuSettingTable">
 																	<tbody>
 																		<tr>
 																			<td style="font-weight:bold;">
 																				<button class="btn btn-outline-info-add myBtn" id="BtnItemInsert">추가</button>
 																				<button class="btn btn-outline-info-nomal myBtn" id="BtnItemUpdate">수정</button>
-																				<button class="btn btn-outline-info-del myBtn" id="BtnItemDelect">삭제</button>
+																				<button class="btn btn-outline-info-del myBtn" id="BtnItemDelete">삭제</button>
 																			</td>
 																		</tr>
 																		<tr>
@@ -260,10 +255,241 @@
 		function itemLinkFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="updateView('+"'"+rowdata.packagesKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
+
+		$('#BtnMainInsert').click(function() {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/menuSetting/insertView'/>",
+				data: {
+					"menuType": "main",
+					"menuParentKeyNum": 0
+				},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'menuSetting'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		});
+
+		$('#BtnMainUpdate').click(function() {
+			var menuKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow'); 
+			if(!menuKeyNum) {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '행 선택 바랍니다.',
+				});
+				return false;
+			}
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/menuSetting/updateView'/>",
+				data: {
+					"menuKeyNum": menuKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'menuSetting'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		});
+
+		$('#BtnMainDelete').click(function() {
+			var menuKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow'); 
+			
+			if(!menuKeyNum) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					title: '삭제!',
+					text: "선택한 메인 메뉴를 삭제하시겠습니까?",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#7066e0',
+					cancelButtonColor: '#FF99AB',
+					confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/menuSetting/delete'/>",
+						type: "POST",
+						data: {"menuKeyNum": menuKeyNum},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '삭제 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							mainTableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
+		});
+
+
+		$('#BtnSubInsert').click(function() {
+			var menuKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			if(!menuKeyNum) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/menuSetting/insertView'/>",
+					data: {
+						"menuType": "sub",
+						"menuParentKeyNum": menuKeyNum
+					},
+				    async: false,
+				    success: function (data) {
+						if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				    	$.modal(data, 'menuSetting'); //modal창 호출
+				    },
+				    error: function(e) {
+				        alert(e);
+				    }
+				});	
+			}
+		});
+
+
+		$('#BtnSubUpdate').click(function() {
+			var menuKeyNum = $("#subList").jqGrid('getGridParam', 'selrow'); 
+			if(!menuKeyNum) {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '행 선택 바랍니다.',
+				});
+				return false;
+			}
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/menuSetting/updateView'/>",
+				data: {
+					"menuKeyNum": menuKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'menuSetting'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		});
+
+
+		$('#BtnSubDelete').click(function() {
+			var menuKeyNum = $("#subList").jqGrid('getGridParam', 'selrow'); 
+			
+			if(!menuKeyNum) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					title: '삭제!',
+					text: "선택한 서브 메뉴를 삭제하시겠습니까?",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#7066e0',
+					cancelButtonColor: '#FF99AB',
+					confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/menuSetting/delete'/>",
+						type: "POST",
+						data: {"menuKeyNum": menuKeyNum},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '삭제 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							subTableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
+		});
+
+		function mainTableRefresh() {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+			
+			var jqGrid = $("#mainList");
+			jqGrid.clearGridData();
+			jqGrid.trigger('reloadGrid');
+		}
+
+		function subTableRefresh(menuKeyNum) {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+			
+			var jqGrid = $("#subList");
+			jqGrid.clearGridData();
+			 jqGrid.setGridParam({postData: { "menuParentKeyNum": menuKeyNum }});
+			jqGrid.trigger('reloadGrid');
+		}
+
+		function selectSubMenu(menuKeyNum) {
+			subTableRefresh(menuKeyNum);
+		}
 	</script>
 	<style>
 		.menuSettingDiv {
-			width:27vw; 
+			width:27.5vw; 
 			float: left; 
 			background: white; 
 			padding: 1vw;
@@ -277,6 +503,12 @@
     		color: black;
     		font-family: none;
     		font-weight: 400;
+		}
+
+		.menuSettingTable {
+			width: 25.5vw;
+			z-index: 0;
+    		position: relative;
 		}
 	</style>
 </html>

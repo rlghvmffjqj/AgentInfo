@@ -393,6 +393,11 @@ p {
     max-width: 500px;
 }
 
+.modal-menuSetting {
+	top: 30%;
+    max-width: 400px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;
@@ -420,6 +425,12 @@ p {
 .pading5Width450{
 	padding: 5px;
 	width: 450px;
+	height: 64px;
+}
+
+.pading5Width370{
+	padding: 5px;
+	width: 370px;
 	height: 64px;
 }
 
@@ -631,11 +642,11 @@ p {
 }
 
 .page-header {
-	height: 100px;
+	height: 80px;
 }
 
-.height-100 {
-	height: 100px;
+.height-80 {
+	height: 80px;
 }
 
 .ui-jqgrid tr.ui-row-ltr td { 
@@ -1231,7 +1242,7 @@ input:focus+.labl::before{
 }
 
 .col-lg-2 {
-	max-width: 16.66%;
+	max-width: 13.66%;
 }
 
 a {
@@ -1257,18 +1268,22 @@ a:hover {
 }
 
 .pcoded .pcoded-navbar .pcoded-item .pcoded-hasmenu .pcoded-submenu li > a > .pcoded-mtext {
-	font-size: 14px;
+	font-size: 12px;
 	font-family: system-ui;
 }
 
 .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
     background: #fff2e0;
-    height: 40px;
+    height: 35px;
     font-weight: bold;
     font-family: system-ui;
 }
 
 .ui-jqgrid .ui-jqgrid-hdiv {
 	background: #fff2e0 !important;
+}
+
+#norecs {
+	display: none;
 }
 	

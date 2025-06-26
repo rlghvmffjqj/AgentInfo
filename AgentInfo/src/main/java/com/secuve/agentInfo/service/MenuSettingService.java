@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,44 @@ public class MenuSettingService {
 
 	public int getSubMenuSettingListCount() {
 		return menuSettingDao.getSubMenuSettingListCount();
+	}
+
+	public String nowDate() {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return formatter.format(now);
+	}
+
+	public String insertMenuSetting(MenuSetting menuSetting) {
+		int success = menuSettingDao.insertMenuSetting(menuSetting);
+		if (success <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
+	}
+
+	public MenuSetting getMenuSettingOne(int menuKeyNum) {
+		return menuSettingDao.getMenuSettingOne(menuKeyNum);
+	}
+
+	public String updateMenuSetting(MenuSetting menuSetting) {
+		int success = menuSettingDao.updateMenuSetting(menuSetting);
+		if (success <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
+	}
+
+	public String delMenuSetting(int menuKeyNum) {
+		int success = menuSettingDao.delMenuSetting(menuKeyNum);
+		if (success <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
+	}
+
+	public List<MenuSetting> getMenuList() {
+		return menuSettingDao.getMenuList();
 	}
 
 }

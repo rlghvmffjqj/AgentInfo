@@ -27,7 +27,7 @@
 					{name:'agentVer', index:'agentVer', align:'center', width: 170},
 					{name:'packageName', index:'packageName', align:'center', width: 630},
 					{name:'manager', index:'manager', align:'center', width: 80},
-					{name:'osType', index:'osType', align:'center', width: 80},
+					{name:'osType', index:'osType', align:'center', width: 100},
 				],
 				jsonReader : {
 		        	id: 'packagesKeyNum',

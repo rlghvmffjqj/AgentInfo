@@ -49,6 +49,7 @@ $.modal = function (modalContent, size) {
 	if(size=='issueRelayModal') html += ' modal-issueRelayModal';
 	if(size=='resultsReportDelNote') html += ' modal-resultsReportDelNote';
 	if(size=='resultsReportTemplateList') html += ' modal-resultsReportTemplateList';
+	if(size=='menuSetting') html += ' modal-menuSetting';
 	
 	
     if(size=='r') html += ' modal-r';

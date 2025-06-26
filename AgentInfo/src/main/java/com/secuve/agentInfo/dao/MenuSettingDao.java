@@ -28,4 +28,24 @@ public class MenuSettingDao {
 		return sqlSession.selectOne("menuSetting.getSubMenuSettingCount");
 	}
 
+	public int insertMenuSetting(MenuSetting menuSetting) {
+		return sqlSession.insert("menuSetting.insertMenuSetting", menuSetting);
+	}
+
+	public MenuSetting getMenuSettingOne(int menuKeyNum) {
+		return sqlSession.selectOne("menuSetting.getMenuSettingOne", menuKeyNum);
+	}
+
+	public int updateMenuSetting(MenuSetting menuSetting) {
+		return sqlSession.update("menuSetting.updateMenuSetting", menuSetting);
+	}
+
+	public int delMenuSetting(int menuKeyNum) {
+		return sqlSession.delete("menuSetting.delMenuSetting", menuKeyNum);
+	}
+
+	public List<MenuSetting> getMenuList() {
+		return sqlSession.selectList("menuSetting.getMenuList");
+	}
+
 }

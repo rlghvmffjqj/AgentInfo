@@ -142,9 +142,9 @@
 												<div style="padding-left:15px; width:100%; float: left;">
 													<label class="labelFontSize">문서 작성일</label>
 													<div>
-													  <input class="form-control" style="width: 14.9%; float: left;" type="date" id="resultsReportDateStart" name="resultsReportDateStart" max="9999-12-31">
+													  <input class="form-control" style="width: 12%; float: left;" type="date" id="resultsReportDateStart" name="resultsReportDateStart" max="9999-12-31">
 													  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-													  <input class="form-control" style="width: 14.9%; float: left;" type="date" id="resultsReportDateEnd" name="resultsReportDateEnd" max="9999-12-31">
+													  <input class="form-control" style="width: 12%; float: left;" type="date" id="resultsReportDateEnd" name="resultsReportDateEnd" max="9999-12-31">
 												  </div>
 												  <div style="padding-left: 50px; float: left;">
 													  <div class="form-check radioDate">

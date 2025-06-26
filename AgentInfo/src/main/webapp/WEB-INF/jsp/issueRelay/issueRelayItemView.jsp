@@ -433,7 +433,7 @@
 							} else {
 								itemDiv += "<td style='width: 70px;'></td>";
 							}
-							itemDiv += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
+							itemDiv += "<td style='background-color: white; color: black; line-height: 20px; font-size: 13px;' id='detail_"+issueRelay.issueRelayKeyNum+"'>";
 							itemDiv += issueRelay.issueRelayDetail;
 							itemDiv += "</td>";
 							itemDiv += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
@@ -533,7 +533,7 @@
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
 							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>해결</td>";
-							rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+result.issueRelayKeyNum+"'>";
+							rowItem += "<td style='background-color: white; color: black; line-height: 20px; font-size: 13px;' id='detail_"+result.issueRelayKeyNum+"'>";
 							rowItem += "해당 이슈를 수정완료 하였습니다.";
 							rowItem += "</td>";
 							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
@@ -594,7 +594,7 @@
 							rowItem += "<tr style='height: 50px;'>";
 							rowItem += "<td class='alignCenter'>개발</td>";
 							rowItem += "<td class='statusTd' id='status_"+result.issueRelayKeyNum+"'>오탐</td>";
-							rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+result.issueRelayKeyNum+"'>";
+							rowItem += "<td style='background-color: white; color: black; line-height: 20px; font-size: 13px;' id='detail_"+result.issueRelayKeyNum+"'>";
 							rowItem += "해당 이슈는 오탐입니다.";
 							rowItem += "</td>";
 							rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";
@@ -638,7 +638,7 @@
 			rowItem += "<tr style='height: 50px;'>";
 			rowItem += "<td class='alignCenter'>개발</td>";
 			rowItem += "<td class='statusTd' id='status_"+data.issueRelayKeyNum+"'>"+data.issueRelayStatus+"</td>";
-			rowItem += "<td style='background-color: white; color: black; line-height: 20px;' id='detail_"+data.issueRelayKeyNum+"'>";
+			rowItem += "<td style='background-color: white; color: black; line-height: 20px; font-size: 13px;' id='detail_"+data.issueRelayKeyNum+"'>";
 			rowItem += data.issueRelayDetail;
 			rowItem += "</td>";
 			rowItem += "<td style='width: 100px; background: white; border-left: none; text-align: right; white-space: nowrap;'>";

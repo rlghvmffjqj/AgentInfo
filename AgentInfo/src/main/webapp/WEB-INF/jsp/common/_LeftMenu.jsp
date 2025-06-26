@@ -1,5 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <script>
+	$(function() {
+		let jsonMenuData;
+		let menuHtml = ``;
+		$.ajax({
+			url: "<c:url value='/menuSetting/menu'/>",
+		    type: 'post',
+		    async: false,
+		    success: function(result) {
+				jsonMenuData = result;
+				for(let i=0; i<result.length; i++) {
+					if(result[i].menuType == 'main') {
+						const hasParentKey1 = result.some(item => item.menuParentKeyNum === result[i].menuKeyNum);
+						if (hasParentKey1) {
+						  	menuHtml += `
+								<ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none" subitem-border="true">
+									<li class="main`+result[i].menuTitle+` pcoded-hasmenu" dropdown-icon="style3" subitem-icon="style7">
+									<a href="#!" class="waves-effect waves-dark">
+									  <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
+				            			<span class="pcoded-mtext" data-i18n="nav.form-components.main">`+result[i].menuTitle+`</span>
+				            			<span class="pcoded-mcaret"></span>
+  				  				    </a>
+									<ul class="pcoded-submenu" style="display: block;">
+							`;		
+							for(let j=0; j<result.length; j++) {
+								if(result[i].menuKeyNum === result[j].menuParentKeyNum) {
+									menuHtml += `
+  				  				    	  <li class="sub`+result[j].menuTitle+`">
+  				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?menuTitle=`+result[j].menuTitle+`" class="waves-effect waves-dark">
+  				  				    	      <span class="pcoded-micon"><i class="ti-agenda"></i></span>
+  				  				    	      <span class="pcoded-mtext">`+result[j].menuTitle+`</span>
+  				  				    	      <span class="pcoded-mcaret"></span>
+  				  				    	    </a>
+  				  				    	  </li>
+									`;
+								}
+							}    
+							menuHtml += `
+							  		</ul>
+  				  				  </li>
+  				  				</ul>
+							`;
+						} else {
+							menuHtml += `
+								<ul class="pcoded-item pcoded-left-item">
+									<li class="main`+result[i].menuTitle+`">
+										<a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>" class="waves-effect waves-dark">
+											<span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
+											<span class="pcoded-mtext" data-i18n="nav.form-components.main">`+result[i].menuTitle+`</span>
+											<span class="pcoded-mcaret"></span>
+										</a>
+									</li>
+								</ul>
+							`;
+						}
+					}
+				}
+				$('#productVersion').after(menuHtml);
+				$('#productVersion').pcodedmenu();
+			},
+			error: function(error) {
+				console.log(error);
+			}
+		});
+
+		var cookieName = $.cookie('name');
+		for(let i=0; i<jsonMenuData.length; i++) {
+			if(jsonMenuData[i].menuType == 'sub') {
+				if(jsonMenuData[i].menuTitle == cookieName) {
+					$('.sub'+jsonMenuData[i].menuTitle).addClass('active');
+					for(let j=0; j<jsonMenuData.length; j++) {
+						if(jsonMenuData[i].menuParentKeyNum === jsonMenuData[j].menuKeyNum) {
+							$('.main'+jsonMenuData[j].menuTitle).addClass('active');
+							$('.main'+jsonMenuData[j].menuTitle).addClass('pcoded-trigger');
+							break;
+						}
+					}
+					
+				}
+			} else {
+				for(let j=0; j<jsonMenuData.length; j++) {
+					if(jsonMenuData[j].menuTitle == cookieName) {
+						$('.main'+jsonMenuData[j].menuTitle).addClass('active');
+						break;
+					}
+				}
+			}
+		}
+	})
+
 	/** Left 메뉴바 선택 표시를 위해 쿠키 사용 **/
 	$(function() {
 		if($.cookie('name') == 'home') {
@@ -190,7 +279,6 @@
 			$('.menuSetting').addClass('active');
 			$('.setting').addClass('pcoded-trigger');
 			$('.setting').addClass('active');
-		
 		} else if($.cookie('name') == 'functionTestTortal') {
 			$('.functionTestTortal').addClass('active');
 			$('.functionTest').addClass('pcoded-trigger');
@@ -228,12 +316,12 @@
 		}
 	});
 </script>
-<nav class="pcoded-navbar" style="z-index: 16 !important; position: fixed !important">
+<nav class="pcoded-navbar" style="z-index: 16 !important; position: fixed !important; width:200px">
 	
-	<div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px);"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="background-color: lightgray; position: relative; top: 0px; left: 0px; width: 100%; height: 100%" dir="ltr">
-		<div class="height-100">
-			<div class="main-menu-header page-header height-100">
-			    <img class="img-80 img-radius mCS_img_loaded" src="/AgentInfo/images/profile.png" alt="User-Profile-Image">
+	<div class="pcoded-inner-navbar main-menu mCustomScrollbar _mCS_1 mCS_no_scrollbar" style="height: calc(100% - 56px); width: 200px;"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical_horizontal mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container_wrapper" class="mCSB_container_wrapper mCS_y_hidden mCS_no_scrollbar_y mCS_x_hidden mCS_no_scrollbar_x"><div id="mCSB_1_container" class="mCSB_container" style="background-color: lightgray; position: relative; top: 0px; left: 0px; height: 100%" dir="ltr">
+		<div class="height-80">
+			<div class="main-menu-header page-header height-80">
+			    <img class="img-80 img-radius mCS_img_loaded" style="width:45px;" src="/AgentInfo/images/profile.png" alt="User-Profile-Image">
 			    <div class="user-details">
 			        <span id="more-details"><sec:authentication property="name"/></span>
 			    </div>
@@ -460,6 +548,8 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
+			<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product version</div>
+
 			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
 		        <ul class="pcoded-item pcoded-left-item">
