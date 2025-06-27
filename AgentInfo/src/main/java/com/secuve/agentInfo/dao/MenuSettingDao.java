@@ -16,16 +16,16 @@ public class MenuSettingDao {
 		return sqlSession.selectList("menuSetting.getMainMenuSetting",search);
 	}
 
-	public int getMainMenuSettingListCount() {
-		return sqlSession.selectOne("menuSetting.getMainMenuSettingCount");
+	public int getMainMenuSettingListCount(MenuSetting search) {
+		return sqlSession.selectOne("menuSetting.getMainMenuSettingCount", search);
 	}
 
 	public List<MenuSetting> getSubMenuSettingList(MenuSetting search) {
 		return sqlSession.selectList("menuSetting.getSubMenuSetting",search);
 	}
 
-	public int getSubMenuSettingListCount() {
-		return sqlSession.selectOne("menuSetting.getSubMenuSettingCount");
+	public int getSubMenuSettingListCount(MenuSetting search) {
+		return sqlSession.selectOne("menuSetting.getSubMenuSettingCount", search);
 	}
 
 	public int insertMenuSetting(MenuSetting menuSetting) {
@@ -47,5 +47,26 @@ public class MenuSettingDao {
 	public List<MenuSetting> getMenuList() {
 		return sqlSession.selectList("menuSetting.getMenuList");
 	}
+
+	public int getMenuSortCheck(MenuSetting menuSetting) {
+		return sqlSession.selectOne("menuSetting.getMenuSortCheck", menuSetting);
+	}
+
+	public int getMenuTitleCheck(MenuSetting menuSetting) {
+		return sqlSession.selectOne("menuSetting.getMenuTitleCheck", menuSetting);
+	}
+
+	public int getItemCheck(String mainKeyNum) {
+		return sqlSession.selectOne("menuSetting.getItemCheck", mainKeyNum);
+	}
+
+	public List<MenuSetting> getItmeMenuSettingList(MenuSetting search) {
+		return sqlSession.selectList("menuSetting.getItmeMenuSetting",search);
+	}
+
+	public int getItmeMenuSettingListCount(MenuSetting search) {
+		return sqlSession.selectOne("menuSetting.getItmeMenuSettingListCount",search);
+	}
+
 
 }

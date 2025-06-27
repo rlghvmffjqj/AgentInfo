@@ -50,6 +50,7 @@ $.modal = function (modalContent, size) {
 	if(size=='resultsReportDelNote') html += ' modal-resultsReportDelNote';
 	if(size=='resultsReportTemplateList') html += ' modal-resultsReportTemplateList';
 	if(size=='menuSetting') html += ' modal-menuSetting';
+	if(size=='menuSettingItem') html += ' modal-menuSettingItem';
 	
 	
     if(size=='r') html += ' modal-r';

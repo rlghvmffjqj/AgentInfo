@@ -42,7 +42,7 @@
 					onSelectRow: function (rowId) {
   						// var rowData = $("#mainList").jqGrid('getRowData', rowId);
 						selectSubMenu(rowId)
-  						
+						selectItem(rowId)
   					}
 				});
 
@@ -73,10 +73,13 @@
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
+					onSelectRow: function (rowId) {
+						selectItem(rowId)
+  					}
 				}); 
 
 				$("#itemList").jqGrid({
-					url: "<c:url value='/itemSetting'/>",
+					url: "<c:url value='/menuSetting/item'/>",
 					mtype: 'POST',
 					datatype: 'json',
 					colNames:['Key','순서','컬럼명','타입'],
@@ -479,13 +482,114 @@
 			
 			var jqGrid = $("#subList");
 			jqGrid.clearGridData();
-			 jqGrid.setGridParam({postData: { "menuParentKeyNum": menuKeyNum }});
+			jqGrid.setGridParam({postData: { "menuParentKeyNum": menuKeyNum }});
+			jqGrid.trigger('reloadGrid');
+		}
+
+		function itemTableRefresh(menuKeyNum) {
+			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+			
+			var jqGrid = $("#itemList");
+			jqGrid.clearGridData();
+			jqGrid.setGridParam({postData: { "menuParentKeyNum": menuKeyNum }});
 			jqGrid.trigger('reloadGrid');
 		}
 
 		function selectSubMenu(menuKeyNum) {
 			subTableRefresh(menuKeyNum);
 		}
+
+		function selectItem(menuKeyNum) {
+			itemTableRefresh(menuKeyNum);
+		}
+
+		$('#BtnItemInsert').click(function() {
+			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
+			if(!mainKeyNum) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/menuSetting/insertItemCheck'/>",
+					data: {
+						"mainKeyNum": mainKeyNum,
+						"subKeyNum": subKeyNum
+					},
+				    async: false,
+				    success: function (data) {
+						if(data == "ItemCheckFalse") {
+							Swal.fire({               
+								icon: 'error',          
+								title: '실패!',           
+								text: '서브메뉴가 존재할 경우 메인메뉴에서 컬럼 추가 불가능합니다.',    
+							});  
+							return;
+						} else {
+							itemInsert();	
+						}
+				    },
+				    error: function(e) {
+				        alert(e);
+				    }
+				});	
+			}
+		});
+
+		function itemInsert() {
+			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/menuSetting/insertItemView'/>",
+				data: {
+					"menuType": "item",
+					"mainKeyNum": mainKeyNum,
+					"subKeyNum": subKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'menuSettingItem'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		}
+
+		$('#BtnItemUpdate').click(function() {
+			var menuKeyNum = $("#itemList").jqGrid('getGridParam', 'selrow'); 
+			if(!menuKeyNum) {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '행 선택 바랍니다.',
+				});
+				return false;
+			}
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/menuSetting/updateItemView'/>",
+				data: {
+					"menuKeyNum": menuKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'menuSettingItem'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		});
 	</script>
 	<style>
 		.menuSettingDiv {

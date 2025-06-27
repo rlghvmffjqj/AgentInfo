@@ -16,10 +16,14 @@ public class MenuSetting {
 	private String menuType;
 	private String menuTitle;
 	private int menuParentKeyNum;
+	private String menuItemType;
 	private String menuSettingRegistrant;
 	private String menuSettingRegistrationDate;
 	private String menuSettingModifier;
 	private String menuSettingModifiedDate;
+	
+	private String mainKeyNum;
+	private String subKeyNum;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

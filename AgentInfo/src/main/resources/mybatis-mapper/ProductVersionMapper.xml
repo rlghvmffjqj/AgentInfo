@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="productVersion">
+	<resultMap type="com.secuve.agentInfo.vo.MenuSetting" id="menuSetting"></resultMap>
+	
+	
+	<select id="getProductVersionNoneExist" resultType="_int">
+		SELECT COUNT(*) FROM menuSetting 
+		WHERE menuTitle = #{mainTitle} 
+		AND menuType = 'main'
+		<if test="subTitle != null and subTitle != ''">
+			AND menuKeyNum = (SELECT menuParentKeyNum
+							 FROM menuSetting
+							 WHERE menuTitle = #{subTitle}
+							 AND menuType = 'sub') 
+		</if>
+	</select>
+</mapper>

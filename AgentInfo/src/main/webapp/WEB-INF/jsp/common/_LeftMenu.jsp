@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <script>
-	$(function() {
-		let jsonMenuData;
+	let jsonMenuData;
+	// DOM이 생성되기 전에 코드 먼저 동작
+	document.addEventListener('DOMContentLoaded', function () {
 		let menuHtml = ``;
 		$.ajax({
 			url: "<c:url value='/menuSetting/menu'/>",
@@ -14,8 +15,8 @@
 						const hasParentKey1 = result.some(item => item.menuParentKeyNum === result[i].menuKeyNum);
 						if (hasParentKey1) {
 						  	menuHtml += `
-								<ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none" subitem-border="true">
-									<li class="main`+result[i].menuTitle+` pcoded-hasmenu" dropdown-icon="style3" subitem-icon="style7">
+								<ul class="pcoded-item pcoded-left-item">
+									<li class="main`+result[i].menuTitle+` pcoded-hasmenu">
 									<a href="#!" class="waves-effect waves-dark">
 									  <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
 				            			<span class="pcoded-mtext" data-i18n="nav.form-components.main">`+result[i].menuTitle+`</span>
@@ -27,7 +28,7 @@
 								if(result[i].menuKeyNum === result[j].menuParentKeyNum) {
 									menuHtml += `
   				  				    	  <li class="sub`+result[j].menuTitle+`">
-  				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?menuTitle=`+result[j].menuTitle+`" class="waves-effect waves-dark">
+  				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?subTitle=`+result[j].menuTitle+`" class="waves-effect waves-dark">
   				  				    	      <span class="pcoded-micon"><i class="ti-agenda"></i></span>
   				  				    	      <span class="pcoded-mtext">`+result[j].menuTitle+`</span>
   				  				    	      <span class="pcoded-mcaret"></span>
@@ -57,17 +58,20 @@
 					}
 				}
 				$('#productVersion').after(menuHtml);
-				$('#productVersion').pcodedmenu();
+				// $('#productVersion').pcodedmenu();
+				
 			},
 			error: function(error) {
 				console.log(error);
 			}
 		});
+	})
 
+	$(function() {
 		var cookieName = $.cookie('name');
 		for(let i=0; i<jsonMenuData.length; i++) {
 			if(jsonMenuData[i].menuType == 'sub') {
-				if(jsonMenuData[i].menuTitle == cookieName) {
+				if("sub"+jsonMenuData[i].menuTitle == cookieName) {
 					$('.sub'+jsonMenuData[i].menuTitle).addClass('active');
 					for(let j=0; j<jsonMenuData.length; j++) {
 						if(jsonMenuData[i].menuParentKeyNum === jsonMenuData[j].menuKeyNum) {
@@ -80,7 +84,7 @@
 				}
 			} else {
 				for(let j=0; j<jsonMenuData.length; j++) {
-					if(jsonMenuData[j].menuTitle == cookieName) {
+					if("main"+jsonMenuData[j].menuTitle == cookieName) {
 						$('.main'+jsonMenuData[j].menuTitle).addClass('active');
 						break;
 					}
