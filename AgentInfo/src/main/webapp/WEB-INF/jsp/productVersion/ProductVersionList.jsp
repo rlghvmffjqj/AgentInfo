@@ -7,31 +7,31 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name',"${menuTitle}");
+		    	$.cookie('name',"${menuType}${menuTitle}");
 		    });
 	    </script>
 		<script>
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/category'/>",
+					url: "<c:url value='/productVersion'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
 					colNames:['고객사ID','카테고리','이름','비고'],
 					colModel:[
-						{name:'categoryKeyNum', index:'categoryKeyNum', align:'center', width: 70, hidden:hiddenType, formatter: strFormatter },
-						{name:'categoryName', index:'categoryName', align:'center' ,width: 200, hidden:true},
-						{name:'categoryValue', index:'categoryValue', align:'center', width: 400, formatter: linkFormatter},
-						{name:'categoryNote', index:'categoryNote', align:'center' ,width: 600},
+						{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 70, hidden:hiddenType },
+						{name:'productVersionName', index:'productVersionName', align:'center' ,width: 200, hidden:true},
+						{name:'productVersionValue', index:'productVersionValue', align:'center', width: 400, formatter: linkFormatter},
+						{name:'productVersionNote', index:'productVersionNote', align:'center' ,width: 600},
 					],
 					jsonReader : {
-			        	id: 'categoryKeyNum',
+			        	id: 'productVersionKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'categoryValue', 	// 기본 정렬 
+			        sortname: 'productVersionValue', 	// 기본 정렬 
 			        sortorder: 'asc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -87,28 +87,10 @@
 	                                	<div class="ibox">
 	                                		<div class="searchbos">
 		                                		<form id="form" name="form" method ="post" onSubmit="return false;">
-													<c:if test="${category eq 'customerName'}">
-														<div class="col-lg-2">
-															<label class="labelFontSize">고객사ID</label>
-															<!-- <input type="text" id="customerId" name="customerId" class="form-control"> -->
-														  	<select class="form-control selectpicker" id="customerIdMulti" name="customerIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															  	<c:forEach var="item" items="${customerId}">
-																	  <option value="${item}"><c:out value="${item}"/></option>
-															  	</c:forEach>
-														  	</select>
-												  		</div>
-													</c:if>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">이름</label>
-														<!-- <input type="text" id="categoryValue" name="categoryValue" class="form-control"> -->
-														<select class="form-control selectpicker" id="categoryValueMulti" name="categoryValueMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${categoryValue}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-													<input type="hidden" id="customerId" name="customerId" class="form-control">
-													<input type="hidden" id="categoryValue" name="categoryValue" class="form-control">
+													<div class="col-lg-2">
+	                      								<label class="labelFontSize">망 구분</label>
+	                      								<input type="text" id="networkClassification" name="networkClassification" class="form-control">
+	                      							</div>
 		                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -119,7 +101,6 @@
 															</button>
 														</p>
 													</div>
-												<input class="form-control" type="hidden" id="categoryName" name="categoryName" value="${category}">
 												</form>
 			                     			</div>
 		    	                 		</div>
@@ -133,7 +114,6 @@
 																	<td style="font-weight:bold;">제품 버전 관리 :
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnMerge">병합</button>
 																	</td>
 																</tr>
 																<tr>
@@ -168,7 +148,7 @@
 			var formData = $('#form').serializeObject();
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/category/insertView'/>",
+			    url: "<c:url value='/productVersion/insertView'/>",
 			    data: formData,
 			    async: false,
 			    success: function (data) {
@@ -185,9 +165,9 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#categoryValue').val($('#categoryValueMulti').val().join());
+			$('#productVersionValue').val($('#productVersionValueMulti').val().join());
 			
-			if("${category}" == "customerName") {
+			if("${productVersion}" == "customerName") {
 				$('#customerId').val($('#customerIdMulti').val().join());
 			}
 			
@@ -199,17 +179,9 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.categoryKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.productVersionKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 
-
-		function strFormatter(cellValue, options, rowdata, action) {
-			var code = "S_";
-			for(var i=cellValue.toString().length; i < 5; i++) {
-				code = code + "0";
-			}
-			return code + cellValue;
-		}
 		
 		/* =========== 삭제 ========= */
 		$('#BtnDelect').click(function() {
@@ -232,7 +204,7 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
-						url: "<c:url value='/category/delete'/>",
+						url: "<c:url value='/productVersion/delete'/>",
 						type: "POST",
 						data: {chkList: chkList},
 						dataType: "text",
@@ -274,8 +246,8 @@
 			var formData = $('#form').serializeObject();
 			$.ajax({
 	            type: 'POST',
-	            url: "<c:url value='/category/updateView'/>",
-	            data: {"categoryKeyNum" : data},
+	            url: "<c:url value='/productVersion/updateView'/>",
+	            data: {"productVersionKeyNum" : data},
 	            async: false,
 	            success: function (data) {
 	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
@@ -314,37 +286,6 @@
 		/* =========== Select Box 선택 ========= */
 		$("select").change(function() {
 			tableRefresh();
-		});
-
-		/* =========== 카테고리 병합 ========= */
-		$('#BtnMerge').click(function() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList.length < 2) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '두개 이상의 행 선택 바랍니다.',    
-				});    
-			} else {
-				$.ajax({
-		            type: 'POST',
-		            url: "<c:url value='/category/mergeView'/>",
-					data: {
-						chkList: chkList,
-						"categoryName":"${category}",
-					},
-		            async: false,
-					traditional: true,
-		            success: function (data) {
-		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
-		                $.modal(data, 'merge'); //modal창 호출
-		            },
-		            error: function(e) {
-		                // TODO 에러 화면
-		            }
-		        });
-			}
 		});
 
 	</script>
