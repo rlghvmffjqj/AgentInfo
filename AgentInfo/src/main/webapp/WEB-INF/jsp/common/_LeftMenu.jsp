@@ -28,7 +28,7 @@
 								if(result[i].menuKeyNum === result[j].menuParentKeyNum) {
 									menuHtml += `
   				  				    	  <li class="sub`+result[j].menuTitle+`">
-  				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?subTitle=`+result[j].menuTitle+`" class="waves-effect waves-dark">
+  				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?subTitle=`+result[j].menuTitle+`&number=`+result[j].menuKeyNum+`" class="waves-effect waves-dark">
   				  				    	      <span class="pcoded-micon"><i class="ti-agenda"></i></span>
   				  				    	      <span class="pcoded-mtext">`+result[j].menuTitle+`</span>
   				  				    	      <span class="pcoded-mcaret"></span>
@@ -46,7 +46,7 @@
 							menuHtml += `
 								<ul class="pcoded-item pcoded-left-item">
 									<li class="main`+result[i].menuTitle+`">
-										<a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>" class="waves-effect waves-dark">
+										<a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?number=`+result[i].menuKeyNum+`" class="waves-effect waves-dark">
 											<span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
 											<span class="pcoded-mtext" data-i18n="nav.form-components.main">`+result[i].menuTitle+`</span>
 											<span class="pcoded-mcaret"></span>

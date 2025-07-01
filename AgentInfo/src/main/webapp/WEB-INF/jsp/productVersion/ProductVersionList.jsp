@@ -12,27 +12,38 @@
 	    </script>
 		<script>
 			$(document).ready(function(){
+				const menuTitleKorList = JSON.parse('${menuTitleKorListJson}');
+
+				const menuTitleList = [
+  				  <c:forEach var="title" items="${menuTitleList}" varStatus="loop">
+  				    '${title}'<c:if test="${!loop.last}">,</c:if>
+  				  </c:forEach>
+  				];
+			  
+  				const colModel = menuTitleList.map((title, idx) => ({
+  				  name: title,  // 실제 데이터 키에 맞게 조정 필요
+  				  index: title,
+  				  align: 'center',
+  				  width: 200
+  				}));
+				console.log(colModel);
+
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/productVersion'/>",
+					url: "<c:url value='/productVersion/${productData}'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['고객사ID','카테고리','이름','비고'],
-					colModel:[
-						{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 70, hidden:hiddenType },
-						{name:'productVersionName', index:'productVersionName', align:'center' ,width: 200, hidden:true},
-						{name:'productVersionValue', index:'productVersionValue', align:'center', width: 400, formatter: linkFormatter},
-						{name:'productVersionNote', index:'productVersionNote', align:'center' ,width: 600},
-					],
+					colNames:menuTitleKorList,
+					colModel:colModel,
 					jsonReader : {
-			        	id: 'productVersionKeyNum',
+			        	id: 'menuKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'productVersionValue', 	// 기본 정렬 
-			        sortorder: 'asc',			// 정렬 방식
+			        sortname: '1', 	// 기본 정렬 
+			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
@@ -87,10 +98,16 @@
 	                                	<div class="ibox">
 	                                		<div class="searchbos">
 		                                		<form id="form" name="form" method ="post" onSubmit="return false;">
-													<div class="col-lg-2">
-	                      								<label class="labelFontSize">망 구분</label>
-	                      								<input type="text" id="networkClassification" name="networkClassification" class="form-control">
-	                      							</div>
+													<c:forEach var="item" items="${menuSettingItemList}">
+													  	<div class="col-lg-2">
+													  	  	<label class="labelFontSize">${item.menuTitleKor}</label>
+													  	  	<input type="text"
+													  	  	       id="${item.menuTitle}" 
+													  	  	       name="${item.menuTitle}"
+													  	  	       class="form-control">
+													  	</div>
+													</c:forEach>
+													<input type="hidden" id="menuKeyNum" name="menuKeyNum" value="${menuKeyNum}">
 		                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -165,12 +182,7 @@
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#productVersionValue').val($('#productVersionValueMulti').val().join());
-			
-			if("${productVersion}" == "customerName") {
-				$('#customerId').val($('#customerIdMulti').val().join());
-			}
-			
+
 			var jqGrid = $("#list");
 			jqGrid.clearGridData();
 			jqGrid.setGridParam({ postData: $("#form").serializeObject() });
@@ -179,7 +191,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.productVersionKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.menuKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 
 		
@@ -247,7 +259,7 @@
 			$.ajax({
 	            type: 'POST',
 	            url: "<c:url value='/productVersion/updateView'/>",
-	            data: {"productVersionKeyNum" : data},
+	            data: {"menuKeyNum" : data},
 	            async: false,
 	            success: function (data) {
 	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
