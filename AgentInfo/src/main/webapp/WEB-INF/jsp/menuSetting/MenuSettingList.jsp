@@ -82,12 +82,13 @@
 					url: "<c:url value='/menuSetting/item'/>",
 					mtype: 'POST',
 					datatype: 'json',
-					colNames:['Key','순서','컬럼명','타입'],
+					colNames:['Key','순서','컬럼명(한글)','컬럼명(영문)','타입'],
 					colModel:[
-						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 40, hidden:true },
-						{name:'menuSort', index:'menuSort', align:'center', width: 100, formatter: itemLinkFormatter},
-						{name:'menuTitle', index:'menuTitle', align:'center', width: 200},
-						{name:'menuTitle', index:'menuTitle', align:'center', width: 170},
+						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 50, hidden:true },
+						{name:'menuSort', index:'menuSort', align:'center', width: 70, formatter: itemLinkFormatter},
+						{name:'menuTitleKor', index:'menuTitleKor', align:'center', width: 130},
+						{name:'menuTitle', index:'menuTitle', align:'center', width: 130},
+						{name:'menuItemType', index:'menuItemType', align:'center', width: 135},
 					],
 					jsonReader : {
 			        	id: 'menuKeyNum',
@@ -565,6 +566,8 @@
 
 		$('#BtnItemUpdate').click(function() {
 			var menuKeyNum = $("#itemList").jqGrid('getGridParam', 'selrow'); 
+			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
 			if(!menuKeyNum) {
 				Swal.fire({
 					icon: 'error',
@@ -577,7 +580,9 @@
 			    type: 'POST',
 			    url: "<c:url value='/menuSetting/updateItemView'/>",
 				data: {
-					"menuKeyNum": menuKeyNum
+					"menuKeyNum": menuKeyNum,
+					"mainKeyNum": mainKeyNum,
+					"subKeyNum": subKeyNum
 				},
 			    async: false,
 			    success: function (data) {
@@ -589,6 +594,63 @@
 			        alert(e);
 			    }
 			});	
+		});
+
+		$('#BtnItemDelete').click(function() {
+			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
+			var menuKeyNum = $("#itemList").jqGrid('getGridParam', 'selrow'); 
+			
+			if(!menuKeyNum) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					title: '삭제!',
+					text: "선택한 컬럼을 삭제하시겠습니까?",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#7066e0',
+					cancelButtonColor: '#FF99AB',
+					confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/menuSetting/deleteItem'/>",
+						type: "POST",
+						data: {
+							"menuKeyNum": menuKeyNum,
+							"mainKeyNum": mainKeyNum,
+							"subKeyNum": subKeyNum
+						},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '삭제 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							itemTableRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
 		});
 	</script>
 	<style>

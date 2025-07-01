@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 230px;">
+<div class="modal-body" style="width: 100%; height: 280px;">
 	<form id="modalForm" name="form" method ="post">
 		<div class="pading5Width370">
 			<div>
@@ -11,9 +11,15 @@
 		</div>
 		<div class="pading5Width370">
 			<div>
-		 		<label class="labelFontSize">컬럼명</label>
+		 		<label class="labelFontSize">컬럼명(한글)</label>
 		 	</div>
-		 	<input type="text" id="menuTitle" name="menuTitle" class="form-control viewForm" placeholder="컬럼명" value="${menuSetting.menuTitle}">
+		 	<input type="text" id="menuTitleKor" name="menuTitleKor" class="form-control viewForm" placeholder="이름" value="${menuSetting.menuTitleKor}">
+		</div>
+		<div class="pading5Width370">
+			<div>
+		 		<label class="labelFontSize">컬럼명(영문)</label>
+		 	</div>
+		 	<input type="text" id="menuTitle" name="menuTitle" class="form-control viewForm" placeholder="name" value="${menuSetting.menuTitle}">
 		</div>
 		<div class="pading5Width370">
 	        <label class="labelFontSize">타입</label>
@@ -28,6 +34,7 @@
 		<input type="hidden" id="menuType" name="menuType" value="${menuSetting.menuType}">
 		<input type="hidden" id="mainKeyNum" name="mainKeyNum" value="${menuSetting.mainKeyNum}">
 		<input type="hidden" id="subKeyNum" name="subKeyNum" value="${menuSetting.subKeyNum}">
+		<input type="hidden" id="menuKeyNum" name="menuKeyNum" value="${menuSetting.menuKeyNum}">
 	</form>
 </div>
 <div class="modal-footer">
@@ -138,12 +145,7 @@
 					});
 					$('#modal').modal("hide"); // 모달 닫기
 		        	$('#modal').on('hidden.bs.modal', function () {
-		        		var menuType = "${menuSetting.menuType}";
-						if (menuType === 'main') {
-		        			mainTableRefresh();
-						} else if (menuType === 'sub') {
-							subTableRefresh();
-						}
+		        		itemTableRefresh();
 		        	});
 				} else {
 					Swal.fire({

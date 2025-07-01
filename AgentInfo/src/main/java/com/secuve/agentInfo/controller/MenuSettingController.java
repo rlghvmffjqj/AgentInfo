@@ -143,10 +143,11 @@ public class MenuSettingController {
 	}
 	
 	@PostMapping(value = "/menuSetting/updateItemView")
-	public String UpdateItemView(Model model, int menuKeyNum) {
-		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(menuKeyNum);
-		
-		model.addAttribute("viewType", "update").addAttribute("menuSetting", menuSetting);
+	public String UpdateItemView(Model model, MenuSetting menuSetting) {
+		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
+		menuSettingOne.setMainKeyNum(menuSetting.getMainKeyNum());
+		menuSettingOne.setSubKeyNum(menuSetting.getSubKeyNum());
+		model.addAttribute("viewType", "update").addAttribute("menuSetting", menuSettingOne);
 		return "/menuSetting/MenuSettingItemView";
 	}
 	
@@ -157,6 +158,12 @@ public class MenuSettingController {
 		menuSetting.setMenuSettingModifiedDate(menuSettingService.nowDate());
 
 		return menuSettingService.updateItem(menuSetting);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/menuSetting/deleteItem")
+	public String MenuSettingDeleteItem(MenuSetting menuSetting) {
+		return menuSettingService.delItemMenuSetting(menuSetting);
 	}
 	
 }

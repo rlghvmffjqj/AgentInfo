@@ -16,4 +16,53 @@
 							 AND menuType = 'sub') 
 		</if>
 	</select>
+	
+	<update id="createItem">
+		CREATE TABLE ${tableName} (
+			${tableName}_KeyNum INT AUTO_INCREMENT PRIMARY KEY,
+			${menuTitle} ${menuItemType}
+		)
+	</update>
+	
+	<update id="dropItem">
+		DROP TABLE ${tableName};
+	</update>
+	
+	<update id="alterItem">
+		ALTER TABLE ${tableName} ADD COLUMN ${menuTitle} ${menuItemType};
+	</update>
+	
+	<update id="alterDeleteItem">
+		ALTER TABLE ${tableName} DROP COLUMN ${menuTitle};
+	</update>
+	
+	<update id="alterUpdateItem">
+		ALTER TABLE ${tableName} CHANGE ${oldTitle} ${menuTitle} ${menuItemType};
+	</update>
+	
+	<select id="getProductVersionList" resultType="map">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM ${productData}
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getProductVersionListCount" resultType="_int">
+		SELECT COUNT(*) FROM ${productData};
+	</select>
+	
+	<sql id="sqlPackages">
+		<foreach collection="osDetailVersionArr" item="arr">
+			<if test="${arr} != null and ${arr} != ''">
+				AND osDetailVersion LIKE CONCAT('%',#{arr},'%')				
+			</if>
+		</foreach>
+	</sql>
+	
 </mapper>

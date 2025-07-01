@@ -94,22 +94,28 @@ public class MenuSettingService {
 	}
 
 	public String insertItem(MenuSetting menuSetting) {
+		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getMainKeyNum())).getMenuTitle());
+		} else {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getSubKeyNum())).getMenuTitle());
+		}
+		
 		int menuSortCheck = menuSettingDao.getMenuSortCheck(menuSetting);
 		int menuTitleCheck = menuSettingDao.getMenuTitleCheck(menuSetting);
 		if(menuSortCheck > 0 || menuTitleCheck > 0) {
 			return "ItemInsertCheck";
 		}
-		
-		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
-			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
-		} else {
-			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
-		}
 		int success = menuSettingDao.insertMenuSetting(menuSetting);
 		if (success <= 0) {
 			return "FALSE";
 		} 
-		return productVersionService.getInsertIten(menuSetting);
+		if(menuSettingDao.getItmeMenuSettingListCount(menuSetting) > 1) {
+			return productVersionService.alterItem(menuSetting);
+		} else {
+			return productVersionService.createItem(menuSetting);
+		}
 	}
 
 	public List<MenuSetting> getItmeMenuSettingList(MenuSetting search) {
@@ -121,22 +127,53 @@ public class MenuSettingService {
 	}
 
 	public String updateItem(MenuSetting menuSetting) {
+		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getMainKeyNum())).getMenuTitle());
+		} else {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getSubKeyNum())).getMenuTitle());
+		}
+		menuSetting.setOldTitle(menuSettingDao.getMenuSettingOne(menuSetting.getMenuKeyNum()).getMenuTitle());
 		int menuSortCheck = menuSettingDao.getMenuSortCheck(menuSetting);
 		int menuTitleCheck = menuSettingDao.getMenuTitleCheck(menuSetting);
 		if(menuSortCheck > 0 || menuTitleCheck > 0) {
 			return "ItemUpdateCheck";
 		}
 		
-		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
-			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
-		} else {
-			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
-		}
 		int success = menuSettingDao.updateMenuSetting(menuSetting);
 		if (success <= 0) {
 			return "FALSE";
 		} 
-		return "OK";
+		return productVersionService.alterUpdateItem(menuSetting);
+	}
+
+	public String delItemMenuSetting(MenuSetting menuSetting) {
+		
+		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getMainKeyNum())).getMenuTitle());
+			menuSetting.setMenuTitle(menuSettingDao.getMenuSettingOne(menuSetting.getMenuKeyNum()).getMenuTitle());
+		} else {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getSubKeyNum())).getMenuTitle());
+			menuSetting.setMenuTitle(menuSettingDao.getMenuSettingOne(menuSetting.getMenuKeyNum()).getMenuTitle());
+		}
+		
+		int success = menuSettingDao.delMenuSetting(menuSetting.getMenuKeyNum());
+		if (success <= 0) {
+			return "FALSE";
+		} 
+	
+		if(menuSettingDao.getItmeMenuSettingListCount(menuSetting) > 0) {
+			return productVersionService.alterDeleteItem(menuSetting);
+		} else {
+			return productVersionService.dropItem(menuSetting);
+		}
+	}
+
+	public List<MenuSetting> getMenuSettingItemList(int menuParentKeyNum) {
+		return menuSettingDao.getMenuSettingItemList(menuParentKeyNum);
 	}
 
 

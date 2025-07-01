@@ -42,8 +42,8 @@
 	</select>
 	
 	<insert id="insertMenuSetting">
-		INSERT INTO menuSetting(menuSort, menuType, menuTitle, menuParentKeyNum, menuItemType, menuSettingRegistrant, menuSettingRegistrationDate)
-		VALUES(#{menuSort},#{menuType},#{menuTitle},#{menuParentKeyNum},#{menuItemType},#{menuSettingRegistrant},#{menuSettingRegistrationDate});
+		INSERT INTO menuSetting(menuSort, menuType, menuTitle, menuTitleKor, menuParentKeyNum, menuItemType, menuSettingRegistrant, menuSettingRegistrationDate)
+		VALUES(#{menuSort},#{menuType},#{menuTitle},#{menuTitleKor},#{menuParentKeyNum},#{menuItemType},#{menuSettingRegistrant},#{menuSettingRegistrationDate});
 	</insert>
 	
 	<select id="getMenuSettingOne" parameterType="_int" resultMap="menuSetting">
@@ -51,7 +51,7 @@
 	</select>
 	
 	<update id="updateMenuSetting">
-		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle}, menuItemType = #{menuItemType} WHERE menuKeyNum = #{menuKeyNum};
+		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle}, menuTitleKor = #{menuTitleKor} WHERE menuKeyNum = #{menuKeyNum};
 	</update>
 	
 	<delete id="delMenuSetting" parameterType="_int">
@@ -63,15 +63,15 @@
 	</select>
 	
 	<select id="getMenuSortCheck" resultType="_int">
-		SELECT COUNT(*) FROM menuSetting WHERE menuType = #{menuType} AND menuSort = #{menuSort};
+		SELECT COUNT(*) FROM menuSetting WHERE menuType = #{menuType} AND menuSort = #{menuSort} AND menuParentKeyNum = ${menuParentKeyNum} AND menuKeyNum != #{menuKeyNum};
 	</select>
 	
 	<select id="getMenuTitleCheck" resultType="_int">
-		SELECT COUNT(*) FROM menuSetting WHERE menuType = #{menuType} AND menuTitle = #{menuTitle};
+		SELECT COUNT(*) FROM menuSetting WHERE menuType = #{menuType} AND menuTitle = #{menuTitle} AND menuParentKeyNum = ${menuParentKeyNum} AND menuKeyNum != #{menuKeyNum};
 	</select>
 	
 	<select id="getItemCheck" parameterType="string" resultType="_int">
-		SELECT COUNT(*) FROM menuSetting WHERE menuParentKeyNum = ${mainKeyNum};
+		SELECT COUNT(*) FROM menuSetting WHERE menuParentKeyNum = ${mainKeyNum} AND menuType != 'item';
 	</select>
 	
 	<select id="getItmeMenuSetting" resultMap="menuSetting" parameterType="string">
@@ -91,5 +91,9 @@
 	
 	<select id="getItmeMenuSettingListCount" resultType="_int">
 		SELECT COUNT(*) FROM menuSetting WHERE menuType = 'item' AND menuParentKeyNum = #{menuParentKeyNum};
+	</select>
+	
+	<select id="getMenuSettingItemList" resultMap="menuSetting">
+		SELECT * FROM menuSetting WHERE menuParentKeyNum = #{menuParentKeyNum} ORDER BY menuSort ASC;
 	</select>
 </mapper>

@@ -68,5 +68,9 @@ public class MenuSettingDao {
 		return sqlSession.selectOne("menuSetting.getItmeMenuSettingListCount",search);
 	}
 
+	public List<MenuSetting> getMenuSettingItemList(int menuParentKeyNum) {
+		return sqlSession.selectList("menuSetting.getMenuSettingItemList",menuParentKeyNum);
+	}
+
 
 }
