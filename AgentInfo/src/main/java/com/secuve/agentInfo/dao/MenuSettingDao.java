@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,10 @@ public class MenuSettingDao {
 
 	public List<MenuSetting> getMenuSettingItemList(int menuParentKeyNum) {
 		return sqlSession.selectList("menuSetting.getMenuSettingItemList",menuParentKeyNum);
+	}
+
+	public List<Map<String,Object>> getMenuSettingItemListJoin(MenuSetting menuSetting) {
+		return sqlSession.selectList("menuSetting.getMenuSettingItemListJoin",menuSetting);
 	}
 
 

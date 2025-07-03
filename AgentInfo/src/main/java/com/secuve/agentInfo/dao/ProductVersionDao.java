@@ -52,4 +52,35 @@ public class ProductVersionDao {
 		return sqlSession.selectOne("productVersion.getProductVersionListCount",search);
 	}
 
+	public int insertProductVersion(Map<String, String> paramMap) {
+		Map<String, String> columnMap = new HashMap<>(paramMap);
+		columnMap.remove("tableName");
+		columnMap.remove("menuTitle");
+		columnMap.remove("menuKeyNum");
+		columnMap.remove("productVersionKeyNum");
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("tableName", paramMap.get("tableName"));
+		params.put("columnMap", columnMap);
+		return sqlSession.insert("productVersion.insertProductVersion",params);
+	}
+
+	public int delProductVersion(Map<String, Object> paramMap) {
+		return sqlSession.delete("productVersion.delProductVersion",paramMap);
+	}
+
+	public int updateProductVersion(Map<String, String> paramMap) {
+		Map<String, String> columnMap = new HashMap<>(paramMap);
+		columnMap.remove("menuTitle");
+		columnMap.remove("menuKeyNum");
+		columnMap.remove("productVersionKeyNum");
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("menuTitle", paramMap.get("menuTitle"));
+		params.put("menuKeyNum", paramMap.get("menuKeyNum"));
+		params.put("productVersionKeyNum", paramMap.get("productVersionKeyNum"));
+		params.put("columnMap", columnMap);
+		return sqlSession.update("productVersion.updateProductVersion",params);
+	}
+
 }

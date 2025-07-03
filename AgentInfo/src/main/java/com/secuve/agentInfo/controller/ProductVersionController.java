@@ -79,12 +79,12 @@ public class ProductVersionController {
 	public Map<String, Object> productData(@PathVariable("productData") String productData, ProductVersion search, @RequestParam Map<String, String> paramMap) {
 		search.setParamMap(paramMap);
 		Map<String, Object> response = new HashMap<>();
-		search.setProductData(productData);
+//		search.setProductData(productData);
 		
-		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(search.getMenuKeyNum());
-		List<String> menuTitleList = menuSettingItemList.stream()  // 검색 값을 기준으로 검색 가능하게 하려고 하다가 중지 검색 컬럼 리스트를 가져왔음.
-		        .map(MenuSetting::getMenuTitle)
-		        .collect(Collectors.toList());
+//		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(search.getMenuKeyNum());
+//		List<String> menuTitleList = menuSettingItemList.stream()  // 검색 값을 기준으로 검색 가능하게 하려고 하다가 중지 검색 컬럼 리스트를 가져왔음.
+//		        .map(MenuSetting::getMenuTitle)
+//		        .collect(Collectors.toList());
 		
 		List<Map<String, Object>> productDataList = new ArrayList<Map<String, Object>>();
 		int totalCount = 0;
@@ -101,5 +101,52 @@ public class ProductVersionController {
 		response.put("rows", productDataList);
 	
 		return response;
+	}
+	
+	@PostMapping(value = "/productVersion/insertView")
+	public String InsertProductVersionView(Model model, MenuSetting menuSetting) {
+//		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
+		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(menuSetting.getMenuKeyNum());
+		
+		model.addAttribute("viewType", "insert");
+		model.addAttribute("menuSettingItemList", menuSettingItemList);
+		model.addAttribute("menuKeyNum", menuSetting.getMenuKeyNum());
+		
+		return "/productVersion/ProductVersionView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/productVersionInsert")
+	public String InsertProductVersion(MenuSetting menuSetting, Principal principal, @RequestParam Map<String, String> paramMap) {
+		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
+		paramMap.put("tableName", menuSettingOne.getMenuTitle()+"_"+menuSettingOne.getMenuKeyNum());
+		return productVersionService.insertProductVersion(paramMap);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/delete")
+	public String ProductVersionDelete(@RequestParam String menuKeyNum, int[] chkList) {
+		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(Integer.parseInt(menuKeyNum));
+		
+		return productVersionService.delProductVersion(menuSettingOne, chkList);
+	}
+	
+	@PostMapping(value = "/productVersion/updateView")
+	public String UpdateProductVersionView(Model model, MenuSetting menuSetting) {
+//		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
+		List<Map<String,Object>> menuSettingItemList = menuSettingService.getMenuSettingItemListJoin(menuSetting);
+		
+		model.addAttribute("viewType", "update");
+		model.addAttribute("menuSettingItemList", menuSettingItemList);
+		model.addAttribute("menuSetting", menuSetting);
+
+		return "/productVersion/ProductVersionView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/productVersionUpdate")
+	public String UpdateProductVersion(@RequestParam Map<String, String> paramMap, Principal principal) {
+
+		return productVersionService.updateProductVersion(paramMap);
 	}
 }

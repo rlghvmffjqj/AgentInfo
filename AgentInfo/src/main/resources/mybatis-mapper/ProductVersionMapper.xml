@@ -19,7 +19,7 @@
 	
 	<update id="createItem">
 		CREATE TABLE ${tableName} (
-			${tableName}_KeyNum INT AUTO_INCREMENT PRIMARY KEY,
+			productVersionKeyNum INT AUTO_INCREMENT PRIMARY KEY,
 			${menuTitle} ${menuItemType}
 		)
 	</update>
@@ -56,6 +56,35 @@
 	<select id="getProductVersionListCount" resultType="_int">
 		SELECT COUNT(*) FROM ${productData};
 	</select>
+	
+	<insert id="insertProductVersion" parameterType="map">
+		INSERT INTO ${tableName}
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<foreach collection="columnMap.keySet()" item="col">
+      			${col},
+    		</foreach>
+  		</trim>
+  		VALUES
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+    		<foreach collection="columnMap.keySet()" item="col">
+      			#{columnMap[${col}]},
+    		</foreach>
+  		</trim>
+	</insert>
+	
+	<delete id="delProductVersion" parameterType="map">
+		DELETE FROM ${tableName} WHERE productVersionKeyNum = ${productVersionKeyNum};
+	</delete>
+	
+	<update id="updateProductVersion" parameterType="map">
+		UPDATE ${menuTitle}_${menuKeyNum}
+		<set>
+	        <foreach collection="columnMap.keySet()" item="col">
+	            ${col} = #{columnMap[${col}]},
+	        </foreach>
+    	</set>
+		WHERE productVersionKeyNum = ${productVersionKeyNum} 
+	</update>
 	
 	<sql id="sqlPackages">
 		<foreach collection="osDetailVersionArr" item="arr">

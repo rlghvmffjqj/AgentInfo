@@ -59,7 +59,7 @@
 	</delete>
 	
 	<select id="getMenuList" resultMap="menuSetting">
-		SELECT * FROM menuSetting ORDER BY menuSort ASC;
+		SELECT * FROM menuSetting WHERE menuType != 'item' ORDER BY menuSort ASC;
 	</select>
 	
 	<select id="getMenuSortCheck" resultType="_int">
@@ -95,5 +95,18 @@
 	
 	<select id="getMenuSettingItemList" resultMap="menuSetting">
 		SELECT * FROM menuSetting WHERE menuParentKeyNum = #{menuParentKeyNum} ORDER BY menuSort ASC;
+	</select>
+	
+	<select id="getMenuSettingItemListJoin" resultType="map">
+		SELECT m.*, p.*
+		FROM menusetting m, ${menuTitle}_${menuKeyNum} p
+		WHERE m.menuParentKeyNum = ${menuKeyNum}
+		AND m.menuTitle IN (
+		    SELECT COLUMN_NAME
+		    FROM INFORMATION_SCHEMA.COLUMNS
+		    WHERE TABLE_NAME = '${menuTitle}_${menuKeyNum}'
+		)
+		AND p.productVersionKeyNum = ${productVersionKeyNum}
+		ORDER BY m.menuSort ASC;
 	</select>
 </mapper>

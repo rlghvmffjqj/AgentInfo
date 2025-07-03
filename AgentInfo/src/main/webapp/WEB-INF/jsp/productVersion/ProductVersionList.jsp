@@ -37,12 +37,12 @@
 					colNames:menuTitleKorList,
 					colModel:colModel,
 					jsonReader : {
-			        	id: 'menuKeyNum',
+			        	id: 'productVersionKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
-			        sortname: '1', 	// 기본 정렬 
+			        sortname: 'productVersionKeyNum', 	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -101,13 +101,11 @@
 													<c:forEach var="item" items="${menuSettingItemList}">
 													  	<div class="col-lg-2">
 													  	  	<label class="labelFontSize">${item.menuTitleKor}</label>
-													  	  	<input type="text"
-													  	  	       id="${item.menuTitle}" 
-													  	  	       name="${item.menuTitle}"
-													  	  	       class="form-control">
+													  	  	<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control">
 													  	</div>
 													</c:forEach>
 													<input type="hidden" id="menuKeyNum" name="menuKeyNum" value="${menuKeyNum}">
+													<input type="hidden" id="menuTitle" name="menuTitle" value="${menuTitle}">
 		                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -130,6 +128,7 @@
 																<tr>
 																	<td style="font-weight:bold;">제품 버전 관리 :
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																	</td>
 																</tr>
@@ -171,7 +170,7 @@
 			    success: function (data) {
 			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-			        $.modal(data, 's'); //modal창 호출
+			        $.modal(data, 'productVersion'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
@@ -197,6 +196,7 @@
 		
 		/* =========== 삭제 ========= */
 		$('#BtnDelect').click(function() {
+			var menuKeyNum = $('#menuKeyNum').val();
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList == 0) {
 				Swal.fire({               
@@ -207,7 +207,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 카테고리를 삭제하시겠습니까?",
+					  text: "선택한 제품 정보를 삭제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -218,23 +218,19 @@
 					  $.ajax({
 						url: "<c:url value='/productVersion/delete'/>",
 						type: "POST",
-						data: {chkList: chkList},
+						data: {
+							chkList: chkList,
+							"menuKeyNum": menuKeyNum
+						},
 						dataType: "text",
 						traditional: true,
 						async: false,
 						success: function(data) {
-							console.log(data);
 							if(data == "OK")
 								Swal.fire(
 								  '성공!',
 								  '삭제 완료하였습니다.',
 								  'success'
-								)
-							else if(data == "VALIDATION")
-								Swal.fire(
-								  '실패!',
-								  '배포 내용에 해당 카테고리가 사용되고 있습니다.',
-								  'error'
 								)
 							else 
 								Swal.fire(
@@ -254,23 +250,41 @@
 		});
 		
 		/* =========== 수정 Modal ========= */
-		function updateView(data) {
+		$('#BtnUpdate').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+				return;
+			} else if(chkList.length > 1) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '수정할 하나의 행만 선택해 주세요.',    
+				});    
+				return;
+			}
+
 			var formData = $('#form').serializeObject();
+			formData["productVersionKeyNum"] = chkList;
 			$.ajax({
-	            type: 'POST',
-	            url: "<c:url value='/productVersion/updateView'/>",
-	            data: {"menuKeyNum" : data},
-	            async: false,
-	            success: function (data) {
-	            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+			    type: 'POST',
+			    url: "<c:url value='/productVersion/updateView'/>",
+			    data: formData,
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-	                $.modal(data, 's'); //modal창 호출
-	            },
-	            error: function(e) {
-	                // TODO 에러 화면
-	            }
-	        });
-		}
+			        $.modal(data, 'productVersion'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});			
+		});
 		
 		/* =========== 검색 초기화 ========= */
 		$('#btnReset').click(function() {

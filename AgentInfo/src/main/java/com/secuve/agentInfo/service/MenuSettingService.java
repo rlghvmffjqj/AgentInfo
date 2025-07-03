@@ -3,6 +3,7 @@ package com.secuve.agentInfo.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -174,6 +175,10 @@ public class MenuSettingService {
 
 	public List<MenuSetting> getMenuSettingItemList(int menuParentKeyNum) {
 		return menuSettingDao.getMenuSettingItemList(menuParentKeyNum);
+	}
+
+	public List<Map<String,Object>> getMenuSettingItemListJoin(MenuSetting menuSetting) {
+		return menuSettingDao.getMenuSettingItemListJoin(menuSetting);
 	}
 
 

@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 @Component
 public class ProductVersion {
+	private int productVersionKeyNum;
 	private String productData;
 	private int menuKeyNum;
 	
@@ -20,6 +21,6 @@ public class ProductVersion {
 
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수
-	private String sidx="1";		// 정렬할 기준 데이터
+	private String sidx="productVersionKeyNum";		// 정렬할 기준 데이터
 	private String sord;
 }

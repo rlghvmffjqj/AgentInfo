@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +75,36 @@ public class ProductVersionService {
 
 	public int getProductVersionListCount(ProductVersion search) {
 		return productVersionDao.getProductVersionListCount(search);
+	}
+
+	public String insertProductVersion(Map<String, String> paramMap) {
+		int success = productVersionDao.insertProductVersion(paramMap);
+		if (success <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
+	}
+
+	public String delProductVersion(MenuSetting menuSettingOne, int[] chkList) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		int success = 1;
+		paramMap.put("tableName", menuSettingOne.getMenuTitle()+"_"+menuSettingOne.getMenuKeyNum());
+		for (int productVersionKeyNum : chkList) {
+			paramMap.put("productVersionKeyNum", productVersionKeyNum);
+			success *= productVersionDao.delProductVersion(paramMap);
+		}
+		if (success <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
+	}
+
+	public String updateProductVersion(Map<String, String> paramMap) {
+		int success = productVersionDao.updateProductVersion(paramMap);
+		if (success <= 0) {
+			return "FALSE";
+		} 
+		return "OK";
 	}
 
 }
