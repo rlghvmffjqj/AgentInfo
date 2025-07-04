@@ -57,7 +57,7 @@ public class MenuSettingDao {
 		return sqlSession.selectOne("menuSetting.getMenuTitleCheck", menuSetting);
 	}
 
-	public int getItemCheck(String mainKeyNum) {
+	public int getItemCheck(int mainKeyNum) {
 		return sqlSession.selectOne("menuSetting.getItemCheck", mainKeyNum);
 	}
 
@@ -75,6 +75,18 @@ public class MenuSettingDao {
 
 	public List<Map<String,Object>> getMenuSettingItemListJoin(MenuSetting menuSetting) {
 		return sqlSession.selectList("menuSetting.getMenuSettingItemListJoin",menuSetting);
+	}
+
+	public int getSortNumMax(MenuSetting menuSetting) {
+		return sqlSession.selectOne("menuSetting.getSortNumMax",menuSetting);
+	}
+
+	public int getItemExistCheck(int menuKeyNum) {
+		return sqlSession.selectOne("menuSetting.getItemExistCheck",menuKeyNum);
+	}
+
+	public int getSubExistCheck(int menuKeyNum) {
+		return sqlSession.selectOne("menuSetting.getSubExistCheck",menuKeyNum);
 	}
 
 

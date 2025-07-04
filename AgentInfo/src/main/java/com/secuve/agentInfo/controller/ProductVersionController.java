@@ -77,7 +77,7 @@ public class ProductVersionController {
 	@ResponseBody
 	@PostMapping(value = "/productVersion/{productData}")
 	public Map<String, Object> productData(@PathVariable("productData") String productData, ProductVersion search, @RequestParam Map<String, String> paramMap) {
-		search.setParamMap(paramMap);
+		paramMap.put("productData", productData);
 		Map<String, Object> response = new HashMap<>();
 //		search.setProductData(productData);
 		
@@ -89,10 +89,11 @@ public class ProductVersionController {
 		List<Map<String, Object>> productDataList = new ArrayList<Map<String, Object>>();
 		int totalCount = 0;
 		try {
-			productDataList = productVersionService.getProductVersionList(search);
-			totalCount = productVersionService.getProductVersionListCount(search);
+			productDataList = productVersionService.getProductVersionList(paramMap);
+			totalCount = productVersionService.getProductVersionListCount(paramMap);
 		} catch (Exception e) {
 			System.out.println("테이블이 생성 되지 않았습니다. 메뉴 설정에서 컬럼이 존재하는지 확인 바랍니다.");
+			System.out.println(e);
 		}
 	
 		response.put("page", search.getPage());
@@ -105,7 +106,6 @@ public class ProductVersionController {
 	
 	@PostMapping(value = "/productVersion/insertView")
 	public String InsertProductVersionView(Model model, MenuSetting menuSetting) {
-//		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
 		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(menuSetting.getMenuKeyNum());
 		
 		model.addAttribute("viewType", "insert");

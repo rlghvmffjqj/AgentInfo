@@ -342,6 +342,18 @@
 								  '삭제 완료하였습니다.',
 								  'success'
 								)
+							else if(data == "ItemExist")
+								Swal.fire(
+								  '실패!',
+								  '데이터 유실 방지를 위해 컬럼전체 삭제 후 삭제 바랍니다.',
+								  'error'
+								)
+							else if(data == "SubExist")
+								Swal.fire(
+								  '실패!',
+								  '데이터 유실 방지를 위해 서브 메뉴 삭제 후 삭제 바랍니다.',
+								  'error'
+								)
 							else
 								Swal.fire(
 								  '실패!',
@@ -452,6 +464,12 @@
 								  '성공!',
 								  '삭제 완료하였습니다.',
 								  'success'
+								)
+							else if(data == "ItemExist")
+								Swal.fire(
+								  '실패!',
+								  '데이터 유실 방지를 위해 컬럼전체 삭제 후 삭제 바랍니다.',
+								  'error'
 								)
 							else
 								Swal.fire(

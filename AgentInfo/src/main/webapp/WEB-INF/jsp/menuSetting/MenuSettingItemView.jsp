@@ -7,7 +7,7 @@
 			<div>
 		 		<label class="labelFontSize">순서</label>
 		 	</div>
-		 	<input type="number" id="menuSort" name="menuSort" class="form-control viewForm" value="1">
+		 	<input type="number" id="menuSort" name="menuSort" class="form-control viewForm" value="${sortNumMax}">
 		</div>
 		<div class="pading5Width370">
 			<div>
@@ -60,7 +60,7 @@
 	})
 
 	$('#insertBtn').click(function() {
-		if($('#menuSort').val() == "" && $('#menuTitle').val() == "") {
+		if($('#menuSort').val() == "" || $('#menuTitle').val() == "" || $('#menuTitleKor').val() == "") {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
@@ -82,6 +82,13 @@
 						icon: 'error',
 						title: '실패!',
 						text: '해당 메뉴에 동일한 컬럼명 또는 순서를 입력할 수 없습니다.',
+					});	
+					return;
+				} else if(result == "OnlyEnglish") {
+					Swal.fire({
+						icon: 'error',
+						title: '실패!',
+						text: '컬럼명(영문)에는 영문만 입력 바랍니다.',
 					});	
 					return;
 				}

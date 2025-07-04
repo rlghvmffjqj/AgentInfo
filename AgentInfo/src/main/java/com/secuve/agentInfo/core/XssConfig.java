@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Entities;
 import org.jsoup.select.Elements;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +44,8 @@ public class XssConfig implements WebMvcConfigurer {
 		urls.add("/individualNoteTree/*");
 		urls.add("/sharedNoteTree/*");
 		urls.add("/customerConsolidation/*");
+		urls.add("/productVersion/*");
+		urls.add("/menuSetting/*");
 		filterRegistration.setUrlPatterns(urls);
 		return filterRegistration;
 	}

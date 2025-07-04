@@ -40,7 +40,7 @@
 		ALTER TABLE ${tableName} CHANGE ${oldTitle} ${menuTitle} ${menuItemType};
 	</update>
 	
-	<select id="getProductVersionList" resultType="map">
+	<select id="getProductVersionList" parameterType="map" resultType="map">
 		SELECT *
     	FROM
     	(
@@ -48,13 +48,15 @@
     		FROM (
 				SELECT *
 				FROM ${productData}
+				<include refid="sqlProductVersion" />
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
 	</select>
 	
-	<select id="getProductVersionListCount" resultType="_int">
-		SELECT COUNT(*) FROM ${productData};
+	<select id="getProductVersionListCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM ${productData}
+		<include refid="sqlProductVersion" />;
 	</select>
 	
 	<insert id="insertProductVersion" parameterType="map">
@@ -86,12 +88,17 @@
 		WHERE productVersionKeyNum = ${productVersionKeyNum} 
 	</update>
 	
-	<sql id="sqlPackages">
-		<foreach collection="osDetailVersionArr" item="arr">
-			<if test="${arr} != null and ${arr} != ''">
-				AND osDetailVersion LIKE CONCAT('%',#{arr},'%')				
-			</if>
-		</foreach>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlProductVersion">
+		<where>
+			<foreach collection="conditions" item="cond">
+				<if test="cond.value != null and cond.value != ''">
+					AND ${cond.key} LIKE CONCAT('%',#{cond.value},'%')
+				</if>
+			</foreach>
+		</where>
 	</sql>
 	
 </mapper>

@@ -71,10 +71,20 @@ public class MenuSettingService {
 	}
 
 	public String delMenuSetting(int menuKeyNum) {
+		int itemChek =  menuSettingDao.getItemExistCheck(menuKeyNum);
+		if(itemChek > 0) {
+			return "ItemExist";
+		}
+		
+		int subChek =  menuSettingDao.getSubExistCheck(menuKeyNum);
+		if(subChek > 0) {
+			return "SubExist";
+		}
 		int success = menuSettingDao.delMenuSetting(menuKeyNum);
 		if (success <= 0) {
 			return "FALSE";
 		} 
+		
 		return "OK";
 	}
 
@@ -85,7 +95,7 @@ public class MenuSettingService {
 	public String getItemCheck(MenuSetting menuSetting) {
 		int itemCheck = 0;
 		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
-			itemCheck = menuSettingDao.getItemCheck(menuSetting.getMainKeyNum());
+			itemCheck = menuSettingDao.getItemCheck(Integer.parseInt(menuSetting.getMainKeyNum()));
 		}
 		
 		if(itemCheck > 0) {
@@ -102,6 +112,12 @@ public class MenuSettingService {
 			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
 			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getSubKeyNum())).getMenuTitle());
 		}
+	
+		String titleEng = menuSetting.getMenuTitle();
+		boolean isEnglishOnly = titleEng != null && titleEng.matches("^[a-zA-Z]+$");
+		if (!isEnglishOnly) {
+		    return "OnlyEnglish";
+		} 
 		
 		int menuSortCheck = menuSettingDao.getMenuSortCheck(menuSetting);
 		int menuTitleCheck = menuSettingDao.getMenuTitleCheck(menuSetting);
@@ -150,7 +166,6 @@ public class MenuSettingService {
 	}
 
 	public String delItemMenuSetting(MenuSetting menuSetting) {
-		
 		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
 			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
 			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getMainKeyNum())).getMenuTitle());
@@ -179,6 +194,21 @@ public class MenuSettingService {
 
 	public List<Map<String,Object>> getMenuSettingItemListJoin(MenuSetting menuSetting) {
 		return menuSettingDao.getMenuSettingItemListJoin(menuSetting);
+	}
+
+	public int getSortNumMax(MenuSetting menuSetting) {
+		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getMainKeyNum())).getMenuTitle());
+		} else {
+			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getSubKeyNum()));
+			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getSubKeyNum())).getMenuTitle());
+		}
+		try {
+			return menuSettingDao.getSortNumMax(menuSetting);
+		} catch (Exception e) {
+			return 1;
+		}
 	}
 
 

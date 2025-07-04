@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.ProductVersionDao;
 import com.secuve.agentInfo.vo.MenuSetting;
-import com.secuve.agentInfo.vo.ProductVersion;
 
 @Service
 public class ProductVersionService {
@@ -69,12 +68,12 @@ public class ProductVersionService {
 		return "OK";
 	}
 
-	public List<Map<String, Object>> getProductVersionList(ProductVersion search) {
-		return productVersionDao.getProductVersionList(search);
+	public List<Map<String, Object>> getProductVersionList(Map<String, String> paramMap) {
+		return productVersionDao.getProductVersionList(paramMap);
 	}
 
-	public int getProductVersionListCount(ProductVersion search) {
-		return productVersionDao.getProductVersionListCount(search);
+	public int getProductVersionListCount(Map<String, String> paramMap) {
+		return productVersionDao.getProductVersionListCount(paramMap);
 	}
 
 	public String insertProductVersion(Map<String, String> paramMap) {

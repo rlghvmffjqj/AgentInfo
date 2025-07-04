@@ -70,7 +70,7 @@
 		SELECT COUNT(*) FROM menuSetting WHERE menuType = #{menuType} AND menuTitle = #{menuTitle} AND menuParentKeyNum = ${menuParentKeyNum} AND menuKeyNum != #{menuKeyNum};
 	</select>
 	
-	<select id="getItemCheck" parameterType="string" resultType="_int">
+	<select id="getItemCheck" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM menuSetting WHERE menuParentKeyNum = ${mainKeyNum} AND menuType != 'item';
 	</select>
 	
@@ -108,5 +108,17 @@
 		)
 		AND p.productVersionKeyNum = ${productVersionKeyNum}
 		ORDER BY m.menuSort ASC;
+	</select>
+	
+	<select id="getSortNumMax" resultType="_int">
+		SELECT MAX(menuSort) FROM menusetting WHERE menuParentKeyNum = #{menuParentKeyNum};
+	</select>
+	
+	<select id="getItemExistCheck" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM menuSetting WHERE menuParentKeyNum = ${menuKeyNum} AND menuType = 'item';
+	</select>
+	
+	<select id="getSubExistCheck" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM menuSetting WHERE menuParentKeyNum = ${menuKeyNum} AND menuType = 'sub';
 	</select>
 </mapper>

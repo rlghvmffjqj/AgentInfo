@@ -1,15 +1,18 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.secuve.agentInfo.vo.MenuSetting;
-import com.secuve.agentInfo.vo.ProductVersion;
 
 @Repository
 public class ProductVersionDao {
@@ -44,13 +47,47 @@ public class ProductVersionDao {
 		
 	}
 
-	public List<Map<String, Object>> getProductVersionList(ProductVersion search) {
-		return sqlSession.selectList("productVersion.getProductVersionList",search);
+	public List<Map<String, Object>> getProductVersionList(Map<String, String> paramMap) {
+        return sqlSession.selectList("productVersion.getProductVersionList", searchFormat(paramMap));
+    }
+
+	public int getProductVersionListCount(Map<String, String> paramMap) {
+		return sqlSession.selectOne("productVersion.getProductVersionListCount",searchFormat(paramMap));
+	}
+	
+	public Map<String, Object> searchFormat(Map<String, String> paramMap) {
+	    // 1. 제외할 키 목록
+	    Set<String> excludeKeys = new HashSet<>(Arrays.asList(
+	        "menuKeyNum", "menuTitle", "_search", "nd",
+	        "rows", "page", "sidx", "sord", "productData"
+	    ));
+
+	    // 2. 검색 조건 추출
+	    List<Map<String, Object>> conditions = new ArrayList<>();
+	    for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+	        String key = entry.getKey();
+	        String value = entry.getValue();
+
+	        // 제외 키가 아니고, 값이 비어있지 않을 때만 추가
+	        if (!excludeKeys.contains(key) && value != null && !value.trim().isEmpty()) {
+	            Map<String, Object> condition = new HashMap<>();
+	            condition.put("key", key);
+	            condition.put("value", value.trim());
+	            conditions.add(condition);
+	        }
+	    }
+
+	    // 3. 결과 구성
+	    Map<String, Object> params = new HashMap<>();
+	    // 필수 파라미터 추가
+	    for (String key : excludeKeys) {
+	        params.put(key, paramMap.get(key));
+	    }
+	    params.put("conditions", conditions);
+
+	    return params;
 	}
 
-	public int getProductVersionListCount(ProductVersion search) {
-		return sqlSession.selectOne("productVersion.getProductVersionListCount",search);
-	}
 
 	public int insertProductVersion(Map<String, String> paramMap) {
 		Map<String, String> columnMap = new HashMap<>(paramMap);
