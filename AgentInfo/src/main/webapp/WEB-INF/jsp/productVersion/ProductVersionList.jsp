@@ -24,9 +24,9 @@
   				  name: title,  // 실제 데이터 키에 맞게 조정 필요
   				  index: title,
   				  align: 'center',
-  				  width: 200
+  				  width: 250
   				}));
-				console.log(colModel);
+
 
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
@@ -51,7 +51,7 @@
 			        sortable: true,				// 컬럼을 마우스 순서 변경
 			        height : '670',
 			        autowidth:true,				// 가로 넒이 자동조절
-			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
+			        shrinkToFit: false ,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
 			});
@@ -315,4 +315,23 @@
 		});
 
 	</script>
+	<style>
+		/* .ui-jqgrid .jqgrow td:not(:first-child),
+		.ui-jqgrid .jqgrow td:not(:first-child) * {
+			white-space: nowrap !important;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 250px;
+			display: inline-flex;
+			align-items: center;
+			text-align: center !important;
+		}
+
+		.ui-jqgrid .jqgrow td:first-child,
+		.ui-jqgrid .jqgrow td:first-child * {
+			width: 30px;
+		} */
+
+
+	</style>
 </html>

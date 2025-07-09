@@ -19,7 +19,7 @@ public class ProductVersionService {
 	}
 
 	public String alterItem(MenuSetting menuSetting) {
-		menuSetting.setTableName(menuSetting.getMenuParentTitle()+"_"+menuSetting.getMenuParentKeyNum());
+		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.alterItem(menuSetting);
 		} catch (Exception e) {
@@ -29,7 +29,7 @@ public class ProductVersionService {
 	}
 
 	public String createItem(MenuSetting menuSetting) {
-		menuSetting.setTableName(menuSetting.getMenuParentTitle()+"_"+menuSetting.getMenuParentKeyNum());
+		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.createItem(menuSetting);
 		} catch (Exception e) {
@@ -39,7 +39,7 @@ public class ProductVersionService {
 	}
 
 	public String alterDeleteItem(MenuSetting menuSetting) {
-		menuSetting.setTableName(menuSetting.getMenuParentTitle()+"_"+menuSetting.getMenuParentKeyNum());
+		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.alterDeleteItem(menuSetting);
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class ProductVersionService {
 	}
 
 	public String dropItem(MenuSetting menuSetting) {
-		menuSetting.setTableName(menuSetting.getMenuParentTitle()+"_"+menuSetting.getMenuParentKeyNum());
+		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.dropItem(menuSetting);
 		} catch (Exception e) {
@@ -59,7 +59,7 @@ public class ProductVersionService {
 	}
 
 	public String alterUpdateItem(MenuSetting menuSetting) {
-		menuSetting.setTableName(menuSetting.getMenuParentTitle()+"_"+menuSetting.getMenuParentKeyNum());
+		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.alterUpdateItem(menuSetting);
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class ProductVersionService {
 	public String delProductVersion(MenuSetting menuSettingOne, int[] chkList) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		int success = 1;
-		paramMap.put("tableName", menuSettingOne.getMenuTitle()+"_"+menuSettingOne.getMenuKeyNum());
+		paramMap.put("tableName", "ProductVersion"+"_"+menuSettingOne.getMenuKeyNum());
 		for (int productVersionKeyNum : chkList) {
 			paramMap.put("productVersionKeyNum", productVersionKeyNum);
 			success *= productVersionDao.delProductVersion(paramMap);

@@ -69,7 +69,7 @@ public class ProductVersionController {
 		model.addAttribute("menuSettingItemList", menuSettingItemList);
 		model.addAttribute("menuTitleList", menuTitleList);
 		model.addAttribute("menuTitleKorListJson", menuTitleKorListJson);
-		model.addAttribute("productData",title+"_"+number);
+		model.addAttribute("productData","ProductVersion_"+number);
 		
         return "productVersion/ProductVersionList";
     }
@@ -119,7 +119,7 @@ public class ProductVersionController {
 	@PostMapping(value = "/productVersion/productVersionInsert")
 	public String InsertProductVersion(MenuSetting menuSetting, Principal principal, @RequestParam Map<String, String> paramMap) {
 		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
-		paramMap.put("tableName", menuSettingOne.getMenuTitle()+"_"+menuSettingOne.getMenuKeyNum());
+		paramMap.put("tableName", "ProductVersion_"+menuSettingOne.getMenuKeyNum());
 		return productVersionService.insertProductVersion(paramMap);
 	}
 	

@@ -79,7 +79,7 @@
 	</delete>
 	
 	<update id="updateProductVersion" parameterType="map">
-		UPDATE ${menuTitle}_${menuKeyNum}
+		UPDATE ProductVersion_${menuKeyNum}
 		<set>
 	        <foreach collection="columnMap.keySet()" item="col">
 	            ${col} = #{columnMap[${col}]},

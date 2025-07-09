@@ -79,8 +79,10 @@ public class MenuSettingController {
 	
 	@PostMapping(value = "/menuSetting/insertView")
 	public String InsertMenuSettingView(Model model, MenuSetting menuSetting) {
+		int maxSort = menuSettingService.getMaxSort(menuSetting);
 		
 		model.addAttribute("viewType", "insert").addAttribute("menuSetting", menuSetting);
+		model.addAttribute("maxSort", maxSort);
 		return "/menuSetting/MenuSettingView";
 	}
 	
@@ -131,7 +133,7 @@ public class MenuSettingController {
 	public String InsertItemView(Model model, MenuSetting menuSetting) {
 		int sortNum = menuSettingService.getSortNumMax(menuSetting);
 		model.addAttribute("viewType", "insert").addAttribute("menuSetting", menuSetting);
-		model.addAttribute("sortNumMax", sortNum+1);
+		model.addAttribute("sortNumMax", ++sortNum);
 		
 		return "/menuSetting/MenuSettingItemView";
 	}

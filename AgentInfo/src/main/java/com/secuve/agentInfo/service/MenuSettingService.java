@@ -114,8 +114,9 @@ public class MenuSettingService {
 		}
 	
 		String titleEng = menuSetting.getMenuTitle();
-		boolean isEnglishOnly = titleEng != null && titleEng.matches("^[a-zA-Z]+$");
-		if (!isEnglishOnly) {
+		boolean isEngOrDigitOnly = titleEng != null && titleEng.matches("^[a-zA-Z0-9]+$");
+
+		if (!isEngOrDigitOnly) {
 		    return "OnlyEnglish";
 		} 
 		
@@ -207,8 +208,23 @@ public class MenuSettingService {
 		try {
 			return menuSettingDao.getSortNumMax(menuSetting);
 		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+
+	public int getMaxSort(MenuSetting menuSetting) {
+		int maxSort = 0;
+		try {
+			if("main".equals(menuSetting.getMenuType())) {
+				maxSort = menuSettingDao.getMaxMainSort();
+			} else if("sub".equals(menuSetting.getMenuType())) {
+				maxSort = menuSettingDao.getMaxSubSort(menuSetting);
+			}
+		} catch (Exception e) {
 			return 1;
 		}
+		return ++maxSort;
 	}
 
 

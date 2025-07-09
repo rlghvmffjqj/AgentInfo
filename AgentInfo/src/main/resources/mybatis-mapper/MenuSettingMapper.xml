@@ -51,7 +51,7 @@
 	</select>
 	
 	<update id="updateMenuSetting">
-		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle}, menuTitleKor = #{menuTitleKor} WHERE menuKeyNum = #{menuKeyNum};
+		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle}, menuTitleKor = #{menuTitleKor}, menuItemType = #{menuItemType} WHERE menuKeyNum = #{menuKeyNum};
 	</update>
 	
 	<delete id="delMenuSetting" parameterType="_int">
@@ -99,12 +99,12 @@
 	
 	<select id="getMenuSettingItemListJoin" resultType="map">
 		SELECT m.*, p.*
-		FROM menusetting m, ${menuTitle}_${menuKeyNum} p
+		FROM menusetting m, ProductVersion_${menuKeyNum} p
 		WHERE m.menuParentKeyNum = ${menuKeyNum}
 		AND m.menuTitle IN (
 		    SELECT COLUMN_NAME
 		    FROM INFORMATION_SCHEMA.COLUMNS
-		    WHERE TABLE_NAME = '${menuTitle}_${menuKeyNum}'
+		    WHERE TABLE_NAME = 'ProductVersion_${menuKeyNum}'
 		)
 		AND p.productVersionKeyNum = ${productVersionKeyNum}
 		ORDER BY m.menuSort ASC;
@@ -120,5 +120,13 @@
 	
 	<select id="getSubExistCheck" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM menuSetting WHERE menuParentKeyNum = ${menuKeyNum} AND menuType = 'sub';
+	</select>
+	
+	<select id="getMaxMainSort" resultType="_int">
+		SELECT MAX(menuSort) FROM menuSetting;
+	</select>
+	
+	<select id="getMaxSubSort" resultType="_int">
+		SELECT MAX(menuSort) FROM menuSetting WHERE menuParentKeyNum=${menuParentKeyNum};
 	</select>
 </mapper>

@@ -7,7 +7,12 @@
 			<div>
 		 		<label class="labelFontSize">순서</label>
 		 	</div>
-		 	<input type="number" id="menuSort" name="menuSort" class="form-control viewForm" value="1">
+			<c:if test="${viewType eq 'insert'}">
+				<input type="number" id="menuSort" name="menuSort" class="form-control viewForm" value="${maxSort}">	
+			</c:if>
+			<c:if test="${viewType eq 'update'}">
+		 		<input type="number" id="menuSort" name="menuSort" class="form-control viewForm" value="${menuSetting.menuSort}">
+			</c:if>
 		</div>
 		<div class="pading5Width370">
 			<div>

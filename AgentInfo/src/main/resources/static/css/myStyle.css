@@ -404,8 +404,8 @@ p {
 }
 
 .modal-productVersion {
-	top: 25%;
-    max-width: 400px;
+	top: 5%;
+    max-width: 800px;
 }
 
 .border1 {
@@ -442,6 +442,13 @@ p {
 	padding: 5px;
 	width: 370px;
 	height: 64px;
+}
+
+.pading5Width770{
+	padding: 5px;
+	width: 770px;
+	height: auto;
+	display: inline-block;
 }
 
 .pading5Width320 {

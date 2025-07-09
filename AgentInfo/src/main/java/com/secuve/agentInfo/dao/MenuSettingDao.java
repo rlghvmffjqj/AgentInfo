@@ -89,5 +89,13 @@ public class MenuSettingDao {
 		return sqlSession.selectOne("menuSetting.getSubExistCheck",menuKeyNum);
 	}
 
+	public int getMaxMainSort() {
+		return sqlSession.selectOne("menuSetting.getMaxMainSort");
+	}
+
+	public int getMaxSubSort(MenuSetting menuSetting) {
+		return sqlSession.selectOne("menuSetting.getMaxSubSort", menuSetting);
+	}
+
 
 }
