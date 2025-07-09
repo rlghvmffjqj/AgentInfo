@@ -26,8 +26,10 @@
 	        <select class="form-control selectpicker selectForm" id="menuItemType" name="menuItemType" data-size="5">
 				<option value="VARCHAR(10)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(10)'}">selected</c:if>>VARCHAR(10)</option>
 				<option value="VARCHAR(50)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(50)'}">selected</c:if>>VARCHAR(50)</option>
-				<option value="VARCHAR(100)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(100)'}">selected</c:if>>VARCHAR(100)</option>
+				<option value="VARCHAR(100)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(100)'}">selected</c:if> <c:if test="${viewType eq 'insert'}">selected</c:if>>VARCHAR(100)</option>
 				<option value="VARCHAR(200)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(200)'}">selected</c:if>>VARCHAR(200)</option>
+				<option value="VARCHAR(500)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(500)'}">selected</c:if>>VARCHAR(500)</option>
+				<option value="TEXT" <c:if test="${menuSetting.menuItemType eq 'TEXT'}">selected</c:if>>TEXT</option>
 				<option value="INT">INT</option>
 			</select>
 	    </div>

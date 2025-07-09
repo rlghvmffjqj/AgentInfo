@@ -552,7 +552,7 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
-			<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product version</div>
+			<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product management</div>
 
 			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
