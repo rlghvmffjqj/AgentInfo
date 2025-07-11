@@ -27,6 +27,7 @@ public class ResultsReport {
 	private String[] resultsReportCustomerNameArr;
 	private String resultsReportDateStart;
 	private String resultsReportDateEnd;
+	private int resultsreportDelKeyNum;
 	
 	private String resultsReportRegistrant;
 	private String resultsReportRegistrationDate;

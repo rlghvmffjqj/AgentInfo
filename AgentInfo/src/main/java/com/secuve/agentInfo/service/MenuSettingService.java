@@ -129,6 +129,7 @@ public class MenuSettingService {
 		if (success <= 0) {
 			return "FALSE";
 		} 
+		menuSettingDao.setMenuItemSort(menuSetting);
 		if(menuSettingDao.getItmeMenuSettingListCount(menuSetting) > 1) {
 			return productVersionService.alterItem(menuSetting);
 		} else {
@@ -163,6 +164,7 @@ public class MenuSettingService {
 		if (success <= 0) {
 			return "FALSE";
 		} 
+		menuSettingDao.setMenuItemSort(menuSetting);
 		return productVersionService.alterUpdateItem(menuSetting);
 	}
 
@@ -225,6 +227,16 @@ public class MenuSettingService {
 			return 1;
 		}
 		return ++maxSort;
+	}
+
+	public List<MenuSetting> getMenuSettingItemList(String mainKeyNum, String subKeyNum) {
+		int menuParentKeyNum = 0;
+		if(subKeyNum == "" || subKeyNum == null) {
+			menuParentKeyNum = Integer.parseInt(mainKeyNum);
+		} else {
+			menuParentKeyNum = Integer.parseInt(subKeyNum);
+		}
+		return menuSettingDao.getMenuSettingItemList(menuParentKeyNum);
 	}
 
 

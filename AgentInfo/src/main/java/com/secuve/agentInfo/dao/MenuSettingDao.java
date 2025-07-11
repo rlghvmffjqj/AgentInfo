@@ -97,5 +97,9 @@ public class MenuSettingDao {
 		return sqlSession.selectOne("menuSetting.getMaxSubSort", menuSetting);
 	}
 
+	public void setMenuItemSort(MenuSetting menuSetting) {
+		sqlSession.update("menuSetting.setMenuItemSort", menuSetting);
+	}
+
 
 }

@@ -21,10 +21,14 @@
   				];
 			  
   				const colModel = menuTitleList.map((title, idx) => ({
-  				  name: title,  // 실제 데이터 키에 맞게 조정 필요
-  				  index: title,
-  				  align: 'center',
-  				  width: 250
+  				  	name: title,  // 실제 데이터 키에 맞게 조정 필요
+  				  	index: title,
+  				  	align: 'center',
+  				  	width: 250,/*  */
+				  	classes: 'ellipsis-cell',
+    				formatter: function(cellvalue) {
+    				  return `<span title="`+cellvalue+`">`+cellvalue+`</span>`;
+    				}
   				}));
 
 
@@ -316,22 +320,18 @@
 
 	</script>
 	<style>
-		/* .ui-jqgrid .jqgrow td:not(:first-child),
-		.ui-jqgrid .jqgrow td:not(:first-child) * {
-			white-space: nowrap !important;
+		.ellipsis-cell div,
+		.ellipsis-cell span {
+			display: inline-block;
+			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			width: 250px;
-			display: inline-flex;
-			align-items: center;
-			text-align: center !important;
+			width: 100%;
 		}
 
-		.ui-jqgrid .jqgrow td:first-child,
-		.ui-jqgrid .jqgrow td:first-child * {
-			width: 30px;
-		} */
-
+		#list {
+			table-layout: fixed !important;
+		}
 
 	</style>
 </html>

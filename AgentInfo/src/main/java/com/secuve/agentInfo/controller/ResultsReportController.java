@@ -62,14 +62,14 @@ public class ResultsReportController {
 	}
 	
 	@GetMapping(value = "/resultsReport/updateView")
-	public String ResultsReportUpdateView(Model model, String resultsReportNumber) {
+	public String ResultsReportUpdateView(Model model, int resultsReportNumber) {
 		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReportNumber);
 		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
 		return "/resultsReport/ResultsReportUpdateView";
 	}
 	
 	@GetMapping(value = "/resultsReport/copyView")
-	public String ResultsReportCopyView(Model model, Principal principal, String resultsReportNumber) {
+	public String ResultsReportCopyView(Model model, Principal principal, int resultsReportNumber) {
 		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReportNumber);
 		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
 		model.addAttribute("username", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
@@ -120,7 +120,7 @@ public class ResultsReportController {
 	
 	@ResponseBody
 	@PostMapping(value = "/resultsReport/resultsReportSave")
-	public Map<String, String> resultsReportSave(ResultsReport resultsReport, Principal principal) {
+	public Map<String, Object> resultsReportSave(ResultsReport resultsReport, Principal principal) {
 		resultsReport.setResultsReportRegistrant(principal.getName());
 		resultsReport.setResultsReportRegistrationDate(resultsReportService.nowDate());
 		return resultsReportService.insertResultsReport(resultsReport);
@@ -142,7 +142,7 @@ public class ResultsReportController {
 	
 	@ResponseBody
 	@PostMapping(value = "/resultsReport/resultsReportCopy")
-	public Map<String, String> resultsReportCopy(ResultsReport resultsReport, Principal principal) {
+	public Map<String, Object> resultsReportCopy(ResultsReport resultsReport, Principal principal) {
 		resultsReport.setResultsReportRegistrant(principal.getName());
 		resultsReport.setResultsReportRegistrationDate(resultsReportService.nowDate());
 		return resultsReportService.insertResultsReport(resultsReport);

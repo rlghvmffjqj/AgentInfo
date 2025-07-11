@@ -24,16 +24,16 @@
 	</select>
 	
 	<insert id="insertResultsReport">
-		INSERT INTO resultsReport(resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportTemplate,resultsReportRegistrant,resultsReportRegistrationDate)
-		VALUES(#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportTemplate},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
+		INSERT INTO resultsReport(resultsReportKeyNum,resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportTemplate,resultsReportRegistrant,resultsReportRegistrationDate)
+		VALUES(#{resultsReportKeyNum},#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportTemplate},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
 	</insert>
 	
 	<select id="resultsReportKeyNumMax" resultType="_int">
-		SELECT MAX(resultsReportKeyNum) FROM resultsreport;
+		SELECT MAX(resultsReportKeyNum) FROM resultsreport WHERE resultsReportTemplate IS null;
 	</select>	
 	
-	<select id="getResultsReportOne" resultMap="resultsReport" parameterType="string">
-		SELECT * FROM resultsreport WHERE resultsReportNumber = #{resultsReportNumber};
+	<select id="getResultsReportOne" resultMap="resultsReport" parameterType="_int">
+		SELECT * FROM resultsreport WHERE resultsReportKeyNum = #{resultsReportKeyNum};
 	</select>
 	
 	<update id="updateResultsReport">
@@ -42,7 +42,7 @@
 	</update>
 	
 	<delete id="delResultsReport">
-		UPDATE resultsreport set resultsReportTemplate = 'del', resultsreportDelNote = #{resultsreportDelNote}  WHERE resultsReportKeyNum = #{resultsReportKeyNum};
+		UPDATE resultsreport set resultsReportTemplate = 'del', resultsreportDelNote = #{resultsreportDelNote}, resultsReportNumber = #{resultsReportNumber}, resultsReportKeyNum = #{resultsreportDelKeyNum}  WHERE resultsReportKeyNum = #{resultsReportKeyNum};
 	</delete>
 	
 	<select id="resultsReportTemplateKeyNum" resultType="_int">
@@ -50,12 +50,17 @@
 	</select>
 	
 	<select id="getResultsReportTemplatList" resultMap="resultsReport">
-		SELECT resultsReportNumber, resultsReportCustomerName FROM resultsreport WHERE resultsReportTemplate = 'on';
+		SELECT resultsReportKeyNum, resultsReportNumber, resultsReportCustomerName FROM resultsreport WHERE resultsReportTemplate = 'on';
 	</select>
 
 	<select id="getSelectInput" resultType="string" parameterType="string">
 		SELECT DISTINCT ${selectInput} FROM resultsreport WHERE ${selectInput} != '';
 	</select>
+	
+	<select id="resultsReportDelKeyNumMax" resultType="_int">
+		SELECT MAX(resultsReportKeyNum) FROM resultsreport WHERE resultsReportTemplate = 'del';
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlResultsReport">

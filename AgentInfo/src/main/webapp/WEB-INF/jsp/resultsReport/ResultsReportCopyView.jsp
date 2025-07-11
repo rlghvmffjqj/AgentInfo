@@ -1226,7 +1226,7 @@
 									// location.href="<c:url value='/resultsReport/list'/>";
 									$('#BtnPDFexport').click();  // 클릭 이벤트 트리거
 								} else {
-									location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+result2.resultsReportNumber;
+									location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+result2.resultsReportKeyNum;
 								}
 							})
 						} else {

@@ -40,17 +40,14 @@ public class ProductVersionController {
 		if (nonExist == 0) {
 	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 메뉴 정보가 존재하지 않습니다.");
 	    }
-		String title;
 		if(subTitle == "" || subTitle == null) {
 			favoritePageService.insertFavoritePage(principal, req, mainTitle);
 			model.addAttribute("menuTitle", mainTitle);
 			model.addAttribute("menuType", "main");
-			title = mainTitle;
 		} else {
 			favoritePageService.insertFavoritePage(principal, req, subTitle);
 			model.addAttribute("menuTitle", subTitle);
 			model.addAttribute("menuType", "sub");
-			title = subTitle;
 		}
 		
 		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(Integer.parseInt(number));
@@ -77,14 +74,15 @@ public class ProductVersionController {
 	@ResponseBody
 	@PostMapping(value = "/productVersion/{productData}")
 	public Map<String, Object> productData(@PathVariable("productData") String productData, ProductVersion search, @RequestParam Map<String, String> paramMap) {
+		String menuItemSort = productVersionService.getMenuItemSort(search.getMenuKeyNum());
 		paramMap.put("productData", productData);
+		paramMap.put("menuItemSort", menuItemSort);
 		Map<String, Object> response = new HashMap<>();
-//		search.setProductData(productData);
 		
-//		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(search.getMenuKeyNum());
-//		List<String> menuTitleList = menuSettingItemList.stream()  // 검색 값을 기준으로 검색 가능하게 하려고 하다가 중지 검색 컬럼 리스트를 가져왔음.
-//		        .map(MenuSetting::getMenuTitle)
-//		        .collect(Collectors.toList());
+		if("productVersionKeyNum".equals(search.getSidx())) {
+			search.setSidx(menuItemSort);
+			paramMap.put("sidx", menuItemSort);
+		}
 		
 		List<Map<String, Object>> productDataList = new ArrayList<Map<String, Object>>();
 		int totalCount = 0;

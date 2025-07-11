@@ -5,7 +5,7 @@
 <div class="modal-body" style="width: 100%; height: auto; padding-top: 5%;">
 	<div class="card-block margin10" id="templateList">
 		<c:forEach var="item" items="${resultsReportTemplatList}">
-  		  <button class="btn btn-default btn-outline-info-add serviceControlTypeBtn serviceBtnBoldColor" id="${item.resultsReportNumber}" onclick="templatSelect('${item.resultsReportNumber}')">${item.resultsReportCustomerName}</button>
+  		  <button class="btn btn-default btn-outline-info-add serviceControlTypeBtn serviceBtnBoldColor" id="${item.resultsReportNumber}" onclick="templatSelect('${item.resultsReportKeyNum}')">${item.resultsReportCustomerName}</button>
   		</c:forEach>
      </div>
 </div>

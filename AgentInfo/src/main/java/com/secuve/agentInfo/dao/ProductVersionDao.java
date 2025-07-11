@@ -59,7 +59,7 @@ public class ProductVersionDao {
 	    // 1. 제외할 키 목록
 	    Set<String> excludeKeys = new HashSet<>(Arrays.asList(
 	        "menuKeyNum", "menuTitle", "_search", "nd",
-	        "rows", "page", "sidx", "sord", "productData"
+	        "rows", "page", "sidx", "sord", "productData", "menuItemSort"
 	    ));
 
 	    // 2. 검색 조건 추출
@@ -118,6 +118,10 @@ public class ProductVersionDao {
 		params.put("productVersionKeyNum", paramMap.get("productVersionKeyNum"));
 		params.put("columnMap", columnMap);
 		return sqlSession.update("productVersion.updateProductVersion",params);
+	}
+
+	public String getMenuItemSort(int menuKeyNum) {
+		return sqlSession.selectOne("productVersion.getMenuItemSort",menuKeyNum);
 	}
 
 }

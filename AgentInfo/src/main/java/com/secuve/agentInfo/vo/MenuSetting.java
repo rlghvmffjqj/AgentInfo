@@ -18,6 +18,8 @@ public class MenuSetting {
 	private String menuTitleKor;
 	private int menuParentKeyNum;
 	private String menuItemType;
+	private String menuRequired;
+	private String menuItemSort;
 	private String menuSettingRegistrant;
 	private String menuSettingRegistrationDate;
 	private String menuSettingModifier;

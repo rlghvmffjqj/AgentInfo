@@ -46,7 +46,7 @@
 	})
 
 	$('#insertBtn').click(function() {
-		if($('#menuSort').val() == "" && $('#menuTitle').val() == "") {
+		if($('#menuSort').val() == "" || $('#menuTitle').val() == "") {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',

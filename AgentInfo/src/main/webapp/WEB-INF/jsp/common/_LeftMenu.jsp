@@ -14,9 +14,10 @@
 					if(result[i].menuType == 'main') {
 						const hasParentKey1 = result.some(item => item.menuParentKeyNum === result[i].menuKeyNum);
 						if (hasParentKey1) {
+							let menuTitle = result[i].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 						  	menuHtml += `
 								<ul class="pcoded-item pcoded-left-item">
-									<li class="main`+result[i].menuTitle+` pcoded-hasmenu">
+									<li class="main`+menuTitle+` pcoded-hasmenu">
 									<a href="#!" class="waves-effect waves-dark">
 									  <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
 				            			<span class="pcoded-mtext" data-i18n="nav.form-components.main">`+result[i].menuTitle+`</span>
@@ -26,8 +27,9 @@
 							`;		
 							for(let j=0; j<result.length; j++) {
 								if(result[i].menuKeyNum === result[j].menuParentKeyNum) {
+									let menuTitle = result[j].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 									menuHtml += `
-  				  				    	  <li class="sub`+result[j].menuTitle+`">
+  				  				    	  <li class="sub`+menuTitle+`">
   				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?subTitle=`+result[j].menuTitle+`&number=`+result[j].menuKeyNum+`" class="waves-effect waves-dark">
   				  				    	      <span class="pcoded-micon"><i class="ti-agenda"></i></span>
   				  				    	      <span class="pcoded-mtext">`+result[j].menuTitle+`</span>
@@ -43,9 +45,10 @@
   				  				</ul>
 							`;
 						} else {
+							let menuTitle = result[i].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 							menuHtml += `
 								<ul class="pcoded-item pcoded-left-item">
-									<li class="main`+result[i].menuTitle+`">
+									<li class="main`+menuTitle+`">
 										<a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?number=`+result[i].menuKeyNum+`" class="waves-effect waves-dark">
 											<span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
 											<span class="pcoded-mtext" data-i18n="nav.form-components.main">`+result[i].menuTitle+`</span>
@@ -72,11 +75,12 @@
 		for(let i=0; i<jsonMenuData.length; i++) {
 			if(jsonMenuData[i].menuType == 'sub') {
 				if("sub"+jsonMenuData[i].menuTitle == cookieName) {
-					$('.sub'+jsonMenuData[i].menuTitle).addClass('active');
+					let subTitle = jsonMenuData[i].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
+					$('.sub'+subTitle).addClass('active');
 					for(let j=0; j<jsonMenuData.length; j++) {
 						if(jsonMenuData[i].menuParentKeyNum === jsonMenuData[j].menuKeyNum) {
-							$('.main'+jsonMenuData[j].menuTitle).addClass('active');
-							$('.main'+jsonMenuData[j].menuTitle).addClass('pcoded-trigger');
+							let mainTitle = jsonMenuData[j].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
+							$('.main'+mainTitle).addClass('active pcoded-trigger');
 							break;
 						}
 					}
@@ -85,7 +89,8 @@
 			} else {
 				for(let j=0; j<jsonMenuData.length; j++) {
 					if("main"+jsonMenuData[j].menuTitle == cookieName) {
-						$('.main'+jsonMenuData[j].menuTitle).addClass('active');
+						let mainTitle = jsonMenuData[j].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
+						$('.main'+mainTitle).addClass('active');
 						break;
 					}
 				}

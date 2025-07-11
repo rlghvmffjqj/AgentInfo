@@ -88,7 +88,9 @@
 		WHERE productVersionKeyNum = ${productVersionKeyNum} 
 	</update>
 	
-	
+	<select id="getMenuItemSort" parameterType="_int" resultType="string">
+		SELECT DISTINCT menuItemSort  FROM menusetting WHERE menuParentKeyNum = #{menuKeyNum};
+	</select>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlProductVersion">

@@ -82,7 +82,10 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/automatedTesting/**").hasAnyRole("ADMIN","QA")
 			.antMatchers("/menuSetting/**").hasAnyRole("ADMIN","QA","MEMBER")
 			.antMatchers("/errorPage").permitAll()
+			.antMatchers("/menuSetting/**").hasAnyRole("ADMIN","QA","MEMBER")
+			.antMatchers("/productVersion/**").hasAnyRole("ADMIN","QA","MEMBER")
 			.antMatchers("/").hasAnyRole("MEMBER","ADMIN","ENGINEER","QA","LICENSE","ENGINEERLEADER","SALES");
+			
 			
 		
 		// 로그인 설정

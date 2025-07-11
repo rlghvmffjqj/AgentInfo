@@ -132,8 +132,10 @@ public class MenuSettingController {
 	@PostMapping(value = "/menuSetting/insertItemView")
 	public String InsertItemView(Model model, MenuSetting menuSetting) {
 		int sortNum = menuSettingService.getSortNumMax(menuSetting);
+		List<MenuSetting> menuSettingList = menuSettingService.getMenuSettingItemList(menuSetting.getMainKeyNum(), menuSetting.getSubKeyNum());
 		model.addAttribute("viewType", "insert").addAttribute("menuSetting", menuSetting);
 		model.addAttribute("sortNumMax", ++sortNum);
+		model.addAttribute("menuSettingList", menuSettingList);
 		
 		return "/menuSetting/MenuSettingItemView";
 	}
@@ -148,10 +150,12 @@ public class MenuSettingController {
 	
 	@PostMapping(value = "/menuSetting/updateItemView")
 	public String UpdateItemView(Model model, MenuSetting menuSetting) {
+		List<MenuSetting> menuSettingList = menuSettingService.getMenuSettingItemList(menuSetting.getMainKeyNum(), menuSetting.getSubKeyNum());
 		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
 		menuSettingOne.setMainKeyNum(menuSetting.getMainKeyNum());
 		menuSettingOne.setSubKeyNum(menuSetting.getSubKeyNum());
 		model.addAttribute("viewType", "update").addAttribute("menuSetting", menuSettingOne);
+		model.addAttribute("menuSettingList", menuSettingList);
 		return "/menuSetting/MenuSettingItemView";
 	}
 	

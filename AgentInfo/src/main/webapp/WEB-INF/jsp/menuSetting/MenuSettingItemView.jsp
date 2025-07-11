@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 280px;">
+<div class="modal-body" style="width: 100%; height: auto;">
 	<form id="modalForm" name="form" method ="post">
 		<div class="pading5Width370">
 			<div>
@@ -24,15 +24,29 @@
 		<div class="pading5Width370">
 	        <label class="labelFontSize">타입</label>
 	        <select class="form-control selectpicker selectForm" id="menuItemType" name="menuItemType" data-size="5">
-				<option value="VARCHAR(10)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(10)'}">selected</c:if>>VARCHAR(10)</option>
-				<option value="VARCHAR(50)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(50)'}">selected</c:if>>VARCHAR(50)</option>
-				<option value="VARCHAR(100)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(100)'}">selected</c:if> <c:if test="${viewType eq 'insert'}">selected</c:if>>VARCHAR(100)</option>
-				<option value="VARCHAR(200)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(200)'}">selected</c:if>>VARCHAR(200)</option>
-				<option value="VARCHAR(500)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(500)'}">selected</c:if>>VARCHAR(500)</option>
-				<option value="TEXT" <c:if test="${menuSetting.menuItemType eq 'TEXT'}">selected</c:if>>TEXT</option>
 				<option value="INT">INT</option>
+				<option value="VARCHAR(10)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(10)'}">selected</c:if>>VARCHAR(10)</option>
+				<option value="VARCHAR(100)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(100)'}">selected</c:if> <c:if test="${viewType eq 'insert'}">selected</c:if>>VARCHAR(100)</option>
+				<option value="VARCHAR(500)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(500)'}">selected</c:if>>VARCHAR(500)</option>
+				<option value="VARCHAR(1000)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(500)'}">selected</c:if>>VARCHAR(1000)</option>
+				<option value="TEXT" <c:if test="${menuSetting.menuItemType eq 'TEXT'}">selected</c:if>>TEXT</option>
 			</select>
 	    </div>
+		<div class="pading5Width370">
+	        <label class="labelFontSize">정렬 컬럼</label>
+	        <select class="form-control selectpicker selectForm" id="menuItemSort" name="menuItemSort" data-size="5">
+				<option value="productVersionKeyNum" <c:if test="${menuSetting.menuTitle eq 'productVersionKeyNum'}">selected</c:if>>기본 값</option>
+				<c:forEach var="item" items="${menuSettingList}">
+					<option value="${item.menuTitle}" <c:if test="${menuSetting.menuItemSort eq item.menuTitle}">selected</c:if>>${item.menuTitleKor}</option>
+				</c:forEach>
+			</select>
+	    </div>
+		<div class="pading5Width370">
+			<div>
+		 		<label class="labelFontSize">필수</label>
+		 	</div>
+		 	<input type="checkbox" id="menuRequired" name="menuRequired" class="form-control viewForm" style="width: 15px; margin-left: 13px;" <c:if test="${menuSetting.menuRequired eq 'on'}">checked</c:if>>
+		</div>
 		<input type="hidden" id="menuType" name="menuType" value="${menuSetting.menuType}">
 		<input type="hidden" id="mainKeyNum" name="mainKeyNum" value="${menuSetting.mainKeyNum}">
 		<input type="hidden" id="subKeyNum" name="subKeyNum" value="${menuSetting.subKeyNum}">

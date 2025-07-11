@@ -44,13 +44,16 @@ public class ResultsReportService {
 	}
 
 
-	public Map<String, String> insertResultsReport(ResultsReport resultsReport) {
-		Map<String, String> map = new HashMap<>();
+	public Map<String, Object> insertResultsReport(ResultsReport resultsReport) {
+		Map<String, Object> map = new HashMap<>();
+		String resultsReportKeyNumStr = resultsReport.getResultsReportNumber().substring(resultsReport.getResultsReportNumber().length() - 4);
+		resultsReport.setResultsReportKeyNum(Integer.parseInt(resultsReportKeyNumStr));
+		
 		int success = 1;
 		resultsReportDao.insertResultsReport(resultsReport);
 		map.put("result", success <= 0 ? "FALSE" : "OK");
 		if (success > 0) {
-	        map.put("resultsReportNumber", resultsReport.getResultsReportNumber());
+	        map.put("resultsReportKeyNum", resultsReport.getResultsReportKeyNum());
 	    }
 		return map;
 		
@@ -67,8 +70,8 @@ public class ResultsReportService {
 		return formatted;
 	}
 
-	public ResultsReport getResultsReportOne(String resultsReportNumber) {
-		return resultsReportDao.getResultsReportOne(resultsReportNumber);
+	public ResultsReport getResultsReportOne(int resultsReportKeyNum) {
+		return resultsReportDao.getResultsReportOne(resultsReportKeyNum);
 	}
 
 	public String updateResultsReport(ResultsReport resultsReport) {
@@ -79,7 +82,31 @@ public class ResultsReportService {
 
 	public String delResultsReport(int[] chkList, String resultsreportDelNote) {
 		for (int resultsReportKeyNum : chkList) {
-			int success = resultsReportDao.delResultsReport(resultsReportKeyNum, resultsreportDelNote);
+			ResultsReport resultsReport = resultsReportDao.getResultsReportOne(resultsReportKeyNum);
+			if("del".equals(resultsReport.getResultsReportTemplate())) {
+				return "NOTDELETE";
+			}
+			int resultsReportDelKeyNumMax = resultsReportDao.resultsReportDelKeyNumMax();
+			if(resultsReportDelKeyNumMax > 9000) {
+				resultsReport.setResultsreportDelKeyNum(resultsReportDao.resultsReportDelKeyNumMax() + 1);
+			} else {
+				resultsReport.setResultsreportDelKeyNum(resultsReportDao.resultsReportDelKeyNumMax() + 9000 + 1);
+			}
+			
+			resultsReport.setResultsreportDelNote(resultsreportDelNote);
+			// 문자열을 "-"로 분리
+	        String[] parts = resultsReport.getResultsReportNumber().split("-");
+
+	        // 안전하게 분리됐는지 확인
+	        if (parts.length == 3) {
+	        	resultsReport.setResultsReportNumber(parts[0] + "-" + parts[1] + "-Del-" + parts[2]);
+	        } else if(parts.length == 4) {
+	        	resultsReport.setResultsReportNumber(parts[0] + "-" + parts[1] + "-" + parts[2] + "-Del-" + parts[3]);
+	        } else {
+	            System.out.println("형식이 잘못되었습니다.");
+	            return "FALSE";
+	        }
+			int success = resultsReportDao.delResultsReport(resultsReport);
 			if (success <= 0)
 				return "FALSE";
 		}

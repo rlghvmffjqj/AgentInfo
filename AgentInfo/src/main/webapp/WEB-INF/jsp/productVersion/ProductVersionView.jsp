@@ -7,22 +7,22 @@
 		    <div class="pading5Width770">
 		        <div>
 		            <label class="labelFontSize">${item.menuTitleKor}</label>
+					<c:if test="${item.menuRequired eq 'on'}"><label style="color: red; margin-top: 5px">*</label></c:if>
 		        </div>
 				<c:choose>
 					<c:when test="${item.menuItemType eq 'INT'}">
-						<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if>>
+						<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:when>
-					<c:when test="${item.menuItemType eq 'VARCHAR(500)'}">
-						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)"><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+					<c:when test="${item.menuItemType eq 'VARCHAR(500)' or item.menuItemType eq 'VARCHAR(1000)'}">
+						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
 					</c:when>
 					<c:when test="${item.menuItemType eq 'TEXT'}">
-						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)"><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
 					</c:when>
 					<c:otherwise>
-						<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm" placeholder="${item.menuTitleKor}" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if>>
+						<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm" placeholder="${item.menuTitleKor}" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:otherwise>
 				</c:choose>
-		        
 		    </div>
 		</c:forEach>
 		<input type="hidden" id="menuKeyNum" name="menuKeyNum" value="${menuSetting.menuKeyNum}">
@@ -33,10 +33,10 @@
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'insert'}">
-			<button class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
+			<button type="button" class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
+			<button type="button" class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
@@ -45,7 +45,24 @@
 <script>
 	$('#insertBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
-		
+
+		let isValid = true;
+		$('[required]').each(function() {
+		  if (!this.value || this.value.trim() === '') {
+		    const labelText = $(this).siblings('div').find('label.labelFontSize').text() || $(this).attr('name');
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: labelText+ '를(을) 필수 입력바랍니다.',
+			});
+		    $(this).focus();
+			isValid = false;
+		    return false;
+		  }
+		});
+
+		if (!isValid) return;
+
 		$.ajax({
 			url: "<c:url value='/productVersion/productVersionInsert'/>",
 	        type: 'post',
@@ -78,6 +95,23 @@
 
 	$('#updateBtn').click(function() {		
 		var postData = $('#modalForm').serializeObject();
+
+		let isValid = true;
+		$('[required]').each(function() {
+		  if (!this.value || this.value.trim() === '') {
+		    const labelText = $(this).siblings('div').find('label.labelFontSize').text() || $(this).attr('name');
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: labelText+ '를(을) 필수 입력바랍니다.',
+			});
+		    $(this).focus();
+			isValid = false;
+		    return false;
+		  }
+		});
+
+		if (!isValid) return;
 		
 		$.ajax({
 			url: "<c:url value='/productVersion/productVersionUpdate'/>",

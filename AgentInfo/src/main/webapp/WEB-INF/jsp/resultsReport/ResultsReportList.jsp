@@ -310,7 +310,7 @@
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.resultsReportNumber+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="updateView('+"'"+rowdata.resultsReportKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 
 		
@@ -396,6 +396,12 @@
 						  '성공!',
 						  '삭제 완료하였습니다.',
 						  'success'
+						)
+					else if(data == "NOTDELETE") 
+						Swal.fire(
+						  '실패!',
+						  '삭제 보고서 조회에서 삭제는 불가능합니다.',
+						  'error'
 						)
 					else
 						Swal.fire(

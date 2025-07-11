@@ -106,4 +106,8 @@ public class ProductVersionService {
 		return "OK";
 	}
 
+	public String getMenuItemSort(int menuKeyNum) {
+		return productVersionDao.getMenuItemSort(menuKeyNum);
+	}
+
 }
