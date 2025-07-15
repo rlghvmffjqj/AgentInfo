@@ -203,7 +203,7 @@
 		
 		/* =========== 테이블 새로고침 ========= */
 		function tableRefresh() {
-			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
+			//setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 		
 			$('#vmServerHostName').val($('#vmServerHostNameMulti').val().join());
 			$('#vmServerName').val($('#vmServerNameMulti').val().join());

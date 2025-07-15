@@ -4,7 +4,7 @@
 <div class="modal-body scroll box1" style="width: 100%; height: auto;">
 	<form id="modalForm" name="form" method ="post">
 		<c:forEach var="item" items="${menuSettingItemList}">
-		    <div class="pading5Width770">
+		    <div class="pading5Width970">
 		        <div>
 		            <label class="labelFontSize">${item.menuTitleKor}</label>
 					<c:if test="${item.menuRequired eq 'on'}"><label style="color: red; margin-top: 5px">*</label></c:if>
@@ -185,7 +185,7 @@ $(document).on('mouseenter', 'textarea.auto-height', function () {
 	}
 
 	.itemArea:hover {
-		border: 2px solid #ffa700 !important;
+		border: 1px solid #ffa700 !important;
 	}
 
 

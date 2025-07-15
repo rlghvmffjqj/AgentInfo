@@ -12,6 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
 
 @Repository
@@ -122,6 +123,18 @@ public class ProductVersionDao {
 
 	public String getMenuItemSort(int menuKeyNum) {
 		return sqlSession.selectOne("productVersion.getMenuItemSort",menuKeyNum);
+	}
+
+	public List<MenuSetting> getcompatibilityList(Compatibility search) {
+		return sqlSession.selectList("productVersion.getcompatibilityList",search);
+	}
+
+	public int getcompatibilityListCount(Compatibility search) {
+		return sqlSession.selectOne("productVersion.getcompatibilityListCount",search);
+	}
+
+	public List<String> getProductVersionTableList(String databaseName) {
+		return sqlSession.selectList("productVersion.getProductVersionTableList", databaseName);
 	}
 
 }

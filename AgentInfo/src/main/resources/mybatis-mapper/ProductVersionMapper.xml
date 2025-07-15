@@ -3,6 +3,7 @@
         
 <mapper namespace="productVersion">
 	<resultMap type="com.secuve.agentInfo.vo.MenuSetting" id="menuSetting"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.Compatibility" id="compatibility"></resultMap>
 	
 	
 	<select id="getProductVersionNoneExist" resultType="_int">
@@ -20,6 +21,7 @@
 	<update id="createItem">
 		CREATE TABLE ${tableName} (
 			productVersionKeyNum INT AUTO_INCREMENT PRIMARY KEY,
+			menuKeyNum INT DEFAULT ${menuParentKeyNum},
 			${menuTitle} ${menuItemType}
 		)
 	</update>
@@ -90,6 +92,89 @@
 	
 	<select id="getMenuItemSort" parameterType="_int" resultType="string">
 		SELECT DISTINCT menuItemSort  FROM menusetting WHERE menuParentKeyNum = #{menuKeyNum};
+	</select>
+	
+	<select id="getcompatibilityList" resultMap="compatibility" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT 
+					pv.productVersionKeyNum,
+					main.menuTitle AS mainMenuTitle,
+					sub.menuTitle AS subMenuTitle,
+					pv.packageName,
+					pv.location,
+					pv.version
+				FROM (
+					<foreach collection="productVersionTable" item="table" separator="UNION ALL">
+		                SELECT 
+		                    productVersionKeyNum,
+		                    menuKeyNum, 
+		                    packageName, 
+		                    location, 
+		                    '${table.substring(table.indexOf("_") + 1)}' AS version
+		                FROM ${table}
+		                <trim prefix="WHERE" prefixOverrides="AND|OR">
+							<if test="packageNameView != null and packageNameView != ''">
+								AND packageName LIKE CONCAT('%',#{packageNameView},'%')
+							</if>
+							<if test="locationView != null and locationView != ''">
+								AND location LIKE CONCAT('%',#{locationView},'%')
+							</if>
+						</trim>
+		            </foreach>
+				) pv
+				LEFT JOIN menusetting sub 
+				  	ON pv.menuKeyNum = sub.menuKeyNum AND sub.menuType = 'sub'
+				  	<if test="subTitleView != null and subTitleView != ''">
+				  		AND sub.menuTitle LIKE CONCAT('%',#{subTitleView},'%')
+				  	</if>
+				LEFT JOIN menusetting main 
+				  	ON (
+						sub.menuParentKeyNum = main.menuKeyNum AND main.menuType = 'main'
+				    )
+				    <if test="mainTitleView != null and mainTitleView != ''">
+				    	WHERE main.menuTitle LIKE CONCAT('%',#{mainTitleView},'%')
+				    </if>
+				    OR (
+				       pv.menuKeyNum = main.menuKeyNum AND main.menuType = 'main' AND sub.menuKeyNum IS NULL
+				    )
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getProductVersionTableList" parameterType="string" resultType="string">
+		SELECT table_name
+		FROM information_schema.tables
+		WHERE table_schema = #{databaseName}
+  			AND table_name LIKE 'productversion_%';
+	</select>
+	
+	<select id="getcompatibilityListCount" resultType="_int">	
+		SELECT COUNT(*)
+				FROM (
+					<foreach collection="productVersionTable" item="table" separator="UNION ALL">
+		                SELECT 
+		                    productVersionKeyNum,
+		                    menuKeyNum, 
+		                    packageName, 
+		                    location, 
+		                    '${table.substring(table.indexOf("_") + 1)}' AS version
+		                FROM ${table}
+		            </foreach>
+				) pv
+				LEFT JOIN menusetting sub 
+				  	ON pv.menuKeyNum = sub.menuKeyNum AND sub.menuType = 'sub'
+				LEFT JOIN menusetting main 
+				  	ON (
+						sub.menuParentKeyNum = main.menuKeyNum AND main.menuType = 'main'
+				    )
+				    OR (
+				       pv.menuKeyNum = main.menuKeyNum AND main.menuType = 'main' AND sub.menuKeyNum IS NULL
+				    )
 	</select>
 	<!-- ==================================================================================== -->
 	

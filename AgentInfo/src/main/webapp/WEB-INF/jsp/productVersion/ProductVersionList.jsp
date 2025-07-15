@@ -134,6 +134,8 @@
 																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
+																		<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd">호환 항목 등록</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibility">호환 항목 조회</button>
 																	</td>
 																</tr>
 																<tr>
@@ -318,6 +320,29 @@
 			tableRefresh();
 		});
 
+
+		/* =========== 추가 Modal ========= */
+		$('#BtnCompatibilityAdd').click(function() {
+			var menuKeyNum = $('#menuKeyNum').val();
+			var chkList = $("#list").getGridParam('selarrrow');
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/productVersion/compatibilityView'/>",
+			    data: {
+					chkList: chkList,
+					"menuKeyNum": menuKeyNum
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'compatibility'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});			
+		});
 	</script>
 	<style>
 		.ellipsis-cell div,

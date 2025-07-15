@@ -1,5 +1,7 @@
 package com.secuve.agentInfo.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.ProductVersionDao;
+import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
 
 @Service
@@ -108,6 +111,32 @@ public class ProductVersionService {
 
 	public String getMenuItemSort(int menuKeyNum) {
 		return productVersionDao.getMenuItemSort(menuKeyNum);
+	}
+
+	public List<MenuSetting> getcompatibilityList(Compatibility search) throws UnknownHostException {
+		String databaseName;
+		String localIp = InetAddress.getLocalHost().getHostAddress();
+		if(localIp.equals("172.16.100.90")) {
+			databaseName = "agentinfo_sub";
+		} else {
+			databaseName = "agentinfo";
+		}
+		search.setProductVersionTable(productVersionDao.getProductVersionTableList(databaseName));
+		search.getProductVersionTable().remove("productversion_"+search.getMenuKeyNum());
+		return productVersionDao.getcompatibilityList(search);
+	}
+
+	public int getcompatibilityListCount(Compatibility search) throws UnknownHostException {
+		String databaseName;
+		String localIp = InetAddress.getLocalHost().getHostAddress();
+		if(localIp.equals("172.16.100.90")) {
+			databaseName = "agentinfo_sub";
+		} else {
+			databaseName = "agentinfo";
+		}
+		search.setProductVersionTable(productVersionDao.getProductVersionTableList(databaseName));
+		search.getProductVersionTable().remove("productversion_"+search.getMenuKeyNum());
+		return productVersionDao.getcompatibilityListCount(search);
 	}
 
 }

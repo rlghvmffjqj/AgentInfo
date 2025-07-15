@@ -405,7 +405,12 @@ p {
 
 .modal-productVersion {
 	top: 5%;
-    max-width: 800px;
+    max-width: 1000px;
+}
+
+.modal-compatibility {
+	top: 5%;
+    max-width: 1000px;
 }
 
 .border1 {
@@ -444,9 +449,9 @@ p {
 	height: 64px;
 }
 
-.pading5Width770{
+.pading5Width970{
 	padding: 5px;
-	width: 770px;
+	width: 970px;
 	height: auto;
 	display: inline-block;
 }
@@ -1262,6 +1267,15 @@ input:focus+.labl::before{
 	max-width: 13.66%;
 }
 
+.col-lg-25 {
+	max-width: 25%;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+}
 a {
     color: #0000EE;
     text-decoration: none;

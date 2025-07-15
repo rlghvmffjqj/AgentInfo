@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.MenuSettingService;
 import com.secuve.agentInfo.service.ProductVersionService;
+import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
 import com.secuve.agentInfo.vo.ProductVersion;
 
@@ -147,4 +149,28 @@ public class ProductVersionController {
 
 		return productVersionService.updateProductVersion(paramMap);
 	}
+	
+	@PostMapping(value = "/productVersion/compatibilityView")
+	public String CompatibilityView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
+		
+		model.addAttribute("viewType", "insert");
+		model.addAttribute("menuKeyNum", menuKeyNum);
+		
+		return "/productVersion/CompatibilityView";
+	}
+	
+	@ResponseBody
+    @PostMapping(value = "/compatibility")
+    public Map<String, Object> Compatibility(Compatibility search) throws UnknownHostException {
+        Map<String, Object> response = new HashMap<>();
+        List<MenuSetting> compatibilityList = productVersionService.getcompatibilityList(search);
+        int totalCount = productVersionService.getcompatibilityListCount(search);
+
+        response.put("page", search.getPage());
+        response.put("total", Math.ceil((float) totalCount / search.getRows()));
+        response.put("records", totalCount);
+        response.put("rows", compatibilityList);
+
+        return response;
+    }
 }
