@@ -72,7 +72,7 @@ input:not([disabled]) {
 
 .col-lg-2 {
 	float: left;
-	max-width: 20%;
+	max-width: 14.2%;
 	height: 55px;
 }
 
@@ -405,12 +405,12 @@ p {
 
 .modal-productVersion {
 	top: 5%;
-    max-width: 1000px;
+    max-width: 1300px;
 }
 
 .modal-compatibility {
 	top: 5%;
-    max-width: 1000px;
+    max-width: 1300px;
 }
 
 .border1 {
@@ -449,9 +449,16 @@ p {
 	height: 64px;
 }
 
-.pading5Width970{
-	padding: 5px;
-	width: 970px;
+.pading5Width1270{
+	padding: 12px;
+	width: 1270px;
+	height: auto;
+	display: inline-block;
+}
+
+.pading5Width1065{
+	padding: 12px;
+	width: 1065px;
 	height: auto;
 	display: inline-block;
 }
@@ -1261,10 +1268,6 @@ input:focus+.labl::before{
     font-family: monospace;
     margin-right: 0px;
     font-size: 14px;
-}
-
-.col-lg-2 {
-	max-width: 13.66%;
 }
 
 .col-lg-25 {

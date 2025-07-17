@@ -18,6 +18,7 @@ public class Compatibility {
 	private String subMenuTitle;
 	private String packageName;
 	private String location;
+	private String packageDate;
 	private int menuKeyNum;
 	private List<String> productVersionTable;
 	
@@ -25,6 +26,13 @@ public class Compatibility {
 	private String subTitleView;
 	private String packageNameView;
 	private String locationView;
+	
+	private int productVersionKeyNum1;
+	private int productVersionKeyNum2;
+	private int menuKeyNum1;
+	private int menuKeyNum2;
+	private int[] productVersionKeyNumArr = new int[0];;
+	
 
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

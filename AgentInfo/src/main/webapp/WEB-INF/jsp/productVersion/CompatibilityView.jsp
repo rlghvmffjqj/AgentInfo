@@ -3,19 +3,28 @@
 
 <script>
 	$(document).ready(function(){
+		var viewType = "${viewType}"; // 서버에서 넘어온 값 사용
+    	var jqueryUrl = "/";
+
+    	if (viewType === "insert") {
+    	    jqueryUrl = "<c:url value='/compatibility'/>";
+    	} else if (viewType === "search") {
+    	    jqueryUrl = "<c:url value='/compatibilitySearch'/>";
+    	}
 		var formData = $('#compatibilityform').serializeObject();
 		$("#compatibilitylist").jqGrid({
-			url: "<c:url value='/compatibility'/>",
+			url: jqueryUrl,
 			mtype: 'POST',
 			postData: formData,
 			datatype: 'json',
-			colNames:['Key','메인 메뉴','서브 메뉴','패키지명',"전달위치"],
+			colNames:['Key','메인 메뉴','서브 메뉴','패키지명',"전달위치",'날짜'],
 			colModel:[
-				{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 35, hidden:true },
-				{name:'mainMenuTitle', index:'mainMenuTitle', align:'center', width: 100},
+				{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 35, hidden:true},
+				{name:'mainMenuTitle', index:'mainMenuTitle', align:'center', width: 80},
 				{name:'subMenuTitle', index:'subMenuTitle', align:'center', width: 100},
-				{name:'packageName', index:'packageName', align:'center', width: 300},
-				{name:'location', index:'location', align:'center', width: 410},
+				{name:'packageName', index:'packageName', align:'center', width: 300, classes: 'ellipsis-cell', formatter: function(cellvalue) {return `<span title="`+cellvalue+`">`+cellvalue+`</span>`; }, formatter: detailFormatter},
+				{name:'location', index:'location', align:'center', width: 490, classes: 'ellipsis-cell', formatter: function(cellvalue) {return `<span title="`+cellvalue+`">`+cellvalue+`</span>`; }},
+				{name:'packageDate', index:'packageDate', align:'center', width: 85},
 			],
 			jsonReader : {
 	        	id: 'productVersionKeyNum',
@@ -34,6 +43,14 @@
 	        autowidth:true,				// 가로 넒이 자동조절
 	        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 	        altRows: false,				// 라인 강조
+			ondblClickRow: function(rowid, iRow, iCol, e) {
+			    // a 태그 클릭 시에는 무시
+			    if ($(e.target).is('a')) return;
+
+			    var rowData = $(this).getRowData(rowid);
+			    detailView(rowData.productVersionKeyNum);
+			}
+
 		}); 
 	});
 	
@@ -62,6 +79,7 @@
 				  	<input type="text" id="locationView" name="locationView" class="form-control">
 				</div>
 				<input type="hidden" id="menuKeyNum" name="menuKeyNum" class="form-control" value="${menuKeyNum}">
+				<input type="hidden" id="productVersionKeyNum" name="productVersionKeyNum" class="form-control" value="${productVersionKeyNum}">
 				<div class="col-lg-12 text-right" style="margin-top: 30px;">
 					<p class="search-btn">
 						<button class="btn btn-primary btnm" type="button" id="btnSearchCompatibility">
@@ -84,7 +102,7 @@
 							<tr>
 								<td class="border1" colspan="2" style="border: none;">
 									<!------- Grid ------->
-									<div class="jqGrid_wrapper" style="width: 965px;">
+									<div class="jqGrid_wrapper" style="width: 1265px;">
 										<table id="compatibilitylist"></table>
 										<div id="compatibilitypager"></div>
 									</div>
@@ -103,8 +121,8 @@
 		<c:when test="${viewType eq 'insert'}">
 			<button type="button" class="btn btn-default btn-outline-info-add" id="insertBtn">등록</button>
 		</c:when>
-		<c:when test="${viewType eq 'update'}">
-			<button type="button" class="btn btn-default btn-outline-info-del" id="updateBtn">삭제</button>	
+		<c:when test="${viewType eq 'search'}">
+			<button class="btn btn-default btn-outline-info-del" id="deleteBtn">제거</button>	
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
@@ -112,105 +130,120 @@
 
 <script>
 	$('#insertBtn').click(function() {
-		var postData = $('#modalForm').serializeObject();
-
-		let isValid = true;
-		$('[required]').each(function() {
-		  if (!this.value || this.value.trim() === '') {
-		    const labelText = $(this).siblings('div').find('label.labelFontSize').text() || $(this).attr('name');
+		var menuKeyNum = "${menuKeyNum}";
+		var parentChkList = "${parentChkList}";
+		var childChkList = $("#compatibilitylist").getGridParam('selarrrow');
+			
+		if(childChkList == 0) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '선택한 행이 존재하지 않습니다.',    
+			});    
+		} else {
 			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: labelText+ '를(을) 필수 입력바랍니다.',
-			});
-		    $(this).focus();
-			isValid = false;
-		    return false;
-		  }
-		});
-
-		if (!isValid) return;
-
-		$.ajax({
-			url: "<c:url value='/productVersion/productVersionInsert'/>",
-	        type: 'post',
-	        data: postData,
-	        async: false,
-	        success: function(result) {
-				if(result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
+				title: '호환 등록!',
+				text: "선택한 제품을 호환가능 목록에 등록 하시겠습니까?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#7066e0',
+				cancelButtonColor: '#FF99AB',
+				confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+					$.ajax({
+						url: "<c:url value='/productVersion/insertCompatibility'/>",
+						type: "POST",
+						data: {
+							childChkList: childChkList,
+							"parentChkList": parentChkList,
+							"menuKeyNum": menuKeyNum
+						},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '호환 성공!',
+								  '작업 완료하였습니다.',
+								  'success'
+								)
+							else 
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							$('#modal').modal("hide");
+						},
+						error: function(error) {
+							console.log(error);
+						}
 					});
-					$('#modal').modal("hide"); // 모달 닫기
-		        	$('#modal').on('hidden.bs.modal', function () {
-		        		tableRefresh();
-		        	});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '작업을 실패하였습니다.',
-					});
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-	    });
+			  	}
+			})
+		}
 	});
 
-	$('#updateBtn').click(function() {		
-		var postData = $('#modalForm').serializeObject();
-
-		let isValid = true;
-		$('[required]').each(function() {
-		  if (!this.value || this.value.trim() === '') {
-		    const labelText = $(this).siblings('div').find('label.labelFontSize').text() || $(this).attr('name');
+	
+	$('#deleteBtn').click(function() {
+		var menuKeyNum = "${menuKeyNum}";
+		var parentChkList = "${parentChkList}";
+		var childChkList = $("#compatibilitylist").getGridParam('selarrrow');
+			
+		if(childChkList == 0) {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '선택한 행이 존재하지 않습니다.',    
+			});    
+		} else {
 			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: labelText+ '를(을) 필수 입력바랍니다.',
-			});
-		    $(this).focus();
-			isValid = false;
-		    return false;
-		  }
-		});
-
-		if (!isValid) return;
-		
-		$.ajax({
-			url: "<c:url value='/productVersion/productVersionUpdate'/>",
-	        type: 'post',
-	        data: postData,
-	        async: false,
-	        success: function(result) {
-				if(result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
+				title: '호환 삭제!',
+				text: "선택한 제품을 호환가능 목록에서 삭제 하시겠습니까?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#7066e0',
+				cancelButtonColor: '#FF99AB',
+				confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+					$.ajax({
+						url: "<c:url value='/productVersion/deleteCompatibility'/>",
+						type: "POST",
+						data: {
+							childChkList: childChkList,
+							"parentChkList": parentChkList,
+							"menuKeyNum": menuKeyNum
+						},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '호환 삭제!',
+								  '작업 완료하였습니다.',
+								  'success'
+								)
+							else 
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							// $('#modal').modal("hide");
+							tableRefreshCompatibility();
+						},
+						error: function(error) {
+							console.log(error);
+						}
 					});
-					$('#modal').modal("hide"); // 모달 닫기
-		        	$('#modal').on('hidden.bs.modal', function () {
-		        		tableRefresh();
-		        	});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '작업을 실패하였습니다.',
-					});
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-	    });
+			  	}
+			})
+		}
 	});
-
 
 	/* =========== 검색 ========= */
 	$('#btnSearchCompatibility').click(function() {
@@ -243,8 +276,30 @@
 		}
 	});
 
+	function detailFormatter(cellValue, options, rowdata, action) {
+		return '<a onclick="detailView('+"'"+rowdata.productVersionKeyNum+"'"+')" style="color:#366cb3; font-size:12px;">' + cellValue + '</a>';
+	}
+
+	function detailView(productVersionKeyNum) {
+		const url = "<c:url value='/productVersion/detailView'/>?productVersionKeyNum=" + encodeURIComponent(productVersionKeyNum);
+  		const specs = 'width=1100,height=750,scrollbars=yes,resizable=yes';
+
+		window.open(url, name, specs);
+	}
 </script>
+
 <style>
+	.ellipsis-cell div,
+	.ellipsis-cell span {
+		display: inline-block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 100%;
+	}
 	
+	#compatibilitylist {
+		table-layout: fixed !important;
+	}
 
 </style>

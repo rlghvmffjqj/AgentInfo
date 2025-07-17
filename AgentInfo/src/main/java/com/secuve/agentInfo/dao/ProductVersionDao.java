@@ -100,7 +100,11 @@ public class ProductVersionDao {
 		Map<String, Object> params = new HashMap<>();
 		params.put("tableName", paramMap.get("tableName"));
 		params.put("columnMap", columnMap);
-		return sqlSession.insert("productVersion.insertProductVersion",params);
+		
+		int result = sqlSession.insert("productVersion.insertProductVersion",params);
+		params.put("menuKeyNum", paramMap.get("menuKeyNum"));
+		result *= sqlSession.insert("productVersion.insertTableManagerProductVersion",params);
+		return result;
 	}
 
 	public int delProductVersion(Map<String, Object> paramMap) {
@@ -135,6 +139,23 @@ public class ProductVersionDao {
 
 	public List<String> getProductVersionTableList(String databaseName) {
 		return sqlSession.selectList("productVersion.getProductVersionTableList", databaseName);
+	}
+
+	public int insertCompatibility(Compatibility compatibility) {
+		return sqlSession.insert("productVersion.insertCompatibility",compatibility);
+	}
+
+	public int getTableManagerProductVersion(int productVersionKeyNum) {
+		return sqlSession.selectOne("productVersion.getTableManagerProductVersion",productVersionKeyNum);
+		
+	}
+
+	public List<Compatibility> getCompatibilityProductVersion(Compatibility search) {
+		return sqlSession.selectList("productVersion.getCompatibilityProductVersion", search);
+	}
+
+	public int deleteCompatibility(Compatibility compatibility) {
+		return sqlSession.delete("productVersion.deleteCompatibility",compatibility);
 	}
 
 }

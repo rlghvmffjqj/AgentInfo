@@ -4,23 +4,26 @@
 <div class="modal-body scroll box1" style="width: 100%; height: auto;">
 	<form id="modalForm" name="form" method ="post">
 		<c:forEach var="item" items="${menuSettingItemList}">
-		    <div class="pading5Width970">
+		    <div class="pading5Width1270">
 		        <div>
 		            <label class="labelFontSize">${item.menuTitleKor}</label>
 					<c:if test="${item.menuRequired eq 'on'}"><label style="color: red; margin-top: 5px">*</label></c:if>
 		        </div>
 				<c:choose>
 					<c:when test="${item.menuItemType eq 'INT'}">
-						<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
+						<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:when>
 					<c:when test="${item.menuItemType eq 'VARCHAR(500)' or item.menuItemType eq 'VARCHAR(1000)'}">
-						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
 					</c:when>
 					<c:when test="${item.menuItemType eq 'TEXT'}">
-						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+					</c:when>
+					<c:when test="${item.menuItemType eq 'DATE'}">
+						<input type="date" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:when>
 					<c:otherwise>
-						<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm" placeholder="${item.menuTitleKor}" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
+						<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="${item.menuTitleKor}" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:otherwise>
 				</c:choose>
 		    </div>
@@ -43,6 +46,15 @@
 </div>
 
 <script>
+	$(document).ready(function(){
+		var viewType = "${viewType}";
+		if(viewType === "insert") {
+			let today = new Date();
+			let formattedDate = today.toISOString().substring(0, 10);
+			$('input[type="date"]').val(formattedDate);
+		}
+	});
+
 	$('#insertBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
 
@@ -144,14 +156,16 @@
 	});
 
 	function autoResize(textarea) {
-    $(textarea).css('height', 'auto');
-    $(textarea).css('height', textarea.scrollHeight + 'px');
-}
+	    $(textarea).css('height', 'auto');
+	    $(textarea).css('height', textarea.scrollHeight + 'px');
+	}
 
-// 마우스 오버 시 높이 재조절
-$(document).on('mouseenter', 'textarea.auto-height', function () {
-    autoResize(this);
-});
+
+	$('#modal').on('shown.bs.modal', function () {
+	  $(this).find('textarea.auto-height').each(function () {
+	    autoResize(this);
+	  });
+	});
 
 </script>
 <style>
@@ -195,5 +209,12 @@ $(document).on('mouseenter', 'textarea.auto-height', function () {
         overflow: hidden; /* 스크롤바 숨김 */
         resize: none; /* 사용자가 수동으로 크기 조절하지 못하게 함 */
     }
+
+	.pvFont {
+		font-size: 13px !important;
+		color: black !important;
+		line-height: 2 !important;
+	}
+	
 
 </style>

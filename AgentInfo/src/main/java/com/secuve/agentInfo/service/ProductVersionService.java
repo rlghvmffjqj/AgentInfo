@@ -2,7 +2,9 @@ package com.secuve.agentInfo.service;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -137,6 +139,78 @@ public class ProductVersionService {
 		search.setProductVersionTable(productVersionDao.getProductVersionTableList(databaseName));
 		search.getProductVersionTable().remove("productversion_"+search.getMenuKeyNum());
 		return productVersionDao.getcompatibilityListCount(search);
+	}
+
+	public String insertCompatibility(int menuKeyNum, int[] childChkList, int[] parsedList) {
+		Compatibility compatibility = new Compatibility();
+		for (int productVersionKeyNum1 : parsedList) {
+			for (int productVersionKeyNum2 : childChkList) {
+				compatibility.setMenuKeyNum1(menuKeyNum);
+				compatibility.setProductVersionKeyNum1(productVersionKeyNum1);
+				compatibility.setMenuKeyNum2(productVersionDao.getTableManagerProductVersion(productVersionKeyNum2));
+				compatibility.setProductVersionKeyNum2(productVersionKeyNum2);
+				int success = productVersionDao.insertCompatibility(compatibility);
+				if (success <= 0) {
+					return "FALSE";
+				}
+			}
+		}
+		
+		return "OK";
+	}
+
+	public List<MenuSetting> getcompatibilitySearchList(Compatibility search) {
+		List<Compatibility> compatibilityList = productVersionDao.getCompatibilityProductVersion(search);
+		List<String> tableNameList = new ArrayList<String>();
+		int[] productVersionKeyNumArr = new int[compatibilityList.size()];
+		int num = 0;
+		for(Compatibility compatibility : compatibilityList) {
+			tableNameList.add("productversion_"+compatibility.getMenuKeyNum2());
+			productVersionKeyNumArr[num] = compatibility.getProductVersionKeyNum2();
+			num++;
+		}
+		tableNameList = new ArrayList<>(new LinkedHashSet<>(tableNameList));
+		search.setProductVersionTable(tableNameList);
+		search.setProductVersionKeyNumArr(productVersionKeyNumArr);
+		return productVersionDao.getcompatibilityList(search);
+	}
+
+	public int getcompatibilityListSearchCount(Compatibility search) {
+		List<Compatibility> compatibilityList = productVersionDao.getCompatibilityProductVersion(search);
+		List<String> tableNameList = new ArrayList<String>();
+		int[] productVersionKeyNumArr = new int[compatibilityList.size()];
+		int num = 0;
+		for(Compatibility compatibility : compatibilityList) {
+			tableNameList.add("productversion_"+compatibility.getMenuKeyNum2());
+			productVersionKeyNumArr[num] = compatibility.getProductVersionKeyNum2();
+			num++;
+		}
+		tableNameList = new ArrayList<>(new LinkedHashSet<>(tableNameList));
+		search.setProductVersionTable(tableNameList);
+		search.setProductVersionKeyNumArr(productVersionKeyNumArr);
+		return productVersionDao.getcompatibilityListCount(search);
+	}
+
+	public String deleteCompatibility(int menuKeyNum, int[] childChkList, int[] parsedList) {
+		Compatibility compatibility = new Compatibility();
+		for (int productVersionKeyNum1 : parsedList) {
+			for (int productVersionKeyNum2 : childChkList) {
+				compatibility.setMenuKeyNum1(menuKeyNum);
+				compatibility.setProductVersionKeyNum1(productVersionKeyNum1);
+				compatibility.setMenuKeyNum2(productVersionDao.getTableManagerProductVersion(productVersionKeyNum2));
+				compatibility.setProductVersionKeyNum2(productVersionKeyNum2);
+				int success = productVersionDao.deleteCompatibility(compatibility);
+				if (success <= 0) {
+					return "FALSE";
+				}
+			}
+		}
+		
+		return "OK";
+	}
+
+	public int getTableManagerProductVersion(int productVersionKeyNum) {
+		return productVersionDao.getTableManagerProductVersion(productVersionKeyNum);
 	}
 
 }

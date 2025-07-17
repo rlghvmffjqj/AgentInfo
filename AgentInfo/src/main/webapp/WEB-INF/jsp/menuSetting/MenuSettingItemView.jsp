@@ -30,6 +30,7 @@
 				<option value="VARCHAR(500)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(500)'}">selected</c:if>>VARCHAR(500)</option>
 				<option value="VARCHAR(1000)" <c:if test="${menuSetting.menuItemType eq 'VARCHAR(500)'}">selected</c:if>>VARCHAR(1000)</option>
 				<option value="TEXT" <c:if test="${menuSetting.menuItemType eq 'TEXT'}">selected</c:if>>TEXT</option>
+				<option value="DATE" <c:if test="${menuSetting.menuItemType eq 'DATE'}">selected</c:if>>DATE</option>
 			</select>
 	    </div>
 		<div class="pading5Width370">

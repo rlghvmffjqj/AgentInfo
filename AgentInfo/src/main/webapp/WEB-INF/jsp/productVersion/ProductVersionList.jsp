@@ -135,7 +135,7 @@
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
 																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																		<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd">호환 항목 등록</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibility">호환 항목 조회</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환 항목 조회</button>
 																	</td>
 																</tr>
 																<tr>
@@ -321,28 +321,77 @@
 		});
 
 
-		/* =========== 추가 Modal ========= */
+		/* =========== 호환 추가 Modal ========= */
 		$('#BtnCompatibilityAdd').click(function() {
 			var menuKeyNum = $('#menuKeyNum').val();
 			var chkList = $("#list").getGridParam('selarrrow');
-			$.ajax({
-			    type: 'POST',
-			    url: "<c:url value='/productVersion/compatibilityView'/>",
-			    data: {
-					chkList: chkList,
-					"menuKeyNum": menuKeyNum
-				},
-			    async: false,
-			    success: function (data) {
-			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
-			        $.modal(data, 'compatibility'); //modal창 호출
-			    },
-			    error: function(e) {
-			        // TODO 에러 화면
-			    }
-			});			
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/productVersion/compatibilityView'/>",
+				    data: {
+						chkList: chkList,
+						"menuKeyNum": menuKeyNum
+					},
+				    async: false,
+					traditional: true,
+					dataType: "text",
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'compatibility'); //modal창 호출
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+				    }
+				});			
+			}
 		});
+
+		$('#BtnCompatibilitySerach').click(function() {
+			var menuKeyNum = $('#menuKeyNum').val();
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			}else if(chkList.length > 1) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '하나의 행만 석택 바랍니다.',    
+				});    
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/productVersion/compatibilitySearchView'/>",
+				    data: {
+						chkList: chkList,
+						"menuKeyNum": menuKeyNum
+					},
+				    async: false,
+					traditional: true,
+					dataType: "text",
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'compatibility'); //modal창 호출
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+				    }
+				});		
+			}
+		});
+		
 	</script>
 	<style>
 		.ellipsis-cell div,

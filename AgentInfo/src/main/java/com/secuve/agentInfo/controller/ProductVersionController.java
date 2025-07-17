@@ -3,6 +3,7 @@ package com.secuve.agentInfo.controller;
 import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,9 +153,20 @@ public class ProductVersionController {
 	
 	@PostMapping(value = "/productVersion/compatibilityView")
 	public String CompatibilityView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
-		
-		model.addAttribute("viewType", "insert");
 		model.addAttribute("menuKeyNum", menuKeyNum);
+		model.addAttribute("parentChkList", Arrays.toString(chkList));
+		model.addAttribute("viewType", "insert");
+		model.addAttribute("productVersionKeyNum", 0);
+		
+		return "/productVersion/CompatibilityView";
+	}
+	
+	@PostMapping(value = "/productVersion/compatibilitySearchView")
+	public String CompatibilitySerachView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
+		model.addAttribute("menuKeyNum", menuKeyNum);
+		model.addAttribute("productVersionKeyNum", chkList[0]);
+		model.addAttribute("parentChkList", Arrays.toString(chkList));
+		model.addAttribute("viewType", "search");
 		
 		return "/productVersion/CompatibilityView";
 	}
@@ -173,4 +185,55 @@ public class ProductVersionController {
 
         return response;
     }
+	
+	@ResponseBody
+    @PostMapping(value = "/compatibilitySearch")
+    public Map<String, Object> CompatibilitySearch(Compatibility search) throws UnknownHostException {
+        Map<String, Object> response = new HashMap<>();
+        List<MenuSetting> compatibilityList = productVersionService.getcompatibilitySearchList(search);
+        int totalCount = productVersionService.getcompatibilityListSearchCount(search);
+
+        response.put("page", search.getPage());
+        response.put("total", Math.ceil((float) totalCount / search.getRows()));
+        response.put("records", totalCount);
+        response.put("rows", compatibilityList);
+
+        return response;
+    }
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/insertCompatibility")
+	public String InsertCompatibility(@RequestParam int menuKeyNum, int[] childChkList, String parentChkList) {
+		parentChkList = parentChkList.replaceAll("[\\[\\]\\s]", ""); // → "1,2,3"
+	    int[] parsedList = Arrays.stream(parentChkList.split(","))
+	                             .mapToInt(Integer::parseInt)
+	                             .toArray();
+	    
+		return productVersionService.insertCompatibility(menuKeyNum, childChkList, parsedList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/deleteCompatibility")
+	public String DeleteCompatibility(@RequestParam int menuKeyNum, int[] childChkList, String parentChkList) {
+		parentChkList = parentChkList.replaceAll("[\\[\\]\\s]", ""); // → "1,2,3"
+	    int[] parsedList = Arrays.stream(parentChkList.split(","))
+	                             .mapToInt(Integer::parseInt)
+	                             .toArray();
+	    
+		return productVersionService.deleteCompatibility(menuKeyNum, childChkList, parsedList);
+	}
+	
+	@GetMapping(value = "/productVersion/detailView")
+	public String DetailView(Model model, int productVersionKeyNum) {
+		MenuSetting menuSetting = new MenuSetting();
+		
+		menuSetting.setMenuKeyNum(productVersionService.getTableManagerProductVersion(productVersionKeyNum));
+		menuSetting.setProductVersionKeyNum(productVersionKeyNum);
+		List<Map<String,Object>> menuSettingItemList = menuSettingService.getMenuSettingItemListJoin(menuSetting);
+		
+		model.addAttribute("menuSettingItemList", menuSettingItemList);
+		model.addAttribute("menuSetting", menuSetting);
+		
+		return "/productVersion/DetailView";
+	}
 }
