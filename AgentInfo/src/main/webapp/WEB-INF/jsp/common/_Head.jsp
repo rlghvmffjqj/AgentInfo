@@ -6,8 +6,6 @@
 <title>Secuve PKG 1.0</title>
 
 <meta charset="utf-8">
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
 <!-- Favicon -->
 <link rel="icon" href="<c:url value='/images/favicon.ico'/>" type="image/x-icon">

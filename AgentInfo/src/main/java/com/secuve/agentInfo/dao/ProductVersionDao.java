@@ -158,4 +158,16 @@ public class ProductVersionDao {
 		return sqlSession.delete("productVersion.deleteCompatibility",compatibility);
 	}
 
+	public List<Object> getCompatibilityListAll(Compatibility search) {
+		return sqlSession.selectList("productVersion.getCompatibilityListAll", search);
+	}
+	
+	public Compatibility getProductVersionOne(Compatibility compatibility) {
+		return sqlSession.selectOne("productVersion.getProductVersionOne",compatibility);
+	}
+
+	public void delCompatibilityProductVersion(int productVersionKeyNum) {
+		sqlSession.delete("productVersion.delCompatibilityProductVersion",productVersionKeyNum);
+	}
+
 }

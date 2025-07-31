@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.File;
 import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -10,20 +11,27 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.View;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.secuve.agentInfo.core.FileDownloadView;
+import com.secuve.agentInfo.core.PDFDownlod;
+import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.MenuSettingService;
 import com.secuve.agentInfo.service.ProductVersionService;
@@ -36,6 +44,7 @@ public class ProductVersionController {
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired ProductVersionService productVersionService;
 	@Autowired MenuSettingService menuSettingService;
+	@Autowired PDFDownlod pdfDownlod;
 	
 	@GetMapping(value = "/productVersion/{mainTitle}")
     public String productVersionList(Model model, Principal principal, HttpServletRequest req, @PathVariable("mainTitle") String mainTitle, String subTitle, String number) throws JsonProcessingException {
@@ -52,6 +61,8 @@ public class ProductVersionController {
 			model.addAttribute("menuTitle", subTitle);
 			model.addAttribute("menuType", "sub");
 		}
+		model.addAttribute("mainTitle", mainTitle);
+		model.addAttribute("subTitle", subTitle);
 		
 		List<MenuSetting> menuSettingItemList = menuSettingService.getMenuSettingItemList(Integer.parseInt(number));
 		List<String> menuTitleList = menuSettingItemList.stream()
@@ -173,8 +184,17 @@ public class ProductVersionController {
 	
 	@ResponseBody
     @PostMapping(value = "/compatibility")
-    public Map<String, Object> Compatibility(Compatibility search) throws UnknownHostException {
+    public Map<String, Object> Compatibility(Compatibility search, String parentChkList) throws UnknownHostException {
+		search.setMapperType("add");
         Map<String, Object> response = new HashMap<>();
+        String[] parts = parentChkList.replaceAll("\\[|\\]", "").split(",");
+
+		int[] productVersionKeyNum = new int[parts.length];
+		for (int i = 0; i < parts.length; i++) {
+			productVersionKeyNum[i] = Integer.parseInt(parts[i].trim()); // 공백 제거 후 숫자 변환
+		}
+		search.setProductVersionKeyNumArr(productVersionKeyNum);
+		
         List<MenuSetting> compatibilityList = productVersionService.getcompatibilityList(search);
         int totalCount = productVersionService.getcompatibilityListCount(search);
 
@@ -189,6 +209,7 @@ public class ProductVersionController {
 	@ResponseBody
     @PostMapping(value = "/compatibilitySearch")
     public Map<String, Object> CompatibilitySearch(Compatibility search) throws UnknownHostException {
+		search.setMapperType("search");
         Map<String, Object> response = new HashMap<>();
         List<MenuSetting> compatibilityList = productVersionService.getcompatibilitySearchList(search);
         int totalCount = productVersionService.getcompatibilityListSearchCount(search);
@@ -205,6 +226,7 @@ public class ProductVersionController {
 	@PostMapping(value = "/productVersion/insertCompatibility")
 	public String InsertCompatibility(@RequestParam int menuKeyNum, int[] childChkList, String parentChkList) {
 		parentChkList = parentChkList.replaceAll("[\\[\\]\\s]", ""); // → "1,2,3"
+		
 	    int[] parsedList = Arrays.stream(parentChkList.split(","))
 	                             .mapToInt(Integer::parseInt)
 	                             .toArray();
@@ -235,5 +257,65 @@ public class ProductVersionController {
 		model.addAttribute("menuSetting", menuSetting);
 		
 		return "/productVersion/DetailView";
+	}
+	
+	@PostMapping(value = "/productVersion/export")
+	public void exportServerList(@ModelAttribute Compatibility search, @RequestParam String[] columns, String productVersionKeyNum123,
+			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Compatibility productVersionOne = productVersionService.getProductVersionOne(search);
+		
+		String[] columnList = {"mainMenuTitle","subMenuTitle", "packageName", "location", "packageDate"};
+		
+		String filename = "호환 가능 제품 목록 - " + productVersionOne.getPackageName() + ".csv";
+
+		List<Object> list = productVersionService.listAll(search);
+
+	    try {
+			Util.exportExcelFile(response, filename, list, columnList, headers);
+		} catch (Exception e) {
+			System.out.println("FAIL: Export failed.\n" + e.toString());
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/pdf")
+	public String PDF(String jsp, String packageName, Principal principal, Model model) {
+		String decodedHtml = StringEscapeUtils.unescapeHtml4(jsp);
+
+		String filePath = "C:\\AgentInfo\\productVersion";
+		String fileName = packageName + ".pdf";
+		try {
+			pdfDownlod.makepdf(decodedHtml, filePath + "\\" + fileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "FALSE";
+		}
+		return "OK"; 
+	}
+	
+	@GetMapping(value = "/productVersion/fileDownload")
+	public View FileDownload(@RequestParam String fileName, Model model) throws Exception {
+		String filePath = "C:\\AgentInfo\\productVersion";
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);  		 // 출력할 파일 이름
+	
+		return new FileDownloadView();
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/productVersion/fileDelete")
+	public String FileDelete(String fileName, Principal principal, Model model) {
+		//파일 경로 지정
+		String path = "C:\\AgentInfo\\productVersion";
+				
+		//현재 게시판에 존재하는 파일객체를 만듬
+		File file = new File(path + "\\" + fileName);
+			
+		if(file.exists()) { // 파일이 존재하면
+			file.delete(); // 파일 삭제
+			return "OK"; 
+		}
+		return "NotFile";
 	}
 }

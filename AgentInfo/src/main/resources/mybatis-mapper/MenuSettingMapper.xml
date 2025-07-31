@@ -59,7 +59,12 @@
 	</delete>
 	
 	<select id="getMenuList" resultMap="menuSetting">
-		SELECT * FROM menuSetting WHERE menuType != 'item' ORDER BY menuSort ASC;
+		SELECT ms.*, parent.menuTitle AS parentTitle
+		FROM menuSetting ms
+		LEFT JOIN menuSetting parent
+		ON ms.menuParentKeyNum = parent.menuKeyNum
+		WHERE ms.menuType != 'item'
+		ORDER BY ms.menuSort ASC;
 	</select>
 	
 	<select id="getMenuSortCheck" resultType="_int">
@@ -133,4 +138,5 @@
 	<update id="setMenuItemSort">
 		UPDATE menuSetting SET menuItemSort = #{menuItemSort} WHERE menuParentKeyNum=${menuParentKeyNum};
 	</update>
+	
 </mapper>

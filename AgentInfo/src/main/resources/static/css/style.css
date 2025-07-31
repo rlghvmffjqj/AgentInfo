@@ -8580,7 +8580,8 @@ body.menu-bottom #collapse-menu {
 .btn {
   border-radius: 2px;
   text-transform: capitalize;
-  font-size: 11px;
+  font-size: 11px;    
+  font-family: math;
   padding: 9px 12px;
   cursor: pointer; }
   @media only screen and (max-width: 480px) {

@@ -86,11 +86,17 @@ public class ResultsReportService {
 			if("del".equals(resultsReport.getResultsReportTemplate())) {
 				return "NOTDELETE";
 			}
-			int resultsReportDelKeyNumMax = resultsReportDao.resultsReportDelKeyNumMax();
-			if(resultsReportDelKeyNumMax > 9000) {
-				resultsReport.setResultsreportDelKeyNum(resultsReportDao.resultsReportDelKeyNumMax() + 1);
+			
+			int resultsReportDelKeyNumMax;
+			try { 
+				resultsReportDelKeyNumMax = resultsReportDao.resultsReportDelKeyNumMax();
+			} catch (Exception e) {
+				resultsReportDelKeyNumMax = 9000;
+			}
+			if(resultsReportDelKeyNumMax > 8999) {
+				resultsReport.setResultsreportDelKeyNum(resultsReportDelKeyNumMax + 1);
 			} else {
-				resultsReport.setResultsreportDelKeyNum(resultsReportDao.resultsReportDelKeyNumMax() + 9000 + 1);
+				resultsReport.setResultsreportDelKeyNum(resultsReportDelKeyNumMax + 9000 + 1);
 			}
 			
 			resultsReport.setResultsreportDelNote(resultsreportDelNote);
@@ -121,7 +127,7 @@ public class ResultsReportService {
 		}
 		String formatted = String.format("%02d", resultsReportKeyNumMax+1);
 
-		return "Template-"+formatted;
+		return formatted;
 	}
 
 	public List<ResultsReport> getResultsReportTemplatList() {

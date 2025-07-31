@@ -65,7 +65,7 @@ input:not([disabled]) {
 }
 
 .myBtn {
-	padding: 5px 7px;
+	padding: 8px 10px;
 	border: 1px solid #ffafaf !important;
 	min-width: 50px;
 }

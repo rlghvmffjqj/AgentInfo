@@ -157,7 +157,7 @@
 												<tr>
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<div style="float: left;">
-															<span class="menuSettingTitle">메인 메뉴</span>
+															<span class="menuSettingTitle">제품 구분</span>
 															<div class="menuSettingDiv">
 																<table class="menuSettingTable">
 																	<tbody>
@@ -183,7 +183,7 @@
 															</div>
 														</div>
 														<div style="float: left; padding-left: 1.5vw;">
-															<span class="menuSettingTitle">서브 메뉴</span>
+															<span class="menuSettingTitle">OS구분</span>
 															<div class="menuSettingDiv">
 																<table class="menuSettingTable">
 																	<tbody>

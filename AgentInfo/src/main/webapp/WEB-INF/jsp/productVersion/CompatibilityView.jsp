@@ -20,7 +20,7 @@
 			colNames:['Key','메인 메뉴','서브 메뉴','패키지명',"전달위치",'날짜'],
 			colModel:[
 				{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 35, hidden:true},
-				{name:'mainMenuTitle', index:'mainMenuTitle', align:'center', width: 80},
+				{name:'mainMenuTitle', index:'mainMenuTitle', align:'center', width: 150},
 				{name:'subMenuTitle', index:'subMenuTitle', align:'center', width: 100},
 				{name:'packageName', index:'packageName', align:'center', width: 300, classes: 'ellipsis-cell', formatter: function(cellvalue) {return `<span title="`+cellvalue+`">`+cellvalue+`</span>`; }, formatter: detailFormatter},
 				{name:'location', index:'location', align:'center', width: 490, classes: 'ellipsis-cell', formatter: function(cellvalue) {return `<span title="`+cellvalue+`">`+cellvalue+`</span>`; }},
@@ -63,11 +63,11 @@
 		<div class="searchbos">
 			<form id="compatibilityform" name="compatibilityform" method ="post" onSubmit="return false;">
 				<div class="col-lg-25">
-				  	<label class="labelFontSize">메인 메뉴</label>
+				  	<label class="labelFontSize">제품 구분</label>
 				  	<input type="text" id="mainTitleView" name="mainTitleView" class="form-control">
 				</div>
 				<div class="col-lg-25">
-				  	<label class="labelFontSize">서브 메뉴</label>
+				  	<label class="labelFontSize">OS 구분</label>
 				  	<input type="text" id="subTitleView" name="subTitleView" class="form-control">
 				</div>
 				<div class="col-lg-25">
@@ -80,6 +80,7 @@
 				</div>
 				<input type="hidden" id="menuKeyNum" name="menuKeyNum" class="form-control" value="${menuKeyNum}">
 				<input type="hidden" id="productVersionKeyNum" name="productVersionKeyNum" class="form-control" value="${productVersionKeyNum}">
+				<input type="hidden" id="parentChkList" name="parentChkList" class="form-control" value="${parentChkList}">
 				<div class="col-lg-12 text-right" style="margin-top: 30px;">
 					<p class="search-btn">
 						<button class="btn btn-primary btnm" type="button" id="btnSearchCompatibility">
@@ -122,6 +123,7 @@
 			<button type="button" class="btn btn-default btn-outline-info-add" id="insertBtn">등록</button>
 		</c:when>
 		<c:when test="${viewType eq 'search'}">
+			<button class="btn btn-default btn-outline-info-add"  onClick="doExportExec('#compatibilityform')">Excel 추출</button>	
 			<button class="btn btn-default btn-outline-info-del" id="deleteBtn">제거</button>	
 		</c:when>
 	</c:choose>
@@ -129,9 +131,14 @@
 </div>
 
 <script>
+	$(function() {
+		var productVersionKeyNum = "${productVersionKeyNum}";
+	})
+
 	$('#insertBtn').click(function() {
 		var menuKeyNum = "${menuKeyNum}";
 		var parentChkList = "${parentChkList}";
+
 		var childChkList = $("#compatibilitylist").getGridParam('selarrrow');
 			
 		if(childChkList == 0) {

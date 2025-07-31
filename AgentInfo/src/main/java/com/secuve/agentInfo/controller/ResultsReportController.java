@@ -65,6 +65,7 @@ public class ResultsReportController {
 	public String ResultsReportUpdateView(Model model, int resultsReportNumber) {
 		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReportNumber);
 		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
+		model.addAttribute("resultsReportKeyNum", resultsReportOne.getResultsReportKeyNum());
 		return "/resultsReport/ResultsReportUpdateView";
 	}
 	
@@ -151,9 +152,11 @@ public class ResultsReportController {
 	@GetMapping(value = "/resultsReport/templateAdd")
 	public String ResultsReportTemplateAdd(Model model, Principal principal) {
 		model.addAttribute("username", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
+		String maxNumber = resultsReportService.resultsReportTemplateKeyNum();
 		model.addAttribute("yearDate", resultsReportService.yearDate());
-		model.addAttribute("maxNumber", resultsReportService.resultsReportTemplateKeyNum());
-		model.addAttribute("resultsReportTemplate", "on");
+		model.addAttribute("maxNumber", "Template-"+maxNumber);
+		model.addAttribute("resultsReportKeyNum",maxNumber);
+		model.addAttribute("resultsReportTemplate", "template");
 		return "/resultsReport/ResultsReportView";
 	}
 	

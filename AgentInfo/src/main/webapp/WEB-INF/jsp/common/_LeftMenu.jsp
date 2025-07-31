@@ -15,6 +15,7 @@
 						const hasParentKey1 = result.some(item => item.menuParentKeyNum === result[i].menuKeyNum);
 						if (hasParentKey1) {
 							let menuTitle = result[i].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
+							// let parentTitle = result[i].parentTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 						  	menuHtml += `
 								<ul class="pcoded-item pcoded-left-item">
 									<li class="main`+menuTitle+` pcoded-hasmenu">
@@ -28,6 +29,7 @@
 							for(let j=0; j<result.length; j++) {
 								if(result[i].menuKeyNum === result[j].menuParentKeyNum) {
 									let menuTitle = result[j].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
+									// let parentTitle = result[j].parentTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 									menuHtml += `
   				  				    	  <li class="sub`+menuTitle+`">
   				  				    	    <a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?subTitle=`+result[j].menuTitle+`&number=`+result[j].menuKeyNum+`" class="waves-effect waves-dark">
@@ -557,7 +559,7 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
-			<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product management</div>
+			<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product release</div>
 
 			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>

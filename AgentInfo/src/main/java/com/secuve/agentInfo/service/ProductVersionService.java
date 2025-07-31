@@ -96,6 +96,7 @@ public class ProductVersionService {
 		for (int productVersionKeyNum : chkList) {
 			paramMap.put("productVersionKeyNum", productVersionKeyNum);
 			success *= productVersionDao.delProductVersion(paramMap);
+			productVersionDao.delCompatibilityProductVersion(productVersionKeyNum);
 		}
 		if (success <= 0) {
 			return "FALSE";
@@ -211,6 +212,26 @@ public class ProductVersionService {
 
 	public int getTableManagerProductVersion(int productVersionKeyNum) {
 		return productVersionDao.getTableManagerProductVersion(productVersionKeyNum);
+	}
+
+	public List<Object> listAll(Compatibility search) {
+		List<Compatibility> compatibilityList = productVersionDao.getCompatibilityProductVersion(search);
+		List<String> tableNameList = new ArrayList<String>();
+		int[] productVersionKeyNumArr = new int[compatibilityList.size()];
+		int num = 0;
+		for(Compatibility compatibility : compatibilityList) {
+			tableNameList.add("productversion_"+compatibility.getMenuKeyNum2());
+			productVersionKeyNumArr[num] = compatibility.getProductVersionKeyNum2();
+			num++;
+		}
+		tableNameList = new ArrayList<>(new LinkedHashSet<>(tableNameList));
+		search.setProductVersionTable(tableNameList);
+		search.setProductVersionKeyNumArr(productVersionKeyNumArr);
+		return productVersionDao.getCompatibilityListAll(search);
+	}
+	
+	public Compatibility getProductVersionOne(Compatibility compatibility) {
+		return productVersionDao.getProductVersionOne(compatibility);
 	}
 
 }

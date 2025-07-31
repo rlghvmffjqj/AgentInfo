@@ -80,7 +80,7 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">제품 버전 관리 [${menuTitle}]</h5>
+									            <h5 class="m-b-10">제품 릴리즈 관리 [${menuTitle}]</h5>
 									            <p class="m-b-0">Product Version</p>
 									        </div>
 									    </div>
@@ -89,7 +89,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">제품 버전 관리 [${menuTitle}]</a>
+									            <li class="breadcrumb-item"><a href="#!">제품 릴리즈 관리 [${menuTitle}]</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -130,14 +130,20 @@
 														<table style="width:100%">
 															<tbody>
 																<tr>
-																	<td style="font-weight:bold;">제품 버전 관리 :
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																		<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd">호환 항목 등록</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환 항목 조회</button>
-																	</td>
+																	<td style="font-weight:bold; padding-bottom: 5px; font-size: 13px;">제품 릴리즈 관리 :</td>
 																</tr>
+																<tr><td>
+																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert" style="margin-left: 20px;">릴리즈 등록</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">릴리즈 수정</button>
+																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">릴리즈 삭제</button>
+																</td></tr>
+																<tr style="margin-top: 20px;">
+																	<td style="font-weight:bold; padding-top: 15px; padding-bottom: 5px; font-size: 13px;">제품 호환성 관리 :</td>
+																</tr>
+																<tr><td>
+																	<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환성 목록</button>
+																</td></tr>
 																<tr>
 																	<td class="border1" colspan="2">
 																		<!------- Grid ------->

@@ -981,10 +981,10 @@
 			var styles = $("style#pdfStyle").html();
 			var htmlContent = domupPDFdate();
 			var jsp = "<style>" + styles + "</style>" + htmlContent;
+			var resultsReportKeyNum = "${resultsReportKeyNum}";
 
-			var resultsReportKeyNum = String(1).padStart(4, '0');;
-			var resultsReportCustomerName = '시큐브';
-			var resultsReportDate = "2025-03-17".replace(/-/g, "");
+			var resultsReportCustomerName = $("#resultsReportCustomerName").val();
+			var resultsReportDate = toDayNow();
 			$.ajax({
 				url: "<c:url value='/resultsReport/pdf'/>",
 				type: "POST",
@@ -2118,6 +2118,9 @@
 								if (result.isConfirmed) {
 									// location.href="<c:url value='/resultsReport/list'/>";
 									$('#BtnPDFexport').click();  // 클릭 이벤트 트리거
+									setTimeout(function() {
+									    location.href = "/resultsReport/updateView?resultsReportNumber=" + result2.resultsReportKeyNum;
+									}, 1500);  // 단점: PDF 생성 완료 타이밍이 일정하지 않으면 불안정
 								} else {
 									location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+result2.resultsReportKeyNum;
 								}
@@ -2228,6 +2231,14 @@
 			return cloned.html();
 		}
 
+		function toDayNow() {
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = String(today.getMonth() + 1).padStart(2, '0');
+			var day = String(today.getDate()).padStart(2, '0');
+			var todayStr = year + month + day;
+			return todayStr;
+		}
 	</script>
 
 	<style>

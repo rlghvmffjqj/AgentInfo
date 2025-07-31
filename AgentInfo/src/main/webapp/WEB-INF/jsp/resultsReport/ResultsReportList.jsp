@@ -43,7 +43,7 @@
 
 		<script>
 			function templateFormatter(cellValue, options, rowdata, action) {
-			    const backgroundStyle = rowdata.resultsReportTemplate === 'on' 
+			    const backgroundStyle = rowdata.resultsReportTemplate === 'template' 
 			        ? 'background: #ffffcc;'
 			        : '';
 			    return `<div style="${backgroundStyle}">${cellValue != null ? cellValue : ''}</div>`;
@@ -69,7 +69,7 @@
 						{name:'resultsreportDelNote', index:'resultsreportDelNote', align:'center', width: 250},
 					],
 					rowattr: function(rowData) {
-					    if (rowData.resultsReportTemplate?.toLowerCase() === 'on') {
+					    if (rowData.resultsReportTemplate?.toLowerCase() === 'template') {
 					        return { "class": "template-row-highlight" };
 					    }
 						if (rowData.resultsReportTemplate?.toLowerCase() === 'del') {
@@ -479,7 +479,7 @@
 		}
 
 		function templateGet() {
-			$('#resultsReportTemplate').val('on');
+			$('#resultsReportTemplate').val('template');
 			tableRefresh();
 		}
 		

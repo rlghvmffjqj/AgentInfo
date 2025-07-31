@@ -31,7 +31,8 @@ public class Compatibility {
 	private int productVersionKeyNum2;
 	private int menuKeyNum1;
 	private int menuKeyNum2;
-	private int[] productVersionKeyNumArr = new int[0];;
+	private int[] productVersionKeyNumArr = new int[0];
+	private String mapperType;
 	
 
 	private int page=1;							// 기본 페이지 번호

@@ -72,10 +72,12 @@
 			var styles = $("style#pdfStyle").html();
 			var htmlContent = domupPDFdate();
 			var jsp = "<style>" + styles + "</style>" + htmlContent;
+			var resultsReportKeyNum = "${resultsReportKeyNum}";
 
-			var resultsReportKeyNum = String(1).padStart(4, '0');;
-			var resultsReportCustomerName = '시큐브';
-			var resultsReportDate = "2025-03-17".replace(/-/g, "");
+			resultsReportKeyNum = String(resultsReportKeyNum).padStart(4, '0');;
+			var resultsReportCustomerName = $("#resultsReportCustomerName").val();
+			var resultsReportDate = toDayNow();
+			
 			$.ajax({
 				url: "<c:url value='/resultsReport/pdf'/>",
 				type: "POST",
@@ -147,6 +149,15 @@
 		function autoResize(textarea) {
 		  textarea.style.height = 'auto'; // 높이 초기화
 		  textarea.style.height = (textarea.scrollHeight) + 'px'; // 내용에 맞게 높이 설정
+		}
+
+		function toDayNow() {
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = String(today.getMonth() + 1).padStart(2, '0');
+			var day = String(today.getDate()).padStart(2, '0');
+			var todayStr = year + month + day;
+			return todayStr;
 		}
 	</script>
 	

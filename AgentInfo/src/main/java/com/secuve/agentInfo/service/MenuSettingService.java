@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.MenuSettingDao;
+import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
+import com.secuve.agentInfo.vo.ProductVersion;
 
 @Service
 public class MenuSettingService {
@@ -238,6 +240,5 @@ public class MenuSettingService {
 		}
 		return menuSettingDao.getMenuSettingItemList(menuParentKeyNum);
 	}
-
 
 }

@@ -8,7 +8,7 @@
 		SELECT *
     	FROM
     	(
-    		SELECT ROW_NUMBER() OVER(ORDER BY CASE WHEN resultsReportTemplate = 'on' THEN 0 ELSE 1 END, ${sidx} ${sord}) RowNo, a.*
+    		SELECT ROW_NUMBER() OVER(ORDER BY CASE WHEN resultsReportTemplate = 'template' THEN 0 ELSE 1 END, ${sidx} ${sord}) RowNo, a.*
     		FROM (
 				SELECT *
 				FROM resultsReport
@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="getResultsReportTemplatList" resultMap="resultsReport">
-		SELECT resultsReportKeyNum, resultsReportNumber, resultsReportCustomerName FROM resultsreport WHERE resultsReportTemplate = 'on';
+		SELECT resultsReportKeyNum, resultsReportNumber, resultsReportCustomerName FROM resultsreport WHERE resultsReportTemplate = 'template';
 	</select>
 
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -95,8 +95,8 @@
 			<if test="resultsReportDateStart != null and resultsReportDateStart != ''">
 				AND STR_TO_DATE(resultsReportDate, '%Y년 %m월 %d일') BETWEEN #{resultsReportDateStart} AND #{resultsReportDateEnd}
 			</if>
-			<if test="resultsReportTemplate == 'on'">
-				AND resultsReportTemplate = 'on' 
+			<if test="resultsReportTemplate == 'template'">
+				AND resultsReportTemplate = 'template' 
 			</if>
 			<if test="resultsReportTemplate == ''">
 				AND resultsReportTemplate IS NULL
