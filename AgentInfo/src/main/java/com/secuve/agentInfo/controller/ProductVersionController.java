@@ -164,6 +164,8 @@ public class ProductVersionController {
 	
 	@PostMapping(value = "/productVersion/compatibilityView")
 	public String CompatibilityView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
+		List<String> menutitleList = productVersionService.getMenusettingMenutitle();
+		model.addAttribute("menutitleList", menutitleList);
 		model.addAttribute("menuKeyNum", menuKeyNum);
 		model.addAttribute("parentChkList", Arrays.toString(chkList));
 		model.addAttribute("viewType", "insert");
@@ -174,6 +176,8 @@ public class ProductVersionController {
 	
 	@PostMapping(value = "/productVersion/compatibilitySearchView")
 	public String CompatibilitySerachView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
+		List<String> menutitleList = productVersionService.getMenusettingMenutitle();
+		model.addAttribute("menutitleList", menutitleList);
 		model.addAttribute("menuKeyNum", menuKeyNum);
 		model.addAttribute("productVersionKeyNum", chkList[0]);
 		model.addAttribute("parentChkList", Arrays.toString(chkList));
@@ -194,6 +198,7 @@ public class ProductVersionController {
 			productVersionKeyNum[i] = Integer.parseInt(parts[i].trim()); // 공백 제거 후 숫자 변환
 		}
 		search.setProductVersionKeyNumArr(productVersionKeyNum);
+		search.setProductVersionKeyNumList(Arrays.stream(productVersionKeyNum).boxed().collect(Collectors.toList()));
 		
         List<MenuSetting> compatibilityList = productVersionService.getcompatibilityList(search);
         int totalCount = productVersionService.getcompatibilityListCount(search);

@@ -32,6 +32,7 @@ public class Compatibility {
 	private int menuKeyNum1;
 	private int menuKeyNum2;
 	private int[] productVersionKeyNumArr = new int[0];
+	private List<Integer> productVersionKeyNumList;
 	private String mapperType;
 	
 

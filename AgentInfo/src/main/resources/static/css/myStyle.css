@@ -8,6 +8,7 @@
 
 .form-control {
 	background: none;
+	color: black;
 }
 
 input:not([disabled]) {

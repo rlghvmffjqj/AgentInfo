@@ -17,7 +17,7 @@
 			mtype: 'POST',
 			postData: formData,
 			datatype: 'json',
-			colNames:['Key','메인 메뉴','서브 메뉴','패키지명',"전달위치",'날짜'],
+			colNames:['Key','제품 구분','OS구분','패키지명',"전달위치",'날짜'],
 			colModel:[
 				{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 35, hidden:true},
 				{name:'mainMenuTitle', index:'mainMenuTitle', align:'center', width: 150},
@@ -62,13 +62,21 @@
 	<div class="ibox">
 		<div class="searchbos">
 			<form id="compatibilityform" name="compatibilityform" method ="post" onSubmit="return false;">
-				<div class="col-lg-25">
-				  	<label class="labelFontSize">제품 구분</label>
-				  	<input type="text" id="mainTitleView" name="mainTitleView" class="form-control">
-				</div>
+				<!-- <div class="col-lg-25">
+				  	<label class="labelFontSize">제품 구분</label> -->
+				  	<input type="hidden" id="mainTitleView" name="mainTitleView" class="form-control">
+				<!-- </div> -->
 				<div class="col-lg-25">
 				  	<label class="labelFontSize">OS 구분</label>
-				  	<input type="text" id="subTitleView" name="subTitleView" class="form-control">
+				  	<!-- <input type="text" id="subTitleView" name="subTitleView" class="form-control"> -->
+					<select class="form-control selectpicker" id="subTitleView" name="subTitleView" data-live-search="true" data-size="5" data-actions-box="true">
+						<option value="">전체</option>
+						<option value="Windows">Windows</option>
+						<option value="Linux">Linux</option>
+						<option value="AIX">AIX</option>
+						<option value="HP-UX">HP-UX</option>
+						<option value="SunOS">SunOS</option>
+					</select>
 				</div>
 				<div class="col-lg-25">
 				  	<label class="labelFontSize">패키지명</label>
@@ -94,28 +102,21 @@
 			</form>
 		</div>
 	</div>
-	<table style="width:100%; border:none;">
-		<tbody>
-			<tr>
-				<td style="padding:0px 0px 0px 0px;" class="box">
-					<table style="width:100%">
-						<tbody>
-							<tr>
-								<td class="border1" colspan="2" style="border: none;">
-									<!------- Grid ------->
-									<div class="jqGrid_wrapper" style="width: 1265px;">
-										<table id="compatibilitylist"></table>
-										<div id="compatibilitypager"></div>
-									</div>
-									<!------- Grid ------->
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="tab">
+		<c:forEach var="item" items="${menutitleList}">	
+			<button class="tablinks" onclick="mainTitleTab('${item}', this);">${item}</button>
+		</c:forEach>
+	</div>
+
+	<div class="tabcontent">		
+		<!------- Grid ------->
+		<div class="jqGrid_wrapper" style="width: 1265px;">
+			<table id="compatibilitylist"></table>
+			<div id="compatibilitypager"></div>
+		</div>
+		<!------- Grid ------->
+	</div>
+	
 </div>
 <div class="modal-footer">
 	<c:choose>
@@ -131,6 +132,10 @@
 </div>
 
 <script>
+	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
+	$('#sendPackageStartDateView').datetimepicker();
+	$('#sendPackageEndDateView').datetimepicker();
+
 	$(function() {
 		var productVersionKeyNum = "${productVersionKeyNum}";
 	})
@@ -260,10 +265,12 @@
 	/* =========== 검색 초기화 ========= */
 	$('#btnResetCompatibility').click(function() {
 		$("input[type='text']").val("");
+		$("#mainTitleView").val("");
+		$('.tab button').removeClass('active');
 		// $("input[type='date']").val("");
 	    
-	    // $('.selectpicker').val('');
-	    // $('.filter-option-inner-inner').text('');
+	    $('.selectpicker').val('');
+	    $('.filter-option-inner-inner').text('전체');
 		
 		tableRefreshCompatibility();
 	});
@@ -293,6 +300,18 @@
 
 		window.open(url, name, specs);
 	}
+
+	function mainTitleTab(title, btn) {
+	    $('#mainTitleView').val(title);
+	    $('.tab button').removeClass('active');
+	    $(btn).addClass('active');
+	    tableRefreshCompatibility();
+	} 
+
+	/* =========== Select Box 선택 ========= */
+	$("select").change(function() {
+		tableRefreshCompatibility();
+	});
 </script>
 
 <style>
@@ -307,6 +326,54 @@
 	
 	#compatibilitylist {
 		table-layout: fixed !important;
+	}
+
+	.tab {
+	  overflow: hidden;
+	}
+
+	.tab button {
+	  background-color: #f7deca; /* 기본 색 */
+	  float: left;
+	  border: none;
+	  outline: none;
+	  padding: 12px 15px;
+	  cursor: pointer;
+	  font-size: 12px;
+	  border-top-left-radius: 12px;
+	  border-top-right-radius: 12px;
+	  margin-right: 5px;
+	  transition: all 0.3s ease;
+	  color: #333;
+	  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	}
+
+	.tab button:hover {
+	  background-color: #fec7c7;
+	}
+
+	.tab button.active {
+	  background-color: #f1af63; /* 활성 탭 색 */
+	  color: #fff;
+	  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+	}
+
+	/* 탭 컨텐츠 스타일 */
+	.tabcontent {
+	  display: block;
+	  padding: 0px;
+	  border: 1px solid #ccc;
+	  border-top: none;
+	  background-color: #fff; /* 컨텐츠 배경 */
+	  border-radius: 0 0 12px 12px; /* 아래만 직선이 아닌 약간 둥글게 */
+	  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	  animation: fadeEffect 0.4s;
+	}
+
+	/* 페이드 인 효과 */
+	@keyframes fadeEffect {
+	  from {opacity: 0;}
+	  to {opacity: 1;}
 	}
 
 </style>

@@ -96,7 +96,7 @@ public class ProductVersionService {
 		for (int productVersionKeyNum : chkList) {
 			paramMap.put("productVersionKeyNum", productVersionKeyNum);
 			success *= productVersionDao.delProductVersion(paramMap);
-			productVersionDao.delCompatibilityProductVersion(productVersionKeyNum);
+			productVersionDao.delCompatibilityProductVersion(menuSettingOne.getMenuKeyNum(), productVersionKeyNum);
 		}
 		if (success <= 0) {
 			return "FALSE";
@@ -151,6 +151,7 @@ public class ProductVersionService {
 				compatibility.setMenuKeyNum2(productVersionDao.getTableManagerProductVersion(productVersionKeyNum2));
 				compatibility.setProductVersionKeyNum2(productVersionKeyNum2);
 				int success = productVersionDao.insertCompatibility(compatibility);
+				success *= productVersionDao.insertCompatibilityRe(compatibility);
 				if (success <= 0) {
 					return "FALSE";
 				}
@@ -162,6 +163,9 @@ public class ProductVersionService {
 
 	public List<MenuSetting> getcompatibilitySearchList(Compatibility search) {
 		List<Compatibility> compatibilityList = productVersionDao.getCompatibilityProductVersion(search);
+		if(compatibilityList.size() == 0) {
+			return null;
+		}
 		List<String> tableNameList = new ArrayList<String>();
 		int[] productVersionKeyNumArr = new int[compatibilityList.size()];
 		int num = 0;
@@ -178,6 +182,9 @@ public class ProductVersionService {
 
 	public int getcompatibilityListSearchCount(Compatibility search) {
 		List<Compatibility> compatibilityList = productVersionDao.getCompatibilityProductVersion(search);
+		if(compatibilityList.size() == 0) {
+			return 0;
+		}
 		List<String> tableNameList = new ArrayList<String>();
 		int[] productVersionKeyNumArr = new int[compatibilityList.size()];
 		int num = 0;
@@ -201,6 +208,7 @@ public class ProductVersionService {
 				compatibility.setMenuKeyNum2(productVersionDao.getTableManagerProductVersion(productVersionKeyNum2));
 				compatibility.setProductVersionKeyNum2(productVersionKeyNum2);
 				int success = productVersionDao.deleteCompatibility(compatibility);
+				success *= productVersionDao.deleteCompatibilityRe(compatibility);
 				if (success <= 0) {
 					return "FALSE";
 				}
@@ -232,6 +240,10 @@ public class ProductVersionService {
 	
 	public Compatibility getProductVersionOne(Compatibility compatibility) {
 		return productVersionDao.getProductVersionOne(compatibility);
+	}
+
+	public List<String> getMenusettingMenutitle() {
+		return productVersionDao.getMenusettingMenutitle();
 	}
 
 }

@@ -144,6 +144,10 @@ public class ProductVersionDao {
 	public int insertCompatibility(Compatibility compatibility) {
 		return sqlSession.insert("productVersion.insertCompatibility",compatibility);
 	}
+	
+	public int insertCompatibilityRe(Compatibility compatibility) {
+		return sqlSession.insert("productVersion.insertCompatibilityRe",compatibility);
+	}
 
 	public int getTableManagerProductVersion(int productVersionKeyNum) {
 		return sqlSession.selectOne("productVersion.getTableManagerProductVersion",productVersionKeyNum);
@@ -157,6 +161,10 @@ public class ProductVersionDao {
 	public int deleteCompatibility(Compatibility compatibility) {
 		return sqlSession.delete("productVersion.deleteCompatibility",compatibility);
 	}
+	
+	public int deleteCompatibilityRe(Compatibility compatibility) {
+		return sqlSession.delete("productVersion.deleteCompatibilityRe",compatibility);
+	}
 
 	public List<Object> getCompatibilityListAll(Compatibility search) {
 		return sqlSession.selectList("productVersion.getCompatibilityListAll", search);
@@ -166,8 +174,15 @@ public class ProductVersionDao {
 		return sqlSession.selectOne("productVersion.getProductVersionOne",compatibility);
 	}
 
-	public void delCompatibilityProductVersion(int productVersionKeyNum) {
-		sqlSession.delete("productVersion.delCompatibilityProductVersion",productVersionKeyNum);
+	public void delCompatibilityProductVersion(int menuKeyNum, int productVersionKeyNum) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("menuKeyNum", menuKeyNum);
+		params.put("productVersionKeyNum", productVersionKeyNum);
+		sqlSession.delete("productVersion.delCompatibilityProductVersion",params);
+	}
+
+	public List<String> getMenusettingMenutitle() {
+		return sqlSession.selectList("productVersion.getMenusettingMenutitle");
 	}
 
 }

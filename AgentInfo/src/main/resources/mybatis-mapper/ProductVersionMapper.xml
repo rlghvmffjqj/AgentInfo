@@ -108,10 +108,10 @@
 	
 	<select id="getcompatibilityList" resultMap="compatibility" parameterType="string">
 		SELECT *
-    	FROM
-    	(
-    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
-    		FROM (
+		FROM
+		(
+			SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+			FROM (
 				SELECT 
 					pv.productVersionKeyNum,
 					main.menuTitle AS mainMenuTitle,
@@ -122,76 +122,83 @@
 					pv.version
 				FROM (
 					<foreach collection="productVersionTable" item="table" separator="UNION ALL">
-		                SELECT 
-		                    productVersionKeyNum,
-		                    menuKeyNum, 
-		                    packageName, 
-		                    location, 
-		                    packageDate,
-		                    '${table.substring(table.indexOf("_") + 1)}' AS version
-		                FROM ${table}
-		                <trim prefix="WHERE" prefixOverrides="AND|OR">
+						SELECT 
+							productVersionKeyNum,
+							menuKeyNum, 
+							packageName, 
+							location, 
+							packageDate,
+							'${table.substring(table.indexOf("_") + 1)}' AS version
+						FROM ${table}
+						<trim prefix="WHERE" prefixOverrides="AND|OR">
 							<if test="packageNameView != null and packageNameView != ''">
 								AND packageName LIKE CONCAT('%',#{packageNameView},'%')
 							</if>
 							<if test="locationView != null and locationView != ''">
 								AND location LIKE CONCAT('%',#{locationView},'%')
 							</if>
+	
 							<if test="mapperType == 'search'">
-						        AND (
-						            <foreach collection="productVersionKeyNumArr" item="arr" separator="OR">
-						                productVersionKeyNum = #{arr}
-						            </foreach>
-						        )
-						    </if>
-						    <if test="mapperType == 'add'">
-							    <if test="productVersionKeyNumArr != null and productVersionKeyNumArr.length == 1">
-								    AND NOT EXISTS (
-						                SELECT 1
-						                FROM compatibilityProductVersion cp
-						                WHERE 
-						                    (cp.menuKeyNum1 = ${table}.menuKeyNum AND cp.productVersionKeyNum1 = ${table}.productVersionKeyNum)
-						                    OR
-						                    (cp.menuKeyNum2 = ${table}.menuKeyNum AND cp.productVersionKeyNum2 = ${table}.productVersionKeyNum)
-						            )
-					            </if>
-					         </if>
+								AND (
+									<foreach collection="productVersionKeyNumArr" item="arr" separator="OR">
+										productVersionKeyNum = #{arr}
+									</foreach>
+								)
+							</if>
+	
+							<if test="mapperType == 'add' and productVersionKeyNumList != null and productVersionKeyNumList.size() == 1">
+								AND NOT EXISTS (
+									SELECT 1
+									FROM compatibilityProductVersion cp
+									WHERE (
+										(cp.menuKeyNum1 = ${table}.menuKeyNum AND cp.productVersionKeyNum1 = ${table}.productVersionKeyNum)
+										OR
+										(cp.menuKeyNum2 = ${table}.menuKeyNum AND cp.productVersionKeyNum2 = ${table}.productVersionKeyNum)
+									)
+									AND (
+										<foreach collection="productVersionKeyNumList" item="keyNum" separator="OR">
+											(cp.productVersionKeyNum1 = #{keyNum} OR cp.productVersionKeyNum2 = #{keyNum})
+										</foreach>
+									)
+								)
+							</if>
 						</trim>
-		            </foreach>
+					</foreach>
 				) pv
 				LEFT JOIN menusetting sub 
 					ON (
-					  pv.menuKeyNum = sub.menuKeyNum 
-					  AND sub.menuType = 'sub'
-					  <if test="subTitleView != null and subTitleView != ''">
-					      AND sub.menuTitle LIKE CONCAT('%',#{subTitleView},'%')
-					  </if>
+						pv.menuKeyNum = sub.menuKeyNum 
+						AND sub.menuType = 'sub'
+						<if test="subTitleView != null and subTitleView != ''">
+							AND sub.menuTitle LIKE CONCAT('%',#{subTitleView},'%')
+						</if>
 					)
 				INNER JOIN menusetting main 
-				    ON (
+					ON (
 						(
-						  sub.menuParentKeyNum = main.menuKeyNum 
-						  AND main.menuType = 'main'
-						  <if test="mainTitleView != null and mainTitleView != ''">
-						    AND main.menuTitle LIKE CONCAT('%',#{mainTitleView},'%')
-						  </if>
+							sub.menuParentKeyNum = main.menuKeyNum 
+							AND main.menuType = 'main'
+							<if test="mainTitleView != null and mainTitleView != ''">
+								AND main.menuTitle LIKE CONCAT('%',#{mainTitleView},'%')
+							</if>
 						)
 						OR (
-						  pv.menuKeyNum = main.menuKeyNum 
-						  AND main.menuType = 'main' 
-						  AND sub.menuKeyNum IS NULL
+							pv.menuKeyNum = main.menuKeyNum 
+							AND main.menuType = 'main' 
+							AND sub.menuKeyNum IS NULL
 						)
 					)
-				    <if test="subTitleView != null and subTitleView != ''">
-					  AND sub.menuTitle IS NOT NULL
-					</if>
-					<if test="mainTitleView != null and mainTitleView != ''">
-					  AND main.menuTitle IS NOT NULL
-					</if>
+				<if test="subTitleView != null and subTitleView != ''">
+					AND sub.menuTitle IS NOT NULL
+				</if>
+				<if test="mainTitleView != null and mainTitleView != ''">
+					AND main.menuTitle IS NOT NULL
+				</if>
 			) a
 		) b
-    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+		WHERE b.RowNo BETWEEN (1 + (${page} - 1) * ${rows}) AND (${page} * ${rows})
 	</select>
+
 	
 	<select id="getProductVersionTableList" parameterType="string" resultType="string">
 		SELECT table_name
@@ -204,68 +211,88 @@
 		SELECT COUNT(*)
 		FROM (
 			<foreach collection="productVersionTable" item="table" separator="UNION ALL">
-			        SELECT 
-			            productVersionKeyNum,
-			            menuKeyNum, 
-			            packageName, 
-			            location, 
-			            packageDate,
-			            '${table.substring(table.indexOf("_") + 1)}' AS version
-			        FROM ${table}
-			        <trim prefix="WHERE" prefixOverrides="AND|OR">
+				SELECT 
+					productVersionKeyNum,
+					menuKeyNum, 
+					packageName, 
+					location, 
+					packageDate,
+					'${table.substring(table.indexOf("_") + 1)}' AS version
+				FROM ${table}
+				<trim prefix="WHERE" prefixOverrides="AND|OR">
 					<if test="packageNameView != null and packageNameView != ''">
 						AND packageName LIKE CONCAT('%',#{packageNameView},'%')
 					</if>
 					<if test="locationView != null and locationView != ''">
 						AND location LIKE CONCAT('%',#{locationView},'%')
 					</if>
-					<if test="productVersionKeyNumArr.length > 0">
-					    AND (
-					        <foreach collection="productVersionKeyNumArr" item="arr" separator="OR">
-					            productVersionKeyNum = #{arr}
-					        </foreach>
-					    )
+	
+					<if test="mapperType == 'search'">
+						AND (
+							<foreach collection="productVersionKeyNumArr" item="arr" separator="OR">
+								productVersionKeyNum = #{arr}
+							</foreach>
+						)
+					</if>
+	
+					<if test="mapperType == 'add' and productVersionKeyNumList != null and productVersionKeyNumList.size() == 1">
+						AND NOT EXISTS (
+							SELECT 1
+							FROM compatibilityProductVersion cp
+							WHERE (
+								(cp.menuKeyNum1 = ${table}.menuKeyNum AND cp.productVersionKeyNum1 = ${table}.productVersionKeyNum)
+								OR
+								(cp.menuKeyNum2 = ${table}.menuKeyNum AND cp.productVersionKeyNum2 = ${table}.productVersionKeyNum)
+							)
+							AND (
+								<foreach collection="productVersionKeyNumList" item="keyNum" separator="OR">
+									(cp.productVersionKeyNum1 = #{keyNum} OR cp.productVersionKeyNum2 = #{keyNum})
+								</foreach>
+							)
+						)
 					</if>
 				</trim>
-			    </foreach>
+			</foreach>
 		) pv
 		LEFT JOIN menusetting sub 
 			ON (
-			  pv.menuKeyNum = sub.menuKeyNum 
-			  AND sub.menuType = 'sub'
-			  <if test="subTitleView != null and subTitleView != ''">
-			      AND sub.menuTitle LIKE CONCAT('%',#{subTitleView},'%')
-			  </if>
+				pv.menuKeyNum = sub.menuKeyNum 
+				AND sub.menuType = 'sub'
+				<if test="subTitleView != null and subTitleView != ''">
+					AND sub.menuTitle LIKE CONCAT('%',#{subTitleView},'%')
+				</if>
 			)
 		INNER JOIN menusetting main 
-		    ON (
+			ON (
 				(
-				  sub.menuParentKeyNum = main.menuKeyNum 
-				  AND main.menuType = 'main'
-				  <if test="mainTitleView != null and mainTitleView != ''">
-				    AND main.menuTitle LIKE CONCAT('%',#{mainTitleView},'%')
-				  </if>
+					sub.menuParentKeyNum = main.menuKeyNum 
+					AND main.menuType = 'main'
+					<if test="mainTitleView != null and mainTitleView != ''">
+						AND main.menuTitle LIKE CONCAT('%',#{mainTitleView},'%')
+					</if>
 				)
 				OR (
-				  pv.menuKeyNum = main.menuKeyNum 
-				  AND main.menuType = 'main' 
-				  AND sub.menuKeyNum IS NULL
-				  <if test="mainTitleView != null and mainTitleView != ''">
-				    AND main.menuTitle LIKE CONCAT('%',#{mainTitleView},'%')
-				  </if>
+					pv.menuKeyNum = main.menuKeyNum 
+					AND main.menuType = 'main' 
+					AND sub.menuKeyNum IS NULL
 				)
 			)
-		    <if test="subTitleView != null and subTitleView != ''">
-			  AND sub.menuTitle IS NOT NULL
-			</if>
-			<if test="mainTitleView != null and mainTitleView != ''">
-			  AND main.menuTitle IS NOT NULL
-			</if>
+		<if test="subTitleView != null and subTitleView != ''">
+			AND sub.menuTitle IS NOT NULL
+		</if>
+		<if test="mainTitleView != null and mainTitleView != ''">
+			AND main.menuTitle IS NOT NULL
+		</if>
 	</select>
 	
 	<insert id="insertCompatibility">
 		INSERT INTO compatibilityProductVersion(menuKeyNum1, productVersionKeyNum1, menuKeyNum2, productVersionKeyNum2)
 		VALUES(#{menuKeyNum1}, #{productVersionKeyNum1}, #{menuKeyNum2}, #{productVersionKeyNum2});
+	</insert>
+	
+	<insert id="insertCompatibilityRe">
+		INSERT INTO compatibilityProductVersion(menuKeyNum1, productVersionKeyNum1, menuKeyNum2, productVersionKeyNum2)
+		VALUES(#{menuKeyNum2}, #{productVersionKeyNum2}, #{menuKeyNum1}, #{productVersionKeyNum1});
 	</insert>
 	
 	<select id="getTableManagerProductVersion" parameterType="_int" resultType="_int">
@@ -276,13 +303,21 @@
 		SELECT * FROM compatibilityProductVersion WHERE productVersionKeyNum1 = ${productVersionKeyNum} AND menuKeyNum1 = ${menuKeyNum};
 	</select>
 	
-	<insert id="deleteCompatibility">
+	<delete id="deleteCompatibility">
 		DELETE FROM compatibilityProductVersion
 		WHERE menuKeyNum1 = #{menuKeyNum1} 
 		AND productVersionKeyNum1 = #{productVersionKeyNum1}
 		AND menuKeyNum2 = #{menuKeyNum2}
 		AND productVersionKeyNum2 = #{productVersionKeyNum2};
-	</insert>
+	</delete>
+	
+	<delete id="deleteCompatibilityRe">
+		DELETE FROM compatibilityProductVersion
+		WHERE menuKeyNum1 = #{menuKeyNum2} 
+		AND productVersionKeyNum1 = #{productVersionKeyNum2}
+		AND menuKeyNum2 = #{menuKeyNum1}
+		AND productVersionKeyNum2 = #{productVersionKeyNum1};
+	</delete>
 	
 	<select id="getCompatibilityListAll" resultMap="compatibility" parameterType="string">
 		SELECT 
@@ -356,8 +391,15 @@
 	</select>
 	
 	<delete id="delCompatibilityProductVersion" parameterType="_int">
-		DELETE FROM compatibilityProductVersion WHERE productVersionKeyNum1 = ${productVersionKeyNum} OR productVersionKeyNum2 = ${productVersionKeyNum};
+		DELETE FROM compatibilityProductVersion WHERE 
+		(menuKeyNum1 = ${menuKeyNum} AND productVersionKeyNum1 = ${productVersionKeyNum}) 
+		OR 
+		(menuKeyNum2 = ${menuKeyNum} AND productVersionKeyNum2 = ${productVersionKeyNum});
 	</delete>
+	
+	<select id="getMenusettingMenutitle" resultType="string">
+		SELECT DISTINCT menutitle from menusetting WHERE menuType = 'main';
+	</select>
 	
 	<!-- ==================================================================================== -->
 	
