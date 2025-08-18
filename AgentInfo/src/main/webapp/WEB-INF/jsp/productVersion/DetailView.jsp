@@ -24,10 +24,10 @@
 							<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" spellcheck="false" value="${item[item.menuTitle]}" readonly />
 						</c:when>
 						<c:when test="${item.menuItemType eq 'VARCHAR(500)' or item.menuItemType eq 'VARCHAR(1000)'}">
-							<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" spellcheck="false" oninput="autoResize(this)" readonly>${item[item.menuTitle]}</textarea>
+							<div id="${item.menuTitle}" name="${item.menuTitle}" class="form-control divForm itemAreaDiv  itemArea auto-height pvFont">${item[item.menuTitle]}</div>
 						</c:when>
 						<c:when test="${item.menuItemType eq 'TEXT'}">
-							<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" spellcheck="false" oninput="autoResize(this)" readonly>${item[item.menuTitle]}</textarea>
+							<div id="${item.menuTitle}" name="${item.menuTitle}" class="form-control divForm itemAreaDiv  itemArea auto-height pvFont">${item[item.menuTitle]}</div>
 						</c:when>
 						<c:when test="${item.menuItemType eq 'DATE'}">
 							<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" spellcheck="false" value="${item[item.menuTitle]}" readonly />
@@ -37,8 +37,7 @@
 						</c:otherwise>
 					</c:choose>
 			    </div>
-				<!-- 현재 PDF 출력 시 범위 초과시 다음 페이지로 넘어가야하는데 아래 코드 동작 시 이후 내용 전체 누락됨 나중에 다시 확인 머리아파서 나중으할램 -->
-				<!-- <div style="page-break-before: always; height: 0;"></div> -->
+				<div class="pading5Width1065 page-break"></div>
 
 			</c:forEach>
 		</div>
@@ -97,6 +96,10 @@
 					}
 					
 					.viewForm {
+						width: 665px;
+					}
+
+					.divForm {
 						width: 665px;
 					}
 
@@ -172,17 +175,6 @@
 			  });
 		}
 
-		function autoResize(textarea) {
-		    $(textarea).css('height', 'auto');
-		    $(textarea).css('height', textarea.scrollHeight + 'px');
-		}
-
-		$(function () {
-			$('textarea.auto-height').each(function () {
-				autoResize(this);
-			});
-		});
-
 	</script>
 	<style>
 		body {
@@ -194,8 +186,9 @@
 		  display: inline-block;
 		  height: 710px !important;  
 		  overflow-x: hidden;
+		  overflow-y: scroll !important;
 		  box-sizing: border-box;
-		  max-height: 770px;
+		  /* max-height: 770px; */
 		}
 
 		/* 스크롤바 막대 설정*/
@@ -224,11 +217,9 @@
 		}
 
 
-		textarea {
+		div {
 	        width: 100%;
-	        box-sizing: border-box;
-	        overflow: hidden; /* 스크롤바 숨김 */
-	        resize: none; /* 사용자가 수동으로 크기 조절하지 못하게 함 */
+	        /* overflow: hidden; 스크롤바 숨김 */
 	    }
 
 		.pvFont {
@@ -242,6 +233,20 @@
 			background: white !important;
 		}
 
+		.page-break {
+		   page-break-before: always; /* 이 블록 앞에서 끊어라 */
+		}
+		
+		.itemAreaDiv {
+		    white-space: pre-wrap;   /* 줄바꿈 유지 */
+		    word-wrap: break-word;   /* 긴 단어 줄바꿈 */
+		    border: 1px solid #dab17d;
+		    padding: 8px;
+		    font-size: 12px;
+		    line-height: 1.5;
+		    min-height: 50px;
+		    background-color: white;
+		}
 
 	</style>
 </html>
