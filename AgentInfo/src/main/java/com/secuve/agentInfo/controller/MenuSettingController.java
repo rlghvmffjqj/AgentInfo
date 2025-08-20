@@ -174,4 +174,18 @@ public class MenuSettingController {
 		return menuSettingService.delItemMenuSetting(menuSetting);
 	}
 	
+	@PostMapping(value = "/menuSetting/menuDeptView")
+	public String MenuDeptView(Model model, MenuSetting menuSetting) {
+		model.addAttribute("menuSetting", menuSetting);
+		return "/menuSetting/MenuDeptView";
+	}
+	
+	@PostMapping(value = "/menuSetting/menuDeptSelect")
+	public String MenuDeptSelect(Model model, MenuSetting menuSetting) {
+		model.addAttribute("viewType", menuSetting.getViewType()).addAttribute("menuSetting", menuSetting);
+		model.addAttribute("maxSort", menuSetting.getMenuSort());
+		return "/menuSetting/MenuSettingView";
+	}
+	
+	
 }

@@ -17,6 +17,7 @@ public class MenuSetting {
 	private String menuTitle;
 	private String menuTitleKor;
 	private int menuParentKeyNum;
+	private String menuDept;
 	private String menuItemType;
 	private String menuRequired;
 	private String menuItemSort;
@@ -32,6 +33,7 @@ public class MenuSetting {
 	private String oldTitle;
 	private int productVersionKeyNum;
 	private String parentTitle;
+	private String viewType;
 	
 	private int page=1;							// 기본 페이지 번호
 	private int rows=25;						// 데이터 보여줄 갯수

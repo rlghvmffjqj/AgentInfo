@@ -7,9 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
-import com.secuve.agentInfo.vo.ProductVersion;
 
 @Repository
 public class MenuSettingDao {
@@ -101,6 +99,10 @@ public class MenuSettingDao {
 
 	public void setMenuItemSort(MenuSetting menuSetting) {
 		sqlSession.update("menuSetting.setMenuItemSort", menuSetting);
+	}
+
+	public void deleteItem(int menuParentKeyNum) {
+		sqlSession.delete("menuSetting.deleteItem", menuParentKeyNum);
 	}
 
 

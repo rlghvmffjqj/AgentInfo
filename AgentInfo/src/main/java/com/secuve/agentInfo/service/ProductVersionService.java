@@ -10,14 +10,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.secuve.agentInfo.dao.MenuSettingDao;
 import com.secuve.agentInfo.dao.ProductVersionDao;
 import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class ProductVersionService {
 	@Autowired ProductVersionDao productVersionDao;
+	@Autowired MenuSettingDao menuSettingDao;
 
 	public int getProductVersionNoneExist(String mainTitle, String subTitle) {
 		return productVersionDao.getProductVersionNoneExist(mainTitle, subTitle);
@@ -37,10 +43,30 @@ public class ProductVersionService {
 		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.createItem(menuSetting);
+			productVersionDao.defaultItem(menuSetting);
+			defaultMenuSetting(menuSetting);
 		} catch (Exception e) {
 			return "FALSE";
 		}
 		return "OK";
+	}
+	
+	public void defaultMenuSetting(MenuSetting menuSetting) {
+		menuSetting.setMenuSort(1);
+		menuSetting.setMenuItemType("VARCHAR(100)");
+		menuSetting.setMenuTitle("packageName");
+		menuSetting.setMenuTitleKor("패키지명");
+		menuSetting.setMenuType("item");
+		menuSettingDao.insertMenuSetting(menuSetting);
+		menuSetting.setMenuSort(2);
+		menuSetting.setMenuTitle("location");
+		menuSetting.setMenuTitleKor("전달위치");
+		menuSettingDao.insertMenuSetting(menuSetting);
+		menuSetting.setMenuSort(3);
+		menuSetting.setMenuTitle("packageDate");
+		menuSetting.setMenuItemType("DATE");
+		menuSetting.setMenuTitleKor("날짜");
+		menuSettingDao.insertMenuSetting(menuSetting);
 	}
 
 	public String alterDeleteItem(MenuSetting menuSetting) {
@@ -57,6 +83,7 @@ public class ProductVersionService {
 		menuSetting.setTableName("ProductVersion"+"_"+menuSetting.getMenuParentKeyNum());
 		try {
 			productVersionDao.dropItem(menuSetting);
+			menuSettingDao.deleteItem(menuSetting.getMenuParentKeyNum());
 		} catch (Exception e) {
 			return "FALSE";
 		}
@@ -126,6 +153,13 @@ public class ProductVersionService {
 		}
 		search.setProductVersionTable(productVersionDao.getProductVersionTableList(databaseName));
 		search.getProductVersionTable().remove("productversion_"+search.getMenuKeyNum());
+		MenuSetting menuSetting =  menuSettingDao.getMenuSettingOne(search.getMenuKeyNum());
+		if(menuSetting.getMenuParentKeyNum() == 0) {
+			search.setMainMenuTitle(menuSetting.getMenuTitle());
+		} else {
+			menuSetting =  menuSettingDao.getMenuSettingOne(menuSetting.getMenuParentKeyNum());
+			search.setMainMenuTitle(menuSetting.getMenuTitle());
+		}
 		return productVersionDao.getcompatibilityList(search);
 	}
 
@@ -242,8 +276,8 @@ public class ProductVersionService {
 		return productVersionDao.getProductVersionOne(compatibility);
 	}
 
-	public List<String> getMenusettingMenutitle() {
-		return productVersionDao.getMenusettingMenutitle();
+	public List<String> getMenusettingMenutitle(String menuKeyNum) {
+		return productVersionDao.getMenusettingMenutitle(menuKeyNum);
 	}
 
 }

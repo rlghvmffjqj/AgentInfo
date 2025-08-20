@@ -42,8 +42,8 @@
 	</select>
 	
 	<insert id="insertMenuSetting">
-		INSERT INTO menuSetting(menuSort, menuType, menuTitle, menuTitleKor, menuParentKeyNum, menuItemType, menuRequired, menuItemSort, menuSettingRegistrant, menuSettingRegistrationDate)
-		VALUES(#{menuSort},#{menuType},#{menuTitle},#{menuTitleKor},#{menuParentKeyNum},#{menuItemType},#{menuRequired},#{menuItemSort},#{menuSettingRegistrant},#{menuSettingRegistrationDate});
+		INSERT INTO menuSetting(menuSort, menuType, menuTitle, menuTitleKor, menuDept, menuParentKeyNum, menuItemType, menuRequired, menuItemSort, menuSettingRegistrant, menuSettingRegistrationDate)
+		VALUES(#{menuSort},#{menuType},#{menuTitle},#{menuTitleKor}, #{menuDept}, #{menuParentKeyNum},#{menuItemType},#{menuRequired},#{menuItemSort},#{menuSettingRegistrant},#{menuSettingRegistrationDate});
 	</insert>
 	
 	<select id="getMenuSettingOne" parameterType="_int" resultMap="menuSetting">
@@ -51,7 +51,7 @@
 	</select>
 	
 	<update id="updateMenuSetting">
-		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle}, menuTitleKor = #{menuTitleKor}, menuItemType = #{menuItemType}, menuRequired = #{menuRequired}, menuItemSort = #{menuItemSort} WHERE menuKeyNum = #{menuKeyNum};
+		UPDATE menuSetting SET menuSort = #{menuSort}, menuTitle = #{menuTitle}, menuTitleKor = #{menuTitleKor}, menuDept = #{menuDept}, menuItemType = #{menuItemType}, menuRequired = #{menuRequired}, menuItemSort = #{menuItemSort} WHERE menuKeyNum = #{menuKeyNum};
 	</update>
 	
 	<delete id="delMenuSetting" parameterType="_int">
@@ -138,5 +138,9 @@
 	<update id="setMenuItemSort">
 		UPDATE menuSetting SET menuItemSort = #{menuItemSort} WHERE menuParentKeyNum=${menuParentKeyNum};
 	</update>
+	
+	<delete id="deleteItem">
+		DELETE FROM menuSetting WHERE menuParentKeyNum = ${menuParentKeyNum};
+	</delete>
 	
 </mapper>

@@ -34,6 +34,10 @@ public class ProductVersionDao {
 	public void createItem(MenuSetting menuSetting) {
 		sqlSession.update("productVersion.createItem", menuSetting);
 	}
+	
+	public void defaultItem(MenuSetting menuSetting) {
+		sqlSession.update("productVersion.defaultItem", menuSetting);
+	}
 
 	public void dropItem(MenuSetting menuSetting) {
 		sqlSession.update("productVersion.dropItem", menuSetting);
@@ -181,8 +185,12 @@ public class ProductVersionDao {
 		sqlSession.delete("productVersion.delCompatibilityProductVersion",params);
 	}
 
-	public List<String> getMenusettingMenutitle() {
-		return sqlSession.selectList("productVersion.getMenusettingMenutitle");
+	public List<String> getMenusettingMenutitle(String menuKeyNum) {
+		return sqlSession.selectList("productVersion.getMenusettingMenutitle", menuKeyNum);
+	}
+
+	public void defaultMenuSetting(MenuSetting menuSetting) {
+		sqlSession.insert("menuSetting.insertMenuSetting", menuSetting);
 	}
 
 }

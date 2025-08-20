@@ -7,13 +7,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.secuve.agentInfo.dao.MenuSettingDao;
-import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.MenuSetting;
-import com.secuve.agentInfo.vo.ProductVersion;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
 public class MenuSettingService {
 	@Autowired MenuSettingDao menuSettingDao;
 	@Autowired ProductVersionService productVersionService;
@@ -171,6 +173,10 @@ public class MenuSettingService {
 	}
 
 	public String delItemMenuSetting(MenuSetting menuSetting) {
+		MenuSetting menuSettingOne = menuSettingDao.getMenuSettingOne(menuSetting.getMenuKeyNum());
+		if("packageName".equals(menuSettingOne.getMenuTitle()) || "location".equals(menuSettingOne.getMenuTitle()) || "packageDate".equals(menuSettingOne.getMenuTitle())) {
+			return "NotDelete";
+		}
 		if(menuSetting.getSubKeyNum() == "" || menuSetting.getSubKeyNum() == null) {
 			menuSetting.setMenuParentKeyNum(Integer.parseInt(menuSetting.getMainKeyNum()));
 			menuSetting.setMenuParentTitle(menuSettingDao.getMenuSettingOne(Integer.parseInt(menuSetting.getMainKeyNum())).getMenuTitle());
@@ -186,7 +192,7 @@ public class MenuSettingService {
 			return "FALSE";
 		} 
 	
-		if(menuSettingDao.getItmeMenuSettingListCount(menuSetting) > 0) {
+		if(menuSettingDao.getItmeMenuSettingListCount(menuSetting) > 3) {
 			return productVersionService.alterDeleteItem(menuSetting);
 		} else {
 			return productVersionService.dropItem(menuSetting);
@@ -212,7 +218,7 @@ public class MenuSettingService {
 		try {
 			return menuSettingDao.getSortNumMax(menuSetting);
 		} catch (Exception e) {
-			return 0;
+			return 3;
 		}
 	}
 

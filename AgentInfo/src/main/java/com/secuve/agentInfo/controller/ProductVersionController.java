@@ -32,10 +32,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.PDFDownlod;
 import com.secuve.agentInfo.core.Util;
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.MenuSettingService;
 import com.secuve.agentInfo.service.ProductVersionService;
 import com.secuve.agentInfo.vo.Compatibility;
+import com.secuve.agentInfo.vo.Employee;
 import com.secuve.agentInfo.vo.MenuSetting;
 import com.secuve.agentInfo.vo.ProductVersion;
 
@@ -44,6 +46,7 @@ public class ProductVersionController {
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired ProductVersionService productVersionService;
 	@Autowired MenuSettingService menuSettingService;
+	@Autowired EmployeeService employeeService;
 	@Autowired PDFDownlod pdfDownlod;
 	
 	@GetMapping(value = "/productVersion/{mainTitle}")
@@ -76,6 +79,11 @@ public class ProductVersionController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String menuTitleKorListJson = objectMapper.writeValueAsString(menuTitleKorList);
 		
+		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(Integer.parseInt(number));
+		Employee employee = employeeService.getEmployeeOne(principal.getName());
+
+		model.addAttribute("employee", employee);
+		model.addAttribute("menuSetting",menuSetting);
 		model.addAttribute("menuKeyNum",number);
 		model.addAttribute("menuSettingItemList", menuSettingItemList);
 		model.addAttribute("menuTitleList", menuTitleList);
@@ -163,8 +171,13 @@ public class ProductVersionController {
 	}
 	
 	@PostMapping(value = "/productVersion/compatibilityView")
-	public String CompatibilityView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
-		List<String> menutitleList = productVersionService.getMenusettingMenutitle();
+	public String CompatibilityView(Model model, @RequestParam String menuKeyNum, int[] chkList, Principal principal) {
+		List<String> menutitleList = productVersionService.getMenusettingMenutitle(menuKeyNum);
+		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(Integer.parseInt(menuKeyNum));
+		Employee employee = employeeService.getEmployeeOne(principal.getName());
+
+		model.addAttribute("employee", employee);
+		model.addAttribute("menuSetting",menuSetting);
 		model.addAttribute("menutitleList", menutitleList);
 		model.addAttribute("menuKeyNum", menuKeyNum);
 		model.addAttribute("parentChkList", Arrays.toString(chkList));
@@ -176,7 +189,7 @@ public class ProductVersionController {
 	
 	@PostMapping(value = "/productVersion/compatibilitySearchView")
 	public String CompatibilitySerachView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
-		List<String> menutitleList = productVersionService.getMenusettingMenutitle();
+		List<String> menutitleList = productVersionService.getMenusettingMenutitle(menuKeyNum);
 		model.addAttribute("menutitleList", menutitleList);
 		model.addAttribute("menuKeyNum", menuKeyNum);
 		model.addAttribute("productVersionKeyNum", chkList[0]);

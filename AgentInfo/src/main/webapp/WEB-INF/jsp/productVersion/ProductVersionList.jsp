@@ -3,6 +3,7 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+		<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
 		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
 		<!-- 쿠키 스크립트 -->
@@ -142,19 +143,23 @@
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<table style="width:100%">
 															<tbody>
-																<tr>
-																	<td style="font-weight:bold; padding-bottom: 5px; font-size: 13px;">제품 릴리즈 관리 :</td>
-																</tr>
-																<tr><td>
-																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert" style="margin-left: 20px;">릴리즈 등록</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">릴리즈 수정</button>
-																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">릴리즈 삭제</button>
-																</td></tr>
+																<c:if test="${empty menuSetting.menuDept || fn:contains(menuSetting.menuDept, employee.departmentFullPath)}">
+																	<tr>
+																		<td style="font-weight:bold; padding-bottom: 5px; font-size: 13px;">제품 릴리즈 관리 :</td>
+																	</tr>
+																	<tr><td>
+																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert" style="margin-left: 20px;">릴리즈 등록</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">릴리즈 수정</button>
+																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">릴리즈 삭제</button>
+																	</td></tr>
+																</c:if>
 																<tr style="margin-top: 20px;">
 																	<td style="font-weight:bold; padding-top: 15px; padding-bottom: 5px; font-size: 13px;">제품 호환성 관리 :</td>
 																</tr>
 																<tr><td>
-																	<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
+																	<c:if test="${empty menuSetting.menuDept || fn:contains(menuSetting.menuDept, employee.departmentFullPath)}">
+																		<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
+																	</c:if>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환성 목록</button>
 																</td></tr>
 																<tr>

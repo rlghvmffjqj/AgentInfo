@@ -16,11 +16,12 @@
 					url: "<c:url value='/menuSetting/main'/>",
 					mtype: 'POST',
 					datatype: 'json',
-					colNames:['Key','순서','타이틀'],
+					colNames:['Key','순서','타이틀','부서'],
 					colModel:[
 						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 40, hidden:true },
-						{name:'menuSort', index:'menuSort', align:'center', width: 150, formatter: mainLinkFormatter},
-						{name:'menuTitle', index:'menuTitle', align:'center', width: 325},
+						{name:'menuSort', index:'menuSort', align:'center', width: 100, formatter: mainLinkFormatter},
+						{name:'menuTitle', index:'menuTitle', align:'center', width: 250},
+						{name:'menuDept', index:'menuDept', align:'center', width: 125},
 					],
 					jsonReader : {
 			        	id: 'menuKeyNum',
@@ -270,8 +271,6 @@
 				},
 			    async: false,
 			    success: function (data) {
-					if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
 			    	$.modal(data, 'menuSetting'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -298,8 +297,6 @@
 				},
 			    async: false,
 			    success: function (data) {
-					if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
 			    	$.modal(data, 'menuSetting'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -390,8 +387,6 @@
 					},
 				    async: false,
 				    success: function (data) {
-						if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
 				    	$.modal(data, 'menuSetting'); //modal창 호출
 				    },
 				    error: function(e) {
@@ -420,8 +415,6 @@
 				},
 			    async: false,
 			    success: function (data) {
-					if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
 			    	$.modal(data, 'menuSetting'); //modal창 호출
 			    },
 			    error: function(e) {
@@ -653,6 +646,12 @@
 								  '성공!',
 								  '삭제 완료하였습니다.',
 								  'success'
+								)
+							else if(data == "NotDelete")
+								Swal.fire(
+								  '실패!',
+								  '패키지명 컬럼 및 전달위치 컬럼은 삭제가 불가능합니다.',
+								  'error'
 								)
 							else
 								Swal.fire(

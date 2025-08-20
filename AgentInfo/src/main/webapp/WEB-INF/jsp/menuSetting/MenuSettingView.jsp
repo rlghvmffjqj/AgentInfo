@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 170px;">
+<div class="modal-body" style="width: 100%; height:${menuSetting.menuType eq 'main' ? '220' : '170'}px;">
 	<form id="modalForm" name="form" method ="post">
 		<div class="pading5Width370">
 			<div>
@@ -20,7 +20,16 @@
 		 	</div>
 		 	<input type="text" id="menuTitle" name="menuTitle" class="form-control viewForm" placeholder="타이틀" value="${menuSetting.menuTitle}">
 		</div>
+		<c:if test="${menuSetting.menuType eq 'main'}">
+			<div class="pading5Width370">
+				<div>
+			 		<label class="labelFontSize">부서</label>
+			 	</div>
+			 	<input type="text" id="menuDept" name="menuDept" class="form-control viewForm" placeholder="부서" value="${menuSetting.menuDept}" onclick="menuDeptSelect();" readonly>
+			</div>
+		</c:if>
 		<input type="hidden" id="menuType" name="menuType" value="${menuSetting.menuType}">
+		<input type="hidden" id="viewType" name="viewType" value="${viewType}">
 		<input type="hidden" id="menuKeyNum" name="menuKeyNum" value="${menuSetting.menuKeyNum}">
 		<input type="hidden" id="menuParentKeyNum" name="menuParentKeyNum" value="${menuSetting.menuParentKeyNum}">
 	</form>
@@ -156,6 +165,28 @@
 			}
 	    });
 	});
+
+	function menuDeptSelect() {
+		var postData = $('#modalForm').serializeObject();
+
+		$('#modal').modal("hide"); // 모달 닫기
+		$('#modal').on('hidden.bs.modal', function () {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/menuSetting/menuDeptView'/>",
+				data: postData,
+			    async: false,
+			    success: function (data) {
+					if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			    	$.modal(data, 'menuSettingDept'); //modal창 호출
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+		});
+	}
 </script>
 <style>
 	

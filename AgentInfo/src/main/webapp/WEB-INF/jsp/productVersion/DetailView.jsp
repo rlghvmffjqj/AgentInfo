@@ -80,7 +80,7 @@
     		var extraCSS = `
     		    <style>
     		        .pading5Width1065 {
-					    padding: 12px;
+					    padding: 12px !important;
 					    width: 690px;
 					    height: auto;
 					    display: inline-block;
@@ -246,6 +246,10 @@
 		    line-height: 1.5;
 		    min-height: 50px;
 		    background-color: white;
+		}
+
+		.pading5Width1065 {
+			padding: 5px;
 		}
 
 	</style>
