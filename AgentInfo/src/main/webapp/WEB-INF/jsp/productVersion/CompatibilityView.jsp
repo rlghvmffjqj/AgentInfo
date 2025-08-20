@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script>
 	$(document).ready(function(){
@@ -125,7 +126,9 @@
 		</c:when>
 		<c:when test="${viewType eq 'search'}">
 			<button class="btn btn-default btn-outline-info-add"  onClick="doExportExec('#compatibilityform')">Excel 추출</button>	
-			<button class="btn btn-default btn-outline-info-del" id="deleteBtn">제거</button>	
+			<c:if test="${empty menuSetting.menuDept || fn:contains(menuSetting.menuDept, employee.departmentFullPath)}">
+				<button class="btn btn-default btn-outline-info-del" id="deleteBtn">제거</button>	
+			</c:if>
 		</c:when>
 	</c:choose>
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
