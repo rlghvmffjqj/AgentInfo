@@ -143,7 +143,7 @@
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<table style="width:100%">
 															<tbody>
-																<c:if test="${empty menuSetting.menuDept || fn:contains(menuSetting.menuDept, employee.departmentFullPath)}">
+																<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
 																	<tr>
 																		<td style="font-weight:bold; padding-bottom: 5px; font-size: 13px;">제품 릴리즈 관리 :</td>
 																	</tr>
@@ -157,7 +157,7 @@
 																	<td style="font-weight:bold; padding-top: 15px; padding-bottom: 5px; font-size: 13px;">제품 호환성 관리 :</td>
 																</tr>
 																<tr><td>
-																	<c:if test="${empty menuSetting.menuDept || fn:contains(menuSetting.menuDept, employee.departmentFullPath)}">
+																	<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
 																		<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
 																	</c:if>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환성 목록</button>

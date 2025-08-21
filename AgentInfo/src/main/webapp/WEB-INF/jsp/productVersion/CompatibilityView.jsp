@@ -126,7 +126,7 @@
 		</c:when>
 		<c:when test="${viewType eq 'search'}">
 			<button class="btn btn-default btn-outline-info-add"  onClick="doExportExec('#compatibilityform')">Excel 추출</button>	
-			<c:if test="${empty menuSetting.menuDept || fn:contains(menuSetting.menuDept, employee.departmentFullPath)}">
+			<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
 				<button class="btn btn-default btn-outline-info-del" id="deleteBtn">제거</button>	
 			</c:if>
 		</c:when>
