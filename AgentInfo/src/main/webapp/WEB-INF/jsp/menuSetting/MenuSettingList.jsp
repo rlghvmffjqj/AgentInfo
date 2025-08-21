@@ -281,6 +281,16 @@
 
 		$('#BtnMainUpdate').click(function() {
 			var menuKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow'); 
+			var result = deptValidation(menuKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품은 수정할 수 없습니다.',
+				});
+				return false;
+			}
+
 			if(!menuKeyNum) {
 				Swal.fire({
 					icon: 'error',
@@ -307,6 +317,15 @@
 
 		$('#BtnMainDelete').click(function() {
 			var menuKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow'); 
+			var result = deptValidation(menuKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품은 삭제할 수 없습니다.',
+				});
+				return false;
+			}
 			
 			if(!menuKeyNum) {
 				Swal.fire({               
@@ -371,6 +390,15 @@
 
 		$('#BtnSubInsert').click(function() {
 			var menuKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var result = deptValidation(menuKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품에는 OS 구분을 추가할 수 없습니다.',
+				});
+				return false;
+			}
 			if(!menuKeyNum) {
 				Swal.fire({               
 					icon: 'error',          
@@ -399,6 +427,17 @@
 
 		$('#BtnSubUpdate').click(function() {
 			var menuKeyNum = $("#subList").jqGrid('getGridParam', 'selrow'); 
+			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var result = deptValidation(mainKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품은 수정할 수 없습니다.',
+				});
+				return false;
+			}
+
 			if(!menuKeyNum) {
 				Swal.fire({
 					icon: 'error',
@@ -426,6 +465,16 @@
 
 		$('#BtnSubDelete').click(function() {
 			var menuKeyNum = $("#subList").jqGrid('getGridParam', 'selrow'); 
+			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
+			var result = deptValidation(mainKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품은 삭제할 수 없습니다.',
+				});
+				return false;
+			}
 			
 			if(!menuKeyNum) {
 				Swal.fire({               
@@ -518,6 +567,17 @@
 		$('#BtnItemInsert').click(function() {
 			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
 			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
+
+			var result = deptValidation(mainKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품에는 컬럼을 추가할 수 없습니다.',
+				});
+				return false;
+			}
+
 			if(!mainKeyNum) {
 				Swal.fire({               
 					icon: 'error',          
@@ -579,6 +639,17 @@
 			var menuKeyNum = $("#itemList").jqGrid('getGridParam', 'selrow'); 
 			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
 			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
+
+			var result = deptValidation(mainKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품에는 컬럼을 추가할 수 없습니다.',
+				});
+				return false;
+			}
+
 			if(!menuKeyNum) {
 				Swal.fire({
 					icon: 'error',
@@ -611,6 +682,16 @@
 			var mainKeyNum = $("#mainList").jqGrid('getGridParam', 'selrow');
 			var subKeyNum = $("#subList").jqGrid('getGridParam', 'selrow');
 			var menuKeyNum = $("#itemList").jqGrid('getGridParam', 'selrow'); 
+
+			var result = deptValidation(mainKeyNum);
+			if(result != "OK") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '다른 부서 제품에는 컬럼을 추가할 수 없습니다.',
+				});
+				return false;
+			}
 			
 			if(!menuKeyNum) {
 				Swal.fire({               
@@ -669,6 +750,23 @@
 				})
 			}
 		});
+
+		function deptValidation(menuKeyNum) {
+			var returnResult = "FALSE";
+			$.ajax({
+				url: "<c:url value='/menuSetting/deptValidation'/>",
+	    	    type: 'post',
+	    	    data: {"menuKeyNum" : menuKeyNum},
+	    	    async: false,
+	    	    success: function(result) {
+					returnResult = result;
+				},
+				error: function(error) {
+					console.log(error);
+				}
+	    	});
+			return returnResult;
+		}
 	</script>
 	<style>
 		.menuSettingDiv {

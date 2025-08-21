@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.MenuSettingService;
+import com.secuve.agentInfo.vo.Employee;
 import com.secuve.agentInfo.vo.MenuSetting;
 
 @Controller
 public class MenuSettingController {
 	@Autowired MenuSettingService menuSettingService;
 	@Autowired FavoritePageService favoritePageService;
+	@Autowired EmployeeService employeeService;
 	
 
 	@GetMapping(value = "/menuSetting/setting")
@@ -97,7 +100,7 @@ public class MenuSettingController {
 	@PostMapping(value = "/menuSetting/updateView")
 	public String UpdateMenuSettingView(Model model, int menuKeyNum) {
 		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(menuKeyNum);
-		
+
 		model.addAttribute("viewType", "update").addAttribute("menuSetting", menuSetting);
 		return "/menuSetting/MenuSettingView";
 	}
@@ -186,6 +189,20 @@ public class MenuSettingController {
 		model.addAttribute("maxSort", menuSetting.getMenuSort());
 		return "/menuSetting/MenuSettingView";
 	}
+	
+	@ResponseBody
+    @PostMapping(value = "/menuSetting/deptValidation")
+    public String deptValidation(String menuKeyNum, Principal principal) {
+		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(Integer.parseInt(menuKeyNum));
+		Employee employee = employeeService.getEmployeeOne(principal.getName());
+		
+		if (menuSetting.getMenuDept() != null && !menuSetting.getMenuDept().isEmpty() && !"admin".equals(employee.getEmployeeId()) && !"khkim".equals(employee.getEmployeeId())) { 
+			if(!employee.getDepartmentFullPath().contains(menuSetting.getMenuDept())) {
+				return "NotDept";
+			}
+		}
+        return "OK";
+    }
 	
 	
 }

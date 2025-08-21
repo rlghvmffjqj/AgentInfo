@@ -81,6 +81,9 @@ public class ProductVersionController {
 		
 		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(Integer.parseInt(number));
 		Employee employee = employeeService.getEmployeeOne(principal.getName());
+		if("admin".equals(principal.getName()) || "khkim".equals(principal.getName())) {
+			menuSetting.setMenuDept("");
+		}
 
 		model.addAttribute("employee", employee);
 		model.addAttribute("menuSetting",menuSetting);
@@ -175,6 +178,9 @@ public class ProductVersionController {
 		List<String> menutitleList = productVersionService.getMenusettingMenutitle(menuKeyNum);
 		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(Integer.parseInt(menuKeyNum));
 		Employee employee = employeeService.getEmployeeOne(principal.getName());
+		if("admin".equals(principal.getName()) || "khkim".equals(principal.getName())) {
+			menuSetting.setMenuDept("");
+		}
 
 		model.addAttribute("employee", employee);
 		model.addAttribute("menuSetting",menuSetting);
@@ -188,8 +194,16 @@ public class ProductVersionController {
 	}
 	
 	@PostMapping(value = "/productVersion/compatibilitySearchView")
-	public String CompatibilitySerachView(Model model, @RequestParam String menuKeyNum, int[] chkList) {
+	public String CompatibilitySerachView(Model model, @RequestParam String menuKeyNum, int[] chkList, Principal principal) {
 		List<String> menutitleList = productVersionService.getMenusettingMenutitle(menuKeyNum);
+		MenuSetting menuSetting = menuSettingService.getMenuSettingOne(Integer.parseInt(menuKeyNum));
+		Employee employee = employeeService.getEmployeeOne(principal.getName());
+		if("admin".equals(principal.getName()) || "khkim".equals(principal.getName())) {
+			menuSetting.setMenuDept("");
+		}
+
+		model.addAttribute("employee", employee);
+		model.addAttribute("menuSetting",menuSetting);
 		model.addAttribute("menutitleList", menutitleList);
 		model.addAttribute("menuKeyNum", menuKeyNum);
 		model.addAttribute("productVersionKeyNum", chkList[0]);
