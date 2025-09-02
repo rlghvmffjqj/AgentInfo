@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="secuveOTP">
+	<resultMap type="com.secuve.agentInfo.vo.SecuveOTP" id="secuveOTP"></resultMap>
+	
+	<select id="getLicenseList" resultMap="secuveOTP" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, secuveOTPKeyNum DESC) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM secuveOTP
+				<include refid="sqlLicense" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicenseListCount" resultType="_int">
+		SELECT COUNT(*) FROM secuveOTP
+		<include refid="sqlLicense" />
+	</select>
+	
+	<select id="getLicenseOne"  parameterType="_int" resultMap="secuveOTP">
+		SELECT * FROM secuveOTP WHERE secuveOTPKeyNum = #{secuveOTPKeyNum};	
+	</select>
+	
+	
+	<insert id="licenseInsert">
+		INSERT INTO secuveOTP(secuveOTPCreated, secuveOTPSite, secuveOTPMac, secuveOTPExpireym, secuveOTPLicense, secuveOTPBigo, secuveOTPFilePath, secuveOTPRequester, secuveOTPRegistrant, secuveOTPRegistrationDate)
+		VALUES(#{secuveOTPCreatedView}, #{secuveOTPSiteView}, #{secuveOTPMacView}, #{secuveOTPExpireymView}, #{secuveOTPLicenseView}, #{secuveOTPBigoView}, #{secuveOTPFilePathView}, #{secuveOTPRequesterView}, #{secuveOTPRegistrant}, #{secuveOTPRegistrationDate});
+	</insert>
+	
+	<update id="updateLicense">
+		UPDATE secuveOTP SET secuveOTPCreated=#{secuveOTPCreatedView}, secuveOTPSite=#{secuveOTPSiteView}, secuveOTPMac=#{secuveOTPMacView}, secuveOTPExpireym=#{secuveOTPExpireymView}, secuveOTPLicense=#{secuveOTPLicenseView}, secuveOTPBigo=#{secuveOTPBigoView}, secuveOTPFilePath=#{secuveOTPFilePathView}, secuveOTPRequester=#{secuveOTPRequesterView}, secuveOTPModifier=#{secuveOTPModifier}, secuveOTPModifiedDate=#{secuveOTPModifiedDate}    
+		WHERE secuveOTPKeyNum = #{secuveOTPKeyNum};
+	</update>
+	
+	
+	<delete id="delLicense" parameterType="_int">
+		DELETE FROM secuveOTP WHERE secuveOTPKeyNum = #{secuveOTPKeyNum};
+	</delete>
+	
+	<select id="listAll" resultMap="secuveOTP" parameterType="string">
+		SELECT * FROM secuveOTP 
+		<include refid="sqlLicense" />
+	</select>
+
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlLicense">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="secuveOTPCreated != null and secuveOTPCreated != ''">
+				AND secuveOTPCreated LIKE CONCAT('%',#{secuveOTPCreated},'%')
+			</if>
+			<if test="secuveOTPSite != null and secuveOTPSite != ''">
+				AND secuveOTPSite LIKE CONCAT('%',#{secuveOTPSite},'%')
+			</if>
+			<if test="secuveOTPMac != null and secuveOTPMac != ''">
+				AND secuveOTPMac LIKE CONCAT('%',#{secuveOTPMac},'%')
+			</if>
+			<if test="secuveOTPExpireym != null and secuveOTPExpireym != ''">
+				AND secuveOTPExpireym LIKE CONCAT('%',#{secuveOTPExpireym},'%')
+			</if>
+			<if test="secuveOTPLicense != null and secuveOTPLicense != ''">
+				AND secuveOTPLicense LIKE CONCAT('%',#{secuveOTPLicense},'%')
+			</if>
+			<if test="secuveOTPBigo != null and secuveOTPBigo != ''">
+				AND secuveOTPBigo LIKE CONCAT('%',#{secuveOTPBigo},'%')
+			</if>
+			<if test="secuveOTPFilePath != null and secuveOTPFilePath != ''">
+				AND secuveOTPFilePath LIKE CONCAT('%',#{secuveOTPFilePath},'%')
+			</if>
+			<if test="secuveOTPRequester != null and secuveOTPRequester != ''">
+				AND secuveOTPRequester LIKE CONCAT('%',#{secuveOTPRequester},'%')
+			</if>
+			<if test="secuveOTPCreatedStart != null and secuveOTPCreatedStart != ''">
+				AND issueDate BETWEEN #{secuveOTPCreatedStart} AND #{secuveOTPCreatedEnd}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

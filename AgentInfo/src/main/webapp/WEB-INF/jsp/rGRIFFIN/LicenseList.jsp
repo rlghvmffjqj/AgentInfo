@@ -6,42 +6,36 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','loggriffin');
+		    	$.cookie('name','rGRIFFIN');
 		    });
 	    </script>
 	    <script>
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/loggriffin'/>",
+					url: "<c:url value='/rGRIFFIN'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','발급대상(고객사)','사업명','MAC','제품명','제품버전','에이전트','에이전트리스','발급일','만료일','추가정보','KEY','라이선스 파일명','요청자'],
+					colNames:['Key','고객사명','카테고리','만료일','수량','RGMSID','라이선스 파일명','요청자'],
 					colModel:[
-						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 35, hidden:true },
-						{name:'customerName', index:'customerName', align:'center', width: 200},
-						{name:'businessName', index:'businessName', align:'center', width: 200},
-						{name:'macAddress', index:'macAddress', align:'center', width: 150},
-						{name:'productName', index:'productName', align:'center', width: 150},
-						{name:'productVersion', index:'productVersion', align:'center', width: 80},
-						{name:'agentCount', index:'agentCount',align:'center', width: 70},
-						{name:'agentLisCount', index:'agentLisCount',align:'center', width: 70},
-						{name:'issueDate', index:'issueDate', align:'center', width: 120},
-						{name:'expirationDays', index:'expirationDays', align:'center', width: 120},
-						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
-						{name:'serialNumber', index:'serialNumber', align:'center', width: 150},
-						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 220},
-						{name:'requester', index:'requester', align:'center', width: 100}
+						{name:'rGRIFFINKeyNum', index:'rGRIFFINKeyNum', align:'center', width: 35, hidden:true },
+						{name:'rGRIFFINCompany', index:'rGRIFFINCompany', align:'center', width: 150},
+						{name:'rGRIFFINCategory', index:'rGRIFFINCategory', align:'center', width: 200},
+						{name:'rGRIFFINExpire', index:'rGRIFFINExpire', align:'center', width: 150},
+						{name:'rGRIFFINQuantity', index:'rGRIFFINQuantity', align:'center', width: 150},
+						{name:'rGRIFFINRgmsid', index:'rGRIFFINRgmsid', align:'center', width: 200},
+						{name:'rGRIFFINFilePath', index:'rGRIFFINFilePath',align:'center', width: 250},
+						{name:'rGRIFFINRequester', index:'rGRIFFINRequester',align:'center', width: 150}
 					],
 					jsonReader : {
-			        	id: 'logGriffinKeyNum',
+			        	id: 'rGRIFFINKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        rowList:[25,50,100],
-			        sortname: 'logGriffinKeyNum',	// 기본 정렬 
+			        sortname: 'rGRIFFINKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -53,7 +47,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','licenseList');
+				loadColumns('#list','rGRIFFINList');
 			});
 			
 			$(window).on('resize.list', function () {
@@ -76,8 +70,8 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">LogGRIFFIN 라이선스 발급</h5>
-									            <p class="m-b-0">LogGRIFFIN License Issuance</p>
+									            <h5 class="m-b-10">rGRIFFIN 라이선스 발급</h5>
+									            <p class="m-b-0">rGRIFFIN License Issuance</p>
 									        </div>
 									    </div>
 									    <div class="col-md-4">
@@ -85,7 +79,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">LogGRIFFIN 라이선스 발급</a>
+									            <li class="breadcrumb-item"><a href="#!">rGRIFFIN 라이선스 발급</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -98,106 +92,38 @@
 	                                	<div class="ibox">
 							                <div class="searchbos">
 	                                			<form id="form" name="form" method ="post">
-													<div style="padding-left:15px; width:28.3%; float: left;">
-														<label class="labelFontSize">발급일</label>
-														<div>
-														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
-														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
-													  	</div>
-													</div>
-													<div style="padding-left:15px; width:60%; float: left;">
+													<div style="padding-left:15px; width:28.5%; display: table;">
 														<label class="labelFontSize">만료일</label>
 														<div>
-														  <input class="form-control" style="width: 21%; float: left;" type="date" id="expirationDaysStart" name="expirationDaysStart" max="9999-12-31">
+														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="rGRIFFINExpireStart" name="rGRIFFINExpireStart" max="9999-12-31">
 														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														  <input class="form-control" style="width: 21%; float: left;" type="date" id="expirationDaysEnd" name="expirationDaysEnd" max="9999-12-31">
+														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="rGRIFFINExpireEnd" name="rGRIFFINExpireEnd" max="9999-12-31">
 													  	</div>
 													</div>
+													<div class="col-lg-2">
+		                      							<label class="labelFontSize">고객사명</label>
+														<input type="text" id="rGRIFFINCompany" name="rGRIFFINCompany" class="form-control">
+													</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">발급대상(고객사)</label>
-														<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${customerName}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
+		                      							<label class="labelFontSize">카테고리</label>
+														<input type="text" id="rGRIFFINCategory" name="rGRIFFINCategory" class="form-control">
 													</div>
 													<div class="col-lg-2">
-		                      							<label class="labelFontSize">사업명</label>
-														<select class="form-control selectpicker" id="businessNameMulti" name="businessNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${businessName}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
+														<label class="labelFontSize">수량</label>
+														<input type="text" id="rGRIFFINQuantity" name="rGRIFFINQuantity" class="form-control">
 													</div>
 													<div class="col-lg-2">
-														<label class="labelFontSize">추가정보</label>
-														<input type="text" id="additionalInformation" name="additionalInformation" class="form-control">
-													</div>
-													<div class="col-lg-2">
-		                      							<label class="labelFontSize">MAC</label>
-														<select class="form-control selectpicker" id="macAddressMulti" name="macAddressMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${macAddress}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>		                      							
+		                      							<label class="labelFontSize">RGMSID</label>
+														<input type="text" id="rGRIFFINRgmsid" name="rGRIFFINRgmsid" class="form-control">		                      							
 		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">제품명</label>
-														<select class="form-control selectpicker" id="productNameMulti" name="productNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${productName}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select> 
-		                      						</div>
-		                      						<div class="col-lg-2">
-														<label class="labelFontSize">제품 버전</label>
-													  <select class="form-control selectpicker" id="productVersionMulti" name="productVersionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														  <c:forEach var="item" items="${productVersion}">
-															  <option value="${item}"><c:out value="${item}"/></option>
-														  </c:forEach>
-													  </select> 
-													</div>
-													<div class="col-lg-2">
-														<label class="labelFontSize">에이전트</label>
-														<input type="number" id="agentCount" name="agentCount" class="form-control">
-													</div>
-													<div class="col-lg-2">
-														<label class="labelFontSize">에이전트리스</label>
-														<input type="number" id="agentLisCount" name="agentLisCount" class="form-control">
-													</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">KEY</label>
-														<select class="form-control selectpicker" id="serialNumberMulti" name="serialNumberMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${serialNumber}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">라이선스 파일명</label>
-														<select class="form-control selectpicker" id="licenseFilePathMulti" name="licenseFilePathMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${licenseFilePath}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
+														<input type="text" id="rGRIFFINFilePath" name="rGRIFFINFilePath" class="form-control">
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">요청자</label>
-														<select class="form-control selectpicker" id="requesterMulti" name="requesterMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${requester}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
+														<input type="text" id="rGRIFFINRequester" name="rGRIFFINRequester" class="form-control">
 													</div>
-			                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
-			                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
-			                      						<input type="hidden" id="macAddress" name="macAddress" class="form-control">
-			                      						<input type="hidden" id="productName" name="productName" class="form-control">
-			                      						<input type="hidden" id="productVersion" name="productVersion" class="form-control">
-			                      						<input type="hidden" id="serialNumber" name="serialNumber" class="form-control">
-			                      						<input type="hidden" id="licenseFilePath" name="licenseFilePath" class="form-control">
-			                      						<input type="hidden" id="requester" name="requester" class="form-control">
 			                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
 															<button class="btn btn-primary btnm" type="button" id="btnSearch">
@@ -221,11 +147,11 @@
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 YML 파일을 다운로드합니다.">YML 다운로드</button>
+																	<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 YML 파일을 다운로드합니다.">YML 다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="YML 파일을 첨부하여 데이터를 추가합니다.">YML Import</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button> -->
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'rGRIFFINList');">컬럼 선택</button>
 																</td>
 															</tr>
 															<tr>
@@ -258,7 +184,7 @@
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/loggriffin/issuedView'/>",
+			    url: "<c:url value='/rGRIFFIN/issuedView'/>",
 			    data: {
 		    		"viewType" : "issued"
 		    	},
@@ -295,7 +221,7 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
-						url: "<c:url value='/loggriffin/delete'/>",
+						url: "<c:url value='/rGRIFFIN/delete'/>",
 						type: "POST",
 						data: {chkList: chkList},
 						dataType: "text",
@@ -325,56 +251,8 @@
 			}
 		});
 		
-		
-		/* =========== 라이선스 발급 Key 확인 버튼 ========= */
-		function licenseNumFormatter(value, options, row) {
-			var logGriffinKeyNum = row.logGriffinKeyNum;
-			return '<button class="btn btn-outline-info-nomal myBtn" onClick="licenseNumber(' + "'" + logGriffinKeyNum + "'"  + ')">라이선스 발급</button>';
-		}
-		
-		/* =========== 라이선스 Key 확인 ========= */
-		function licenseNumber(logGriffinKeyNum) {
-			$.ajax({
-	            type: 'POST',
-	            url: "<c:url value='/license/issueKey'/>",
-	            data: {"logGriffinKeyNum" : logGriffinKeyNum},
-	            async: false,
-	            success: function (data) {
-	            	if(data == "FALSE") {
-	            		Swal.fire(
-	      					  '실패!',
-	      					  '라이선스 발급 Key가 존재하지 않습니다.',
-	      					  'error'
-	      					)
-	            	} else {
-		            	Swal.fire(
-						  '라이선스 발급 Key!',
-						  data,
-						  'success'
-						)
-	            	}
-	            },
-	            error: function(e) {
-	            	Swal.fire(
-					  '에러!',
-					  '에러가 발생하였습니다.',
-					  'error'
-					)
-	            }
-	        });
-		}
-		
 		/* =========== 테이블 새로고침 ========= */
-		function tableRefresh() {
-			$('#customerName').val($('#customerNameMulti').val().join());
-			$('#businessName').val($('#businessNameMulti').val().join());
-			$('#requester').val($('#requesterMulti').val().join());
-			$('#macAddress').val($('#macAddressMulti').val().join());
-			$('#productName').val($('#productNameMulti').val().join());
-			$('#productVersion').val($('#productVersionMulti').val().join());
-			$('#serialNumber').val($('#serialNumberMulti').val().join());
-			$('#licenseFilePath').val($('#licenseFilePathMulti').val().join());
-			
+		function tableRefresh() {		
 			var _postDate = $("#form").serializeObject();
 			
 			var jqGrid = $("#list");
@@ -408,46 +286,26 @@
 		
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
-			var issueDateStart = $("#issueDateStart").val();
-			var issueDateEnd = $("#issueDateEnd").val();
-			var expirationDaysStart = $("#expirationDaysStart").val();
-			var expirationDaysEnd = $("#expirationDaysEnd").val();
+			var rGRIFFINExpireStart = $("#rGRIFFINExpireStart").val();
+			var rGRIFFINExpireEnd = $("#rGRIFFINExpireEnd").val();
 			
-			if(issueDateStart == "" && issueDateEnd != "") {
+			if(rGRIFFINExpireStart == "" && rGRIFFINExpireEnd != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
 						text: '시작일의 시작날짜를 입력해주세요.',    
 					});
-			} else if(issueDateEnd == "" && issueDateStart != "") {
+			} else if(rGRIFFINExpireEnd == "" && rGRIFFINExpireStart != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
 						text: '시작일의  종료 날짜를 입력해주세요.',    
 					});
-			} else if(issueDateStart > issueDateEnd) {
+			} else if(rGRIFFINExpireStart > rGRIFFINExpireEnd) {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
 					text: '시작일의 시작 날짜가 종료 날짜 보다 큽니다.',    
-				}); 
-			} else if(expirationDaysStart == "" && expirationDaysEnd != "") {
-					Swal.fire({               
-						icon: 'error',          
-						title: '실패!',           
-						text: '만료일의 시작 날짜를 입력해주세요.',    
-					});
-			} else if(expirationDaysEnd == "" && expirationDaysStart != "") {
-					Swal.fire({               
-						icon: 'error',          
-						title: '실패!',           
-						text: '만료일의 종료 날짜를 입력해주세요.',    
-					});
-			} else if(expirationDaysStart > expirationDaysEnd) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '만료일의 시작 날짜가 종료 날짜 보다 큽니다.',    
 				}); 
 			} else {
 				tableRefresh();	
@@ -487,7 +345,7 @@
 		$('#BtnRoute').click(function() {
 			$.ajax({
 				url: "<c:url value='/license/setting'/>",
-				data: {"licenseVersion" : "loggriffin"},
+				data: {"licenseVersion" : "rGRIFFIN"},
 				type: "POST",
 				traditional: true,
 				async: false,
@@ -505,7 +363,7 @@
 		/* =========== 데이터 복사 Modal ========= */
 		$('#BtnCopy').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
-			var logGriffinKeyNum = chkList[0];
+			var rGRIFFINKeyNum = chkList[0];
 			if(chkList.length == 0) {
 				Swal.fire({               
 					icon: 'error',          
@@ -516,7 +374,7 @@
 				$.ajax({
 		            type: 'POST',
 		            url: "<c:url value='/license/copyView'/>",
-		            data: {"logGriffinKeyNum" : logGriffinKeyNum},
+		            data: {"rGRIFFINKeyNum" : rGRIFFINKeyNum},
 		            async: false,
 		            success: function (data) {
 		            	//if(data.indexOf("<!DOCTYPE html>") != -1) 
@@ -539,7 +397,7 @@
 		/* =========== 데이터 수정 Modal ========= */
 		$('#BtnUpdate').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
-			var logGriffinKeyNum = chkList[0];
+			var rGRIFFINKeyNum = chkList[0];
 			if(chkList.length == 0) {
 				Swal.fire({               
 					icon: 'error',          
@@ -549,8 +407,8 @@
 			} else if(chkList.length == 1) {
 				$.ajax({
 		            type: 'POST',
-		            url: "<c:url value='/loggriffin/updateView'/>",
-		            data: {"logGriffinKeyNum" : logGriffinKeyNum},
+		            url: "<c:url value='/rGRIFFIN/updateView'/>",
+		            data: {"rGRIFFINKeyNum" : rGRIFFINKeyNum},
 		            async: false,
 		            success: function (data) {
 		                $.modal(data, 'll'); //modal창 호출
@@ -578,7 +436,7 @@
 				});  
 			} else {
 				$.ajax({
-					url: "<c:url value='/loggriffin/loggriffinDownLoadCheck'/>",
+					url: "<c:url value='/rGRIFFIN/rGRIFFINDownLoadCheck'/>",
 					type: "POST",
 					data: {chkList: chkList},
 					traditional: true,
@@ -591,9 +449,9 @@
 							  'error'
 							)
 						} else if(chkList.length === 1) {
-							location.href="<c:url value='/loggriffin/loggriffinSingleDownLoad'/>?logGriffinKeyNum="+chkList;
+							location.href="<c:url value='/rGRIFFIN/rGRIFFINSingleDownLoad'/>?rGRIFFINKeyNum="+chkList;
 						} else {
-							location.href="<c:url value='/loggriffin/loggriffinMultiDownLoad'/>?logGriffinKeyNum="+chkList;
+							location.href="<c:url value='/rGRIFFIN/rGRIFFINMultiDownLoad'/>?rGRIFFINKeyNum="+chkList;
 						}
 	            	},
 	            	error: function(e) {
@@ -611,7 +469,7 @@
 		$('#BtnImport').click(function() {
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/loggriffin/licenseYmlImportView'/>",
+			    url: "<c:url value='/rGRIFFIN/licenseYmlImportView'/>",
 			    async: false,
 			    success: function (data) {
 			    	$.modal(data, 'xmlImport'); //modal창 호출

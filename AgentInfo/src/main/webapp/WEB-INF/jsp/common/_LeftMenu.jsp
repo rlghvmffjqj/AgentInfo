@@ -217,6 +217,14 @@
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
 			$('.loggriffin').addClass('active');
+		} else if($.cookie('name') == 'secuveOTP') {
+			$('.license').addClass('active');
+			$('.license').addClass('pcoded-trigger');
+			$('.secuveOTP').addClass('active');
+			} else if($.cookie('name') == 'rGRIFFIN') {
+			$('.license').addClass('active');
+			$('.license').addClass('pcoded-trigger');
+			$('.rGRIFFIN').addClass('active');
 		} else if($.cookie('name') == 'licenseRequest') {
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
@@ -439,6 +447,20 @@
 								<a href="<c:url value='/loggriffin/issuance'/>" class="waves-effect waves-dark">
 								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 								  <span class="pcoded-mtext">LogGRIFFIN</span>
+								  <span class="pcoded-mcaret"></span>
+								</a>
+						 	</li>
+							<li class="secuveOTP">
+								<a href="<c:url value='/secuveOTP/issuance'/>" class="waves-effect waves-dark">
+								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								  <span class="pcoded-mtext">secuveOTP</span>
+								  <span class="pcoded-mcaret"></span>
+								</a>
+						 	</li>
+							<li class="rGRIFFIN">
+								<a href="<c:url value='/rGRIFFIN/issuance'/>" class="waves-effect waves-dark">
+								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+								  <span class="pcoded-mtext">rGRIFFIN</span>
 								  <span class="pcoded-mcaret"></span>
 								</a>
 						 	</li>

@@ -110,20 +110,20 @@
 	                                	<div class="ibox">
 							                <div class="searchbos">
 	                                			<form id="form" name="form" method ="post">
-													<div style="padding-left:15px; width:33.2%; float: left;">
+													<div style="padding-left:15px; width:28.3%; float: left;">
 														<label class="labelFontSize">시작일</label>
 														<div>
-														  <input class="form-control" style="width: 46%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
+														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
 														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														  <input class="form-control" style="width: 46%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
+														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
 													  	</div>
 													</div>
 													<div style="padding-left:15px; width:60%; float: left;">
 														<label class="labelFontSize">만료일</label>
 														<div>
-														  <input class="form-control" style="width: 25%; float: left;" type="date" id="expirationDaysStart" name="expirationDaysStart" max="9999-12-31">
+														  <input class="form-control" style="width: 21%; float: left;" type="date" id="expirationDaysStart" name="expirationDaysStart" max="9999-12-31">
 														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														  <input class="form-control" style="width: 25%; float: left;" type="date" id="expirationDaysEnd" name="expirationDaysEnd" max="9999-12-31">
+														  <input class="form-control" style="width: 21%; float: left;" type="date" id="expirationDaysEnd" name="expirationDaysEnd" max="9999-12-31">
 													  	</div>
 													</div>
 													<div class="col-lg-2">
