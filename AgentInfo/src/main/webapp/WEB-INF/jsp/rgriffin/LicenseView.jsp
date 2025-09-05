@@ -7,42 +7,42 @@
 		<div class="leftDiv">
 			<div class="pading5Width450">
 				<label class="labelFontSize">고객사명</label>
-			 	<input type="text" id="rGRIFFINCompanyView" name="rGRIFFINCompanyView" class="form-control viewForm" value="${license.rGRIFFINCompany}">
+			 	<input type="text" id="rgriffinCompanyView" name="rgriffinCompanyView" class="form-control viewForm" value="${license.rgriffinCompany}">
 			</div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">카테고리</label>
-			 	<input type="text" id="rGRIFFINCategoryView" name="rGRIFFINCategoryView" class="form-control viewForm" value="${license.rGRIFFINCategory}">
+			 	<input type="text" id="rgriffinCategoryView" name="rgriffinCategoryView" class="form-control viewForm" value="${license.rgriffinCategory}">
 			</div>
 	        <div class="pading5Width450">
 				<label class="labelFontSize">만료일</label>
-				<input type="text" id="rGRIFFINExpireView" name="rGRIFFINExpireView" class="form-control viewForm" value="${license.rGRIFFINExpire}" placeholder="YYYY-MM-DD hh:mm:ss">
+				<input type="text" id="rgriffinExpireView" name="rgriffinExpireView" class="form-control viewForm" value="${license.rgriffinExpire}" placeholder="YYYY-MM-DD hh:mm:ss">
 		    </div>
 			 <div class="pading5Width450">
 				<label class="labelFontSize">수량</label>
 				 <div style="width: 100%">
-					<input type="number" id="rGRIFFINQuantityView" name="rGRIFFINQuantityView" class="form-control viewForm" maxlength="4" pattern="\d{4}" placeholder="YYMM" value="${license.rGRIFFINQuantity}">
+					<input type="number" id="rgriffinQuantityView" name="rgriffinQuantityView" class="form-control viewForm" maxlength="4" pattern="\d{4}" placeholder="YYMM" value="${license.rgriffinQuantity}">
 				 </div>
 			 </div>
 	    </div>
         <div class="rightDiv">
 			<div class="pading5Width450">
 				<label class="labelFontSize">RGMSID</label>
-				<input type="text" id="rGRIFFINRgmsidView" name="rGRIFFINRgmsidView" class="form-control viewForm" value="${license.rGRIFFINRgmsid}">
+				<input type="text" id="rgriffinRgmsidView" name="rgriffinRgmsidView" class="form-control viewForm" value="${license.rgriffinRgmsid}">
 		   </div>
 		   <div class="pading5Width450">
 				<label class="labelFontSize">비밀번호</label>
-				<input type="text" id="rGRIFFINPasswordView" name="rGRIFFINPasswordView" class="form-control viewForm" value="zaq1@WSX3">
+				<input type="text" id="rgriffinPasswordView" name="rgriffinPasswordView" class="form-control viewForm" value="zaq1@WSX3">
 		   </div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">라이선스 파일명</label>
-				<input type="text" id="rGRIFFINFilePathView" name="rGRIFFINFilePathView" class="form-control viewForm" placeholder="파일명.xml(yml)" value="${license.rGRIFFINFilePath}">
+				<input type="text" id="rgriffinFilePathView" name="rgriffinFilePathView" class="form-control viewForm" placeholder="파일명.xml(yml)" value="${license.rgriffinFilePath}">
 		   </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
-	         	<input type="text" id="rGRIFFINRequesterView" name="rGRIFFINRequesterView" class="form-control viewForm" value="${license.rGRIFFINRequester}">
+	         	<input type="text" id="rgriffinRequesterView" name="rgriffinRequesterView" class="form-control viewForm" value="${license.rgriffinRequester}">
 	        </div>
         </div>
-        <input type="hidden" id="rGRIFFINKeyNum" name="rGRIFFINKeyNum" value="${license.rGRIFFINKeyNum}">
+        <input type="hidden" id="rgriffinKeyNum" name="rgriffinKeyNum" value="${license.rgriffinKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
 	</form>
 </div>
@@ -61,7 +61,7 @@
 	function BtnInsert() {
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
-			url: "<c:url value='/rGRIFFIN/licenseIssuance'/>",
+			url: "<c:url value='/rgriffin/licenseIssuance'/>",
 		    type: 'post',
 		    data: postData,
 		    async: false,
@@ -94,7 +94,7 @@
 	function BtnUpdate() {	
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
-			url: "<c:url value='/rGRIFFIN/licenseUpdate'/>",
+			url: "<c:url value='/rgriffin/licenseUpdate'/>",
 		    type: 'post',
 		    data: postData,
 		    async: false,

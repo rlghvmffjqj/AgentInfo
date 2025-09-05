@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @Component
 public class SecuveOTP {
-	private String secuveOTPKeyNum;
+	private Integer secuveOTPKeyNum;
 	private String secuveOTPCreated;
 	private String secuveOTPSite;
 	private String secuveOTPMac;

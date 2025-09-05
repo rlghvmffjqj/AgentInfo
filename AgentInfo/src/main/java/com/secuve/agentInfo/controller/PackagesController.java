@@ -422,5 +422,9 @@ public class PackagesController {
 		return packagesService.overseasMove(chkList, principal);
 	}
 	
+	@PostMapping(value = "/packages/historyView")
+	public String HistoryView() {
+		return "/packages/HistoryView";
+	}
 	
 }

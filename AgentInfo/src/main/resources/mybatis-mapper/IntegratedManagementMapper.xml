@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="integratedManagement">
+	<resultMap type="com.secuve.agentInfo.vo.IntegratedManagement" id="integratedManagement"></resultMap>
+	
+	<select id="getIntegratedManagementList" resultMap="integratedManagement" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, integratedManagementKeyNum DESC) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM integratedManagement
+				<include refid="sqlIntegratedManagement" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getIntegratedManagementListCount" resultType="_int">
+		SELECT COUNT(*) FROM integratedManagement
+		<include refid="sqlIntegratedManagement" />
+	</select>
+	
+	<select id="getLicenseOne"  parameterType="_int" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};	
+	</select>
+	
+	
+	<insert id="licenseInsert">
+		INSERT INTO integratedManagement(integratedManagementCompany, integratedManagementCategory, integratedManagement, integratedManagementQuantity, integratedManagementRgmsid, integratedManagementPassword, integratedManagementFilePath, integratedManagementRequester, integratedManagementRegistrant, integratedManagementRegistrationDate)
+		VALUES(#{integratedManagementCompanyView}, #{integratedManagementCategoryView}, #{integratedManagementView}, #{integratedManagementQuantityView}, #{integratedManagementRgmsidView}, #{integratedManagementPasswordView}, #{integratedManagementFilePathView}, #{integratedManagementRequesterView}, #{integratedManagementRegistrant}, #{integratedManagementRegistrationDate});
+	</insert>
+	
+	<update id="updateLicense">
+		UPDATE integratedManagement SET integratedManagementCompany=#{integratedManagementCompanyView}, integratedManagementCategory=#{integratedManagementCategoryView}, integratedManagement=#{integratedManagementView}, integratedManagementQuantity=#{integratedManagementQuantityView}, integratedManagementRgmsid=#{integratedManagementRgmsidView}, integratedManagementPassword=#{integratedManagementPasswordView}, integratedManagementFilePath=#{integratedManagementFilePathView}, integratedManagementRequester=#{integratedManagementRequesterView}, integratedManagementModifier=#{integratedManagementModifier}, integratedManagementModifiedDate=#{integratedManagementModifiedDate}    
+		WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};
+	</update>
+	
+	
+	<delete id="delLicense" parameterType="_int">
+		DELETE FROM integratedManagement WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};
+	</delete>
+
+
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlIntegratedManagement">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="integratedManagementCustomerName != null and integratedManagementCustomerName != ''">
+				AND integratedManagementCustomerName LIKE CONCAT('%',#{integratedManagementCustomerName},'%')
+			</if>
+			<if test="integratedManagementStart != null and integratedManagementStart != ''">
+				AND issueDate BETWEEN #{integratedManagementStart} AND #{integratedManagementEnd}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

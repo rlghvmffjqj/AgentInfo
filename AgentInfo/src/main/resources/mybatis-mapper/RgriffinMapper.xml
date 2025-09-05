@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="rgriffin">
+	<resultMap type="com.secuve.agentInfo.vo.Rgriffin" id="rgriffin"></resultMap>
+	
+	<select id="getLicenseList" resultMap="rgriffin" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, rgriffinKeyNum DESC) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM rgriffin
+				<include refid="sqlLicense" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getLicenseListCount" resultType="_int">
+		SELECT COUNT(*) FROM rgriffin
+		<include refid="sqlLicense" />
+	</select>
+	
+	<select id="getLicenseOne"  parameterType="_int" resultMap="rgriffin">
+		SELECT * FROM rgriffin WHERE rgriffinKeyNum = #{rgriffinKeyNum};	
+	</select>
+	
+	
+	<insert id="licenseInsert">
+		INSERT INTO rgriffin(rgriffinCompany, rgriffinCategory, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinRegistrant, rgriffinRegistrationDate)
+		VALUES(#{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinRegistrant}, #{rgriffinRegistrationDate});
+	</insert>
+	
+	<update id="updateLicense">
+		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinCategory=#{rgriffinCategoryView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, rgriffinRequester=#{rgriffinRequesterView}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
+		WHERE rgriffinKeyNum = #{rgriffinKeyNum};
+	</update>
+	
+	
+	<delete id="delLicense" parameterType="_int">
+		DELETE FROM rgriffin WHERE rgriffinKeyNum = #{rgriffinKeyNum};
+	</delete>
+	
+	<select id="listAll" resultMap="rgriffin" parameterType="string">
+		SELECT * FROM rgriffin 
+		<include refid="sqlLicense" />
+	</select>
+
+	
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlLicense">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="rgriffinCompany != null and rgriffinCompany != ''">
+				AND rgriffinCompany LIKE CONCAT('%',#{rgriffinCompany},'%')
+			</if>
+			<if test="rgriffinCategory != null and rgriffinCategory != ''">
+				AND rgriffinCategory LIKE CONCAT('%',#{rgriffinCategory},'%')
+			</if>
+			<if test="rgriffinQuantity != null and rgriffinQuantity != ''">
+				AND rgriffinQuantity LIKE CONCAT('%',#{rgriffinQuantity},'%')
+			</if>
+			<if test="rgriffinRgmsid != null and rgriffinRgmsid != ''">
+				AND rgriffinRgmsid LIKE CONCAT('%',#{rgriffinRgmsid},'%')
+			</if>
+			<if test="rgriffinPassword != null and rgriffinPassword != ''">
+				AND rgriffinPassword LIKE CONCAT('%',#{rgriffinPassword},'%')
+			</if>
+			<if test="rgriffinFilePath != null and rgriffinFilePath != ''">
+				AND rgriffinFilePath LIKE CONCAT('%',#{rgriffinFilePath},'%')
+			</if>
+			<if test="rgriffinRequester != null and rgriffinRequester != ''">
+				AND rgriffinRequester LIKE CONCAT('%',#{rgriffinRequester},'%')
+			</if>
+			<if test="rgriffinExpireStart != null and rgriffinExpireStart != ''">
+				AND issueDate BETWEEN #{rgriffinExpireStart} AND #{rgriffinExpireEnd}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>

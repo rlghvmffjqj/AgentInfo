@@ -419,6 +419,11 @@ p {
     max-width: 1300px;
 }
 
+.modal-packagesHistory {
+	top: 0%;
+    max-width: 1300px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

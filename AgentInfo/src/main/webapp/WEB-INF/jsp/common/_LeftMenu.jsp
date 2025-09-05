@@ -221,10 +221,10 @@
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
 			$('.secuveOTP').addClass('active');
-			} else if($.cookie('name') == 'rGRIFFIN') {
+			} else if($.cookie('name') == 'rgriffin') {
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
-			$('.rGRIFFIN').addClass('active');
+			$('.rgriffin').addClass('active');
 		} else if($.cookie('name') == 'licenseRequest') {
 			$('.license').addClass('active');
 			$('.license').addClass('pcoded-trigger');
@@ -333,7 +333,10 @@
 			$('.resultsReport').addClass('active');
 		} else if($.cookie('name') == 'automatedTesting') {
 			$('.automatedTesting').addClass('active');
-		}
+		}  else if($.cookie('name') == 'integratedManagement') {
+			$('.integratedManagement').addClass('active');
+		} 
+
 	});
 </script>
 <nav class="pcoded-navbar" style="z-index: 16 !important; position: fixed !important; width:200px">
@@ -386,6 +389,15 @@
 		    	        <a href="<c:url value='/resultsReport/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
 		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">결과 보고서</span>
+		    	            <span class="pcoded-mcaret"></span>
+		    	        </a>
+		    	    </li>
+		    	</ul>
+				<ul class="pcoded-item pcoded-left-item">
+		    	    <li class="integratedManagement">
+		    	        <a href="<c:url value='/integratedManagement/list'/>" class="waves-effect waves-dark">
+		    	            <span class="pcoded-micon"><i class="ti-layout-tab"></i><b>FC</b></span>
+		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">제품 통합 관리</span>
 		    	            <span class="pcoded-mcaret"></span>
 		    	        </a>
 		    	    </li>
@@ -457,8 +469,8 @@
 								  <span class="pcoded-mcaret"></span>
 								</a>
 						 	</li>
-							<li class="rGRIFFIN">
-								<a href="<c:url value='/rGRIFFIN/issuance'/>" class="waves-effect waves-dark">
+							<li class="rgriffin">
+								<a href="<c:url value='/rgriffin/issuance'/>" class="waves-effect waves-dark">
 								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
 								  <span class="pcoded-mtext">rGRIFFIN</span>
 								  <span class="pcoded-mcaret"></span>

@@ -6,36 +6,37 @@
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
-		    	$.cookie('name','rGRIFFIN');
+		    	$.cookie('name','rgriffin');
 		    });
 	    </script>
 	    <script>
 			$(document).ready(function(){
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
-					url: "<c:url value='/rGRIFFIN'/>",
+					url: "<c:url value='/rgriffin'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','카테고리','만료일','수량','RGMSID','라이선스 파일명','요청자'],
+					colNames:['Key','고객사명','카테고리','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자'],
 					colModel:[
-						{name:'rGRIFFINKeyNum', index:'rGRIFFINKeyNum', align:'center', width: 35, hidden:true },
-						{name:'rGRIFFINCompany', index:'rGRIFFINCompany', align:'center', width: 150},
-						{name:'rGRIFFINCategory', index:'rGRIFFINCategory', align:'center', width: 200},
-						{name:'rGRIFFINExpire', index:'rGRIFFINExpire', align:'center', width: 150},
-						{name:'rGRIFFINQuantity', index:'rGRIFFINQuantity', align:'center', width: 150},
-						{name:'rGRIFFINRgmsid', index:'rGRIFFINRgmsid', align:'center', width: 200},
-						{name:'rGRIFFINFilePath', index:'rGRIFFINFilePath',align:'center', width: 250},
-						{name:'rGRIFFINRequester', index:'rGRIFFINRequester',align:'center', width: 150}
+						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
+						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 150},
+						{name:'rgriffinCategory', index:'rgriffinCategory', align:'center', width: 200},
+						{name:'rgriffinExpire', index:'rgriffinExpire', align:'center', width: 150},
+						{name:'rgriffinQuantity', index:'rgriffinQuantity', align:'center', width: 150},
+						{name:'rgriffinRgmsid', index:'rgriffinRgmsid', align:'center', width: 200},
+						{name:'rgriffinPassword', index:'rgriffinPassword', align:'center', width: 100},
+						{name:'rgriffinFilePath', index:'rgriffinFilePath',align:'center', width: 250},
+						{name:'rgriffinRequester', index:'rgriffinRequester',align:'center', width: 150}
 					],
 					jsonReader : {
-			        	id: 'rGRIFFINKeyNum',
+			        	id: 'rgriffinKeyNum',
 			        	repeatitems: false
 			        },
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        rowList:[25,50,100],
-			        sortname: 'rGRIFFINKeyNum',	// 기본 정렬 
+			        sortname: 'rgriffinKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -47,7 +48,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
-				loadColumns('#list','rGRIFFINList');
+				loadColumns('#list','rgriffinList');
 			});
 			
 			$(window).on('resize.list', function () {
@@ -95,34 +96,34 @@
 													<div style="padding-left:15px; width:28.5%; display: table;">
 														<label class="labelFontSize">만료일</label>
 														<div>
-														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="rGRIFFINExpireStart" name="rGRIFFINExpireStart" max="9999-12-31">
+														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="rgriffinExpireStart" name="rgriffinExpireStart" max="9999-12-31">
 														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="rGRIFFINExpireEnd" name="rGRIFFINExpireEnd" max="9999-12-31">
+														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="rgriffinExpireEnd" name="rgriffinExpireEnd" max="9999-12-31">
 													  	</div>
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">고객사명</label>
-														<input type="text" id="rGRIFFINCompany" name="rGRIFFINCompany" class="form-control">
+														<input type="text" id="rgriffinCompany" name="rgriffinCompany" class="form-control">
 													</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">카테고리</label>
-														<input type="text" id="rGRIFFINCategory" name="rGRIFFINCategory" class="form-control">
+														<input type="text" id="rgriffinCategory" name="rgriffinCategory" class="form-control">
 													</div>
 													<div class="col-lg-2">
 														<label class="labelFontSize">수량</label>
-														<input type="text" id="rGRIFFINQuantity" name="rGRIFFINQuantity" class="form-control">
+														<input type="text" id="rgriffinQuantity" name="rgriffinQuantity" class="form-control">
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">RGMSID</label>
-														<input type="text" id="rGRIFFINRgmsid" name="rGRIFFINRgmsid" class="form-control">		                      							
+														<input type="text" id="rgriffinRgmsid" name="rgriffinRgmsid" class="form-control">		                      							
 		                      						</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">라이선스 파일명</label>
-														<input type="text" id="rGRIFFINFilePath" name="rGRIFFINFilePath" class="form-control">
+														<input type="text" id="rgriffinFilePath" name="rgriffinFilePath" class="form-control">
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">요청자</label>
-														<input type="text" id="rGRIFFINRequester" name="rGRIFFINRequester" class="form-control">
+														<input type="text" id="rgriffinRequester" name="rgriffinRequester" class="form-control">
 													</div>
 			                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
@@ -151,7 +152,7 @@
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="YML 파일을 첨부하여 데이터를 추가합니다.">YML Import</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button> -->
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'rGRIFFINList');">컬럼 선택</button>
+																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'rgriffinList');">컬럼 선택</button>
 																</td>
 															</tr>
 															<tr>
@@ -184,7 +185,7 @@
 		$('#BtnInsert').click(function() {
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/rGRIFFIN/issuedView'/>",
+			    url: "<c:url value='/rgriffin/issuedView'/>",
 			    data: {
 		    		"viewType" : "issued"
 		    	},
@@ -221,7 +222,7 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
-						url: "<c:url value='/rGRIFFIN/delete'/>",
+						url: "<c:url value='/rgriffin/delete'/>",
 						type: "POST",
 						data: {chkList: chkList},
 						dataType: "text",
@@ -286,22 +287,22 @@
 		
 		/* =========== 검색 ========= */
 		$('#btnSearch').click(function() {
-			var rGRIFFINExpireStart = $("#rGRIFFINExpireStart").val();
-			var rGRIFFINExpireEnd = $("#rGRIFFINExpireEnd").val();
+			var rgriffinExpireStart = $("#rgriffinExpireStart").val();
+			var rgriffinExpireEnd = $("#rgriffinExpireEnd").val();
 			
-			if(rGRIFFINExpireStart == "" && rGRIFFINExpireEnd != "") {
+			if(rgriffinExpireStart == "" && rgriffinExpireEnd != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
 						text: '시작일의 시작날짜를 입력해주세요.',    
 					});
-			} else if(rGRIFFINExpireEnd == "" && rGRIFFINExpireStart != "") {
+			} else if(rgriffinExpireEnd == "" && rgriffinExpireStart != "") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
 						text: '시작일의  종료 날짜를 입력해주세요.',    
 					});
-			} else if(rGRIFFINExpireStart > rGRIFFINExpireEnd) {
+			} else if(rgriffinExpireStart > rgriffinExpireEnd) {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
@@ -345,7 +346,7 @@
 		$('#BtnRoute').click(function() {
 			$.ajax({
 				url: "<c:url value='/license/setting'/>",
-				data: {"licenseVersion" : "rGRIFFIN"},
+				data: {"licenseVersion" : "rgriffin"},
 				type: "POST",
 				traditional: true,
 				async: false,
@@ -363,7 +364,7 @@
 		/* =========== 데이터 복사 Modal ========= */
 		$('#BtnCopy').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
-			var rGRIFFINKeyNum = chkList[0];
+			var rgriffinKeyNum = chkList[0];
 			if(chkList.length == 0) {
 				Swal.fire({               
 					icon: 'error',          
@@ -374,7 +375,7 @@
 				$.ajax({
 		            type: 'POST',
 		            url: "<c:url value='/license/copyView'/>",
-		            data: {"rGRIFFINKeyNum" : rGRIFFINKeyNum},
+		            data: {"rgriffinKeyNum" : rgriffinKeyNum},
 		            async: false,
 		            success: function (data) {
 		            	//if(data.indexOf("<!DOCTYPE html>") != -1) 
@@ -397,7 +398,7 @@
 		/* =========== 데이터 수정 Modal ========= */
 		$('#BtnUpdate').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
-			var rGRIFFINKeyNum = chkList[0];
+			var rgriffinKeyNum = chkList[0];
 			if(chkList.length == 0) {
 				Swal.fire({               
 					icon: 'error',          
@@ -407,8 +408,8 @@
 			} else if(chkList.length == 1) {
 				$.ajax({
 		            type: 'POST',
-		            url: "<c:url value='/rGRIFFIN/updateView'/>",
-		            data: {"rGRIFFINKeyNum" : rGRIFFINKeyNum},
+		            url: "<c:url value='/rgriffin/updateView'/>",
+		            data: {"rgriffinKeyNum" : rgriffinKeyNum},
 		            async: false,
 		            success: function (data) {
 		                $.modal(data, 'll'); //modal창 호출
@@ -436,7 +437,7 @@
 				});  
 			} else {
 				$.ajax({
-					url: "<c:url value='/rGRIFFIN/rGRIFFINDownLoadCheck'/>",
+					url: "<c:url value='/rgriffin/rgriffinDownLoadCheck'/>",
 					type: "POST",
 					data: {chkList: chkList},
 					traditional: true,
@@ -449,9 +450,9 @@
 							  'error'
 							)
 						} else if(chkList.length === 1) {
-							location.href="<c:url value='/rGRIFFIN/rGRIFFINSingleDownLoad'/>?rGRIFFINKeyNum="+chkList;
+							location.href="<c:url value='/rgriffin/rgriffinSingleDownLoad'/>?rgriffinKeyNum="+chkList;
 						} else {
-							location.href="<c:url value='/rGRIFFIN/rGRIFFINMultiDownLoad'/>?rGRIFFINKeyNum="+chkList;
+							location.href="<c:url value='/rgriffin/rgriffinMultiDownLoad'/>?rgriffinKeyNum="+chkList;
 						}
 	            	},
 	            	error: function(e) {
@@ -469,7 +470,7 @@
 		$('#BtnImport').click(function() {
 			$.ajax({
 			    type: 'POST',
-			    url: "<c:url value='/rGRIFFIN/licenseYmlImportView'/>",
+			    url: "<c:url value='/rgriffin/licenseYmlImportView'/>",
 			    async: false,
 			    success: function (data) {
 			    	$.modal(data, 'xmlImport'); //modal창 호출

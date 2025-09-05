@@ -29,9 +29,9 @@
 				const menuTitleKorList = JSON.parse('${menuTitleKorListJson}');
 
 				const menuTitleList = [
-  				  <c:forEach var="title" items="${menuTitleList}" varStatus="loop">
-  				    '${title}'<c:if test="${!loop.last}">,</c:if>
-  				  </c:forEach>
+  				  	<c:forEach var="title" items="${menuTitleList}" varStatus="loop">
+  				  		'${title}'<c:if test="${!loop.last}">,</c:if>
+  				  	</c:forEach>
   				];
 			  
   				const colModel = menuTitleList.map((title, idx) => ({
@@ -158,7 +158,7 @@
 																</tr>
 																<tr><td>
 																	<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
-																		<button class="btn btn-outline-info-add myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
 																	</c:if>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환성 목록</button>
 																</td></tr>

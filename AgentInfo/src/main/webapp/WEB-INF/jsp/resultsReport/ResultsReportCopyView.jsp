@@ -1298,56 +1298,72 @@
 
 			// 2. input, select, textarea 값 반영
 			cloned.find('input, select, textarea').each(function () {
-			  var $el = $(this);
-			
-			  if ($el.is('input')) {
-				var type = $el.attr('type');
-				if (type === 'checkbox' || type === 'radio') {
-				  if ($el.prop('checked')) {
-					$el.attr('checked', 'checked');
-				  } else {
-					$el.removeAttr('checked');
-				  }
-				} else {
-				  $el.attr('value', $el.val());
-				}
-			  } else if ($el.is('select')) {
-				$el.find('option').each(function () {
-				  if ($(this).prop('selected')) {
-					$(this).attr('selected', 'selected');
-				  } else {
-					$(this).removeAttr('selected');
-				  }
-				});
-			  } else if ($el.is('textarea')) {
-				if ($el.hasClass('scenarioTextarea')) {
-				  // 👉 scenarioTextarea만 <div>로 변환
-				  var content = $el.val()
-					.replace(/</g, "&lt;")
-					.replace(/>/g, "&gt;")
-					.replace(/\n/g, "<br/>");
+			    var $el = $(this);
+
+			    if ($el.is('input')) {
+			        var type = $el.attr('type');
 				
-				  var style = $el.attr('style') || '';
-				  style = style.replace(/height\s*:\s*[^;]+;?/gi, ''); // 기존 height 제거
-				  style += ' min-height:50px; text-align:left; white-space:pre-wrap;';
-				
-				  var div = $('<div></div>')
-					.addClass($el.attr('class'))
-					.attr('style', style)
-					.html(content);
-				
-				  $el.replaceWith(div);
-				} else {
-				  // ✅ 그 외 textarea는 값만 반영
-				  $el.text($el.val());
-				}
-			  }
+			        if (type === 'checkbox' || type === 'radio') {
+			            // 체크박스, 라디오는 그대로 처리
+			            if ($el.prop('checked')) {
+			                $el.attr('checked', 'checked');
+			            } else {
+			                $el.removeAttr('checked');
+			            }
+			        } else {
+			            // 일반 텍스트 input -> div로 변환
+			            var content = $el.val()
+			                .replace(/</g, "&lt;")
+			                .replace(/>/g, "&gt;")
+			                .replace(/\n/g, "<br/>");
+					
+			            var style = $el.attr('style') || '';
+			            style = style.replace(/height\s*:\s*[^;]+;?/gi, ''); // height 제거
+			            style += ' min-height:20px; white-space:pre-wrap;';
+					
+			            var div = $('<div></div>')
+			                .addClass($el.attr('class'))
+			                .attr('style', style)
+			                .html(content);
+					
+			            $el.replaceWith(div);
+			        }
+			    } else if ($el.is('select')) {
+			        $el.find('option').each(function () {
+			            if ($(this).prop('selected')) {
+			                $(this).attr('selected', 'selected');
+			            } else {
+			                $(this).removeAttr('selected');
+			            }
+			        });
+			    } else if ($el.is('textarea')) {
+			        if ($el.hasClass('scenarioTextarea')) {
+			            // scenarioTextarea만 div로 변환
+			            var content = $el.val()
+			                .replace(/</g, "&lt;")
+			                .replace(/>/g, "&gt;")
+			                .replace(/\n/g, "<br/>");
+					
+			            var style = $el.attr('style') || '';
+			            style = style.replace(/height\s*:\s*[^;]+;?/gi, '');
+			            style += ' min-height:50px; text-align:left; white-space:pre-wrap;';
+					
+			            var div = $('<div></div>')
+			                .addClass($el.attr('class'))
+			                .attr('style', style)
+			                .html(content);
+					
+			            $el.replaceWith(div);
+			        } else {
+			            // 나머지 textarea 값만 반영
+			            $el.text($el.val());
+			        }
+			    }
 			});
 
 			// 3. 최종 HTML 반환
 			return cloned.html();
 		}
-
 	</script>
 
 	<style>
@@ -1376,6 +1392,10 @@
 	</style>
 
 	<style id="pdfStyle">
+		div {
+			font-size: 13px;
+		}
+
 		.middleTitle {
 			margin-top: 30px;
 		}

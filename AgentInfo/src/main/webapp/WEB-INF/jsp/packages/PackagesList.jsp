@@ -323,6 +323,7 @@
 																	<sec:authorize access="hasRole('ADMIN')">
 																		<button class="btn btn-outline-info-nomal myBtn" id="BtnOverseas" onClick="btnOverseas()">국외 이동</button>
 																	</sec:authorize>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnHistory" onClick="btnHistory()">작업내역</button>
 																</td>
 															</tr>
 															<tr>
@@ -696,6 +697,32 @@
 					  });
 				  	}
 				})
+			}
+		}
+
+		function btnHistory() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+					url: "<c:url value='/packages/historyView'/>",
+					type: "POST",
+					data: {chkList: chkList},
+					async: false,
+			    	success: function (data) {
+			    		if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+			    	    $.modal(data, 'packagesHistory'); //modal창 호출
+			    	},
+			    	error: function(e) {
+			    	    // TODO 에러 화면
+			    	}
+				});
 			}
 		}
 

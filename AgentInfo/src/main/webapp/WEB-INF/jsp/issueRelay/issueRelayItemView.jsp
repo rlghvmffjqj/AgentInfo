@@ -330,6 +330,12 @@
 			</c:if>
 		</c:if>
 			
+		<div id="imageModal">
+		    <span class="close">&times;</span>
+		    <img id="modalImg" src="">
+		    <div id="caption" style="color:white; margin-top:10px;"></div>
+		</div>
+
 	</body>
 	<script>
 		var isAnimating = false;
@@ -917,7 +923,31 @@
         }
 		
 		updateBtnEnable();
-            
+
+		// 이미지 자세히 보기
+		$(document).ready(function() {
+		    // document 전체에서 img 클릭 이벤트 위임
+		    $(document).on('click', 'img', function() {
+		        var src = $(this).attr('src');
+		        var alt = $(this).attr('alt');
+		        $('#modalImg').attr('src', src);
+		        $('#caption').text(alt);
+		        $('#imageModal').fadeIn();
+				$('#imageModal').css('display', 'flex');
+		    });
+		
+		    // 닫기 버튼 클릭 시 모달 닫기
+		    $(document).on('click', '#imageModal .close', function() {
+		        $('#imageModal').fadeOut();
+		    });
+		
+		    // 모달 배경 클릭 시 닫기
+		    $(document).on('click', '#imageModal', function(e) {
+		        if (e.target.id === 'imageModal') {
+		            $(this).fadeOut();
+		        }
+		    });
+		});
 	</script>
 	<style>
 		.scrollToTop {
@@ -1684,5 +1714,83 @@
         p {
         	padding: 0px;
         }
+
+		/* -------------------------
+		   모든 이미지 클릭용 기본 스타일
+		---------------------------- */
+		img {
+		    cursor: pointer;   /* 마우스가 올라가면 클릭 가능 표시 */
+		    max-width: 150px;  /* 썸네일 기본 크기 */
+		    height: auto;      /* 원본 비율 유지 */
+		    margin: 5px;       /* 이미지 간 간격 */
+		    transition: transform 0.3s; /* 마우스 오버 시 애니메이션 가능 */
+		}
+
+		/* -------------------------
+		   모달 배경
+		---------------------------- */
+		#imageModal {
+		    display: none;
+		    position: fixed;
+		    z-index: 1000;
+		    left: 0;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    background-color: rgba(0,0,0,0.8);
+				
+		    /* 중앙 정렬 */
+		    
+		    align-items: center;   /* 수직 중앙 */
+		    justify-content: center; /* 수평 중앙 */
+				
+		    overflow: auto; /* 화면보다 크면 스크롤 */
+		}
+
+
+		/* -------------------------
+		   모달 안 이미지
+		---------------------------- */
+		#imageModal img {
+		    max-width: 90vw !important;
+    		max-height: 45vw !important;
+		    width: 95vw;
+		    height: auto;
+		    margin: auto;
+		    display: block;
+		    box-shadow: 0 0 15px rgba(0,0,0,0.5); /* 약간 그림자 효과 */
+		    border-radius: 5px;
+			object-fit: contain;
+		}
+
+		/* -------------------------
+		   닫기 버튼 (×)
+		---------------------------- */
+		#imageModal .close {
+		    position: absolute;
+		    top: 0px;
+		    right: 35px;
+		    color: #fff;
+		    font-size: 40px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    transition: color 0.2s;
+		}
+
+		#imageModal .close:hover {
+		    color: #ff0000; /* 마우스 오버 시 붉게 표시 */
+		}
+
+		/* -------------------------
+		   캡션 (이미지 설명)
+		---------------------------- */
+		#caption {
+		    color: #fff;
+		    margin-top: 10px;
+		    font-size: 16px;
+		}
+
+		
+
 	</style>
 </html>

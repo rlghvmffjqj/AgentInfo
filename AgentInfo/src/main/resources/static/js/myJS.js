@@ -54,6 +54,7 @@ $.modal = function (modalContent, size) {
 	if(size=='menuSettingItem') html += ' modal-menuSettingItem';
 	if(size=='productVersion') html += ' modal-productVersion';
 	if(size=='compatibility') html += ' modal-compatibility';
+	if(size=='packagesHistory') html += ' modal-packagesHistory';
 	
 	
 	
