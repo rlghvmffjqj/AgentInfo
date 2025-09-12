@@ -307,7 +307,7 @@
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 XML 파일을 다운로드합니다.">XML 다운로드</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 XML 파일을 다운로드합니다.">라이선스 다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="XML 파일을 첨부하여 데이터를 추가합니다.">XML Import</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
