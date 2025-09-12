@@ -279,5 +279,19 @@ public class ProductVersionService {
 	public List<String> getMenusettingMenutitle(String menuKeyNum) {
 		return productVersionDao.getMenusettingMenutitle(menuKeyNum);
 	}
+	
+	public List<MenuSetting> getcompatibilityAll(Compatibility search) throws UnknownHostException {
+		String databaseName;
+		String localIp = InetAddress.getLocalHost().getHostAddress();
+		if(localIp.equals("172.16.100.90")) {
+			databaseName = "agentinfo_sub";
+		} else {
+			databaseName = "agentinfo";
+		}
+		search.setProductVersionTable(productVersionDao.getProductVersionTableList(databaseName));
+		search.getProductVersionTable().remove("productversion_"+search.getMenuKeyNum());
+
+		return productVersionDao.getcompatibilityList(search);
+	}
 
 }

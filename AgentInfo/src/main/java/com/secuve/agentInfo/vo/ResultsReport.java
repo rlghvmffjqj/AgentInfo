@@ -12,8 +12,8 @@ import lombok.ToString;
 @Component
 public class ResultsReport {
 	private int resultsReportKeyNum;
-	private String resultsReportCustomerName;				// 타이틀
-	private String resultsReportNumber;						// 문서번호
+	private String resultsReportCustomerName = "";				// 타이틀
+	private String resultsReportNumber = "";						// 문서번호
 	private String resultsReportClient;						// 의뢰자
 	private String resultsReportVerifier;					// 검증자
 	private String resultsReportReviewer;					// 검토자

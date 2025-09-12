@@ -12,7 +12,7 @@
 	top: 0; 
 	padding: 0;
 	/*font-size:11px;*/
-	z-index:100;
+	z-index:16;
 }
 .ui-jqgrid .ui-common-table {border-width: 0px; border-style: none; border-spacing: 0px; padding: 0;}
 /* caption*/
@@ -112,7 +112,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	/*font-size:11px; */
-	z-index:100
+	z-index:16
 }
 .ui-jqgrid .ui-jqgrid-toppager .ui-pager-control, .ui-jqgrid .ui-jqgrid-pager .ui-pager-control {position: relative;border-left: 0;border-bottom: 0;border-top: 0; height: 28px;}
 .ui-jqgrid .ui-pg-table {position: relative; padding: 1px 0; width:auto; margin: 0;}

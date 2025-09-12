@@ -20,4 +20,21 @@ public class IntegratedManagementService {
 		return integratedManagementDao.getIntegratedManagementListCount(search);
 	}
 
+	public void setResultsReportMapping(IntegratedManagement integratedManagement) {
+		integratedManagementDao.delResultsReportMapping(integratedManagement);
+		integratedManagementDao.setResultsReportMapping(integratedManagement);
+	}
+	
+	public String delResultsReportMapping(IntegratedManagement integratedManagement) {
+		int success = integratedManagementDao.delResultsReportMapping(integratedManagement);
+        if (success <= 0) {
+        	return "FALSE";
+        }
+        return "OK";
+	}
+
+	public IntegratedManagement getIntegratedManagementOne(int packagesKeyNum) {
+		return integratedManagementDao.getIntegratedManagementOne(packagesKeyNum);
+	}
+
 }

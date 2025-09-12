@@ -20,4 +20,16 @@ public class IntegratedManagementDao {
 		return sqlSession.selectOne("integratedManagement.getIntegratedManagementListCount", search);
 	}
 
+	public void setResultsReportMapping(IntegratedManagement integratedManagement) {
+		sqlSession.insert("integratedManagement.setResultsReportMapping", integratedManagement);
+	}
+
+	public int delResultsReportMapping(IntegratedManagement integratedManagement) {
+		return sqlSession.delete("integratedManagement.delResultsReportMapping", integratedManagement);
+	}
+
+	public IntegratedManagement getIntegratedManagementOne(int packagesKeyNum) {
+		return sqlSession.selectOne("integratedManagement.getIntegratedManagementOne", packagesKeyNum);
+	}
+
 }

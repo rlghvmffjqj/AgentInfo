@@ -1,5 +1,9 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,10 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.RgriffinService;
 import com.secuve.agentInfo.vo.Rgriffin;
+import org.springframework.web.servlet.View;
 
 @Controller
 public class RgriffinController {
@@ -60,10 +66,10 @@ public class RgriffinController {
 	
 	@ResponseBody
 	@PostMapping(value = "/rgriffin/licenseIssuance")
-	public String LicenseInsert(Rgriffin license, Principal principal) {
+	public String LicenseInsert(Rgriffin license, Principal principal) throws IOException {
 		license.setRgriffinRegistrant(principal.getName());
 		license.setRgriffinRegistrationDate(rgriffinService.nowDate());
-		return rgriffinService.licenseInsert(license);
+		return rgriffinService.licenseIssuance(license);
 	}
 	
 	@ResponseBody
@@ -99,7 +105,7 @@ public class RgriffinController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String filename = "rgriffin Entire Data - " + formatter.format(now) + ".csv";
 
-		List list = rgriffinService.listAll(license);
+		List<Object> list = rgriffinService.listAll(license);
 
 		if (license.getRgriffinExpireStart() != "" && license.getRgriffinExpireEnd() != "") {
 			filename = license.getRgriffinExpireStart() + " - " + license.getRgriffinExpireEnd() + ".csv";
@@ -115,5 +121,38 @@ public class RgriffinController {
 		} catch (Exception e) {
 			System.out.println("FAIL: Export failed.\n" + e.toString());
 		}
+	}
+	
+	@GetMapping(value = "/rgriffin/licenseIssuanceDownLoad")
+	public View licenseIssuanceDownLoad(@RequestParam String fileName, Model model) throws UnsupportedEncodingException {
+		fileName += ".json";
+		String filePath = "C:\\License\\backup";
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);  		 // 출력할 파일 이름
+	
+		return new FileDownloadView();
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/rgriffin/rgriffinDownLoadCheck")
+	public String downLoadCheck(@RequestParam int[] chkList) {
+		return rgriffinService.downLoadCheck(chkList);
+	}
+	
+	@GetMapping("/rgriffin/rgriffinMultiDownLoad")
+	public void downloadJson(int rgriffinKeyNum, HttpServletResponse response) throws IOException {
+		Rgriffin license = rgriffinService.getLicenseOne(rgriffinKeyNum);
+		
+		String jsonData = license.getRgriffinContent();
+		String filename = license.getRgriffinCompany();
+		
+	    response.setContentType("application/json; charset=UTF-8");
+	    response.setHeader("Content-Disposition", "attachment; filename=\""+filename+".json\"");
+
+	    try (OutputStream out = response.getOutputStream()) {
+	        out.write(jsonData.getBytes(StandardCharsets.UTF_8));
+	        out.flush();
+	    }
 	}
 }

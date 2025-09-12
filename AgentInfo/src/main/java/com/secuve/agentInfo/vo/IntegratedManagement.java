@@ -12,8 +12,13 @@ import lombok.ToString;
 @Component
 public class IntegratedManagement {
 	private Integer integratedManagementKeyNum;
-	private String integratedManagementCustomerName;
-	private String integratedManagementDate;
+	private String integratedManagementType;
+	private Integer packagesKeyNum;
+	private Integer productVersionKeyNum;
+	private Integer issuePrimaryKeyNum;
+	private Integer resultsReportKeyNum;
+	
+	private String mainTitle;
 	
 	private String integratedManagementRegistrant = "";		// 추가자
 	private String integratedManagementRegistrationDate = "";	// 추가 시간

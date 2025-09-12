@@ -36,7 +36,7 @@ public class RgriffinDao {
 		return sqlSession.update("rgriffin.updateLicense", license);
 	}
 
-	public List listAll(Rgriffin license) {
+	public List<Object> listAll(Rgriffin license) {
 		return sqlSession.selectList("rgriffin.listAll", license);
 	}
 

@@ -10,7 +10,7 @@
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY CASE WHEN resultsReportTemplate = 'template' THEN 0 ELSE 1 END, ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT *
+				SELECT resultsReportKeyNum, resultsReportNumber, resultsReportCustomerName, resultsReportClient, resultsReportVerifier, resultsReportReviewer, resultsReportDate, resultsReportTestDate, resultsReportTemplate, resultsreportDelNote
 				FROM resultsReport
 					<include refid="sqlResultsReport" />
 			) a
@@ -98,7 +98,7 @@
 			<if test="resultsReportTemplate == 'template'">
 				AND resultsReportTemplate = 'template' 
 			</if>
-			<if test="resultsReportTemplate == ''">
+			<if test="resultsReportTemplate == '' || resultsReportTemplate == null">
 				AND resultsReportTemplate IS NULL
    			</if>
    			<if test="resultsReportTemplate == 'del'">

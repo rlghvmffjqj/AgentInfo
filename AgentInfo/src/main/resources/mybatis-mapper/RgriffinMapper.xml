@@ -29,8 +29,8 @@
 	
 	
 	<insert id="licenseInsert">
-		INSERT INTO rgriffin(rgriffinCompany, rgriffinCategory, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinRegistrant, rgriffinRegistrationDate)
-		VALUES(#{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinRegistrant}, #{rgriffinRegistrationDate});
+		INSERT INTO rgriffin(rgriffinCompany, rgriffinCategory, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, rgriffinRegistrationDate)
+		VALUES(#{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{rgriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">

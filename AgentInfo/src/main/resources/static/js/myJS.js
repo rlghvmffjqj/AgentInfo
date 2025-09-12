@@ -55,6 +55,7 @@ $.modal = function (modalContent, size) {
 	if(size=='productVersion') html += ' modal-productVersion';
 	if(size=='compatibility') html += ' modal-compatibility';
 	if(size=='packagesHistory') html += ' modal-packagesHistory';
+	if(size=='imResultsReport') html += ' modal-imResultsReport';
 	
 	
 	

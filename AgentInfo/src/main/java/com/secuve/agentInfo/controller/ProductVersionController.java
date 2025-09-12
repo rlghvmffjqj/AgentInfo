@@ -350,4 +350,20 @@ public class ProductVersionController {
 		}
 		return "NotFile";
 	}
+	
+	@ResponseBody
+    @PostMapping(value = "/compatibilityAll")
+    public Map<String, Object> CompatibilityAll(Compatibility search) throws UnknownHostException {
+		Map<String, Object> response = new HashMap<>();
+        
+        List<MenuSetting> compatibilityList = productVersionService.getcompatibilityAll(search);
+        int totalCount = productVersionService.getcompatibilityListCount(search);
+
+        response.put("page", search.getPage());
+        response.put("total", Math.ceil((float) totalCount / search.getRows()));
+        response.put("records", totalCount);
+        response.put("rows", compatibilityList);
+
+        return response;
+    }
 }

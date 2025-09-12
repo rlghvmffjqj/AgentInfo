@@ -43,7 +43,18 @@
 		DELETE FROM integratedManagement WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};
 	</delete>
 
-
+	<delete id="delResultsReportMapping">
+		DELETE FROM integratedManagement WHERE integratedManagementType = 'resultsReport' AND packagesKeyNum = ${packagesKeyNum};
+	</delete>
+	
+	<insert id="setResultsReportMapping">
+		INSERT INTO integratedManagement(packagesKeyNum, resultsReportKeyNum, integratedManagementType)
+		VALUES(${packagesKeyNum}, ${resultsReportKeyNum}, #{integratedManagementType});
+	</insert>
+	
+	<select id="getIntegratedManagementOne" parameterType="_int" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum};
+	</select>
 	
 	
 	<!-- ==================================================================================== -->

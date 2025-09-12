@@ -458,7 +458,7 @@
 							<li class="loggriffin">
 								<a href="<c:url value='/loggriffin/issuance'/>" class="waves-effect waves-dark">
 								  <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-								  <span class="pcoded-mtext">LogGRIFFIN</span>
+								  <span class="pcoded-mtext">LogGRIFFIN / tGRIFFIN</span>
 								  <span class="pcoded-mcaret"></span>
 								</a>
 						 	</li>

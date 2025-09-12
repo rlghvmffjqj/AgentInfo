@@ -73,7 +73,12 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">제품명</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotProductName" style="display: none; line-height: initial; float: right; font-size: 11px;">제품명을 입력 바랍니다.</span>
-				<input type="text" id="productNameView" name="productNameView" class="form-control viewForm" value="${license.productName}">
+				<!-- <input type="text" id="productNameView" name="productNameView" class="form-control viewForm" value="${license.productName}"> -->
+
+				<select class="form-control selectpicker selectForm" id="productNameView" name="productNameView" data-live-search="true" data-size="5">
+					<option value="LogGRIFFIN" <c:if test="${'LogGRIFFIN' eq license.productName}">selected</c:if>>LogGRIFFIN</option>
+					<option value="tGRIFFIN" <c:if test="${'tGRIFFIN' eq license.productName}">selected</c:if>>tGRIFFIN</option>
+				</select>
 		    </div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">제품 버전</label><label class="colorRed">*</label>
@@ -83,7 +88,7 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-loggriffin-사업명-발급일.yml" readonly>
+				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-제품명-사업명-발급일.yml" readonly>
 		   </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
@@ -100,6 +105,7 @@
 </div>
 
 <script>
+	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	$(function() {
 		var agentCount = "${license.agentCount}";
     
@@ -152,15 +158,17 @@
 		if($('#viewType').val() != 'issued') {
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
+			var productName = $('#productNameView').val();
+			productName = productName.toLowerCase();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
+			$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
 		}
 
 		if($('#viewType').val() == 'issued') {
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
+			$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
 		}
 
 		$('#chkAgentCount').change(function() {
@@ -212,8 +220,6 @@
 		document.getElementById('issueDateView').valueAsDate = new Date();
 		document.getElementById('expirationDaysView').valueAsDate = new Date();
 	}
-
-	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
 	function existenceCheck() {
 		var customerName = $('#customerNameView').val();
@@ -405,15 +411,36 @@
 	$("#businessNameView").change(function() {
 		var issueDate = $('#issueDateView').val();
 		var businessName = $('#businessNameView').val();
+		var productName = $('#productNameView').val();
+		productName = productName.toLowerCase();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
+		$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
 	});
 
 	$("#issueDateView").change(function() {
 		var businessName = $('#businessNameView').val();
 		var issueDate = $('#issueDateView').val();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-loggriffin-'+businessName+'-'+issueDate+".yml");
+		$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
+	});
+
+	$('#productNameView').change(function () {
+		var productName = $('#productNameView').val();
+		if(productName === 'LogGRIFFIN') {
+			$('#productVersionView').val("7.0");
+		} else if(productName === 'tGRIFFIN') {
+			$('#productVersionView').val("3.0");
+		}
+		productName = productName.toLowerCase();
+		var businessName = $('#businessNameView').val();
+		var issueDate = $('#issueDateView').val();
+		issueDate = issueDate.replace(/\-/g, '');
+		$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
 	});
 
 </script>
+<style>
+	.filter-option-inner-inner {
+		text-transform: none;
+	}
+</style>

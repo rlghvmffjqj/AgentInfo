@@ -17,16 +17,17 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','카테고리','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자'],
+					colNames:['Key','고객사명','카테고리','발급일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자'],
 					colModel:[
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
-						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 150},
-						{name:'rgriffinCategory', index:'rgriffinCategory', align:'center', width: 200},
+						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 220},
+						{name:'rgriffinCategory', index:'rgriffinCategory', align:'center', width: 160},
+						{name:'rgriffinIssueDate', index:'rgriffinIssueDate', align:'center', width: 100},
 						{name:'rgriffinExpire', index:'rgriffinExpire', align:'center', width: 150},
-						{name:'rgriffinQuantity', index:'rgriffinQuantity', align:'center', width: 150},
-						{name:'rgriffinRgmsid', index:'rgriffinRgmsid', align:'center', width: 200},
+						{name:'rgriffinQuantity', index:'rgriffinQuantity', align:'center', width: 80},
+						{name:'rgriffinRgmsid', index:'rgriffinRgmsid', align:'center', width: 400},
 						{name:'rgriffinPassword', index:'rgriffinPassword', align:'center', width: 100},
-						{name:'rgriffinFilePath', index:'rgriffinFilePath',align:'center', width: 250},
+						{name:'rgriffinFilePath', index:'rgriffinFilePath',align:'center', width: 200},
 						{name:'rgriffinRequester', index:'rgriffinRequester',align:'center', width: 150}
 					],
 					jsonReader : {
@@ -147,10 +148,8 @@
 																<td style="font-weight:bold;">라이선스 관리 :
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
-																	<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 YML 파일을 다운로드합니다.">YML 다운로드</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="YML 파일을 첨부하여 데이터를 추가합니다.">YML Import</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button> -->
+																	<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button> -->
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload">라이선스 다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'rgriffinList');">컬럼 선택</button>
 																</td>
@@ -435,7 +434,7 @@
 					title: '실패!',           
 					text: '선택한 행이 존재하지 않습니다.',    
 				});  
-			} else {
+			} else if (chkList.length == 1) {
 				$.ajax({
 					url: "<c:url value='/rgriffin/rgriffinDownLoadCheck'/>",
 					type: "POST",
@@ -443,14 +442,12 @@
 					traditional: true,
 					async: false,
 					success: function(result) {
-	            		if(result==="Empty") {
+	            		if(result==="FALSE") {
 							Swal.fire(
 							  '에러!',
-							  'YML 파일이 존재하지 않거나, <br>존재하지 않는 리스트가 포함되어 있습니다.',
+							  'JSON 파일이 존재하지 않습니다.',
 							  'error'
 							)
-						} else if(chkList.length === 1) {
-							location.href="<c:url value='/rgriffin/rgriffinSingleDownLoad'/>?rgriffinKeyNum="+chkList;
 						} else {
 							location.href="<c:url value='/rgriffin/rgriffinMultiDownLoad'/>?rgriffinKeyNum="+chkList;
 						}
@@ -463,6 +460,12 @@
 						)
 	            	}
 	       		});
+			} else {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '라이선스 재다운로드 받을 데이터 한 행만 선택 해주세요.',    
+				}); 
 			}
 			
 		});

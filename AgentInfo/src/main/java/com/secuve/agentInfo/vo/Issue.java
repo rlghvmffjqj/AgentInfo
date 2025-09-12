@@ -17,42 +17,42 @@ public class Issue {
 	private int issuePrimaryKeyNum;
 	private int issueKeyNum;
 	private int issueSortNum;
-	private String issueCustomer;				// 고객사
-	private String issueTitle;					// Title
-	private String issueManagerServer;
-	private String issueManagerServerStatus;
+	private String issueCustomer = "";				// 고객사
+	private String issueTitle = "";					// Title
+	private String issueManagerServer = "";
+	private String issueManagerServerStatus = "";
 	private LocalDateTime issueManagerServerTimmer;
-	private String issueTarget;
-	private String issueSubTarget;
-	private String issueFirstDate;
-	private String issueFirstWriter;
-	private String issueTester;
-	private String issueDate;					// 전달일자
-	private String issueTosms;					// TOSMS		
-	private String issueTosrf;					// TOSRF
-	private String issuePortal;					// PORTAL
-	private String issueJava;					// JAVA
-	private String issueWas;					// WAS
-	private String issueProceStatus;
-	private String issueDivision;				// 제목
-	private String issueOs;						// OS
-	private String issueWriter;					// 작성자
-	private String issueAward;					// 대항목
-	private String issueMiddle;					// 중항목
-	private String issueUnder1;					// 소항목1
-	private String issueUnder2;					// 소항목2
-	private String issueUnder3;					// 소항목3
-	private String issueUnder4;					// 소항목4
-	private String issueFlawNum;				// 결함번호
-	private String issueEffect;					// 영향도
-	private String issueTextResult;				// 테스트 결과
-	private String issueApplyYn;				// 적용여부
-	private String issueConfirm;				// 확인내용
-	private String issueObstacle;				// 장애내용
-	private String issueNote;					// 비고
-	private String issueAnswerStatus;
+	private String issueTarget = "";
+	private String issueSubTarget = "";
+	private String issueFirstDate = "";
+	private String issueFirstWriter = "";
+	private String issueTester = "";
+	private String issueDate = "";					// 전달일자
+	private String issueTosms = "";					// TOSMS		
+	private String issueTosrf = "";					// TOSRF
+	private String issuePortal = "";					// PORTAL
+	private String issueJava = "";					// JAVA
+	private String issueWas = "";					// WAS
+	private String issueProceStatus = "";
+	private String issueDivision = "";				// 제목
+	private String issueOs = "";						// OS
+	private String issueWriter = "";					// 작성자
+	private String issueAward = "";					// 대항목
+	private String issueMiddle = "";					// 중항목
+	private String issueUnder1 = "";					// 소항목1
+	private String issueUnder2 = "";					// 소항목2
+	private String issueUnder3 = "";					// 소항목3
+	private String issueUnder4 = "";					// 소항목4
+	private String issueFlawNum = "";				// 결함번호
+	private String issueEffect = "";					// 영향도
+	private String issueTextResult = "";				// 테스트 결과
+	private String issueApplyYn = "";				// 적용여부
+	private String issueConfirm = "";				// 확인내용
+	private String issueObstacle = "";				// 장애내용
+	private String issueNote = "";					// 비고
+	private String issueAnswerStatus = "";
 	
-	private String issueRelayUrl;
+	private String issueRelayUrl = "";
 	private String requestType = "";
 		
 	private String issueRegistrant = "";		// 추가자

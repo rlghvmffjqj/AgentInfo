@@ -14,12 +14,14 @@ public class Rgriffin {
 	private Integer rgriffinKeyNum;
 	private String rgriffinCompany;
 	private String rgriffinCategory;
+	private String rgriffinIssueDate;
 	private String rgriffinExpire;
 	private String rgriffinQuantity;
 	private String rgriffinRgmsid;
 	private String rgriffinPassword;
 	private String rgriffinFilePath;
 	private String rgriffinRequester;
+	private String rgriffinContent;
 	
 	private String rgriffinRegistrant;
 	private String rgriffinRegistrationDate;
@@ -28,6 +30,7 @@ public class Rgriffin {
 	
 	private String rgriffinCompanyView;
 	private String rgriffinCategoryView;
+	private String rgriffinIssueDateView;
 	private String rgriffinExpireView;
 	private String rgriffinQuantityView;
 	private String rgriffinRgmsidView;
