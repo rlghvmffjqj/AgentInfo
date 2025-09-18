@@ -121,6 +121,7 @@
 	        FROM (
 	            SELECT 
 	                pv.productVersionKeyNum,
+	                pv.menuKeyNum,
 	                main.menuTitle AS mainMenuTitle,
 	                sub.menuTitle AS subMenuTitle,
 	                pv.packageName,
@@ -424,7 +425,7 @@
 	<sql id="sqlProductVersion">
 		<where>
 			<foreach collection="conditions" item="cond">
-				<if test="cond.value != null and cond.value != ''">
+				<if test="cond.value != null and cond.value != '' and cond.key != 'packagesKeyNum'">
 					AND ${cond.key} LIKE CONCAT('%',#{cond.value},'%')
 				</if>
 			</foreach>

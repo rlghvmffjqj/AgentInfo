@@ -15,8 +15,11 @@ public class IntegratedManagement {
 	private String integratedManagementType;
 	private Integer packagesKeyNum;
 	private Integer productVersionKeyNum;
+	private int menuKeyNum;
 	private Integer issuePrimaryKeyNum;
 	private Integer resultsReportKeyNum;
+	private int[] productVersionKeyNumArr;
+	private int[] menuKeyNumArr;
 	
 	private String mainTitle;
 	

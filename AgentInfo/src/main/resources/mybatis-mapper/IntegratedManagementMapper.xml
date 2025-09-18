@@ -23,25 +23,6 @@
 		<include refid="sqlIntegratedManagement" />
 	</select>
 	
-	<select id="getLicenseOne"  parameterType="_int" resultMap="integratedManagement">
-		SELECT * FROM integratedManagement WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};	
-	</select>
-	
-	
-	<insert id="licenseInsert">
-		INSERT INTO integratedManagement(integratedManagementCompany, integratedManagementCategory, integratedManagement, integratedManagementQuantity, integratedManagementRgmsid, integratedManagementPassword, integratedManagementFilePath, integratedManagementRequester, integratedManagementRegistrant, integratedManagementRegistrationDate)
-		VALUES(#{integratedManagementCompanyView}, #{integratedManagementCategoryView}, #{integratedManagementView}, #{integratedManagementQuantityView}, #{integratedManagementRgmsidView}, #{integratedManagementPasswordView}, #{integratedManagementFilePathView}, #{integratedManagementRequesterView}, #{integratedManagementRegistrant}, #{integratedManagementRegistrationDate});
-	</insert>
-	
-	<update id="updateLicense">
-		UPDATE integratedManagement SET integratedManagementCompany=#{integratedManagementCompanyView}, integratedManagementCategory=#{integratedManagementCategoryView}, integratedManagement=#{integratedManagementView}, integratedManagementQuantity=#{integratedManagementQuantityView}, integratedManagementRgmsid=#{integratedManagementRgmsidView}, integratedManagementPassword=#{integratedManagementPasswordView}, integratedManagementFilePath=#{integratedManagementFilePathView}, integratedManagementRequester=#{integratedManagementRequesterView}, integratedManagementModifier=#{integratedManagementModifier}, integratedManagementModifiedDate=#{integratedManagementModifiedDate}    
-		WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};
-	</update>
-	
-	
-	<delete id="delLicense" parameterType="_int">
-		DELETE FROM integratedManagement WHERE integratedManagementKeyNum = #{integratedManagementKeyNum};
-	</delete>
 
 	<delete id="delResultsReportMapping">
 		DELETE FROM integratedManagement WHERE integratedManagementType = 'resultsReport' AND packagesKeyNum = ${packagesKeyNum};
@@ -52,8 +33,17 @@
 		VALUES(${packagesKeyNum}, ${resultsReportKeyNum}, #{integratedManagementType});
 	</insert>
 	
-	<select id="getIntegratedManagementOne" parameterType="_int" resultMap="integratedManagement">
-		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum};
+	<select id="getIntegratedManagementOne" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = #{integratedManagementType} GROUP BY integratedManagementType, packagesKeyNum;;
+	</select>
+	
+	<insert id="setProductVersionMapping">
+		INSERT INTO integratedManagement(packagesKeyNum, productVersionKeyNum, menuKeyNum, integratedManagementType)
+		VALUES(${packagesKeyNum}, ${productVersionKeyNum}, #{menuKeyNum}, #{integratedManagementType});
+	</insert>
+	
+	<select id="getIntegratedManagementOneList" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = #{integratedManagementType};
 	</select>
 	
 	

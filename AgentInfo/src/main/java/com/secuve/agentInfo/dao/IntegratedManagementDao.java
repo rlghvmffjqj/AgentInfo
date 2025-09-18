@@ -28,8 +28,17 @@ public class IntegratedManagementDao {
 		return sqlSession.delete("integratedManagement.delResultsReportMapping", integratedManagement);
 	}
 
-	public IntegratedManagement getIntegratedManagementOne(int packagesKeyNum) {
-		return sqlSession.selectOne("integratedManagement.getIntegratedManagementOne", packagesKeyNum);
+	public IntegratedManagement getIntegratedManagementOne(IntegratedManagement integratedManagement) {
+		return sqlSession.selectOne("integratedManagement.getIntegratedManagementOne", integratedManagement);
+	}
+
+	public int setProductVersionMapping(IntegratedManagement integratedManagement) {
+		return sqlSession.insert("integratedManagement.setProductVersionMapping", integratedManagement);
+		
+	}
+
+	public List<IntegratedManagement> getIntegratedManagementOneList(IntegratedManagement integratedManagement) {
+		return sqlSession.selectList("integratedManagement.getIntegratedManagementOneList", integratedManagement);
 	}
 
 }

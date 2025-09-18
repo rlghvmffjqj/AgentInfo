@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.IntegratedManagementDao;
+import com.secuve.agentInfo.dao.ProductVersionDao;
 import com.secuve.agentInfo.vo.IntegratedManagement;
 
 @Service
 public class IntegratedManagementService {
 	@Autowired IntegratedManagementDao integratedManagementDao;
+	@Autowired ProductVersionDao productVersionDao;
 
 	public List<IntegratedManagement> getIntegratedManagementList(IntegratedManagement search) {
 		return integratedManagementDao.getIntegratedManagementList(search);
@@ -33,8 +35,25 @@ public class IntegratedManagementService {
         return "OK";
 	}
 
-	public IntegratedManagement getIntegratedManagementOne(int packagesKeyNum) {
-		return integratedManagementDao.getIntegratedManagementOne(packagesKeyNum);
+	public IntegratedManagement getIntegratedManagementOne(IntegratedManagement integratedManagement) {
+		return integratedManagementDao.getIntegratedManagementOne(integratedManagement);
+	}
+
+	public String getProductVersionMapping(IntegratedManagement integratedManagement) {
+		int success = 1;
+		for(int i=0; i<integratedManagement.getProductVersionKeyNumArr().length; i++) {
+			integratedManagement.setMenuKeyNum(integratedManagement.getMenuKeyNumArr()[i]);
+			integratedManagement.setProductVersionKeyNum(integratedManagement.getProductVersionKeyNumArr()[i]);
+			success *= integratedManagementDao.setProductVersionMapping(integratedManagement);
+		}
+		if (success <= 0) {
+        	return "FALSE";
+        }
+        return "OK";
+	}
+
+	public List<IntegratedManagement> getIntegratedManagementOneList(IntegratedManagement integratedManagement) {
+		return integratedManagementDao.getIntegratedManagementOneList(integratedManagement);
 	}
 
 }

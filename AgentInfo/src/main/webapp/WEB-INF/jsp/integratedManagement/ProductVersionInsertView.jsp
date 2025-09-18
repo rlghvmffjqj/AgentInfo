@@ -3,14 +3,15 @@
 <script>
 	$(document).ready(function(){
 		var formData = $('#modalForm').serializeObject();
-		$("#compatibilitylist").jqGrid({
+		$("#compatibilityList").jqGrid({
 			url: "<c:url value='/compatibilityAll'/>",
 			mtype: 'POST',
 			postData: formData,
 			datatype: 'json',
-			colNames:['Key','제품 구분','OS구분','패키지명',"전달위치",'날짜'],
+			colNames:['Key','MenuKey','제품 구분','OS구분','패키지명',"전달위치",'날짜'],
 			colModel:[
-				{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 35, hidden:false},
+				{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 35, hidden:true},
+				{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 35, hidden:true},
 				{name:'mainMenuTitle', index:'mainMenuTitle', align:'center', width: 150},
 				{name:'subMenuTitle', index:'subMenuTitle', align:'center', width: 100},
 				{name:'packageName', index:'packageName', align:'center', width: 300, classes: 'ellipsis-cell', formatter: function(cellvalue) {return `<span title="`+cellvalue+`">`+cellvalue+`</span>`; }},
@@ -46,7 +47,7 @@
 	});
 	
 	$(window).on('resize.list', function () {
-	    jQuery("#compatibilitylist").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+	    jQuery("#compatibilityList").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
 	});
 </script>
 
@@ -72,13 +73,12 @@
 		</div>
 		<!------- Grid ------->
 		<div class="jqGrid_wrapper" style="width: 1265px;">
-			<table id="compatibilitylist"></table>
+			<table id="compatibilityList"></table>
 			<div id="compatibilitypager"></div>
 		</div>
 		<!------- Grid ------->
         <input type="hidden" id="packagesKeyNum" name="packagesKeyNum" value="${integratedManagement.packagesKeyNum}">
         <input type="hidden" id="integratedManagementType" name="integratedManagementType" value="${integratedManagement.integratedManagementType}">
-		<input type="hidden" id="resultsReportTemplate" name="resultsReportTemplate" class="form-control">
 	</form>
 </div>
 <div class="modal-footer">
@@ -89,10 +89,15 @@
 <script>	
 	function BtnSelect() {
 		var postData = $('#modalForm').serializeObject();
-		var resultsReportKeyNum = $("#resultsReportList").jqGrid('getGridParam', 'selrow'); 
-		var rowData = $("#resultsReportList").jqGrid('getRowData', resultsReportKeyNum);
-		postData.resultsReportKeyNum = resultsReportKeyNum;
-		postData.mainTitle =  rowData.mainTitleView;
+		var ids = $("#compatibilityList").jqGrid("getGridParam", "selarrrow");
+		postData.productVersionKeyNumArr = [];
+		postData.menuKeyNumArr = [];
+			
+		ids.forEach(function(id) {
+		    var row = $("#compatibilityList").jqGrid("getRowData", id);
+		    postData.productVersionKeyNumArr.push(row.productVersionKeyNum);
+		    postData.menuKeyNumArr.push(row.menuKeyNum);
+		});
 
 		if(packagesKeyNum == null) {
 			Swal.fire({               
@@ -107,7 +112,7 @@
 			    data: postData,
 			    async: false,
 			    success: function (result) {
-					if(result != "") {
+					if(result == "OK") {
 						Swal.fire({
 							icon: 'success',
 							title: '성공!',
@@ -115,9 +120,7 @@
 						});
 						$('#modal').modal("hide"); // 모달 닫기
 	    	        	$('#modal').on('hidden.bs.modal', function () {
-	    	        		$('#resultsReportDiv').empty().append(result);
-							$('#resultsReportDiv input').prop('disabled', true);
-							$('#resultsReportKeyNum').val(resultsReportKeyNum);
+	    	        		compatibilityListRefresh();
 	    	        	});
 					} else {
 						Swal.fire({               
@@ -136,29 +139,29 @@
 
 	$(document).on('input', '#mainTitleView', function() {
 	    let keyword = $(this).val();
-	    resultsReportListRefresh();
+	    compatibilityListRefresh();
 	});
 
 	$(document).on('input', '#subTitleView', function() {
 	    let keyword = $(this).val();
-	    resultsReportListRefresh();
+	    compatibilityListRefresh();
 	});
 
 	$(document).on('input', '#packageNameView', function() {
 	    let keyword = $(this).val();
-	    resultsReportListRefresh();
+	    compatibilityListRefresh();
 	});
 
 	$(document).on('input', '#locationView', function() {
 	    let keyword = $(this).val();
-	    resultsReportListRefresh();
+	    compatibilityListRefresh();
 	});
 
 	/* =========== 테이블 새로고침 ========= */
-	function resultsReportListRefresh() {		
+	function compatibilityListRefresh() {		
 		var _postDate = $("#modalForm").serializeObject();
 		
-		var jqGrid = $("#compatibilitylist");
+		var jqGrid = $("#compatibilityList");
 		jqGrid.clearGridData();
 		jqGrid.setGridParam({ postData: _postDate });
 		jqGrid.trigger('reloadGrid');

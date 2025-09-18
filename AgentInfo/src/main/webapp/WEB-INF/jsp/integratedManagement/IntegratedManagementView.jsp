@@ -12,6 +12,9 @@
 	    <script>
 			$(document).ready(function(){
 				var packagesData = $('#imPackagesListForm').serializeObject();
+				var productVersionData = $('#imProductVersionListForm').serializeObject();
+				var issueData = $('#imIssueListForm').serializeObject();
+
 				$("#imPackagesList").jqGrid({
 					url: "<c:url value='/imPackagesList'/>",
 					mtype: 'POST',
@@ -60,21 +63,22 @@
 			        altRows: false,				// 라인 강조
 					onSelectRow: function (rowId) {
 						selectReport(rowId)
+						selecProductVersion(rowId);
+						productVersionData.packagesKeyNum = rowId;
   					}
 				}); 
 				
-
-				var productVersionData = $('#imProductVersionListForm').serializeObject();
+				
 				$("#imProductVersionList").jqGrid({
-					url: "<c:url value='/imProductVersionList/ProductVersion_125'/>",
+					url: "<c:url value='/imProductVersionList/productVersion'/>",
 					mtype: 'POST',
 					postData: productVersionData,
 					datatype: 'json',
 					colNames:['Key','패키지명','전달위치','날짜'],
 					colModel:[
 						{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 30, hidden:true },
-						{name:'packageName', index:'packageName', align:'center', width: 320, formatter: productVersionFormatter},
-						{name:'location', index:'location', align:'center', width: 385},
+						{name:'packageName', index:'packageName', align:'center', width: 315, formatter: productVersionFormatter},
+						{name:'location', index:'location', align:'center', width: 360},
 						{name:'packageDate', index:'packageDate', align:'center', width: 70},
 					],
 					jsonReader : {
@@ -86,7 +90,7 @@
 			        sortname: 'productVersionKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 				
-			        // multiselect: true,			// 체크박스를 이용한 다중선택
+			        multiselect: true,			// 체크박스를 이용한 다중선택
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
@@ -96,8 +100,6 @@
 			        altRows: false,				// 라인 강조
 				}); 
 
-
-				var issueData = $('#imIssueListForm').serializeObject();
 				$("#imIssueList").jqGrid({
 					url: "<c:url value='/imIssueList'/>",
 					mtype: 'POST',
@@ -193,7 +195,7 @@
 													<span style="font-weight:bold;">패키지 릴리즈 : </span>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnDelect">제거</button>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnimProductVersionListInsert">매핑</button>
-													<form id="imProductVersionListForm" name="imProductVersionListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="packageName" name="packageName" placeholder='패키지명'></form>
+													<!-- <form id="imProductVersionListForm" name="imProductVersionListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="packageName" name="packageName" placeholder='패키지명'></form> -->
 													<!------- Grid ------->
 													<div class="jqGrid_wrapper" style="padding-top: 20px;">
 														<table id="imProductVersionList"></table>
@@ -205,7 +207,7 @@
 													<span style="font-weight:bold;">이슈목록 : </span>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnDelect">제거</button>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnInsert">매핑</button>
-													<form id="imIssueListForm" name="imIssueListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사'></form>
+													<!-- <form id="imIssueListForm" name="imIssueListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사'></form> -->
 													<!------- Grid ------->
 													<div class="jqGrid_wrapper" style="padding-top: 20px;">
 														<table id="imIssueList"></table>
@@ -414,11 +416,13 @@
 		/* =========== 테이블 새로고침 ========= */
 		function imProductVersionListRefresh() {		
 			var _postDate = $("#imProductVersionListForm").serializeObject();
+			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			_postDate.packagesKeyNum = packagesKeyNum;
 			
-			var jqGrid = $("#imProductVersionList");
-			jqGrid.clearGridData();
-			jqGrid.setGridParam({ postData: _postDate });
-			jqGrid.trigger('reloadGrid');
+			$("#imProductVersionList").jqGrid('setGridParam', {
+			    datatype: 'json',
+			    postData: _postDate
+			}).trigger('reloadGrid');
 		}
 
 		/* =========== 테이블 새로고침 ========= */
@@ -474,12 +478,16 @@
 			});
 		}
 
+		function selecProductVersion(packagesKeyNum) {
+			imProductVersionListRefresh();
+		}
+
 		$('#customerName').on('input', function() {
 		    let keyword = $(this).val();
 		    imPackagesListRefresh();
 		});
 
-		$('#packageName').on('input', function() {
+		/* $('#packageName').on('input', function() {
 		    let keyword = $(this).val();
 		    imProductVersionListRefresh();
 		});
@@ -487,7 +495,7 @@
 		$('#issueCustomer').on('input', function() {
 		    let keyword = $(this).val();
 		    imIssueListRefresh();
-		});
+		}); */
 
 		$('#resultsReportDiv').dblclick(function() {
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
