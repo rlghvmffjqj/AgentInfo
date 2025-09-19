@@ -64,7 +64,7 @@
 					onSelectRow: function (rowId) {
 						selectReport(rowId)
 						selecProductVersion(rowId);
-						productVersionData.packagesKeyNum = rowId;
+						// productVersionData.packagesKeyNum = rowId;
   					}
 				}); 
 				
@@ -74,9 +74,10 @@
 					mtype: 'POST',
 					postData: productVersionData,
 					datatype: 'json',
-					colNames:['Key','패키지명','전달위치','날짜'],
+					colNames:['Key','menuKey','패키지명','전달위치','날짜'],
 					colModel:[
 						{name:'productVersionKeyNum', index:'productVersionKeyNum', align:'center', width: 30, hidden:true },
+						{name:'menuKeyNum', index:'menuKeyNum', align:'center', width: 30, hidden:true },
 						{name:'packageName', index:'packageName', align:'center', width: 315, formatter: productVersionFormatter},
 						{name:'location', index:'location', align:'center', width: 360},
 						{name:'packageDate', index:'packageDate', align:'center', width: 70},
@@ -98,10 +99,18 @@
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
+					onSelectRow: function (rowId) {
+						// var menuKeyNum = $("#imProductVersionList").jqGrid('getCell', rowId, 'menuKeyNum');
+						// issueData.packagesKeyNum = productVersionData.packagesKeyNum;
+						// issueData.productVersionKeyNum = rowId;
+						// issueData.menuKeyNum = menuKeyNum;
+						
+						issueVersion(rowId);
+  					}
 				}); 
 
 				$("#imIssueList").jqGrid({
-					url: "<c:url value='/imIssueList'/>",
+					url: "<c:url value='/imProductVersionList/issue'/>",
 					mtype: 'POST',
 					postData: issueData,
 					datatype: 'json',
@@ -193,9 +202,11 @@
 												</div>
 												<div class="integratedManagementDiv" style="height: 50%; border-left: none; border-bottom: none;">
 													<span style="font-weight:bold;">패키지 릴리즈 : </span>
-													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnDelect">제거</button>
+													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnimProductVersionListDelect">제거</button>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnimProductVersionListInsert">매핑</button>
-													<!-- <form id="imProductVersionListForm" name="imProductVersionListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="packageName" name="packageName" placeholder='패키지명'></form> -->
+													<form id="imProductVersionListForm" name="imProductVersionListForm" method ="post" style="float: right;" onsubmit="return false;">
+														<!-- <input class="form-control integratedInput" type="text" id="packageName" name="packageName" placeholder='패키지명'> -->
+													</form>
 													<!------- Grid ------->
 													<div class="jqGrid_wrapper" style="padding-top: 20px;">
 														<table id="imProductVersionList"></table>
@@ -206,8 +217,10 @@
 												<div class="integratedManagementDiv" style="height: 25%;">
 													<span style="font-weight:bold;">이슈목록 : </span>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnDelect">제거</button>
-													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnInsert">매핑</button>
-													<!-- <form id="imIssueListForm" name="imIssueListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사'></form> -->
+													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnIssueListInsert">매핑</button>
+													<form id="imIssueListForm" name="imIssueListForm" method ="post" style="float: right;" onsubmit="return false;">
+														<!-- <input class="form-control integratedInput" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사'> -->
+													</form>
 													<!------- Grid ------->
 													<div class="jqGrid_wrapper" style="padding-top: 20px;">
 														<table id="imIssueList"></table>
@@ -349,6 +362,109 @@
 				});
 			}
 		});
+
+		$('#BtnimProductVersionListDelect').click(function() {
+			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var chkList = $("#imProductVersionList").getGridParam('selarrrow');
+			var chkmenuList = chkList.map(function(rowId) {
+			    var rowData = $("#imProductVersionList").jqGrid('getRowData', rowId);
+			    return Number(rowData.menuKeyNum);  // 문자열 → 숫자 변환
+			});
+
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				Swal.fire({
+					  title: '삭제!',
+					  text: "선택한 패키지 릴리즈를 삭제하시겠습니까?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#7066e0',
+					  cancelButtonColor: '#FF99AB',
+					  confirmButtonText: 'OK'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  $.ajax({
+						url: "<c:url value='/integratedManagement/productVersionListDelete'/>",
+						type: "POST",
+						data: {
+							chkList: chkList,
+							chkmenuList: chkmenuList,
+							"packagesKeyNum": packagesKeyNum
+						},
+						dataType: "text",
+						traditional: true,
+						async: false,
+						success: function(data) {
+							if(data == "OK")
+								Swal.fire(
+								  '성공!',
+								  '삭제 완료하였습니다.',
+								  'success'
+								)
+							else
+								Swal.fire(
+								  '실패!',
+								  '삭제 실패하였습니다.',
+								  'error'
+								)
+							imProductVersionListRefresh();
+						},
+						error: function(error) {
+							console.log(error);
+						}
+					  });
+				  	}
+				})
+			}
+		});
+
+		$('#BtnIssueListInsert').click(function() {
+			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var productVersionKeyNum = $("#imProductVersionList").jqGrid('getGridParam', 'selrow'); 
+			var rowData = $("#imProductVersionList").jqGrid('getRowData', productVersionKeyNum);
+			var menuKeyNum = Number(rowData.menuKeyNum);  
+			
+			if(packagesKeyNum == null) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '패키지 배포 관리를 선택하고 매핑 바랍니다.',    
+				});    
+			} else if(productVersionKeyNum == null) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '패키지 릴리즈를 선택하고 매핑 바랍니다.',    
+				}); 
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/integratedManagement/issueInsertView'/>",
+				    data: {
+						"packagesKeyNum": packagesKeyNum,
+						"integratedManagementType": "issue",
+						"productVersionKeyNum": productVersionKeyNum,
+						"menuKeyNum": menuKeyNum
+					},
+				    async: false,
+					traditional: true,
+					dataType: "text",
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'imResultsReport'); //modal창 호출
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+				    }
+				});
+			}
+		})
 		
 		
 		
@@ -428,7 +544,13 @@
 		/* =========== 테이블 새로고침 ========= */
 		function imIssueListRefresh() {		
 			var _postDate = $("#imIssueListForm").serializeObject();
-			
+			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var productVersionKeyNum = $("#imProductVersionList").jqGrid('getGridParam', 'selrow'); 
+			var menuKeyNum = $("#imProductVersionList").jqGrid('getCell', productVersionKeyNum, 'menuKeyNum');
+			_postDate.packagesKeyNum = packagesKeyNum;
+			_postDate.productVersionKeyNum = productVersionKeyNum;
+			_postDate.menuKeyNum = menuKeyNum;
+
 			var jqGrid = $("#imIssueList");
 			jqGrid.clearGridData();
 			jqGrid.setGridParam({ postData: _postDate });
@@ -480,6 +602,10 @@
 
 		function selecProductVersion(packagesKeyNum) {
 			imProductVersionListRefresh();
+		}
+
+		function issueVersion(packagesKeyNum) {
+			imIssueListRefresh();
 		}
 
 		$('#customerName').on('input', function() {

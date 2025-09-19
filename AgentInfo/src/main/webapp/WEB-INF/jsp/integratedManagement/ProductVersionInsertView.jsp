@@ -23,7 +23,7 @@
 	        	repeatitems: false
 	        },
 	        pager: '#compatibilitypager',			// 페이징
-	        rowNum: 25,					// 보여중 행의 수
+	        rowNum: 15,					// 보여중 행의 수
 	        sortname: 'version',	// 기본 정렬 
 	        sortorder: 'desc',			// 정렬 방식
 	        
@@ -103,7 +103,7 @@
 			Swal.fire({               
 				icon: 'error',          
 				title: '실패!',           
-				text: '결과보고서를 선택 바랍니다.',    
+				text: '패키지 릴리즈를 선택 바랍니다.',    
 			});  
 		} else {
 			$.ajax({
@@ -120,7 +120,7 @@
 						});
 						$('#modal').modal("hide"); // 모달 닫기
 	    	        	$('#modal').on('hidden.bs.modal', function () {
-	    	        		compatibilityListRefresh();
+	    	        		imProductVersionListRefresh();
 	    	        	});
 					} else {
 						Swal.fire({               

@@ -27,6 +27,7 @@ import com.secuve.agentInfo.service.ResultsReportService;
 import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.IntegratedManagement;
 import com.secuve.agentInfo.vo.Issue;
+import com.secuve.agentInfo.vo.MenuSetting;
 import com.secuve.agentInfo.vo.Packages;
 import com.secuve.agentInfo.vo.ProductVersion;
 import com.secuve.agentInfo.vo.ResultsReport;
@@ -87,14 +88,14 @@ public class IntegratedManagementController {
 	@PostMapping(value = "/imProductVersionList/productVersion")
 	public Map<String, Object> productData(IntegratedManagement integratedManagement, ProductVersion search, @RequestParam Map<String, String> paramMap) {
 		if(integratedManagement.getPackagesKeyNum() == null) {
-			return emptyResponse(search);
+			return emptyResponse();
 		}
 		Map<String, Object> response = new HashMap<>();
 		try {
 			integratedManagement.setIntegratedManagementType("productVersion");
 			integratedManagement = integratedManagementService.getIntegratedManagementOne(integratedManagement);
 			if(integratedManagement == null) {
-				return emptyResponse(search);
+				return emptyResponse();
 			}
 		
 			List<IntegratedManagement> integratedManagementOneList = integratedManagementService.getIntegratedManagementOneList(integratedManagement);
@@ -107,8 +108,8 @@ public class IntegratedManagementController {
 			    Compatibility result = productVersionService.getProductVersionOne(productVersion);
 			    productVersionList.add(result);
 			}
-			Set<Compatibility> set = new HashSet<>(productVersionList);
-			productVersionList = new ArrayList<>(set);
+//			Set<Compatibility> set = new HashSet<>(productVersionList);
+//			productVersionList = new ArrayList<>(set);
 
 			response.put("page", search.getPage());
 			response.put("total", Math.ceil((float) productVersionList.size() / search.getRows()));
@@ -116,15 +117,15 @@ public class IntegratedManagementController {
 			response.put("rows", productVersionList);
 		} catch (Exception e) {
 			System.out.println("매핑 릴리즈가 존재하지 않습니다.");
-			return emptyResponse(search);
+			return emptyResponse();
 		}
 	
 		return response;
 	}
 	
-	private Map<String, Object> emptyResponse(ProductVersion search) {
+	private Map<String, Object> emptyResponse() {
 	    Map<String, Object> response = new HashMap<>();
-	    response.put("page", search.getPage());
+	    response.put("page", 0);
 	    response.put("total", 0);
 	    response.put("records", 0);
 	    response.put("rows", new ArrayList<>()); // 🚨 빈 리스트
@@ -132,18 +133,30 @@ public class IntegratedManagementController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/imIssueList")
-	public Map<String, Object> Issue(Issue search) {
+	@PostMapping(value = "/imProductVersionList/issue")
+	public Map<String, Object> Issue(IntegratedManagement integratedManagement, Issue search) {
+		if(integratedManagement.getPackagesKeyNum() == null) {
+			return emptyResponse();
+		}
+		List<Issue> issueList = new ArrayList<Issue>();
+		try {
+			List<IntegratedManagement> integratedManagementList = integratedManagementService.getIntegratedManagementIssue(integratedManagement);
+			for(IntegratedManagement im : integratedManagementList) {
+				issueList.add(issueService.getIssueKeyNumOne(im.getIssuePrimaryKeyNum()));
+			}
+		} catch (Exception e) {
+			return emptyResponse();
+		}
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<Issue> list = new ArrayList<>(issueService.getIssueList(search));
-		int totalCount = issueService.getIssueListCount(search);
 		
 		map.put("page", search.getPage());
-		map.put("total", Math.ceil((float) totalCount / search.getRows()));
-		map.put("records", totalCount);
-		map.put("rows", list);
+		map.put("total", Math.ceil((float) issueList.size() / search.getRows()));
+		map.put("records", issueList.size());
+		map.put("rows", issueList);
 		return map;
 	}
+	
 	
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/resultsReport")
@@ -183,6 +196,12 @@ public class IntegratedManagementController {
 	}
 	
 	@ResponseBody
+	@PostMapping(value = "/integratedManagement/issueSelect")
+	public String IssueSelect(IntegratedManagement integratedManagement) {
+		return integratedManagementService.setIssueMapping(integratedManagement);
+	}
+	
+	@ResponseBody
 	@PostMapping(value = "/integratedManagement/resultsReportOne")
 	public int ResultsReportSelect(int packagesKeyNum) {
 		IntegratedManagement integratedManagement = new IntegratedManagement();
@@ -204,4 +223,16 @@ public class IntegratedManagementController {
 		return "integratedManagement/ProductVersionInsertView";
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/integratedManagement/productVersionListDelete")
+	public String ProductVersionDelete(@RequestParam int packagesKeyNum, int[] chkList, int[] chkmenuList) {
+		
+		return integratedManagementService.delProductVersion(packagesKeyNum, chkList, chkmenuList);
+	}
+	
+	@PostMapping(value = "/integratedManagement/issueInsertView")
+	public String IssueInsertView(Model model, IntegratedManagement integratedManagement) {
+		model.addAttribute("integratedManagement", integratedManagement);
+		return "integratedManagement/IssueInsertView";
+	}
 }

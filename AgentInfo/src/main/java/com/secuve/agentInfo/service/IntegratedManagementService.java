@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,34 @@ public class IntegratedManagementService {
 
 	public List<IntegratedManagement> getIntegratedManagementOneList(IntegratedManagement integratedManagement) {
 		return integratedManagementDao.getIntegratedManagementOneList(integratedManagement);
+	}
+
+	public String delProductVersion(int packagesKeyNum, int[] chkList, int[] chkmenuList) {
+		int success = 1;
+		IntegratedManagement integratedManagement = new IntegratedManagement();
+		
+		for(int i=0; i<chkList.length; i++) {
+			integratedManagement.setPackagesKeyNum(packagesKeyNum);
+			integratedManagement.setMenuKeyNum(chkmenuList[i]);
+			integratedManagement.setProductVersionKeyNum(chkList[i]);
+			success *= integratedManagementDao.delProductVersion(integratedManagement);
+		}
+		if (success <= 0) {
+        	return "FALSE";
+        }
+        return "OK";
+	}
+
+	public String setIssueMapping(IntegratedManagement integratedManagement) {
+		int success = integratedManagementDao.setIssueMapping(integratedManagement);
+        if (success <= 0) {
+        	return "FALSE";
+        }
+        return "OK";
+	}
+
+	public List<IntegratedManagement> getIntegratedManagementIssue(IntegratedManagement integratedManagement) {
+		return integratedManagementDao.getIntegratedManagementIssue(integratedManagement);
 	}
 
 }

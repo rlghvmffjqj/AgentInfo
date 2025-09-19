@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -39,6 +40,18 @@ public class IntegratedManagementDao {
 
 	public List<IntegratedManagement> getIntegratedManagementOneList(IntegratedManagement integratedManagement) {
 		return sqlSession.selectList("integratedManagement.getIntegratedManagementOneList", integratedManagement);
+	}
+
+	public int delProductVersion(IntegratedManagement integratedManagement) {
+		return sqlSession.delete("integratedManagement.delProductVersion", integratedManagement);
+	}
+
+	public int setIssueMapping(IntegratedManagement integratedManagement) {
+		return sqlSession.insert("integratedManagement.setIssueMapping", integratedManagement);
+	}
+
+	public List<IntegratedManagement> getIntegratedManagementIssue(IntegratedManagement integratedManagement) {
+		return sqlSession.selectList("integratedManagement.getIntegratedManagementIssue", integratedManagement);
 	}
 
 }

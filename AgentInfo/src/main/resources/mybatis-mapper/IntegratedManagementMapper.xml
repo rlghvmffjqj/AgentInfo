@@ -43,10 +43,21 @@
 	</insert>
 	
 	<select id="getIntegratedManagementOneList" resultMap="integratedManagement">
-		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = #{integratedManagementType};
+		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = #{integratedManagementType} GROUP BY integratedManagementType, packagesKeyNum, productversionKeyNum, menuKeyNum;
 	</select>
 	
+	<delete id="delProductVersion">
+		DELETE FROM integratedManagement WHERE integratedManagementType = 'productVersion' AND packagesKeyNum = ${packagesKeyNum} AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum};
+	</delete>
 	
+	<insert id="setIssueMapping">
+		INSERT INTO integratedManagement(packagesKeyNum, menuKeyNum, productVersionKeyNum, issuePrimaryKeyNum, integratedManagementType)
+		VALUES(${packagesKeyNum}, ${menuKeyNum}, ${productVersionKeyNum}, ${issuePrimaryKeyNum}, #{integratedManagementType});
+	</insert>
+	
+	<select id="getIntegratedManagementIssue" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = 'issue' AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = ${productVersionKeyNum} GROUP BY packagesKeyNum, integratedManagementType, menuKeyNum, productVersionKeyNum; 
+	</select>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIntegratedManagement">
