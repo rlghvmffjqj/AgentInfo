@@ -2,6 +2,7 @@ package com.secuve.agentInfo.service;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.secuve.agentInfo.controller.MailSendController;
 import com.secuve.agentInfo.dao.MenuSettingDao;
 import com.secuve.agentInfo.dao.ProductVersionDao;
 import com.secuve.agentInfo.vo.Compatibility;
@@ -24,6 +26,7 @@ import com.secuve.agentInfo.vo.MenuSetting;
 public class ProductVersionService {
 	@Autowired ProductVersionDao productVersionDao;
 	@Autowired MenuSettingDao menuSettingDao;
+	@Autowired MailSendController mailSendController;
 
 	public int getProductVersionNoneExist(String mainTitle, String subTitle) {
 		return productVersionDao.getProductVersionNoneExist(mainTitle, subTitle);
@@ -108,12 +111,17 @@ public class ProductVersionService {
 		return productVersionDao.getProductVersionListCount(paramMap);
 	}
 
-	public String insertProductVersion(Map<String, String> paramMap) {
+	public String insertProductVersion(Map<String, String> paramMap, Principal principal) {
 		int success = productVersionDao.insertProductVersion(paramMap);
 		if (success <= 0) {
 			return "FALSE";
-		} 
+		}
+		mailSendProductVersion(paramMap, principal);
 		return "OK";
+	}
+	
+	public void mailSendProductVersion(Map<String, String> paramMap, Principal principal) {
+		mailSendController.MailSendProductVersion(paramMap, principal);
 	}
 
 	public String delProductVersion(MenuSetting menuSettingOne, int[] chkList) {

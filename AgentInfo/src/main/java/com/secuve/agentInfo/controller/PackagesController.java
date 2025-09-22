@@ -143,16 +143,20 @@ public class PackagesController {
 	 * @return
 	 */
 	@PostMapping(value = "/packages/updateView")
-	public String UpdatePackagesView(Model model, int packagesKeyNum) {
+	public String UpdatePackagesView(Model model, int packagesKeyNum, String viewType) {
 		Packages packages = packagesService.getPackagesOne(packagesKeyNum);
 		SendPackage sendPackage = sendPackageService.getPackageOne(packagesKeyNum);
 
 		for (String key : CATEGORY_KEYS) {
             model.addAttribute(key, categoryService.getCategoryValue(key));
         }
+		
+		if(!"im".equals(viewType)) {
+			viewType = "update";
+		}
 		model.addAttribute("businessName", categoryService.getCategoryBusinessValue(packages.getCustomerName()));
 		model.addAttribute("sendPackage", sendPackage);
-		model.addAttribute("viewType", "update").addAttribute("packages", packages);
+		model.addAttribute("viewType", viewType).addAttribute("packages", packages);
 		
 		return "/packages/PackagesView";
 	}

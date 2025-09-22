@@ -56,8 +56,12 @@
 	</insert>
 	
 	<select id="getIntegratedManagementIssue" resultMap="integratedManagement">
-		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = 'issue' AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = ${productVersionKeyNum} GROUP BY packagesKeyNum, integratedManagementType, menuKeyNum, productVersionKeyNum; 
+		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = 'issue' AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = ${productVersionKeyNum} GROUP BY packagesKeyNum, integratedManagementType, menuKeyNum, productVersionKeyNum, issuePrimaryKeyNum; 
 	</select>
+	
+	<delete id="delIssue">
+		DELETE FROM integratedManagement WHERE integratedManagementType = 'issue' AND packagesKeyNum = ${packagesKeyNum} AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum} AND issuePrimaryKeyNum = ${issuePrimaryKeyNum};
+	</delete>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIntegratedManagement">

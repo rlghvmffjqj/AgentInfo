@@ -11,19 +11,19 @@
 		        </div>
 				<c:choose>
 					<c:when test="${item.menuItemType eq 'INT'}">
-						<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
+						<input type="number" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="0" spellcheck="false" <c:if test="${viewType == 'update' || viewType == 'im'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:when>
 					<c:when test="${item.menuItemType eq 'VARCHAR(500)' or item.menuItemType eq 'VARCHAR(1000)'}">
-						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType == 'update' || viewType == 'im'}">${item[item.menuTitle]}</c:if></textarea>
 					</c:when>
 					<c:when test="${item.menuItemType eq 'TEXT'}">
-						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType eq 'update'}">${item[item.menuTitle]}</c:if></textarea>
+						<textarea id="${item.menuTitle}" name="${item.menuTitle}" class="form-control itemArea auto-height pvFont" placeholder="${item.menuTitleKor}" spellcheck="false" oninput="autoResize(this)" <c:if test="${item.menuRequired eq 'on'}">required</c:if>><c:if test="${viewType == 'update' || viewType == 'im'}">${item[item.menuTitle]}</c:if></textarea>
 					</c:when>
 					<c:when test="${item.menuItemType eq 'DATE'}">
-						<input type="date" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="0" spellcheck="false" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
+						<input type="date" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="0" spellcheck="false" <c:if test="${viewType == 'update' || viewType == 'im'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:when>
 					<c:otherwise>
-						<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="${item.menuTitleKor}" <c:if test="${viewType eq 'update'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
+						<input type="text" id="${item.menuTitle}" name="${item.menuTitle}" class="form-control viewForm pvFont" placeholder="${item.menuTitleKor}" <c:if test="${viewType == 'update' || viewType == 'im'}">value="${item[item.menuTitle]}"</c:if> <c:if test="${item.menuRequired eq 'on'}">required</c:if>>
 					</c:otherwise>
 				</c:choose>
 		    </div>

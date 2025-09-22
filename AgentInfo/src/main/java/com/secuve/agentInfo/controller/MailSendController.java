@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 
@@ -103,5 +104,64 @@ public class MailSendController {
 	public static boolean isKorean(String str) {
         return str.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*");
     }
+	
+	public String MailSendProductVersion(Map<String, String> paramMap, Principal principal) {
+		String host = "mail.secuve.com";                                                                           
+		String port = "25";                                                                           
+		String password = "";                                                                   
+		String from = principal.getName() + "@secuve.com";
+		String to = paramMap.get("target") + "@secuve.com";
+//		String[] cc = mailSend.getMailCc();
+		
+		if(isKorean(to)) {
+			return "Korean";
+		}
+//		for(int i = 0; i < cc.length; i++) {
+//			cc[i] = cc[i] + "@secuve.com";
+//			if(isKorean(cc[i])) {
+//				return "Korean";
+//			}
+//		}
+		String subject = paramMap.get("packageName");
+		String text = xssConfig.sanitize(paramMap.get("updateNote"));
+		                                                                                                              
+		System.out.println("------------------------------ SecuveMailSender START ------------------------------");    
+		System.out.println("server: host=" + host + ", port=" + port);                                                 
+		System.out.println("message: " + from + "," + to + "," + subject);                                             
+		                                                                                                              
+		JavaMailSenderImpl mail = new JavaMailSenderImpl();                                                           
+		mail.setHost(host);                                                                                           
+		mail.setPort(Integer.parseInt(port));                                                                            
+		                                                                                                              
+		if (!StringUtils.isEmpty(password)) {                                                                         
+			mail.setUsername(from);                                                                                     
+			mail.setPassword(password);                                                                                 
+		}                                                                                                             
+		                                                                                                              
+		try {                                                                                                         
+			MimeMessage message = mail.createMimeMessage();                                                             
+			MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
+			                                                                                                            
+			msg.setFrom(from);                                                                                          
+			msg.setTo(to);
+//			msg.setCc(cc);
+			msg.setSubject(paramMap.get("packageName"));                                                                                    
+			msg.setText(text, true);
+			Path tempFilePath = null;                                                                                                    
+			                                                                                                         
+			mail.send(message);                                                                                         
+			System.out.println("sendMail() success.");                                                                   
+			System.out.println("------------------------------ SecuveMailSender END ------------------------------");
+			if (tempFilePath != null) {
+	            Files.deleteIfExists(tempFilePath);
+	        }
+			return "OK";                                                                                                
+		}                                                                                                             
+		catch (Exception e) {
+			System.out.println("sendMail() failed.");
+			System.out.println(e);
+		  	return "False";                                                                                               
+		}
+	}
 
 }

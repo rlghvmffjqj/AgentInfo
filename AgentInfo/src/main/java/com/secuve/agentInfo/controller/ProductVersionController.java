@@ -143,7 +143,7 @@ public class ProductVersionController {
 	public String InsertProductVersion(MenuSetting menuSetting, Principal principal, @RequestParam Map<String, String> paramMap) {
 		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
 		paramMap.put("tableName", "ProductVersion_"+menuSettingOne.getMenuKeyNum());
-		return productVersionService.insertProductVersion(paramMap);
+		return productVersionService.insertProductVersion(paramMap, principal);
 	}
 	
 	@ResponseBody
@@ -155,11 +155,14 @@ public class ProductVersionController {
 	}
 	
 	@PostMapping(value = "/productVersion/updateView")
-	public String UpdateProductVersionView(Model model, MenuSetting menuSetting) {
+	public String UpdateProductVersionView(Model model, MenuSetting menuSetting, String viewType) {
 //		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
 		List<Map<String,Object>> menuSettingItemList = menuSettingService.getMenuSettingItemListJoin(menuSetting);
 		
-		model.addAttribute("viewType", "update");
+		if(!"im".equals(viewType)) {
+			viewType = "update"; 
+		}
+		model.addAttribute("viewType", viewType);
 		model.addAttribute("menuSettingItemList", menuSettingItemList);
 		model.addAttribute("menuSetting", menuSetting);
 
@@ -169,7 +172,6 @@ public class ProductVersionController {
 	@ResponseBody
 	@PostMapping(value = "/productVersion/productVersionUpdate")
 	public String UpdateProductVersion(@RequestParam Map<String, String> paramMap, Principal principal) {
-
 		return productVersionService.updateProductVersion(paramMap);
 	}
 	

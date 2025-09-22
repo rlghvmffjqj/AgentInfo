@@ -3,10 +3,8 @@ package com.secuve.agentInfo.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +25,6 @@ import com.secuve.agentInfo.service.ResultsReportService;
 import com.secuve.agentInfo.vo.Compatibility;
 import com.secuve.agentInfo.vo.IntegratedManagement;
 import com.secuve.agentInfo.vo.Issue;
-import com.secuve.agentInfo.vo.MenuSetting;
 import com.secuve.agentInfo.vo.Packages;
 import com.secuve.agentInfo.vo.ProductVersion;
 import com.secuve.agentInfo.vo.ResultsReport;
@@ -151,7 +148,8 @@ public class IntegratedManagementController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("page", search.getPage());
-		map.put("total", Math.ceil((float) issueList.size() / search.getRows()));
+//		map.put("total", Math.ceil((float) issueList.size() / search.getRows()));
+		map.put("total", Math.ceil((float) issueList.size()));
 		map.put("records", issueList.size());
 		map.put("rows", issueList);
 		return map;
@@ -226,7 +224,6 @@ public class IntegratedManagementController {
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/productVersionListDelete")
 	public String ProductVersionDelete(@RequestParam int packagesKeyNum, int[] chkList, int[] chkmenuList) {
-		
 		return integratedManagementService.delProductVersion(packagesKeyNum, chkList, chkmenuList);
 	}
 	
@@ -234,5 +231,11 @@ public class IntegratedManagementController {
 	public String IssueInsertView(Model model, IntegratedManagement integratedManagement) {
 		model.addAttribute("integratedManagement", integratedManagement);
 		return "integratedManagement/IssueInsertView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/integratedManagement/issueDelete")
+	public String IssueDelete(@RequestParam int packagesKeyNum, int productVersionKeyNum, int menuKeyNum, int issuePrimaryKeyNum) {
+		return integratedManagementService.delIssue(packagesKeyNum, productVersionKeyNum, menuKeyNum, issuePrimaryKeyNum);
 	}
 }

@@ -1,6 +1,5 @@
 package com.secuve.agentInfo.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -52,6 +51,10 @@ public class IntegratedManagementDao {
 
 	public List<IntegratedManagement> getIntegratedManagementIssue(IntegratedManagement integratedManagement) {
 		return sqlSession.selectList("integratedManagement.getIntegratedManagementIssue", integratedManagement);
+	}
+
+	public int delIssue(IntegratedManagement integratedManagement) {
+		return sqlSession.delete("integratedManagement.delIssue", integratedManagement);
 	}
 
 }

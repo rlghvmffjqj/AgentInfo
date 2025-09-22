@@ -41,7 +41,7 @@
 		    sortname: 'issueKeyNum',	// 기본 정렬 
 		    sortorder: 'desc',			// 정렬 방식
 		    
-		    multiselect: true,			// 체크박스를 이용한 다중선택
+		    // multiselect: true,			// 체크박스를 이용한 다중선택
 		    viewrecords: false,			// 시작과 끝 레코드 번호 표시
 		    gridview: true,				// 그리드뷰 방식 랜더링
 		    sortable: true,				// 컬럼을 마우스 순서 변경
@@ -97,7 +97,8 @@
 <script>	
 	function BtnSelect() {
 		var postData = $('#modalForm').serializeObject();
-		var issuePrimaryKeyNum = $("#issueList").jqGrid("getGridParam", "selarrrow");
+		var issuePrimaryKeyNum = $("#issueList").getGridParam('selrow');
+		alert(issuePrimaryKeyNum);
 		postData.issuePrimaryKeyNum = issuePrimaryKeyNum;
 		
 		if(packagesKeyNum == null) {
