@@ -86,8 +86,8 @@
 			        	id: 'productVersionKeyNum',
 			        	repeatitems: false
 			        },
-			        pager: '#imProductVersionPager',			// 페이징
-			        rowNum: 8,					// 보여중 행의 수
+			        // pager: '#imProductVersionPager',			// 페이징
+			        rowNum: 10,					// 보여중 행의 수
 			        sortname: 'productVersionKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 				
@@ -95,7 +95,7 @@
 			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
-			        height : '265',
+			        height : '293',
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
@@ -127,7 +127,7 @@
 			        	repeatitems: false
 			        },
 			        // pager: '#imIssuePager',			// 페이징
-			        rowNum: 3,					// 보여중 행의 수
+			        rowNum: 10,					// 보여중 행의 수
 			        sortname: 'issueKeyNum',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 				
@@ -216,7 +216,7 @@
 												</div>
 												<div class="integratedManagementDiv" style="height: 25%;">
 													<span style="font-weight:bold;">이슈목록 : </span>
-													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnDelect">제거</button>
+													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnIssueListDelect">제거</button>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnIssueListInsert">매핑</button>
 													<form id="imIssueListForm" name="imIssueListForm" method ="post" style="float: right;" onsubmit="return false;">
 														<!-- <input class="form-control integratedInput" type="text" id="issueCustomer" name="issueCustomer" placeholder='고객사'> -->
@@ -224,7 +224,7 @@
 													<!------- Grid ------->
 													<div class="jqGrid_wrapper" style="padding-top: 20px;">
 														<table id="imIssueList"></table>
-														<div id="imIssuePager"></div>
+														<!-- <div id="imIssuePager"></div> -->
 													</div>
 												</div>
 												<div class="integratedManagementDiv" style="height: 25%; border-bottom: none;">
@@ -288,7 +288,7 @@
 			} else {
 				Swal.fire({
 					  title: '제거!',
-					  text: "결과보고서 매핑을 제거하시겠습니까?",
+					  text: "결과보고서 매핑을 해제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -380,7 +380,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 패키지 릴리즈를 삭제하시겠습니까?",
+					  text: "선택한 패키지 릴리즈 매핑을 해제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -469,9 +469,14 @@
 		
 		
 		/* =========== 제품 통합 관리 정보 제거 ========= */
-		$('#BtnDelect').click(function() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
+		$('#BtnIssueListDelect').click(function() {
+			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var productVersionKeyNum = $("#imProductVersionList").jqGrid('getGridParam', 'selrow'); 
+			var rowData = $("#imProductVersionList").jqGrid('getRowData', productVersionKeyNum);
+			var menuKeyNum = Number(rowData.menuKeyNum);  
+			var issuePrimaryKeyNum = $("#imIssueList").jqGrid('getGridParam', 'selrow'); 
+			
+			if(issuePrimaryKeyNum == 0) {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
@@ -480,7 +485,7 @@
 			} else {
 				Swal.fire({
 					  title: '삭제!',
-					  text: "선택한 라이선스를 삭제하시겠습니까?",
+					  text: "선택한 이슈목록 매핑을 해제하시겠습니까?",
 					  icon: 'warning',
 					  showCancelButton: true,
 					  confirmButtonColor: '#7066e0',
@@ -489,9 +494,14 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 					  $.ajax({
-						url: "<c:url value='/integratedManagement/delete'/>",
+						url: "<c:url value='/integratedManagement/issueDelete'/>",
 						type: "POST",
-						data: {chkList: chkList},
+						data: {
+							productVersionKeyNum: productVersionKeyNum,
+							menuKeyNum: menuKeyNum,
+							"packagesKeyNum": packagesKeyNum,
+							issuePrimaryKeyNum: issuePrimaryKeyNum
+						},
 						dataType: "text",
 						traditional: true,
 						async: false,
@@ -508,7 +518,7 @@
 								  '제거 실패하였습니다.',
 								  'error'
 								)
-							imPackagesListRefresh();
+							imIssueListRefresh();
 						},
 						error: function(error) {
 							console.log(error);
@@ -567,15 +577,62 @@
 
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function packagesFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.packagesKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="packagesView('+"'"+rowdata.packagesKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 
 		function productVersionFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.productVersionKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="productVersionView('+"'"+rowdata.productVersionKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
 		}
 
 		function issueFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.issueKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+			return '<a onclick="issueView('+"'"+rowdata.issueKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+
+		function issueView(data) {
+			window.open("<c:url value='/issue/updateView'/>?issueKeyNum=" + data, "_blank");
+		}
+
+		function productVersionView(data) {
+			var menuKeyNum = $("#imProductVersionList").jqGrid('getCell', data, 'menuKeyNum');
+			
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/productVersion/updateView'/>",
+			    data: {
+					productVersionKeyNum: data,
+					menuKeyNum: menuKeyNum,
+					"viewType": "im"
+				},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'productVersion'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});	
+		}
+
+		function packagesView(data) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/packages/updateView'/>",
+		        data: {
+					"packagesKeyNum" : data,
+					"viewType": "im"
+				},
+		        async: false,
+		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+		            $.modal(data, 'packages'); //modal창 호출
+		        },
+		        error: function(e) {
+		            // TODO 에러 화면
+		        }
+		    });
 		}
 
 		function selectReport(packagesKeyNum) {
@@ -924,6 +981,14 @@
 
 		.width60p {
 			width: 60%;
+		}
+
+		#gbox_imIssueList .ui-jqgrid-bdiv {
+			overflow-x: hidden;
+		}
+
+		#gbox_imProductVersionList .ui-jqgrid-bdiv {
+			overflow-x: hidden;
 		}
 	</style>
 </html>

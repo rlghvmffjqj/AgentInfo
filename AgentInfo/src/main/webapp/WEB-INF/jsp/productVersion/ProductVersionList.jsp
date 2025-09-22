@@ -40,8 +40,12 @@
   				  	align: 'center',
   				  	width: 250,/*  */
 				  	classes: 'ellipsis-cell',
-    				formatter: function(cellvalue) {
-    				  return `<span title="`+cellvalue+`">`+cellvalue+`</span>`;
+    				formatter: function(cellvalue, options, rowObject) {
+						if (title === 'packageName') {
+							return '<a onclick="updateView('+"'"+rowObject.productVersionKeyNum+"'"+')" style="color:#366cb3;">' + cellvalue + '</a>';
+						} else {
+    				  		return `<span title="`+cellvalue+`">`+cellvalue+`</span>`;
+						}
     				}
   				}));
 
@@ -143,25 +147,30 @@
 													<td style="padding:0px 0px 0px 0px;" class="box">
 														<table style="width:100%">
 															<tbody>
-																<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
-																	<tr>
-																		<td style="font-weight:bold; padding-bottom: 5px; font-size: 13px;">제품 릴리즈 관리 :</td>
-																	</tr>
-																	<tr><td>
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert" style="margin-left: 20px;">릴리즈 등록</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">릴리즈 수정</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">릴리즈 삭제</button>
-																	</td></tr>
-																</c:if>
-																<tr style="margin-top: 20px;">
-																	<td style="font-weight:bold; padding-top: 15px; padding-bottom: 5px; font-size: 13px;">제품 호환성 관리 :</td>
+																<tr>
+																	<td style="display: flex; justify-content: flex-start; gap: 8%; align-items: center; padding: 10px 0;">
+																		<!-- 제품 릴리즈 관리 그룹 -->
+																		<div style="display: flex; flex-direction: column;">
+																			<span style="font-weight:bold; font-size:13px; padding-bottom:5px;">제품 릴리즈 관리 :</span>
+																			<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
+																				<div style="display: flex; gap: 10px;">
+																					<button class="btn btn-outline-info-nomal myBtn" id="BtnInsert">릴리즈 등록</button>
+																					<button class="btn btn-outline-info-nomal myBtn" id="BtnDelect">릴리즈 삭제</button>
+																				</div>
+																			</c:if>
+																		</div>
+																		<!-- 제품 호환성 관리 그룹 -->
+																		<div style="display: flex; flex-direction: column;">
+																			<span style="font-weight:bold; font-size:13px; padding-bottom:5px;">제품 호환성 관리 :</span>
+																			<div style="display: flex; gap: 10px;">
+																				<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
+																					<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilityAdd">호환성 설정</button>
+																				</c:if>
+																				<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환성 목록</button>
+																			</div>
+																		</div>
+																	</td>
 																</tr>
-																<tr><td>
-																	<c:if test="${empty menuSetting.menuDept || fn:contains(employee.departmentFullPath, menuSetting.menuDept)}">
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilityAdd" style="margin-left: 20px;">호환성 설정</button>
-																	</c:if>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnCompatibilitySerach">호환성 목록</button>
-																</td></tr>
 																<tr>
 																	<td class="border1" colspan="2">
 																		<!------- Grid ------->
@@ -219,8 +228,27 @@
 		}
 	
 		/* =========== jpgrid의 formatter 함수 ========= */
-		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.menuKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		// function linkFormatter(cellValue, options, rowdata, action) {
+		// 	return '<a onclick="updateView('+"'"+rowdata.menuKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		// }
+
+		function updateView(data) {
+			var formData = $('#form').serializeObject();
+			formData["productVersionKeyNum"] = data;
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/productVersion/updateView'/>",
+			    data: formData,
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 'productVersion'); //modal창 호출
+			    },
+			    error: function(e) {
+			        // TODO 에러 화면
+			    }
+			});			
 		}
 
 		

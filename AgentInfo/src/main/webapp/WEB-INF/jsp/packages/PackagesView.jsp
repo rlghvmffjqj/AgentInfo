@@ -13,7 +13,7 @@
 					<div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+							<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
@@ -29,7 +29,9 @@
 					 <div class="pading5Width450">
 					 	<div>
 					  		<label class="labelFontSize">사업명</label>
-					  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="businessNameViewSelf">
@@ -39,11 +41,13 @@
 						</div>
 					 </div>
 				</c:when>
-				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'im'  || viewType eq 'copy'}">
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-					  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="customerNameViewSelf">
@@ -135,11 +139,13 @@
 						</div>
 					 </div>
 			 	</c:when>
-				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'im'  || viewType eq 'copy'}">
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">패키지 종류</label>
-					  		<a href="#" class="selfInput" id="managementServerChange" onclick="selfInput('managementServerChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="managementServerChange" onclick="selfInput('managementServerChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="managementServerSelf" name="managementServerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="managementServerViewSelf">
@@ -155,7 +161,9 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">일반/커스텀</label>
-					  		<a href="#" class="selfInput" id="generalCustomChange" onclick="selfInput('generalCustomChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="generalCustomChange" onclick="selfInput('generalCustomChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="generalCustomSelf" name="generalCustomSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="generalCustomViewSelf">
@@ -171,7 +179,9 @@
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">Agent ver</label>
-					  		<a href="#" class="selfInput" id="agentVerChange" onclick="selfInput('agentVerChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="agentVerChange" onclick="selfInput('agentVerChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="agentVerSelf" name="agentVerSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentVerViewSelf">
@@ -212,11 +222,13 @@
 						</div>
 					 </div>
 			 	</c:when>
-				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'im'  || viewType eq 'copy'}">
 			         <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">OS종류</label>
-					  		<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="osTypeChange" onclick="selfInput('osTypeChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="osTypeSelf" name="osTypeSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="osTypeViewSelf">
@@ -315,11 +327,13 @@
 					   </div>
 					</div>
 			 	</c:when>
-				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'im'  || viewType eq 'copy'}">
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">Agent OS</label>
-					  		<a href="#" class="selfInput" id="agentOSChange" onclick="selfInput('agentOSChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="agentOSChange" onclick="selfInput('agentOSChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="agentOSSelf" name="agentOSSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="agentOSViewSelf">
@@ -335,7 +349,9 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">기존/신규</label>
-					  		<a href="#" class="selfInput" id="existingNewChange" onclick="selfInput('existingNewChange');">직접입력</a>
+							<c:if test="${viewType ne 'im'}">
+					  			<a href="#" class="selfInput" id="existingNewChange" onclick="selfInput('existingNewChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="existingNewSelf" name="existingNewSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="existingNewViewSelf">
@@ -351,7 +367,9 @@
 					<div class="pading5Width450">
 						<div>
 					  		<label class="labelFontSize">요청 제품 구분</label>
-					  		<a href="#" class="selfInput" id="requestProductCategoryChange" onclick="selfInput('requestProductCategoryChange');">직접입력</a>
+					  		<c:if test="${viewType ne 'im'}">
+								<a href="#" class="selfInput" id="requestProductCategoryChange" onclick="selfInput('requestProductCategoryChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="requestProductCategorySelf" name="requestProductCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="requestProductCategoryViewSelf">
@@ -367,7 +385,9 @@
 			        <div class="pading5Width450">
 			         	<div>
 					  		<label class="labelFontSize">전달 방법</label>
-					  		<a href="#" class="selfInput" id="deliveryMethodChange" onclick="selfInput('deliveryMethodChange');">직접입력</a>
+					  		<c:if test="${viewType ne 'im'}">
+								<a href="#" class="selfInput" id="deliveryMethodChange" onclick="selfInput('deliveryMethodChange');">직접입력</a>
+							</c:if>
 					  	</div>
 					  	<input type="hidden" id="deliveryMethodSelf" name="deliveryMethodSelf" class="form-control viewForm" placeholder="직접입력" value="">
 					  	<div id="deliveryMethodViewSelf">
@@ -383,7 +403,9 @@
 					<div class="pading5Width450">
 						<div>
 							 <label class="labelFontSize">구매구분</label>
-							 <a href="#" class="selfInput" id="purchaseCategoryChange" onclick="selfInput('purchaseCategoryChange');">직접입력</a>
+							 <c:if test="${viewType ne 'im'}">
+								<a href="#" class="selfInput" id="purchaseCategoryChange" onclick="selfInput('purchaseCategoryChange');">직접입력</a>
+							</c:if>
 						 </div>
 						 <input type="hidden" id="purchaseCategorySelf" name="purchaseCategorySelf" class="form-control viewForm" placeholder="직접입력" value="">
 						 <div id="purchaseCategoryViewSelf">
@@ -423,7 +445,7 @@
 					<c:when test="${viewType eq 'insert'}">
 						<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="1">
 					</c:when>
-					<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
+					<c:when test="${viewType eq 'update' || viewType eq 'im'  || viewType eq 'copy'}">
 						<input type="number" id="sendPackageLimitCountView" name="sendPackageLimitCountView" class="form-control viewForm" value="${sendPackage.sendPackageLimitCount}">
 					</c:when>
 				</c:choose>
@@ -436,7 +458,7 @@
 				<input class="form-control viewForm" type="file" name="sendPackageView" id="sendPackageView" multiple />
 				<span class="colorRed" id="NotSendPackageView" style="display: none; line-height: initial;">패키지를 등록 해주세요.</span>
 				<c:choose>
-					<c:when test="${viewType eq 'update'}">
+					<c:when test="${viewType eq 'update' || viewType eq 'im' }">
 						<span class="colorRed" style="line-height: initial;">패키지 변경 할 경우만 파일 선택 해주세요.</span>
 					</c:when>
 				</c:choose>
