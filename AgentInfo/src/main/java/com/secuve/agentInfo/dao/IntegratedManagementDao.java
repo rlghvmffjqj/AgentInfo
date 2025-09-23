@@ -57,4 +57,12 @@ public class IntegratedManagementDao {
 		return sqlSession.delete("integratedManagement.delIssue", integratedManagement);
 	}
 
+	public List<IntegratedManagement> getPackagesNameProductVersionList(String packageName) {
+		return sqlSession.selectList("integratedManagement.getPackagesNameProductVersionList", packageName);
+	}
+
+	public List<IntegratedManagement> getPackagesNameIssueList(IntegratedManagement integratedManagement) {
+		return sqlSession.selectList("integratedManagement.getPackagesNameIssueList", integratedManagement);
+	}
+
 }

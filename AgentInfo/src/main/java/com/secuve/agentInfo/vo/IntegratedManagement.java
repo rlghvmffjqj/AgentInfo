@@ -16,6 +16,7 @@ public class IntegratedManagement {
 	private Integer packagesKeyNum;
 	private Integer productVersionKeyNum;
 	private int menuKeyNum;
+	private String packageName;
 	private Integer issuePrimaryKeyNum;
 	private Integer resultsReportKeyNum;
 	private int[] productVersionKeyNumArr;

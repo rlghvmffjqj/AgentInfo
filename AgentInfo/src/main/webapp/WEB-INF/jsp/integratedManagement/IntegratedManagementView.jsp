@@ -361,6 +361,7 @@
 		$('#BtnimProductVersionListDelect').click(function() {
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
 			var chkList = $("#imProductVersionList").getGridParam('selarrrow');
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			var chkmenuList = chkList.map(function(rowId) {
 			    var rowData = $("#imProductVersionList").jqGrid('getRowData', rowId);
 			    return Number(rowData.menuKeyNum);  // 문자열 → 숫자 변환
@@ -389,7 +390,8 @@
 						data: {
 							chkList: chkList,
 							chkmenuList: chkmenuList,
-							"packagesKeyNum": packagesKeyNum
+							"packagesKeyNum": packagesKeyNum,
+							"packageName": packageName
 						},
 						dataType: "text",
 						traditional: true,
@@ -538,7 +540,9 @@
 		function imProductVersionListRefresh() {		
 			var _postDate = $("#imProductVersionListForm").serializeObject();
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			_postDate.packagesKeyNum = packagesKeyNum;
+			_postDate.packageName = packageName;
 			
 			$("#imProductVersionList").jqGrid('setGridParam', {
 			    datatype: 'json',
@@ -552,9 +556,11 @@
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
 			var productVersionKeyNum = $("#imProductVersionList").jqGrid('getGridParam', 'selrow'); 
 			var menuKeyNum = $("#imProductVersionList").jqGrid('getCell', productVersionKeyNum, 'menuKeyNum');
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			_postDate.packagesKeyNum = packagesKeyNum;
 			_postDate.productVersionKeyNum = productVersionKeyNum;
 			_postDate.menuKeyNum = menuKeyNum;
+			_postDate.packageName = packageName;
 
 			var jqGrid = $("#imIssueList");
 			jqGrid.clearGridData();
@@ -631,10 +637,14 @@
 		}
 
 		function selectReport(packagesKeyNum) {
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			$.ajax({
 				url: "<c:url value='/integratedManagement/resultsReport'/>",
 				type: "POST",
-				data: {"packagesKeyNum": packagesKeyNum},
+				data: {
+					"packagesKeyNum": packagesKeyNum,
+					"packageName": packageName
+				},
 				dataType: "html",
 				traditional: true,
 				async: false,

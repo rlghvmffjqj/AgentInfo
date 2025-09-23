@@ -83,19 +83,24 @@ public class IntegratedManagementController {
 	
 	@ResponseBody
 	@PostMapping(value = "/imProductVersionList/productVersion")
-	public Map<String, Object> productData(IntegratedManagement integratedManagement, ProductVersion search, @RequestParam Map<String, String> paramMap) {
-		if(integratedManagement.getPackagesKeyNum() == null) {
+	public Map<String, Object> productData(IntegratedManagement integratedManagement, ProductVersion search, @RequestParam Map<String, String> paramMap, String packageName) {
+		if(integratedManagement.getPackagesKeyNum() == null || packageName == "") {
 			return emptyResponse(); 
 		}
 		Map<String, Object> response = new HashMap<>();
+		List<IntegratedManagement> integratedManagementOneList = new ArrayList<IntegratedManagement>();
 		try {
 			integratedManagement.setIntegratedManagementType("productVersion");
 			integratedManagement = integratedManagementService.getIntegratedManagementOne(integratedManagement);
+			integratedManagementOneList =  integratedManagementService.getPackagesNameProductVersionList(packageName);
 			if(integratedManagement == null) {
-				return emptyResponse();
+				if(integratedManagementOneList == null) {
+					return emptyResponse();
+				}
 			}
-		
-			List<IntegratedManagement> integratedManagementOneList = integratedManagementService.getIntegratedManagementOneList(integratedManagement);
+//			} else {
+//				integratedManagementOneList = integratedManagementService.getIntegratedManagementOneList(integratedManagement);
+//			}
 			List<Compatibility> productVersionList = new ArrayList<Compatibility>();
 			for(IntegratedManagement integratedManagementOne : integratedManagementOneList) {
 			    Compatibility productVersion = new Compatibility();
@@ -135,9 +140,11 @@ public class IntegratedManagementController {
 		if(integratedManagement.getPackagesKeyNum() == null) {
 			return emptyResponse();
 		}
+		List<IntegratedManagement> integratedManagementList = new ArrayList<IntegratedManagement>();
 		List<Issue> issueList = new ArrayList<Issue>();
 		try {
-			List<IntegratedManagement> integratedManagementList = integratedManagementService.getIntegratedManagementIssue(integratedManagement);
+			integratedManagementList = integratedManagementService.getPackagesNameIssueList(integratedManagement);
+//			 integratedManagementList = integratedManagementService.getIntegratedManagementIssue(integratedManagement);
 			for(IntegratedManagement im : integratedManagementList) {
 				issueList.add(issueService.getIssueKeyNumOne(im.getIssuePrimaryKeyNum()));
 			}
@@ -158,9 +165,7 @@ public class IntegratedManagementController {
 	
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/resultsReport")
-	public String ResultsReportView(int packagesKeyNum) {
-		IntegratedManagement integratedManagement = new IntegratedManagement();
-		integratedManagement.setPackagesKeyNum(packagesKeyNum);
+	public String ResultsReportView(IntegratedManagement integratedManagement) {
 		integratedManagement.setIntegratedManagementType("resultsReport");
 		integratedManagement = integratedManagementService.getIntegratedManagementOne(integratedManagement);
 		
@@ -223,8 +228,8 @@ public class IntegratedManagementController {
 	
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/productVersionListDelete")
-	public String ProductVersionDelete(@RequestParam int packagesKeyNum, int[] chkList, int[] chkmenuList) {
-		return integratedManagementService.delProductVersion(packagesKeyNum, chkList, chkmenuList);
+	public String ProductVersionDelete(@RequestParam int packagesKeyNum, int[] chkList, int[] chkmenuList, String packageName) {
+		return integratedManagementService.delProductVersion(packagesKeyNum, chkList, chkmenuList, packageName);
 	}
 	
 	@PostMapping(value = "/integratedManagement/issueInsertView")

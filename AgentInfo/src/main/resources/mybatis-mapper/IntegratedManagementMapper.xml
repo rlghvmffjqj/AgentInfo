@@ -34,7 +34,7 @@
 	</insert>
 	
 	<select id="getIntegratedManagementOne" resultMap="integratedManagement">
-		SELECT * FROM integratedManagement WHERE packagesKeyNum = ${packagesKeyNum} AND integratedManagementType = #{integratedManagementType} GROUP BY integratedManagementType, packagesKeyNum;;
+		SELECT * FROM integratedManagement WHERE  packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND integratedManagementType = #{integratedManagementType} GROUP BY integratedManagementType, packagesKeyNum ORDER BY 1 DESC LIMIT 1;
 	</select>
 	
 	<insert id="setProductVersionMapping">
@@ -62,6 +62,14 @@
 	<delete id="delIssue">
 		DELETE FROM integratedManagement WHERE integratedManagementType = 'issue' AND packagesKeyNum = ${packagesKeyNum} AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum} AND issuePrimaryKeyNum = ${issuePrimaryKeyNum};
 	</delete>
+	
+	<select id="getPackagesNameProductVersionList" parameterType="string" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND integratedManagementType = 'productVersion' GROUP BY packagesKeyNum, integratedManagementType, menuKeyNum, productVersionKeyNum, issuePrimaryKeyNum;
+	</select>
+	
+	<select id="getPackagesNameIssueList" resultMap="integratedManagement">
+		SELECT * FROM integratedManagement WHERE packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND integratedManagementType = 'issue' AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = ${productVersionKeyNum} GROUP BY packagesKeyNum, integratedManagementType, menuKeyNum, productVersionKeyNum, issuePrimaryKeyNum;
+	</select>
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlIntegratedManagement">

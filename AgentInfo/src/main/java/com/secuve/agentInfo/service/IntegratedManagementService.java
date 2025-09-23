@@ -56,7 +56,7 @@ public class IntegratedManagementService {
 		return integratedManagementDao.getIntegratedManagementOneList(integratedManagement);
 	}
 
-	public String delProductVersion(int packagesKeyNum, int[] chkList, int[] chkmenuList) {
+	public String delProductVersion(int packagesKeyNum, int[] chkList, int[] chkmenuList, String packageName) {
 		int success = 1;
 		IntegratedManagement integratedManagement = new IntegratedManagement();
 		
@@ -64,6 +64,7 @@ public class IntegratedManagementService {
 			integratedManagement.setPackagesKeyNum(packagesKeyNum);
 			integratedManagement.setMenuKeyNum(chkmenuList[i]);
 			integratedManagement.setProductVersionKeyNum(chkList[i]);
+			integratedManagement.setPackageName(packageName);
 			success *= integratedManagementDao.delProductVersion(integratedManagement);
 		}
 		if (success <= 0) {
@@ -95,6 +96,14 @@ public class IntegratedManagementService {
         	return "FALSE";
         }
         return "OK";
+	}
+
+	public List<IntegratedManagement> getPackagesNameProductVersionList(String packageName) {
+		return integratedManagementDao.getPackagesNameProductVersionList(packageName);
+	}
+
+	public List<IntegratedManagement> getPackagesNameIssueList(IntegratedManagement integratedManagement) {
+		return integratedManagementDao.getPackagesNameIssueList(integratedManagement);
 	}
 
 }
