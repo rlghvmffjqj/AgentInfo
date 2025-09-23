@@ -85,7 +85,7 @@ public class IntegratedManagementController {
 	@PostMapping(value = "/imProductVersionList/productVersion")
 	public Map<String, Object> productData(IntegratedManagement integratedManagement, ProductVersion search, @RequestParam Map<String, String> paramMap) {
 		if(integratedManagement.getPackagesKeyNum() == null) {
-			return emptyResponse();
+			return emptyResponse(); 
 		}
 		Map<String, Object> response = new HashMap<>();
 		try {
