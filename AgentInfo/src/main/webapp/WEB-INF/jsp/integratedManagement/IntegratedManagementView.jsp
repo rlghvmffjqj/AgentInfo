@@ -50,7 +50,7 @@
 			        },
 			        pager: '#imPackagesPager',			// 페이징
 			        rowNum: 7,					// 보여중 행의 수
-			        sortname: 'packagesKeyNum',	// 기본 정렬 
+			        sortname: 'packagesKeyNumOrigin',	// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 				
 			        // multiselect: true,			// 체크박스를 이용한 다중선택
@@ -64,7 +64,7 @@
 					onSelectRow: function (rowId) {
 						selectReport(rowId)
 						selecProductVersion(rowId);
-						// productVersionData.packagesKeyNum = rowId;
+						selectIssue(rowId);
   					}
 				}); 
 				
@@ -100,12 +100,7 @@
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 					onSelectRow: function (rowId) {
-						// var menuKeyNum = $("#imProductVersionList").jqGrid('getCell', rowId, 'menuKeyNum');
-						// issueData.packagesKeyNum = productVersionData.packagesKeyNum;
-						// issueData.productVersionKeyNum = rowId;
-						// issueData.menuKeyNum = menuKeyNum;
-						
-						issueVersion(rowId);
+						selectIssue(rowId);
   					}
 				}); 
 
@@ -661,7 +656,7 @@
 			imProductVersionListRefresh();
 		}
 
-		function issueVersion(packagesKeyNum) {
+		function selectIssue(packagesKeyNum) {
 			imIssueListRefresh();
 		}
 

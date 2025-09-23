@@ -98,7 +98,6 @@
 	function BtnSelect() {
 		var postData = $('#modalForm').serializeObject();
 		var issuePrimaryKeyNum = $("#issueList").getGridParam('selrow');
-		alert(issuePrimaryKeyNum);
 		postData.issuePrimaryKeyNum = issuePrimaryKeyNum;
 		
 		if(packagesKeyNum == null) {
