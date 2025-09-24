@@ -6,6 +6,7 @@
 		<!-- datetimepicker -->
 		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
 		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/css/myStyle.css'/>">
 		<script>
 			/* =========== 페이지 쿠키 값 저장 ========= */
 		    $(function() {
@@ -701,22 +702,31 @@
 		}
 
 		function btnHistory() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
+			var packagesKeyNumArr  = $("#list").getGridParam('selarrrow');
+			var packagesKeyNum = packagesKeyNumArr[0];
+			var packageName = $("#list").jqGrid('getCell', packagesKeyNum, 'packageName');
+			if(packagesKeyNumArr.length == 0) {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           
 					text: '선택한 행이 존재하지 않습니다.',    
-				});    
+				});  
+			} else if(packagesKeyNumArr.length > 1)  {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '한 개의 행만 선택 바랍니다.',    
+				});  
 			} else {
 				$.ajax({
 					url: "<c:url value='/packages/historyView'/>",
 					type: "POST",
-					data: {chkList: chkList},
+					data: {
+						"packagesKeyNum": packagesKeyNum,
+						"packageName": packageName
+					},
 					async: false,
 			    	success: function (data) {
-			    		if(data.indexOf("<!DOCTYPE html>") != -1) 
-							location.reload();
 			    	    $.modal(data, 'packagesHistory'); //modal창 호출
 			    	},
 			    	error: function(e) {

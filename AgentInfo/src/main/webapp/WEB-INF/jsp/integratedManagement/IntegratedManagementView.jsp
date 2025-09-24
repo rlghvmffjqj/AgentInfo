@@ -105,7 +105,7 @@
 				}); 
 
 				$("#imIssueList").jqGrid({
-					url: "<c:url value='/imProductVersionList/issue'/>",
+					url: "<c:url value='/imIssueList/issue'/>",
 					mtype: 'POST',
 					postData: issueData,
 					datatype: 'json',
@@ -187,7 +187,10 @@
 													<span style="font-weight:bold;">패키지 배포 관리 : </span>
 													<!-- <button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnDelect">제거</button> -->
 													<!-- <button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnInsert">매핑</button> -->
-													<form id="imPackagesListForm" name="imPackagesListForm" method ="post" style="float: right;" onsubmit="return false;"><input class="form-control integratedInput" type="text" id="customerName" name="customerName" placeholder='고객사명'></form>
+													<form id="imPackagesListForm" name="imPackagesListForm" method ="post" style="float: right; display: flex;" onsubmit="return false;">
+														<input class="form-control integratedInput" type="text" id="customerName" name="customerName" placeholder='고객사명'>
+														<input class="form-control integratedInput" type="text" id="packageName" name="packageName" placeholder='패키지명'>
+													</form>
 													<!------- Grid ------->
 													<div class="jqGrid_wrapper" style="padding-top: 20px;">
 														<table id="imPackagesList"></table>
@@ -274,6 +277,7 @@
 
 		$('#BtnimResultsReportDelete').click(function() {
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			if(packagesKeyNum == null) {
 				Swal.fire({               
 					icon: 'error',          
@@ -296,7 +300,8 @@
 							type: "POST",
 							data: {
 								"packagesKeyNum": packagesKeyNum,
-								"integratedManagementType": "resultsReport"
+								"integratedManagementType": "resultsReport",
+								"packageName": packageName
 							},
 							dataType: "text",
 							traditional: true,
@@ -472,6 +477,7 @@
 			var rowData = $("#imProductVersionList").jqGrid('getRowData', productVersionKeyNum);
 			var menuKeyNum = Number(rowData.menuKeyNum);  
 			var issuePrimaryKeyNum = $("#imIssueList").jqGrid('getGridParam', 'selrow'); 
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			
 			if(issuePrimaryKeyNum == 0) {
 				Swal.fire({               
@@ -497,7 +503,8 @@
 							productVersionKeyNum: productVersionKeyNum,
 							menuKeyNum: menuKeyNum,
 							"packagesKeyNum": packagesKeyNum,
-							issuePrimaryKeyNum: issuePrimaryKeyNum
+							issuePrimaryKeyNum: issuePrimaryKeyNum,
+							"packageName": packageName
 						},
 						dataType: "text",
 						traditional: true,
@@ -675,6 +682,11 @@
 		    imPackagesListRefresh();
 		});
 
+		$('#packageName').on('input', function() {
+		    let keyword = $(this).val();
+		    imPackagesListRefresh();
+		});
+
 		/* $('#packageName').on('input', function() {
 		    let keyword = $(this).val();
 		    imProductVersionListRefresh();
@@ -687,6 +699,7 @@
 
 		$('#resultsReportDiv').dblclick(function() {
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			if(packagesKeyNum == null) {
 				Swal.fire({               
 					icon: 'error',          
@@ -706,7 +719,11 @@
 					$.ajax({
 						url: "<c:url value='/integratedManagement/resultsReportOne'/>",
 						type: "POST",
-						data: {"packagesKeyNum": packagesKeyNum},
+						data: {
+							"packagesKeyNum": packagesKeyNum,
+							"packageName": packageName,
+							"integratedManagementType": "resultsReport"
+						},
 						dataType: "text",
 						traditional: true,
 						async: false,
