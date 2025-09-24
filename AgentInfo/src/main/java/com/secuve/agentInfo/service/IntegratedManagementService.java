@@ -85,12 +85,13 @@ public class IntegratedManagementService {
 		return integratedManagementDao.getIntegratedManagementIssue(integratedManagement);
 	}
 
-	public String delIssue(int packagesKeyNum, int productVersionKeyNum, int menuKeyNum, int issuePrimaryKeyNum) {
+	public String delIssue(int packagesKeyNum, int productVersionKeyNum, int menuKeyNum, int issuePrimaryKeyNum, String packageName) {
 		IntegratedManagement integratedManagement = new IntegratedManagement();
 		integratedManagement.setPackagesKeyNum(packagesKeyNum);
 		integratedManagement.setProductVersionKeyNum(productVersionKeyNum);
 		integratedManagement.setMenuKeyNum(menuKeyNum);
 		integratedManagement.setIssuePrimaryKeyNum(issuePrimaryKeyNum);
+		integratedManagement.setPackageName(packageName);
 		int success = integratedManagementDao.delIssue(integratedManagement);
 		if (success <= 0) {
         	return "FALSE";

@@ -427,7 +427,9 @@ public class PackagesController {
 	}
 	
 	@PostMapping(value = "/packages/historyView")
-	public String HistoryView() {
+	public String HistoryView(Model model, int packagesKeyNum, String packageName) {
+		model.addAttribute("packagesKeyNum", packagesKeyNum);
+		model.addAttribute("packageName", packageName);
 		return "/packages/HistoryView";
 	}
 	

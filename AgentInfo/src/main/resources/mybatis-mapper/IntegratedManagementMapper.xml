@@ -25,7 +25,7 @@
 	
 
 	<delete id="delResultsReportMapping">
-		DELETE FROM integratedManagement WHERE integratedManagementType = 'resultsReport' AND packagesKeyNum = ${packagesKeyNum};
+		DELETE FROM integratedManagement WHERE integratedManagementType = 'resultsReport' AND packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName});
 	</delete>
 	
 	<insert id="setResultsReportMapping">
@@ -47,7 +47,7 @@
 	</select>
 	
 	<delete id="delProductVersion">
-		DELETE FROM integratedManagement WHERE integratedManagementType = 'productVersion' AND packagesKeyNum = ${packagesKeyNum} AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum};
+		DELETE FROM integratedManagement WHERE integratedManagementType = 'productVersion' AND packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum};
 	</delete>
 	
 	<insert id="setIssueMapping">
@@ -60,11 +60,11 @@
 	</select>
 	
 	<delete id="delIssue">
-		DELETE FROM integratedManagement WHERE integratedManagementType = 'issue' AND packagesKeyNum = ${packagesKeyNum} AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum} AND issuePrimaryKeyNum = ${issuePrimaryKeyNum};
+		DELETE FROM integratedManagement WHERE integratedManagementType = 'issue' AND packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND menuKeyNum = ${menuKeyNum} AND productVersionKeyNum = #{productVersionKeyNum} AND issuePrimaryKeyNum = ${issuePrimaryKeyNum};
 	</delete>
 	
 	<select id="getPackagesNameProductVersionList" parameterType="string" resultMap="integratedManagement">
-		SELECT * FROM integratedManagement WHERE packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND integratedManagementType = 'productVersion' GROUP BY packagesKeyNum, integratedManagementType, menuKeyNum, productVersionKeyNum, issuePrimaryKeyNum;
+		SELECT * FROM integratedManagement WHERE packagesKeyNum IN (SELECT packagesKeyNum FROM packages WHERE packageName = #{packageName}) AND integratedManagementType = 'productVersion' GROUP BY integratedManagementType, menuKeyNum, productVersionKeyNum;
 	</select>
 	
 	<select id="getPackagesNameIssueList" resultMap="integratedManagement">

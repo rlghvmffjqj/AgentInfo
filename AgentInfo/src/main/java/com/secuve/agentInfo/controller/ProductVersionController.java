@@ -155,7 +155,7 @@ public class ProductVersionController {
 	}
 	
 	@PostMapping(value = "/productVersion/updateView")
-	public String UpdateProductVersionView(Model model, MenuSetting menuSetting, String viewType) {
+	public String UpdateProductVersionView(Model model, MenuSetting menuSetting, String viewType, String popup) {
 //		MenuSetting menuSettingOne = menuSettingService.getMenuSettingOne(menuSetting.getMenuKeyNum());
 		List<Map<String,Object>> menuSettingItemList = menuSettingService.getMenuSettingItemListJoin(menuSetting);
 		
@@ -165,6 +165,10 @@ public class ProductVersionController {
 		model.addAttribute("viewType", viewType);
 		model.addAttribute("menuSettingItemList", menuSettingItemList);
 		model.addAttribute("menuSetting", menuSetting);
+		
+		if("y".equals(popup)) {
+			return "/productVersion/ProductVersionViewPopUp";
+		}
 
 		return "/productVersion/ProductVersionView";
 	}

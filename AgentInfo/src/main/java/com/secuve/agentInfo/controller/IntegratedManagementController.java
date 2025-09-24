@@ -135,9 +135,12 @@ public class IntegratedManagementController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/imProductVersionList/issue")
+	@PostMapping(value = "/imIssueList/issue")
 	public Map<String, Object> Issue(IntegratedManagement integratedManagement, Issue search) {
 		if(integratedManagement.getPackagesKeyNum() == null) {
+			return emptyResponse();
+		}
+		if(integratedManagement.getProductVersionKeyNum() == null) {
 			return emptyResponse();
 		}
 		List<IntegratedManagement> integratedManagementList = new ArrayList<IntegratedManagement>();
@@ -166,6 +169,9 @@ public class IntegratedManagementController {
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/resultsReport")
 	public String ResultsReportView(IntegratedManagement integratedManagement) {
+		if(integratedManagement.getPackageName() == "") {
+			return "";
+		}
 		integratedManagement.setIntegratedManagementType("resultsReport");
 		integratedManagement = integratedManagementService.getIntegratedManagementOne(integratedManagement);
 		
@@ -173,7 +179,7 @@ public class IntegratedManagementController {
 			ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(integratedManagement.getResultsReportKeyNum());
 			return resultsReportOne.getResultsReportContent();
 		} catch (Exception e) {
-			return "";
+			return "보고서가 존재하지 않습니다.";
 		}
 	}
 	
@@ -186,7 +192,7 @@ public class IntegratedManagementController {
 	
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/resultsReportSelect")
-	public String ResultsReportSelect(IntegratedManagement integratedManagement) {
+	public String ResultsReportSelect2(IntegratedManagement integratedManagement) {
 		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(integratedManagement.getResultsReportKeyNum());
 		integratedManagementService.setResultsReportMapping(integratedManagement);
 		return resultsReportOne.getResultsReportContent();
@@ -206,10 +212,10 @@ public class IntegratedManagementController {
 	
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/resultsReportOne")
-	public int ResultsReportSelect(int packagesKeyNum) {
-		IntegratedManagement integratedManagement = new IntegratedManagement();
-		integratedManagement.setPackagesKeyNum(packagesKeyNum);
-		integratedManagement.setIntegratedManagementType("resultsReport");
+	public int ResultsReportSelect(IntegratedManagement integratedManagement) {
+		if(integratedManagement.getPackageName() == "") {
+			return 0;
+		}
 		integratedManagement = integratedManagementService.getIntegratedManagementOne(integratedManagement);
 		return integratedManagement.getResultsReportKeyNum();
 	}
@@ -240,7 +246,7 @@ public class IntegratedManagementController {
 	
 	@ResponseBody
 	@PostMapping(value = "/integratedManagement/issueDelete")
-	public String IssueDelete(@RequestParam int packagesKeyNum, int productVersionKeyNum, int menuKeyNum, int issuePrimaryKeyNum) {
-		return integratedManagementService.delIssue(packagesKeyNum, productVersionKeyNum, menuKeyNum, issuePrimaryKeyNum);
+	public String IssueDelete(@RequestParam int packagesKeyNum, int productVersionKeyNum, int menuKeyNum, int issuePrimaryKeyNum, String packageName) {
+		return integratedManagementService.delIssue(packagesKeyNum, productVersionKeyNum, menuKeyNum, issuePrimaryKeyNum, packageName);
 	}
 }
