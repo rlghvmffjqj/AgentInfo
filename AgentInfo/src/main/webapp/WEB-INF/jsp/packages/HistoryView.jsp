@@ -38,7 +38,15 @@
 	        altRows: false,				// 라인 강조
 			onSelectRow: function (rowId) {
 				selectIssue();
- 			}
+ 			},
+			loadComplete: function(data) {
+			    if (this.p.reccount === 0) {
+			        var $grid = $(this);
+			        var colCount = $grid[0].p.colModel.length;
+			        $grid.find("tbody")
+			             .append('<tr><td colspan="' + colCount + '" style="text-align:center; background: white; padding: 1%;">패키지 릴리즈가 존재하지 않습니다.</td></tr>');
+			    }
+			}
 		}); 
 
 		$("#imIssueList").jqGrid({
@@ -71,6 +79,14 @@
 	        autowidth:true,				// 가로 넒이 자동조절
 	        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 	        altRows: false,				// 라인 강조
+			loadComplete: function(data) {
+			    if (this.p.reccount === 0) {
+			        var $grid = $(this);
+			        var colCount = $grid[0].p.colModel.length;
+			        $grid.find("tbody")
+			             .append('<tr><td colspan="' + colCount + '" style="text-align:center; background: white; padding: 1%;">이슈목록이 존재하지 않습니다.</td></tr>');
+			    }
+			}
 		}); 
 
 		selectReport("${packagesKeyNum}")
@@ -125,7 +141,7 @@
 		<div style="height: 100%; width: 50%; float: right;">
 			<div class="integratedManagementDiv" style="height: 95%;">
 				<span style="font-weight:bold;">결과보고서 : </span>
-				<div id="resultsReportDiv"></div>
+				<div id="resultsReportDiv" style="text-align: center; align-content: center;"></div>
 			</div>	
 		</div>
 	</div>
@@ -247,7 +263,7 @@
 			});    
 		} else {
 	    	var resultsReportDiv = $('#resultsReportDiv').text();
-			if(resultsReportDiv == "") {
+			if(resultsReportDiv == "결과 보고서가 존재하지 않습니다.") {
 				Swal.fire({               
 					icon: 'error',          
 					title: '실패!',           

@@ -594,7 +594,9 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
-			<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product release</div>
+			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER')">
+				<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product release</div>
+			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
 		        <div class="pcoded-navigation-label" data-i18n="nav.category.forms">release notes</div>
@@ -1041,7 +1043,8 @@
 			    </ul> --%>
 			</sec:authorize>
 
-			<ul class="pcoded-item pcoded-left-item">
+			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER')">
+				<ul class="pcoded-item pcoded-left-item">
 				    <li class="setting pcoded-hasmenu">
 						<a href="#!" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-settings"></i><b>FC</b></span>
@@ -1075,6 +1078,7 @@
 						</ul>
 					</li>
 				</ul>
+			</sec:authorize>
 		</div>
      </div></div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 0px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div><div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;"><div class="mCSB_dragger_bar"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
  </nav>

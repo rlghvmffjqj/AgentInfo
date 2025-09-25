@@ -170,7 +170,7 @@ public class IntegratedManagementController {
 	@PostMapping(value = "/integratedManagement/resultsReport")
 	public String ResultsReportView(IntegratedManagement integratedManagement) {
 		if(integratedManagement.getPackageName() == "") {
-			return "";
+			return "결과 보고서가 존재하지 않습니다.";
 		}
 		integratedManagement.setIntegratedManagementType("resultsReport");
 		integratedManagement = integratedManagementService.getIntegratedManagementOne(integratedManagement);
@@ -179,7 +179,7 @@ public class IntegratedManagementController {
 			ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(integratedManagement.getResultsReportKeyNum());
 			return resultsReportOne.getResultsReportContent();
 		} catch (Exception e) {
-			return "보고서가 존재하지 않습니다.";
+			return "결과 보고서가 존재하지 않습니다.";
 		}
 	}
 	

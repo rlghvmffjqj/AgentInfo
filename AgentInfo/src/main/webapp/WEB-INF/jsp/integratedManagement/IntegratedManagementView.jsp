@@ -24,7 +24,7 @@
 					colModel:[
 						{name:'packagesKeyNum', index:'packagesKeyNum', align:'center', width: 35, hidden:true },
 						{name:'categoryKeyNum', index:'categoryKeyNum', align:'center', width: 70, formatter: strFormatter },
-						{name:'customerName', index:'customerName', align:'center', width: 200, formatter: packagesFormatter},
+						{name:'customerName', index:'customerName', align:'center', width: 200, formatter: customerNameSearchFormatter},
 						{name:'businessName', index:'businessName', align:'center', width: 180},
 						{name:'networkClassification', index:'networkClassification', align:'center', width: 70},
 						{name:'requestDate', index:'requestDate', align:'center', width: 70},
@@ -32,7 +32,7 @@
 						{name:'managementServer', index:'managementServer', align:'center', width: 80},
 						{name:'generalCustom', index:'generalCustom', align:'center', width: 70},
 						{name:'agentVer', index:'agentVer', align:'center', width: 170},
-						{name:'packageName', index:'packageName', align:'center', width: 630},
+						{name:'packageName', index:'packageName', align:'center', width: 630, formatter: packagesFormatter, unformat: packagesUnFormatter},
 						{name:'manager', index:'manager', align:'center', width: 80},
 						{name:'osType', index:'osType', align:'center', width: 80},
 						{name:'osDetailVersion', index:'osDetailVersion', align:'center', width: 350},
@@ -101,7 +101,15 @@
 			        altRows: false,				// 라인 강조
 					onSelectRow: function (rowId) {
 						selectIssue(rowId);
-  					}
+  					},
+					loadComplete: function(data) {
+					    if (this.p.reccount === 0) {
+					        var $grid = $(this);
+					        var colCount = $grid[0].p.colModel.length;
+					        $grid.find("tbody")
+					             .append('<tr><td colspan="' + colCount + '" style="text-align:center; background: white; padding: 1%;">패키지 릴리즈가 존재하지 않습니다.</td></tr>');
+					    }
+					}
 				}); 
 
 				$("#imIssueList").jqGrid({
@@ -134,6 +142,14 @@
 			        autowidth:true,				// 가로 넒이 자동조절
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
+					loadComplete: function(data) {
+					    if (this.p.reccount === 0) {
+					        var $grid = $(this);
+					        var colCount = $grid[0].p.colModel.length;
+					        $grid.find("tbody")
+					             .append('<tr><td colspan="' + colCount + '" style="text-align:center; background: white; padding: 1%;">이슈목록이 존재하지 않습니다.</td></tr>');
+					    }
+					}
 				}); 
 			});
 
@@ -189,6 +205,7 @@
 													<!-- <button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnInsert">매핑</button> -->
 													<form id="imPackagesListForm" name="imPackagesListForm" method ="post" style="float: right; display: flex;" onsubmit="return false;">
 														<input class="form-control integratedInput" type="text" id="customerName" name="customerName" placeholder='고객사명'>
+														<input class="form-control integratedInput" type="text" id="businessName" name="businessName" placeholder='사업명'>
 														<input class="form-control integratedInput" type="text" id="packageName" name="packageName" placeholder='패키지명'>
 													</form>
 													<!------- Grid ------->
@@ -229,7 +246,7 @@
 													<span style="font-weight:bold;">결과보고서 : </span>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnimResultsReportDelete">제거</button>
 													<button class="btn btn-outline-info-nomal myBtn" style="float: right;" id="BtnimResultsReportInsert">매핑</button>
-													<div id="resultsReportDiv"></div>
+													<div id="resultsReportDiv" style="text-align: center; align-content: center;"></div>
 												</div>	
 											</div>
 										</div>
@@ -561,7 +578,9 @@
 		function imIssueListRefresh() {		
 			var _postDate = $("#imIssueListForm").serializeObject();
 			var packagesKeyNum = $("#imPackagesList").jqGrid('getGridParam', 'selrow'); 
+			console.log(packagesKeyNum);
 			var productVersionKeyNum = $("#imProductVersionList").jqGrid('getGridParam', 'selrow'); 
+			console.log(productVersionKeyNum);
 			var menuKeyNum = $("#imProductVersionList").jqGrid('getCell', productVersionKeyNum, 'menuKeyNum');
 			var packageName = $("#imPackagesList").jqGrid('getCell', packagesKeyNum, 'packageName');
 			_postDate.packagesKeyNum = packagesKeyNum;
@@ -586,6 +605,19 @@
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function packagesFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="packagesView('+"'"+rowdata.packagesKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+
+		function packagesUnFormatter(cellValue, options, cell) {
+		    return $(cell).text();
+		}
+
+		function customerNameSearchFormatter(cellValue, options, rowdata, action) {
+			return '<a onclick="customerNameSearch('+"'"+rowdata.customerName+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+
+		function customerNameSearch(customerName) {
+			$("#customerName").val(customerName);
+			imPackagesListRefresh();
 		}
 
 		function productVersionFormatter(cellValue, options, rowdata, action) {
@@ -676,6 +708,11 @@
 		function selectIssue(packagesKeyNum) {
 			imIssueListRefresh();
 		}
+		
+		$('#businessName').on('input', function() {
+		    let keyword = $(this).val();
+		    imPackagesListRefresh();
+		});
 
 		$('#customerName').on('input', function() {
 		    let keyword = $(this).val();
@@ -708,7 +745,7 @@
 				});    
 			} else {
 		    	var resultsReportDiv = $('#resultsReportDiv').text();
-				if(resultsReportDiv == "") {
+				if(resultsReportDiv == "결과 보고서가 존재하지 않습니다.") {
 					Swal.fire({               
 						icon: 'error',          
 						title: '실패!',           
@@ -782,6 +819,8 @@
 
 		.integratedInput {
 			height: 26px;
+			border: 1px solid #ffafaf;
+    		margin-left: 5px;
 		}
 	</style>
 	<style>

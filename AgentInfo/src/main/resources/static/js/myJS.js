@@ -56,6 +56,8 @@ $.modal = function (modalContent, size) {
 	if(size=='compatibility') html += ' modal-compatibility';
 	if(size=='packagesHistory') html += ' modal-packagesHistory';
 	if(size=='imResultsReport') html += ' modal-imResultsReport';
+	if(size=='loggriffinLicense') html += ' modal-loggriffinLicense';
+	if(size=='rgriffin') html += ' modal-rgriffin';
 	
 	
 	
@@ -124,14 +126,58 @@ $.modal = function (modalContent, size) {
     
      if(size=='license5') {
 	    html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
-	    html += 	'<button class="btn btn-sales btnm customerManagentActive" type="button" style="height:40px;" id="btnOldLicense" onClick="btnOldLicense()">';
+	    html += 	'<button class="btn btn-sales btnm customerManagentActive" type="button" style="height:50px; width:25%;" id="btnOldLicense" onClick="btnOldLicense()">';
 		html += 		'<span>(구)라이선스</span>';
 		html += 	'</button>';
-		html += 	'<button class="btn btn-sales btnm" type="button" style="height:40px;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:25%;" id="btnNewLicense" onClick="btnNewLicense()">';
 		html += 		'<span>(신)라이선스</span>';
 		html += 	'</button>';
+		html += 	'<div style="width: 50%;">';
+		html += 		'<div style="background: #ffd8a6;text-align: center;font-weight: bold;font-size: 12.5px;border: 1px solid #ffa77b;padding: 4px;color: black;">구독</div>';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 			'<span>기간</span>';
+		html += 		'</button>';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 			'<span>미터링</span>';
+		html += 		'</button>';
+		html +=			'</div>';
 		html += '</div>';
     }
+    
+    if(size=='loggriffinLicense') {
+		html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:34%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<span>라이선스</span>';
+		html += 	'</button>';
+		html += 	'<div style="width: 66%;">';
+		html += 		'<div style="background: #ffd8a6;text-align: center;font-weight: bold;font-size: 12.5px;border: 1px solid #ffa77b;padding: 4px;color: black;">구독</div>';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 			'<span>기간</span>';
+		html += 		'</button>';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 			'<span>미터링</span>';
+		html += 		'</button>';
+		html +=			'</div>';
+		html += '</div>';
+	}
+	
+	if(size=='rgriffin') {
+		html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:34%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<span>라이선스</span>';
+		html += 	'</button>';
+		html += 	'<div style="width: 66%;">';
+		html += 		'<div style="background: #ffd8a6;text-align: center;font-weight: bold;font-size: 12.5px;border: 1px solid #ffa77b;padding: 4px;color: black;">구독</div>';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 			'<span>기간</span>';
+		html += 		'</button>';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 			'<span>미터링</span>';
+		html += 		'</button>';
+		html +=			'</div>';
+		html += '</div>';
+	}
+    
      
     if(size=='customerLicense') {
         html += '		<div class="modal-content" style="border-top: 1px solid #dbdbdb!important; border-radius: 0;">';
