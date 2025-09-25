@@ -76,8 +76,8 @@
 									<div class="row align-items-center">
 									    <div class="col-md-8">
 									        <div class="page-header-title" >
-									            <h5 class="m-b-10">LogGRIFFIN 라이선스 발급</h5>
-									            <p class="m-b-0">LogGRIFFIN License Issuance</p>
+									            <h5 class="m-b-10">LogGRIFFIN / tGRIFFIN 라이선스 발급</h5>
+									            <p class="m-b-0">LogGRIFFIN / tGRIFFIN License Issuance</p>
 									        </div>
 									    </div>
 									    <div class="col-md-4">
@@ -85,7 +85,7 @@
 									            <li class="breadcrumb-item">
 									                <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 									            </li>
-									            <li class="breadcrumb-item"><a href="#!">LogGRIFFIN 라이선스 발급</a>
+									            <li class="breadcrumb-item"><a href="#!">LogGRIFFIN / tGRIFFIN 라이선스 발급</a>
 									            </li>
 									        </ul>
 									    </div>
@@ -266,7 +266,7 @@
 			    success: function (data) {
 			    	//if(data.indexOf("<!DOCTYPE html>") != -1) 
 					//	location.reload();
-			    	$.modal(data, 'll'); //modal창 호출
+			    	$.modal(data, 'loggriffinLicense'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
