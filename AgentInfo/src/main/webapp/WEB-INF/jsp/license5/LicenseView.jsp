@@ -438,8 +438,12 @@
 
 		if('${license.licenseType}' == '(구)' || '${license.licenseTypeView}' == '(구)') {
 			btnOldLicense();
-		} else {
+		} else 	if('${license.licenseType}' == '(신)' || '${license.licenseTypeView}' == '(신)') {
 			btnNewLicense();
+		} else if('${license.licenseType}' == '구독(기간)' || '${license.licenseTypeView}' == '구독(기간)') {
+			btnScribePeriod();
+		} else if('${license.licenseType}' == '구독(미터링)' || '${license.licenseTypeView}' == '구독(미터링)') {
+			btnScribeMetering();
 		}
 
 		if($('#viewType').val() == 'issued') {
@@ -450,13 +454,21 @@
 			issueDate = issueDate.replace(/\-/g, '');
 			if('${license.licenseType}' == '(구)') {
 				$('#licenseFilePathView').val('license-'+customerName+'-'+issueDate+".xml");
-			} else {
+			} else if('${license.licenseType}' == '(신)') {
 				if(additionalInformation == "") {
 					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
 				} else {
 					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
 				}
 				
+			} else if('${license.licenseType}' == '구독(기간)') {
+				if(additionalInformation == "") {
+					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+issueDate+".xml");
+				} else {
+					$('#licenseFilePathView').val('license-'+customerName+'-'+businessName+'-'+additionalInformation+"-"+issueDate+".xml");
+				}
+			} else if('${license.licenseType}' == '구독(미터링)') {
+				// 개발 예정
 			}
 		}
 		
@@ -957,6 +969,17 @@
 		$('#btnNewLicense').addClass('customerManagentActive');
 		$('#btnOldLicense').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("(신)");
+	}
+
+	function btnScribePeriod() {
+		$('#licenseModal').css('height','820px');
+		$('.newLicense').css("display","block");
+		$('.oldLicense').css("display","none");
+		// 고민해야됨 중간 저장
+		$('#btnScribePeriod').addClass('customerManagentActive');
+		$('#btnOldLicense').removeClass('customerManagentActive');
+		$('#btnNewLicense').removeClass('customerManagentActive');
+		$('#licenseTypeView').val("구독(기간)");
 	}
 
 	$("#customerNameOldView").change(function() {

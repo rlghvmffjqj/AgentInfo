@@ -134,10 +134,10 @@ $.modal = function (modalContent, size) {
 		html += 	'</button>';
 		html += 	'<div style="width: 50%;">';
 		html += 		'<div style="background: #ffd8a6;text-align: center;font-weight: bold;font-size: 12.5px;border: 1px solid #ffa77b;padding: 4px;color: black;">구독</div>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribePeriod" onClick="btnScribePeriod()">';
 		html += 			'<span>기간</span>';
 		html += 		'</button>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()">';
 		html += 			'<span>미터링</span>';
 		html += 		'</button>';
 		html +=			'</div>';
@@ -151,10 +151,10 @@ $.modal = function (modalContent, size) {
 		html += 	'</button>';
 		html += 	'<div style="width: 66%;">';
 		html += 		'<div style="background: #ffd8a6;text-align: center;font-weight: bold;font-size: 12.5px;border: 1px solid #ffa77b;padding: 4px;color: black;">구독</div>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribePeriod" onClick="btnScribePeriod()">';
 		html += 			'<span>기간</span>';
 		html += 		'</button>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()">';
 		html += 			'<span>미터링</span>';
 		html += 		'</button>';
 		html +=			'</div>';
@@ -168,10 +168,10 @@ $.modal = function (modalContent, size) {
 		html += 	'</button>';
 		html += 	'<div style="width: 66%;">';
 		html += 		'<div style="background: #ffd8a6;text-align: center;font-weight: bold;font-size: 12.5px;border: 1px solid #ffa77b;padding: 4px;color: black;">구독</div>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribePeriod" onClick="btnScribePeriod()">';
 		html += 			'<span>기간</span>';
 		html += 		'</button>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()">';
 		html += 			'<span>미터링</span>';
 		html += 		'</button>';
 		html +=			'</div>';
