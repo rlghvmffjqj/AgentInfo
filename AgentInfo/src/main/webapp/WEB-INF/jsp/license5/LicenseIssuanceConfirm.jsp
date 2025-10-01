@@ -53,6 +53,8 @@
 		<input type="hidden" id="productVersionView" name="productVersionView" value="${license.productVersionView}">
 		<input type="hidden" id="licenseFilePathView" name="licenseFilePathView" value="${license.licenseFilePathView}">
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
+		<input type="hidden" id="requesterView" name="requesterId" value="${license.requesterId}">
+		<input type="hidden" id="requesterView" name="salesManagerId" value="${license.salesManagerId}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
 		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
 		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseTypeView}">
@@ -62,7 +64,7 @@
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'issued'}">
-			<c:if test="${license.licenseTypeView eq '(신)'}">
+			<c:if test="${license.licenseTypeView eq '(신)' || license.licenseTypeView eq '구독(기간)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
 			</c:if>
 			<c:if test="${license.licenseTypeView eq '(구)'}">
@@ -71,7 +73,7 @@
 			<button class="btn btn-default btn-outline-info-nomal" onClick="BtnIssuedConfirmCancel()">닫기</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<c:if test="${license.licenseTypeView eq '(신)'}">
+			<c:if test="${license.licenseTypeView eq '(신)' || license.licenseTypeView eq '구독(기간)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmUpdate()">발급</button>
 			</c:if>
 			<c:if test="${license.licenseTypeView eq '(구)'}">

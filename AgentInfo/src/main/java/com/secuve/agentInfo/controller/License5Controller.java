@@ -395,5 +395,11 @@ public class License5Controller {
 			System.out.println("FAIL: Export failed.\n" + e.toString());
 		}
 	}
+	
+	@GetMapping(value = "/license5/salesManagerSearch")
+	public String SalesManagerSearch(String selectType, Model model) {
+		model.addAttribute("selectType", selectType);
+		return "/employee/EmployeePopup";
+	}
 
 }

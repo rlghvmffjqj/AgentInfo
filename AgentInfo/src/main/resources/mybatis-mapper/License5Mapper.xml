@@ -11,8 +11,12 @@
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, licenseKeyNum DESC) RowNo, a.*
     		FROM (
-				SELECT *
-				FROM license5
+				SELECT l.*, e1.employeeName as requesterView, e2.employeeName as salesManagerName
+				FROM license5 l 
+				LEFT JOIN employee e1
+				ON e1.employeeId = l.requesterId
+				LEFT JOIN employee e2
+    			ON e2.employeeId = l.salesManagerId
 				WHERE licenseState = #{licenseState}
 					<include refid="sqlLicense" />
 			) a
@@ -31,7 +35,7 @@
 	</select>
 	
 	<select id="getLicenseOne" parameterType="_int" resultMap="license">
-		SELECT * FROM license5 WHERE licenseKeyNum = #{licenseKeyNum};	
+		SELECT l.*, e1.employeeName as requester, e2.employeeName as salesManagerName FROM license5 l LEFT JOIN employee e1 ON e1.employeeId = l.requesterId LEFT JOIN employee e2 ON e2.employeeId = l.salesManagerId WHERE licenseKeyNum = #{licenseKeyNum};	
 	</select>
 	
 	<select id="getRoute" parameterType="string" resultType="string">
@@ -39,8 +43,8 @@
 	</select>
 	
 	<insert id="issuedLicense">
-		INSERT INTO license5(licenseType, productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, licenseState, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
-		VALUES(#{licenseTypeView}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{licenseState}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
+		INSERT INTO license5(licenseType, productType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, requesterId, salesManagerId, licenseState, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
+		VALUES(#{licenseTypeView}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{requesterId}, #{salesManagerId}, #{licenseState}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
 	</insert>
 	
 	<delete id="delLicense" parameterType="_int">
@@ -48,7 +52,7 @@
 	</delete>
 	
 	<update id="updateLicense">
-		UPDATE license5 SET licenseType=#{licenseTypeView}, productType=#{productTypeView}, customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, igriffinAgentCount=#{igriffinAgentCountView}, tos5AgentCount=#{tos5AgentCountView}, tos2AgentCount=#{tos2AgentCountView}, dbmsCount=#{dbmsCountView}, networkCount=#{networkCountView}, aixCount=#{aixCountView}, hpuxCount=#{hpuxCountView}, solarisCount=#{solarisCountView}, linuxCount=#{linuxCountView}, windowsCount=#{windowsCountView}, managerOsType=#{managerOsTypeView}, country=#{countryView}, productVersion=#{productVersionView}, licenseFilePath=#{licenseFilePathView}, serialNumber=#{serialNumberView}, requester=#{requesterView}, licenseIssuanceModifier=#{licenseIssuanceModifier}, licenseIssuanceModifiedDate=#{licenseIssuanceModifiedDate}     
+		UPDATE license5 SET licenseType=#{licenseTypeView}, productType=#{productTypeView}, customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, igriffinAgentCount=#{igriffinAgentCountView}, tos5AgentCount=#{tos5AgentCountView}, tos2AgentCount=#{tos2AgentCountView}, dbmsCount=#{dbmsCountView}, networkCount=#{networkCountView}, aixCount=#{aixCountView}, hpuxCount=#{hpuxCountView}, solarisCount=#{solarisCountView}, linuxCount=#{linuxCountView}, windowsCount=#{windowsCountView}, managerOsType=#{managerOsTypeView}, country=#{countryView}, productVersion=#{productVersionView}, licenseFilePath=#{licenseFilePathView}, serialNumber=#{serialNumberView}, requester=#{requesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, licenseIssuanceModifier=#{licenseIssuanceModifier}, licenseIssuanceModifiedDate=#{licenseIssuanceModifiedDate}     
 		WHERE licenseKeyNum = #{licenseKeyNum};
 	</update>
 	

@@ -34,7 +34,7 @@ public class XssConfig implements WebMvcConfigurer {
 		urls.add("/generalPackage/*");
 		urls.add("/customPackage/*");
 		urls.add("/employee/*");
-		urls.add("/category/*");
+//		urls.add("/category/*");
 		urls.add("/requests/*");
 		urls.add("/requestsWrite/*");
 		urls.add("/sharedCalendar/*");

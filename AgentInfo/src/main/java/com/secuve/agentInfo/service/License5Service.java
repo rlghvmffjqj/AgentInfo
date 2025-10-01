@@ -123,7 +123,7 @@ public class License5Service {
 	public String linuxIssuedLicense50(License5 license, Principal principal) throws ParseException {
 		String result = "OK";
 		String route = "";
-		if(license.getLicenseTypeView().equals("(신)"))
+		if(license.getLicenseTypeView().equals("(신)") || license.getLicenseTypeView().equals("구독(기간)") || license.getLicenseTypeView().equals("구독(미터링)"))
 			if(!isValidMacAddress(license.getMacAddressView())) {
 				return "NotMacAddress";
 			}
@@ -141,7 +141,7 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				if(license.getLicenseTypeView().equals("(신)"))
+				if(license.getLicenseTypeView().equals("(신)") || license.getLicenseTypeView().equals("구독(기간)"))
 					result = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
 				if(license.getLicenseTypeView().equals("(구)"))
 					result = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
@@ -192,7 +192,7 @@ public class License5Service {
 	public String linuxUpdateLicense50(License5 license, Principal principal) throws ParseException {
 		String result = "OK";
 		String route = "";
-		if(license.getLicenseTypeView().equals("(신)"))
+		if(license.getLicenseTypeView().equals("(신)") || license.getLicenseTypeView().equals("구독(기간)"))
 			if(!isValidMacAddress(license.getMacAddressView())) {
 				return "NotMacAddress";
 			}
@@ -207,7 +207,7 @@ public class License5Service {
 		
 		if("on".equals(license.getChkLicenseIssuance())) {
 			try {
-				if(license.getLicenseTypeView().equals("(신)"))
+				if(license.getLicenseTypeView().equals("(신)") || license.getLicenseTypeView().equals("구독(기간)"))
 					result = LinuxLicenseIssued50(ip, route, license).replaceAll("\"", "");
 				if(license.getLicenseTypeView().equals("(구)"))
 					result = LinuxLicenseIssued50Old(ip, route, license).replaceAll("\"", "");
@@ -364,7 +364,7 @@ public class License5Service {
 		String url = "http://"+ip+":8080/fileDownload";
 		RestTemplate restTemplate = new RestTemplate();
 		String route = "";
-		if(licenseType.equals("(신)"))
+		if(licenseType.equals("(신)") || licenseType.equals("구독(기간)"))
 			route = license5Dao.getRoute("linuxLicense50Route");
 		if(licenseType.equals("(구)"))
 			route = license5Dao.getRoute("linuxLicense50OldRoute");

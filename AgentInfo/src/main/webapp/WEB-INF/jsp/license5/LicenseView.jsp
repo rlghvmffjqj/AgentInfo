@@ -14,7 +14,7 @@
 		</div>
 		
 		<div class="leftDiv">
-			<div class="newLicense">
+			<div class="newLicense scribePeriod">
 				<c:choose>
 					<c:when test="${viewType eq 'issued'}">
 						<div class="pading5Width450">
@@ -142,7 +142,7 @@
 				<c:when test="${viewType eq 'issued'}">
 					<div class="pading5Width450">
 			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
-			         	<div class="floatRight">
+			         	<div class="floatRight oldLicense newLicense">
 			         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
 		    				<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 		    			</div>
@@ -153,7 +153,7 @@
 			         	<div id="expirationDaysViewSelect">
 				         	<input type="number" id="expirationDaysDay" name="expirationDaysDay" class="form-control viewForm" value="90">
 						</div>
-			         </div>
+			        </div>
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">iGRIFFIN Agent 수량</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -178,7 +178,7 @@
 		    			</div>
 			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="0">
 					</div>
-					<div class="newLicense">
+					<div class="newLicense scribePeriod">
 						<div class="pading5Width450">
 			        	 	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
 			        	 	<div class="floatRight">
@@ -188,6 +188,14 @@
 			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="0">
 						</div>
 					</div>
+					<div class="pading5Width450">
+						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+						<div class="floatRight">
+							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+					   </div>
+						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
+				    </div>
 				</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
@@ -228,7 +236,7 @@
 		    			</div>
 			         	<input type="number" id="tos2AgentCountView" name="tos2AgentCountView" class="form-control viewForm" value="${license.tos2AgentCount}">
 					</div>
-					<div class="newLicense">
+					<div class="newLicense scribePeriod">
 						<div class="pading5Width450">
 			        	 	<label class="labelFontSize">Network 수량</label><label class="colorRed">*</label>
 			        	 	<div class="floatRight">
@@ -238,21 +246,21 @@
 			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
 						</div>
 					</div>
-				</c:when>
-	        </c:choose>
-	    </div>
-        <div class="rightDiv">
-        	<c:choose>
-				<c:when test="${viewType eq 'issued'}">
 					<div class="pading5Width450">
 						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
 						<div class="floatRight">
 							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
 						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
 					   </div>
-						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
-				    </div>
-					<div class="newLicense">
+						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
+				   </div>
+				</c:when>
+	        </c:choose>
+	    </div>
+        <div class="rightDiv">
+        	<c:choose>
+				<c:when test="${viewType eq 'issued'}">
+					<div class="newLicense scribePeriod">
 						<div class="pading5Width450">
 			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
 			        	 	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="0">
@@ -320,15 +328,7 @@
 			        </div>
 	       		</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
-					<div class="pading5Width450">
-						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
-						<div class="floatRight">
-							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-					   </div>
-						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
-				   </div>
-					<div class="newLicense">
+					<div class="newLicense scribePeriod">
 		        		<div class="pading5Width450">
 			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
 			        	 	<input type="number" id="aixCountView" name="aixCountView" class="form-control viewForm" value="${license.aixCount}">
@@ -398,7 +398,20 @@
 	        </c:choose>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
-	         	<input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}">
+	         	<!-- <input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}"> -->
+				<input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}" style="width: 90%;">
+	         	<input type="hidden" id="requesterId" name="requesterId" class="form-control viewForm" value="${license.requesterId}" readonly>
+				<div class="custom-btn" style="float: right; width: 45px;">
+					<button class="btn custom-btn" type="button" onclick="requesterSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
+				</div>
+	        </div>
+			<div class="pading5Width450 scribePeriod scribeMetering">
+	         	<label class="labelFontSize">담당 영업</label>
+				<input type="text" id="salesManagerNameView" name="salesManagerNameView" class="form-control viewForm" value="${license.salesManagerName}" style="width: 90%;" readonly>
+	         	<input type="hidden" id="salesManagerId" name="salesManagerId" class="form-control viewForm" value="${license.salesManagerId}" readonly>
+				<div class="custom-btn" style="float: right; width: 45px;">
+					<button class="btn custom-btn" type="button" onclick="salesManagerSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
+				</div>
 	        </div>
         </div>
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
@@ -414,6 +427,14 @@
 	</div>
 	<div class="oldLicense">
 		<button class="btn btn-default btn-outline-info-add" onClick="oldExistenceCheck()">발급</button>
+		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+	</div>
+	<div class="scribePeriod">
+		<button class="btn btn-default btn-outline-info-add" onClick="existenceCheck()">발급</button>
+		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+	</div>
+	<div class="scribeMetering">
+		<button class="btn btn-default btn-outline-info-add" onClick="meteringExistenceCheck()">발급</button>
 		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 	</div>
 </div>
@@ -954,32 +975,55 @@
 	}
 
 	function btnOldLicense() {
-		$('#licenseModal').css('height','690px');
-		$('.oldLicense').css("display","block");
+		$('#licenseModal').css('height','755px');
+		$('.scribeMetering').css("display","none");
+		$('.scribePeriod').css("display","none");		
 		$('.newLicense').css("display","none");
+		$('.oldLicense').css("display","block");
 		$('#btnOldLicense').addClass('customerManagentActive');
 		$('#btnNewLicense').removeClass('customerManagentActive');
+		$('#btnScribeMetering').removeClass('customerManagentActive');
+		$('#btnScribePeriod').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("(구)");
 	}
 
 	function btnNewLicense() {
 		$('#licenseModal').css('height','820px');
-		$('.newLicense').css("display","block");
+		$('.scribeMetering').css("display","none");
+		$('.scribePeriod').css("display","none");
 		$('.oldLicense').css("display","none");
+		$('.newLicense').css("display","block");
 		$('#btnNewLicense').addClass('customerManagentActive');
 		$('#btnOldLicense').removeClass('customerManagentActive');
+		$('#btnScribeMetering').removeClass('customerManagentActive');
+		$('#btnScribePeriod').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("(신)");
 	}
 
 	function btnScribePeriod() {
 		$('#licenseModal').css('height','820px');
-		$('.newLicense').css("display","block");
 		$('.oldLicense').css("display","none");
-		// 고민해야됨 중간 저장
+		$('.newLicense').css("display","none");
+		$('.scribeMetering').css("display","none");
+		$('.scribePeriod').css("display","block");
 		$('#btnScribePeriod').addClass('customerManagentActive');
 		$('#btnOldLicense').removeClass('customerManagentActive');
 		$('#btnNewLicense').removeClass('customerManagentActive');
+		$('#btnScribeMetering').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("구독(기간)");
+	}
+
+	function btnScribeMetering() {
+		$('#licenseModal').css('height','820px');
+		$('.oldLicense').css("display","none");
+		$('.newLicense').css("display","none");
+		$('.scribeMetering').css("display","block");
+		$('.scribePeriod').css("display","none");
+		$('#btnScribePeriod').removeClass('customerManagentActive');
+		$('#btnOldLicense').removeClass('customerManagentActive');
+		$('#btnNewLicense').removeClass('customerManagentActive');
+		$('#btnScribeMetering').addClass('customerManagentActive');
+		$('#licenseTypeView').val("구독(미터링)");
 	}
 
 	$("#customerNameOldView").change(function() {
@@ -1061,4 +1105,35 @@
 		    </c:choose>
 		}
 	}
+
+	function salesManagerSearch() {
+		window.open("<c:url value='/license5/salesManagerSearch'/>?selectType=salesManager", '', 'width=1000,height=700,scrollbars=yes,resizable=yes');
+	}
+
+	function requesterSearch() {
+		window.open("<c:url value='/license5/salesManagerSearch'/>?selectType=requester", '', 'width=1000,height=700,scrollbars=yes,resizable=yes');
+	}
+
+	function setSalesManager(employeeId, employeeName) {
+		$('#salesManagerNameView').val(employeeName);
+		$('#salesManagerId').val(employeeId);
+	}
+
+	function setRequester(employeeId, employeeName) {
+		$('#requesterView').val(employeeName);
+		$('#requesterId').val(employeeId);
+	}
+
+	
 </script>
+<style>
+	/* #requesterView, #salesManagerNameView {
+		background-color: #efefef !important; 
+		color: black !important;           
+	} */
+
+	#salesManagerNameView {
+		background-color: #efefef !important; /* disabled 비슷한 회색 */
+		color: black !important;           /* 글자색도 연하게 */
+	}
+</style>
