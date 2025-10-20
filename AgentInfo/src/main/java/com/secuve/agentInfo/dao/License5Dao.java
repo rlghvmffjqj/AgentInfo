@@ -78,4 +78,8 @@ public class License5Dao {
 		return sqlSession.selectList("license5.getLicenseListAll", license);
 	}
 
+	public List<License5> getLicenseListPeriod(int period) {
+		return sqlSession.selectList("license5.getLicenseListPeriod", period);
+	}
+
 }

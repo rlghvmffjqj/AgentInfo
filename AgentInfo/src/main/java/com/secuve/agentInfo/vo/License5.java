@@ -91,6 +91,8 @@ public class License5 {
 	private String[] requesterArr;							// 요청자
 	private String[] countryArr;								// 국가
 	
+	private int period;
+	
 	private String customerNameSelf;
 	private String businessNameSelf;
 	
