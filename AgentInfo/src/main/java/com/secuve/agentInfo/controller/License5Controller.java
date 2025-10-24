@@ -34,7 +34,9 @@ import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.License5Service;
+import com.secuve.agentInfo.service.MailSendService;
 import com.secuve.agentInfo.vo.License5;
+import com.secuve.agentInfo.vo.SendMailSetting;
 
 @Controller
 public class License5Controller {
@@ -42,6 +44,7 @@ public class License5Controller {
 	@Autowired CategoryService categoryService;
 	@Autowired EmployeeService employeeService;
 	@Autowired FavoritePageService favoritePageService;
+	@Autowired MailSendService mailSendService;
 	
 	@GetMapping(value = "/license5/issuance")
 	public String LicenseList(Model model, Principal principal, HttpServletRequest req) {
@@ -396,10 +399,17 @@ public class License5Controller {
 		}
 	}
 	
-	@GetMapping(value = "/license5/salesManagerSearch")
-	public String SalesManagerSearch(String selectType, Model model) {
-		model.addAttribute("selectType", selectType);
-		return "/employee/EmployeePopup";
+	@PostMapping(value = "/license5/mailSetting")
+	public String MailSetting(Model model) {
+		SendMailSetting sendMailSetting = mailSendService.getTargetSetting("license");
+		model.addAttribute(sendMailSetting);
+		return "/mailSend/MailSetting";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/individualMailSend")
+	public String IndividualMailSend(int licenseKeyNum) {
+		return license5Service.individualMailSend(licenseKeyNum);
 	}
 
 }

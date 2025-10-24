@@ -154,4 +154,10 @@ public class EmployeeController {
 	public String loginSession(@RequestParam int loginSession, Principal principal) {
 		return employeeService.loginSession(loginSession, principal.getName());
 	}
+	
+	@GetMapping(value = "/employee/salesManagerSearch")
+	public String SalesManagerSearch(String selectType, Model model) {
+		model.addAttribute("selectType", selectType);
+		return "/employee/EmployeePopup";
+	}
 }

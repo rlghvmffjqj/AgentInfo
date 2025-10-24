@@ -985,6 +985,15 @@
 		$('#btnScribeMetering').removeClass('customerManagentActive');
 		$('#btnScribePeriod').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("(구)");
+
+		$("input[name='chkIGRIFFINAgentCount']").prop("checked", false);
+		$("#igriffinAgentCountView").attr("disabled",false);
+		$("input[name='chkTos5AgentCount']").prop("checked", false);
+		$("#tos5AgentCountView").attr("disabled",false);
+		$("input[name='chkTos2AgentCount']").prop("checked", false);
+		$("#tos2AgentCountView").attr("disabled",false);
+		$("input[name='chkDbmsCount']").prop("checked", false);
+		$("#dbmsCountView").attr("disabled",false);
 	}
 
 	function btnNewLicense() {
@@ -998,6 +1007,17 @@
 		$('#btnScribeMetering').removeClass('customerManagentActive');
 		$('#btnScribePeriod').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("(신)");
+
+		$("input[name='chkIGRIFFINAgentCount']").prop("checked", false);
+		$("#igriffinAgentCountView").attr("disabled",false);
+		$("input[name='chkTos5AgentCount']").prop("checked", false);
+		$("#tos5AgentCountView").attr("disabled",false);
+		$("input[name='chkTos2AgentCount']").prop("checked", false);
+		$("#tos2AgentCountView").attr("disabled",false);
+		$("input[name='chkNetworkCount']").prop("checked", false);
+		$("#networkCountView").attr("disabled",false);
+		$("input[name='chkDbmsCount']").prop("checked", false);
+		$("#dbmsCountView").attr("disabled",false);
 	}
 
 	function btnScribePeriod() {
@@ -1011,6 +1031,17 @@
 		$('#btnNewLicense').removeClass('customerManagentActive');
 		$('#btnScribeMetering').removeClass('customerManagentActive');
 		$('#licenseTypeView').val("구독(기간)");
+
+		$("input[name='chkIGRIFFINAgentCount']").prop("checked", true);
+		$("#igriffinAgentCountView").attr("disabled",true);
+		$("input[name='chkTos5AgentCount']").prop("checked", true);
+		$("#tos5AgentCountView").attr("disabled",true);
+		$("input[name='chkTos2AgentCount']").prop("checked", true);
+		$("#tos2AgentCountView").attr("disabled",true);
+		$("input[name='chkNetworkCount']").prop("checked", true);
+		$("#networkCountView").attr("disabled",true);
+		$("input[name='chkDbmsCount']").prop("checked", true);
+		$("#dbmsCountView").attr("disabled",true);
 	}
 
 	function btnScribeMetering() {
@@ -1107,11 +1138,11 @@
 	}
 
 	function salesManagerSearch() {
-		window.open("<c:url value='/license5/salesManagerSearch'/>?selectType=salesManager", '', 'width=1000,height=700,scrollbars=yes,resizable=yes');
+		window.open("<c:url value='/employee/salesManagerSearch'/>?selectType=salesManager", '', 'width=1000,height=690,scrollbars=yes,resizable=yes');
 	}
 
 	function requesterSearch() {
-		window.open("<c:url value='/license5/salesManagerSearch'/>?selectType=requester", '', 'width=1000,height=700,scrollbars=yes,resizable=yes');
+		window.open("<c:url value='/employee/salesManagerSearch'/>?selectType=requester", '', 'width=1000,height=690,scrollbars=yes,resizable=yes');
 	}
 
 	function setSalesManager(employeeId, employeeName) {

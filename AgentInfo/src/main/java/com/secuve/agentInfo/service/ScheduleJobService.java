@@ -37,7 +37,7 @@ public class ScheduleJobService{
 	JobKey sendPackageExpirationJobKey;
 	JobKey serviceControlJobKey;
 	JobKey license5JobKey;
-	JobKey license5PeriodJobKey;
+	JobKey licensePeriodJobKey;
 	
 	TriggerKey packagesTriggerKey;
 	TriggerKey employeeTriggerKey;
@@ -49,7 +49,7 @@ public class ScheduleJobService{
 	TriggerKey sendPackageExpirationTriggerKey;
 	TriggerKey serviceControlTriggerKey;
 	TriggerKey license5TriggerKey;
-	TriggerKey license5PeriodTriggerKey;
+	TriggerKey licensePeriodTriggerKey;
 	
 	public List<ScheduleJob> getScheduleJobList(ScheduleJob search) {
 		Scheduler scheduler = schedulerFactory.getScheduler();
@@ -184,8 +184,8 @@ public class ScheduleJobService{
 			jobKey = serviceControlJobKey;
 		} else if(scheduleName.equals("LICENSE5") || scheduleName.equals("license5")) {
 			jobKey = license5JobKey;
-		} else if(scheduleName.equals("LICENSE5PERIOD") || scheduleName.equals("license5Period")) {
-			jobKey = license5PeriodJobKey;
+		} else if(scheduleName.equals("LICENSEPERIOD") || scheduleName.equals("licensePeriod")) {
+			jobKey = licensePeriodJobKey;
 		}
 		return jobKey;
 	}
@@ -212,8 +212,8 @@ public class ScheduleJobService{
 			triggerKey = serviceControlTriggerKey;
 		} else if(scheduleName.equals("LICENSE5") || scheduleName.equals("license5")) {
 			triggerKey = license5TriggerKey;
-		}  else if(scheduleName.equals("LICENSE5PERIOD") || scheduleName.equals("license5Period")) {
-			triggerKey = license5PeriodTriggerKey;
+		}  else if(scheduleName.equals("LICENSEPERIOD") || scheduleName.equals("licensePeriod")) {
+			triggerKey = licensePeriodTriggerKey;
 		}
 		return triggerKey;
 	}
@@ -244,8 +244,8 @@ public class ScheduleJobService{
 	       			serviceControlJobKey = key;
 	       		} else if(key.toString().equals("DEFAULT.license5")) {
 	       			license5JobKey = key;
-	       		} else if(key.toString().equals("DEFAULT.license5Period")) {
-	       			license5PeriodJobKey = key;
+	       		} else if(key.toString().equals("DEFAULT.licensePeriod")) {
+	       			licensePeriodJobKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {
@@ -279,8 +279,8 @@ public class ScheduleJobService{
 	       			serviceControlTriggerKey = key;
 	       		} else if(key.toString().equals("DEFAULT.license5")) {
 	       			license5TriggerKey = key;
-	       		} else if(key.toString().equals("DEFAULT.license5Period")) {
-	       			license5PeriodTriggerKey = key;
+	       		} else if(key.toString().equals("DEFAULT.licensePeriod")) {
+	       			licensePeriodTriggerKey = key;
 	       		}
 	       	}
 		} catch (SchedulerException e) {

@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.secuve.agentInfo.schedule.EmployeeDeleteSchedule;
 import com.secuve.agentInfo.schedule.EmployeeSchedule;
-import com.secuve.agentInfo.schedule.License5PeriodSchedule;
+import com.secuve.agentInfo.schedule.LicensePeriodSchedule;
 import com.secuve.agentInfo.schedule.License5Schedule;
 import com.secuve.agentInfo.schedule.PackagesDeleteSchedule;
 import com.secuve.agentInfo.schedule.PackagesSchedule;
@@ -98,9 +98,9 @@ public class ScheduleJobSetting {
         JobDetail license5 = jobDetail(license5Schedule.getScheduleName(), "DEFAULT", License5Schedule.class, map10);
        	scheduler.scheduleJob(license5, trigger(license5Schedule.getScheduleName(), "DEFAULT", license5Schedule.getScheduleCron()));
        	
-       	ScheduleJob license5PeriodSchedule = scheduleJobService.getScheduleOne("license5Period");
-        JobDetail license5Period = jobDetail(license5PeriodSchedule.getScheduleName(), "DEFAULT", License5PeriodSchedule.class, map11);
-       	scheduler.scheduleJob(license5Period, trigger(license5PeriodSchedule.getScheduleName(), "DEFAULT", license5PeriodSchedule.getScheduleCron()));
+       	ScheduleJob licensePeriodSchedule = scheduleJobService.getScheduleOne("licensePeriod");
+        JobDetail licensePeriod = jobDetail(licensePeriodSchedule.getScheduleName(), "DEFAULT", LicensePeriodSchedule.class, map11);
+       	scheduler.scheduleJob(licensePeriod, trigger(licensePeriodSchedule.getScheduleName(), "DEFAULT", licensePeriodSchedule.getScheduleCron()));
        	
        	Set<JobKey> jobkey = scheduler.getJobKeys(null);
        	for(JobKey key: jobkey) {
@@ -144,8 +144,8 @@ public class ScheduleJobSetting {
 	            if(license5Schedule.getScheduleState() == "사용안함" || license5Schedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
-       		} else if(key.toString().equals("DEFAULT.license5Period")) {
-	            if(license5PeriodSchedule.getScheduleState() == "사용안함" || license5PeriodSchedule.getScheduleState().equals("사용안함")) {
+       		} else if(key.toString().equals("DEFAULT.licensePeriod")) {
+	            if(licensePeriodSchedule.getScheduleState() == "사용안함" || licensePeriodSchedule.getScheduleState().equals("사용안함")) {
 	            	scheduler.pauseJob(key);
 	            }
        		}

@@ -14,7 +14,6 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.formula.functions.Replace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -53,6 +51,7 @@ import com.secuve.agentInfo.dao.LogGriffinDao;
 import com.secuve.agentInfo.dao.LogGriffinFileJpaDao;
 import com.secuve.agentInfo.vo.LogGriffin;
 import com.secuve.agentInfo.vo.LogGriffinFile;
+import com.secuve.agentInfo.vo.SendMailSetting;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
@@ -60,6 +59,7 @@ public class LogGriffinService {
 	private static final Logger LOGGER = LogManager.getLogger(AgentInfoApplication.class);
 	@Autowired LogGriffinDao logGriffinDao;
 	@Autowired LogGriffinFileJpaDao logGriffinFileJpaDao;
+	@Autowired MailSendService mailSendService;
 
 	public LogGriffin insertLicenseView(Integer logGriffinKeyNum) {
 		LogGriffin license = new LogGriffin();
@@ -513,6 +513,44 @@ public class LogGriffinService {
 			return -1;
 		}
 		return logGriffinDao.issuedLicense(license);
+	}
+
+	public String individualMailSend(int licenseKeyNum) {
+		SendMailSetting sendMailSetting = mailSendService.getTargetSetting("loggriffin");
+		List<String> toList = new ArrayList<>();
+		String[] cc = sendMailSetting.getSendMailSettingIssuance().split(",");
+		LogGriffin logGriffin = logGriffinDao.getLicenseOne(licenseKeyNum); 
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("licenseManager", sendMailSetting.getSendMailSettingManager());
+		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
+		try {
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequesterId()) && logGriffin.getRequesterId() != null) {
+				toList.add(logGriffin.getRequesterId());
+			}
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManagerId()) && logGriffin.getSalesManagerId() != null) {
+				toList.add(logGriffin.getSalesManagerId());
+			}
+			long remainingDays = mailSendService.getRemainingDays(logGriffin.getExpirationDays());
+			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
+			String mailContent =
+					"[라이선스 만료 안내]<br><br>"
+					+ "담당 고객에서 사용 중인 "+logGriffin.getProductName()+" "+logGriffin.getProductVersion()+" 의 만료일이 "+remainingDays+"일 남았음을 알려드립니다.<br>"
+					+ "서비스 중단이 발생하지 않도록 만료 전에 갱신 절차를 진행해주시기 바랍니다.<br><br>"
+					+ "- 고객사 명 : "+logGriffin.getCustomerName()+"<br>"
+					+ "- 사업 명 : "+logGriffin.getBusinessName()+"<br>"
+					+ "- 라이선스 명 : "+logGriffin.getProductName()+" "+logGriffin.getProductVersion()+"<br>"
+					+ "- 만료 예정일 : "+logGriffin.getExpirationDays()+"<br>"
+					+ "- 남은 기간 : "+remainingDays+"일<br><br>"
+					+ "관련 문의는 시스템 관리자(litsong@secuve.com)에게 연락해주시기 바랍니다.<br><br>"
+					+ "※ 본 메일은 시스템에서 자동으로 발송되었습니다. 회신하지 마십시오.";
+			paramMap.put("text", mailContent);
+			mailSendService.mailSendPeriodScheduleJob(paramMap, toList, cc);
+		} catch (Exception e) {
+			e.printStackTrace(); // 로그용
+	        return "FALSE";
+		}
+		return "OK";
 	}
 
 }

@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['ID','구분','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자','담당 영업'],
+					colNames:['ID','구분','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자','담당 영업','메일 발송'],
 					colModel:[
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 60},
@@ -46,6 +46,7 @@
 						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 250},
 						{name:'requester', index:'requester', align:'center', width: 80},
 						{name:'salesManagerName', index:'salesManagerName', align:'center', width: 80},
+						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
 					jsonReader : {
 			        	id: 'licenseKeyNum',
@@ -311,6 +312,7 @@
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 XML 파일을 다운로드합니다.">라이선스 다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="XML 파일을 첨부하여 데이터를 추가합니다.">XML Import</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnMailSetting" title="라이선스 만료 메일발송 관련 설정을 등록합니다.">메일발송설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -575,6 +577,23 @@
 			});
 		});
 
+		$('#BtnMailSetting').click(function() {
+			$.ajax({
+				url: "<c:url value='/license5/mailSetting'/>",
+				data: "",
+				type: "POST",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					$.modal(data, 'mailSetting'); //modal창 호출
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+		
+
 		$('#BtnDownload').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
 			if(chkList.length === 0) {
@@ -672,5 +691,46 @@
 				move = false;				
 			});
 		});
+
+		function individualMailSendFormatter(cellValue, options, rowdata, action) {
+			if(cellValue == '' || cellValue == null) {
+				return '';
+			}
+			if(rowdata.expirationDays != "무제한") {
+				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">Open</button>';
+			} else {
+				return "";
+			}
+		}
+
+		function individualMailSend(keyNum) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/license5/individualMailSend'/>",
+		        data: {"licenseKeyNum" : keyNum},
+		        async: false,
+		        success: function (data) {
+		            if(data == "OK")
+						Swal.fire(
+						  '발송!',
+						  'Mail 발송하였습니다.',
+						  'success'
+						)
+					else
+						Swal.fire(
+						  '실패!',
+						  'Mail 발송 실패하였습니다.',
+						  'error'
+						)
+		        },
+		        error: function(e) {
+		            Swal.fire(
+					  '실패!',
+					  '에러가 발생하였습니다.',
+					  'error'
+					)
+		        }
+		    });
+		}
 	</script>
 </html>

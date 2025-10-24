@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.core.XssConfig;
+import com.secuve.agentInfo.service.MailSendService;
 import com.secuve.agentInfo.vo.MailSend;
+import com.secuve.agentInfo.vo.SendMailSetting;
 
 @Controller
 public class MailSendController {
 	@Autowired XssConfig xssConfig;
+	@Autowired MailSendService mailSendService;
 	
 	@GetMapping(value = "/mailSend/write")
 	public String MailWrite() {
@@ -164,64 +167,10 @@ public class MailSendController {
 		}
 	}
 	
-	public String MailSendPeriodScheduleJob(Map<String, String> paramMap) {
-		String host = "mail.secuve.com";                                                                           
-		String port = "25";                                                                           
-		String password = "";                                                                   
-		String from = paramMap.get("licenseManager") + "@secuve.com";
-		String to = paramMap.get("target") + "@secuve.com";
-		String[] cc = {"khkim"};
-		
-		if(isKorean(to)) {
-			return "Korean";
-		}
-		for(int i = 0; i < cc.length; i++) {
-			cc[i] = cc[i] + "@secuve.com";
-			if(isKorean(cc[i])) {
-				return "Korean";
-			}
-		}
-		String subject = paramMap.get("subject");
-//		String text = xssConfig.sanitize(paramMap.get("text"));
-		String text = paramMap.get("text");
-		                                                                                                              
-		System.out.println("------------------------------ SecuveMailSender START ------------------------------");    
-		System.out.println("server: host=" + host + ", port=" + port);                                                 
-		System.out.println("message: " + from + "," + to + "," + subject);                                             
-		                                                                                                              
-		JavaMailSenderImpl mail = new JavaMailSenderImpl();                                                           
-		mail.setHost(host);                                                                                           
-		mail.setPort(Integer.parseInt(port));                                                                            
-		                                                                                                              
-		if (!StringUtils.isEmpty(password)) {                                                                         
-			mail.setUsername(from);                                                                                     
-			mail.setPassword(password);                                                                                 
-		}                                                                                                             
-		                                                                                                              
-		try {                                                                                                         
-			MimeMessage message = mail.createMimeMessage();                                                             
-			MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
-			                                                                                                            
-			msg.setFrom(from);                                                                                          
-			msg.setTo(to);
-			msg.setCc(cc);
-			msg.setSubject(subject);                                                                                    
-			msg.setText(text, true);
-			Path tempFilePath = null;                                                                                                    
-			                                                                                                         
-			mail.send(message);                                                                                         
-			System.out.println("sendMail() success.");                                                                   
-			System.out.println("------------------------------ SecuveMailSender END ------------------------------");
-			if (tempFilePath != null) {
-	            Files.deleteIfExists(tempFilePath);
-	        }
-			return "OK";                                                                                                
-		}                                                                                                             
-		catch (Exception e) {
-			System.out.println("sendMail() failed.");
-			System.out.println(e);
-		  	return "False";                                                                                               
-		}
+	@ResponseBody
+	@PostMapping(value = "/mailSend/mailSettingChange")
+	public String MailSettingChange(SendMailSetting sendMailSetting) {
+		return mailSendService.setMailSettingChange(sendMailSetting);
 	}
 
 }

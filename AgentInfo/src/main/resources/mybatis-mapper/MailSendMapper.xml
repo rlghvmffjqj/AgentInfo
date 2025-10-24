@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="mainSend">
+	<resultMap type="com.secuve.agentInfo.vo.SendMailSetting" id="sendMailSetting"></resultMap>
+	
+	<select id="getTargetSetting" resultMap="sendMailSetting" parameterType="string">
+		SELECT * FROM sendMailSetting WHERE sendMailSettingTarget = #{sendMailSettingTarget};
+	</select>
+	
+	<update id="setMailSettingChange">
+		UPDATE sendMailSetting SET sendMailSettingManager = #{sendMailSettingManager}, sendMailSettingSubject = #{sendMailSettingSubject}, sendMailSettingSingle = ${sendMailSettingSingle}, sendMailSettingDaily = ${sendMailSettingDaily}, sendMailSettingRequester = #{sendMailSettingRequester}, sendMailSettingSalesManager = #{sendMailSettingSalesManager}, sendMailSettingIssuance = #{sendMailSettingIssuance}
+		WHERE sendMailSettingTarget = #{sendMailSettingTarget};
+	</update>
+</mapper>

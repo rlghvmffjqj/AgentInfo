@@ -90,14 +90,22 @@
 			<include refid="sqlLicense" />
 	</select>
 	
-	<select id="getLicenseListPeriod" resultMap="license" parameterType="_int">
+	<select id="getLicenseListPeriodDaily" resultMap="license" parameterType="_int">
 		SELECT * FROM license5 
 		WHERE licenseState = 'issued'
 		AND expirationDays != '무제한'
 		AND expirationDays != 'unlimited'
 		AND STR_TO_DATE(expirationDays, '%Y-%m-%d')
-			BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY);
-
+			BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
+	</select>
+	
+	<select id="getLicenseListPeriodSingle" resultMap="license" parameterType="_int">
+		SELECT *
+		FROM license5
+		WHERE licenseState = 'issued'
+		  AND expirationDays != '무제한'
+		  AND expirationDays != 'unlimited'
+		  AND STR_TO_DATE(expirationDays, '%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	
 	<!-- ==================================================================================== -->

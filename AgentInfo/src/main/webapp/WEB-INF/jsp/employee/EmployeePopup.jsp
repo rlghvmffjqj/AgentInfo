@@ -63,7 +63,7 @@
 			<div class="pcoded-overlay-box"></div>
 			<div class="pcoded-container navbar-wrapper">
 				<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
-				<div class="pcoded-main-container" style="margin-top: 20px;">
+				<div class="pcoded-main-container" style="margin-top: 7px;">
 					<div class="main-body">
 						<table class="fullTable" style="width:100%; float:left">
 							<tbody><tr>
@@ -87,7 +87,7 @@
 										<tbody>
 											<tr>
 												<td><form id="form" name="form" method ="post" onsubmit="return false;">
-													<input class="form-control integratedInput" type="text" id="employeeName" name="employeeName" placeholder='사원명'>
+													<input class="form-control integratedInput" type="text" id="employeeName" name="employeeName" placeholder='사원명' style="width: 30% !important;">
 													<input type="hidden" id="departmentName" name="departmentName" class="form-control">
 		                      						<input type="hidden" id="departmentFullPath" name="departmentFullPath" class="form-control">
 												</form></td>

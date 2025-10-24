@@ -22,6 +22,8 @@ public class Rgriffin {
 	private String rgriffinFilePath;
 	private String rgriffinRequester;
 	private String rgriffinContent;
+	private String salesManagerName;
+	private String licenseType;
 	
 	private String rgriffinRegistrant;
 	private String rgriffinRegistrationDate;
@@ -37,6 +39,10 @@ public class Rgriffin {
 	private String rgriffinPasswordView;
 	private String rgriffinFilePathView;
 	private String rgriffinRequesterView;
+	private String salesManagerId;
+	private String salesManagerNameView;
+	private String requesterId;
+	private String licenseTypeView;
 	
 	private String rgriffinExpireStart;
 	private String rgriffinExpireEnd;

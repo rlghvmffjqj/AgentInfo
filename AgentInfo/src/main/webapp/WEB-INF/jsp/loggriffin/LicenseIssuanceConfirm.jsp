@@ -31,8 +31,11 @@
 		<input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDaysView}">
 		<input type="hidden" id="licenseFilePathView" name="licenseFilePathView" value="${license.licenseFilePathView}">
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
+		<input type="hidden" id="requesterId" name="requesterId" value="${license.requesterId}">
+		<input type="hidden" id="salesManagerId" name="salesManagerId" value="${license.salesManagerId}">
 		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
+		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseTypeView}">
 
 		<input type="hidden" id="viewType" name="viewType" value="issuedback">
 	</form>

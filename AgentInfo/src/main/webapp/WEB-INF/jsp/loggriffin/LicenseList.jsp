@@ -17,9 +17,10 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','발급대상(고객사)','사업명','MAC','제품명','제품버전','에이전트','에이전트리스','발급일','만료일','추가정보','KEY','라이선스 파일명','요청자'],
+					colNames:['Key','구분','발급대상(고객사)','사업명','MAC','제품명','제품버전','에이전트','에이전트리스','발급일','만료일','추가정보','KEY','라이선스 파일명','요청자','메일 발송'],
 					colModel:[
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 35, hidden:true },
+						{name:'licenseType', index:'licenseType', align:'center', width: 50},
 						{name:'customerName', index:'customerName', align:'center', width: 200},
 						{name:'businessName', index:'businessName', align:'center', width: 200},
 						{name:'macAddress', index:'macAddress', align:'center', width: 150},
@@ -32,7 +33,8 @@
 						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
 						{name:'serialNumber', index:'serialNumber', align:'center', width: 150},
 						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 220},
-						{name:'requester', index:'requester', align:'center', width: 100}
+						{name:'requester', index:'requester', align:'center', width: 100},
+						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
 					jsonReader : {
 			        	id: 'logGriffinKeyNum',
@@ -224,6 +226,7 @@
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 YML 파일을 다운로드합니다.">라이선스 다운로드</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="YML 파일을 첨부하여 데이터를 추가합니다.">YML Import</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnMailSetting" title="라이선스 만료 메일발송 관련 설정을 등록합니다.">메일발송설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
@@ -553,7 +556,7 @@
 		            data: {"logGriffinKeyNum" : logGriffinKeyNum},
 		            async: false,
 		            success: function (data) {
-		                $.modal(data, 'll'); //modal창 호출
+		                $.modal(data, 'loggriffinLicense'); //modal창 호출
 		            },
 		            error: function(e) {
 		                // TODO 에러 화면
@@ -621,6 +624,22 @@
 			    }
 			});
 		});
+
+		$('#BtnMailSetting').click(function() {
+			$.ajax({
+				url: "<c:url value='/loggriffin/mailSetting'/>",
+				data: "",
+				type: "POST",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					$.modal(data, 'mailSetting'); //modal창 호출
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
 	</script>
 	<script>
 		/* jqgrid 테이블 드래그 체크박스 선택 (부족하고 불편한 점이 있어 계속 수정할것) */
@@ -648,5 +667,45 @@
 			});
 		});
 		
+		function individualMailSendFormatter(cellValue, options, rowdata, action) {
+			if(cellValue == '' || cellValue == null) {
+				return '';
+			}
+			if(rowdata.expirationDays != "무제한") {
+				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">Open</button>';
+			} else {
+				return "";
+			}
+		}
+
+		function individualMailSend(keyNum) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/loggriffin/individualMailSend'/>",
+		        data: {"licenseKeyNum" : keyNum},
+		        async: false,
+		        success: function (data) {
+		            if(data == "OK")
+						Swal.fire(
+						  '발송!',
+						  'Mail 발송하였습니다.',
+						  'success'
+						)
+					else
+						Swal.fire(
+						  '실패!',
+						  'Mail 발송 실패하였습니다.',
+						  'error'
+						)
+		        },
+		        error: function(e) {
+		            Swal.fire(
+					  '실패!',
+					  '에러가 발생하였습니다.',
+					  'error'
+					)
+		        }
+		    });
+		}
 	</script>
 </html>

@@ -28,14 +28,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.FavoritePageService;
+import com.secuve.agentInfo.service.MailSendService;
 import com.secuve.agentInfo.service.RgriffinService;
 import com.secuve.agentInfo.vo.Rgriffin;
+import com.secuve.agentInfo.vo.SendMailSetting;
+
 import org.springframework.web.servlet.View;
 
 @Controller
 public class RgriffinController {
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired RgriffinService rgriffinService;
+	@Autowired MailSendService mailSendService;
 	
 	@GetMapping(value = "/rgriffin/issuance")
 	public String LicenseList(Model model, Principal principal, HttpServletRequest req) {
@@ -60,7 +64,9 @@ public class RgriffinController {
 	
 	@PostMapping(value = "/rgriffin/issuedView")
 	public String InsertLicenseView(Model model) {
-		model.addAttribute("viewType", "insert");
+		Rgriffin license = new Rgriffin();
+		license.setLicenseType("(일반)");
+		model.addAttribute("viewType", "insert").addAttribute("license", license);
 		return "/rgriffin/LicenseView";
 	}
 	
@@ -154,5 +160,18 @@ public class RgriffinController {
 	        out.write(jsonData.getBytes(StandardCharsets.UTF_8));
 	        out.flush();
 	    }
+	}
+	
+	@PostMapping(value = "/rgriffin/mailSetting")
+	public String MailSetting(Model model) {
+		SendMailSetting sendMailSetting = mailSendService.getTargetSetting("rgriffin");
+		model.addAttribute(sendMailSetting);
+		return "/mailSend/MailSetting";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/rgriffin/individualMailSend")
+	public String IndividualMailSend(int licenseKeyNum) {
+		return rgriffinService.individualMailSend(licenseKeyNum);
 	}
 }

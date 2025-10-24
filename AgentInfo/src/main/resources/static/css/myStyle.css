@@ -209,6 +209,12 @@ p {
 	max-width: 1500px;
 }
 
+.modal-mailSetting {
+	top: 10%;
+	width: 620px;
+	max-width: 1500px;
+}
+
 .modal-full {
 	top: 5%;
 	width: 1500px;
@@ -899,6 +905,13 @@ p {
 
 .width380 {
 	width: 380px !important;
+	border: 1px solid gray;
+    height: 30px;
+    padding: 10px;
+}
+
+.width550 {
+	width: 550px !important;
 	border: 1px solid gray;
     height: 30px;
     padding: 10px;

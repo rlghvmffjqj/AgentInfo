@@ -29,12 +29,12 @@
 	
 	
 	<insert id="licenseInsert">
-		INSERT INTO rgriffin(rgriffinCompany, rgriffinCategory, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, rgriffinRegistrationDate)
-		VALUES(#{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{rgriffinRegistrationDate});
+		INSERT INTO rgriffin(rgriffinCompany, rgriffinCategory, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, requesterId, salesManagerId, rgriffinRegistrationDate)
+		VALUES(#{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{requesterId}, #{salesManagerId}, #{rgriffinContent}, #{rgriffinRegistrant}, #{rgriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">
-		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinCategory=#{rgriffinCategoryView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, rgriffinRequester=#{rgriffinRequesterView}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
+		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinCategory=#{rgriffinCategoryView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, rgriffinRequester=#{rgriffinRequesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
 		WHERE rgriffinKeyNum = #{rgriffinKeyNum};
 	</update>
 	

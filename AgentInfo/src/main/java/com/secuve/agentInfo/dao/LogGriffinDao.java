@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.secuve.agentInfo.vo.License5;
 import com.secuve.agentInfo.vo.LogGriffin;
 
 @Repository
@@ -62,6 +63,14 @@ public class LogGriffinDao {
 
 	public List getLicenseListAll(LogGriffin license) {
 		return sqlSession.selectList("logGriffin.getLicenseListAll", license);
+	}
+
+	public List<LogGriffin> getLicenseListPeriodDaily(int period) {
+		return sqlSession.selectList("logGriffin.getLicenseListPeriodDaily", period);
+	}
+
+	public List<LogGriffin> getLicenseListPeriodSingle(int period) {
+		return sqlSession.selectList("logGriffin.getLicenseListPeriodSingle", period);
 	}
 
 }

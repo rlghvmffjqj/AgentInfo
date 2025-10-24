@@ -8,18 +8,24 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.RgriffinDao;
+import com.secuve.agentInfo.vo.LogGriffin;
 import com.secuve.agentInfo.vo.Rgriffin;
+import com.secuve.agentInfo.vo.SendMailSetting;
 
 @Service
 public class RgriffinService {
 	@Autowired RgriffinDao rgriffinDao;
+	@Autowired MailSendService mailSendService;
 
 	public String licenseInsert(Rgriffin license) {
 		int success = rgriffinDao.licenseInsert(license);
@@ -150,6 +156,44 @@ public class RgriffinService {
 		Rgriffin rgriffin = rgriffinDao.getLicenseOne(chkList[0]);
 		if("".equals(rgriffin.getRgriffinContent()) || rgriffin.getRgriffinContent() == "") {
 			return "FALSE";
+		}
+		return "OK";
+	}
+
+	public String individualMailSend(int licenseKeyNum) {
+		SendMailSetting sendMailSetting = mailSendService.getTargetSetting("rgriffin");
+		List<String> toList = new ArrayList<>();
+		String[] cc = sendMailSetting.getSendMailSettingIssuance().split(",");
+		Rgriffin rgriffin = rgriffinDao.getLicenseOne(licenseKeyNum); 
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("licenseManager", sendMailSetting.getSendMailSettingManager());
+		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
+		try {
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequesterId()) && rgriffin.getRequesterId() != null) {
+				toList.add(rgriffin.getRequesterId());
+			}
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManagerId()) && rgriffin.getSalesManagerId() != null) {
+				toList.add(rgriffin.getSalesManagerId());
+			}
+			long remainingDays = mailSendService.getRemainingDays(rgriffin.getRgriffinExpire());
+			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
+			String mailContent =
+					"[라이선스 만료 안내]<br><br>"
+					+ "담당 고객에서 사용 중인 rGRIFFIN 라이선스의 만료일이 "+remainingDays+"일 남았음을 알려드립니다.<br>"
+					+ "서비스 중단이 발생하지 않도록 만료 전에 갱신 절차를 진행해주시기 바랍니다.<br><br>"
+					+ "- 고객사 명 : "+rgriffin.getRgriffinCompany()+"<br>"
+					+ "- 카테고리 명 : "+rgriffin.getRgriffinCategory()+"<br>"
+					+ "- 라이선스 명 : rGRIFFIN <br>"
+					+ "- 만료 예정일 : "+rgriffin.getRgriffinExpire()+"<br>"
+					+ "- 남은 기간 : "+remainingDays+"일<br><br>"
+					+ "관련 문의는 시스템 관리자(litsong@secuve.com)에게 연락해주시기 바랍니다.<br><br>"
+					+ "※ 본 메일은 시스템에서 자동으로 발송되었습니다. 회신하지 마십시오.";
+			paramMap.put("text", mailContent);
+			mailSendService.mailSendPeriodScheduleJob(paramMap, toList, cc);
+		} catch (Exception e) {
+			e.printStackTrace(); // 로그용
+	        return "FALSE";
 		}
 		return "OK";
 	}

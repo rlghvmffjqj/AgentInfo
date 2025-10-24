@@ -255,7 +255,7 @@
 					tableRefresh();
 		        },
 		        error: function(e) {
-		            // TODO 에러 화면
+		            console.log(e);
 		        }
 		    });
 		}

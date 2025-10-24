@@ -58,6 +58,7 @@ $.modal = function (modalContent, size) {
 	if(size=='imResultsReport') html += ' modal-imResultsReport';
 	if(size=='loggriffinLicense') html += ' modal-loggriffinLicense';
 	if(size=='rgriffin') html += ' modal-rgriffin';
+	if(size=='mailSetting') html += ' modal-mailSetting';
 	
 	
 	
@@ -146,7 +147,7 @@ $.modal = function (modalContent, size) {
     
     if(size=='loggriffinLicense') {
 		html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
-		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:34%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:34%;" id="btnLicense" onClick="btnLicense()">';
 		html += 		'<span>라이선스</span>';
 		html += 	'</button>';
 		html += 	'<div style="width: 66%;">';
@@ -163,7 +164,7 @@ $.modal = function (modalContent, size) {
 	
 	if(size=='rgriffin') {
 		html += '<div style="display: flex; width: 100%; margin-bottom: -3px;">';
-		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:34%;" id="btnNewLicense" onClick="btnNewLicense()">';
+		html += 	'<button class="btn btn-sales btnm" type="button" style="height:50px; width:34%;" id="btnLicense" onClick="btnLicense()">';
 		html += 		'<span>라이선스</span>';
 		html += 	'</button>';
 		html += 	'<div style="width: 66%;">';

@@ -32,12 +32,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.LogGriffinService;
+import com.secuve.agentInfo.service.MailSendService;
 import com.secuve.agentInfo.vo.LogGriffin;
+import com.secuve.agentInfo.vo.SendMailSetting;
 
 @Controller
 public class LogGriffinController {
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired LogGriffinService logGriffinService;
+	@Autowired MailSendService mailSendService;
 
 	@GetMapping(value = "/loggriffin/issuance")
 	public String LicenseList(Model model, Principal principal, HttpServletRequest req) {
@@ -81,7 +84,7 @@ public class LogGriffinController {
 	@PostMapping(value = "/loggriffin/issuedView")
 	public String InsertLicenseView(Integer logGriffinKeyNum,String viewType, Model model) {
 		LogGriffin license = logGriffinService.insertLicenseView(logGriffinKeyNum);
-		
+		license.setLicenseType("(일반)");
 		LocalDateTime serverTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String formattedTime = serverTime.format(formatter);
@@ -287,5 +290,18 @@ public class LogGriffinController {
 		List<MultipartFile> fileList = request.getFiles("licenseYml");
 		
 		return logGriffinService.licenseYmlImport(fileList, principal);
+	}
+	
+	@PostMapping(value = "/loggriffin/mailSetting")
+	public String MailSetting(Model model) {
+		SendMailSetting sendMailSetting = mailSendService.getTargetSetting("loggriffin");
+		model.addAttribute(sendMailSetting);
+		return "/mailSend/MailSetting";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/loggriffin/individualMailSend")
+	public String IndividualMailSend(int licenseKeyNum) {
+		return logGriffinService.individualMailSend(licenseKeyNum);
 	}
 }
