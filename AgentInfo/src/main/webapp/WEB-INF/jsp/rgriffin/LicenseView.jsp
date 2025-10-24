@@ -21,11 +21,21 @@
 				<label class="labelFontSize">발급일</label>
 				<input type="text" id="rgriffinIssueDateView" name="rgriffinIssueDateView" class="form-control viewForm" value="${license.rgriffinIssueDate}" readonly>
 		    </div>
-	        <div class="pading5Width450">
+	        <!-- <div class="pading5Width450">
 				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 				<span class="colorRed fontSize10 licenseShow" id="NotExpire" style="display: none; line-height: initial; float: right;">만료일을 입력해주세요.</span>
 				<input type="text" id="rgriffinExpireView" name="rgriffinExpireView" class="form-control viewForm" value="${license.rgriffinExpire}" placeholder="YYYY-MM-DD hh:mm:ss" autocomplete="off">
-		    </div>
+		    </div> -->
+			<div class="pading5Width450">
+				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
+				<div class="floatRight normalLicense">
+					<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
+				   <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
+				 </div>
+				 <div style="width: 100%">
+					<input type="text" id="rgriffinExpireView" name="rgriffinExpireView" class="form-control viewForm" value="${license.rgriffinExpire}" placeholder="YYYY-MM-DD hh:mm:ss" autocomplete="off">
+				 </div>
+			 </div>
 			 <div class="pading5Width450">
 				<label class="labelFontSize">수량</label><label class="colorRed">*</label>
 				<span class="colorRed fontSize10 licenseShow" id="NotQuantity" style="display: none; line-height: initial; float: right;">수량을 입력해주세요.</span>
@@ -49,9 +59,21 @@
 				<label class="labelFontSize">라이선스 파일명</label>
 				<input type="text" id="rgriffinFilePathView" name="rgriffinFilePathView" class="form-control viewForm" placeholder="고객사명.json" value="${license.rgriffinFilePath}">
 		   </div>
-	        <div class="pading5Width450">
+	       <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
-	         	<input type="text" id="rgriffinRequesterView" name="rgriffinRequesterView" class="form-control viewForm" value="${license.rgriffinRequester}" placeholder="김철수">
+				<input type="text" id="rgriffinRequesterView" name="rgriffinRequesterView" class="form-control viewForm" value="${license.rgriffinRequester}" style="width: 90%;">
+	         	<input type="hidden" id="requesterId" name="requesterId" class="form-control viewForm" value="${license.requesterId}" readonly>
+				<div class="custom-btn" style="float: right; width: 45px;">
+					<button class="btn custom-btn" type="button" onclick="requesterSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
+				</div>
+	        </div>
+			<div class="pading5Width450 scribePeriod scribeMetering">
+	         	<label class="labelFontSize">담당 영업</label>
+				<input type="text" id="salesManagerNameView" name="salesManagerNameView" class="form-control viewForm" value="${license.salesManagerName}" style="width: 90%;" readonly>
+	         	<input type="hidden" id="salesManagerId" name="salesManagerId" class="form-control viewForm" value="${license.salesManagerId}" readonly>
+				<div class="custom-btn" style="float: right; width: 45px;">
+					<button class="btn custom-btn" type="button" onclick="salesManagerSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
+				</div>
 	        </div>
         </div>
         <input type="hidden" id="rgriffinKeyNum" name="rgriffinKeyNum" value="${license.rgriffinKeyNum}">
@@ -196,4 +218,78 @@
     	    $input.val(yyyy + "-" + mm + "-" + dd);
     	}
 	});
+	
+	if('${license.licenseType}' == '(일반)' || '${license.licenseTypeView}' == '(일반)') {
+		btnLicense();
+	} else if('${license.licenseType}' == '구독(기간)' || '${license.licenseTypeView}' == '구독(기간)') {
+		btnScribePeriod();
+	} else if('${license.licenseType}' == '구독(미터링)' || '${license.licenseTypeView}' == '구독(미터링)') {
+		btnScribeMetering();
+	}
+
+	function btnLicense() {
+		$('.scribeMetering').css("display","none");
+		$('.scribePeriod').css("display","none");
+		$('.normalLicense').css("display","block");
+
+		$('#btnLicense').addClass('customerManagentActive');
+		$('#btnScribeMetering').removeClass('customerManagentActive');
+		$('#btnScribePeriod').removeClass('customerManagentActive');
+		$('#licenseTypeView').val("(일반)");
+	}
+
+	function btnScribePeriod() {
+		$('.scribeMetering').css("display","none");
+		$('.normalLicense').css("display","none");
+		$('.scribePeriod').css("display","block");
+
+		$('#btnScribePeriod').addClass('customerManagentActive');
+		$('#btnLicense').removeClass('customerManagentActive');
+		$('#btnScribeMetering').removeClass('customerManagentActive');
+		$('#licenseTypeView').val("구독(기간)");
+	}
+
+	function btnScribeMetering() {
+		$('.scribePeriod').css("display","none");
+		$('.normalLicense').css("display","none");
+		$('.scribeMetering').css("display","block");
+
+		$('#btnScribePeriod').removeClass('customerManagentActive');
+		$('#btnLicense').removeClass('customerManagentActive');
+		$('#btnScribeMetering').addClass('customerManagentActive');
+		$('#licenseTypeView').val("구독(미터링)");
+	}
+
+	$('#chkExpirationDays').change(function() {
+		if($("#chkExpirationDays").is(":checked")){
+			$("#rgriffinExpireView").attr("disabled",true);
+		} else {
+			$("#rgriffinExpireView").attr("disabled",false);
+		}
+	});
+
+	function salesManagerSearch() {
+		window.open("<c:url value='/employee/salesManagerSearch'/>?selectType=salesManager", '', 'width=1000,height=690,scrollbars=yes,resizable=yes');
+	}
+
+	function requesterSearch() {
+		window.open("<c:url value='/employee/salesManagerSearch'/>?selectType=requester", '', 'width=1000,height=690,scrollbars=yes,resizable=yes');
+	}
+
+	function setSalesManager(employeeId, employeeName) {
+		$('#salesManagerNameView').val(employeeName);
+		$('#salesManagerId').val(employeeId);
+	}
+
+	function setRequester(employeeId, employeeName) {
+		$('#requesterView').val(employeeName);
+		$('#requesterId').val(employeeId);
+	}
 </script>
+
+<style>
+	#salesManagerNameView {
+		background-color: #efefef !important; /* disabled 비슷한 회색 */
+		color: black !important;           /* 글자색도 연하게 */
+	}
+</style>

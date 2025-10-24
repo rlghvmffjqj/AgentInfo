@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','카테고리','발급일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자'],
+					colNames:['Key','고객사명','카테고리','발급일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','메일 발송'],
 					colModel:[
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 220},
@@ -28,7 +28,8 @@
 						{name:'rgriffinRgmsid', index:'rgriffinRgmsid', align:'center', width: 400},
 						{name:'rgriffinPassword', index:'rgriffinPassword', align:'center', width: 100},
 						{name:'rgriffinFilePath', index:'rgriffinFilePath',align:'center', width: 200},
-						{name:'rgriffinRequester', index:'rgriffinRequester',align:'center', width: 150}
+						{name:'rgriffinRequester', index:'rgriffinRequester',align:'center', width: 150},
+						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
 					jsonReader : {
 			        	id: 'rgriffinKeyNum',
@@ -150,6 +151,7 @@
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
 																	<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button> -->
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDownload">라이선스 다운로드</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnMailSetting" title="라이선스 만료 메일발송 관련 설정을 등록합니다.">메일발송설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'rgriffinList');">컬럼 선택</button>
 																</td>
@@ -483,6 +485,33 @@
 			    }
 			});
 		});
+
+		$('#BtnMailSetting').click(function() {
+			$.ajax({
+				url: "<c:url value='/rgriffin/mailSetting'/>",
+				data: "",
+				type: "POST",
+				traditional: true,
+				async: false,
+				success: function(data) {
+					$.modal(data, 'mailSetting'); //modal창 호출
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		});
+
+		function individualMailSendFormatter(cellValue, options, rowdata, action) {
+			if(cellValue == '' || cellValue == null) {
+				return '';
+			}
+			if(rowdata.expirationDays != "무제한") {
+				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">Open</button>';
+			} else {
+				return "";
+			}
+		}
 	</script>
 	<script>
 		/* jqgrid 테이블 드래그 체크박스 선택 (부족하고 불편한 점이 있어 계속 수정할것) */
@@ -509,6 +538,36 @@
 				move = false;				
 			});
 		});
+
+		function individualMailSend(keyNum) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/rgriffin/individualMailSend'/>",
+		        data: {"licenseKeyNum" : keyNum},
+		        async: false,
+		        success: function (data) {
+		            if(data == "OK")
+						Swal.fire(
+						  '발송!',
+						  'Mail 발송하였습니다.',
+						  'success'
+						)
+					else
+						Swal.fire(
+						  '실패!',
+						  'Mail 발송 실패하였습니다.',
+						  'error'
+						)
+		        },
+		        error: function(e) {
+		            Swal.fire(
+					  '실패!',
+					  '에러가 발생하였습니다.',
+					  'error'
+					)
+		        }
+		    });
+		}
 		
 	</script>
 </html>
