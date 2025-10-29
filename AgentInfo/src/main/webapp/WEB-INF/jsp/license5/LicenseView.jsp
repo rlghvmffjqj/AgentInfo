@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" id="licenseModal" style="width: 100%; height: 820px;">
+<div class="modal-body" id="licenseModal" style="width: 100%; height: 880px;">
 	<form id="modalForm" name="form" method ="post">
 		<div style="width: 100%; height: 25px; border-bottom: dashed 1px silver; float:left">
 			<div style="width: 65%; float:left">
@@ -133,6 +133,11 @@
 	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요</span>
 	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
 	        </div>
+			<div class="pading5Width450">
+	         	<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
+				 <span class="colorRed licenseShow" id="NotWriteDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
+	         	<input type="date" id="writeDateView" name="writeDateView" class="form-control viewForm" value="${license.writeDate}">
+	        </div>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
 				 <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
@@ -188,14 +193,6 @@
 			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="0">
 						</div>
 					</div>
-					<div class="pading5Width450">
-						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
-						<div class="floatRight">
-							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-					   </div>
-						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
-				    </div>
 				</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
@@ -246,20 +243,20 @@
 			        	 	<input type="number" id="networkCountView" name="networkCountView" class="form-control viewForm" value="${license.networkCount}">
 						</div>
 					</div>
-					<div class="pading5Width450">
-						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
-						<div class="floatRight">
-							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
-						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
-					   </div>
-						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
-				   </div>
 				</c:when>
 	        </c:choose>
 	    </div>
         <div class="rightDiv">
         	<c:choose>
 				<c:when test="${viewType eq 'issued'}">
+					<div class="pading5Width450">
+						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+						<div class="floatRight">
+							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+					   </div>
+						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="0">
+				    </div>
 					<div class="newLicense scribePeriod">
 						<div class="pading5Width450">
 			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
@@ -328,6 +325,14 @@
 			        </div>
 	       		</c:when>
 		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+					<div class="pading5Width450">
+						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
+						<div class="floatRight">
+							<input class="cssCheck" type="checkbox" id="chkDbmsCount" name="chkDbmsCount" value="무제한">
+						   <label for="chkDbmsCount"></label><span class="margin17">무제한</span>
+					   </div>
+						<input type="number" id="dbmsCountView" name="dbmsCountView" class="form-control viewForm" value="${license.dbmsCount}">
+				   </div>
 					<div class="newLicense scribePeriod">
 		        		<div class="pading5Width450">
 			        	 	<label class="labelFontSize">AIX(OS) 수량</label><label class="colorRed">*</label>
@@ -748,6 +753,7 @@
 	
 	if($('#viewType').val() == "issued") {
 		document.getElementById('issueDateView').valueAsDate = new Date();
+		document.getElementById('writeDateView').valueAsDate = new Date();
 		document.getElementById('expirationDaysCalender').valueAsDate = new Date();
 	}
 
@@ -760,6 +766,7 @@
 		var businessNameSelf = $('#businessNameSelf').val();
 		var macAddress = $('#macAddressView').val();
 		var issueDate = $('#issueDateView').val();
+		var writeDate = $('#writeDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
@@ -797,6 +804,8 @@
 			$('#NotLicenseFilePath').show();
 		} else if(issueDate == "") {
 			$('#NotIssueDate').show();
+		} else if(writeDate == "") {
+			$('#NotWriteDate').show();
 		} else { 
 			var postData = $('#modalForm').serializeObject();
 			var swalText = "<span style='font-weight: 600;'>라이선스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";
@@ -1021,7 +1030,7 @@
 	}
 
 	function btnScribePeriod() {
-		$('#licenseModal').css('height','820px');
+		$('#licenseModal').css('height','880px');
 		$('.oldLicense').css("display","none");
 		$('.newLicense').css("display","none");
 		$('.scribeMetering').css("display","none");
@@ -1073,6 +1082,7 @@
 		var customerName = $('#customerNameOldView').val();
 		var macAddress = $('#macAddressView').val();
 		var issueDate = $('#issueDateView').val();
+		var writeDate = $('#writeDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productVersion = $('#productVersionView').val();
 		var licenseFilePath = $('#licenseFilePathView').val();
@@ -1125,6 +1135,8 @@
 			$('#NotLicenseFilePath').show();
 		} else if(issueDate == "") {
 			$('#NotIssueDate').show();
+		} else if(writeDate == "") {
+			$('#NotWriteDate').show();
 		} else { 
 			<c:choose>
 				<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">

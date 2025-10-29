@@ -7,6 +7,7 @@
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">제품유형 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.productTypeView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">MAC주소 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.macAddressView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">발급일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.writeDateView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">시작일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">만료일 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.expirationDaysView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.expirationDaysView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">iGRIFFIN Agent 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.igriffinAgentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.igriffinAgentCountView}</span></div></div>
@@ -35,6 +36,7 @@
 		<input type="hidden" id="additionalInformationView" name="additionalInformationView" value="${license.additionalInformationView}">
 		<input type="hidden" id="productTypeView" name="productTypeView" value="${license.productTypeView}">
 		<input type="hidden" id="macAddressView" name="macAddressView" value="${license.macAddressView}">
+		<input type="hidden" id="writeDateView" name="writeDateView" value="${license.writeDateView}">
 		<input type="hidden" id="issueDateView" name="issueDateView" value="${license.issueDateView}">
 		<input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDaysView}">
 		<input type="hidden" id="igriffinAgentCountView" name="igriffinAgentCountView" value="${license.igriffinAgentCountView}">
@@ -86,7 +88,7 @@
 <script>
 	if("${license.licenseTypeView}" == "(구)") {
 		$('.oldLicense').css("display","none");
-		$('#modalConfirm').css('height','420px');
+		$('#modalConfirm').css('height','470px');
 	}
 </script>
 <style>
