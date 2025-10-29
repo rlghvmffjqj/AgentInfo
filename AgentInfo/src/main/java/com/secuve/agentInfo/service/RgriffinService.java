@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.RgriffinDao;
-import com.secuve.agentInfo.vo.LogGriffin;
 import com.secuve.agentInfo.vo.Rgriffin;
 import com.secuve.agentInfo.vo.SendMailSetting;
 
@@ -184,7 +183,8 @@ public class RgriffinService {
 					+ "서비스 중단이 발생하지 않도록 만료 전에 갱신 절차를 진행해주시기 바랍니다.<br><br>"
 					+ "- 고객사 명 : "+rgriffin.getRgriffinCompany()+"<br>"
 					+ "- 카테고리 명 : "+rgriffin.getRgriffinCategory()+"<br>"
-					+ "- 라이선스 명 : rGRIFFIN <br>"
+					+ "- 제품 명 : rGRIFFIN <br>"
+					+ "- 라이선스 파일명 : : "+rgriffin.getRgriffinFilePath()+"<br>"
 					+ "- 만료 예정일 : "+rgriffin.getRgriffinExpire()+"<br>"
 					+ "- 남은 기간 : "+remainingDays+"일<br><br>"
 					+ "관련 문의는 시스템 관리자(litsong@secuve.com)에게 연락해주시기 바랍니다.<br><br>"

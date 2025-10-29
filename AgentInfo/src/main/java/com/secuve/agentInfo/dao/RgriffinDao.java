@@ -40,4 +40,12 @@ public class RgriffinDao {
 		return sqlSession.selectList("rgriffin.listAll", license);
 	}
 
+	public List<Rgriffin> getLicenseListPeriodSingle(int period) {
+		return sqlSession.selectList("rgriffin.getLicenseListPeriodSingle", period);
+	}
+
+	public List<Rgriffin> getLicenseListPeriodDaily(int period) {
+		return sqlSession.selectList("rgriffin.getLicenseListPeriodDaily", period);
+	}
+
 }

@@ -17,9 +17,10 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사명','카테고리','발급일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','메일 발송'],
+					colNames:['Key','구분','고객사명','카테고리','발급일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','메일 발송'],
 					colModel:[
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
+						{name:'licenseType', index:'licenseType', align:'center', width: 50},
 						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 220},
 						{name:'rgriffinCategory', index:'rgriffinCategory', align:'center', width: 160},
 						{name:'rgriffinIssueDate', index:'rgriffinIssueDate', align:'center', width: 100},
@@ -507,7 +508,7 @@
 				return '';
 			}
 			if(rowdata.expirationDays != "무제한") {
-				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">Open</button>';
+				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">발송</button>';
 			} else {
 				return "";
 			}

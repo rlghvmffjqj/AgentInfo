@@ -1,3 +1,14 @@
+#btnScribeMetering:disabled {
+    background: #fff4e6 !important;
+    cursor: not-allowed; /* 선택 불가 표시 */
+    opacity: 0.9; /* 약간 흐리게 (선택사항) */
+}
+
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 3px rgb(255 143 0 / 25%);
+}
+
 .btn {
 	border-radius: 25px !important;
 }
@@ -912,7 +923,6 @@ p {
 
 .width550 {
 	width: 550px !important;
-	border: 1px solid gray;
     height: 30px;
     padding: 10px;
 }

@@ -78,6 +78,7 @@
         </div>
         <input type="hidden" id="rgriffinKeyNum" name="rgriffinKeyNum" value="${license.rgriffinKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
+		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseType}">
 	</form>
 </div>
 <div class="modal-footer">
@@ -93,6 +94,7 @@
 <script>	
 	/* =========== 라이선스 발급 ========= */
 	function BtnInsert() {
+		var licenseTypeView = $('#licenseTypeView').val();
 		var rgriffinCompanyView = $('#rgriffinCompanyView').val();
 		var rgriffinExpireView = $('#rgriffinExpireView').val();
 		var rgriffinQuantityView = $('#rgriffinQuantityView').val();

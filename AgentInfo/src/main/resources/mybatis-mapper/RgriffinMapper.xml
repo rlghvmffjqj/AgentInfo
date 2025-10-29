@@ -29,8 +29,8 @@
 	
 	
 	<insert id="licenseInsert">
-		INSERT INTO rgriffin(rgriffinCompany, rgriffinCategory, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, requesterId, salesManagerId, rgriffinRegistrationDate)
-		VALUES(#{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{requesterId}, #{salesManagerId}, #{rgriffinContent}, #{rgriffinRegistrant}, #{rgriffinRegistrationDate});
+		INSERT INTO rgriffin(licenseType, rgriffinCompany, rgriffinCategory, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, requesterId, salesManagerId, rgriffinRegistrationDate)
+		VALUES(#{licenseTypeView}, #{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{requesterId}, #{salesManagerId}, #{rgriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">
@@ -48,6 +48,19 @@
 		<include refid="sqlLicense" />
 	</select>
 
+	<select id="getLicenseListPeriodDaily" resultMap="rgriffin" parameterType="_int">
+		SELECT * FROM rgriffin 
+		WHERE rgriffinExpire != '무제한'
+		AND STR_TO_DATE(rgriffinExpire, '%Y-%m-%d')
+			BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
+	</select>
+	
+	<select id="getLicenseListPeriodSingle" resultMap="rgriffin" parameterType="_int">
+		SELECT *
+		FROM rgriffin
+		WHERE rgriffinExpire != '무제한'
+		  AND STR_TO_DATE(rgriffinExpire, '%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
+	</select>
 	
 	
 	<!-- ==================================================================================== -->

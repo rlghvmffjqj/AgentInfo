@@ -727,11 +727,12 @@ public class License5Service {
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
 			String mailContent =
 					"[라이선스 만료 안내]<br><br>"
-					+ "담당 고객에서 사용 중인 라이선스 5.0의 만료일이 "+remainingDays+"일 남았음을 알려드립니다.<br>"
+					+ "담당 고객에서 사용 중인 "+license5.getProductType()+" 라이선스 만료일이 "+remainingDays+"일 남았음을 알려드립니다.<br>"
 					+ "서비스 중단이 발생하지 않도록 만료 전에 갱신 절차를 진행해주시기 바랍니다.<br><br>"
 					+ "- 고객사 명 : "+license5.getCustomerName()+"<br>"
 					+ "- 사업 명 : "+license5.getBusinessName()+"<br>"
-					+ "- 라이선스 명 : License 5.0<br>"
+					+ "- 제품 명 : "+license5.getProductType()+"<br>"
+					+ "- 라이선스 파일명 : : "+license5.getLicenseFilePath()+"<br>"
 					+ "- 만료 예정일 : "+license5.getExpirationDays()+"<br>"
 					+ "- 남은 기간 : "+remainingDays+"일<br><br>"
 					+ "관련 문의는 시스템 관리자(litsong@secuve.com)에게 연락해주시기 바랍니다.<br><br>"

@@ -4,22 +4,22 @@
 <div class="modelHead">
 	<div class="modelHeadFont">Mail 발송 설정</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 400px;">
+<div class="modal-body modalBody" style="width: 100%; height: 420px;">
 	<form id="mailSettingForm" name="form" method ="post">
 		<input type="hidden" id="sendMailSettingTarget" name="sendMailSettingTarget" value="${sendMailSetting.sendMailSettingTarget}">
 		<table style="margin:20px">
 			<tbody>
 				<tr><td style="font-weight: bolder;">발신자</td></tr>
-				<tr><td><input type="text" class="width550" id="sendMailSettingManager" name="sendMailSettingManager" value="${sendMailSetting.sendMailSettingManager}" placeholder="iamdev"></td></tr>
+				<tr><td><input type="text" class="form-control width550" id="sendMailSettingManager" name="sendMailSettingManager" value="${sendMailSetting.sendMailSettingManager}" placeholder="iamdev"></td></tr>
 				<tr class="height15"></tr>
 				<tr><td style="font-weight: bolder;">메일 제목</td></tr>
-				<tr><td><input type="text" class="width550" id="sendMailSettingSubject" name="sendMailSettingSubject" value="${sendMailSetting.sendMailSettingSubject}" placeholder="[알림] 라이선스 5.0 만료 안내"></td></tr>
+				<tr><td><input type="text" class="form-control width550" id="sendMailSettingSubject" name="sendMailSettingSubject" value="${sendMailSetting.sendMailSettingSubject}" placeholder="[알림] 라이선스 5.0 만료 안내"></td></tr>
 				<tr class="height15"></tr>
 				<tr><td style="font-weight: bolder;">N일 전 1회</td></tr>
-				<tr><td><input type="number" class="width550" id="sendMailSettingSingle" name="sendMailSettingSingle" value="${sendMailSetting.sendMailSettingSingle}" placeholder="30"></td></tr>
+				<tr><td><input type="number" class="form-control width550" id="sendMailSettingSingle" name="sendMailSettingSingle" value="${sendMailSetting.sendMailSettingSingle}" placeholder="30"></td></tr>
 				<tr class="height15"></tr>
 				<tr><td style="font-weight: bolder;">N일 이내 매일 발송</td></tr>
-				<tr><td><input type="number" class="width550" id="sendMailSettingDaily" name="sendMailSettingDaily" value="${sendMailSetting.sendMailSettingDaily}" placeholder="7"></td></tr>
+				<tr><td><input type="number" class="form-control width550" id="sendMailSettingDaily" name="sendMailSettingDaily" value="${sendMailSetting.sendMailSettingDaily}" placeholder="7"></td></tr>
 				<tr class="height15"></tr>
 				<tr><td style="font-weight: bolder;">수신자(발송 여부)</td></tr>
 				<tr>
@@ -36,7 +36,7 @@
 				</tr>
 				<tr class="height15"></tr>
 				<tr><td style="font-weight: bolder;">참조</td></tr>
-				<tr><td><input type="text" class="width550" id="sendMailSettingIssuance" name="sendMailSettingIssuance" value="${sendMailSetting.sendMailSettingIssuance}" placeholder="라이선스 발급 관리자"></td></tr>
+				<tr><td><input type="text" class="form-control width550" id="sendMailSettingIssuance" name="sendMailSettingIssuance" value="${sendMailSetting.sendMailSettingIssuance}" placeholder="라이선스 발급 관리자"></td></tr>
 				<tr class="height15"></tr>
 			</tbody>
 		</table>

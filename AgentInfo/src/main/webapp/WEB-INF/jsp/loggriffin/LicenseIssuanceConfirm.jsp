@@ -2,15 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="modal-body" id="modalConfirm" style="width: 100%; height: 340px;">
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">발급대상(고객사) : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.customerNameView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">고객사명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.customerNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">MAC : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.macAddressView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">MAC주소 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.macAddressView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">제품명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.productNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">제품 버전 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.productVersionView}</span></div></div>
 
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">에이전트 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.agentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.agentCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">에이전트리스 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.agentLisCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.agentLisCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">에이전트 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.agentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.agentCountView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">에이전트리스 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.agentLisCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.agentLisCountView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">발급일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">만료일 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.expirationDaysView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.expirationDaysView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">라이선스 파일명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.licenseFilePathView}</span></div></div>

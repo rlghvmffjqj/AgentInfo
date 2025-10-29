@@ -19,6 +19,7 @@ public class License5 {
 	private String additionalInformation;				// 추가정보
 	private String macAddress;							// MAC 주소
 	private String issueDate;							// 시작일
+	private String writeDate;							// 발급일
 	private String expirationDays;						// 만료일
 	private String igriffinAgentCount;						// iGRIFFIN Agent 개수
 	private String tos5AgentCount;							// TOS 5.0 Agent 개수
@@ -52,6 +53,7 @@ public class License5 {
 	private String additionalInformationView;				// 추가정보
 	private String macAddressView;							// MAC 주소
 	private String issueDateView;							// 시작일
+	private String writeDateView;
 	private String expirationDaysView;						// 만료일
 	private String igriffinAgentCountView;						// iGRIFFIN Agent 개수
 	private String tos5AgentCountView;							// TOS 5.0 Agent 개수

@@ -17,22 +17,22 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','구분','발급대상(고객사)','사업명','MAC','제품명','제품버전','에이전트','에이전트리스','발급일','만료일','추가정보','KEY','라이선스 파일명','요청자','메일 발송'],
+					colNames:['Key','구분','고객사명','사업명','MAC주소','제품명','제품버전','에이전트 수량','에이전트리스 수량','발급일','만료일','추가정보','KEY','라이선스 파일명','요청자','메일 발송'],
 					colModel:[
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 35, hidden:true },
-						{name:'licenseType', index:'licenseType', align:'center', width: 50},
+						{name:'licenseType', index:'licenseType', align:'center', width: 70},
 						{name:'customerName', index:'customerName', align:'center', width: 200},
 						{name:'businessName', index:'businessName', align:'center', width: 200},
 						{name:'macAddress', index:'macAddress', align:'center', width: 150},
 						{name:'productName', index:'productName', align:'center', width: 150},
 						{name:'productVersion', index:'productVersion', align:'center', width: 80},
-						{name:'agentCount', index:'agentCount',align:'center', width: 70},
-						{name:'agentLisCount', index:'agentLisCount',align:'center', width: 70},
+						{name:'agentCount', index:'agentCount',align:'center', width: 100},
+						{name:'agentLisCount', index:'agentLisCount',align:'center', width: 100},
 						{name:'issueDate', index:'issueDate', align:'center', width: 120},
 						{name:'expirationDays', index:'expirationDays', align:'center', width: 120},
 						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
-						{name:'serialNumber', index:'serialNumber', align:'center', width: 150},
-						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 220},
+						{name:'serialNumber', index:'serialNumber', align:'center', width: 250},
+						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 250},
 						{name:'requester', index:'requester', align:'center', width: 100},
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
@@ -117,7 +117,7 @@
 													  	</div>
 													</div>
 		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">발급대상(고객사)</label>
+		                      							<label class="labelFontSize">고객사명</label>
 														<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<c:forEach var="item" items="${customerName}">
 																<option value="${item}"><c:out value="${item}"/></option>
@@ -137,7 +137,7 @@
 														<input type="text" id="additionalInformation" name="additionalInformation" class="form-control">
 													</div>
 													<div class="col-lg-2">
-		                      							<label class="labelFontSize">MAC</label>
+		                      							<label class="labelFontSize">MAC주소</label>
 														<select class="form-control selectpicker" id="macAddressMulti" name="macAddressMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
 															<c:forEach var="item" items="${macAddress}">
 																<option value="${item}"><c:out value="${item}"/></option>
@@ -161,11 +161,11 @@
 													  </select> 
 													</div>
 													<div class="col-lg-2">
-														<label class="labelFontSize">에이전트</label>
+														<label class="labelFontSize">에이전트 수량</label>
 														<input type="number" id="agentCount" name="agentCount" class="form-control">
 													</div>
 													<div class="col-lg-2">
-														<label class="labelFontSize">에이전트리스</label>
+														<label class="labelFontSize">에이전트리스 수량</label>
 														<input type="number" id="agentLisCount" name="agentLisCount" class="form-control">
 													</div>
 		                      						<div class="col-lg-2">
@@ -672,7 +672,7 @@
 				return '';
 			}
 			if(rowdata.expirationDays != "무제한") {
-				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">Open</button>';
+				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">발송</button>';
 			} else {
 				return "";
 			}

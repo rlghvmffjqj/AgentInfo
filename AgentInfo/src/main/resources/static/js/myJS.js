@@ -138,7 +138,7 @@ $.modal = function (modalContent, size) {
 		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribePeriod" onClick="btnScribePeriod()">';
 		html += 			'<span>기간</span>';
 		html += 		'</button>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()" disabled>';
 		html += 			'<span>미터링</span>';
 		html += 		'</button>';
 		html +=			'</div>';
@@ -155,7 +155,7 @@ $.modal = function (modalContent, size) {
 		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribePeriod" onClick="btnScribePeriod()">';
 		html += 			'<span>기간</span>';
 		html += 		'</button>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()" disabled>';
 		html += 			'<span>미터링</span>';
 		html += 		'</button>';
 		html +=			'</div>';
@@ -172,7 +172,7 @@ $.modal = function (modalContent, size) {
 		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribePeriod" onClick="btnScribePeriod()">';
 		html += 			'<span>기간</span>';
 		html += 		'</button>';
-		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()">';
+		html += 		'<button class="btn btn-sales btnm" type="button" style="height: 26px;width: 50%;" id="btnScribeMetering" onClick="btnScribeMetering()" disabled>';
 		html += 			'<span>미터링</span>';
 		html += 		'</button>';
 		html +=			'</div>';

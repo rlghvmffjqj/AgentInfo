@@ -177,6 +177,7 @@ public class License5Controller {
 		license.setAdditionalInformation(license.getAdditionalInformationView());
 		license.setProductType(license.getProductTypeView());
 		license.setMacAddress(license.getMacAddressView());
+		license.setWriteDate(license.getWriteDateView());
 		license.setIssueDate(license.getIssueDateView());
 		license.setExpirationDays(license.getExpirationDaysView());
 		license.setIgriffinAgentCount(license.getIgriffinAgentCountView());
@@ -219,6 +220,7 @@ public class License5Controller {
 		license.setAdditionalInformation(license.getAdditionalInformationView());
 		license.setProductType(license.getProductTypeView());
 		license.setMacAddress(license.getMacAddressView());
+		license.setWriteDate(license.getWriteDateView());
 		license.setIssueDate(license.getIssueDateView());
 		license.setExpirationDays(license.getExpirationDaysView());
 		license.setIgriffinAgentCount(license.getIgriffinAgentCountView());

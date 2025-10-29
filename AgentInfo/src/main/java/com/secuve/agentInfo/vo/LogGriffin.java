@@ -13,7 +13,7 @@ import lombok.ToString;
 public class LogGriffin {
 	private Integer logGriffinKeyNum;	
 	private String licenseType;
-	private String customerName;			// 발급대상(고객사)
+	private String customerName;			// 고객사명
 	private String businessName;			// 사업명
 	private String macAddress;				// MAC
 	private String productName;				// 제품명
@@ -21,6 +21,7 @@ public class LogGriffin {
 	private String agentCount;				// 에이전트
 	private String agentLisCount;			// 에이전트리스 
 	private String issueDate;				// 발급일
+	private String startDate;
 	private String expirationDays;			// 만료일
 	private String additionalInformation;	// 추가정보
 	private String serialNumber;			// KEY
@@ -28,7 +29,7 @@ public class LogGriffin {
 	private String requester;				// 요청자
 	private String salesManagerName;
 			
-	private String customerNameView;			// 발급대상(고객사)
+	private String customerNameView;			// 고객사명
 	private String businessNameView;			// 사업명
 	private String macAddressView;				// MAC
 	private String productNameView;				// 제품명
@@ -36,6 +37,7 @@ public class LogGriffin {
 	private String agentCountView;				// 에이전트
 	private String agentLisCountView;			// 에이전트리스 
 	private String issueDateView;				// 발급일
+	private String startDateView;
 	private String expirationDaysView;			// 만료일
 	private String additionalInformationView;	// 추가정보
 	private String serialNumberView;			// KEY

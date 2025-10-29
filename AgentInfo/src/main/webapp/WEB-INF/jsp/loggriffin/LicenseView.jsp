@@ -16,7 +16,7 @@
 		<div class="leftDiv">
 			<div class="pading5Width450">
 				<div>
-			 		<label class="labelFontSize">발급대상(고객사)</label><label class="colorRed">*</label>
+			 		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
 				<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 입력 바랍니다..</span>
 			 	</div>
 			 	<input type="text" id="customerNameView" name="customerNameView" class="form-control viewForm" value="${license.customerName}">
@@ -33,7 +33,7 @@
 				<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}">
 	   		</div>
 	        <div class="pading5Width450">
-				<label class="labelFontSize">MAC</label><label class="colorRed">*</label>
+				<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소가 형식에 어긋납니다.</span>
 				<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
 		    </div>
@@ -41,29 +41,34 @@
 				<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
 				<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
-			 </div>
-			 <div class="pading5Width450">
+			</div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotStartDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
+				<input type="date" id="startDateView" name="startDateView" class="form-control viewForm" value="${license.startDate}">
+			</div>
+			<div class="pading5Width450">
 				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 				<div class="floatRight normalLicense">
 					<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
-				   <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
-				 </div>
-				 <div style="width: 100%">
+			     	<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
+				</div>
+				<div style="width: 100%">
 					<input type="date" id="expirationDaysView" name="expirationDaysView" class="form-control viewForm" value="${license.expirationDays}">
-				 </div>
-			 </div>
-			 <div class="pading5Width450">
-				<label class="labelFontSize">에이전트</label><label class="colorRed">*</label>
-				<div class="floatRight">
-					<input class="cssCheck" type="checkbox" id="chkAgentCount" name="chkAgentCount" value="무제한">
-				   <label for="chkAgentCount"></label><span class="margin17">무제한</span>
-			   </div>
-				<input type="number" id="agentCountView" name="agentCountView" class="form-control viewForm" value="0">
-		   </div>
+				</div>
+			</div>
 	    </div>
         <div class="rightDiv">
+			<div class="pading5Width450">
+				<label class="labelFontSize">에이전트 수량</label><label class="colorRed">*</label>
+				<div class="floatRight">
+					<input class="cssCheck" type="checkbox" id="chkAgentCount" name="chkAgentCount" value="무제한">
+					<label for="chkAgentCount"></label><span class="margin17">무제한</span>
+			    </div>
+				<input type="number" id="agentCountView" name="agentCountView" class="form-control viewForm" value="0">
+		   </div>
 		   <div class="pading5Width450">
-				<label class="labelFontSize">에이전트리스</label><label class="colorRed">*</label>
+				<label class="labelFontSize">에이전트리스 수량</label><label class="colorRed">*</label>
 				<div class="floatRight">
 					<input class="cssCheck" type="checkbox" id="chkAgentLisCount" name="chkAgentLisCount" value="무제한">
 				   <label for="chkAgentLisCount"></label><span class="margin17">무제한</span>
@@ -240,6 +245,7 @@
 		var businessName = $('#businessNameView').val();
 		var macAddress = $('#macAddressView').val();
 		var issueDate = $('#issueDateView').val();
+		var startDate = $('#startDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productName = $('#productNameView').val();
 		var productVersion = $('#productVersionView').val();
@@ -313,6 +319,8 @@
 			$('#NotLicenseFilePath').show();
 		} else if(issueDate == "") {
 			$('#NotIssueDate').show();
+		} else if(startDate == "") {
+			$('#NotStartDate').show();
 		} else { 
 			var postData = $('#modalForm').serializeObject();
 			var swalText = "<span style='font-weight: 600;'>라이선스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";

@@ -11,19 +11,22 @@
 	    </script>
 	    <script>
 			$(document).ready(function(){
+				const initialWidth = Math.min($(".page-wrapper").width(), 1650);
+
 				var formData = $('#form').serializeObject();
 				$("#list").jqGrid({
 					url: "<c:url value='/license5'/>",
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['ID','구분','고객사명','사업명','추가정보','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자','담당 영업','메일 발송'],
+					colNames:['ID','구분','고객사명','사업명','추가정보','발급일','시작일','만료일','일련번호','MAC주소','제품유형','iGRIFFIN Agent 수량','TOS 5.0 Agent 수량','TOS 2.0 Agent 수량','DBMS 수량','Network 수량','AIX(OS) 수량','HPUX(OS) 수량','Solaris(OS) 수량','Linux(OS) 수량','Windows(OS) 수량','관리서버 OS','관리서버 DBMS','국가','제품버전','라이선스 파일명','요청자','담당 영업','메일 발송'],
 					colModel:[
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 60},
 						{name:'customerName', index:'customerName', align:'center', width: 200},
 						{name:'businessName', index:'businessName', align:'center', width: 250},
 						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
+						{name:'writeDate', index:'writeDate', align:'center', width: 80},
 						{name:'issueDate', index:'issueDate', align:'center', width: 80},
 						{name:'expirationDays', index:'expirationDays', align:'center', width: 80},
 						{name:'serialNumber', index:'serialNumber',align:'center', width: 250},
@@ -55,7 +58,7 @@
 			        pager: '#pager',			// 페이징
 			        rowNum: 25,					// 보여중 행의 수
 			        rowList:[25,50,100],
-			        sortname: 'issueDate',	// 기본 정렬 
+			        sortname: 'issueDate',		// 기본 정렬 
 			        sortorder: 'desc',			// 정렬 방식
 			        
 			        multiselect: true,			// 체크박스를 이용한 다중선택
@@ -63,7 +66,8 @@
 			        gridview: true,				// 그리드뷰 방식 랜더링
 			        sortable: true,				// 컬럼을 마우스 순서 변경
 			        height : '675',
-			        autowidth:true,				// 가로 넒이 자동조절
+			        autowidth:false,				// 가로 넒이 자동조절
+					width: initialWidth,
 			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
 			        altRows: false,				// 라인 강조
 				}); 
@@ -71,7 +75,8 @@
 			});
 			
 			$(window).on('resize.list', function () {
-			    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
+				const parentWidth = $(".page-wrapper").width();
+				$("#list").jqGrid('setGridWidth', Math.min(parentWidth, 1650));
 			});
 		</script>
 	</head>
@@ -697,7 +702,7 @@
 				return '';
 			}
 			if(rowdata.expirationDays != "무제한") {
-				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">Open</button>';
+				return '<button type="button" class="btn btn-outline-info-nomal myBtn" onclick="individualMailSend('+"'"+cellValue+"'"+');">발송</button>';
 			} else {
 				return "";
 			}
