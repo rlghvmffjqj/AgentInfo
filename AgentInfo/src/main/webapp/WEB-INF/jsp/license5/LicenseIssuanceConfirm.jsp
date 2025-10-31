@@ -60,12 +60,12 @@
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
 		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
 		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseTypeView}">
-		<input type="hidden" id="viewType" name="viewType" value="issuedback">
+		<input type="hidden" id="viewType" name="viewType" value="${viewType}">
 	</form>
 </div>
 <div class="modal-footer">
 	<c:choose>
-		<c:when test="${viewType eq 'issued'}">
+		<c:when test="${viewType eq 'issued' || viewType eq 'reIssue'}">
 			<c:if test="${license.licenseTypeView eq '(신)' || license.licenseTypeView eq '구독(기간)'}">
 				<button class="btn btn-default btn-outline-info-add" onClick="BtnConfirmInsert()">발급</button>
 			</c:if>

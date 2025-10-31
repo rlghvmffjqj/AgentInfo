@@ -47,7 +47,7 @@
 							</div>
 						 </div>
 	        	 	</c:when>
-	        	 	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+	        	 	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback' || viewType eq 'reIssue' }">
 	        	 		<div class="pading5Width450">
 							<div>
 						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
@@ -116,7 +116,7 @@
 						</select>
 			         </div>
 		         </c:when>
-		         <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		         <c:when test="${viewType eq 'update' || viewType eq 'reIssue' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		         	<div class="pading5Width450">
 			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
 			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
@@ -194,7 +194,7 @@
 						</div>
 					</div>
 				</c:when>
-		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'reIssue' || viewType eq 'issuedback' || viewType eq 'updateback'}">
 		        	<div class="pading5Width450">
 			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -324,7 +324,7 @@
 			         	<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-사업명-날짜.xml" readonly>
 			        </div>
 	       		</c:when>
-		        <c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		        <c:when test="${viewType eq 'update' || viewType eq 'reIssue'  || viewType eq 'issuedback' || viewType eq 'updateback'}">
 					<div class="pading5Width450">
 						<label class="labelFontSize">DBMS 수량</label><label class="colorRed">*</label>
 						<div class="floatRight">
@@ -498,7 +498,7 @@
 			}
 		}
 		
-		if($('#viewType').val() == 'update' || $('#viewType').val() == 'issuedback' || $('#viewType').val() == 'updateback') {
+		if($('#viewType').val() == 'update' || $('#viewType').val() == 'reIssue' || $('#viewType').val() == 'issuedback' || $('#viewType').val() == 'updateback') {
 			if($('#expirationDaysView').val() == "무제한" || $('#expirationDaysView').val() == "") {
 				$('#chkExpirationDays').prop("checked",true);
 				$("#expirationDaysDay").val(90);
@@ -812,7 +812,7 @@
 			if("${viewType}" == "issued" || "${viewType}" == "issuedback") {
 				var urlRoute = "<c:url value='/license5/existenceCheckInsert'/>";
 			}
-			if("${viewType}" == "update" || "${viewType}" == "updateback") {
+			if("${viewType}" == "update" || "${viewType}" == "reIssue" || "${viewType}" == "updateback") {
 				var urlRoute = "<c:url value='/license5/existenceCheckUpdate'/>";
 			}
 			$.ajax({
@@ -843,14 +843,14 @@
 				  			if (result.isConfirmed) {
 				  				if(viewType == "issued" || viewType == "issuedback") 
 				  					BtnInsert();
-				  				else if(viewType == "update" || viewType == "updateback")
+				  				else if(viewType == "update" || viewType == "reIssue" || viewType == "updateback")
 				  					BtnUpdate();	
 				  			}
 				  		});
 		        	} else {
 		        		if(viewType == "issued" || viewType == "issuedback") 
 		  					BtnInsert();
-		  				else if(viewType == "update" || viewType == "updateback")
+		  				else if(viewType == "update" || viewType == "reIssue" || viewType == "updateback")
 		  					BtnUpdate();	
 		        	}
 				},
@@ -1142,7 +1142,7 @@
 				<c:when test="${viewType eq 'issued' || viewType eq 'issuedback'}">
 					BtnInsert();
 				</c:when>
-				<c:when test="${viewType eq 'update' || viewType eq 'updateback'}">
+				<c:when test="${viewType eq 'update' || viewType eq 'reIssue' || viewType eq 'updateback'}">
 					BtnUpdate();	
 				</c:when>
 		    </c:choose>
