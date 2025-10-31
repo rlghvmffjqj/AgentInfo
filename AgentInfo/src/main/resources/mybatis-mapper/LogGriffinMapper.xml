@@ -47,12 +47,12 @@
 	</select>
 	
 	<insert id="issuedLicense">
-		INSERT INTO logGriffin(licenseType, customerName, businessName, additionalInformation, macAddress, issueDate, expirationDays, productName, productVersion, agentCount, agentLisCount, serialNumber, licenseFilePath, requester, requesterId, salesManagerId, logGriffinRegistrant, logGriffinRegistrationDate)
-		VALUES(#{licenseTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{issueDateView}, #{expirationDaysView}, #{productNameView}, #{productVersionView}, #{agentCountView}, #{agentLisCountView}, #{serialNumberView}, #{licenseFilePathView}, #{requesterView}, #{requesterId}, #{salesManagerId}, #{logGriffinRegistrant}, #{logGriffinRegistrationDate});
+		INSERT INTO logGriffin(licenseType, customerName, businessName, additionalInformation, macAddress, writeDate, issueDate, expirationDays, productName, productVersion, agentCount, agentLisCount, serialNumber, licenseFilePath, requester, requesterId, salesManagerId, logGriffinRegistrant, logGriffinRegistrationDate)
+		VALUES(#{licenseTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{writeDateView}, #{issueDateView}, #{expirationDaysView}, #{productNameView}, #{productVersionView}, #{agentCountView}, #{agentLisCountView}, #{serialNumberView}, #{licenseFilePathView}, #{requesterView}, #{requesterId}, #{salesManagerId}, #{logGriffinRegistrant}, #{logGriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">
-		UPDATE logGriffin SET licenseType=#{licenseTypeView},customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, productName=#{productNameView}, productVersion=#{productVersionView}, agentCount=#{agentCountView}, agentLisCount=#{agentLisCountView}, serialNumber=#{serialNumberView}, licenseFilePath=#{licenseFilePathView}, requester=#{requesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, logGriffinModifier=#{logGriffinModifier}, logGriffinModifiedDate=#{logGriffinModifiedDate}     
+		UPDATE logGriffin SET licenseType=#{licenseTypeView},customerName=#{customerNameView}, businessName=#{businessNameView}, additionalInformation=#{additionalInformationView}, macAddress=#{macAddressView}, writeDate=#{writeDateView}, issueDate=#{issueDateView}, expirationDays=#{expirationDaysView}, productName=#{productNameView}, productVersion=#{productVersionView}, agentCount=#{agentCountView}, agentLisCount=#{agentLisCountView}, serialNumber=#{serialNumberView}, licenseFilePath=#{licenseFilePathView}, requester=#{requesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, logGriffinModifier=#{logGriffinModifier}, logGriffinModifiedDate=#{logGriffinModifiedDate}     
 		WHERE logGriffinKeyNum = #{logGriffinKeyNum};
 	</update>
 	
@@ -76,6 +76,7 @@
 	<select id="getLicenseListPeriodDaily" resultMap="logGriffin" parameterType="_int">
 		SELECT * FROM logGriffin 
 		WHERE expirationDays != '무제한'
+		AND maillYn = 'Y'
 		AND STR_TO_DATE(expirationDays, '%Y-%m-%d')
 			BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
@@ -84,6 +85,7 @@
 		SELECT *
 		FROM logGriffin
 		WHERE expirationDays != '무제한'
+		AND maillYn = 'Y'
 		  AND STR_TO_DATE(expirationDays, '%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	

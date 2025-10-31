@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','구분','고객사명','사업명','MAC주소','제품명','제품버전','에이전트 수량','에이전트리스 수량','발급일','만료일','추가정보','KEY','라이선스 파일명','요청자','메일 발송'],
+					colNames:['Key','구분','고객사명','사업명','MAC주소','제품명','제품버전','에이전트 수량','에이전트리스 수량','발급일','시작일','만료일','추가정보','KEY','라이선스 파일명','요청자','메일 발송'],
 					colModel:[
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 70},
@@ -28,6 +28,7 @@
 						{name:'productVersion', index:'productVersion', align:'center', width: 80},
 						{name:'agentCount', index:'agentCount',align:'center', width: 100},
 						{name:'agentLisCount', index:'agentLisCount',align:'center', width: 100},
+						{name:'writeDate', index:'writeDate', align:'center', width: 120},
 						{name:'issueDate', index:'issueDate', align:'center', width: 120},
 						{name:'expirationDays', index:'expirationDays', align:'center', width: 120},
 						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
@@ -101,7 +102,7 @@
 							                <div class="searchbos">
 	                                			<form id="form" name="form" method ="post">
 													<div style="padding-left:15px; width:28.3%; float: left;">
-														<label class="labelFontSize">발급일</label>
+														<label class="labelFontSize">시작일</label>
 														<div>
 														  <input class="form-control" style="width: 45.5%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
 														  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>

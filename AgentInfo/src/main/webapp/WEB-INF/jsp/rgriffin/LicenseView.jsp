@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/timepicker/jquery-ui-timepicker-addon.min.css'/>">
 <script type="text/javascript" src="<c:url value='/timepicker/jquery-ui-timepicker-addon.min.js'/>"></script>
 
-<div class="modal-body" id="licenseModal" style="width: 100%; height: 380px;">
+<div class="modal-body" id="licenseModal" style="width: 100%; height: 440px;">
 	<form id="modalForm" name="form" method ="post">
 		<div style="width: 100%; height: 25px; border-bottom: dashed 1px silver; float:left"></div>
 		<div class="leftDiv">
@@ -14,12 +14,22 @@
 			 	<input type="text" id="rgriffinCompanyView" name="rgriffinCompanyView" class="form-control viewForm" value="${license.rgriffinCompany}" placeholder="SECUVE">
 			</div>
 			<div class="pading5Width450">
-				<label class="labelFontSize">카테고리</label>
-			 	<input type="text" id="rgriffinCategoryView" name="rgriffinCategoryView" class="form-control viewForm" value="${license.rgriffinCategory}" placeholder="TEST">
+				<label class="labelFontSize">사업명</label>
+			 	<input type="text" id="rgriffinBusinessNameView" name="rgriffinBusinessNameView" class="form-control viewForm" value="${license.rgriffinBusinessName}" placeholder="사업 구분">
 			</div>
 			<div class="pading5Width450">
-				<label class="labelFontSize">발급일</label>
-				<input type="text" id="rgriffinIssueDateView" name="rgriffinIssueDateView" class="form-control viewForm" value="${license.rgriffinIssueDate}" readonly>
+				<label class="labelFontSize">카테고리</label>
+			 	<input type="text" id="rgriffinCategoryView" name="rgriffinCategoryView" class="form-control viewForm" value="${license.rgriffinCategory}" placeholder="팀 단위">
+			</div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotWriteDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
+				<input type="date" id="rgriffinWriteDateView" name="rgriffinWriteDateView" class="form-control viewForm" value="${license.rgriffinWriteDate}" placeholder="YYYY-MM-DD" autocomplete="off">
+		    </div>
+			<div class="pading5Width450">
+				<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
+				<span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
+				<input type="date" id="rgriffinIssueDateView" name="rgriffinIssueDateView" class="form-control viewForm" value="${license.rgriffinIssueDate}" placeholder="YYYY-MM-DD" autocomplete="off">
 		    </div>
 	        <!-- <div class="pading5Width450">
 				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
@@ -33,18 +43,18 @@
 				   <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 				 </div>
 				 <div style="width: 100%">
-					<input type="text" id="rgriffinExpireView" name="rgriffinExpireView" class="form-control viewForm" value="${license.rgriffinExpire}" placeholder="YYYY-MM-DD hh:mm:ss" autocomplete="off">
-				 </div>
-			 </div>
-			 <div class="pading5Width450">
-				<label class="labelFontSize">수량</label><label class="colorRed">*</label>
-				<span class="colorRed fontSize10 licenseShow" id="NotQuantity" style="display: none; line-height: initial; float: right;">수량을 입력해주세요.</span>
-				 <div style="width: 100%">
-					<input type="number" id="rgriffinQuantityView" name="rgriffinQuantityView" class="form-control viewForm" value="${license.rgriffinQuantity}" placeholder="0">
+					<input type="date" id="rgriffinExpireView" name="rgriffinExpireView" class="form-control viewForm" value="${license.rgriffinExpire}" placeholder="YYYY-MM-DD" autocomplete="off">
 				 </div>
 			 </div>
 	    </div>
         <div class="rightDiv">
+			<div class="pading5Width450">
+				<label class="labelFontSize">수량</label><label class="colorRed">*</label>
+				<span class="colorRed fontSize10 licenseShow" id="NotQuantity" style="display: none; line-height: initial; float: right;">수량을 입력해주세요.</span>
+				<div style="width: 100%">
+					<input type="number" id="rgriffinQuantityView" name="rgriffinQuantityView" class="form-control viewForm" value="${license.rgriffinQuantity}" placeholder="0">
+				</div>
+			</div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">RGMSID</label><label class="colorRed">*</label>
 				<span class="colorRed fontSize10 licenseShow" id="NotRgmsid" style="display: none; line-height: initial; float: right;">RGMSID를 입력해주세요.</span>
@@ -92,6 +102,12 @@
 </div>
 
 <script>	
+	if($('#viewType').val() == "insert") {
+		document.getElementById('rgriffinExpireView').valueAsDate = new Date();
+		document.getElementById('rgriffinIssueDateView').valueAsDate = new Date();
+		document.getElementById('rgriffinWriteDateView').valueAsDate = new Date();
+	}
+
 	/* =========== 라이선스 발급 ========= */
 	function BtnInsert() {
 		var licenseTypeView = $('#licenseTypeView').val();
@@ -100,6 +116,8 @@
 		var rgriffinQuantityView = $('#rgriffinQuantityView').val();
 		var rgriffinRgmsidView = $('#rgriffinRgmsidView').val();
 		var rgriffinPasswordView = $('#rgriffinPasswordView').val();
+		var rgriffinIssueDateView = $('#rgriffinIssueDateView').val();
+		var rgriffinWriteDateView = $('#rgriffinWriteDateView').val();
 		var validation = true;
 
 		if(rgriffinCompanyView == "") {
@@ -117,10 +135,16 @@
 		if(rgriffinRgmsidView == "") {
 			$('#NotRgmsid').show();
 			validation = false;
-		}
+		} 
 		if(rgriffinPasswordView == "") {
 			$('#NotPassword').show();
 			validation = false;
+		} 
+		if(rgriffinIssueDateView == "") {
+			$('#NotIssueDate').show();
+		} 
+		if(rgriffinWriteDateView == "") {
+			$('#NotWriteDate').show();
 		}
 
 		if(!validation) {
@@ -200,15 +224,14 @@
 	});
 
 	$(function() {
-	    $("#rgriffinExpireView").datetimepicker({
-	        dateFormat: "yy-mm-dd",
-	        timeFormat: "HH:mm:ss",
-	        showSecond: true,
-	        controlType: 'select', // 시간 선택을 드롭다운으로
-	        oneLine: true
-	    });
+	    // $("#rgriffinExpireView").datetimepicker({
+	    //     dateFormat: "yy-mm-dd",
+	    //     showSecond: true,
+	    //     controlType: 'select', // 시간 선택을 드롭다운으로
+	    //     oneLine: true
+	    // });
 
-		var $input = $("#rgriffinIssueDateView");
+		// var $input = $("#rgriffinIssueDateView");
 
     	// 값이 비어있으면 오늘 날짜를 넣기
     	if (!$input.val()) {

@@ -13,8 +13,10 @@ import lombok.ToString;
 public class Rgriffin {
 	private Integer rgriffinKeyNum;
 	private String rgriffinCompany;
+	private String rgriffinBusinessName;
 	private String rgriffinCategory;
 	private String rgriffinIssueDate;
+	private String rgriffinWriteDate;
 	private String rgriffinExpire;
 	private String rgriffinQuantity;
 	private String rgriffinRgmsid;
@@ -31,8 +33,10 @@ public class Rgriffin {
 	private String rgriffinModifiedDate;
 	
 	private String rgriffinCompanyView;
+	private String rgriffinBusinessNameView;
 	private String rgriffinCategoryView;
 	private String rgriffinIssueDateView;
+	private String rgriffinWriteDateView;
 	private String rgriffinExpireView;
 	private String rgriffinQuantityView;
 	private String rgriffinRgmsidView;

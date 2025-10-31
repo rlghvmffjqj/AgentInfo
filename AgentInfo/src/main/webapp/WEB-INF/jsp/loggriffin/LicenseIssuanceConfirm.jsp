@@ -11,7 +11,8 @@
 
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">에이전트 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.agentCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.agentCountView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">에이전트리스 수량 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.agentLisCountView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.agentLisCountView}</span></div></div>
-	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">발급일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">발급일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.writeDateView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">시작일 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.issueDateView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">만료일 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.expirationDaysView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.expirationDaysView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">라이선스 파일명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.licenseFilePathView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">요청자 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.requesterView}</span></div></div>
@@ -27,6 +28,7 @@
 
 		<input type="hidden" id="agentCountView" name="agentCountView" value="${license.agentCountView}">
 		<input type="hidden" id="agentLisCountView" name="agentLisCountView" value="${license.agentLisCountView}">
+		<input type="hidden" id="writeDateView" name="writeDateView" value="${license.writeDateView}">
 		<input type="hidden" id="issueDateView" name="issueDateView" value="${license.issueDateView}">
 		<input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDaysView}">
 		<input type="hidden" id="licenseFilePathView" name="licenseFilePathView" value="${license.licenseFilePathView}">

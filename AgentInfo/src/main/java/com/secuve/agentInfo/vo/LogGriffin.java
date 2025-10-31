@@ -21,7 +21,7 @@ public class LogGriffin {
 	private String agentCount;				// 에이전트
 	private String agentLisCount;			// 에이전트리스 
 	private String issueDate;				// 발급일
-	private String startDate;
+	private String writeDate;
 	private String expirationDays;			// 만료일
 	private String additionalInformation;	// 추가정보
 	private String serialNumber;			// KEY
@@ -37,7 +37,7 @@ public class LogGriffin {
 	private String agentCountView;				// 에이전트
 	private String agentLisCountView;			// 에이전트리스 
 	private String issueDateView;				// 발급일
-	private String startDateView;
+	private String writeDateView;
 	private String expirationDaysView;			// 만료일
 	private String additionalInformationView;	// 추가정보
 	private String serialNumberView;			// KEY

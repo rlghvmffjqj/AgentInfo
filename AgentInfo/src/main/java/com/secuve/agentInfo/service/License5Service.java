@@ -162,6 +162,7 @@ public class License5Service {
 				LOGGER.debug("시리얼 넘버 중복 ERROR");
 				return "Duplication";
 			}
+			int oldKeyNum = license.getLicenseKeyNum();
 			license = licenseInputFormat(license);
 			license.setLicenseState("issued");
 			int success = license5Dao.issuedLicense(license);
@@ -174,6 +175,10 @@ public class License5Service {
 				return "FALSE";
 			}
 			license5UidLogService.license5UidLogInsert(license, "INSERT", principal);	// 로그 수집
+			if(license.getViewType().equals("reIssue")) {
+				System.out.println(oldKeyNum);
+				System.out.println(license.getLicenseKeyNum());
+			}
 		} else {
 			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
 			return "FALSE";

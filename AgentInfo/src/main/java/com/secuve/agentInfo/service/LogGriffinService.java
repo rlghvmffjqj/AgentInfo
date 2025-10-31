@@ -138,7 +138,7 @@ public class LogGriffinService {
 		
 		if(!result.equals("FALSE")) {
 			int check = logGriffinDao.serialNumberCheck(license.getSerialNumberView());
-			if(logGriffinDao.getLicenseOne(license.getLogGriffinKeyNum()).getSerialNumber() != license.getSerialNumberView()) {
+			if(!logGriffinDao.getLicenseOne(license.getLogGriffinKeyNum()).getSerialNumber().equals(license.getSerialNumberView())) {
 				if(check > 0) {
 					LOGGER.debug("시리얼 넘버 중복 ERROR");
 					return "Duplication";

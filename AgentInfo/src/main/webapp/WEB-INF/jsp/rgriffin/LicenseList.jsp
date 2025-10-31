@@ -17,12 +17,14 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','구분','고객사명','카테고리','발급일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','메일 발송'],
+					colNames:['Key','구분','고객사명','사업명','카테고리','발급일','시작일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','메일 발송'],
 					colModel:[
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 50},
 						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 220},
+						{name:'rgriffinBusinessName', index:'rgriffinBusinessName', align:'center', width: 220},
 						{name:'rgriffinCategory', index:'rgriffinCategory', align:'center', width: 160},
+						{name:'rgriffinWriteDate', index:'rgriffinWriteDate', align:'center', width: 100},
 						{name:'rgriffinIssueDate', index:'rgriffinIssueDate', align:'center', width: 100},
 						{name:'rgriffinExpire', index:'rgriffinExpire', align:'center', width: 150},
 						{name:'rgriffinQuantity', index:'rgriffinQuantity', align:'center', width: 80},
@@ -107,6 +109,10 @@
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">고객사명</label>
 														<input type="text" id="rgriffinCompany" name="rgriffinCompany" class="form-control">
+													</div>
+													<div class="col-lg-2">
+		                      							<label class="labelFontSize">사업명</label>
+														<input type="text" id="rgriffinBusinessName" name="rgriffinBusinessName" class="form-control">
 													</div>
 		                      						<div class="col-lg-2">
 		                      							<label class="labelFontSize">카테고리</label>

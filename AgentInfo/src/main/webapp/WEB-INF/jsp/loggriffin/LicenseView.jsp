@@ -39,13 +39,13 @@
 		    </div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
-				<span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
-				<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
+				<span class="colorRed licenseShow" id="NotWriteDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
+				<input type="date" id="writeDateView" name="writeDateView" class="form-control viewForm" value="${license.writeDate}">
 			</div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
-				<span class="colorRed licenseShow" id="NotStartDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
-				<input type="date" id="startDateView" name="startDateView" class="form-control viewForm" value="${license.startDate}">
+				<span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
+				<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
 			</div>
 			<div class="pading5Width450">
 				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
@@ -93,7 +93,7 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">라이선스 파일명</label><label class="colorRed">*</label>
 				<span class="colorRed licenseShow" id="NotLicenseFilePath" style="display: none; line-height: initial; float: right;">라이선스 파일명을 입력해주세요.</span>
-				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-제품명-사업명-발급일.yml" readonly>
+				<input type="text" id="licenseFilePathView" name="licenseFilePathView" class="form-control viewForm" value="licens-고객사명-제품명-사업명-시작일.yml" readonly>
 		   </div>
 	       <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
@@ -236,6 +236,7 @@
 	});
 	
 	if($('#viewType').val() == "issued") {
+		document.getElementById('writeDateView').valueAsDate = new Date();
 		document.getElementById('issueDateView').valueAsDate = new Date();
 		document.getElementById('expirationDaysView').valueAsDate = new Date();
 	}
@@ -245,7 +246,7 @@
 		var businessName = $('#businessNameView').val();
 		var macAddress = $('#macAddressView').val();
 		var issueDate = $('#issueDateView').val();
-		var startDate = $('#startDateView').val();
+		var writeDate = $('#writeDateView').val();
 		var expirationDays = $('#expirationDaysView').val();
 		var productName = $('#productNameView').val();
 		var productVersion = $('#productVersionView').val();
@@ -298,7 +299,7 @@
 		if(issueDate > expirationDays) {
 			Swal.fire(
 			  '만료일 확인!',
-			  '만료일은 발급일보다 커야합니다.',
+			  '만료일은 시작일보다 커야합니다.',
 			  'error'
 			)
 			return false;
@@ -319,8 +320,8 @@
 			$('#NotLicenseFilePath').show();
 		} else if(issueDate == "") {
 			$('#NotIssueDate').show();
-		} else if(startDate == "") {
-			$('#NotStartDate').show();
+		} else if(writeDate == "") {
+			$('#NotWriteDate').show();
 		} else { 
 			var postData = $('#modalForm').serializeObject();
 			var swalText = "<span style='font-weight: 600;'>라이선스 관리 목록에 유사 데이터가 존재합니다.</span> <br><br>";

@@ -29,12 +29,12 @@
 	
 	
 	<insert id="licenseInsert">
-		INSERT INTO rgriffin(licenseType, rgriffinCompany, rgriffinCategory, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, requesterId, salesManagerId, rgriffinRegistrationDate)
-		VALUES(#{licenseTypeView}, #{rgriffinCompanyView}, #{rgriffinCategoryView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{requesterId}, #{salesManagerId}, #{rgriffinRegistrationDate});
+		INSERT INTO rgriffin(licenseType, rgriffinCompany, rgriffinBusinessName, rgriffinCategory, rgriffinWriteDate, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, requesterId, salesManagerId, rgriffinRegistrationDate)
+		VALUES(#{licenseTypeView}, #{rgriffinCompanyView}, #{rgriffinBusinessNameView}, #{rgriffinCategoryView}, #{rgriffinWriteDateView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{requesterId}, #{salesManagerId}, #{rgriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">
-		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinCategory=#{rgriffinCategoryView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, rgriffinRequester=#{rgriffinRequesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
+		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinBusinessName=#{rgriffinBusinessNameView}, rgriffinWriteDate=#{rgriffinWriteDateView}, rgriffinIssueDate=#{rgriffinIssueDateView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, rgriffinRequester=#{rgriffinRequesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
 		WHERE rgriffinKeyNum = #{rgriffinKeyNum};
 	</update>
 	
@@ -52,6 +52,7 @@
 		SELECT * FROM rgriffin 
 		WHERE rgriffinExpire != '무제한'
 		AND STR_TO_DATE(rgriffinExpire, '%Y-%m-%d')
+		AND maillYn = 'Y'
 			BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	
@@ -59,6 +60,7 @@
 		SELECT *
 		FROM rgriffin
 		WHERE rgriffinExpire != '무제한'
+		AND maillYn = 'Y'
 		  AND STR_TO_DATE(rgriffinExpire, '%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	

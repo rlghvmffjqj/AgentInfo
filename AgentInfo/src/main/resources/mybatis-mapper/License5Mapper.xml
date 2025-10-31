@@ -42,7 +42,7 @@
 		SELECT ${column} FROM licenseSetting;
 	</select>
 	
-	<insert id="issuedLicense">
+	<insert id="issuedLicense" parameterType="license" useGeneratedKeys="true" keyProperty="licenseKeyNum">
 		INSERT INTO license5(licenseType, productType, customerName, businessName, additionalInformation, macAddress, writeDate, issueDate, expirationDays, igriffinAgentCount, tos5AgentCount, tos2AgentCount, dbmsCount, networkCount, aixCount, hpuxCount, solarisCount, linuxCount, windowsCount, managerOsType, managerDbmsType, country, productVersion, licenseFilePath, serialNumber, requester, requesterId, salesManagerId, licenseState, licenseIssuanceRegistrant, licenseIssuanceRegistrationDate)
 		VALUES(#{licenseTypeView}, #{productTypeView}, #{customerNameView}, #{businessNameView}, #{additionalInformationView}, #{macAddressView}, #{writeDateView}, #{issueDateView}, #{expirationDaysView}, #{igriffinAgentCountView}, #{tos5AgentCountView}, #{tos2AgentCountView}, #{dbmsCountView}, #{networkCountView}, #{aixCountView}, #{hpuxCountView}, #{solarisCountView}, #{linuxCountView}, #{windowsCountView}, #{managerOsTypeView}, #{managerDbmsTypeView}, #{countryView}, #{productVersionView}, #{licenseFilePathView}, #{serialNumberView}, #{requesterView}, #{requesterId}, #{salesManagerId}, #{licenseState}, #{licenseIssuanceRegistrant}, #{licenseIssuanceRegistrationDate});
 	</insert>
@@ -96,6 +96,7 @@
 		AND expirationDays != '무제한'
 		AND expirationDays != 'unlimited'
 		AND STR_TO_DATE(expirationDays, '%Y-%m-%d')
+		AND maillYn = 'Y'
 			BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	
@@ -105,6 +106,7 @@
 		WHERE licenseState = 'issued'
 		  AND expirationDays != '무제한'
 		  AND expirationDays != 'unlimited'
+		  AND maillYn = 'Y'
 		  AND STR_TO_DATE(expirationDays, '%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	

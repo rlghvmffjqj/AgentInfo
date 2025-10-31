@@ -166,7 +166,7 @@ public class License5Controller {
 		}
 		
 		model.addAttribute("license", license);
-		model.addAttribute("viewType","update");
+		model.addAttribute("viewType",license.getViewType());
 		return "/license5/LicenseIssuanceConfirm";
 	}
 	
@@ -208,7 +208,8 @@ public class License5Controller {
 		model.addAttribute("ServerTime",formattedTime);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
-		model.addAttribute("license", license).addAttribute("viewType", "issuedback");
+//		model.addAttribute("license", license).addAttribute("viewType", "issuedback");
+		model.addAttribute("license", license).addAttribute("viewType",  license.getViewType());
 		
 		return "/license5/LicenseView";
 	}
@@ -251,7 +252,8 @@ public class License5Controller {
 		model.addAttribute("ServerTime",formattedTime);
 		model.addAttribute("customerName", customerName);
 		model.addAttribute("businessName", businessName);
-		model.addAttribute("license", license).addAttribute("viewType", "updateback");
+//		model.addAttribute("license", license).addAttribute("viewType", "updateback");
+		model.addAttribute("license", license).addAttribute("viewType", license.getViewType());
 		
 		return "/license5/LicenseView";
 	}
@@ -377,7 +379,7 @@ public class License5Controller {
 	public void exportServerList(@ModelAttribute License5 license, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String[] columnList = {"productType","customerName", "businessName", "additionalInformation", "macAddress", "issueDate", "expirationDays", "igriffinAgentCount", "tos5AgentCount", "tos2AgentCount", "dbmsCount", "networkCount", "aixCount", "hpuxCount", "solarisCount", "linuxCount", "windowsCount", "managerOsType", "managerDbmsType", "country", "productVersion","licenseFilePath","serialNumber","requester"};
+		String[] columnList = {"licenseType","customerName", "businessName", "additionalInformation", "writeDate", "issueDate", "expirationDays", "serialNumber", "macAddress", "productType", "igriffinAgentCount", "tos5AgentCount", "tos2AgentCount", "dbmsCount", "networkCount", "aixCount", "hpuxCount", "solarisCount", "linuxCount", "windowsCount", "managerOsType", "managerDbmsType", "country", "productVersion","licenseFilePath","requester"};
 		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -412,6 +414,23 @@ public class License5Controller {
 	@PostMapping(value = "/license5/individualMailSend")
 	public String IndividualMailSend(int licenseKeyNum) {
 		return license5Service.individualMailSend(licenseKeyNum);
+	}
+	
+	@PostMapping(value = "/license5/reIssueView")
+	public String ReIssueViewView(Model model, int licenseKeyNum) {
+		License5 license = license5Service.getLicenseOne(licenseKeyNum);
+		List<String> customerName = categoryService.getCategoryValue("customerName");
+		List<String> businessName = categoryService.getCategoryBusinessValue(license.getCustomerName());
+		
+		LocalDateTime serverTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedTime = serverTime.format(formatter);
+		
+		model.addAttribute("ServerTime",formattedTime);
+		model.addAttribute("customerName", customerName);
+		model.addAttribute("businessName", businessName);
+		model.addAttribute("viewType", "reIssue").addAttribute("license", license);
+		return "/license5/LicenseView";
 	}
 
 }

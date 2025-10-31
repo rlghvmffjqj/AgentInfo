@@ -105,7 +105,7 @@ public class RgriffinController {
 	public void exportServerList(@ModelAttribute Rgriffin license, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String[] columnList = {"rgriffinCompany", "rgriffinCategory", "rgriffinExpire", "rgriffinQuantity", "rgriffinRgmsid", "rgriffinPassword", "rgriffinFilePath", "rgriffinRequester"};
+		String[] columnList = {"licenseType","rgriffinCompany", "rgriffinBusinessName", "rgriffinCategory", "rgriffinWriteDate", "rgriffinIssueDate", "rgriffinExpire", "rgriffinQuantity", "rgriffinRgmsid", "rgriffinPassword", "rgriffinFilePath", "rgriffinRequester"};
 		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

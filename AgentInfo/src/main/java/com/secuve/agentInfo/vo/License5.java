@@ -11,6 +11,8 @@ import lombok.ToString;
 @ToString
 @Component
 public class License5 {
+	private Integer firstLicenseKeyNum;
+	
 	private Integer licenseKeyNum;					// Key
 	private String licenseType;
 	private String productType;							// 제품 유형
@@ -45,6 +47,7 @@ public class License5 {
 	private String licenseIssuanceModifiedDate;
 	private String salesManager;
 	private String salesManagerName;
+	private String maillYn;
 	
 	private String licenseTypeView;
 	private String productTypeView;							// 제품 유형

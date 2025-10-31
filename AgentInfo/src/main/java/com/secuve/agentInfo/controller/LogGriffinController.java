@@ -127,6 +127,7 @@ public class LogGriffinController {
 		
 		license.setAgentCount(license.getAgentCountView());
 		license.setAgentLisCount(license.getAgentLisCountView());
+		license.setWriteDate(license.getWriteDateView());
 		license.setIssueDate(license.getIssueDateView());
 		license.setExpirationDays(license.getExpirationDaysView());
 		license.setLicenseFilePath(license.getLicenseFilePathView());
@@ -154,6 +155,7 @@ public class LogGriffinController {
 		
 		license.setAgentCount(license.getAgentCountView());
 		license.setAgentLisCount(license.getAgentLisCountView());
+		license.setWriteDate(license.getWriteDateView());
 		license.setIssueDate(license.getIssueDateView());
 		license.setExpirationDays(license.getExpirationDaysView());
 		license.setLicenseFilePath(license.getLicenseFilePathView());
@@ -237,7 +239,7 @@ public class LogGriffinController {
 	public void exportServerList(@ModelAttribute LogGriffin license, @RequestParam String[] columns,
 			@RequestParam String[] headers, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String[] columnList = {"customerName", "businessName", "macAddress", "productName", "productVersion", "agentCount", "agentLisCount", "issueDate", "expirationDays", "additionalInformation", "serialNumber", "licenseFilePath", "requester"};
+		String[] columnList = {"licenseType", "customerName", "businessName", "macAddress", "productName", "productVersion", "agentCount", "agentLisCount", "writeDate", "issueDate", "expirationDays", "additionalInformation", "serialNumber", "licenseFilePath", "requester"};
 		
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
