@@ -110,6 +110,39 @@
 		  AND STR_TO_DATE(expirationDays, '%Y-%m-%d') = DATE_ADD(CURDATE(), INTERVAL ${period} DAY);
 	</select>
 	
+	<update id="updateReIssueN">
+		UPDATE license5 SET maillYn = 'N' WHERE licenseKeyNum = ${licenseKeyNum};
+	</update>
+	
+	<update id="updateReIssueFirstKeyNum">
+		UPDATE license5 SET firstLicenseKeyNum = ${firstLicenseKeyNum} WHERE licenseKeyNum = ${licenseKeyNum};
+	</update>
+	
+	<select id="getIssueNoteList" resultMap="license" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}, licenseKeyNum DESC) RowNo, a.*
+    		FROM (
+				SELECT l.*, e1.employeeName as requesterView, e2.employeeName as salesManagerName
+				FROM license5 l 
+				LEFT JOIN employee e1
+				ON e1.employeeId = l.requesterId
+				LEFT JOIN employee e2
+    			ON e2.employeeId = l.salesManagerId
+				WHERE firstLicenseKeyNum = ${firstLicenseKeyNum}
+				OR licenseKeyNum = ${firstLicenseKeyNum}
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getIssueNoteListCount" resultType="_int">
+		SELECT COUNT(*) FROM license5
+		WHERE firstLicenseKeyNum = ${firstLicenseKeyNum}
+		OR licenseKeyNum = ${firstLicenseKeyNum}
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlLicense">

@@ -59,6 +59,8 @@ $.modal = function (modalContent, size) {
 	if(size=='loggriffinLicense') html += ' modal-loggriffinLicense';
 	if(size=='rgriffin') html += ' modal-rgriffin';
 	if(size=='mailSetting') html += ' modal-mailSetting';
+	if(size=='issueNote') html += ' modal-issueNote';
+	
 	
 	
 	

@@ -432,5 +432,26 @@ public class License5Controller {
 		model.addAttribute("viewType", "reIssue").addAttribute("license", license);
 		return "/license5/LicenseView";
 	}
+	
+	@PostMapping(value = "/license5/issueNoteView")
+	public String IssueNote(Model model, int licenseKeyNum) {
+		int firstLicenseKeyNum = license5Service.getLicenseOne(licenseKeyNum).getFirstLicenseKeyNum();
+		model.addAttribute("firstLicenseKeyNum", firstLicenseKeyNum);
+		return "/license5/IssueNoteView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/issueNote")
+	public Map<String, Object> IssueNote(License5 search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<License5> list = new ArrayList<>(license5Service.getIssueNoteList(search));
+
+		int totalCount = license5Service.getIssueNoteListCount(search);
+		map.put("page", search.getPage());
+		map.put("total", Math.ceil((float) totalCount / search.getRows()));
+		map.put("records", totalCount);
+		map.put("rows", list);
+		return map;
+	}
 
 }

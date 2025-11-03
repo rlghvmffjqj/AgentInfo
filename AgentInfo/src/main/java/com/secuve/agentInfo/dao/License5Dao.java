@@ -86,4 +86,20 @@ public class License5Dao {
 		return sqlSession.selectList("license5.getLicenseListPeriodSingle", period);
 	}
 
+	public void updateReIssueN(int licenseKeyNum) {
+		sqlSession.update("license5.updateReIssueN", licenseKeyNum);
+	}
+
+	public void updateReIssueFirstKeyNum(License5 license) {
+		sqlSession.update("license5.updateReIssueFirstKeyNum", license);
+	}
+
+	public List<License5> getIssueNoteList(License5 search) {
+		return sqlSession.selectList("license5.getIssueNoteList", search);
+	}
+
+	public int getIssueNoteListCount(License5 search) {
+		return sqlSession.selectOne("license5.getIssueNoteListCount", search);
+	}
+
 }

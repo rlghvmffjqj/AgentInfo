@@ -208,6 +208,13 @@ p {
 	max-width: 1500px;
 }
 
+.modal-issueNote {
+	top: 5%;
+	width: 1300px;
+	max-width: 1500px;
+}
+
+
 .modal-loggriffinLicense {
 	top: 10%;
 	width: 1000px;

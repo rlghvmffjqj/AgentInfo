@@ -51,7 +51,6 @@ import com.secuve.agentInfo.AgentInfoApplication;
 import com.secuve.agentInfo.dao.CustomerConsolidationDao;
 import com.secuve.agentInfo.dao.License5Dao;
 import com.secuve.agentInfo.dao.License5FileJpaDao;
-import com.secuve.agentInfo.dao.MailSendDao;
 import com.secuve.agentInfo.vo.CustomerConsolidation;
 import com.secuve.agentInfo.vo.License5;
 import com.secuve.agentInfo.vo.License5File;
@@ -176,8 +175,15 @@ public class License5Service {
 			}
 			license5UidLogService.license5UidLogInsert(license, "INSERT", principal);	// 로그 수집
 			if(license.getViewType().equals("reIssue")) {
-				System.out.println(oldKeyNum);
-				System.out.println(license.getLicenseKeyNum());
+				int licenseFirstKeyNum = license5Dao.getLicenseOne(oldKeyNum).getFirstLicenseKeyNum();
+				if(licenseFirstKeyNum == 0) {
+					license.setFirstLicenseKeyNum(oldKeyNum);
+				} else {
+					license.setFirstLicenseKeyNum(licenseFirstKeyNum);
+				}
+				license.setLicenseKeyNum(license.getLicenseKeyNum());
+				license5Dao.updateReIssueN(oldKeyNum);
+				license5Dao.updateReIssueFirstKeyNum(license);
 			}
 		} else {
 			LOGGER.debug("리눅스 라이선스 5.0 발급 ERROR");
@@ -749,6 +755,14 @@ public class License5Service {
 	        return "FALSE";
 		}
 		return "OK";
+	}
+
+	public List<License5> getIssueNoteList(License5 search) {
+		return license5Dao.getIssueNoteList(search);
+	}
+
+	public int getIssueNoteListCount(License5 search) {
+		return license5Dao.getIssueNoteListCount(search);
 	}
 }
 

@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @Component
 public class License5 {
-	private Integer firstLicenseKeyNum;
+	private int firstLicenseKeyNum;
 	
 	private Integer licenseKeyNum;					// Key
 	private String licenseType;
