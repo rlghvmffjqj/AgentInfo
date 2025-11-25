@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="modal-body" style="width: 100%; height: 740px;">
 	<form id="modalForm" name="form" method ="post">
@@ -153,7 +154,10 @@
 				         		<c:if test="${packages.managementServer ne ''}"><option value=""></option></c:if>
 				         		<c:if test="${packages.managementServer eq ''}"><option value=""></option></c:if>
 				         		<c:forEach var="item" items="${managementServer}">
-									<option value="${item}" <c:if test="${item eq packages.managementServer}">selected</c:if>><c:out value="${item}"/></option>
+									<option value="${item}" 
+									        ${fn:toLowerCase(fn:trim(item)) eq fn:toLowerCase(fn:trim(packages.managementServer)) ? 'selected="selected"' : ''}>
+									    ${item}
+									</option>
 								</c:forEach>
 							</select>
 						</div>
