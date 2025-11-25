@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','구분','고객사명','사업명','MAC주소','제품명','제품버전','에이전트 수량','에이전트리스 수량','발급일','시작일','만료일','추가정보','KEY','라이선스 파일명','요청자','메일 발송'],
+					colNames:['Key','구분','고객사명','사업명','MAC주소','제품명','제품버전','에이전트 수량','에이전트리스 수량','발급일','시작일','만료일','추가정보','KEY','라이선스 파일명','요청자','담당 영업','메일 발송'],
 					colModel:[
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 70},
@@ -34,7 +34,8 @@
 						{name:'additionalInformation', index:'additionalInformation', align:'center', width: 200},
 						{name:'serialNumber', index:'serialNumber', align:'center', width: 250},
 						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 250},
-						{name:'requester', index:'requester', align:'center', width: 100},
+						{name:'requester', index:'requester', align:'center', width: 80},
+						{name:'salesManager', index:'salesManager', align:'center', width: 80},
 						{name:'logGriffinKeyNum', index:'logGriffinKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
 					jsonReader : {

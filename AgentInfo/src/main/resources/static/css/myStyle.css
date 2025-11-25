@@ -465,6 +465,11 @@ p {
     max-width: 1300px;
 }
 
+.modal-packagesImport {
+	max-width:1300px;
+	top: 28%;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

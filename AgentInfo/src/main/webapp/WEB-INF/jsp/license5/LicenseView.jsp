@@ -403,17 +403,14 @@
 	        </c:choose>
 	        <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
-	         	<!-- <input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}"> -->
-				<input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}" style="width: 90%;">
-	         	<input type="hidden" id="requesterId" name="requesterId" class="form-control viewForm" value="${license.requesterId}" readonly>
+				<input type="text" id="requesterView" name="requesterView" class="form-control viewForm"  value="${license.requester}" style="width: 90%;" placeholder="담당 엔지니어" />
 				<div class="custom-btn" style="float: right; width: 45px;">
 					<button class="btn custom-btn" type="button" onclick="requesterSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
 				</div>
 	        </div>
 			<div class="pading5Width450 scribePeriod scribeMetering">
 	         	<label class="labelFontSize">담당 영업</label>
-				<input type="text" id="salesManagerNameView" name="salesManagerNameView" class="form-control viewForm" value="${license.salesManagerName}" style="width: 90%;" readonly>
-	         	<input type="hidden" id="salesManagerId" name="salesManagerId" class="form-control viewForm" value="${license.salesManagerId}" readonly>
+				<input type="text" id="salesManagerView" name="salesManagerView" class="form-control viewForm"  value="${license.salesManager}" style="width: 90%;" placeholder="담당 영업" />
 				<div class="custom-btn" style="float: right; width: 45px;">
 					<button class="btn custom-btn" type="button" onclick="salesManagerSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
 				</div>
@@ -446,6 +443,75 @@
 
 <script>
 	$(function() {
+		function split(val) {
+    	    return val.split(/,\s*/);
+    	}
+
+    	function extractLast(term) {
+    	    return split(term).pop();
+    	}
+
+    	$("#requesterView").autocomplete({
+		    minLength: 1,
+		    source: function(request, response) {
+		        $.ajax({
+		            url: "<c:url value='/employee/inputSearch'/>",
+		            type: 'post',
+		            dataType: "json",
+		            data: { keyword: request.term },
+		            success: function(data) {
+		                response($.map(data, function(item) {
+							$('#requesterView').val("");
+		                    return {
+		                        label: item.employeeName + "(" + item.employeeId + ")",
+		                        value: item.employeeName + "(" + item.employeeId + ")"
+		                    };
+		                }));
+		            }
+		        });
+		    },
+		    focus: function() {
+		        return false; // 입력창 자동 채우기 방지
+		    },
+		    select: function(event, ui) {
+				let id = ui.item.value.match(/\(([^)]+)\)/)[1];
+				$('#requesterView').val(id);
+		        this.value = ui.item.value;
+		        return false;
+		    }
+		});
+
+		$("#salesManagerView").autocomplete({
+		    minLength: 1,
+		    source: function(request, response) {
+		        $.ajax({
+		            url: "<c:url value='/employee/inputSearch'/>",
+		            type: 'post',
+		            dataType: "json",
+		            data: { keyword: request.term },
+		            success: function(data) {
+		                response($.map(data, function(item) {
+							$('#salesManagerView').val("");
+		                    return {
+		                        label: item.employeeName + "(" + item.employeeId + ")",
+		                        value: item.employeeName + "(" + item.employeeId + ")"
+		                    };
+		                }));
+		            }
+		        });
+		    },
+		    focus: function() {
+		        return false; // 입력창 자동 채우기 방지
+		    },
+		    select: function(event, ui) {
+				let id = ui.item.value.match(/\(([^)]+)\)/)[1];
+				$('#salesManagerView').val(id);
+		        this.value = ui.item.value;
+		        return false;
+		    }
+		});
+
+
 		var clientTime = new Date();
 		var options = {
      	   year: 'numeric',
@@ -1158,25 +1224,15 @@
 	}
 
 	function setSalesManager(employeeId, employeeName) {
-		$('#salesManagerNameView').val(employeeName);
-		$('#salesManagerId').val(employeeId);
+		$('#salesManagerView').val(employeeName+"("+employeeId+")");
 	}
 
 	function setRequester(employeeId, employeeName) {
-		$('#requesterView').val(employeeName);
-		$('#requesterId').val(employeeId);
+		$('#requesterView').val(employeeName+"("+employeeId+")");
 	}
 
 	
 </script>
 <style>
-	/* #requesterView, #salesManagerNameView {
-		background-color: #efefef !important; 
-		color: black !important;           
-	} */
-
-	#salesManagerNameView {
-		background-color: #efefef !important; /* disabled 비슷한 회색 */
-		color: black !important;           /* 글자색도 연하게 */
-	}
+	
 </style>

@@ -22,9 +22,9 @@ public class Rgriffin {
 	private String rgriffinRgmsid;
 	private String rgriffinPassword;
 	private String rgriffinFilePath;
-	private String rgriffinRequester;
 	private String rgriffinContent;
-	private String salesManagerName;
+	private String salesManager;
+	private String requester;
 	private String licenseType;
 	
 	private String rgriffinRegistrant;
@@ -42,10 +42,8 @@ public class Rgriffin {
 	private String rgriffinRgmsidView;
 	private String rgriffinPasswordView;
 	private String rgriffinFilePathView;
-	private String rgriffinRequesterView;
-	private String salesManagerId;
-	private String salesManagerNameView;
-	private String requesterId;
+	private String requesterView;
+	private String salesManagerView;
 	private String licenseTypeView;
 	
 	private String rgriffinExpireStart;

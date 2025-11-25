@@ -39,7 +39,7 @@
 				{name:'productVersion', index:'productVersion', align:'center', width: 100},
 				{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 250},
 				{name:'requester', index:'requester', align:'center', width: 80},
-				{name:'salesManagerName', index:'salesManagerName', align:'center', width: 80},
+				{name:'salesManager', index:'salesManager', align:'center', width: 80},
 			],
 			jsonReader : {
 	        	id: 'licenseKeyNum',

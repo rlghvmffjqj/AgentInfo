@@ -46,7 +46,6 @@ public class License5 {
 	private String licenseIssuanceModifier;
 	private String licenseIssuanceModifiedDate;
 	private String salesManager;
-	private String salesManagerName;
 	private String maillYn;
 	
 	private String licenseTypeView;
@@ -75,9 +74,7 @@ public class License5 {
 	private String licenseFilePathView;						// 라이선스 파일명
 	private String serialNumberView;						// 일련 번호
 	private String requesterView;							// 요청자
-	private String requesterId;
-	private String salesManagerId;
-	private String salesManagerNameView;
+	private String salesManagerView;
 	
 	private String customerNameOldView;
 	private String businessNameOldView;

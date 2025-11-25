@@ -1,20 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 200px;">
+<div class="modal-body" style="width: 100%; height: 300px;">
 	<div id="loadImage" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center; display:none;">
 		<img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;">
 	</div>
 	<form id="excelUploadForm" name="excelUploadForm" method="post" enctype="multipart/form-data" action="AgentInfo/packages/import">
-		<h4><strong>첨부 파일</strong></h4>
+		<h4 style="text-align: center;"><strong>첨부 파일</strong></h4>
 		<label class="labelFontSize">연도 선택 : </label>
-	    <select class="form-control marginBttom20 width-200" id="excelImportYear" name="excelImportYear">
+	    <select class="form-control marginBttom20 width-200" id="excelImportYear" name="excelImportYear" style="width: 100%;">
 			<option value=""></option>
 			<option value="CSV">CSV</option>
 			<option value="2019년">2019년</option>
 			<option value="2021년">2021년</option>
-			<option value="2022년">2022년</option>
+			<option value="2022년" selected>2022년</option>
 		</select>
+		<div id="excelPreviewContainer" style="overflow-x: scroll;"></div>
+		<br>
 		<input id="file" type="file" name="file" style="border-radius: 0 !important;"/>
 		<div style="height: 20px"></div>
 		<label class="colorRed">* 첨부파일은 한개 씩 등록 가능합니다.</label>
@@ -96,4 +98,90 @@
 			},0);
 		}
 	});
+
+	// 엑셀 예시 테이블 렌더링 함수
+    function renderExcelPreview(year) {
+	    const columns = excelColumnMap[year];
+
+	    // 1. 자리값(A,B,C)
+	    let soltRow = "";
+	    columns.forEach(c => {
+	        soltRow += "<th>" + c.solt + "</th>";
+	    });
+
+	    // 2. 컬럼명(col)
+	    let colRow = "";
+	    columns.forEach(c => {
+	        colRow += "<th>" + c.col + "</th>";
+	    });
+
+	    // 3. 내용(title = content)
+	    let contentRow = "";
+	    columns.forEach(c => {
+	        contentRow += "<td>" + c.title + "</td>";
+	    });
+
+	    const html =
+	        "<table class='excel-table'>" +
+	            "<thead>" +
+	                "<tr class='soltRow'>" + soltRow + "</tr>" +   // A,B,C,D...
+	                "<tr class='colRow'>" + colRow + "</tr>" +    // 컬럼명
+	            "</thead>" +
+	            "<tbody>" +
+	                "<tr>" + contentRow + "</tr>" + // 내용
+	            "</tbody>" +
+	        "</table>";
+
+	    $("#excelPreviewContainer").html(html);
+	}
+
+
+
+
+	// 초기 로드
+    $(function() {
+        renderExcelPreview($("#excelImportYear").val());
+       
+		$("#excelImportYear").change(function () {
+            renderExcelPreview($(this).val());
+        });
+    });
+	
 </script>
+
+<style>
+    .excel-table {
+	    border-collapse: collapse;
+	    width: auto;
+	}
+
+	.excel-table th, .excel-table td {
+	    border: 1px solid #ccc;
+	    padding: 6px;
+	    text-align: center;
+	}
+
+	.excel-solt-row th {
+	    background: #f0f0f0;
+	    font-weight: bold;
+	}
+
+	.excel-title-row th {
+	    background: #ffffff;
+	    font-weight: bold;
+	}
+
+	.excel-content-row td {
+	    background: #ffffff;
+	}
+
+	.soltRow {
+		background: #d3d8ff45;
+		border-bottom: 3px solid #b9b9b9;
+	}
+
+	.colRow {
+		background: #bbc3ff8f;
+	}
+
+</style>

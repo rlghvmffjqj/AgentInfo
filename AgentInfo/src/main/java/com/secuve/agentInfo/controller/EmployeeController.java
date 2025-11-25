@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -159,5 +160,11 @@ public class EmployeeController {
 	public String SalesManagerSearch(String selectType, Model model) {
 		model.addAttribute("selectType", selectType);
 		return "/employee/EmployeePopup";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/employee/inputSearch")
+	public List<Employee> InputSearch(String keyword) {
+		return employeeService.getInputSearch(keyword);
 	}
 }

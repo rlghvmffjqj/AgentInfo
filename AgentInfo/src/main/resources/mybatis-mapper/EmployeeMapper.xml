@@ -169,6 +169,11 @@
 	<select id="getLastTime" parameterType="string" resultType="string">
 		SELECT lastTime FROM users WHERE usersId = #{usersId};
 	</select>
+	
+	<select id="getInputSearch" parameterType="string" resultMap="employee">
+		SELECT * FROM employee WHERE employeeName LIKE '%${keyword}%';
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlEmployee">

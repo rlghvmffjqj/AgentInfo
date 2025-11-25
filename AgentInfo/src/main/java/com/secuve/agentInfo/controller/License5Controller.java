@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
@@ -452,6 +454,20 @@ public class License5Controller {
 		map.put("records", totalCount);
 		map.put("rows", list);
 		return map;
+	}
+	
+	@PostMapping(value = "/license5/managerChangeView")
+	public String ManagerChangeView(@RequestParam int[] chkList, Model model) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		model.addAttribute("chkListJson", mapper.writeValueAsString(chkList));
+		model.addAttribute("licenseType", "license5");		
+		return "/license5/ManagerChangeView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/license5/managerChange")
+	public String ManagerChange(@RequestParam int[] chkList, String selectedManager, String employeeNameId) {
+		return license5Service.setManagerChange(chkList, selectedManager, employeeNameId);
 	}
 
 }

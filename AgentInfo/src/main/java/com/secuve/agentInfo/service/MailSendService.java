@@ -31,6 +31,10 @@ public class MailSendService {
 	}
 	
 	public String setMailSettingChange(SendMailSetting sendMailSetting) {
+		String issuance = sendMailSetting.getSendMailSettingIssuance();
+		issuance = (issuance == null) ? "" : issuance.replaceAll("[,\\s]+$", "");
+		sendMailSetting.setSendMailSettingIssuance(issuance);
+
 		int success = mailSendDao.setMailSettingChange(sendMailSetting);
 		if (success <= 0) {
 			return "FALSE";
@@ -52,12 +56,14 @@ public class MailSendService {
 			}
 		}
 		
-		for(int i = 0; i < cc.length; i++) {
-			cc[i] = cc[i] + "@secuve.com";
-			if(isKorean(cc[i])) {
-				return "Korean";
-			}
+		for (int i = 0; i < cc.length; i++) {
+		    String inner = cc[i].replaceAll(".*\\(([^)]+)\\).*", "$1");
+		    cc[i] = inner + "@secuve.com";
+		    if (isKorean(cc[i])) {
+		        return "Korean";
+		    }
 		}
+
 		String subject = paramMap.get("licenseSubject");
 //		String text = xssConfig.sanitize(paramMap.get("text"));
 		String text = paramMap.get("text");

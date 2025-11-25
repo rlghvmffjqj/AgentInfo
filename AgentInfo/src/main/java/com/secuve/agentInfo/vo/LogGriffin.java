@@ -27,7 +27,7 @@ public class LogGriffin {
 	private String serialNumber;			// KEY
 	private String licenseFilePath;			// 라이선스 파일명
 	private String requester;				// 요청자
-	private String salesManagerName;
+	private String salesManager;
 			
 	private String customerNameView;			// 고객사명
 	private String businessNameView;			// 사업명
@@ -43,9 +43,7 @@ public class LogGriffin {
 	private String serialNumberView;			// KEY
 	private String licenseFilePathView;			// 라이선스 파일명
 	private String requesterView;				// 요청자
-	private String salesManagerId;
-	private String salesManagerNameView;
-	private String requesterId;
+	private String salesManagerView;
 	
 	private String licenseTypeView;
 	private String[] customerNameArr;

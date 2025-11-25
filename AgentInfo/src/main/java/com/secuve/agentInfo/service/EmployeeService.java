@@ -176,6 +176,10 @@ public class EmployeeService {
 	public void updateAlarmY(int issueKeyNum, String employeeId) {
 		employeeDao.updateAlarmY(issueKeyNum, employeeId);
 	}
+
+	public List<Employee> getInputSearch(String keyword) {
+		return employeeDao.getInputSearch(keyword);
+	}
 	
 
 }

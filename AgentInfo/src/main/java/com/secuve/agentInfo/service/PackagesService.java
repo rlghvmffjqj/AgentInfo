@@ -796,6 +796,17 @@ public class PackagesService {
 					categoryService.setCategory("deliveryMethod", cell.getStringCellValue(), principal.getName(), nowDate());
 				}
 			}
+			// 행의 17번째 열(구매구분)
+			cell = row.getCell(16);
+			if (null != cell) {
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+				}
+				packages.setPurchaseCategoryView(cell.getStringCellValue());
+				if (categoryService.getCategory("purchaseCategory", cell.getStringCellValue()) == 0) {
+					categoryService.setCategory("purchaseCategory", cell.getStringCellValue(), principal.getName(), nowDate());
+				}
+			}
 			// 행의 22번째 열(비고)
 			cell = row.getCell(21);
 			if (null != cell) {

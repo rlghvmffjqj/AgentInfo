@@ -29,12 +29,12 @@
 	
 	
 	<insert id="licenseInsert">
-		INSERT INTO rgriffin(licenseType, rgriffinCompany, rgriffinBusinessName, rgriffinCategory, rgriffinWriteDate, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, rgriffinRequester, rgriffinContent, rgriffinRegistrant, requesterId, salesManagerId, rgriffinRegistrationDate)
-		VALUES(#{licenseTypeView}, #{rgriffinCompanyView}, #{rgriffinBusinessNameView}, #{rgriffinCategoryView}, #{rgriffinWriteDateView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{rgriffinRequesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{requesterId}, #{salesManagerId}, #{rgriffinRegistrationDate});
+		INSERT INTO rgriffin(licenseType, rgriffinCompany, rgriffinBusinessName, rgriffinCategory, rgriffinWriteDate, rgriffinIssueDate, rgriffinExpire, rgriffinQuantity, rgriffinRgmsid, rgriffinPassword, rgriffinFilePath, requester, rgriffinContent, rgriffinRegistrant, salesManager, rgriffinRegistrationDate)
+		VALUES(#{licenseTypeView}, #{rgriffinCompanyView}, #{rgriffinBusinessNameView}, #{rgriffinCategoryView}, #{rgriffinWriteDateView}, #{rgriffinIssueDateView}, #{rgriffinExpireView}, #{rgriffinQuantityView}, #{rgriffinRgmsidView}, #{rgriffinPasswordView}, #{rgriffinFilePathView}, #{requesterView}, #{rgriffinContent}, #{rgriffinRegistrant}, #{salesManagerView}, #{rgriffinRegistrationDate});
 	</insert>
 	
 	<update id="updateLicense">
-		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinBusinessName=#{rgriffinBusinessNameView}, rgriffinWriteDate=#{rgriffinWriteDateView}, rgriffinIssueDate=#{rgriffinIssueDateView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, rgriffinRequester=#{rgriffinRequesterView}, requesterId=#{requesterId}, salesManagerId=#{salesManagerId}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
+		UPDATE rgriffin SET rgriffinCompany=#{rgriffinCompanyView}, rgriffinBusinessName=#{rgriffinBusinessNameView}, rgriffinWriteDate=#{rgriffinWriteDateView}, rgriffinIssueDate=#{rgriffinIssueDateView}, rgriffinExpire=#{rgriffinExpireView}, rgriffinQuantity=#{rgriffinQuantityView}, rgriffinRgmsid=#{rgriffinRgmsidView}, rgriffinPassword=#{rgriffinPasswordView}, rgriffinFilePath=#{rgriffinFilePathView}, requester=#{requesterView}, salesManager=#{salesManagerView}, rgriffinModifier=#{rgriffinModifier}, rgriffinModifiedDate=#{rgriffinModifiedDate}    
 		WHERE rgriffinKeyNum = #{rgriffinKeyNum};
 	</update>
 	
@@ -87,8 +87,8 @@
 			<if test="rgriffinFilePath != null and rgriffinFilePath != ''">
 				AND rgriffinFilePath LIKE CONCAT('%',#{rgriffinFilePath},'%')
 			</if>
-			<if test="rgriffinRequester != null and rgriffinRequester != ''">
-				AND rgriffinRequester LIKE CONCAT('%',#{rgriffinRequester},'%')
+			<if test="requester != null and requester != ''">
+				AND requester LIKE CONCAT('%',#{requester},'%')
 			</if>
 			<if test="rgriffinExpireStart != null and rgriffinExpireStart != ''">
 				AND issueDate BETWEEN #{rgriffinExpireStart} AND #{rgriffinExpireEnd}

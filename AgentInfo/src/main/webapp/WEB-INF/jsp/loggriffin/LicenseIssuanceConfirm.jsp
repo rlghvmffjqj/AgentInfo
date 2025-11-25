@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" id="modalConfirm" style="width: 100%; height: 340px;">
+<div class="modal-body" id="modalConfirm" style="width: 100%; height: 380px;">
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">고객사명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.customerNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">사업명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.businessNameView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">추가정보 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.additionalInformationView}</span></div></div>
@@ -16,6 +16,7 @@
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">만료일 : </span></div><div class="confirmRightDiv"><c:if test="${empty license.expirationDaysView}"><span class="confirmText">무제한</span></c:if><span class="confirmText">${license.expirationDaysView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">라이선스 파일명 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.licenseFilePathView}</span></div></div>
 	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">요청자 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.requesterView}</span></div></div>
+	<div class="confirmDiv"><div class="confirmLeftDiv"><span class="confirmTitle">담당 영업 : </span></div><div class="confirmRightDiv"><span class="confirmText">${license.salesManagerView}</span></div></div>
 	
 	<form id="confirmForm" name="form" method ="post">
 		<input type="hidden" id="logGriffinKeyNum" name="logGriffinKeyNum" value="${license.logGriffinKeyNum}">
@@ -33,8 +34,7 @@
 		<input type="hidden" id="expirationDaysView" name="expirationDaysView" value="${license.expirationDaysView}">
 		<input type="hidden" id="licenseFilePathView" name="licenseFilePathView" value="${license.licenseFilePathView}">
 		<input type="hidden" id="requesterView" name="requesterView" value="${license.requesterView}">
-		<input type="hidden" id="requesterId" name="requesterId" value="${license.requesterId}">
-		<input type="hidden" id="salesManagerId" name="salesManagerId" value="${license.salesManagerId}">
+		<input type="hidden" id="salesManagerView" name="salesManagerView" value="${license.salesManagerView}">
 		<input type="hidden" id="serialNumberView" name="serialNumberView" value="${license.serialNumberView}">
 		<input type="hidden" id="chkLicenseIssuance" name="chkLicenseIssuance" value="${license.chkLicenseIssuance}">
 		<input type="hidden" id="licenseTypeView" name="licenseTypeView" value="${license.licenseTypeView}">

@@ -169,11 +169,11 @@ public class RgriffinService {
 		paramMap.put("licenseManager", sendMailSetting.getSendMailSettingManager());
 		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
 		try {
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequesterId()) && rgriffin.getRequesterId() != null) {
-				toList.add(rgriffin.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequester()) && rgriffin.getRequester() != null) {
+				toList.add(rgriffin.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManagerId()) && rgriffin.getSalesManagerId() != null) {
-				toList.add(rgriffin.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManager()) && rgriffin.getSalesManager() != null) {
+				toList.add(rgriffin.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(rgriffin.getRgriffinExpire());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());

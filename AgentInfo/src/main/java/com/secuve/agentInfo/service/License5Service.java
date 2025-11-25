@@ -161,10 +161,10 @@ public class License5Service {
 				LOGGER.debug("시리얼 넘버 중복 ERROR");
 				return "Duplication";
 			}
-			int oldKeyNum = license.getLicenseKeyNum();
 			license = licenseInputFormat(license);
 			license.setLicenseState("issued");
 			int success = license5Dao.issuedLicense(license);
+			int oldKeyNum = license.getLicenseKeyNum();
 			categoryCheck(license, principal);
 			categoryService.insertCustomerBusinessMapping(license.getCustomerNameView(), license.getBusinessNameView());
 		
@@ -728,11 +728,11 @@ public class License5Service {
 		paramMap.put("licenseManager", sendMailSetting.getSendMailSettingManager());
 		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
 		try {
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(license5.getRequesterId()) && license5.getRequesterId() != null) {
-				toList.add(license5.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(license5.getRequester()) && license5.getRequester() != null) {
+				toList.add(license5.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(license5.getSalesManagerId()) && license5.getSalesManagerId() != null) {
-				toList.add(license5.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(license5.getSalesManager()) && license5.getSalesManager() != null) {
+				toList.add(license5.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(license5.getExpirationDays());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
@@ -763,6 +763,17 @@ public class License5Service {
 
 	public int getIssueNoteListCount(License5 search) {
 		return license5Dao.getIssueNoteListCount(search);
+	}
+
+	public String setManagerChange(int[] chkList, String selectedManager, String employeeNameId) {
+		int success = 1;
+		for(int licenseKeyNum : chkList) {
+			success *= license5Dao.setManagerChange(licenseKeyNum, selectedManager, employeeNameId);
+		}
+		if (success <= 0) {
+			return "FALSE";
+		}
+		return "OK";
 	}
 }
 

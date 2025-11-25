@@ -525,11 +525,11 @@ public class LogGriffinService {
 		paramMap.put("licenseManager", sendMailSetting.getSendMailSettingManager());
 		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
 		try {
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequesterId()) && logGriffin.getRequesterId() != null) {
-				toList.add(logGriffin.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequester()) && logGriffin.getRequester() != null) {
+				toList.add(logGriffin.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManagerId()) && logGriffin.getSalesManagerId() != null) {
-				toList.add(logGriffin.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManager()) && logGriffin.getSalesManager() != null) {
+				toList.add(logGriffin.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(logGriffin.getExpirationDays());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());

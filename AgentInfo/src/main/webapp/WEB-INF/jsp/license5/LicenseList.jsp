@@ -48,7 +48,7 @@
 						{name:'productVersion', index:'productVersion', align:'center', width: 100},
 						{name:'licenseFilePath', index:'licenseFilePath', align:'center', width: 250},
 						{name:'requester', index:'requester', align:'center', width: 80},
-						{name:'salesManagerName', index:'salesManagerName', align:'center', width: 80},
+						{name:'salesManager', index:'salesManager', align:'center', width: 80},
 						{name:'licenseKeyNum', index:'licenseKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
 					jsonReader : {
@@ -321,6 +321,7 @@
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnMailSetting" title="라이선스 만료 메일발송 관련 설정을 등록합니다.">메일발송설정</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnIssueNote">발급 이력</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnManagerChange">담당자 변경</button>
 																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'licenseList');">컬럼 선택</button>
 																</td>
 															</tr>
@@ -732,6 +733,31 @@
 					title: '실패!',           
 					text: '수정를 원하는 데이터 한 행만 체크 해주세요.',    
 				}); 
+			}
+		});
+
+		$('#BtnManagerChange').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/license5/managerChangeView'/>",
+					data: {chkList: chkList},
+		            async: false,
+					traditional: true, 
+		            success: function (data) {
+		                $.modal(data, 'sr'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+		        });
 			}
 		});
 	</script>

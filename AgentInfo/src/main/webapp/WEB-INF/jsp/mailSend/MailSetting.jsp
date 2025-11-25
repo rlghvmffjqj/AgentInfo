@@ -79,4 +79,52 @@
 		    }
 		});
 	}
+
+	$(function() {
+		function split(val) {
+		    return val.split(/,\s*/);
+		}
+
+		function extractLast(term) {
+		    return split(term).pop();
+		}
+
+		$("#sendMailSettingIssuance").on("keydown", function(event) {
+		    if (event.keyCode === $.ui.keyCode.TAB &&
+		        $(this).data("ui-autocomplete")?.menu.active) {
+		        event.preventDefault();
+		    }
+		}).autocomplete({
+		    minLength: 1,
+		    source: function(request, response) {
+		        const term = extractLast(request.term);
+		        $.ajax({
+		            url: "<c:url value='/employee/inputSearch'/>",
+		            type: 'post',
+		            dataType: "json",
+		            data: { keyword: term },
+		            success: function(data) {
+		                response($.map(data, function(item) {
+		                    return {
+		                        label: item.employeeName + "(" + item.employeeId + ")",
+		                        value: item.employeeName + "(" + item.employeeId + ")"
+		                    };
+		                }));
+		            }
+		        });
+		    },
+		    focus: function() {
+		        return false; // 입력창에 자동 채우기 방지
+		    },
+		    select: function(event, ui) {
+		        let terms = split(this.value);
+		        terms.pop(); // 현재 입력중인 단어 제거
+		        terms.push(ui.item.value);
+		        terms.push(""); // 다음 입력을 위해 빈 문자열 추가
+		        this.value = terms.join(", ");
+		        return false;
+		    }
+		});
+
+	})
 </script>

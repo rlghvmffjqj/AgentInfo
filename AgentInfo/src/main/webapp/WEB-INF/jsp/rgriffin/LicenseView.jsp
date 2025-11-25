@@ -39,7 +39,7 @@
 			<div class="pading5Width450">
 				<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
 				<div class="floatRight normalLicense">
-					<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
+					<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한" disabled>
 				   <label for="chkExpirationDays"></label><span class="margin17">무제한</span>
 				 </div>
 				 <div style="width: 100%">
@@ -71,16 +71,14 @@
 		   </div>
 	       <div class="pading5Width450">
 	         	<label class="labelFontSize">요청자</label>
-				<input type="text" id="rgriffinRequesterView" name="rgriffinRequesterView" class="form-control viewForm" value="${license.rgriffinRequester}" style="width: 90%;">
-	         	<input type="hidden" id="requesterId" name="requesterId" class="form-control viewForm" value="${license.requesterId}" readonly>
+				<input type="text" id="requesterView" name="requesterView" class="form-control viewForm" value="${license.requester}" style="width: 90%;">
 				<div class="custom-btn" style="float: right; width: 45px;">
 					<button class="btn custom-btn" type="button" onclick="requesterSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
 				</div>
 	        </div>
 			<div class="pading5Width450 scribePeriod scribeMetering">
 	         	<label class="labelFontSize">담당 영업</label>
-				<input type="text" id="salesManagerNameView" name="salesManagerNameView" class="form-control viewForm" value="${license.salesManagerName}" style="width: 90%;" readonly>
-	         	<input type="hidden" id="salesManagerId" name="salesManagerId" class="form-control viewForm" value="${license.salesManagerId}" readonly>
+				<input type="text" id="salesManagerView" name="salesManagerView" class="form-control viewForm" value="${license.salesManager}" style="width: 90%;" readonly>
 				<div class="custom-btn" style="float: right; width: 45px;">
 					<button class="btn custom-btn" type="button" onclick="salesManagerSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
 				</div>
@@ -302,18 +300,16 @@
 	}
 
 	function setSalesManager(employeeId, employeeName) {
-		$('#salesManagerNameView').val(employeeName);
-		$('#salesManagerId').val(employeeId);
+		$('#salesManagerView').val(employeeName+"("+employeeId+")");
 	}
 
 	function setRequester(employeeId, employeeName) {
-		$('#requesterView').val(employeeName);
-		$('#requesterId').val(employeeId);
+		$('#requesterView').val(employeeName+"("+employeeId+")");
 	}
 </script>
 
 <style>
-	#salesManagerNameView {
+	#salesManagerView {
 		background-color: #efefef !important; /* disabled 비슷한 회색 */
 		color: black !important;           /* 글자색도 연하게 */
 	}

@@ -17,7 +17,7 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','구분','고객사명','사업명','카테고리','발급일','시작일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','메일 발송'],
+					colNames:['Key','구분','고객사명','사업명','카테고리','발급일','시작일','만료일','수량','RGMSID','비밀번호','라이선스 파일명','요청자','담당 영업','메일 발송'],
 					colModel:[
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 50},
@@ -31,7 +31,8 @@
 						{name:'rgriffinRgmsid', index:'rgriffinRgmsid', align:'center', width: 400},
 						{name:'rgriffinPassword', index:'rgriffinPassword', align:'center', width: 100},
 						{name:'rgriffinFilePath', index:'rgriffinFilePath',align:'center', width: 200},
-						{name:'rgriffinRequester', index:'rgriffinRequester',align:'center', width: 150},
+						{name:'requester', index:'requester',align:'center', width: 80},
+						{name:'salesManager', index:'salesManager', align:'center', width: 80},
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 80, formatter: individualMailSendFormatter},
 					],
 					jsonReader : {
@@ -132,7 +133,7 @@
 													</div>
 													<div class="col-lg-2">
 		                      							<label class="labelFontSize">요청자</label>
-														<input type="text" id="rgriffinRequester" name="rgriffinRequester" class="form-control">
+														<input type="text" id="requester" name="requester" class="form-control">
 													</div>
 			                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">

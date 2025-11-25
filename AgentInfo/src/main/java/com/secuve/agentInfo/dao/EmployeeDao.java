@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,5 +163,9 @@ public class EmployeeDao {
 
 	public String getLastTime(String usersId) {
 		return sqlSession.selectOne("employee.getLastTime", usersId);
+	}
+
+	public List<Employee> getInputSearch(String keyword) {
+		return sqlSession.selectList("employee.getInputSearch", keyword);
 	}
 }

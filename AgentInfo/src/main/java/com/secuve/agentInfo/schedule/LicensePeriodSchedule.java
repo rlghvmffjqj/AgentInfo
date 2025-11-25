@@ -48,11 +48,11 @@ public class LicensePeriodSchedule  extends QuartzJobBean {
 		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
 		for(License5 license5: dailyList) {
 			cc = sendMailSetting.getSendMailSettingIssuance().split(",");
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(license5.getRequesterId()) && license5.getRequesterId() != null) {
-				toList.add(license5.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(license5.getRequester()) && license5.getRequester() != null) {
+				toList.add(license5.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(license5.getSalesManagerId()) && license5.getSalesManagerId() != null) {
-				toList.add(license5.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(license5.getSalesManager()) && license5.getSalesManager() != null) {
+				toList.add(license5.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(license5.getExpirationDays());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
@@ -75,11 +75,11 @@ public class LicensePeriodSchedule  extends QuartzJobBean {
 		cc = sendMailSetting.getSendMailSettingIssuance().split(",");
 		for(License5 license5: singleList) {
 			cc = sendMailSetting.getSendMailSettingIssuance().split(",");
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(license5.getRequesterId()) && license5.getRequesterId() != null) {
-				toList.add(license5.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(license5.getRequester()) && license5.getRequester() != null) {
+				toList.add(license5.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(license5.getSalesManagerId()) && license5.getSalesManagerId() != null) {
-				toList.add(license5.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(license5.getSalesManager()) && license5.getSalesManager() != null) {
+				toList.add(license5.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(license5.getExpirationDays());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
@@ -112,11 +112,11 @@ public class LicensePeriodSchedule  extends QuartzJobBean {
 		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
 		for(LogGriffin logGriffin: dailyList) {
 			cc = sendMailSetting.getSendMailSettingIssuance().split(",");
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequesterId()) && logGriffin.getRequesterId() != null) {
-				toList.add(logGriffin.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequester()) && logGriffin.getRequester() != null) {
+				toList.add(logGriffin.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManagerId()) && logGriffin.getSalesManagerId() != null) {
-				toList.add(logGriffin.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManager()) && logGriffin.getSalesManager() != null) {
+				toList.add(logGriffin.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(logGriffin.getExpirationDays());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
@@ -138,11 +138,11 @@ public class LicensePeriodSchedule  extends QuartzJobBean {
 		
 		for(LogGriffin logGriffin: singleList) {
 			cc = sendMailSetting.getSendMailSettingIssuance().split(",");
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequesterId()) && logGriffin.getRequesterId() != null) {
-				toList.add(logGriffin.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(logGriffin.getRequester()) && logGriffin.getRequester() != null) {
+				toList.add(logGriffin.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManagerId()) && logGriffin.getSalesManagerId() != null) {
-				toList.add(logGriffin.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(logGriffin.getSalesManager()) && logGriffin.getSalesManager() != null) {
+				toList.add(logGriffin.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(logGriffin.getExpirationDays());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
@@ -175,11 +175,11 @@ public class LicensePeriodSchedule  extends QuartzJobBean {
 		paramMap.put("cc", sendMailSetting.getSendMailSettingIssuance());
 		for(Rgriffin rgriffin: dailyList) {
 			cc = sendMailSetting.getSendMailSettingIssuance().split(",");
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequesterId()) && rgriffin.getRequesterId() != null) {
-				toList.add(rgriffin.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequester()) && rgriffin.getRequester() != null) {
+				toList.add(rgriffin.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManagerId()) && rgriffin.getSalesManagerId() != null) {
-				toList.add(rgriffin.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManager()) && rgriffin.getSalesManager() != null) {
+				toList.add(rgriffin.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(rgriffin.getRgriffinExpire());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());
@@ -202,11 +202,11 @@ public class LicensePeriodSchedule  extends QuartzJobBean {
 		cc = sendMailSetting.getSendMailSettingIssuance().split(",");
 		for(Rgriffin rgriffin: singleList) {
 			cc = sendMailSetting.getSendMailSettingIssuance().split(",");
-			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequesterId()) && rgriffin.getRequesterId() != null) {
-				toList.add(rgriffin.getRequesterId());
+			if("on".equals(sendMailSetting.getSendMailSettingRequester()) && !"".equals(rgriffin.getRequester()) && rgriffin.getRequester() != null) {
+				toList.add(rgriffin.getRequester().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
-			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManagerId()) && rgriffin.getSalesManagerId() != null) {
-				toList.add(rgriffin.getSalesManagerId());
+			if("on".equals(sendMailSetting.getSendMailSettingSalesManager()) && !"".equals(rgriffin.getSalesManager()) && rgriffin.getSalesManager() != null) {
+				toList.add(rgriffin.getSalesManager().replaceAll(".*\\(", "").replace(")", "").trim());
 			}
 			long remainingDays = mailSendService.getRemainingDays(rgriffin.getRgriffinExpire());
 			paramMap.put("licenseSubject", sendMailSetting.getSendMailSettingSubject());

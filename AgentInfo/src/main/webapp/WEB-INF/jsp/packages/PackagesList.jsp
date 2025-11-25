@@ -362,7 +362,7 @@
 			    success: function (data) {
 			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
 						location.reload();
-			        $.modal(data, 's'); //modal창 호출
+			        $.modal(data, 'packagesImport'); //modal창 호출
 			    },
 			    error: function(e) {
 			        // TODO 에러 화면
@@ -736,5 +736,105 @@
 			}
 		}
 
+	</script>
+
+	<script>
+
+		// 연도별 엑셀 컬럼 매핑(JSON)
+    	const excelColumnMap = {
+    	    "2019년": [
+			    { solt:"A", col: "No", title: "1" },
+			    { solt:"B", col: "고객사 명", title: "SECUVE" },
+			    { solt:"C", col: "요청일자", title: "1945-08-15" },
+			    { solt:"D", col: "전달일자", title: "1945-08-15" },
+			    { solt:"E", col: "기존/신규", title: "기존" },
+			    { solt:"F", col: "관리서버 / Agent", title: "Agent" },
+			    { solt:"G", col: "Agent OS", title: "Linux el8 64bit" },
+			    { solt:"H", col: "OS 상세버전", title: "4.18.0-553.el8_10_x86_64_GLIBC_2.28_VMALLOC" },
+			    { solt:"I", col: "OS종류", title: "Linux" },
+			    { solt:"J", col: "Agent ver", title: "TOS 5.0 (5.0.17.219)" },
+			    { solt:"K", col: "전달 패키지", title: "Secuve_TOS_5.0{버전}.tar" },
+			    { solt:"L", col: "담당자", title: "엔지니어" },
+			    { solt:"M", col: "요청 제품구분", title: "TOS 5.0 A" },
+			    { solt:"N", col: "전달 방법", title: "대용량메일" },
+			    { solt:"O", col: "기존 Agent 버전", title: "X" },
+			    { solt:"P", col: "기존 Manager(war) 버전", title: "X" },
+			    { solt:"Q", col: "Manager OS", title: "X" },
+			    { solt:"R", col: "DB", title: "X" },
+			    { solt:"S", col: "CA", title: "X" },
+			    { solt:"T", col: "PKI & AuthClient", title: "X" },
+			    { solt:"U", col: "비고", title: "비고" }
+			],
+			"2021년": [
+			    { solt:"A", col: "No", title: "1" },
+			    { solt:"B", col: "고객사 명", title: "SECUVE" },
+			    { solt:"C", col: "요청일자", title: "1945-08-15" },
+			    { solt:"D", col: "전달일자", title: "1945-08-15" },
+			    { solt:"E", col: "기존/신규", title: "기존" },
+			    { solt:"F", col: "관리서버 / Agent", title: "Agent" },
+			    { solt:"G", col: "Agent OS", title: "Linux el8 64bit" },
+			    { solt:"H", col: "OS 상세버전", title: "4.18.0-553.el8_10_x86_64_GLIBC_2.28_VMALLOC" },
+			    { solt:"I", col: "OS종류", title: "Linux" },
+			    { solt:"J", col: "Agent ver", title: "TOS 5.0 (5.0.17.219)" },
+			    { solt:"K", col: "전달 패키지", title: "Secuve_TOS_5.0{버전}.tar" },
+			    { solt:"L", col: "담당자", title: "엔지니어" },
+			    { solt:"M", col: "요청 제품구분", title: "TOS 5.0 A" },
+			    { solt:"N", col: "전달 방법", title: "대용량메일" },
+			    { solt:"O", col: "기존 Agent 버전", title: "X" },
+			    { solt:"P", col: "기존 Manager(war) 버전", title: "X" },
+			    { solt:"Q", col: "Manager OS", title: "X" },
+			    { solt:"R", col: "DB", title: "X" },
+			    { solt:"S", col: "PKI & AuthClient", title: "X" },
+			    { solt:"T", col: "비고", title: "비고" }
+			],
+			"2022년": [
+			    { solt:"A", col: "No", title: "1" },
+			    { solt:"B", col: "고객사 명", title: "SECUVE" },
+			    { solt:"C", col: "사업명", title: "솔루션 구축" },
+			    { solt:"D", col: "요청일자", title: "1945-08-15" },
+			    { solt:"E", col: "전달일자", title: "1945-08-15" },
+			    { solt:"F", col: "기존/신규", title: "기존" },
+			    { solt:"G", col: "패키지종류", title: "Agent" },
+			    { solt:"H", col: "Agent OS", title: "Linux el8 64bit" },
+			    { solt:"I", col: "패키지 상세버전", title: "4.18.0-553.el8_10_x86_64_GLIBC_2.28_VMALLOC" },
+			    { solt:"J", col: "일반/커스텀", title: "일반" },
+			    { solt:"K", col: "OS종류", title: "Linux" },
+			    { solt:"L", col: "Agent ver", title: "TOS 5.0 (5.0.17.219)" },
+			    { solt:"M", col: "패키지명", title: "Secuve_TOS_5.0{버전}.tar" },
+			    { solt:"N", col: "담당자", title: "엔지니어" },
+			    { solt:"O", col: "요청 제품구분", title: "TOS 5.0 A" },
+			    { solt:"P", col: "전달 방법", title: "대용량메일" },
+			    { solt:"Q", col: "구매구분", title: "확인필요" },
+			    { solt:"R", col: "기존 Manager(war) 버전", title: "X" },
+			    { solt:"S", col: "Manager OS", title: "X" },
+			    { solt:"T", col: "DB", title: "X" },
+			    { solt:"U", col: "PKI & AuthClient", title: "X" },
+			    { solt:"V", col: "비고", title: "비고" }
+			],
+			"CSV": [
+			    { solt:"A", col: "고객사ID", title: "1000" },
+			    { solt:"B", col: "고객사 명", title: "SECUVE" },
+			    { solt:"C", col: "사업명", title: "솔루션 구축" },
+			    { solt:"D", col: "망 구분", title: "개발망" },
+			    { solt:"E", col: "요청일자", title: "1945-08-15" },
+			    { solt:"F", col: "전달일자", title: "1945-08-15" },
+			    { solt:"G", col: "상태", title: "배포완료" },
+			    { solt:"H", col: "패키지종류", title: "Agent" },
+			    { solt:"I", col: "일반/커스텀", title: "일반" },
+			    { solt:"J", col: "Agent ver", title: "TOS 5.0 (5.0.17.219)" },
+			    { solt:"K", col: "패키지명", title: "Secuve_TOS_5.0{버전}.tar" },
+			    { solt:"L", col: "담당자", title: "엔지니어" },
+			    { solt:"M", col: "OS종류", title: "Linux" },
+			    { solt:"N", col: "패키지 상세버전", title: "4.18.0-553.el8_10_x86_64_GLIBC_2.28_VMALLOC" },
+			    { solt:"O", col: "OS버전", title: "Linux el8 64bit" },
+			    { solt:"P", col: "기존/신규", title: "기존" },
+			    { solt:"Q", col: "요청 제품구분", title: "TOS 5.0 A" },
+			    { solt:"R", col: "전달 방법", title: "대용량메일" },
+			    { solt:"S", col: "구매구분", title: "확인필요" },
+			    { solt:"T", col: "비고", title: "비고" },
+			    { solt:"U", col: "상태 변경 의견", title: "상태 변경 의견" }
+			]
+    	};
+	
 	</script>
 </html>

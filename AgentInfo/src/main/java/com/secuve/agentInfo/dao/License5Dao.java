@@ -102,4 +102,12 @@ public class License5Dao {
 		return sqlSession.selectOne("license5.getIssueNoteListCount", search);
 	}
 
+	public int setManagerChange(int licenseKeyNum, String selectedManager, String employeeNameId) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("licenseKeyNum", licenseKeyNum);
+		parameters.put("selectedManager", selectedManager);
+		parameters.put("employeeNameId", employeeNameId);
+		return sqlSession.update("license5.setManagerChange", parameters);
+	}
+
 }
