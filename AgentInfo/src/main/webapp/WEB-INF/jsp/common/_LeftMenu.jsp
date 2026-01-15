@@ -17,7 +17,7 @@
 							let mainTitle = result[i].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 							// let parentTitle = result[i].parentTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 						  	menuHtml += `
-								<ul class="pcoded-item pcoded-left-item">
+								<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 									<li class="`+mainTitle+` pcoded-hasmenu">
 									<a href="#!" class="waves-effect waves-dark">
 									  <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
@@ -49,7 +49,7 @@
 						} else {
 							let menuTitle = result[i].menuTitle.replace(/\s+/g, '_').replace(/\./g, '_');
 							menuHtml += `
-								<ul class="pcoded-item pcoded-left-item">
+								<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 									<li class="`+menuTitle+`">
 										<a href="<c:url value='/productVersion/`+result[i].menuTitle+`'/>?number=`+result[i].menuKeyNum+`" class="waves-effect waves-dark">
 											<span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
@@ -595,7 +595,7 @@
 			    </ul>
 		    </sec:authorize>
 			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER')">
-				<div class="pcoded-navigation-label" data-i18n="nav.category.forms" id="productVersion">product release</div>
+				<div class="pcoded-navigation-label menuSwitch" data-i18n="nav.category.forms" id="productVersion" style="display: none;">product release</div>
 			</sec:authorize>
 
 			<sec:authorize access="hasAnyRole('ADMIN','ENGINEER','ENGINEERLEADER','SALES')">
@@ -632,7 +632,7 @@
 				    <li class="empDump">
 				        <a href="<c:url value='/empDump/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-save"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 인사정보 파일</span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">고객사 인사정보</span>
 				            <span class="pcoded-mcaret"></span>
 				        </a>
 				    </li>
