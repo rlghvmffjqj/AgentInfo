@@ -1,6 +1,7 @@
 package com.secuve.agentInfo.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,15 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.View;
 
+import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.core.Util;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.FavoritePageService;
@@ -431,6 +436,26 @@ public class PackagesController {
 		model.addAttribute("packagesKeyNum", packagesKeyNum);
 		model.addAttribute("packageName", packageName);
 		return "/packages/HistoryView";
+	}
+	
+	@GetMapping(value = "/packages/sampleDownload/{fileName}")
+	public View FileDownload(@PathVariable String fileName, Model model) throws Exception {
+		String fileFullName = "";
+		if("2019".equals(fileName)) {
+			fileFullName = "2019년도 샘플 파일.xlsx";
+		} else if("2021".equals(fileName)) {
+			fileFullName = "2021년도 샘플 파일.xlsx";
+		} else if("2022".equals(fileName)) {
+			fileFullName = "2022년도 샘플 파일.xlsx";
+		} else if("CSV".equals(fileName)) {
+			fileFullName = "CSV 샘플 파일.csv";
+		} 
+		String filePath = "C:\\AgentInfo\\sampleFile";
+		model.addAttribute("fileUploadPath", filePath);          // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileFullName);    // 파일 이름    
+		model.addAttribute("fileLogicalName", fileFullName);  		 // 출력할 파일 이름
+	
+		return new FileDownloadView();
 	}
 	
 }

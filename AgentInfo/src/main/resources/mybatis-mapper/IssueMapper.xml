@@ -42,7 +42,7 @@
 	
 	<insert id="insertIssue">
 		INSERT INTO issue(issueKeyNum,issueSortNum,issueCustomer,issueTitle,issueManagerServer,issueTarget,issueSubTarget,issueFirstWriter,issueTester,issueFirstDate,issueDate,issueTosms,issueTosrf,issuePortal,issueJava,issueWas,total,solution,unresolved,hold,issueProceStatus,issueDivision,issueOs,issueWriter,issueAward,issueMiddle,issueUnder1,issueUnder2,issueUnder3,issueUnder4,issueFlawNum,issueEffect,issueTextResult,issueApplyYn,issueConfirm,issueObstacle,issueNote,issueAnswerStatus,issueRegistrant,issueRegistrationDate,issueModifier,issueModifiedDate)
-		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueManagerServer},#{issueTarget},#{issueSubTarget},#{issueFirstWriter},#{issueFirstWriter},#{issueFirstDate},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},#{issueObstacle},#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
+		VALUES(#{issueKeyNum},NEXTVAL(seq_issueSortNum),#{issueCustomer},#{issueTitle},#{issueManagerServer},#{issueTarget},#{issueSubTarget},#{issueFirstWriter},#{issueFirstWriter},#{issueFirstDate},#{issueDate},#{issueTosms},#{issueTosrf},#{issuePortal},#{issueJava},#{issueWas},#{total},#{solution},#{unresolved},#{hold},'progress',#{issueDivision},#{issueOs},#{issueWriter},#{issueAward},#{issueMiddle},#{issueUnder1},#{issueUnder2},#{issueUnder3},#{issueUnder4},#{issueFlawNum},#{issueEffect},#{issueTextResult},#{issueApplyYn},#{issueConfirm},CONVERT(#{issueObstacle} USING utf8mb4),#{issueNote},'atmosphere',#{issueRegistrant},#{issueRegistrationDate},#{issueModifier},#{issueModifiedDate});
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
@@ -288,6 +288,9 @@
 			</if>
 			<if test="issueTarget != null and issueTarget != ''">
 				AND issueTarget = #{issueTarget}
+			</if>
+			<if test="issueObstacle != null and issueObstacle != ''">
+				AND obstacle_text LIKE '%${issueObstacle}%'
 			</if>
 		</trim>
 	</sql>

@@ -111,9 +111,9 @@
 	                      						<div style="padding-left:15px; width:100%; float: left;">
 	                      							<label class="labelFontSize">전달일자</label>
 	                      							<div>
-														<input class="form-control" style="width: 12%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
+														<input class="form-control" style="width: 12.5%; float: left;" type="date" id="issueDateStart" name="issueDateStart" max="9999-12-31">
 														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 12%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
+														<input class="form-control" style="width: 12.5%; float: left;" type="date" id="issueDateEnd" name="issueDateEnd" max="9999-12-31">
 													</div>
 													<div style="padding-left: 50px; float: left;">
 														<div class="form-check radioDate">
@@ -142,7 +142,7 @@
 														</div>
 														<div class="form-check radioDate">
 														  <input class="form-check-input" type="radio" name="issueDate" id="dateFull" value="full" checked>
-														  <label class="form-check-label" for="threeMonth">
+														  <label class="form-check-label" for="dateFull">
 														    전체
 														  </label>
 														</div>
@@ -230,6 +230,10 @@
 														</c:forEach>
 													</select>
 												</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">내용</label>
+	                      							<input type="text" id="issueObstacle" name="issueObstacle" class="form-control">
+	                      						</div>
 		                      					<input type="hidden" id="issueCustomer" name="issueCustomer" class="form-control">
 		                      					<input type="hidden" id="issueTitle" name="issueTitle" class="form-control">
 												<input type="hidden" id="issueFirstWriter" name="issueFirstWriter" class="form-control">

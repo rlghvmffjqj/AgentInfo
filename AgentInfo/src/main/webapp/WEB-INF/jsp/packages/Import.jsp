@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="modal-body" style="width: 100%; height: 300px;">
+<div class="modal-body" style="width: 100%; height: 320px;">
 	<div id="loadImage" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center; display:none;">
 		<img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;">
 	</div>
@@ -16,10 +16,15 @@
 			<option value="2022년" selected>2022년</option>
 		</select>
 		<div id="excelPreviewContainer" style="overflow-x: scroll;"></div>
-		<br>
+		<br><br>
+		<label id="sampleDownload" style="float: left;">샘플파일 다운로드 : </label>
+		<p style="margin: 0; margin-left: 10px; float: left;" id="downloadArea">
+			<a href="javascript:void(0);" onclick="downloadSampleFile('2022')">2022년도 샘플 파일.xlsx</a>
+		</p>
+		<br><br><br>
 		<input id="file" type="file" name="file" style="border-radius: 0 !important;"/>
 		<div style="height: 20px"></div>
-		<label class="colorRed">* 첨부파일은 한개 씩 등록 가능합니다.</label>
+		<!-- <label class="colorRed">* 첨부파일은 한개 씩 등록 가능합니다.</label> -->
 
 	</form>
 </div>
@@ -142,10 +147,46 @@
     $(function() {
         renderExcelPreview($("#excelImportYear").val());
        
+		var BASE_IMPORT_URL = '<c:url value="/packages/sampleDownload/" />';
+
 		$("#excelImportYear").change(function () {
-            renderExcelPreview($(this).val());
-        });
+		    var selectedFile = $(this).val();
+		    renderExcelPreview(selectedFile);
+		
+		    var textFile = "";
+		    var urlFile  = "";
+		
+		    if (selectedFile === "2019년") {
+		        textFile = "2019년도 샘플 파일.xlsx";
+		        urlFile  = "2019";
+		    } else if (selectedFile === "2021년") {
+		        textFile = "2021년도 샘플 파일.xlsx";
+		        urlFile  = "2021";
+		    } else if (selectedFile === "2022년") {
+		        textFile = "2022년도 샘플 파일.xlsx";
+		        urlFile  = "2022";
+		    } else if (selectedFile === "CSV") {
+		        textFile = "CSV 샘플 파일.csv";
+		        urlFile  = "CSV";
+		    }
+		
+		    if (textFile && urlFile) {
+		        // 한글/공백 파일명은 반드시 인코딩
+		        var href = BASE_IMPORT_URL + urlFile + '/' + encodeURIComponent(textFile);
+			
+		        var linkHtml = '<a href="javascript:void(0);" onclick="downloadSampleFile(\'' + urlFile + '\')">' + textFile + '</a>';
+					
+		        $('#downloadArea').empty();
+				$('#downloadArea').html(linkHtml);
+		    } else {
+		        $('#downloadArea').empty();
+		    }
+		});
     });
+
+	function downloadSampleFile(fileName) {
+		window.location ="<c:url value='/packages/sampleDownload/"+fileName+"'/>";
+	}
 	
 </script>
 

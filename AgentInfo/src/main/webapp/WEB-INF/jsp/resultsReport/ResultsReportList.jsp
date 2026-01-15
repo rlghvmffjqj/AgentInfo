@@ -173,7 +173,7 @@
 													  </div>
 													  <div class="form-check radioDate">
 														<input class="form-check-input" type="radio" name="reportDate" id="dateFull" value="full" checked>
-														<label class="form-check-label" for="threeMonth">
+														<label class="form-check-label" for="dateFull">
 														  전체
 														</label>
 													  </div>
