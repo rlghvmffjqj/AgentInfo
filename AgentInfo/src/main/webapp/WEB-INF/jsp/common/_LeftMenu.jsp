@@ -393,7 +393,7 @@
 		    	        </a>
 		    	    </li>
 		    	</ul>
-				<ul class="pcoded-item pcoded-left-item">
+				<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 		    	    <li class="integratedManagement">
 		    	        <a href="<c:url value='/integratedManagement/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-layout-tab"></i><b>FC</b></span>
@@ -413,7 +413,7 @@
 		    	</ul>
 			</sec:authorize>
 		    <sec:authorize access="hasRole('ADMIN')">
-				<ul class="pcoded-item pcoded-left-item">
+				<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 				    <li class="mailSend">
 				        <a href="<c:url value='/mailSend/write'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-email"></i><b>FC</b></span>
@@ -422,7 +422,7 @@
 				        </a>
 				    </li>
 				</ul>
-		    	<ul class="pcoded-item pcoded-left-item">
+		    	<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 				    <li class="sendPackage">
 				        <a href="<c:url value='/sendPackage/list'/>" class="waves-effect waves-dark">
 				            <span class="pcoded-micon"><i class="ti-share"></i><b>FC</b></span>

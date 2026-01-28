@@ -69,15 +69,16 @@
 	<script>
 		$(function() {
 		    $('#addAccount').click(function() {
+				$('#testingResult').text("");
 		        $.ajax({
 		            url: '<c:url value="/automatedTesting/addAccount"/>',
 		            method: 'POST',
 					async: false,
 		            success: function(response) {
-						$('#testingResult').text("성공\n" + response);
+						$('#testingResult').text(response);
 		            },
 		            error: function(xhr) {
-						$('#testingResult').text("실패\n" + xhr.responseText);
+						$('#testingResult').text("에러\n" + xhr.responseText);
 		            }
 		        });
 		    });
