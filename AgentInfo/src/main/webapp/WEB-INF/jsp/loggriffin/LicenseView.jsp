@@ -177,14 +177,14 @@
 			var productName = $('#productNameView').val();
 			productName = productName.toLowerCase();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
+			$('#licenseFilePathView').val('license-'+'loggriffin'+'-'+businessName+'-'+issueDate+".yml");
 		}
 
 		if($('#viewType').val() == 'issued') {
 			var businessName = $('#businessNameView').val();
 			var issueDate = $('#issueDateView').val();
 			issueDate = issueDate.replace(/\-/g, '');
-			$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
+			$('#licenseFilePathView').val('license-'+'loggriffin'+'-'+businessName+'-'+issueDate+".yml");
 		}
 
 		$('#chkAgentCount').change(function() {
@@ -434,14 +434,14 @@
 		var productName = $('#productNameView').val();
 		productName = productName.toLowerCase();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
+		$('#licenseFilePathView').val('license-'+'loggriffin'+'-'+businessName+'-'+issueDate+".yml");
 	});
 
 	$("#issueDateView").change(function() {
 		var businessName = $('#businessNameView').val();
 		var issueDate = $('#issueDateView').val();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
+		$('#licenseFilePathView').val('license-'+'loggriffin'+'-'+businessName+'-'+issueDate+".yml");
 	});
 
 	$('#productNameView').change(function () {
@@ -455,7 +455,7 @@
 		var businessName = $('#businessNameView').val();
 		var issueDate = $('#issueDateView').val();
 		issueDate = issueDate.replace(/\-/g, '');
-		$('#licenseFilePathView').val('license-'+productName+'-'+businessName+'-'+issueDate+".yml");
+		$('#licenseFilePathView').val('license-'+'loggriffin'+'-'+businessName+'-'+issueDate+".yml");
 	});
 
 	$(function() {

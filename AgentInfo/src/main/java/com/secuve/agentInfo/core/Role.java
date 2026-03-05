@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 public enum Role {
 	ADMIN("ROLE_ADMIN"),
+	UI("ROLE_UI"),
 	MEMBER("ROLE_MEMBER"),
 	ENGINEER("ROLE_ENGINEER"),
 	ENGINEERLEADER("ROLE_ENGINEERLEADER"),

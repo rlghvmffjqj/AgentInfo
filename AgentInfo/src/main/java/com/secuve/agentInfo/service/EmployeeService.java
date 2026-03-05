@@ -51,6 +51,8 @@ public class EmployeeService {
                 return "엔지니어 팀장";
             case "SALES":
                 return "영업";
+            case "UI":
+                return "통합UI";
             default:
                 return "일반 사용자";
         }

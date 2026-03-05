@@ -104,6 +104,8 @@ public class CustomerConsolidationService {
 			customerConsolidationDepartment = "평가 인증실";
 		} else if(authorities.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
 			customerConsolidationDepartment = "ADMIN";
+		} else if(authorities.getAuthorities().toString().equals("[ROLE_UI]")) {
+			customerConsolidationDepartment = "통합UI";
 		}
 		CustomerConsolidation customerConsolidation = new CustomerConsolidation();
 		for (int customerConsolidationsKeyNum : chkList) {
@@ -171,6 +173,8 @@ public class CustomerConsolidationService {
 			return "License";
 		} else if(authorities.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
 			return "Admin";
+		} else if(authorities.getAuthorities().toString().equals("[ROLE_UI]")) {
+			return "Ui";
 		}
 		return null;
 	}

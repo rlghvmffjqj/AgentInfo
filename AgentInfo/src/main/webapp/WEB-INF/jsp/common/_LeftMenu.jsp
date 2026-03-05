@@ -363,7 +363,7 @@
 		        </li>
 		    </ul>
 		    <div class="pcoded-navigation-label" data-i18n="nav.category.forms">main</div>
-			<sec:authorize access="hasAnyRole('ADMIN','MEMBER','ENGINEER','QA','ENGINEERLEADER','SALES')">
+			<sec:authorize access="hasAnyRole('ADMIN','MEMBER','UI','ENGINEER','QA','ENGINEERLEADER','SALES')">
 		    	<ul class="pcoded-item pcoded-left-item">
 		    	    <li class="packages">
 		    	        <a href="<c:url value='/packages/list'/>" class="waves-effect waves-dark">
@@ -594,7 +594,7 @@
 				    </li>
 			    </ul>
 		    </sec:authorize>
-			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER')">
+			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER','UI')">
 				<div class="pcoded-navigation-label menuSwitch" data-i18n="nav.category.forms" id="productVersion" style="display: none;">product release</div>
 			</sec:authorize>
 
@@ -697,6 +697,8 @@
 					  	</ul>
 				    </li>
 			    </ul>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ADMIN','QA','UI')">
 			   	<ul class="pcoded-item pcoded-left-item">
 				    <li class="issueList">
 				        <a href="<c:url value='/issue/issueList'/>" class="waves-effect waves-dark">
@@ -706,6 +708,8 @@
 				        </a>
 				    </li>
 				</ul>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 				<ul class="pcoded-item pcoded-left-item">
 				    <li class="serviceControl">
 				        <a href="<c:url value='/serviceControl/list'/>" class="waves-effect waves-dark">
@@ -1043,7 +1047,7 @@
 			    </ul> --%>
 			</sec:authorize>
 
-			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER')">
+			<sec:authorize access="hasAnyRole('ADMIN','QA','MEMBER','UI')">
 				<ul class="pcoded-item pcoded-left-item">
 				    <li class="setting pcoded-hasmenu">
 						<a href="#!" class="waves-effect waves-dark">

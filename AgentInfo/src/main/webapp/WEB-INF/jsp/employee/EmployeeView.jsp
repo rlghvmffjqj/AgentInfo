@@ -118,6 +118,7 @@
 						<option value="ENGINEERLEADER">엔지니어 팀장</option>
 						<option value="SALES">영업</option>
 						<option value="QA">QA</option>
+						<option value="UI">통합UI</option>
 					</select>
 		         </div>
 		         <div class="pading2">
@@ -169,6 +170,7 @@
 						<option value="ENGINEERLEADER" <c:if test="${employee.usersRole eq 'ENGINEERLEADER'}">selected</c:if>>엔지니어 팀장</option>
 						<option value="SALES" <c:if test="${employee.usersRole eq 'SALES'}">selected</c:if>>영업</option>
 						<option value="QA" <c:if test="${employee.usersRole eq 'QA'}">selected</c:if>>QA</option>
+						<option value="UI" <c:if test="${employee.usersRole eq 'UI'}">selected</c:if>>통합UI</option>
 					</select>
 		         </div>
 		         <div class="pading2">

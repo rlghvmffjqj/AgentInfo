@@ -400,10 +400,6 @@
 			jqGrid.trigger('reloadGrid');
 		}
 	
-		/* =========== jpgrid의 formatter 함수 ========= */
-		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.issueKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
-		}
 
 		function urlFormatter(cellValue, options, rowdata, action) {
 			if(cellValue == '' || cellValue == null) {
@@ -631,4 +627,29 @@
 			} 
 		}
 	</script>
+
+	<sec:authorize access="hasAnyRole('ADMIN','QA')">
+	<script>
+		/* =========== jpgrid의 formatter 함수 ========= */
+		function linkFormatter(cellValue, options, rowdata, action) {
+			return '<a onclick="updateView('+"'"+rowdata.issueKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+	</script>
+	</sec:authorize>
+	<sec:authorize access="hasRole('UI')">
+		<script>
+		/* =========== jpgrid의 formatter 함수 ========= */
+		function linkFormatter(cellValue, options, rowdata, action) {
+			return cellValue;
+		}
+
+		$(function() {
+		    $("#issueTarget").selectpicker("val", "TOSMS");
+				
+		    setTimeout(function(){
+		        tableRefresh();
+		    }, 50);
+		});
+	</script>
+	</sec:authorize>
 </html>
