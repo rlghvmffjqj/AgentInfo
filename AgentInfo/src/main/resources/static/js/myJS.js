@@ -61,6 +61,7 @@ $.modal = function (modalContent, size) {
 	if(size=='mailSetting') html += ' modal-mailSetting';
 	if(size=='issueNote') html += ' modal-issueNote';
 	if(size=='packagesImport')  html += ' modal-packagesImport';
+	if(size=='selenium')  html += ' modal-selenium';
 	
 	
 	

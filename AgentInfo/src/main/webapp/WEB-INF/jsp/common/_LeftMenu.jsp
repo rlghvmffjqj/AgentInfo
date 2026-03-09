@@ -331,10 +331,10 @@
 			$('.webFileConnection').addClass('active');
 		} else if($.cookie('name') == 'resultsReport') {
 			$('.resultsReport').addClass('active');
-		} else if($.cookie('name') == 'automatedTesting') {
-			$('.automatedTesting').addClass('active');
 		}  else if($.cookie('name') == 'integratedManagement') {
 			$('.integratedManagement').addClass('active');
+		}  else if($.cookie('name') == 'selenium') {
+			$('.selenium').addClass('active');
 		} 
 
 	});
@@ -403,8 +403,8 @@
 		    	    </li>
 		    	</ul>
 				<ul class="pcoded-item pcoded-left-item">
-		    	    <li class="automatedTesting">
-		    	        <a href="<c:url value='/automatedTesting/list'/>" class="waves-effect waves-dark">
+		    	    <li class="selenium">
+		    	        <a href="<c:url value='/selenium/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-wand"></i><b>FC</b></span>
 		    	            <span class="pcoded-mtext" data-i18n="nav.form-components.main">자동화 테스트</span>
 		    	            <span class="pcoded-mcaret"></span>
