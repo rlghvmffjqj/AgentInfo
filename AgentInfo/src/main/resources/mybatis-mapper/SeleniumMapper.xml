@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="selenium">
+	<resultMap type="com.secuve.agentInfo.vo.Selenium" id="selenium"></resultMap>
+	
+	<select id="getSeleniumList" resultMap="selenium" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT * 
+				FROM selenium
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getSeleniumListCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM selenium
+	</select>
+	
+	<insert id="insertSelenium" parameterType="selenium" useGeneratedKeys="true" keyProperty="seleniumKeyNum">
+		INSERT INTO selenium(seleniumTitle, seleniumAddress, seleniumDetailNote, seleniumActionSteps, seleniumRegistrant, seleniumRegistrationDate)
+		VALUES(#{seleniumTitleView}, #{seleniumAddressView}, #{seleniumDetailNoteView}, #{seleniumActionStepsView}, #{seleniumRegistrant}, #{seleniumRegistrationDate});
+	</insert>
+	
+	<update id="updateSelenium">
+		UPDATE selenium SET seleniumTitle = #{seleniumTitleView}, seleniumAddress = #{seleniumAddressView}, seleniumDetailNote = #{seleniumDetailNoteView}, seleniumActionSteps = #{seleniumActionStepsView}, seleniumModifier = #{seleniumModifier}, seleniumModifiedDate = #{seleniumModifiedDate}
+		WHERE  seleniumKeyNum = ${seleniumKeyNum};
+	</update>
+	
+	<select id="getSeleniumOne" parameterType="_int" resultMap="selenium">
+		SELECT * FROM selenium WHERE seleniumKeyNum = #{seleniumKeyNum};	
+	</select>
+	
+	<delete id="delSelenium" parameterType="_int">
+		DELETE FROM selenium WHERE seleniumKeyNum = #{seleniumKeyNum};
+	</delete>
+</mapper>

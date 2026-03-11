@@ -5,15 +5,19 @@
 	<div id="loadImage" style="position:absolute; top:50%; left:50%;width:0px;height:0px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; text-align:center; display:none;">
 		<img src="/AgentInfo/images/loding.gif" style="width:100px; height:100px;">
 	</div>
-	<form id="modalForm" name="modalForm" method="post" enctype="multipart/form-data">
+	<form id="modalForm" name="form" method ="post">
 		<h4 style="text-align: center;"><strong>자동화 테스트</strong></h4>
 		<div class="pading5">
-	    	<label class="labelFontSize">제목</label>
+	    	<label class="labelFontSize">타이틀</label>
 	    	<input type="text" id="seleniumTitleView" name="seleniumTitleView" class="form-control viewForm" placeholder="TOSMS 5.0.22 서버관리/서버목록" value="${selenium.seleniumTitle}">
 	    </div>
 		<div class="pading5">
-	    	<label class="labelFontSize">주소</label>
+	    	<label class="labelFontSize">URL 주소</label>
 	    	<input type="text" id="seleniumAddressView" name="seleniumAddressView" class="form-control viewForm" placeholder="https://172.16.50.0:8443/TOSMS/LoginText" value="${selenium.seleniumAddress}">
+	    </div>
+		<div class="pading5">
+	    	<label class="labelFontSize">상세 메모</label>
+	    	<textarea class="form-control" id="seleniumDetailNoteView" name="seleniumDetailNoteView" spellcheck="false" placeholder="내용을 상세히 입력 바랍니다.">${selenium.seleniumDetailNote}</textarea>
 	    </div>
 		<div class="pading5">
 			<label class="labelFontSize">행동 단계</label>
@@ -24,7 +28,7 @@
 	</form>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default btn-outline-info-add" id="startButton">녹화</button>
+	<button class="btn btn-default btn-outline-info-add" id="startButton">시작</button>
 	<button class="btn btn-default btn-outline-info-del" id="stopButton">중지</button>
 	<button class="btn btn-default btn-outline-info-nomal" id="saveButton">저장</button>
 	<button class="btn btn-default btn-outline-info-nomal" id="runButton">재생</button>
@@ -85,9 +89,20 @@
 	});
 
 	$('#runButton').click(function() {
+		var seleniumKeyNum = $('#seleniumKeyNum').val();
+		if(seleniumKeyNum == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '저장 후 재생바랍니다.',
+			});
+			return false;
+		}
+		
 		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/selenium/run'/>",
+			data: {"seleniumKeyNum": seleniumKeyNum},
 		    async: false,
 		    success: function (data) {
 				
@@ -138,10 +153,28 @@
 	        data: postData,
 	        async: false,
 	        success: function(result) {
-				
+				if(result.result == "OK") {
+					tableRefresh();
+					$('#seleniumKeyNum').val(result.seleniumKeyNum);
+					Swal.fire({
+						icon: 'success',
+						title: '성공!',
+						text: '작업을 완료했습니다.',
+					});
+				} else {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '데이터 추가에 실패하였습니다.',    
+					});  
+				}
 			},
 			error: function(error) {
-				console.log(error);
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '작업을 실패했습니다.',    
+				});  
 			}
 	    });
 	});
@@ -149,7 +182,7 @@
 
 <style>
 	#seleniumActionStepsView {
-		height: 490px;
+		height: 350px;
 		background: #1F1F1F;
 		color: #DCDC8B;
 		resize: none;
@@ -158,6 +191,17 @@
     	font-family: Arial, sans-serif;
     	line-height: 1.5;
     	border: 1px solid rgb(204, 204, 204);
+    	border-radius: 5px;
+	}
+
+	#seleniumDetailNoteView {
+		height: 100px;
+		resize: none;
+		padding: 10px;
+    	font-size: 13px;
+    	font-family: Arial, sans-serif;
+    	line-height: 1.5;
+    	border: 1px solid #dab17d;
     	border-radius: 5px;
 	}
 

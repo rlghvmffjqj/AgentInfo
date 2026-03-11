@@ -11,9 +11,10 @@ import lombok.ToString;
 @ToString
 @Component
 public class Selenium {
-	private int seleniumKeyNum;
+	private Integer seleniumKeyNum;
 	private String seleniumTitle;
 	private String seleniumAddress;
+	private String seleniumDetailNote;
 	private String seleniumActionSteps;
 	private String seleniumRegistrant;
 	private String seleniumRegistrationDate;
@@ -23,5 +24,11 @@ public class Selenium {
 	private String seleniumTitleView;
 	private String seleniumAddressView;
 	private String seleniumActionStepsView;
+	private String seleniumDetailNoteView;
+	
+	private int page=1;							// 기본 페이지 번호
+	private int rows=25;						// 데이터 보여줄 갯수
+	private String sidx="seleniumKeyNum";		// 정렬할 기준 데이터
+	private String sord;						// 오름차순, 내림차순
 	
 }

@@ -23,16 +23,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.secuve.agentInfo.dao.SeleniumDao;
+import com.secuve.agentInfo.vo.Packages;
 import com.secuve.agentInfo.vo.Selenium;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.secuve.agentInfo.vo.SendPackage;
 
 @Service
 public class SeleniumService {
-
+	@Autowired SeleniumDao seleniumDao;
+	
 	private volatile boolean recording;
     private volatile boolean driverAlive;
     private Thread monitorThread;
@@ -145,22 +148,29 @@ public class SeleniumService {
         backupEventsFromBrowser();
 
         try {
-            // 하드 코딩 없이 동적으로 마지막 클릭 이벤트를 감지하는 로직은 제거됨 (작동 안 함 확인)
-            // 대신 normalizeInputEvents 메소드가 입력을 압축합니다.
-
             if (eventBuffer.isEmpty()) {
                 System.err.println("Recorder 결과가 비어 있습니다.");
             }
 
+            // 입력 이벤트를 압축/정규화
             List<Map<String, Object>> normalizedEvents = normalizeInputEvents(eventBuffer);
-            System.out.println("=== NORMALIZED EVENTS (Final Output) ===");
-            normalizedEvents.forEach(System.out::println);
             
-            // saveEventsToFile(normalizedEvents, "C:\\AgentInfo\\macro.json");
-            result = normalizedEvents.toString();
+            // Jackson ObjectMapper를 사용하여 List를 JSON 문자열로 변환 (쌍따옴표 포함)
+            ObjectMapper mapper = new ObjectMapper();
+            
+            // 결과 변수에 JSON 문자열 할당
+            result = mapper.writeValueAsString(normalizedEvents);
+
+            System.out.println("=== NORMALIZED EVENTS (Final JSON Output) ===");
+            System.out.println(result);
+            
+            // 파일 저장이 필요할 경우 주석 해제하여 사용
+            // mapper.writerWithDefaultPrettyPrinter().writeValue(new File("C:\\AgentInfo\\macro.json"), normalizedEvents);
+
         } catch (Exception e) {
             System.err.println("Recorder stop 처리 중 오류 발생");
             e.printStackTrace();
+            result = "[]"; // 오류 발생 시 빈 배열 반환
         } finally {
             try {
                 driverAlive = false;
@@ -174,6 +184,7 @@ public class SeleniumService {
         }
         return result;
     }
+
     
     
     private Set<String> injectedHandles = Collections.synchronizedSet(new HashSet<>());
@@ -443,9 +454,44 @@ public class SeleniumService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(now);
 	}
+    
 	public String insertSelenium(Selenium selenium) {
-		// TODO Auto-generated method stub
-		return null;
+		int success = seleniumDao.insertSelenium(selenium);
+		if (success > 0) {
+			return "OK";
+		} else {
+			return "FALSE";
+		}
+	}
+	public String updateSelenium(Selenium selenium) {
+		int success = seleniumDao.updateSelenium(selenium);
+		if (success > 0) {
+			return "OK";
+		} else {
+			return "FALSE";
+		}
+	}
+	public Selenium getSeleniumOne(int seleniumKeyNum) {
+		return seleniumDao.getSeleniumOne(seleniumKeyNum);
+	}
+	public List<Selenium> getSeleniumList(Selenium search) {
+		return seleniumDao.getSeleniumList(search);
+	}
+	public int getSeleniumListCount(Selenium search) {
+		return seleniumDao.getSeleniumListCount(search);
+	}
+	public String delSelenium(int[] chkList) {
+		if (chkList == null || chkList.length == 0) {
+            return "FALSE";
+        }
+		
+		for (int seleniumKeyNum : chkList) {
+			int success = seleniumDao.delSelenium(seleniumKeyNum);
+			if (success <= 0) {
+				return "FALSE";
+			}
+		}
+		return "OK";
 	}
 
 }

@@ -2,6 +2,7 @@ package com.secuve.agentInfo.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.secuve.agentInfo.core.PlayerService;
@@ -32,6 +34,27 @@ public class SeleniumController {
     }
 	
 	@ResponseBody
+	@PostMapping(value = "/selenium/delete")
+	public String SeleniumDelete(@RequestParam int[] chkList) {
+		return seleniumService.delSelenium(chkList);
+	}
+	
+	@ResponseBody
+    @PostMapping(value = "/selenium")
+    public Map<String, Object> getSelenium(Selenium search) {
+        Map<String, Object> response = new HashMap<>();
+        List<Selenium> seleniumList = seleniumService.getSeleniumList(search);
+        int totalCount = seleniumService.getSeleniumListCount(search);
+
+        response.put("page", search.getPage());
+        response.put("total", Math.ceil((float) totalCount / search.getRows()));
+        response.put("records", totalCount);
+        response.put("rows", seleniumList);
+
+        return response;
+    }
+	
+	@ResponseBody
 	@PostMapping(value = "/selenium/start")
 	public void SeleniumStart(Selenium selenium) {
 		System.out.println("Controller: Recording started.");
@@ -49,10 +72,11 @@ public class SeleniumController {
 	
 	@ResponseBody
 	@PostMapping(value = "/selenium/run")
-	public void SeleniumRun() {
+	public void SeleniumRun(int seleniumKeyNum) {
+		Selenium selenium = seleniumService.getSeleniumOne(seleniumKeyNum);
 		System.out.println("Controller: Playback started.");
         new Thread(() -> {
-        	playerService.runPlayback(); // 매개변수 없이 호출
+        	playerService.runPlayback(selenium);
         }).start();
 	}
 	
@@ -61,14 +85,28 @@ public class SeleniumController {
 		return "/selenium/SeleniumView";
 	}
 	
+	@PostMapping(value = "/selenium/updateView")
+	public String SeleniumUpdateView(Model model, int seleniumKeyNum) {
+		Selenium selenium = seleniumService.getSeleniumOne(seleniumKeyNum);
+		model.addAttribute("selenium", selenium);
+		return "/selenium/SeleniumView";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/selenium/insert")
 	public Map InsertSelenium(Selenium selenium, Principal principal) {
-		selenium.setSeleniumRegistrant(principal.getName());
-		selenium.setSeleniumRegistrationDate(seleniumService.nowDate());
+		String result = "";
 
 		Map<String, Object> map = new HashMap<>();
-		String result = seleniumService.insertSelenium(selenium);
+		if(selenium.getSeleniumKeyNum() == null) {
+			selenium.setSeleniumRegistrant(principal.getName());
+			selenium.setSeleniumRegistrationDate(seleniumService.nowDate());
+			result = seleniumService.insertSelenium(selenium);
+		} else {
+			selenium.setSeleniumModifier(principal.getName());
+			selenium.setSeleniumModifiedDate(seleniumService.nowDate());
+			result = seleniumService.updateSelenium(selenium);
+		}
 		
 		map.put("seleniumKeyNum", selenium.getSeleniumKeyNum());
 		map.put("result", result);
