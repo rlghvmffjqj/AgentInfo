@@ -2,16 +2,20 @@ package com.secuve.agentInfo.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchFrameException;
@@ -24,8 +28,16 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.secuve.agentInfo.dao.SeleniumDao;
 import com.secuve.agentInfo.vo.Packages;
@@ -249,10 +261,6 @@ public class SeleniumService {
             System.err.println("Backup Error: " + e.getMessage());
         }
     }
-
-
-
-
 
     private void collectEvents() {
         try {
@@ -493,5 +501,116 @@ public class SeleniumService {
 		}
 		return "OK";
 	}
+	public void startApi(Selenium selenium, String clientIp) {
+		String url = "http://"+clientIp+":8082/clientStart";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("seleniumAddress", selenium.getSeleniumAddressView())
+        		.build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println(jsonInString);
+	}
+	
+	
+	public String getClientIp(HttpServletRequest request) {
+	    String ip = request.getHeader("X-Forwarded-For");
+
+	    if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("Proxy-Client-IP");
+	    }
+	    if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getHeader("WL-Proxy-Client-IP");
+	    }
+	    if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+	        ip = request.getRemoteAddr();
+	    }
+
+	    return ip;
+	}
+	
+	public String stopApi(String clientIp) {
+		String url = "http://"+clientIp+":8082/clientStop";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return jsonInString;
+	}
+	public void runApi(Selenium selenium, String clientIp) {
+		String url = "http://"+clientIp+":8082/clientRun";
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.queryParam("seleniumAddress", selenium.getSeleniumAddress())
+        		.queryParam("seleniumActionSteps", selenium.getSeleniumActionSteps())
+        		.build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println(jsonInString);
+		
+	}
+	
+	
 
 }

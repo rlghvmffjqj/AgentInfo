@@ -56,28 +56,36 @@ public class SeleniumController {
 	
 	@ResponseBody
 	@PostMapping(value = "/selenium/start")
-	public void SeleniumStart(Selenium selenium) {
-		System.out.println("Controller: Recording started.");
-        new Thread(() -> {
-        	seleniumService.start(selenium);
-        }).start();
+	public void SeleniumStart(HttpServletRequest request, Selenium selenium) {
+//		System.out.println("Controller: Recording started.");
+//        new Thread(() -> {
+//        	seleniumService.start(selenium);
+//        }).start();
+		
+		String clientIp = seleniumService.getClientIp(request);
+		seleniumService.startApi(selenium, clientIp);
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/selenium/stop")
-	public String SeleniumStop() {
-		System.out.println("Controller: Recording stopped and saved.");
-        return seleniumService.stop();
+	public String SeleniumStop(HttpServletRequest request) {
+//		System.out.println("Controller: Recording stopped and saved.");
+//        return seleniumService.stop();
+		String clientIp = seleniumService.getClientIp(request);
+		return seleniumService.stopApi(clientIp);
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/selenium/run")
-	public void SeleniumRun(int seleniumKeyNum) {
+	public void SeleniumRun(HttpServletRequest request, int seleniumKeyNum) {
+//		Selenium selenium = seleniumService.getSeleniumOne(seleniumKeyNum);
+//		System.out.println("Controller: Playback started.");
+//        new Thread(() -> {
+//        	playerService.runPlayback(selenium);
+//        }).start();
 		Selenium selenium = seleniumService.getSeleniumOne(seleniumKeyNum);
-		System.out.println("Controller: Playback started.");
-        new Thread(() -> {
-        	playerService.runPlayback(selenium);
-        }).start();
+		String clientIp = seleniumService.getClientIp(request);
+		seleniumService.runApi(selenium, clientIp);
 	}
 	
 	@PostMapping(value = "/selenium/startView")
