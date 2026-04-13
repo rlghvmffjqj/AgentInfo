@@ -13,7 +13,7 @@ import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.QuestionAnswerDao;
 import com.secuve.agentInfo.vo.Answer;
 import com.secuve.agentInfo.vo.Question;
-import com.secuve.agentInfo.vo.UserAlarm;
+import com.secuve.agentInfo.vo.UserAlarms;
 
 @Service
 public class QuestionAnswerService {
@@ -62,17 +62,17 @@ public class QuestionAnswerService {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		Question question = questionAnswerDao.getQuestionOne(answer.getQuestionKeyNum());
-		UserAlarm userAlarm = new UserAlarm();
-		userAlarm.setUserAlarmParameter(question.getQuestionKeyNum());
-		userAlarm.setUserAlarmEmployeeId(question.getEmployeeId());
-		userAlarm.setUserAlarmTitle(question.getQuestionTitle());
-		userAlarm.setUserAlarmDate(formatter.format(now));
-		userAlarm.setUserAlarmRegistrant(answer.getAnswerRegistrant());
-		userAlarm.setUserAlarmRegistrationDate(answer.getAnswerRegistrationDate());
-		userAlarm.setUserAlarmURL("/AgentInfo/question/view");
+		UserAlarms userAlarms = new UserAlarms();
+		userAlarms.setUserAlarmsParameter(question.getQuestionKeyNum());
+		userAlarms.setUserAlarmsEmployeeId(question.getEmployeeId());
+		userAlarms.setUserAlarmsTitle(question.getQuestionTitle());
+		userAlarms.setUserAlarmsDate(formatter.format(now));
+		userAlarms.setUserAlarmsRegistrant(answer.getAnswerRegistrant());
+		userAlarms.setUserAlarmsRegistrationDate(answer.getAnswerRegistrationDate());
+		userAlarms.setUserAlarmsURL("/AgentInfo/question/view");
 		
-		employeeDao.delUserAlarm(answer.getQuestionKeyNum());
-		employeeDao.setUserAlarm(userAlarm);
+		employeeDao.delUserAlarms(answer.getQuestionKeyNum());
+		employeeDao.setUserAlarms(userAlarms);
 		
 		map.put("employeeName", employeeDao.getEmployeeOne(answer.getEmployeeId()).getEmployeeName());
 		map.put("answerDate", answer.getAnswerDate());
@@ -107,17 +107,17 @@ public class QuestionAnswerService {
 		return map;
 	}
 
-	public void updateUserAlarm(Question question, String employeeId) {
+	public void updateUserAlarms(Question question, String employeeId) {
 		if(question.getEmployeeId().equals(employeeId)) {
 			Date now = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
-			UserAlarm userAlarm = new UserAlarm();
-			userAlarm.setUserAlarmEmployeeId(employeeId);
-			userAlarm.setUserAlarmModifier(employeeId);
-			userAlarm.setUserAlarmModifiedDate(formatter.format(now));
-			userAlarm.setUserAlarmParameter(question.getQuestionKeyNum());
-			employeeDao.updateUserAlarm(userAlarm);
+			UserAlarms userAlarms = new UserAlarms();
+			userAlarms.setUserAlarmsEmployeeId(employeeId);
+			userAlarms.setUserAlarmsModifier(employeeId);
+			userAlarms.setUserAlarmsModifiedDate(formatter.format(now));
+			userAlarms.setUserAlarmsParameter(question.getQuestionKeyNum());
+			employeeDao.updateUserAlarms(userAlarms);
 		}
 	}
 

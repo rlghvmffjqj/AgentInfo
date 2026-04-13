@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -576,39 +577,33 @@ public class SeleniumService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        jsonInString = jsonInString.replaceAll("^\"|\"$", "");
+        jsonInString = jsonInString.replace("\\\"", "\"");
+        jsonInString = jsonInString.replaceAll("\\\\\\\\", "\\\\");
         return jsonInString;
 	}
-	public void runApi(Selenium selenium, String clientIp) {
-		String url = "http://"+clientIp+":8082/clientRun";
-        HashMap<String, Object> result = new HashMap<String, Object>();
-        String jsonInString = "";
+	
+	
+	public String runApi(Selenium selenium, String clientIp) {
 
-        RestTemplate restTemplate = new RestTemplate();
+	    String url = "http://" + clientIp + ":8082/clientRun";
 
-        HttpHeaders header = new HttpHeaders();
-        HttpEntity<?> entity = new HttpEntity<>(header);
-        
-        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
-        		.queryParam("seleniumAddress", selenium.getSeleniumAddress())
-        		.queryParam("seleniumActionSteps", selenium.getSeleniumActionSteps())
-        		.build();
+	    RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
 
-        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
-        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
-        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+	    Map<String, Object> body = new HashMap<>();
+	    body.put("seleniumAddress", selenium.getSeleniumAddressView());
+	    body.put("seleniumActionSteps", selenium.getSeleniumActionStepsView());
 
-        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-			jsonInString = mapper.writeValueAsString(resultMap.getBody());
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        System.out.println(jsonInString);
-		
+	    HttpEntity<Map<String,Object>> request =
+	            new HttpEntity<>(body, headers);
+
+	    restTemplate.postForObject(url, request, String.class);
+
+	    System.out.println(request.getBody());
+	    return "OK";
 	}
 	
 	

@@ -90,20 +90,20 @@
                     rowItem += "</a>";
                     rowItem += "</li>";
                 } else {
-                    if(item.userAlarmURL.includes("issue")) {
+                    if(item.userAlarmsURL.includes("issue")) {
                         rowItem += "<li class='waves-effect waves-light'>";
-                        rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
-                        if(item.userAlarmStateN == 'N') {
-                            rowItem += "<img src='/AgentInfo/images/AlramRed.png' class='img-radius' alt='User-Profile-Image' style='width: 21px; height: 21px; border-radius: 0px; margin-right: 3px; margin-left: -2.5px;'>"+item.userAlarmTitle;
+                        rowItem += "<a href='#' onclick='issueAlarmClick("+'"'+item.userAlarmsURL+'"'+","+'"'+item.userAlarmsParameter+'"'+")'>";
+                        if(item.userAlarmsStateN == 'N') {
+                            rowItem += "<img src='/AgentInfo/images/AlramRed.png' class='img-radius' alt='User-Profile-Image' style='width: 21px; height: 21px; border-radius: 0px; margin-right: 3px; margin-left: -2.5px;'>"+item.userAlarmsTitle;
                         } else {
-                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                            rowItem += "<i class='ti-bell'></i>"+item.userAlarmsTitle;
                         }
                         rowItem += "</a>";
                         rowItem += "</li>";
                     } else {
                         rowItem += "<li class='waves-effect waves-light'>";
-                        rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmURL+'"'+","+'"'+item.userAlarmParameter+'"'+")'>";
-                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmTitle;
+                        rowItem += "<a href='#' onclick='alarmClick("+'"'+item.userAlarmsURL+'"'+","+'"'+item.userAlarmsParameter+'"'+")'>";
+                        rowItem += "<i class='ti-bell'></i>"+item.userAlarmsTitle;
                         rowItem += "</a>";
                         rowItem += "</li>";
                     }
@@ -214,10 +214,10 @@ function customerSwitch(result) {
 	}
 }
 
-function alarmClick(userAlarmURL, keyNum) {
+function alarmClick(userAlarmsURL, keyNum) {
     var form = document.createElement("form");
   	form.method = "POST";
-  	form.action = "<c:url value='"+userAlarmURL+"'/>"; // 이동할 페이지의 URL을 지
+  	form.action = "<c:url value='"+userAlarmsURL+"'/>"; // 이동할 페이지의 URL을 지
 
   	// 폼에 값을 추가
   	var input1 = document.createElement("input");
@@ -231,17 +231,17 @@ function alarmClick(userAlarmURL, keyNum) {
   	form.submit();
 }
 
-function issueAlarmClick (userAlarmURL, keyNum) {
+function issueAlarmClick (userAlarmsURL, keyNum) {
     $.ajax({
 		url: "<c:url value='/issue/alarmCheck'/>",
 	    type: 'post',
 	    data: {
-			"userAlarmParameter": keyNum
+			"userAlarmsParameter": keyNum
 		},
 	    async: false,
 	    success: function(result) {
 			if(result == "OK") {
-                location.href="<c:url value='"+userAlarmURL+"'/>?issueKeyNum="+keyNum;
+                location.href="<c:url value='"+userAlarmsURL+"'/>?issueKeyNum="+keyNum;
             } else {
                 Swal.fire({               
 					icon: 'error',          

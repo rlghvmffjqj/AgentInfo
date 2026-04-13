@@ -388,8 +388,8 @@ public class IssueController {
 	
 	@ResponseBody
 	@PostMapping(value = "/issue/alarmCheck")
-	public String AlarmCheck(Principal principal, int userAlarmParameter) {
-		return issueService.updateUserAlarm(principal.getName(), userAlarmParameter);
+	public String AlarmCheck(Principal principal, int userAlarmsParameter) {
+		return issueService.updateUserAlarms(principal.getName(), userAlarmsParameter);
 	}
 	
 	@ResponseBody

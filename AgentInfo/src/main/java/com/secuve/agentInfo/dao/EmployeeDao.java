@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.secuve.agentInfo.vo.Employee;
-import com.secuve.agentInfo.vo.UserAlarm;
+import com.secuve.agentInfo.vo.UserAlarms;
 
 @Repository
 public class EmployeeDao {
@@ -123,20 +123,20 @@ public class EmployeeDao {
 		return sqlSession.selectList("employee.getDepartmentEmail", departmentName);
 	}
 
-	public List<UserAlarm> getUserAlarm(String userAlarmEmployeeId) {
-		return sqlSession.selectList("employee.getUserAlarm", userAlarmEmployeeId);
+	public List<UserAlarms> getUserAlarms(String userAlarmsEmployeeId) {
+		return sqlSession.selectList("employee.getUserAlarms", userAlarmsEmployeeId);
 	}
 
-	public void setUserAlarm(UserAlarm userAlarm) {
-		sqlSession.insert("employee.setUserAlarm", userAlarm);
+	public void setUserAlarms(UserAlarms userAlarms) {
+		sqlSession.insert("employee.setUserAlarms", userAlarms);
 	}
 
-	public void delUserAlarm(int keyeyNum) {
-		sqlSession.delete("employee.delUserAlarm", keyeyNum);
+	public void delUserAlarms(int keyeyNum) {
+		sqlSession.delete("employee.delUserAlarms", keyeyNum);
 	}
 
-	public int updateUserAlarm(UserAlarm userAlarm) {
-		return sqlSession.update("employee.updateUserAlarm", userAlarm);
+	public int updateUserAlarms(UserAlarms userAlarms) {
+		return sqlSession.update("employee.updateUserAlarms", userAlarms);
 	}
 
 	public List<String> getQaEmployeeId() {

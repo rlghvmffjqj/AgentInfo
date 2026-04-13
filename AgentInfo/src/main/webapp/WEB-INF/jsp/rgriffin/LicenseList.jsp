@@ -21,7 +21,7 @@
 					colModel:[
 						{name:'rgriffinKeyNum', index:'rgriffinKeyNum', align:'center', width: 35, hidden:true },
 						{name:'licenseType', index:'licenseType', align:'center', width: 50},
-						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 220},
+						{name:'rgriffinCompany', index:'rgriffinCompany', align:'center', width: 220, formatter: linkFormatter},
 						{name:'rgriffinBusinessName', index:'rgriffinBusinessName', align:'center', width: 220},
 						{name:'rgriffinCategory', index:'rgriffinCategory', align:'center', width: 160},
 						{name:'rgriffinWriteDate', index:'rgriffinWriteDate', align:'center', width: 100},
@@ -509,6 +509,27 @@
 				}
 			});
 		});
+
+		function linkFormatter(cellValue, options, rowdata, action) {
+			return '<a onclick="updateView('+"'"+rowdata.rgriffinKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+
+		function updateView(data) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/rgriffin/updateView'/>",
+		        data: {"rgriffinKeyNum" : data},
+		        async: false,
+		        success: function (data) {
+		        	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+		            $.modal(data, 'rgriffin'); //modal창 호출
+		        },
+		        error: function(e) {
+		            // TODO 에러 화면
+		        }
+		    });
+		}
 
 		function individualMailSendFormatter(cellValue, options, rowdata, action) {
 			if(cellValue == '' || cellValue == null) {

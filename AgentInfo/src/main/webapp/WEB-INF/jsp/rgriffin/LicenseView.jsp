@@ -18,7 +18,8 @@
 			 	<input type="text" id="rgriffinBusinessNameView" name="rgriffinBusinessNameView" class="form-control viewForm" value="${license.rgriffinBusinessName}" placeholder="사업 구분">
 			</div>
 			<div class="pading5Width450">
-				<label class="labelFontSize">카테고리</label>
+				<label class="labelFontSize">카테고리</label><label class="colorRed">*</label>
+				<span class="colorRed fontSize10 licenseShow" id="NotRgriffinCategory" style="display: none; line-height: initial; float: right;">카테고리를 입력해주세요.</span>
 			 	<input type="text" id="rgriffinCategoryView" name="rgriffinCategoryView" class="form-control viewForm" value="${license.rgriffinCategory}" placeholder="팀 단위">
 			</div>
 			<div class="pading5Width450">
@@ -106,8 +107,7 @@
 		document.getElementById('rgriffinWriteDateView').valueAsDate = new Date();
 	}
 
-	/* =========== 라이선스 발급 ========= */
-	function BtnInsert() {
+	function Validation() {
 		var licenseTypeView = $('#licenseTypeView').val();
 		var rgriffinCompanyView = $('#rgriffinCompanyView').val();
 		var rgriffinExpireView = $('#rgriffinExpireView').val();
@@ -116,6 +116,7 @@
 		var rgriffinPasswordView = $('#rgriffinPasswordView').val();
 		var rgriffinIssueDateView = $('#rgriffinIssueDateView').val();
 		var rgriffinWriteDateView = $('#rgriffinWriteDateView').val();
+		var rgriffinCategoryView = $('#rgriffinCategoryView').val();
 		var validation = true;
 
 		if(rgriffinCompanyView == "") {
@@ -140,16 +141,33 @@
 		} 
 		if(rgriffinIssueDateView == "") {
 			$('#NotIssueDate').show();
+			validation = false;
 		} 
 		if(rgriffinWriteDateView == "") {
 			$('#NotWriteDate').show();
+			validation = false;
+		}
+
+		if(rgriffinCategoryView == "") {
+			$('#NotRgriffinCategory').show();
+			validation = false;
 		}
 
 		if(!validation) {
 			return false;
 		}
 
+		return true;
+	}
 
+	/* =========== 라이선스 발급 ========= */
+	function BtnInsert() {
+		var validation = Validation();
+		if(validation == false) {
+			return false;
+		} 
+
+		var rgriffinCompanyView = $('#rgriffinCompanyView').val();
 		var postData = $('#modalForm').serializeObject();
 		
 		$.ajax({
@@ -185,6 +203,11 @@
 	
 	
 	function BtnUpdate() {	
+		var validation = Validation();
+		if(validation == false) {
+			return false;
+		} 
+		
 		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 			url: "<c:url value='/rgriffin/licenseUpdate'/>",

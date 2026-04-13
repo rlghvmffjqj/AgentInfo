@@ -106,7 +106,7 @@ public class QuestionAnswerController {
 			identityCheck = "adminOn";
 		}
 		
-		questionAnswerService.updateUserAlarm(question, principal.getName());
+		questionAnswerService.updateUserAlarms(question, principal.getName());
 		
 		model.addAttribute("question", question);
 		model.addAttribute("answer", answer);

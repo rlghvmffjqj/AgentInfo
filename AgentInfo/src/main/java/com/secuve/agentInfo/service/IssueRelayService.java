@@ -18,7 +18,7 @@ import com.secuve.agentInfo.dao.IssueDao;
 import com.secuve.agentInfo.dao.IssueRelayDao;
 import com.secuve.agentInfo.vo.Issue;
 import com.secuve.agentInfo.vo.IssueRelay;
-import com.secuve.agentInfo.vo.UserAlarm;
+import com.secuve.agentInfo.vo.UserAlarms;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
@@ -114,20 +114,20 @@ public class IssueRelayService {
 		return "OK";
 	}
 
-	public void insertUseralarm(Issue issue) {
-		UserAlarm userAlarm = new UserAlarm();
-		userAlarm.setUserAlarmTitle(issue.getIssueCustomer()+"_"+issue.getIssueTitle()+"_"+issue.getIssueDate());
-		userAlarm.setUserAlarmDate(nowDate());
-		userAlarm.setUserAlarmState("N");
-		userAlarm.setUserAlarmRegistrationDate(nowDate());
-		userAlarm.setUserAlarmURL("/AgentInfo/issue/updateView");
-		userAlarm.setUserAlarmParameter(issue.getIssueKeyNum());
-		userAlarm.setUserAlarmParameterSub(issue.getIssuePrimaryKeyNum());
+		UserAlarms userAlarms = new UserAlarms();
+		public void insertUseralarm(Issue issue) {
+		userAlarms.setUserAlarmsTitle(issue.getIssueCustomer()+"_"+issue.getIssueTitle()+"_"+issue.getIssueDate());
+		userAlarms.setUserAlarmsDate(nowDate());
+		userAlarms.setUserAlarmsState("N");
+		userAlarms.setUserAlarmsRegistrationDate(nowDate());
+		userAlarms.setUserAlarmsURL("/AgentInfo/issue/updateView");
+		userAlarms.setUserAlarmsParameter(issue.getIssueKeyNum());
+		userAlarms.setUserAlarmsParameterSub(issue.getIssuePrimaryKeyNum());
 		
 		List<String> qaList = employeeDao.getQaEmployeeId();
 		for(String qa : qaList) {
-			userAlarm.setUserAlarmEmployeeId(qa);
-			employeeDao.setUserAlarm(userAlarm);
+			userAlarms.setUserAlarmsEmployeeId(qa);
+			employeeDao.setUserAlarms(userAlarms);
 		}
 		
 	}

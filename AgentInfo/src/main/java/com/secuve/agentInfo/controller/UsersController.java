@@ -28,7 +28,7 @@ import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.QuestionAnswerService;
 import com.secuve.agentInfo.service.UsersService;
 import com.secuve.agentInfo.vo.Employee;
-import com.secuve.agentInfo.vo.UserAlarm;
+import com.secuve.agentInfo.vo.UserAlarms;
 
 @Controller
 @RequestMapping(value = "/")
@@ -176,14 +176,14 @@ public class UsersController {
 	@PostMapping(value = "/users/alarm")
 	public Map Alarm(Principal principal) {
 //		String role = employeeService.getUsersRole(principal.getName());
-		List<UserAlarm> list = new ArrayList<UserAlarm>();
+		List<UserAlarms> list = new ArrayList<UserAlarms>();
 //		if(role.equals("ADMIN")) {
 //			list = questionAnswerService.getQuestionAnswerAlarm();
 //		}
-		list = usersService.getUserAlarm(principal.getName());
+		list = usersService.getUserAlarms(principal.getName());
 		int notRead = 0;
-		for(UserAlarm userAlarm : list) {
-			if(userAlarm.getUserAlarmStateN().equals("N"))
+		for(UserAlarms userAlarms : list) {
+			if(userAlarms.getUserAlarmsStateN().equals("N"))
 				notRead += 1;
 		}
 		Map map = new HashMap();

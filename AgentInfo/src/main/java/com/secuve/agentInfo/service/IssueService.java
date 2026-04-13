@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.IssueDao;
 import com.secuve.agentInfo.vo.Issue;
-import com.secuve.agentInfo.vo.UserAlarm;
+import com.secuve.agentInfo.vo.UserAlarms;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = {Exception.class, RuntimeException.class})
@@ -172,7 +172,7 @@ public class IssueService {
 	public String delIssue(int[] chkList) {
 		for (int issueKeyNum : chkList) {
 			int success = issueDao.delIssue(issueKeyNum);
-			employeeDao.delUserAlarm(issueKeyNum);
+			employeeDao.delUserAlarms(issueKeyNum);
 			if (success <= 0)
 				return "FALSE";
 			
@@ -359,13 +359,13 @@ public class IssueService {
 		return issueDao.getIssueOneIssueApplyYnItem(issueKeyNum);
 	}
 
-	public String  updateUserAlarm(String employeeId, int userAlarmParameter) {
-		UserAlarm userAlarm = new UserAlarm();
-		userAlarm.setUserAlarmEmployeeId(employeeId);
-		userAlarm.setUserAlarmModifier(employeeId);
-		userAlarm.setUserAlarmModifiedDate(nowDate());
-		userAlarm.setUserAlarmParameter(userAlarmParameter);
-		int result = employeeDao.updateUserAlarm(userAlarm);
+	public String  updateUserAlarms(String employeeId, int userAlarmsParameter) {
+		UserAlarms userAlarms = new UserAlarms();
+		userAlarms.setUserAlarmsEmployeeId(employeeId);
+		userAlarms.setUserAlarmsModifier(employeeId);
+		userAlarms.setUserAlarmsModifiedDate(nowDate());
+		userAlarms.setUserAlarmsParameter(userAlarmsParameter);
+		int result = employeeDao.updateUserAlarms(userAlarms);
 		
 		return result >= 1 ? "OK" : "FALSE";
 	}

@@ -23,7 +23,7 @@ import com.secuve.agentInfo.core.Role;
 import com.secuve.agentInfo.dao.EmployeeDao;
 import com.secuve.agentInfo.dao.UsersJpaDao;
 import com.secuve.agentInfo.vo.LoginSession;
-import com.secuve.agentInfo.vo.UserAlarm;
+import com.secuve.agentInfo.vo.UserAlarms;
 import com.secuve.agentInfo.vo.Users;
 
 @Service
@@ -167,8 +167,8 @@ public class UsersService implements UserDetailsService{
 		return "FALSE";
 	}
 
-	public List<UserAlarm> getUserAlarm(String userAlarmEmployeeId) {
-		return employeeDao.getUserAlarm(userAlarmEmployeeId);
+	public List<UserAlarms> getUserAlarms(String userAlarmsEmployeeId) {
+		return employeeDao.getUserAlarms(userAlarmsEmployeeId);
 	}
 
 	public String lockChange(String employeeId, String type) {

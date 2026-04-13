@@ -56,14 +56,19 @@ public class SeleniumController {
 	
 	@ResponseBody
 	@PostMapping(value = "/selenium/start")
-	public void SeleniumStart(HttpServletRequest request, Selenium selenium) {
+	public String SeleniumStart(HttpServletRequest request, Selenium selenium) {
 //		System.out.println("Controller: Recording started.");
 //        new Thread(() -> {
 //        	seleniumService.start(selenium);
 //        }).start();
+		try {
+			String clientIp = seleniumService.getClientIp(request);
+			seleniumService.startApi(selenium, clientIp);
+			return "OK";
+		} catch (Exception e) {
+			return "FALSE";
+		}
 		
-		String clientIp = seleniumService.getClientIp(request);
-		seleniumService.startApi(selenium, clientIp);
 	}
 	
 	@ResponseBody
@@ -71,21 +76,52 @@ public class SeleniumController {
 	public String SeleniumStop(HttpServletRequest request) {
 //		System.out.println("Controller: Recording stopped and saved.");
 //        return seleniumService.stop();
-		String clientIp = seleniumService.getClientIp(request);
-		return seleniumService.stopApi(clientIp);
+		try {
+			String clientIp = seleniumService.getClientIp(request);
+			String result = seleniumService.stopApi(clientIp);
+			if(result == "[]") {
+				return "Empty";
+			} else {
+				return result;
+			}
+		} catch (Exception e) {
+			return "FALSE";
+		}
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/selenium/run")
-	public void SeleniumRun(HttpServletRequest request, int seleniumKeyNum) {
+	public Map SeleniumRun(Principal principal, HttpServletRequest request, Selenium selenium) {
 //		Selenium selenium = seleniumService.getSeleniumOne(seleniumKeyNum);
 //		System.out.println("Controller: Playback started.");
 //        new Thread(() -> {
 //        	playerService.runPlayback(selenium);
 //        }).start();
-		Selenium selenium = seleniumService.getSeleniumOne(seleniumKeyNum);
-		String clientIp = seleniumService.getClientIp(request);
-		seleniumService.runApi(selenium, clientIp);
+		String saveResult = "";
+		String result = "";
+		Map<String, Object> map = new HashMap<>();
+		if(selenium.getSeleniumKeyNum() == null) {
+			selenium.setSeleniumRegistrant(principal.getName());
+			selenium.setSeleniumRegistrationDate(seleniumService.nowDate());
+			saveResult = seleniumService.insertSelenium(selenium);
+		} else {
+			selenium.setSeleniumModifier(principal.getName());
+			selenium.setSeleniumModifiedDate(seleniumService.nowDate());
+			saveResult = seleniumService.updateSelenium(selenium);
+		}
+		
+		if(saveResult == "OK") {
+			try {
+				String clientIp = seleniumService.getClientIp(request);
+				result = seleniumService.runApi(selenium, clientIp);
+			}catch (Exception e) {
+				result = "FALSE";
+			}
+		}
+		
+		map.put("seleniumKeyNum", selenium.getSeleniumKeyNum());
+		map.put("result", result);
+		return map;
 	}
 	
 	@PostMapping(value = "/selenium/startView")

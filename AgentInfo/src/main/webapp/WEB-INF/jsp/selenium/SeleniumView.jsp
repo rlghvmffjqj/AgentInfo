@@ -66,7 +66,13 @@
 			},
 		    async: false,
 		    success: function (data) {
-				
+				if(data == "FALSE") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+					});  
+				}
 		    },
 		    error: function(e) {
 		        alert(e);
@@ -80,7 +86,27 @@
 		    url: "<c:url value='/selenium/stop'/>",
 		    async: false,
 		    success: function (data) {
-				$('#seleniumActionStepsView').val(data);
+				if(data == "FALSE") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+					});  
+				} else if(data == "Empty") {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '값이 존재하지 않습니다.',    
+					});  
+				} else {
+					Swal.fire({
+						icon: 'success',
+						title: '성공!',
+						text: '정상 중지 하였습니다.',
+					});
+					$('#seleniumActionStepsView').val(data);
+				}
+				
 		    },
 		    error: function(e) {
 		        alert(e);
@@ -88,24 +114,50 @@
 		});	
 	});
 
-	$('#runButton').click(function() {
-		var seleniumKeyNum = $('#seleniumKeyNum').val();
-		if(seleniumKeyNum == "") {
+	$('#runButton').click(function() {		
+		var seleniumTitleView = $('#seleniumTitleView').val();
+		var seleniumAddressView = $('#seleniumAddressView').val();
+		var seleniumActionStepsView = $('#seleniumActionStepsView').val();
+
+		if(seleniumTitleView == "") {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
-				text: '저장 후 재생바랍니다.',
+				text: '자동화 테스트 제목을 입력해주세요.',
 			});
 			return false;
 		}
-		
+
+		if(seleniumAddressView == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '자동화 테스트 주소를 입력해주세요.',
+			});
+			return false;
+		}
+
+		var postData = $('#modalForm').serializeObject();
 		$.ajax({
 		    type: 'POST',
 		    url: "<c:url value='/selenium/run'/>",
-			data: {"seleniumKeyNum": seleniumKeyNum},
+			data: postData,
 		    async: false,
 		    success: function (data) {
-				
+				if(data.result == "OK") {
+					tableRefresh();
+					Swal.fire({
+						icon: 'success',
+						title: '성공!',
+						text: '작업을 완료했습니다.',
+					});
+				} else {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+					});  
+				}
 		    },
 		    error: function(e) {
 		        alert(e);

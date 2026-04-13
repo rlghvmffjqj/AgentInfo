@@ -128,7 +128,7 @@ public class PlayerService {
                     "arguments[0].dispatchEvent(new Event('blur', { bubbles: true }));", element);
             }
 
-            Thread.sleep(100);
+            Thread.sleep(500);
 
         } catch (Exception e) {
             System.err.println("재생 중 에러: " + xpath + " -> " + e.getMessage());

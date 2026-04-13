@@ -3,7 +3,7 @@
         
 <mapper namespace="employee">
 	<resultMap type="com.secuve.agentInfo.vo.Employee" id="employee"></resultMap>
-	<resultMap type="com.secuve.agentInfo.vo.UserAlarm" id="userAlarm"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.UserAlarms" id="userAlarms"></resultMap>
 	
 	<select id="getEmployee" resultMap="employee" parameterType="string">
 		SELECT *
@@ -109,35 +109,35 @@
 		SELECT * FROM employee WHERE departmentName = #{departmentName};
 	</select>
 	
-	<select id="getUserAlarm" parameterType="string" resultMap="userAlarm">
+	<select id="getUserAlarms" parameterType="string" resultMap="userAlarms">
 		WITH RankedAlarms AS (
 		    SELECT *,
 		           CASE 
-		               WHEN SUM(CASE WHEN userAlarmState = 'N' THEN 1 ELSE 0 END) OVER (PARTITION BY userAlarmEmployeeId, userAlarmParameter) > 0 THEN 'N'
+		               WHEN SUM(CASE WHEN userAlarmsState = 'N' THEN 1 ELSE 0 END) OVER (PARTITION BY userAlarmsEmployeeId, userAlarmsParameter) > 0 THEN 'N'
 		               ELSE 'Y'
-		           END AS userAlarmStateN,
-		           ROW_NUMBER() OVER (PARTITION BY userAlarmEmployeeId, userAlarmParameter ORDER BY userAlarmKeyNum DESC) AS rn
-		    FROM userAlarm
-		    WHERE userAlarmEmployeeId = #{userAlarmEmployeeId}
+		           END AS userAlarmsStateN,
+		           ROW_NUMBER() OVER (PARTITION BY userAlarmsEmployeeId, userAlarmsParameter ORDER BY userAlarmsKeyNum DESC) AS rn
+		    FROM userAlarms
+		    WHERE userAlarmsEmployeeId = #{userAlarmsEmployeeId}
 		)
 		SELECT *
 		FROM RankedAlarms
 		WHERE rn = 1
-		ORDER BY userAlarmKeyNum DESC
+		ORDER BY userAlarmsKeyNum DESC
 		LIMIT 10;
 	</select>
 	
-	<insert id="setUserAlarm">
-		INSERT INTO userAlarm(userAlarmEmployeeId, userAlarmTitle, userAlarmDate, userAlarmState, userAlarmURL, userAlarmParameter, userAlarmParameterSub, userAlarmRegistrant, userAlarmRegistrationDate)
-		VALUES(#{userAlarmEmployeeId},#{userAlarmTitle},#{userAlarmDate},'N',#{userAlarmURL},#{userAlarmParameter},#{userAlarmParameterSub},#{userAlarmRegistrant},#{userAlarmRegistrationDate}); 
+	<insert id="setUserAlarms">
+		INSERT INTO userAlarms(userAlarmsEmployeeId, userAlarmsTitle, userAlarmsDate, userAlarmsState, userAlarmsURL, userAlarmsParameter, userAlarmsParameterSub, userAlarmsRegistrant, userAlarmsRegistrationDate)
+		VALUES(#{userAlarmsEmployeeId},#{userAlarmsTitle},#{userAlarmsDate},'N',#{userAlarmsURL},#{userAlarmsParameter},#{userAlarmsParameterSub},#{userAlarmsRegistrant},#{userAlarmsRegistrationDate}); 
 	</insert>
 	
-	<delete id="delUserAlarm" parameterType="_int">
-		DELETE FROM userAlarm WHERE userAlarmParameter = #{keyeyNum};
+	<delete id="delUserAlarms" parameterType="_int">
+		DELETE FROM userAlarms WHERE userAlarmsParameter = #{keyeyNum};
 	</delete>
 	
-	<update id="updateUserAlarm">
-		UPDATE userAlarm SET userAlarmState = 'R', userAlarmModifier = #{userAlarmModifier}, userAlarmModifiedDate = #{userAlarmModifiedDate} WHERE userAlarmParameter = #{userAlarmParameter} AND userAlarmEmployeeId = #{userAlarmEmployeeId};
+	<update id="updateUserAlarms">
+		UPDATE userAlarms SET userAlarmsState = 'R', userAlarmsModifier = #{userAlarmsModifier}, userAlarmsModifiedDate = #{userAlarmsModifiedDate} WHERE userAlarmsParameter = #{userAlarmsParameter} AND userAlarmsEmployeeId = #{userAlarmsEmployeeId};
 	</update>
 	
 	<select id="getQaEmployeeId" resultType="string">
@@ -145,21 +145,21 @@
 	</select>
 	
 	<select id="getAlarmIndex" resultType="_int">
-		SELECT userAlarmParameterSub 
-		FROM useralarm 
-		WHERE userAlarmEmployeeId = #{employeeId} 
-		AND userAlarmState = 'R'
-		AND userAlarmParameter = ${issueKeyNum}
-		AND userAlarmParameterSub != 0
-		GROUP BY userAlarmParameterSub;
+		SELECT userAlarmsParameterSub 
+		FROM userAlarms 
+		WHERE userAlarmsEmployeeId = #{employeeId} 
+		AND userAlarmsState = 'R'
+		AND userAlarmsParameter = ${issueKeyNum}
+		AND userAlarmsParameterSub != 0
+		GROUP BY userAlarmsParameterSub;
 	</select>
 	
 	<update id="updateAlarmY">
-		UPDATE useralarm SET userAlarmState = 'Y'
-		WHERE userAlarmEmployeeId = #{employeeId} 
-		AND userAlarmState = 'R'
-		AND userAlarmParameter = ${issueKeyNum}
-		AND userAlarmParameterSub != 0;
+		UPDATE userAlarms SET userAlarmsState = 'Y'
+		WHERE userAlarmsEmployeeId = #{employeeId} 
+		AND userAlarmsState = 'R'
+		AND userAlarmsParameter = ${issueKeyNum}
+		AND userAlarmsParameterSub != 0;
 	</update>
 	
 	<update id="setLastTimeUpdate">
