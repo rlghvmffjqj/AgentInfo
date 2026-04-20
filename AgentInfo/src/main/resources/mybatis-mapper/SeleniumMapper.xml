@@ -12,6 +12,7 @@
     		FROM (
 				SELECT * 
 				FROM selenium
+				<include refid="sqlSelenium" />
 			) a
 		) b
     	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
@@ -20,15 +21,16 @@
 	<select id="getSeleniumListCount" resultType="_int">
 		SELECT COUNT(*) 
 		FROM selenium
+		<include refid="sqlSelenium" />
 	</select>
 	
 	<insert id="insertSelenium" parameterType="selenium" useGeneratedKeys="true" keyProperty="seleniumKeyNum">
-		INSERT INTO selenium(seleniumTitle, seleniumAddress, seleniumDetailNote, seleniumActionSteps, seleniumRegistrant, seleniumRegistrationDate)
-		VALUES(#{seleniumTitleView}, #{seleniumAddressView}, #{seleniumDetailNoteView}, #{seleniumActionStepsView}, #{seleniumRegistrant}, #{seleniumRegistrationDate});
+		INSERT INTO selenium(seleniumTitle, seleniumAddress, seleniumDetailNote, seleniumActionSteps, seleniumGroupName, seleniumGroupFullPath, seleniumGroupParentPath, seleniumRegistrant, seleniumRegistrationDate)
+		VALUES(#{seleniumTitleView}, #{seleniumAddressView}, #{seleniumDetailNoteView}, #{seleniumActionStepsView}, #{seleniumGroupName}, #{seleniumGroupFullPath}, #{seleniumGroupParentPath}, #{seleniumRegistrant}, #{seleniumRegistrationDate});
 	</insert>
 	
 	<update id="updateSelenium">
-		UPDATE selenium SET seleniumTitle = #{seleniumTitleView}, seleniumAddress = #{seleniumAddressView}, seleniumDetailNote = #{seleniumDetailNoteView}, seleniumActionSteps = #{seleniumActionStepsView}, seleniumModifier = #{seleniumModifier}, seleniumModifiedDate = #{seleniumModifiedDate}
+		UPDATE selenium SET seleniumTitle = #{seleniumTitleView}, seleniumAddress = #{seleniumAddressView}, seleniumDetailNote = #{seleniumDetailNoteView}, seleniumActionSteps = #{seleniumActionStepsView}, seleniumGroupName = #{seleniumGroupName}, seleniumGroupFullPath = #{seleniumGroupFullPath}, seleniumGroupParentPath = #{seleniumGroupParentPath}, seleniumModifier = #{seleniumModifier}, seleniumModifiedDate = #{seleniumModifiedDate}
 		WHERE  seleniumKeyNum = ${seleniumKeyNum};
 	</update>
 	
@@ -39,4 +41,26 @@
 	<delete id="delSelenium" parameterType="_int">
 		DELETE FROM selenium WHERE seleniumKeyNum = #{seleniumKeyNum};
 	</delete>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlSelenium">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="seleniumTitle != null and seleniumTitle != ''">
+				AND seleniumTitle LIKE CONCAT('%',#{seleniumTitle},'%')
+			</if>
+			<if test="seleniumAddress != null and seleniumAddress != ''">
+				AND seleniumAddress LIKE CONCAT('%',#{seleniumAddress},'%')
+			</if>
+			<if test="seleniumDetailNote != null and seleniumDetailNote != ''">
+				AND seleniumDetailNote LIKE CONCAT('%',#{seleniumDetailNote},'%')
+			</if>
+			<if test="seleniumGroupName != null and seleniumGroupName != ''">
+				AND seleniumGroupName = #{seleniumGroupName}
+			</if>
+			<if test="seleniumGroupFullPath != null and seleniumGroupFullPath != ''">
+				AND seleniumGroupFullPath = #{seleniumGroupFullPath}
+			</if>
+		</trim>
+	</sql>
 </mapper>

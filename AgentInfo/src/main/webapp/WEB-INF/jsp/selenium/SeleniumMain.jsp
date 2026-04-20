@@ -3,6 +3,9 @@
 <html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+		<!-- dynatree -->
+		<script type="text/javascript" src="<c:url value='/js/dynatree/src/jquery.dynatree.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/dynatree/src/skin-vista/ui.dynatree.css'/>">
 		<!-- 쿠키 스크립트 -->
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
@@ -93,49 +96,91 @@
 														<h5 class="colorRed">그룹으로 구분하여 자동화 테스트를 제공합니다.</h5>
 													</div>
 												</div>
-												<!-- <div class="card-block">
-														<div style="width: 100%; height: 200px;">
-														<div class="drop-area" id="drop-area1" style="width: 100%;">
-															<button class="btn btn-default btn-outline-info-add" type="button" id="createButton" style="width: 100%;">실행</button>
-														</div>
-														<div class="drop-area updatePackageFile" id="drop-area2" style="width: 100%;">
-															<button class="btn btn-default btn-outline-info-add" type="button" id="deleteButton" style="width: 100%;">삭제</button>
-														</div>
-													</div>
-												</div> -->
-												<form id="form" name="form" method ="post">
 
-												</form>
-												<table style="width:99%;">
-													<tbody>
-														<tr>
-															<td style="padding:0px 0px 0px 0px;" class="box">
-																<table style="width:100%">
+												
+	                                			<div class="searchbos">
+	                                				<form id="form" name="form" method ="post">
+														<input type="hidden" id="seleniumGroupName" name="seleniumGroupName" class="form-control">
+		                      							<input type="hidden" id="seleniumGroupFullPath" name="seleniumGroupFullPath" class="form-control">
+	                      								<div class="col-lg-2">
+	                      									<label class="labelFontSize">타이틀</label>
+	                      									<input type="text" id="seleniumTitle" name="seleniumTitle" class="form-control">
+	                      								</div><div class="col-lg-2">
+	                      									<label class="labelFontSize">URL주소</label>
+	                      									<input type="text" id="seleniumAddress" name="seleniumAddress" class="form-control">
+	                      								</div>
+														<div class="col-lg-2">
+	                      									<label class="labelFontSize">상세 메모</label>
+	                      									<input type="text" id="seleniumDetailNote" name="seleniumDetailNote" class="form-control">
+	                      								</div>
+		                      								<div class="col-lg-12 text-right">
+																<p class="search-btn" style="margin-top: 10px;">
+																	<button class="btn btn-primary btnm" type="button" id="btnSearch">
+																		<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+																	</button>
+																	<button class="btn btn-default btnm" type="button" id="btnReset">
+																		<span>초기화</span>
+																	</button>
+																</p>
+															</div>
+													</form>
+		                     					</div>
+	                     					</div>
+											<form id="form" name="form" method ="post">
+											</form>
+											<table style="width:99%;">
+												<tbody>
+													<tr>
+														<td style="padding:0px 0px 0px 0px;" class="box">
+															<table class="seleniumGroupTable" style="width:19%;float:left">
 																<tbody>
 																	<tr>
-																		<td style="font-weight:bold;">테스트 항목 관리 :
-																			<button class="btn btn-outline-info-add myBtn" id="createButton">추가</button>
-																			<button class="btn btn-outline-info-del myBtn" id="deleteButton">삭제</button>
+																		<td style="font-weight:bold;">
+																			테스트 그룹관리 :
+																			<button class="btn btn-outline-info-add myBtn" id="BtnSeleniumGroupInsert" onClick="btnSeleniumGroupInsert()">추가</button>
+																			<button class="btn btn-outline-info-nomal myBtn" id="BtnSeleniumGroupUpdate" onClick="btnSeleniumGroupUpdate()">수정</button>
+																			<button class="btn btn-outline-info-del myBtn" id="BtnSeleniumGroupDelect" onClick="btnSeleniumGroupDelect()">삭제</button>
 																		</td>
 																	</tr>
 																	<tr>
-																		<td class="border1" colspan="2">
-																			<!------- Grid ------->
-																			<div class="jqGrid_wrapper">
-																				<table id="list"></table>
-																				<div id="pager"></div>
+																		<td valign="top">
+																			<div class="border1" style="overflow:scroll; height:728px;">
+																				<div class="margin10">
+																					<!----------------------- dynatree ----------------------->
+																					<div id="tree" style="width: 100px;"></div>
+																					<!----------------------- dynatree ----------------------->
+																				</div>
 																			</div>
-																			<!------- Grid ------->
-																		</td>
+					 													</td>
 																	</tr>
 																</tbody>
 															</table>
-														</td>
-													</tbody>
-												</table>
+															<table style="width:80%; float:right;">
+															<tbody>
+																<tr>
+																	<td style="font-weight:bold;">테스트 항목관리 :
+																		<button class="btn btn-outline-info-add myBtn" id="createButton">추가</button>
+																		<button class="btn btn-outline-info-del myBtn" id="deleteButton">삭제</button>
+																		<button class="btn btn-outline-info-nomal myBtn" onclick="seleniumCopy()">자동화 복사</button>
+																	</td>
+																</tr>
+																<tr>
+																	<td class="border1" colspan="2">
+																		<!------- Grid ------->
+																		<div class="jqGrid_wrapper">
+																			<table id="list"></table>
+																			<div id="pager"></div>
+																		</div>
+																		<!------- Grid ------->
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</td>
+												</tbody>
+											</table>
 											</div>
-										</div>                           
-									</div>
+									</div>                           
 								</div>
 							</div>
 						</div>
@@ -143,23 +188,37 @@
 				</div>
 			</div>
 		</div>
-
+	</body>
 	<script>
 		$('#createButton').click(function() {	
-			$.ajax({
-			    type: 'POST',
-			    url: "<c:url value='/selenium/startView'/>",
-			    async: false,
-			    success: function (data) {
-			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-						location.reload();
-			        $.modal(data, 'selenium'); //modal창 호출
-			    },
-			    error: function(e) {
-			        // TODO 에러 화면
-					console.log(e);
-			    }
-			});	
+			var seleniumGroupName = $("#seleniumGroupName").val();
+			var seleniumGroupFullPath = $("#seleniumGroupFullPath").val();
+			if(seleniumGroupName == "") {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '테스트 그룹을 선택해주세요.',    
+				}); 
+			} else {
+				$.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/selenium/startView'/>",
+					data: {
+				    		"seleniumGroupName" : seleniumGroupName,
+				    		"seleniumGroupFullPath" : seleniumGroupFullPath
+				    	},
+				    async: false,
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'selenium'); //modal창 호출
+				    },
+				    error: function(e) {
+				        // TODO 에러 화면
+						console.log(e);
+				    }
+				});	
+			}
 		});
 
 		$('#deleteButton').click(function() {
@@ -244,9 +303,336 @@
 			jqGrid.setGridParam({ postData: _postDate });
 			jqGrid.trigger('reloadGrid');
 		}
-    </script>
-	<style>
-		
 
-	</style>
+		/* =========== 검색 ========= */
+		$('#btnSearch').click(function() {
+			tableRefresh();
+		});
+
+		/* =========== 검색 초기화 ========= */
+		$('#btnReset').click(function() {
+			$("input[type='text']").val("");
+			$("input[type='hidden']").val("");
+			$("select").each(function(index){
+				$("option:eq(0)",this).prop("selected",true);
+			});
+			reqRootNode();
+			tableRefresh();
+		});
+
+		/* =========== Enter 검색 ========= */
+		$("input[type=text]").keypress(function(event) {
+			if (window.event.keyCode == 13) {
+				tableRefresh();
+			}
+		});
+
+		function seleniumCopy() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList.length == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/seleniumGroup/seleniumGroupCopyView'/>",
+		            async: false,
+		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+		                $.modal(data, 'sl'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+		        });
+			}
+		}
+    </script>
+
+	<script>
+		/* =========== Tree 시작 ========= */
+		$(document).ready(function() {
+			createTree();
+		});
+	
+		/* =========== 트리 컨트롤러 생성 ========= */
+		function createTree()
+		{
+			$("#tree").dynatree({
+				onActivate: function(node) {
+					var path = node.data.key;
+					reqChildNode(node, path);
+				},
+				onQueryExpand: function(flag, node) {
+					if(flag) {
+						$('#tree').dynatree('getTree').activateKey(node.data.key);
+					}
+				}
+			});
+		
+			var root = $("#tree").dynatree("getRoot");
+			var rootNode = root.addChild({
+				title : '/',
+				tooltip : '/',
+				key : '/',
+				children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
+				isFolder : true
+			});
+		
+			reqRootNode();
+		}
+		
+		/* =========== 트리 루트노드 데이터 요청 ========= */
+		function reqRootNode()
+		{
+			var rootNode = $("#tree").dynatree("getTree").selectKey('/');
+			reqChildNode(rootNode, '/');
+		}
+		
+		/* =========== 트리 하위노드 데이터 요청 ========= */
+		function reqChildNode(node, path)
+		{
+			$.ajax({
+				url: "<c:url value='/seleniumGroup/list'/>",
+				type: "POST",
+				data: {"parentPath" : path},
+				dataType: "json",
+				async: false,
+				success: function(data)
+				{
+					var tree = $("#tree").dynatree("getTree");
+					node.removeChildren();
+	
+					if(data != null && data.length > 0)
+					{
+						/* ===================== */
+						tree.enableUpdate(false);
+						/* ===================== */
+	
+						for(var i = 0; i < data.length; i++)
+						{
+							var childNode = node.addChild({
+								title : data[i].seleniumGroupName,
+								tooltip : data[i].seleniumGroupName,
+								key : data[i].seleniumGroupFullPath,
+								children: {title: 'Loading...', icon: 'loading.gif', noLink: true},
+								isFolder : true
+							});
+						}
+						
+						/* ===================== */
+						tree.enableUpdate(true);
+						/* ===================== */
+	
+						node.expand(true);
+					}
+					else
+					{
+						node.expand(false); // for IE7
+					}
+	
+					if (path != '/') reqMember(path);
+				},
+				error: function(e) {
+		        	console.log(e);
+		        }
+			});
+		}
+		
+		/* =========== 디렉토리에 해당하는 사용자 목록 요청 ========= */
+		function reqMember(path)
+		{
+			var node = $("#tree").dynatree("getActiveNode");
+			var path = node.data.key; // 선택 그룹 풀 경로
+			var title = node.data.title; // 선택 그룹
+			$("#seleniumGroupName").val(title); //그룹경로
+			$("#seleniumGroupFullPath").val(path); // 그룹 풀 경로
+	
+			var postData = $("#form").serializeObject();
+			var jqGrid = $("#list");
+			jqGrid.clearGridData();
+			jqGrid.setGridParam({ datatype: 'json', postData: postData });
+			jqGrid.trigger('reloadGrid');
+		}
+		
+		/* =========== 그룹 추가 ========= */
+		function btnSeleniumGroupInsert() {
+			var path = getCurrentPath();
+			
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/seleniumGroup/insertView'/>",
+			    data: {"seleniumGroupFullPath" : path},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 's'); //modal창 호출
+			    },
+			    error: function(e) {
+			    	console.log(e);
+			    }
+			});
+		}
+		
+		/* =========== SeleniumGroupFullPath 경로 가져오기 ========= */
+		function getCurrentPath() {
+			var node = $("#tree").dynatree("getActiveNode");
+			if (node != null )
+				return node.data.key;
+			else
+				return '/';
+		}
+		
+		/* =========== 현재 디렉토리 다시 불러오기 ========= */
+		function reloadView()
+		{
+			var node = $("#tree").dynatree("getActiveNode");
+			if ( node != null ) {
+				$('#tree').dynatree('getTree').reactivate(true);
+			} else {
+				reqRootNode();
+			}
+		}
+		
+		/* =========== 그룹 삭제 ========= */
+		function btnSeleniumGroupDelect() {
+			var node = $("#tree").dynatree("getActiveNode");
+			var seleniumGroupFullPath = node.data.key;
+			
+			if(seleniumGroupFullPath == "/") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '루트 경로는 삭제가 불가능합니다.',
+				});
+				return false;
+			}
+
+			Swal.fire({
+				  title: '삭제!',
+				  text: "선택한 그룹를 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+					$.ajax({
+						url: "<c:url value='/seleniumGroup/delete'/>",
+						type: "POST",
+						data: {"seleniumGroupFullPath" : seleniumGroupFullPath},
+						dataType: "json",
+						async: false,
+						success: function(data) {
+							console.log("확인"+data.result);
+							if(data.result == "OK"){
+								Swal.fire({
+									icon: 'success',
+									title: '성공!',
+									text: '작업을 완료했습니다.',
+								});
+								reloadParent();
+							} else if(data.result == "SubSeleniumGroup") {
+								Swal.fire({
+									icon: 'error',
+									title: '실패!',
+									text: '하위그룹가 존재합니다.',
+								});
+							}
+						},
+						error: function(e) {
+					    	console.log(e);
+					    }
+					});
+			  }
+			});
+		}
+		
+		/* =========== 상위 디렉토리 다시 불러오기 (현재 디렉토리 삭제, 이름변경, 추가 등) ========= */
+		function reloadParent()
+		{
+			var path = getParentPath();
+			if ( path != '/' ) {
+				$("#tree").dynatree("getTree").activateKey(path);
+			} else {
+				reqRootNode();
+			}
+		}
+		
+		/* =========== 부모 그룹 위치 ========= */
+		function getParentPath() {
+			var path = getCurrentPath();
+	
+			var pos = path.lastIndexOf('/');
+			if ( pos > 0 ) {
+				return path.substring(0, pos);
+			} else {
+				return '/';
+			}
+		}
+		
+		
+		/* =========== 그룹 수정 ========= */
+		function btnSeleniumGroupUpdate() {
+			var path = getCurrentPath();
+
+			if(path == "/") {
+				Swal.fire({
+					icon: 'error',
+					title: '실패!',
+					text: '루트 경로는 수정이 불가능합니다.',
+				});
+				return false;
+			}
+	
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/seleniumGroup/updateView'/>",
+			    data: {"seleniumGroupFullPath" : path},
+			    async: false,
+			    success: function (data) {
+			    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+						location.reload();
+			        $.modal(data, 's'); //modal창 호출
+			    },
+			    error: function(e) {
+			    	console.log(e);
+			    }
+			});
+		}
+		
+		/* =========== 그룹 이동 ========= */
+		function seleniumGroupMove() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else {
+				$.ajax({
+				    url: "<c:url value='/seleniumGroup/seleniumGroupMoveView'/>",
+				    type: "POST",
+					dataType: "text",
+					traditional: true,
+				    async: false,
+				    success: function (data) {
+				    	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+				        $.modal(data, 'sl'); //modal창 호출
+				    },
+				    error: function(e) {
+				    	console.log(e);
+				    }
+				});
+			}
+		}
+	</script>
 </html>

@@ -24,16 +24,30 @@
 			<textarea class="form-control" id="seleniumActionStepsView" name="seleniumActionStepsView" spellcheck="false">${selenium.seleniumActionSteps}</textarea>
 		</div>
 		<input class="form-control" type="hidden" id="seleniumKeyNum" name="seleniumKeyNum" value="${selenium.seleniumKeyNum}">
+		<input class="form-control" type="hidden" id="seleniumGroupName" name="seleniumGroupName" value="${selenium.seleniumGroupName}">
+		<input class="form-control" type="hidden" id="seleniumGroupFullPath" name="seleniumGroupFullPath" value="${selenium.seleniumGroupFullPath}">
 		<div style="height: 20px"></div>
 	</form>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default btn-outline-info-add" id="startButton">시작</button>
-	<button class="btn btn-default btn-outline-info-del" id="stopButton">중지</button>
-	<button class="btn btn-default btn-outline-info-nomal" id="saveButton">저장</button>
-	<button class="btn btn-default btn-outline-info-nomal" id="runButton">재생</button>
-	<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+	<dis style="width: 33%;">
+		<button class="btn btn-default btn-outline-info-add" id="startButton">시작</button>
+		<button class="btn btn-default btn-outline-info-del" id="stopButton">중지</button>
+		<button class="btn btn-default btn-outline-info-nomal" id="saveButton">저장</button>
+		<button class="btn btn-default btn-outline-info-nomal" id="runButton">재생</button>
+	</dis>
+	
+	<dis style="width: 33%; text-align: center;">
+		<button class="control-btn" id="toggleBtn">⏸</button>
+		<button class="control-btn" id="toggleNextBtn" style="font-weight: bold;">≫</button>
+	</dis>
+		
+	
+	<dis style="width: 34%;">
+		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal" style="float: right;">닫기</button>
+	</dis>
 </div>
+
 
 <script>
 	$('#startButton').click(function() {
@@ -114,7 +128,10 @@
 		});	
 	});
 
-	$('#runButton').click(function() {		
+	$('#runButton').click(function() {	
+		$('#toggleBtn').text('⏸');
+		isPlaying = true;
+		
 		var seleniumTitleView = $('#seleniumTitleView').val();
 		var seleniumAddressView = $('#seleniumAddressView').val();
 		var seleniumActionStepsView = $('#seleniumActionStepsView').val();
@@ -230,6 +247,109 @@
 			}
 	    });
 	});
+
+  	let isPlaying = true;
+
+  	$('#toggleBtn').on('click', function() {
+    	isPlaying = !isPlaying;
+
+    	$(this).text(isPlaying ? '⏸' : '▶');
+
+		console.log(isPlaying);
+    	if (isPlaying) {
+    	  	console.log('재생 시작');
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/selenium/reRun'/>",
+			    async: false,
+			    success: function (result) {
+					if(result == "OK") {
+						tableRefresh();
+						Swal.fire({
+							icon: 'success',
+							title: '재생!',
+							text: '이어서 재생하였습니다.',
+						});
+					} else {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+						});  
+					}
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+    	} else {
+    	  	console.log('일시 정지');
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/selenium/pause'/>",
+			    async: false,
+			    success: function (result) {
+					if(result == "OK") {
+						tableRefresh();
+						Swal.fire({
+							icon: 'success',
+							title: '일시 정지!',
+							text: '일시 정지 하였습니다.',
+						});
+					} else {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+						});  
+					}
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});	
+    	}
+		
+ 	});
+
+
+	$('#toggleNextBtn').on('click', function() {
+		console.log(isPlaying);
+		if(!isPlaying) {
+			console.log('1 STEP 재생');
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/selenium/nextRun'/>",
+			    async: false,
+			    success: function (result) {
+					if(result == "OK") {
+						tableRefresh();
+						Swal.fire({
+							icon: 'success',
+							title: '재생!',
+							text: '1 STEP 재생 완료.',
+						});
+					} else {
+						Swal.fire({               
+							icon: 'error',          
+							title: '실패!',           
+							text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+						});  
+					}
+			    },
+			    error: function(e) {
+			        alert(e);
+			    }
+			});		
+		} else {
+			Swal.fire({               
+				icon: 'error',          
+				title: '실패!',           
+				text: '재생 상태가 중지인 상태에서만 사용 가능합니다.',    
+			});  
+		}
+		
+	});
 </script>
 
 <style>
@@ -261,4 +381,27 @@
 	    -webkit-user-modify: read-write-plaintext-only; /* Chrome / Safari */
 	    -moz-appearance: none; /* 일부 Firefox */
 	}
+
+  	.control-btn {
+    	width: 30px;
+    	height: 30px;
+    	border-radius: 50%;
+    	border: none;
+    	background: linear-gradient(145deg, #ffffff, #f36464);
+    	color: #8a005f;
+    	font-size: 20px;
+    	cursor: pointer;
+    	box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    	transition: all 0.2s ease;
+ 	}
+
+  	.control-btn:hover {
+  	  	transform: translateY(-3px) scale(1.05);
+  	  	box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+  	}
+
+  	.c	ontrol-btn:active {
+  	  	transform: scale(0.95);
+  	  	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  	}
 </style>

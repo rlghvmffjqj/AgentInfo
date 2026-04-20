@@ -36,4 +36,10 @@ public class SeleniumDao {
 		return sqlSession.delete("selenium.delSelenium", seleniumKeyNum);
 	}
 
+	public void updateGroup(String ordSeleniumGroupFullPath, String seleniumGroupFullPath,
+			String seleniumGroupParentPath, String seleniumGroupName) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

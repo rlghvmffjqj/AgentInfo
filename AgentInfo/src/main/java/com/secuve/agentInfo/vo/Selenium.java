@@ -21,6 +21,10 @@ public class Selenium {
 	private String seleniumModifier;
 	private String seleniumModifiedDate;
 	
+	private String seleniumGroupName;
+	private String seleniumGroupFullPath;
+	private String seleniumGroupParentPath;
+	
 	private String seleniumTitleView;
 	private String seleniumAddressView;
 	private String seleniumActionStepsView;

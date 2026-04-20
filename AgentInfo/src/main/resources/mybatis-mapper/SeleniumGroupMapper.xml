@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="seleniumGroup">
+	<resultMap type="com.secuve.agentInfo.vo.SeleniumGroup" id="seleniumGroup"></resultMap>
+	
+	<select id="getSeleniumGroupList" parameterType="string" resultMap="seleniumGroup">
+		SELECT *
+		FROM seleniumGroup
+		WHERE seleniumGroupParentPath = #{parentPath}
+		ORDER BY seleniumGroupFullPath ASC
+	</select>
+	
+	<insert id="insertSeleniumGroup">
+		INSERT INTO seleniumGroup VALUES(#{seleniumGroupFullPath},#{seleniumGroupParentPath},#{seleniumGroupName});
+	</insert>
+	
+	<select id="getSeleniumGroupFullPath" parameterType="string" resultMap="seleniumGroup">
+		SELECT * FROM seleniumGroup WHERE seleniumGroupFullPath = #{seleniumGroupFullPath};
+	</select>
+	
+	<select id="getSeleniumGroupParentPath" parameterType="string" resultMap="seleniumGroup">
+		SELECT * FROM seleniumGroup WHERE seleniumGroupParentPath = #{seleniumGroupParentPath};
+	</select>
+	
+	<delete id="deleteSeleniumGroup">
+		DELETE FROM seleniumGroup WHERE seleniumGroupFullPath = #{seleniumGroupFullPath};
+	</delete>
+	
+	<update id="updateGroup">
+		UPDATE seleniumGroup SET seleniumGroupFullPath = #{seleniumGroupFullPath}, seleniumGroupParentPath = #{seleniumGroupParentPath}, seleniumGroupName = #{seleniumGroupName} WHERE seleniumGroupFullPath = #{ordSeleniumGroupFullPath};
+	</update>
+	
+	<select id="getSeleniumGroupFullPathList" resultMap="seleniumGroup" parameterType="string">
+		SELECT * FROM seleniumGroup 
+		WHERE seleniumGroupFullPath = #{seleniumGroupFullPath} OR seleniumGroupFullPath Like #{seleniumGroupParentPath};
+	</select>
+</mapper>

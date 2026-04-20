@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.secuve.agentInfo.core.PlayerService;
 import com.secuve.agentInfo.service.FavoritePageService;
 import com.secuve.agentInfo.service.SeleniumService;
+import com.secuve.agentInfo.vo.Employee;
 import com.secuve.agentInfo.vo.Selenium;
 
 @Controller
@@ -125,7 +126,8 @@ public class SeleniumController {
 	}
 	
 	@PostMapping(value = "/selenium/startView")
-	public String SeleniumView() {
+	public String SeleniumView(Model model, Selenium selenium) {
+		model.addAttribute("viewType","insert").addAttribute("selenium", selenium);
 		return "/selenium/SeleniumView";
 	}
 	
@@ -155,5 +157,32 @@ public class SeleniumController {
 		map.put("seleniumKeyNum", selenium.getSeleniumKeyNum());
 		map.put("result", result);
 		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/selenium/seleniumGroupCopy")
+	public String seleniumGroupCopy(@RequestParam int[] chkList, Selenium selenium, Principal principal) {
+		return seleniumService.updateSeleniumGroupCopy(chkList, selenium, principal);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/selenium/pause")
+	public String seleniumPause(HttpServletRequest request) {
+		String clientIp = seleniumService.getClientIp(request);
+		return seleniumService.seleniumPause(clientIp);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/selenium/reRun")
+	public String seleniumReRun(HttpServletRequest request) {
+		String clientIp = seleniumService.getClientIp(request);
+		return seleniumService.seleniumReRun(clientIp);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/selenium/nextRun")
+	public String seleniumNextRun(HttpServletRequest request) {
+		String clientIp = seleniumService.getClientIp(request);
+		return seleniumService.seleniumNextRun(clientIp);
 	}
 }
