@@ -82,7 +82,7 @@ public class Securityconfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/webControl/**").hasAnyRole("ADMIN","QA")
 			.antMatchers("/webFileConnection/**").hasAnyRole("ADMIN","QA")
 			.antMatchers("/resultsReport/**").hasAnyRole("ADMIN","QA")
-			.antMatchers("/automatedTesting/**").hasAnyRole("ADMIN","QA")
+			.antMatchers("/selenium/**").hasAnyRole("ADMIN","QA")
 			.antMatchers("/menuSetting/**").hasAnyRole("ADMIN","QA","MEMBER","UI")
 			.antMatchers("/errorPage").permitAll()
 			.antMatchers("/menuSetting/**").hasAnyRole("ADMIN","QA","MEMBER","UI")

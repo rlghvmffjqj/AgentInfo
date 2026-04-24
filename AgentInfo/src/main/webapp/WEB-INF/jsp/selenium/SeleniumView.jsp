@@ -40,6 +40,7 @@
 	<dis style="width: 33%; text-align: center;">
 		<button class="control-btn" id="toggleBtn">⏸</button>
 		<button class="control-btn" id="toggleNextBtn" style="font-weight: bold;">≫</button>
+		<button class="control-btn" id="toggleSkipBtn" style="font-weight: bold;">↷</button>
 	</dis>
 		
 	
@@ -50,6 +51,8 @@
 
 
 <script>
+	var isPlaying = true;
+
 	$('#startButton').click(function() {
 		var seleniumTitleView = $('#seleniumTitleView').val();
 		var seleniumAddressView = $('#seleniumAddressView').val();
@@ -248,8 +251,6 @@
 	    });
 	});
 
-  	let isPlaying = true;
-
   	$('#toggleBtn').on('click', function() {
     	isPlaying = !isPlaying;
 
@@ -349,6 +350,34 @@
 			});  
 		}
 		
+	});
+
+	$('#toggleSkipBtn').on('click', function() {
+		console.log('건너띄기');
+		$.ajax({
+		    type: 'POST',
+		    url: "<c:url value='/selenium/skip'/>",
+		    async: false,
+		    success: function (result) {
+				if(result == "OK") {
+					tableRefresh();
+					Swal.fire({
+						icon: 'success',
+						title: '스킵!',
+						text: '스킵 완료!',
+					});
+				} else {
+					Swal.fire({               
+						icon: 'error',          
+						title: '실패!',           
+						text: '현재 에이전트가 정상적으로 실행 중인지 확인해 주세요',    
+					});  
+				}
+		    },
+		    error: function(e) {
+		        alert(e);
+		    }
+		});				
 	});
 </script>
 

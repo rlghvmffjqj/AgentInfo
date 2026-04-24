@@ -185,4 +185,11 @@ public class SeleniumController {
 		String clientIp = seleniumService.getClientIp(request);
 		return seleniumService.seleniumNextRun(clientIp);
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/selenium/skip")
+	public String seleniumSkip(HttpServletRequest request) {
+		String clientIp = seleniumService.getClientIp(request);
+		return seleniumService.seleniumSkip(clientIp);
+	}
 }

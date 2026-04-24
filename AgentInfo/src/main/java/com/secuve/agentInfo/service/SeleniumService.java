@@ -720,6 +720,36 @@ public class SeleniumService {
 		}
 	    return "OK";
 	}
+	public String seleniumSkip(String clientIp) {
+		String url = "http://" + clientIp + ":8082/clientSkip";
+
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        String jsonInString = "";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders header = new HttpHeaders();
+        HttpEntity<?> entity = new HttpEntity<>(header);
+        
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url)
+        		.build();
+
+        ResponseEntity<?> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.POST, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        //데이터를 제대로 전달 받았는지 확인 string형태로 파싱해줌
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+			jsonInString = mapper.writeValueAsString(resultMap.getBody());
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return "OK";
+	}
 	
 	
 
