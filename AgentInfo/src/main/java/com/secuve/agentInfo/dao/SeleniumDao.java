@@ -1,6 +1,8 @@
 package com.secuve.agentInfo.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +38,13 @@ public class SeleniumDao {
 		return sqlSession.delete("selenium.delSelenium", seleniumKeyNum);
 	}
 
-	public void updateGroup(String ordSeleniumGroupFullPath, String seleniumGroupFullPath,
-			String seleniumGroupParentPath, String seleniumGroupName) {
-		// TODO Auto-generated method stub
-		
+	public void updateGroup(String ordSeleniumGroupFullPath, String seleniumGroupFullPath, String seleniumGroupParentPath, String seleniumGroupName) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("ordSeleniumGroupFullPath", ordSeleniumGroupFullPath);
+		parameters.put("seleniumGroupFullPath", seleniumGroupFullPath);
+		parameters.put("seleniumGroupParentPath", seleniumGroupParentPath);
+		parameters.put("seleniumGroupName", seleniumGroupName);
+		sqlSession.insert("selenium.updateGroup", parameters);
 	}
 
 }
