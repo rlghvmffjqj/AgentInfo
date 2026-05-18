@@ -476,6 +476,12 @@ p {
 	max-width: 1500px;
 }
 
+.modal-workManage {
+	top: 0%;
+	width: 1000px;
+	max-width: 1500px;
+}
+
 .border1 {
 	background-color:white; 
 	border: solid 0.5px #E3E3E3;

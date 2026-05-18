@@ -62,9 +62,7 @@ $.modal = function (modalContent, size) {
 	if(size=='issueNote') html += ' modal-issueNote';
 	if(size=='packagesImport')  html += ' modal-packagesImport';
 	if(size=='selenium')  html += ' modal-selenium';
-	
-	
-	
+	if(size=='workManage')  html += ' modal-workManage';
 	
     if(size=='r') html += ' modal-r';
     if(size=='rs') html += ' modal-rs';

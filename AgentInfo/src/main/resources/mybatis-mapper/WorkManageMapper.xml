@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="workManage">
+	<resultMap type="com.secuve.agentInfo.vo.WorkManage" id="workManage"></resultMap>
+	
+	<select id="getWorkManageList" resultMap="workManage" parameterType="string">
+		SELECT *
+    	FROM
+    	(
+    		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
+    		FROM (
+				SELECT *
+				FROM workManage
+					<include refid="sqlWorkManage" />
+			) a
+		) b
+    	WHERE b.RowNo between (1+(${page} - 1 ) * ${rows}) and (${page} * ${rows});
+	</select>
+	
+	<select id="getWorkManageListCount" resultType="_int">
+		SELECT COUNT(*) FROM workManage 
+			<include refid="sqlWorkManage" />
+	</select>
+	
+	<insert id="insertWorkManage">
+		INSERT INTO workManage(workManageCustomer,workManageProductName,workManageEngineer,workManageDivision,workManageRequestDate,workManageAuthor,workManageTester,workManageProgressStatus,workManageTestScheduleStart,workManageTestScheduleEnd,workManageOneLine,workManageDetailNote,workManageRegistrant,workManageRegistrationDate)
+		VALUES(#{workManageCustomerView},#{workManageProductNameView},#{workManageEngineerView},#{workManageDivisionView},#{workManageRequestDateView},#{workManageAuthorView},#{workManageTesterView},#{workManageProgressStatusView},#{workManageTestScheduleStart},#{workManageTestScheduleEnd},#{workManageOneLineView},#{workManageDetailNoteView},#{workManageRegistrant},#{workManageRegistrationDate});
+	</insert>
+	
+	<select id="getSelectInput" resultType="string" parameterType="string">
+		SELECT DISTINCT ${selectInput} FROM workManage WHERE ${selectInput} != '';
+	</select>
+	
+	<select id="getWorkManageOne" parameterType="_int">
+		SELECT * FROM workManage WHERE workManageKeyNum = #{workManageKeyNum};
+	</select>
+	
+	<delete id="delWorkManage" parameterType="_int">
+		DELETE FROM workManage WHERE workManageKeyNum = #{workManageKeyNum};
+	</delete>
+	
+	<update id="setWorkManageKeyNum">
+		UPDATE workManage SET workManageKeyNum = #{workManageMergeKeyNum}, total = #{total}, solution = #{solution}, unresolved = #{unresolved}, hold = #{hold} 
+		WHERE workManageKeyNum = #{workManageKeyNum};
+	</update>
+	
+	<!-- ==================================================================================== -->
+	
+	<sql id="sqlWorkManage">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="workManageCustomer != null and workManageCustomer != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="workManageCustomerArr" item="arr">
+						OR workManageCustomer LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="workManageProductName != null and workManageProductName != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="workManageProductNameArr" item="arr">
+						OR workManageProductName LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="workManageDivision != null and workManageDivision != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="workManageDivisionArr" item="arr">
+						OR workManageDivision LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="workManageProgressStatus != null and workManageProgressStatus != ''">
+				AND (
+				<trim prefix="" prefixOverrides="OR">
+					<foreach collection="workManageProgressStatusArr" item="arr">
+						OR workManageProgressStatus LIKE CONCAT('%',#{arr},'%')
+					</foreach>
+				</trim>
+				)
+			</if>
+			<if test="workManageRequestDate != null and workManageRequestDate != ''">
+				AND workManageRequestDate BETWEEN #{workManageRequestDateStart} AND #{workManageRequestDateEnd}
+			</if>
+			<if test="workManageEngineer != null and workManageEngineer != ''">
+				AND workManageEngineer LIKE '%${workManageEngineer}%'
+			</if>
+			<if test="workManageAuthor != null and workManageAuthor != ''">
+				AND workManageAuthor = #{workManageAuthor}
+			</if>
+			<if test="workManageTester != null and workManageTester != ''">
+				AND workManageTester = #{workManageTester}
+			</if>
+		</trim>
+	</sql>
+	
+</mapper>
