@@ -13,13 +13,15 @@ import lombok.ToString;
 public class WorkManage {
 	private int workManageKeyNum;
 	private String workManageCustomer;
-	private String workManageProductName;
+	private String workManagePackageName;
 	private String workManageEngineer;
 	private String workManageDivision;
 	private String workManageRequestDate;
+	private String workManageCompleteDate;
 	private String workManageAuthor;
 	private String workManageTester;
 	private String workManageProgressStatus;
+	private int workManageProgress;
 	private String workManageTestScheduleStart;
 	private String workManageTestScheduleEnd;
 	private String workManageOneLine;
@@ -30,15 +32,39 @@ public class WorkManage {
 	private String workManageModifiedDate;
 	
 	private String workManageCustomerView;
-	private String workManageProductNameView;
+	private String workManagePackageNameView;
 	private String workManageEngineerView;
 	private String workManageDivisionView;
 	private String workManageRequestDateView;
+	private String workManageCompleteDateView;
 	private String workManageAuthorView;
 	private String workManageTesterView;
 	private String workManageProgressStatusView;
+	private int workManageProgressView;
 	private String workManageOneLineView;
 	private String workManageDetailNoteView;
+	
+	private String workManageProductTypeOne;
+	private String workManagePackageNameOne;
+	private String workManageProductTypeTwo;
+	private String workManagePackageNameTwo;
+	private String workManageProductTypeThree;
+	private String workManagePackageNameThree;
+	private String workManageProductTypeFour;
+	private String workManagePackageNameFour;
+	private String workManagePackageFileOne;
+	private String workManagePackageFileTwo;
+	private String workManagePackageFileThree;
+	private String workManagePackageFileFour;
+	
+	private String workManageProductTypeOneView;
+	private String workManagePackageNameOneView;
+	private String workManageProductTypeTwoView;
+	private String workManagePackageNameTowView;
+	private String workManageProductTypeThreeView;
+	private String workManagePackageNameThreeView;
+	private String workManageProductTypeFourView;
+	private String workManagePackageNameFourView;
 	
 	private String workManageRequestDateStart;
 	private String workManageRequestDateEnd;

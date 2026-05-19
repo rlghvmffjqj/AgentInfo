@@ -1,11 +1,16 @@
 package com.secuve.agentInfo.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.dao.WorkManageDao;
 import com.secuve.agentInfo.vo.WorkManage;
@@ -41,11 +46,66 @@ public class WorkManageService {
 		return formatter.format(now);
 	}
 
-	public String insertWorkManage(WorkManage workManage) {
+	public String insertWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView) throws IllegalStateException, IOException {
+		if(workManagePackageFileOneView != null) {
+			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileOneView);
+		}
+		
+		if(workManagePackageFileTwoView != null) {
+			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileTwoView);
+		}
+		
+		if(workManagePackageFileThreeView != null) {
+			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileThreeView);
+		}
+		
+		if(workManagePackageFileFourView != null) {
+			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileFourView);
+		}
+		
 		int success = workManageDao.insertWorkManage(workManage);
-	
+		
 		if (success <= 0) return "FALSE";
+		
 		return "OK";
+	}
+
+	public WorkManage getWorkManageOne(int workManageKeyNum) {
+		return workManageDao.getWorkManageOne(workManageKeyNum);
+	}
+
+	public String updateWorkManage(WorkManage workManage, Principal principal) {
+		int success = workManageDao.updateWorkManage(workManage);
+
+		if (success <= 0)
+			return "FALSE";
+		return "OK";
+	}
+
+	public String delWorkManage(int[] chkList) {
+		if (chkList == null || chkList.length == 0) {
+            return "FALSE";
+        }
+		
+		for (int workManageKeyNum : chkList) {
+			int success = workManageDao.delWorkManage(workManageKeyNum);
+			if (success <= 0) {
+				return "FALSE";
+			}
+		}
+		return "OK";
+	}
+	
+	@Value("${spring.servlet.multipart.location}")
+	String filePath;
+	
+	public void fileDownload(WorkManage workManage, MultipartFile workManagePackageFileView) throws IllegalStateException, IOException {
+		File newFileName = new File(filePath + File.separator + "workManage", workManagePackageFileView.getOriginalFilename());
+		workManagePackageFileView.transferTo(newFileName);
 	}
 
 }

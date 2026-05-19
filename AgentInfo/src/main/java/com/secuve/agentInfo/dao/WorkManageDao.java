@@ -21,8 +21,19 @@ public class WorkManageDao {
 	}
 
 	public int insertWorkManage(WorkManage workManage) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("workManage.insertWorkManage", workManage);
+	}
+
+	public WorkManage getWorkManageOne(int workManageKeyNum) {
+		return sqlSession.selectOne("workManage.getWorkManageOne", workManageKeyNum);
+	}
+
+	public int updateWorkManage(WorkManage workManage) {
+		return sqlSession.update("workManage.updateWorkManage", workManage);
+	}
+
+	public int delWorkManage(int workManageKeyNum) {
+		return sqlSession.update("workManage.delWorkManage", workManageKeyNum);
 	}
 
 }

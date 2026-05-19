@@ -20,18 +20,20 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','고객사','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정'],
+					colNames:['Key','메일발송','고객사','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약'],
 					colModel:[
 						{name:'workManageKeyNum', index:'workManageKeyNum', align:'center', width: 35, hidden:true },
+						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 60, formatter: mailFormatter},
 						{name:'workManageCustomer', index:'workManageCustomer', align:'center', width: 200, formatter: linkFormatter},
-						{name:'workManageProductName', index:'workManageProductName', align:'center', width: 400},
-						{name:'workManageEngineer', index:'workManageEngineer', align:'center', width: 100},
-						{name:'workManageDivision', index:'workManageDivision', align:'center', width: 100},
-						{name:'workManageRequestDate', index:'workManageRequestDate', align:'center', width: 100},
-						{name:'workManageAuthor', index:'workManageAuthor', align:'center', width: 100},
+						{name:'workManagePackageNameOne', index:'workManagePackageNameOne', align:'center', width: 400},
+						{name:'workManageEngineer', index:'workManageEngineer', align:'center', width: 80},
+						{name:'workManageDivision', index:'workManageDivision', align:'center', width: 80},
+						{name:'workManageRequestDate', index:'workManageRequestDate', align:'center', width: 80},
+						{name:'workManageAuthor', index:'workManageAuthor', align:'center', width: 70},
 						{name:'workManageTester', index:'workManageTester', align:'center', width: 150},
-						{name:'workManageProgressStatus', index:'workManageProgressStatus', align:'center', width: 100},
-						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 200, formatter: testScheduleFormatter},
+						{name:'workManageProgressStatus', index:'workManageProgressStatus', align:'center', width: 70},
+						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 140, formatter: testScheduleFormatter},
+						{name:'workManageOneLine', index:'workManageOneLine', align:'left', width: 400},
 					],
 					jsonReader : {
 			        	id: 'workManageKeyNum',
@@ -146,8 +148,8 @@
 												</div>
 												<div class="col-lg-2">
 	                      							<label class="labelFontSize">패키지명</label>
-													<select class="form-control selectpicker" id="workManageProductNameMulti" name="workManageProductNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${workManageProductName}">
+													<select class="form-control selectpicker" id="workManagePackageNameMulti" name="workManagePackageNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+														<c:forEach var="item" items="${workManagePackageName}">
 															<option value="${item}"><c:out value="${item}"/></option>
 														</c:forEach>
 													</select>
@@ -183,7 +185,7 @@
 												</div>
 										
 		                      					<input type="hidden" id="workManageCustomer" name="workManageCustomer" class="form-control">
-		                      					<input type="hidden" id="workManageProductName" name="workManageProductName" class="form-control">
+		                      					<input type="hidden" id="workManagePackageName" name="workManagePackageName" class="form-control">
 												<input type="hidden" id="workManageDivision" name="workManageDivision" class="form-control">
 		                      					<input type="hidden" id="workManageProgressStatus" name="workManageProgressStatus" class="form-control">
 		
@@ -288,7 +290,7 @@
 		function tableRefresh() {
 			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
 			$('#workManageCustomer').val($('#workManageCustomerMulti').val().join());
-			$('#workManageProductName').val($('#workManageProductNameMulti').val().join());
+			$('#workManagePackageName').val($('#workManagePackageNameMulti').val().join());
 			$('#workManageDivision').val($('#workManageDivisionMulti').val().join());
 			$('#workManageProgressStatus').val($('#workManageProgressStatusMulti').val().join());
 			
@@ -433,7 +435,20 @@
 		
 		/* =========== 작업 수정 Modal ========= */
 		function updateView(data) {
-			location.href="<c:url value='/workManage/updateView'/>?workManageKeyNum="+data;
+			$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/workManage/updateView'/>",
+		            data: {"workManageKeyNum" : data},
+		            async: false,
+		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+		                $.modal(data, 'workManage'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+		        });
 		}
 		
 		/* =========== 전달일자 업데이트 ========= */
@@ -472,5 +487,39 @@
 		function testScheduleFormatter(cellValue, options, rowdata, action) {
 			return rowdata.workManageTestScheduleStart + ' ~ ' + rowdata.workManageTestScheduleEnd;
 		}
+
+		function mailFormatter(cellValue, options, rowdata, action) {
+			return '<button type="button" class="btn-mail" onclick="sendMail(\'' + rowdata.workManageKeyNum + '\')">메일발송</button>';
+		}
+
+		function sendMail(keyNum) {
+		    if(!keyNum) {
+		        alert("이메일 주소가 없습니다.");
+		        return;
+		    }
+		    // 여기에 메일 발송 팝업을 띄우거나 API를 호출하는 로직을 작성하세요.
+		    console.log(keyNum + " 주소로 메일 발송 로직 실행");
+		}
+
 	</script>
+
+	<style>
+		.btn-mail {
+		    padding: 4px 8px;
+		    font-size: 12px;
+		    color: #555;
+		    background-color: #fff;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    transition: all 0.2s;
+		}
+
+		.btn-mail:hover {
+		    color: #6366f1; /* 마우스 올렸을 때 포인트 컬러 (보라/블루 계열) */
+		    border-color: #6366f1;
+		    background-color: #f8fafc;
+		}
+
+	</style>
 </html>

@@ -24,15 +24,71 @@
 	</select>
 	
 	<insert id="insertWorkManage">
-		INSERT INTO workManage(workManageCustomer,workManageProductName,workManageEngineer,workManageDivision,workManageRequestDate,workManageAuthor,workManageTester,workManageProgressStatus,workManageTestScheduleStart,workManageTestScheduleEnd,workManageOneLine,workManageDetailNote,workManageRegistrant,workManageRegistrationDate)
-		VALUES(#{workManageCustomerView},#{workManageProductNameView},#{workManageEngineerView},#{workManageDivisionView},#{workManageRequestDateView},#{workManageAuthorView},#{workManageTesterView},#{workManageProgressStatusView},#{workManageTestScheduleStart},#{workManageTestScheduleEnd},#{workManageOneLineView},#{workManageDetailNoteView},#{workManageRegistrant},#{workManageRegistrationDate});
+		INSERT INTO workManage(
+			workManageCustomer,
+			workManageProductTypeOne,
+			workManageProductTypeTwo,
+			workManageProductTypeThree,
+			workManageProductTypeFour,
+			workManagePackageNameOne,
+			workManagePackageNameTwo,
+			workManagePackageNameThree,
+			workManagePackageNameFour,
+			workManagePackageFileOne,
+			workManagePackageFileTwo,
+			workManagePackageFileThree,
+			workManagePackageFileFour,
+			workManageEngineer,
+			workManageDivision,
+			workManageRequestDate,
+			workManageCompleteDate,
+			workManageAuthor,
+			workManageTester,
+			workManageProgressStatus,
+			workManageProgress,
+			workManageTestScheduleStart,
+			workManageTestScheduleEnd,
+			workManageOneLine,
+			workManageDetailNote,
+			workManageRegistrant,
+			workManageRegistrationDate
+		)
+		VALUES(
+			#{workManageCustomerView},
+			#{workManageProductTypeOneView},
+			#{workManageProductTypeTwoView},
+			#{workManageProductTypeThreeView},
+			#{workManageProductTypeFourView},
+			#{workManagePackageNameOneView},
+			#{workManagePackageNameTwoView},
+			#{workManagePackageNameThreeView},
+			#{workManagePackageNameFourView},
+			#{workManagePackageFileOne},
+			#{workManagePackageFileTwo},
+			#{workManagePackageFileThree},
+			#{workManagePackageFileFour},
+			#{workManageEngineerView},
+			#{workManageDivisionView},
+			#{workManageRequestDateView},
+			#{workManageCompleteDateView},
+			#{workManageAuthorView},
+			#{workManageTesterView},
+			#{workManageProgressStatusView},
+			#{workManageProgressView},
+			#{workManageTestScheduleStart},
+			#{workManageTestScheduleEnd},
+			#{workManageOneLineView},
+			#{workManageDetailNoteView},
+			#{workManageRegistrant},
+			#{workManageRegistrationDate}
+		);
 	</insert>
 	
 	<select id="getSelectInput" resultType="string" parameterType="string">
 		SELECT DISTINCT ${selectInput} FROM workManage WHERE ${selectInput} != '';
 	</select>
 	
-	<select id="getWorkManageOne" parameterType="_int">
+	<select id="getWorkManageOne" parameterType="_int" resultMap="workManage">
 		SELECT * FROM workManage WHERE workManageKeyNum = #{workManageKeyNum};
 	</select>
 	
@@ -40,9 +96,37 @@
 		DELETE FROM workManage WHERE workManageKeyNum = #{workManageKeyNum};
 	</delete>
 	
-	<update id="setWorkManageKeyNum">
-		UPDATE workManage SET workManageKeyNum = #{workManageMergeKeyNum}, total = #{total}, solution = #{solution}, unresolved = #{unresolved}, hold = #{hold} 
-		WHERE workManageKeyNum = #{workManageKeyNum};
+	<update id="updateWorkManage">
+		UPDATE workManage
+		SET
+			workManageCustomer = #{workManageCustomerView},
+			workManageProductTypeOne = #{workManageProductTypeOneView},
+			workManageProductTypeTwo = #{workManageProductTypeTwoView},
+			workManageProductTypeThree = #{workManageProductTypeThreeView},
+			workManageProductTypeFour = #{workManageProductTypeFourView},
+			workManagePackageNameOne = #{workManagePackageNameOneView},
+			workManagePackageNameTwo = #{workManagePackageNameTwoView},
+			workManagePackageNameThree = #{workManagePackageNameThreeView},
+			workManagePackageNameFour = #{workManagePackageNameFourView},
+			workManagePackageFileOne = #{workManagePackageFileOne},
+			workManagePackageFileTwo = #{workManagePackageFileTwo},
+			workManagePackageFileThree = #{workManagePackageFileThree},
+			workManagePackageFileFour = #{workManagePackageFileFour},
+			workManageEngineer = #{workManageEngineerView},
+			workManageDivision = #{workManageDivisionView},
+			workManageRequestDate = #{workManageRequestDateView},
+			workManageCompleteDate = #{workManageCompleteDateView},
+			workManageTester = #{workManageTesterView},
+			workManageProgressStatus = #{workManageProgressStatusView},
+			workManageProgress = #{workManageProgressView},
+			workManageTestScheduleStart = #{workManageTestScheduleStart},
+			workManageTestScheduleEnd = #{workManageTestScheduleEnd},
+			workManageOneLine = #{workManageOneLineView},
+			workManageDetailNote = #{workManageDetailNoteView},
+			workManageModifier = #{workManageModifier},
+			workManageModifiedDate = #{workManageModifiedDate}
+		WHERE
+			workManageKeyNum = #{workManageKeyNum};
 	</update>
 	
 	<!-- ==================================================================================== -->
@@ -58,11 +142,11 @@
 				</trim>
 				)
 			</if>
-			<if test="workManageProductName != null and workManageProductName != ''">
+			<if test="workManagePackageName != null and workManagePackageName != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">
-					<foreach collection="workManageProductNameArr" item="arr">
-						OR workManageProductName LIKE CONCAT('%',#{arr},'%')
+					<foreach collection="workManagePackageNameArr" item="arr">
+						OR workManagePackageName LIKE CONCAT('%',#{arr},'%')
 					</foreach>
 				</trim>
 				)
@@ -85,7 +169,7 @@
 				</trim>
 				)
 			</if>
-			<if test="workManageRequestDate != null and workManageRequestDate != ''">
+			<if test="workManageRequestDateStart != null and workManageRequestDateStart != ''">
 				AND workManageRequestDate BETWEEN #{workManageRequestDateStart} AND #{workManageRequestDateEnd}
 			</if>
 			<if test="workManageEngineer != null and workManageEngineer != ''">

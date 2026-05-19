@@ -1,5 +1,6 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
@@ -51,28 +54,60 @@ public class WorkManageController {
 	
 	@PostMapping(value = "/workManage/insertView")
 	public String InsertWorkManageView(Model model, WorkManage workManage, Principal principal) {
-		List<String> workManageCustomer = categoryService.getCategoryValue("managementServer");
+		List<String> workManageCustomer = categoryService.getCategoryValue("customerName");
+		List<String> workManageProductType = categoryService.getCategoryValue("managementServer");
 		
 		workManage.setWorkManageRequestDate(workManageService.nowDate());
 		workManage.setWorkManageTestScheduleStart(workManageService.nowDate());
 		workManage.setWorkManageTestScheduleEnd(workManageService.nowDate());
-		workManage.setWorkManageAuthor(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		
-		model.addAttribute("viewType", "insert").addAttribute("workManage", workManage).addAttribute("workManageCustomer", workManageCustomer);;
+		model.addAttribute("viewType", "insert").addAttribute("workManage", workManage)
+		.addAttribute("workManageCustomer", workManageCustomer).addAttribute("workManageProductType", workManageProductType);
+		
 		return "/workManage/WorkManageView";
 	}
 	
 	@ResponseBody
 	@PostMapping(value = "/workManage/insert")
-	public Map InsertWorkManage(WorkManage workManage, Principal principal) {
+	public Map InsertWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView, Principal principal) throws IllegalStateException, IOException {
 		workManage.setWorkManageRegistrant(principal.getName());
 		workManage.setWorkManageRegistrationDate(workManageService.nowDateDetail());
+		workManage.setWorkManageAuthorView(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 
 		Map<String, Object> map = new HashMap<>();
-		String result = workManageService.insertWorkManage(workManage);
+		String result = workManageService.insertWorkManage(workManage, workManagePackageFileOneView, workManagePackageFileTwoView, workManagePackageFileThreeView, workManagePackageFileFourView);
 		
 		map.put("workManageKeyNum", workManage.getWorkManageKeyNum());
 		map.put("result", result);
 		return map;
+	}
+	
+	@PostMapping(value = "/workManage/updateView")
+	public String UpdateWorkManageView(Model model, int workManageKeyNum) {
+		WorkManage workManage = workManageService.getWorkManageOne(workManageKeyNum);
+		List<String> workManageCustomer = categoryService.getCategoryValue("customerName");
+		List<String> workManageProductType = categoryService.getCategoryValue("managementServer");
+
+		model.addAttribute("viewType", "update").addAttribute("workManage", workManage)
+		.addAttribute("workManageCustomer", workManageCustomer).addAttribute("workManageProductType", workManageProductType);
+		return "/workManage/WorkManageView";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/workManage/update")
+	public Map<String, String> UpdateWorkManage(WorkManage workManage, Principal principal) {
+		workManage.setWorkManageModifier(principal.getName());
+		workManage.setWorkManageModifiedDate(workManageService.nowDate());
+
+		Map<String, String> map = new HashMap<String, String>();
+		String result = workManageService.updateWorkManage(workManage, principal);
+		map.put("result", result);
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/workManage/delete")
+	public String WorkManageDelete(@RequestParam int[] chkList) {
+		return workManageService.delWorkManage(chkList);
 	}
 }
