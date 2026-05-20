@@ -108,14 +108,23 @@
 			workManagePackageNameTwo = #{workManagePackageNameTwoView},
 			workManagePackageNameThree = #{workManagePackageNameThreeView},
 			workManagePackageNameFour = #{workManagePackageNameFourView},
-			workManagePackageFileOne = #{workManagePackageFileOne},
-			workManagePackageFileTwo = #{workManagePackageFileTwo},
-			workManagePackageFileThree = #{workManagePackageFileThree},
-			workManagePackageFileFour = #{workManagePackageFileFour},
+			<if test="workManagePackageFileOne != null and workManagePackageFileOne != ''">
+				workManagePackageFileOne = #{workManagePackageFileOne},
+			</if>
+			<if test="workManagePackageFileTwo != null and workManagePackageFileTwo != ''">
+				workManagePackageFileTwo = #{workManagePackageFileTwo},
+			</if>
+			<if test="workManagePackageFileThree != null and workManagePackageFileThree != ''">
+				workManagePackageFileThree = #{workManagePackageFileThree},
+			</if>
+			<if test="workManagePackageFileFour != null and workManagePackageFileFour != ''">
+				workManagePackageFileFour = #{workManagePackageFileFour},
+			</if>
 			workManageEngineer = #{workManageEngineerView},
 			workManageDivision = #{workManageDivisionView},
 			workManageRequestDate = #{workManageRequestDateView},
 			workManageCompleteDate = #{workManageCompleteDateView},
+			workManageAuthor = #{workManageAuthorView},
 			workManageTester = #{workManageTesterView},
 			workManageProgressStatus = #{workManageProgressStatusView},
 			workManageProgress = #{workManageProgressView},
@@ -126,7 +135,8 @@
 			workManageModifier = #{workManageModifier},
 			workManageModifiedDate = #{workManageModifiedDate}
 		WHERE
-			workManageKeyNum = #{workManageKeyNum};
+			workManageKeyNum = #{workManageKeyNum}
+		;
 	</update>
 	
 	<!-- ==================================================================================== -->

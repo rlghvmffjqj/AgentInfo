@@ -60,7 +60,7 @@ public class WorkManage {
 	private String workManageProductTypeOneView;
 	private String workManagePackageNameOneView;
 	private String workManageProductTypeTwoView;
-	private String workManagePackageNameTowView;
+	private String workManagePackageNameTwoView;
 	private String workManageProductTypeThreeView;
 	private String workManagePackageNameThreeView;
 	private String workManageProductTypeFourView;

@@ -67,6 +67,12 @@ public class WorkManageService {
 			fileDownload(workManage, workManagePackageFileFourView);
 		}
 		
+		String tester = workManage.getWorkManageTesterView();
+		if (tester != null) {
+		    tester = tester.replaceAll(",\\s*$", "");
+		}
+		workManage.setWorkManageTesterView(tester);
+		
 		int success = workManageDao.insertWorkManage(workManage);
 		
 		if (success <= 0) return "FALSE";
@@ -78,11 +84,36 @@ public class WorkManageService {
 		return workManageDao.getWorkManageOne(workManageKeyNum);
 	}
 
-	public String updateWorkManage(WorkManage workManage, Principal principal) {
+	public String updateWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView) throws IllegalStateException, IOException {
+		if(workManagePackageFileOneView != null) {
+			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileOneView);
+		}
+		
+		if(workManagePackageFileTwoView != null) {
+			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileTwoView);
+		}
+		
+		if(workManagePackageFileThreeView != null) {
+			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileThreeView);
+		}
+		
+		if(workManagePackageFileFourView != null) {
+			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
+			fileDownload(workManage, workManagePackageFileFourView);
+		}
+		
+		String tester = workManage.getWorkManageTesterView();
+		if (tester != null) {
+		    tester = tester.replaceAll(",\\s*$", "");
+		}
+		workManage.setWorkManageTesterView(tester);
+		
 		int success = workManageDao.updateWorkManage(workManage);
-
-		if (success <= 0)
-			return "FALSE";
+		
+		if (success <= 0) return "FALSE";
 		return "OK";
 	}
 

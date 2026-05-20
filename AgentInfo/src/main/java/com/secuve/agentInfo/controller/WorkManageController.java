@@ -1,15 +1,23 @@
 package com.secuve.agentInfo.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.View;
 
+import com.secuve.agentInfo.core.FileDownloadView;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
@@ -69,7 +79,13 @@ public class WorkManageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/workManage/insert")
-	public Map InsertWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView, Principal principal) throws IllegalStateException, IOException {
+	public Map InsertWorkManage(
+	        WorkManage workManage,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileOneView,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileTwoView,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileThreeView,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileFourView,
+	        Principal principal) throws IllegalStateException, IOException {
 		workManage.setWorkManageRegistrant(principal.getName());
 		workManage.setWorkManageRegistrationDate(workManageService.nowDateDetail());
 		workManage.setWorkManageAuthorView(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
@@ -95,12 +111,18 @@ public class WorkManageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/workManage/update")
-	public Map<String, String> UpdateWorkManage(WorkManage workManage, Principal principal) {
+	public Map<String, String> UpdateWorkManage(
+	        WorkManage workManage,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileOneView,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileTwoView,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileThreeView,
+	        @RequestParam(required = false) MultipartFile workManagePackageFileFourView,
+	        Principal principal) throws IllegalStateException, IOException {
 		workManage.setWorkManageModifier(principal.getName());
 		workManage.setWorkManageModifiedDate(workManageService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = workManageService.updateWorkManage(workManage, principal);
+		String result = workManageService.updateWorkManage(workManage, workManagePackageFileOneView, workManagePackageFileTwoView, workManagePackageFileThreeView, workManagePackageFileFourView);
 		map.put("result", result);
 		return map;
 	}
@@ -109,5 +131,18 @@ public class WorkManageController {
 	@PostMapping(value = "/workManage/delete")
 	public String WorkManageDelete(@RequestParam int[] chkList) {
 		return workManageService.delWorkManage(chkList);
+	}
+	
+	@Value("${spring.servlet.multipart.location}")
+	String filePath;
+	
+	@GetMapping(value = "/workManage/fileDownload")
+	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) {
+		String filePath = this.filePath + File.separator + "workManage";
+		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
+		model.addAttribute("filePhysicalName", "/"+fileName);     // 파일 이름    
+		model.addAttribute("fileLogicalName", fileName);          // 출력할 파일 이름
+	
+		return new FileDownloadView();
 	}
 }
