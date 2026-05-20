@@ -23,7 +23,7 @@
 					colNames:['Key','메일발송','고객사','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약'],
 					colModel:[
 						{name:'workManageKeyNum', index:'workManageKeyNum', align:'center', width: 35, hidden:true },
-						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 60, formatter: mailFormatter},
+						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 70, formatter: mailFormatter},
 						{name:'workManageCustomer', index:'workManageCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'workManagePackageNameOne', index:'workManagePackageNameOne', align:'center', width: 400},
 						{name:'workManageEngineer', index:'workManageEngineer', align:'center', width: 80},

@@ -69,6 +69,7 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileOneView" name="workManagePackageFileOneView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadOneBtn">패키지 선택</button>
+					<button type="button" class="package-download-btn" id="packageDownLoadOneBtn">다운로드</button>
 				</div>
 			</div>
 
@@ -93,6 +94,7 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileTwoView" name="workManagePackageFileTwoView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadTwoBtn">패키지 선택</button>
+					<button type="button" class="package-download-btn" id="packageDownLoadTwoBtn">다운로드</button>
 				</div>
 			</div>
 
@@ -117,6 +119,7 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileThreeView" name="workManagePackageFileThreeView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadThreeBtn">패키지 선택</button>
+					<button type="button" class="package-download-btn" id="packageDownLoadThreeBtn">다운로드</button>
 				</div>
 			</div>
 
@@ -141,6 +144,7 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileFourView" name="workManagePackageFileFourView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadFourBtn">패키지 선택</button>
+					<button type="button" class="package-download-btn" id="packageDownLoadFourBtn">다운로드</button>
 				</div>
 			</div>
 		</div>
@@ -289,6 +293,49 @@
 	        $("#workManagePackageNameFourView").val(fileName);
 	    }
 	});
+
+	$("#packageDownLoadOneBtn").click(function () {
+		var fileName = "${workManage.workManagePackageFileOne}";
+		if(fileName == null || fileName.trim() == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '패키지1이 존재하지 않습니다.',
+			});
+		} else {
+			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
+		}
+	});
+
+	$("#packageDownLoadTwoBtn").click(function () {
+		if("${workManage.workManagePackageFileTwo}" == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '패키지2가 존재하지 않습니다.',
+			});
+		}
+	});
+
+	$("#packageDownLoadThreeBtn").click(function () {
+		if("${workManage.workManagePackageFileThree}" == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '패키지3이 존재하지 않습니다.',
+			});
+		}
+	});
+
+	$("#packageDownLoadFourBtn").click(function () {
+		if("${workManage.workManagePackageFileFour}" == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '패키지4가 존재하지 않습니다.',
+			});
+		}
+	});
 	
 	/* =========== 추가 ========= */
 	$('#insertBtn').click(function() {
@@ -321,12 +368,6 @@
 		if (workManagePackageFileFourView.files.length > 0) {
     	    formData.append('workManagePackageFileFourView', workManagePackageFileFourView.files[0]);
     	}
-
-		formData.append('workManagePackageFileOneView', workManagePackageFileOneView.files[0]);
-		formData.append('workManagePackageFileTwoView', workManagePackageFileTwoView.files[0]);
-		formData.append('workManagePackageFileThreeView', workManagePackageFileThreeView.files[0]);
-		formData.append('workManagePackageFileFourView', workManagePackageFileFourView.files[0]);
-
 
 		$.ajax({
 			url: "<c:url value='/workManage/insert'/>",
@@ -362,11 +403,42 @@
 	
 	$('#updateBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
+		var formData = new FormData();
+
+    	// 일반 데이터 추가
+    	$.each(postData, function(key, value) {
+    	    formData.append(key, value);
+    	});
+
+    	// 파일 추가
+    	var workManagePackageFileOneView = $('#workManagePackageFileOneView')[0];
+		var workManagePackageFileTwoView = $('#workManagePackageFileTwoView')[0];
+		var workManagePackageFileThreeView = $('#workManagePackageFileThreeView')[0];
+		var workManagePackageFileFourView = $('#workManagePackageFileFourView')[0];
+
+    	if (workManagePackageFileOneView.files.length > 0) {
+    	    formData.append('workManagePackageFileOneView', workManagePackageFileOneView.files[0]);
+    	}
+
+		if (workManagePackageFileTwoView.files.length > 0) {
+    	    formData.append('workManagePackageFileTwoView', workManagePackageFileTwoView.files[0]);
+    	}
+
+		if (workManagePackageFileThreeView.files.length > 0) {
+    	    formData.append('workManagePackageFileThreeView', workManagePackageFileThreeView.files[0]);
+    	}
+
+		if (workManagePackageFileFourView.files.length > 0) {
+    	    formData.append('workManagePackageFileFourView', workManagePackageFileFourView.files[0]);
+    	}
+
 		$.ajax({
 			url: "<c:url value='/workManage/update'/>",
 	        type: 'post',
-	        data: postData,
-	        async: false,
+	        data: formData,
+	        processData: false,
+        	contentType: false,
+        	async: false,
 	        success: function(data) {
 				if(data.result == "OK") {
 					Swal.fire({
@@ -490,6 +562,26 @@
 
 	.package-upload-btn:hover {
 	    background: #af5656;
+	    transform: translateY(-1px);
+	}
+
+	.package-download-btn {
+	    display: inline-flex;
+	    align-items: center;
+	    gap: 8px;
+	    padding: 8px 12px;
+	    border: none;
+	    border-radius: 8px;
+	    background: #a0d77f;
+	    color: white;
+	    font-size: 14px;
+	    font-weight: 600;
+	    cursor: pointer;
+	    transition: all 0.2s ease;
+	}
+
+	.package-download-btn:hover {
+	    background: #56af5d;
 	    transform: translateY(-1px);
 	}
 
