@@ -108,16 +108,16 @@
 			workManagePackageNameTwo = #{workManagePackageNameTwoView},
 			workManagePackageNameThree = #{workManagePackageNameThreeView},
 			workManagePackageNameFour = #{workManagePackageNameFourView},
-			<if test="workManagePackageFileOne != null and workManagePackageFileOne != ''">
+			<if test="workManagePackageFileOne != null and workManagePackageFileOne != '' or workManageProductTypeOneView == null or workManageProductTypeOneView == ''">
 				workManagePackageFileOne = #{workManagePackageFileOne},
 			</if>
-			<if test="workManagePackageFileTwo != null and workManagePackageFileTwo != ''">
+			<if test="workManagePackageFileTwo != null and workManagePackageFileTwo != '' or workManageProductTypeTwoView == null or workManageProductTypeTwoView == ''">
 				workManagePackageFileTwo = #{workManagePackageFileTwo},
 			</if>
-			<if test="workManagePackageFileThree != null and workManagePackageFileThree != ''">
+			<if test="workManagePackageFileThree != null and workManagePackageFileThree != '' or workManageProductTypeThreeView == null or workManageProductTypeThreeView == ''">
 				workManagePackageFileThree = #{workManagePackageFileThree},
 			</if>
-			<if test="workManagePackageFileFour != null and workManagePackageFileFour != ''">
+			<if test="workManagePackageFileFour != null and workManagePackageFileFour != '' or workManageProductTypeFourView == null or workManageProductTypeFourView == ''">
 				workManagePackageFileFour = #{workManagePackageFileFour},
 			</if>
 			workManageEngineer = #{workManageEngineerView},

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,30 @@ public class WorkManageService {
 	@Autowired	WorkManageDao workManageDao;
 
 	public List<WorkManage> getWorkManageList(WorkManage search) {
-		return workManageDao.getWorkManageList(workManageSearch(search));
+	    List<WorkManage> workManageList = workManageDao.getWorkManageList(workManageSearch(search));
+
+	    for (WorkManage workManage : workManageList) {
+	        List<String> list = new ArrayList<>();
+
+	        String[] productTypes = {
+	                workManage.getWorkManageProductTypeOne(),
+	                workManage.getWorkManageProductTypeTwo(),
+	                workManage.getWorkManageProductTypeThree(),
+	                workManage.getWorkManageProductTypeFour()
+	        };
+
+	        for (String productType : productTypes) {
+	            if (productType != null && !productType.isEmpty()) {
+	                list.add(productType);
+	            }
+	        }
+
+	        // 쉼표로 문자열 변환
+	        workManage.setWorkManageProductTypeList(
+	                String.join(", ", list)
+	        );
+	    }
+	    return workManageList;
 	}
 
 	public int getWorkManageListCount(WorkManage search) {

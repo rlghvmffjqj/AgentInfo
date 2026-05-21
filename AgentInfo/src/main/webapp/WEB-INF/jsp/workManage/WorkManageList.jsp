@@ -20,11 +20,12 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','메일발송','고객사','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약'],
+					colNames:['Key','메일발송','고객사','테스트항목','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약'],
 					colModel:[
 						{name:'workManageKeyNum', index:'workManageKeyNum', align:'center', width: 35, hidden:true },
 						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 70, formatter: mailFormatter},
 						{name:'workManageCustomer', index:'workManageCustomer', align:'center', width: 200, formatter: linkFormatter},
+						{name:'workManageProductTypeList', index:'workManageProductTypeList', align:'center', width: 180},
 						{name:'workManagePackageNameOne', index:'workManagePackageNameOne', align:'center', width: 400},
 						{name:'workManageEngineer', index:'workManageEngineer', align:'center', width: 80},
 						{name:'workManageDivision', index:'workManageDivision', align:'center', width: 80},
@@ -492,13 +493,43 @@
 			return '<button type="button" class="btn-mail" onclick="sendMail(\'' + rowdata.workManageKeyNum + '\')">메일발송</button>';
 		}
 
-		function sendMail(keyNum) {
-		    if(!keyNum) {
-		        alert("이메일 주소가 없습니다.");
-		        return;
-		    }
-		    // 여기에 메일 발송 팝업을 띄우거나 API를 호출하는 로직을 작성하세요.
-		    console.log(keyNum + " 주소로 메일 발송 로직 실행");
+		function sendMail(workManageKeyNum) {
+			$.ajax({
+		        type: 'POST',
+		        url: "<c:url value='/workManage/mailSend'/>",
+				data: {"workManageKeyNum" : workManageKeyNum},
+		        async: false,
+		        success: function (result) {
+					if(result == "OK") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '메일발송 완료했습니다.',
+						});
+					} else if(result == "SizeFull") {
+						Swal.fire({
+							icon: 'success',
+							title: '성공!',
+							text: '첨부파일 중 5MB 이상 파일은 제외하여 전송하였습니다.',
+						});
+					} else if(result == "Korean") {
+						Swal.fire({
+							icon: 'info',
+							title: '메일 계정 확인!',
+							text: '테스터 다시 확인 바랍니다.',
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: '실패!',
+							text: '작업에 실패하였습니다.',
+						});
+					}
+		        },
+		        error: function(e) {
+		            // TODO 에러 화면
+		        }
+		    });
 		}
 
 	</script>

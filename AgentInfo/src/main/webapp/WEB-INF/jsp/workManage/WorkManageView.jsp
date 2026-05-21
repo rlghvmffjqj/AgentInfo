@@ -69,7 +69,11 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileOneView" name="workManagePackageFileOneView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadOneBtn">패키지 선택</button>
-					<button type="button" class="package-download-btn" id="packageDownLoadOneBtn">다운로드</button>
+					<c:if test="${not empty workManage.workManagePackageFileOne}">
+						<button type="button" class="package-download-btn" id="packageDownLoadOneBtn">다운로드</button>
+						<button type="button" class="package-delete-btn" id="packageFileDeleteOneBtn">제거</button>
+					</c:if>
+					
 				</div>
 			</div>
 
@@ -94,7 +98,10 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileTwoView" name="workManagePackageFileTwoView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadTwoBtn">패키지 선택</button>
-					<button type="button" class="package-download-btn" id="packageDownLoadTwoBtn">다운로드</button>
+					<c:if test="${not empty workManage.workManagePackageFileTwo}">
+						<button type="button" class="package-download-btn" id="packageDownLoadTwoBtn">다운로드</button>
+						<button type="button" class="package-delete-btn" id="packageFileDeleteTwoBtn">제거</button>
+					</c:if>
 				</div>
 			</div>
 
@@ -119,7 +126,10 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileThreeView" name="workManagePackageFileThreeView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadThreeBtn">패키지 선택</button>
-					<button type="button" class="package-download-btn" id="packageDownLoadThreeBtn">다운로드</button>
+					<c:if test="${not empty workManage.workManagePackageFileThree}">
+						<button type="button" class="package-download-btn" id="packageDownLoadThreeBtn">다운로드</button>
+						<button type="button" class="package-delete-btn" id="packageFileDeleteThreeBtn">제거</button>
+					</c:if>
 				</div>
 			</div>
 
@@ -144,7 +154,10 @@
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileFourView" name="workManagePackageFileFourView" hidden>
 					<button type="button" class="package-upload-btn" id="packageUploadFourBtn">패키지 선택</button>
-					<button type="button" class="package-download-btn" id="packageDownLoadFourBtn">다운로드</button>
+					<c:if test="${not empty workManage.workManagePackageFileFour}">
+						<button type="button" class="package-download-btn" id="packageDownLoadFourBtn">다운로드</button>
+						<button type="button" class="package-delete-btn" id="packageFileDeleteFourBtn">제거</button>
+					</c:if>
 				</div>
 			</div>
 		</div>
@@ -308,34 +321,128 @@
 	});
 
 	$("#packageDownLoadTwoBtn").click(function () {
+		var fileName = "${workManage.workManagePackageFileTwo}";
 		if("${workManage.workManagePackageFileTwo}" == "") {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
 				text: '패키지2가 존재하지 않습니다.',
 			});
+		} else {
+			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
 
 	$("#packageDownLoadThreeBtn").click(function () {
+		var fileName = "${workManage.workManagePackageFileThree}";
 		if("${workManage.workManagePackageFileThree}" == "") {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
 				text: '패키지3이 존재하지 않습니다.',
 			});
+		} else {
+			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
 
 	$("#packageDownLoadFourBtn").click(function () {
+		var fileName = "${workManage.workManagePackageFileFour}";
 		if("${workManage.workManagePackageFileFour}" == "") {
 			Swal.fire({
 				icon: 'error',
 				title: '실패!',
 				text: '패키지4가 존재하지 않습니다.',
 			});
+		} else {
+			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
+
+	$("#packageFileDeleteOneBtn").click(function () {
+		Swal.fire({
+			title: '제거!',
+			text: "첨부파일을 제거하시겠습니까?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#7066e0',
+			cancelButtonColor: '#FF99AB',
+			confirmButtonText: 'OK'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+            	$("#workManageProductTypeOneView").val("");
+				$("#workManageProductTypeOneView").selectpicker("refresh");
+	            $("#workManagePackageNameOneView").val("");
+	            $("#workManagePackageFileOneView").val("");
+				$("#packageDownLoadOneBtn").remove();
+            	$("#packageFileDeleteOneBtn").remove();
+		  	}
+		})
+	});
+
+	$("#packageFileDeleteTwoBtn").click(function () {
+		Swal.fire({
+			title: '제거!',
+			text: "첨부파일을 제거하시겠습니까?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#7066e0',
+			cancelButtonColor: '#FF99AB',
+			confirmButtonText: 'OK'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+            	$("#workManageProductTypeTwoView").val("");
+				$("#workManageProductTypeTwoView").selectpicker("refresh");
+	            $("#workManagePackageNameTwoView").val("");
+	            $("#workManagePackageFileTwoView").val("");
+				$("#packageDownLoadTwoBtn").remove();
+            	$("#packageFileDeleteTwoBtn").remove();
+		  	}
+		})
+	});
+
+	$("#packageFileDeleteThreeBtn").click(function () {
+		Swal.fire({
+			title: '제거!',
+			text: "첨부파일을 제거하시겠습니까?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#7066e0',
+			cancelButtonColor: '#FF99AB',
+			confirmButtonText: 'OK'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+            	$("#workManageProductTypeThreeView").val("");
+				$("#workManageProductTypeThreeView").selectpicker("refresh");
+	            $("#workManagePackageNameThreeView").val("");
+	            $("#workManagePackageFileThreeView").val("");
+				$("#packageDownLoadThreeBtn").remove();
+            	$("#packageFileDeleteThreeBtn").remove();
+		  	}
+		})
+	});
+
+	$("#packageFileDeleteFourBtn").click(function () {
+		Swal.fire({
+			title: '제거!',
+			text: "첨부파일을 제거하시겠습니까?",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#7066e0',
+			cancelButtonColor: '#FF99AB',
+			confirmButtonText: 'OK'
+		}).then((result) => {
+		  	if (result.isConfirmed) {
+            	$("#workManageProductTypeFourView").val("");
+				$("#workManageProductTypeFourView").selectpicker("refresh");
+	            $("#workManagePackageNameFourView").val("");
+	            $("#workManagePackageFileFourView").val("");
+				$("#packageDownLoadFourBtn").remove();
+            	$("#packageFileDeleteFourBtn").remove();
+		  	}
+		})
+	});
+	
 	
 	/* =========== 추가 ========= */
 	$('#insertBtn').click(function() {
@@ -582,6 +689,26 @@
 
 	.package-download-btn:hover {
 	    background: #56af5d;
+	    transform: translateY(-1px);
+	}
+
+	.package-delete-btn {
+	    display: inline-flex;
+	    align-items: center;
+	    gap: 8px;
+	    padding: 8px 12px;
+	    border: none;
+	    border-radius: 8px;
+	    background: #ff6e6e;
+	    color: white;
+	    font-size: 14px;
+	    font-weight: 600;
+	    cursor: pointer;
+	    transition: all 0.2s ease;
+	}
+
+	.package-delete-btn:hover {
+	    background: #bd2525;
 	    transform: translateY(-1px);
 	}
 
