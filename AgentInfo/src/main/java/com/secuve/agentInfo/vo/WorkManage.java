@@ -26,6 +26,7 @@ public class WorkManage {
 	private String workManageTestScheduleEnd;
 	private String workManageOneLine;
 	private String workManageDetailNote;
+	private String workManageComment;
 	private String workManageRegistrant;
 	private String workManageRegistrationDate;
 	private String workManageModifier;
@@ -56,6 +57,10 @@ public class WorkManage {
 	private String workManagePackageFileTwo;
 	private String workManagePackageFileThree;
 	private String workManagePackageFileFour;
+	private String workManagePackageSizeOne;
+	private String workManagePackageSizeTwo;
+	private String workManagePackageSizeThree;
+	private String workManagePackageSizeFour;
 	
 	private String workManageProductTypeOneView;
 	private String workManagePackageNameOneView;

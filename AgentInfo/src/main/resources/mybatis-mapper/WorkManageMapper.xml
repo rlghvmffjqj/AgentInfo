@@ -38,6 +38,10 @@
 			workManagePackageFileTwo,
 			workManagePackageFileThree,
 			workManagePackageFileFour,
+			workManagePackageSizeOne,
+			workManagePackageSizeTwo,
+			workManagePackageSizeThree,
+			workManagePackageSizeFour,
 			workManageEngineer,
 			workManageDivision,
 			workManageRequestDate,
@@ -67,6 +71,10 @@
 			#{workManagePackageFileTwo},
 			#{workManagePackageFileThree},
 			#{workManagePackageFileFour},
+			#{workManagePackageSizeOne},
+			#{workManagePackageSizeTwo},
+			#{workManagePackageSizeThree},
+			#{workManagePackageSizeFour},
 			#{workManageEngineerView},
 			#{workManageDivisionView},
 			#{workManageRequestDateView},
@@ -110,15 +118,19 @@
 			workManagePackageNameFour = #{workManagePackageNameFourView},
 			<if test="workManagePackageFileOne != null and workManagePackageFileOne != '' or workManageProductTypeOneView == null or workManageProductTypeOneView == ''">
 				workManagePackageFileOne = #{workManagePackageFileOne},
+				workManagePackageSizeOne = #{workManagePackageSizeOne},
 			</if>
 			<if test="workManagePackageFileTwo != null and workManagePackageFileTwo != '' or workManageProductTypeTwoView == null or workManageProductTypeTwoView == ''">
 				workManagePackageFileTwo = #{workManagePackageFileTwo},
+				workManagePackageSizeTwo = #{workManagePackageSizeTwo},
 			</if>
 			<if test="workManagePackageFileThree != null and workManagePackageFileThree != '' or workManageProductTypeThreeView == null or workManageProductTypeThreeView == ''">
 				workManagePackageFileThree = #{workManagePackageFileThree},
+				workManagePackageSizeThree = #{workManagePackageSizeThree},
 			</if>
 			<if test="workManagePackageFileFour != null and workManagePackageFileFour != '' or workManageProductTypeFourView == null or workManageProductTypeFourView == ''">
 				workManagePackageFileFour = #{workManagePackageFileFour},
+				workManagePackageSizeFour = #{workManagePackageSizeFour},
 			</if>
 			workManageEngineer = #{workManageEngineerView},
 			workManageDivision = #{workManageDivisionView},
@@ -134,6 +146,14 @@
 			workManageDetailNote = #{workManageDetailNoteView},
 			workManageModifier = #{workManageModifier},
 			workManageModifiedDate = #{workManageModifiedDate}
+		WHERE
+			workManageKeyNum = #{workManageKeyNum}
+		;
+	</update>
+	
+	<update id="progressChange">
+		UPDATE workManage
+		SET workManageProgress = #{workManageProgressView}, workManageComment = #{workManageCommentView}
 		WHERE
 			workManageKeyNum = #{workManageKeyNum}
 		;

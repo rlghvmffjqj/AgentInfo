@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 
-    <title>패키지 다운로드+</title>
+    <title>패키지 다운로드</title>
     <style>
 
         body {
@@ -136,10 +136,10 @@
                         ${workManage.workManagePackageNameOne}
                     </div>
                     <div class="package-size">
-                        1.2 MB
+                        ${workManage.workManagePackageSizeOne}
                     </div>
                 </div>
-                <button class="download-btn">
+                <button type="button" class="download-btn" onClick="btnFileDownload('one')">
                     다운로드
                 </button>
             </div>
@@ -155,10 +155,10 @@
                         ${workManage.workManagePackageNameTwo}
                     </div>
                     <div class="package-size">
-                        1.2 MB
+                        ${workManage.workManagePackageSizeTwo}
                     </div>
                 </div>
-                <button class="download-btn">
+                <button type="button" class="download-btn" onClick="btnFileDownload('two')">
                     다운로드
                 </button>
             </div>
@@ -174,10 +174,10 @@
                         ${workManage.workManagePackageNameThree}
                     </div>
                     <div class="package-size">
-                        1.2 MB
+                        ${workManage.workManagePackageSizeThree}
                     </div>
                 </div>
-                <button class="download-btn">
+                <button type="button" class="download-btn" onClick="btnFileDownload('three')">
                     다운로드
                 </button>
             </div>
@@ -193,10 +193,10 @@
                         ${workManage.workManagePackageNameFour}
                     </div>
                     <div class="package-size">
-                        1.2 MB
+                        ${workManage.workManagePackageSizeFour}
                     </div>
                 </div>
-                <button class="download-btn">
+                <button type="button" class="download-btn" onClick="btnFileDownload('four')">
                     다운로드
                 </button>
             </div>
@@ -222,4 +222,30 @@
         </div>
     </div>
 </body>
+
+<script>
+    function btnFileDownload(number) {
+        var fileName = "";
+        if(number == "one") {
+            fileName  = "${workManage.workManagePackageNameOne}";
+        } else if(number == "two") {
+            fileName  = "${workManage.workManagePackageNameTwo}";
+        } else if(number == "three") {
+            fileName  = "${workManage.workManagePackageNameThree}";
+        } else if(number == "four") {
+            fileName  = "${workManage.workManagePackageNameFour}";
+        }
+
+		if(fileName == null || fileName.trim() == "") {
+			Swal.fire({
+				icon: 'error',
+				title: '실패!',
+				text: '패키지가 존재하지 않습니다.',
+			});
+		} else {
+			window.location ="<c:url value='/workManageDownLoad/fileDownload'/>?fileName=" + encodeURIComponent(fileName);
+		}
+    }
+
+</script>
 </html>

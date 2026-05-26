@@ -68,6 +68,7 @@
 			<div class="pading5Width33 packageHeight">
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileOneView" name="workManagePackageFileOneView" hidden>
+					<div style="width: 55px;"><label>${workManage.workManagePackageSizeOne}</label></div>
 					<button type="button" class="package-upload-btn" id="packageUploadOneBtn">패키지 선택</button>
 					<c:if test="${not empty workManage.workManagePackageFileOne}">
 						<button type="button" class="package-download-btn" id="packageDownLoadOneBtn">다운로드</button>
@@ -97,6 +98,7 @@
 			<div class="pading5Width33 packageHeight">
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileTwoView" name="workManagePackageFileTwoView" hidden>
+					<div style="width: 55px;"><label>${workManage.workManagePackageSizeTwo}</label></div>
 					<button type="button" class="package-upload-btn" id="packageUploadTwoBtn">패키지 선택</button>
 					<c:if test="${not empty workManage.workManagePackageFileTwo}">
 						<button type="button" class="package-download-btn" id="packageDownLoadTwoBtn">다운로드</button>
@@ -125,6 +127,7 @@
 			<div class="pading5Width33 packageHeight">
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileThreeView" name="workManagePackageFileThreeView" hidden>
+					<div style="width: 55px;"><label>${workManage.workManagePackageSizeThree}</label></div>
 					<button type="button" class="package-upload-btn" id="packageUploadThreeBtn">패키지 선택</button>
 					<c:if test="${not empty workManage.workManagePackageFileThree}">
 						<button type="button" class="package-download-btn" id="packageDownLoadThreeBtn">다운로드</button>
@@ -153,6 +156,7 @@
 			<div class="pading5Width33 packageHeight">
 				<div class="packageFile">
 					<input type="file" id="workManagePackageFileFourView" name="workManagePackageFileFourView" hidden>
+					<div style="width: 55px;"><label>${workManage.workManagePackageSizeFour}</label></div>
 					<button type="button" class="package-upload-btn" id="packageUploadFourBtn">패키지 선택</button>
 					<c:if test="${not empty workManage.workManagePackageFileFour}">
 						<button type="button" class="package-download-btn" id="packageDownLoadFourBtn">다운로드</button>
@@ -186,7 +190,7 @@
 			<div class="pading5Width33">
 				<div class="percent-wrap" style="width: 100%;">
 					<label class="labelFontSize">진행률</label>
-	    		    <input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold;">
+	    		    <input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold;" <sec:authorize access="!hasRole('ADMIN')">disabled="disabled"</sec:authorize>>
 					<span style="top: 65%;">%</span>
 				</div>
 			</div>
@@ -316,7 +320,7 @@
 				text: '패키지1이 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
 
@@ -329,7 +333,7 @@
 				text: '패키지2가 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
 
@@ -342,7 +346,7 @@
 				text: '패키지3이 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
 
@@ -355,7 +359,7 @@
 				text: '패키지4가 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManage/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
 		}
 	});
 

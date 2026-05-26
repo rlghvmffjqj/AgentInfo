@@ -20,21 +20,28 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','메일발송','고객사','테스트항목','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약'],
+					colNames:['Key','메일발송','고객사','테스트항목','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약','유형1','유형2','유형3','유형4','패키지명2','패키지명3','패키지명4'],
 					colModel:[
 						{name:'workManageKeyNum', index:'workManageKeyNum', align:'center', width: 35, hidden:true },
 						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 70, formatter: mailFormatter},
 						{name:'workManageCustomer', index:'workManageCustomer', align:'center', width: 200, formatter: linkFormatter},
-						{name:'workManageProductTypeList', index:'workManageProductTypeList', align:'center', width: 180},
+						{name:'workManageProductTypeList', index:'workManageProductTypeList', align:'center', width: 180, formatter: subPackage},
 						{name:'workManagePackageNameOne', index:'workManagePackageNameOne', align:'center', width: 400},
 						{name:'workManageEngineer', index:'workManageEngineer', align:'center', width: 80},
 						{name:'workManageDivision', index:'workManageDivision', align:'center', width: 80},
 						{name:'workManageRequestDate', index:'workManageRequestDate', align:'center', width: 80},
 						{name:'workManageAuthor', index:'workManageAuthor', align:'center', width: 70},
 						{name:'workManageTester', index:'workManageTester', align:'center', width: 150},
-						{name:'workManageProgressStatus', index:'workManageProgressStatus', align:'center', width: 70},
+						{name:'workManageProgressStatus', index:'workManageProgressStatus', align:'center', width: 55, formatter: stateFormatter},
 						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 140, formatter: testScheduleFormatter},
 						{name:'workManageOneLine', index:'workManageOneLine', align:'left', width: 400},
+						{name:'workManageProductTypeOne', index:'workManageProductTypeOne', align:'center', width: 100, hidden:true},
+						{name:'workManageProductTypeTwo', index:'workManageProductTypeTwo', align:'center', width: 100, hidden:true},
+						{name:'workManageProductTypeThree', index:'workManageProductTypeThree', align:'center', width: 100, hidden:true},
+						{name:'workManageProductTypeFour', index:'workManageProductTypeFour', align:'center', width: 100, hidden:true},
+						{name:'workManagePackageNameTwo', index:'workManagePackageNameTwo', align:'center', width: 100, hidden:true},
+						{name:'workManagePackageNameThree', index:'workManagePackageNameThree', align:'center', width: 100, hidden:true},
+						{name:'workManagePackageNameFour', index:'workManagePackageNameFour', align:'center', width: 100, hidden:true},
 					],
 					jsonReader : {
 			        	id: 'workManageKeyNum',
@@ -213,6 +220,7 @@
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnComplete">진행상태 변경</button>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnWeeklyReport">주간 업무 보고서</button>
 																	<!-- <button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'workManageKeyNum');">컬럼 선택</button> -->
 																</td>
 															</tr>
@@ -382,7 +390,6 @@
 				})
 			}
 		});
-
 		
 		$('#BtnComplete').click(function() {
 			var chkList = $("#list").getGridParam('selarrrow');
@@ -393,46 +400,28 @@
 					text: '선택한 행이 존재하지 않습니다.',    
 				});    
 			} else {
-				Swal.fire({
-					  title: '처리완료!',
-					  text: "선택한 작업를 처리완료 처리하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  $.ajax({
-						url: "<c:url value='/workManage/complete'/>",
-						type: "POST",
-						data: {chkList: chkList},
-						dataType: "text",
-						traditional: true,
-						async: false,
-						success: function(data) {
-							if(data == "OK")
-								Swal.fire(
-								  '성공!',
-								  '처리완료 처리하였습니다.',
-								  'success'
-								)
-							else
-								Swal.fire(
-								  '실패!',
-								  '처리완료 처리에 실패하였습니다.',
-								  'error'
-								)
-							tableRefresh();
-						},
-						error: function(error) {
-							console.log(error);
-						}
-					  });
-				  	}
-				})
+				$.ajax({
+		            type: 'POST',
+		            url: "<c:url value='/workManage/progressView'/>",
+					data: {chkList: chkList},
+					async: false,
+					traditional: true,
+		            success: function (data) {
+		            	if(data.indexOf("<!DOCTYPE html>") != -1) 
+							location.reload();
+		                $.modal(data, 'r'); //modal창 호출
+		            },
+		            error: function(e) {
+		                // TODO 에러 화면
+		            }
+		        });
 			}
-		})
+		});
+
+		$('#BtnWeeklyReport').click(function() {
+			 window.location = "<c:url value='/workManage/weeklyReportDownload'/>";
+		});
+		
 		
 		/* =========== 작업 수정 Modal ========= */
 		function updateView(data) {
@@ -491,6 +480,127 @@
 
 		function mailFormatter(cellValue, options, rowdata, action) {
 			return '<button type="button" class="btn-mail" onclick="sendMail(\'' + rowdata.workManageKeyNum + '\')">메일발송</button>';
+		}
+
+		function subPackage(cellvalue, options, rowObject) {
+    		return "<a href='javascript:void(0)' onclick='toggleDetail(" + options.rowId + ")' style='color:#366cb3;'>" + cellvalue + "</a>";
+		}
+
+		function toggleDetail(rowId) {
+
+		    var detailId = "detail_" + rowId;
+
+		    // 이미 존재하면 toggle
+		    if ($("#" + detailId).length > 0) {
+			
+		        $("#" + detailId).toggle();
+			
+		        return;
+		    }
+		
+		    var rowData = $("#list").jqGrid('getRowData', rowId);
+		
+		    var html = "";
+		
+		    html += "<tr id='" + detailId + "' class='detail-row'>";
+			
+		    html += "<td colspan='13' "
+		          + "style='padding:10px; background:#f4f6f9;'>";
+			
+		    // 카드 시작
+		    html += "<div style='"
+		          + "background:white;"
+		          + "border-radius:10px;"
+		          + "padding:20px;"
+		          + "box-shadow:0 2px 6px rgba(0,0,0,0.08);"
+		          + "border:1px solid #e5e7eb;'>";
+			
+		    // 제목
+		    html += "<div style='"
+		          + "font-size:16px;"
+		          + "font-weight:bold;"
+		          + "color:#2F5597;"
+		          + "margin-bottom:20px;'>";
+			
+		    html += "패키지 상세 정보";
+			
+		    html += "</div>";
+			
+		    // 패키지 영역
+		    html += "<div style='display:flex; flex-direction:column; gap:12px;'>";
+			
+		    // 공통 함수 느낌으로 반복
+		    function addPackage(type, name) {
+			
+		        if (type != null && type != "") {
+				
+		            html += "<div style='"
+		                  + "padding:14px;"
+		                  + "border-radius:8px;"
+		                  + "background:#f8f9fa;"
+		                  + "border:1px solid #e5e7eb;'>";
+				
+		            html += "<div style='"
+		                  + "font-size:12px;"
+		                  + "font-weight:bold;"
+		                  + "color:#2F5597;"
+		                  + "margin-bottom:6px;'>";
+				
+		            html += type;
+				
+		            html += "</div>";
+				
+		            html += "<div style='"
+		                  + "font-size:15px;"
+		                  + "font-weight:bold;"
+		                  + "color:#222;'>";
+				
+		            html += name;
+				
+		            html += "</div>";
+				
+		            html += "</div>";
+		        }
+		    }
+		
+		    addPackage(
+		        rowData.workManageProductTypeOne,
+		        rowData.workManagePackageNameOne
+		    );
+		
+		    addPackage(
+		        rowData.workManageProductTypeTwo,
+		        rowData.workManagePackageNameTwo
+		    );
+		
+		    addPackage(
+		        rowData.workManageProductTypeThree,
+		        rowData.workManagePackageNameThree
+		    );
+		
+		    addPackage(
+		        rowData.workManageProductTypeFour,
+		        rowData.workManagePackageNameFour
+		    );
+		
+		    html += "</div>";
+		    html += "</div>";
+		    html += "</div>";
+		    html += "</td>";
+		    html += "</tr>";
+		    $("#" + rowId).after(html);
+		}
+
+		function stateFormatter(value, options, row) {
+			var state = row.workManageProgressStatus.toUpperCase();
+			if(state == "진행중") {
+				return '<div><img src="/AgentInfo/images/inprogress2.png" style="width:50px;"></div';
+			} else if(state == "완료") {
+				return '<div><img src="/AgentInfo/images/complete.png" style="width:50px;"></div';
+			} else if(state == "보류") {
+				return '<div><img src="/AgentInfo/images/hold.png" style="width:50px;"></div';
+			}
+			return '<div></div>';
 		}
 
 		function sendMail(workManageKeyNum) {

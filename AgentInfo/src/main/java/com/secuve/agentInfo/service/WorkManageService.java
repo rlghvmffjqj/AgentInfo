@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,21 +76,25 @@ public class WorkManageService {
 	public String insertWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView) throws IllegalStateException, IOException {
 		if(workManagePackageFileOneView != null) {
 			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeOne(getFileSize(workManagePackageFileOneView.getSize()));			
 			fileDownload(workManage, workManagePackageFileOneView);
 		}
 		
 		if(workManagePackageFileTwoView != null) {
 			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeTwo(getFileSize(workManagePackageFileTwoView.getSize()));
 			fileDownload(workManage, workManagePackageFileTwoView);
 		}
 		
 		if(workManagePackageFileThreeView != null) {
 			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeThree(getFileSize(workManagePackageFileThreeView.getSize()));
 			fileDownload(workManage, workManagePackageFileThreeView);
 		}
 		
 		if(workManagePackageFileFourView != null) {
 			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeFour(getFileSize(workManagePackageFileFourView.getSize()));
 			fileDownload(workManage, workManagePackageFileFourView);
 		}
 		
@@ -103,6 +110,23 @@ public class WorkManageService {
 		
 		return "OK";
 	}
+	
+	private String getFileSize(long size) {
+	    double kb = (double) size / 1024;
+	    double mb = kb / 1024;
+	    double gb = mb / 1024;
+
+	    if (gb >= 1) {
+	        return String.format("%.1f GB", gb);
+	    }
+	    if (mb >= 1) {
+	        return String.format("%.1f MB", mb);
+	    }
+	    if (kb >= 1) {
+	        return String.format("%.1f KB", kb);
+	    }
+	    return size + " Byte";
+	}
 
 	public WorkManage getWorkManageOne(int workManageKeyNum) {
 		return workManageDao.getWorkManageOne(workManageKeyNum);
@@ -111,21 +135,25 @@ public class WorkManageService {
 	public String updateWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView) throws IllegalStateException, IOException {
 		if(workManagePackageFileOneView != null) {
 			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeOne(getFileSize(workManagePackageFileOneView.getSize()));
 			fileDownload(workManage, workManagePackageFileOneView);
 		}
 		
 		if(workManagePackageFileTwoView != null) {
 			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeTwo(getFileSize(workManagePackageFileTwoView.getSize()));
 			fileDownload(workManage, workManagePackageFileTwoView);
 		}
 		
 		if(workManagePackageFileThreeView != null) {
 			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeThree(getFileSize(workManagePackageFileThreeView.getSize()));
 			fileDownload(workManage, workManagePackageFileThreeView);
 		}
 		
 		if(workManagePackageFileFourView != null) {
 			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
+			workManage.setWorkManagePackageSizeFour(getFileSize(workManagePackageFileFourView.getSize()));
 			fileDownload(workManage, workManagePackageFileFourView);
 		}
 		
@@ -161,6 +189,25 @@ public class WorkManageService {
 	public void fileDownload(WorkManage workManage, MultipartFile workManagePackageFileView) throws IllegalStateException, IOException {
 		File newFileName = new File(filePath + File.separator + "workManage", workManagePackageFileView.getOriginalFilename());
 		workManagePackageFileView.transferTo(newFileName);
+	}
+
+	public String progressChange(int[] chkList, String workManageCommentView, String workManageProgressView, Principal principal) {
+		for (int workManageKeyNum : chkList) {
+            if (workManageDao.progressChange(workManageKeyNum, workManageCommentView, workManageProgressView) <= 0) {
+                return "FALSE";
+            }
+        }
+        return "OK";
+	}
+
+	public Object getPeriod() {
+		LocalDate today = LocalDate.now();
+		LocalDate monday = today.with(DayOfWeek.MONDAY);
+		LocalDate friday = today.with(DayOfWeek.FRIDAY);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy. MM. dd");
+		String period = monday.format(formatter) + " ~ " + friday.format(formatter);
+
+		return "업무기간 : " + period + "\r\n\r\n";
 	}
 
 }
