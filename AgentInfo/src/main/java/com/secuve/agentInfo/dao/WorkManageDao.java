@@ -55,4 +55,32 @@ public class WorkManageDao {
 		return sqlSession.update("workManage.progressChange", parameters);
 	}
 
+	public List<String> getCustomerList() {
+		return sqlSession.selectList("workManage.getCustomerList");
+	}
+
+	public List<WorkManage> getWorkManageCustomerAllProgressList(String workManageCustomer) {
+		return sqlSession.selectList("workManage.getWorkManageCustomerAllProgressList", workManageCustomer);
+	}
+
+	public List<WorkManage> getWorkManageCustomerAllExpectedList(String workManageCustomer) {
+		return sqlSession.selectList("workManage.getWorkManageCustomerAllExpectedList", workManageCustomer);
+	}
+
+	public List<WorkManage> getWorkManageCustomerWeeklyProgressList(String workManageCustomer, String employeeName) {
+		Map<String, Object> parameters = createParameterMap(
+		    "workManageCustomer", workManageCustomer,
+		    "employeeName", employeeName
+		);
+		return sqlSession.selectList("workManage.getWorkManageCustomerWeeklyProgressList", parameters);
+	}
+
+	public List<WorkManage> getWorkManageCustomerWeeklyExpectedList(String workManageCustomer, String employeeName) {
+		Map<String, Object> parameters = createParameterMap(
+		    "workManageCustomer", workManageCustomer,
+		    "employeeName", employeeName
+		);
+		return sqlSession.selectList("workManage.getWorkManageCustomerWeeklyExpectedList", parameters);
+	}
+
 }

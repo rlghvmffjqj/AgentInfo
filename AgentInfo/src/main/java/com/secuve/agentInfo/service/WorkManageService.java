@@ -77,25 +77,21 @@ public class WorkManageService {
 		if(workManagePackageFileOneView != null) {
 			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeOne(getFileSize(workManagePackageFileOneView.getSize()));			
-			fileDownload(workManage, workManagePackageFileOneView);
 		}
 		
 		if(workManagePackageFileTwoView != null) {
 			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeTwo(getFileSize(workManagePackageFileTwoView.getSize()));
-			fileDownload(workManage, workManagePackageFileTwoView);
 		}
 		
 		if(workManagePackageFileThreeView != null) {
 			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeThree(getFileSize(workManagePackageFileThreeView.getSize()));
-			fileDownload(workManage, workManagePackageFileThreeView);
 		}
 		
 		if(workManagePackageFileFourView != null) {
 			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeFour(getFileSize(workManagePackageFileFourView.getSize()));
-			fileDownload(workManage, workManagePackageFileFourView);
 		}
 		
 		String tester = workManage.getWorkManageTesterView();
@@ -107,6 +103,23 @@ public class WorkManageService {
 		int success = workManageDao.insertWorkManage(workManage);
 		
 		if (success <= 0) return "FALSE";
+		
+		// 파일 다운로드 시 keyNum_filename 형식을 위해 키값을 받고 업로드 진행
+		if(workManagePackageFileOneView != null) {
+			fileUpLoad(workManage, workManagePackageFileOneView);
+		}
+		
+		if(workManagePackageFileTwoView != null) {
+			fileUpLoad(workManage, workManagePackageFileTwoView);
+		}
+		
+		if(workManagePackageFileThreeView != null) {
+			fileUpLoad(workManage, workManagePackageFileThreeView);
+		}
+		
+		if(workManagePackageFileFourView != null) {
+			fileUpLoad(workManage, workManagePackageFileFourView);
+		}
 		
 		return "OK";
 	}
@@ -136,25 +149,25 @@ public class WorkManageService {
 		if(workManagePackageFileOneView != null) {
 			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeOne(getFileSize(workManagePackageFileOneView.getSize()));
-			fileDownload(workManage, workManagePackageFileOneView);
+			fileUpLoad(workManage, workManagePackageFileOneView);
 		}
 		
 		if(workManagePackageFileTwoView != null) {
 			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeTwo(getFileSize(workManagePackageFileTwoView.getSize()));
-			fileDownload(workManage, workManagePackageFileTwoView);
+			fileUpLoad(workManage, workManagePackageFileTwoView);
 		}
 		
 		if(workManagePackageFileThreeView != null) {
 			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeThree(getFileSize(workManagePackageFileThreeView.getSize()));
-			fileDownload(workManage, workManagePackageFileThreeView);
+			fileUpLoad(workManage, workManagePackageFileThreeView);
 		}
 		
 		if(workManagePackageFileFourView != null) {
 			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
 			workManage.setWorkManagePackageSizeFour(getFileSize(workManagePackageFileFourView.getSize()));
-			fileDownload(workManage, workManagePackageFileFourView);
+			fileUpLoad(workManage, workManagePackageFileFourView);
 		}
 		
 		String tester = workManage.getWorkManageTesterView();
@@ -186,8 +199,8 @@ public class WorkManageService {
 	@Value("${spring.servlet.multipart.location}")
 	String filePath;
 	
-	public void fileDownload(WorkManage workManage, MultipartFile workManagePackageFileView) throws IllegalStateException, IOException {
-		File newFileName = new File(filePath + File.separator + "workManage", workManagePackageFileView.getOriginalFilename());
+	public void fileUpLoad(WorkManage workManage, MultipartFile workManagePackageFileView) throws IllegalStateException, IOException {
+		File newFileName = new File(filePath + File.separator + "workManage", workManage.getWorkManageKeyNum()+"_"+workManagePackageFileView.getOriginalFilename());
 		workManagePackageFileView.transferTo(newFileName);
 	}
 
@@ -210,4 +223,24 @@ public class WorkManageService {
 		return "업무기간 : " + period + "\r\n\r\n";
 	}
 
+	public List<String> getCustomerList() {
+		return workManageDao.getCustomerList();
+	}
+
+	public List<WorkManage> getWorkManageCustomerAllProgressList(String workManageCustomer) {
+		return workManageDao.getWorkManageCustomerAllProgressList(workManageCustomer);
+	}
+
+	public List<WorkManage> getWorkManageCustomerAllExpectedList(String workManageCustomer) {
+		return workManageDao.getWorkManageCustomerAllExpectedList(workManageCustomer);
+	}
+
+	public List<WorkManage> getWorkManageCustomerWeeklyProgressList(String workManageCustomer, String employeeName) {
+		return workManageDao.getWorkManageCustomerWeeklyProgressList(workManageCustomer, employeeName);
+	}
+
+	public List<WorkManage> getWorkManageCustomerWeeklyExpectedList(String workManageCustomer, String employeeName) {
+		return workManageDao.getWorkManageCustomerWeeklyExpectedList(workManageCustomer, employeeName);
+	}
+	
 }

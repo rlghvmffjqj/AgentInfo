@@ -312,6 +312,7 @@
 	});
 
 	$("#packageDownLoadOneBtn").click(function () {
+		var workManageKeyNum = "${workManageKeyNum}";
 		var fileName = "${workManage.workManagePackageFileOne}";
 		if(fileName == null || fileName.trim() == "") {
 			Swal.fire({
@@ -320,11 +321,12 @@
 				text: '패키지1이 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
 		}
 	});
 
 	$("#packageDownLoadTwoBtn").click(function () {
+		var workManageKeyNum = "${workManageKeyNum}";
 		var fileName = "${workManage.workManagePackageFileTwo}";
 		if("${workManage.workManagePackageFileTwo}" == "") {
 			Swal.fire({
@@ -333,11 +335,12 @@
 				text: '패키지2가 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
 		}
 	});
 
 	$("#packageDownLoadThreeBtn").click(function () {
+		var workManageKeyNum = "${workManageKeyNum}";
 		var fileName = "${workManage.workManagePackageFileThree}";
 		if("${workManage.workManagePackageFileThree}" == "") {
 			Swal.fire({
@@ -346,11 +349,12 @@
 				text: '패키지3이 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
 		}
 	});
 
 	$("#packageDownLoadFourBtn").click(function () {
+		var workManageKeyNum = "${workManageKeyNum}";
 		var fileName = "${workManage.workManagePackageFileFour}";
 		if("${workManage.workManagePackageFileFour}" == "") {
 			Swal.fire({
@@ -359,7 +363,7 @@
 				text: '패키지4가 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+fileName+"'/>";
+			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
 		}
 	});
 

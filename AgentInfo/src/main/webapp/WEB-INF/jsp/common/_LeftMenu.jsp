@@ -387,6 +387,15 @@
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
 				<ul class="pcoded-item pcoded-left-item">
+				    <li class="workManage">
+				        <a href="<c:url value='/workManage/list'/>" class="waves-effect waves-dark">
+				            <span class="pcoded-micon"><i class="ti-list"></i><b>FC</b></span>
+				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">테스트 업무 관리</span>
+				            <span class="pcoded-mcaret"></span>
+				        </a>
+				    </li>
+				</ul>
+				<ul class="pcoded-item pcoded-left-item">
 		    	    <li class="resultsReport">
 		    	        <a href="<c:url value='/resultsReport/list'/>" class="waves-effect waves-dark">
 		    	            <span class="pcoded-micon"><i class="ti-agenda"></i><b>FC</b></span>
@@ -408,15 +417,6 @@
 				</ul>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ADMIN','QA')">
-				<ul class="pcoded-item pcoded-left-item">
-				    <li class="workManage">
-				        <a href="<c:url value='/workManage/list'/>" class="waves-effect waves-dark">
-				            <span class="pcoded-micon"><i class="ti-list"></i><b>FC</b></span>
-				            <span class="pcoded-mtext" data-i18n="nav.form-components.main">업무 관리</span>
-				            <span class="pcoded-mcaret"></span>
-				        </a>
-				    </li>
-				</ul>
 				<ul class="pcoded-item pcoded-left-item menuSwitch" style="display: none;">
 		    	    <li class="integratedManagement">
 		    	        <a href="<c:url value='/integratedManagement/list'/>" class="waves-effect waves-dark">

@@ -225,6 +225,7 @@
 
 <script>
     function btnFileDownload(number) {
+        var workManageKeyNum = "${workManageKeyNum}";
         var fileName = "";
         if(number == "one") {
             fileName  = "${workManage.workManagePackageNameOne}";
@@ -243,7 +244,7 @@
 				text: '패키지가 존재하지 않습니다.',
 			});
 		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload'/>?fileName=" + encodeURIComponent(fileName);
+			window.location ="<c:url value='/workManageDownLoad/fileDownload'/>?fileName=" + workManageKeyNum+"_"+encodeURIComponent(fileName);
 		}
     }
 

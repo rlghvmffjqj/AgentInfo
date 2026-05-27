@@ -20,10 +20,11 @@
 					mtype: 'POST',
 					postData: formData,
 					datatype: 'json',
-					colNames:['Key','메일발송','고객사','테스트항목','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약','유형1','유형2','유형3','유형4','패키지명2','패키지명3','패키지명4'],
+					colNames:['Key','메일발송','관리번호','고객사','테스트항목','패키지명','엔지니어','요청구분','요청일자','작성자','테스터','진행상태','테스트일정','한줄요약','유형1','유형2','유형3','유형4','패키지명2','패키지명3','패키지명4'],
 					colModel:[
 						{name:'workManageKeyNum', index:'workManageKeyNum', align:'center', width: 35, hidden:true },
 						{name:'workManageTestSchedule', index:'workManageTestSchedule', align:'center', width: 70, formatter: mailFormatter},
+						{name:'workManageKeyNum', index:'workManageKeyNum', align:'center', width: 50, formatter: managerNumber},
 						{name:'workManageCustomer', index:'workManageCustomer', align:'center', width: 200, formatter: linkFormatter},
 						{name:'workManageProductTypeList', index:'workManageProductTypeList', align:'center', width: 180, formatter: subPackage},
 						{name:'workManagePackageNameOne', index:'workManagePackageNameOne', align:'center', width: 400},
@@ -84,8 +85,8 @@
 							    <div class="row align-items-center">
 							        <div class="col-md-8">
 							            <div class="page-header-title" >
-							                <h5 class="m-b-10">업무 관리</h5>
-							                <p class="m-b-0">workManage List</p>
+							                <h5 class="m-b-10">테스트 업무 관리</h5>
+							                <p class="m-b-0">test workManage List</p>
 							            </div>
 							        </div>
 							        <div class="col-md-4">
@@ -93,7 +94,7 @@
 							                <li class="breadcrumb-item">
 							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
 							                </li>
-							                <li class="breadcrumb-item"><a href="#!">업무 관리</a>
+							                <li class="breadcrumb-item"><a href="#!">테스트 업무 관리</a>
 							                </li>
 							            </ul>
 							        </div>
@@ -146,6 +147,10 @@
 														</div>
 													</div>
 	                      						</div>
+												<div class="col-lg-2">
+	                      							<label class="labelFontSize">관리번호</label>
+													<input type="text" id="managerNumber" name="managerNumber" class="form-control">
+												</div>
 	                      						<div class="col-lg-2">
 	                      							<label class="labelFontSize">고객사</label>
 													<select class="form-control selectpicker" id="workManageCustomerMulti" name="workManageCustomerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
@@ -220,7 +225,10 @@
 																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
 																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
 																	<button class="btn btn-outline-info-nomal myBtn" id="BtnComplete">진행상태 변경</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnWeeklyReport">주간 업무 보고서</button>
+																	<sec:authorize access="hasRole('ADMIN')">
+																		<button class="btn btn-outline-info-nomal myBtn" id="BtnAllReport">통합 업무 보고서</button>
+																	</sec:authorize>
+																	<button class="btn btn-outline-info-nomal myBtn" id="BtnWeeklyReport">개별 업무 보고서</button>
 																	<!-- <button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'workManageKeyNum');">컬럼 선택</button> -->
 																</td>
 															</tr>
@@ -418,10 +426,13 @@
 			}
 		});
 
+		$('#BtnAllReport').click(function() {
+			 window.location = "<c:url value='/workManage/allReportDownload'/>";
+		});
+
 		$('#BtnWeeklyReport').click(function() {
 			 window.location = "<c:url value='/workManage/weeklyReportDownload'/>";
 		});
-		
 		
 		/* =========== 작업 수정 Modal ========= */
 		function updateView(data) {
@@ -457,6 +468,11 @@
 		
 		/* =========== 전달일자 라이오 버튼 클릭 ========= */
 		$(function() {
+			$("#managerNumber").val("${managerNumber}").trigger("change");
+			setTimeout(function() {
+				tableRefresh();
+			}, 50);
+
 			$('input[name="workManageRequestDate"]').click(function() {
 	            const value = $(this).val();
 	            if (value !== undefined) {
@@ -472,6 +488,10 @@
 		/* =========== jpgrid의 formatter 함수 ========= */
 		function linkFormatter(cellValue, options, rowdata, action) {
 			return '<a onclick="updateView('+"'"+rowdata.workManageKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
+		}
+
+		function managerNumber(cellValue, options, rowdata, action) {
+			return "S" + String(rowdata.workManageKeyNum).padStart(5, '0');
 		}
 
 		function testScheduleFormatter(cellValue, options, rowdata, action) {

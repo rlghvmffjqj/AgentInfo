@@ -23,7 +23,7 @@
 			<include refid="sqlWorkManage" />
 	</select>
 	
-	<insert id="insertWorkManage">
+	<insert id="insertWorkManage" parameterType="workManage" useGeneratedKeys="true" keyProperty="workManageKeyNum">
 		INSERT INTO workManage(
 			workManageCustomer,
 			workManageProductTypeOne,
@@ -159,10 +159,43 @@
 		;
 	</update>
 	
+	<select id="getCustomerList" resultType="string">
+		SELECT DISTINCT workManageCustomer FROM workmanage;
+	</select>
+	
+	<select id="getWorkManageCustomerAllProgressList" resultMap="workManage" parameterType="string">
+		SELECT * FROM workmanage WHERE workManageCustomer = #{workManageCustomer}
+		AND workManageProgressStatus IN ('진행중','보류','완료')
+		ORDER BY workManageTestScheduleStart ASC;
+	</select> 
+	
+	<select id="getWorkManageCustomerAllExpectedList" resultMap="workManage" parameterType="string">
+		SELECT * FROM workmanage WHERE workManageCustomer = #{workManageCustomer}
+		AND workManageProgressStatus IN ('진행중')
+		ORDER BY workManageTestScheduleStart ASC;
+	</select>
+	
+	<select id="getWorkManageCustomerWeeklyProgressList" resultMap="workManage" parameterType="string">
+		SELECT * FROM workmanage WHERE workManageCustomer = #{workManageCustomer} AND workManageTester LIKE '%${employeeName}%'
+		AND workManageTestScheduleStart &lt;= DATE_ADD(CURDATE(), INTERVAL (6 - WEEKDAY(CURDATE())) DAY)
+		AND workManageTestScheduleEnd &gt;= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+		ORDER BY workManageTestScheduleStart ASC;
+	</select> 
+	
+	<select id="getWorkManageCustomerWeeklyExpectedList" resultMap="workManage" parameterType="string">
+		SELECT * FROM workmanage WHERE workManageCustomer = #{workManageCustomer} AND workManageTester LIKE '%${employeeName}%'
+		AND workManageProgress != 100
+		AND workManageTestScheduleEnd &gt;= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+		ORDER BY workManageTestScheduleStart ASC;
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlWorkManage">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="workManageKeyNum != 0">
+				AND workManageKeyNum = ${workManageKeyNum}
+			</if>
 			<if test="workManageCustomer != null and workManageCustomer != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">

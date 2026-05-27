@@ -3,10 +3,15 @@ package com.secuve.agentInfo.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +51,14 @@ public class WorkManageController {
 	@Autowired XssConfig xssConfig;
 
 	@GetMapping(value = "/workManage/list")
-	public String WorkManageList(Model model, Principal principal, HttpServletRequest req) {
-		favoritePageService.insertFavoritePage(principal, req, "업무 관리");
+	public String WorkManageList(Model model, Principal principal, HttpServletRequest req, @RequestParam(required = false) String managerNumber) {
+		favoritePageService.insertFavoritePage(principal, req, "테스트 업무 관리");
 		
+		if(managerNumber != null && !managerNumber.isEmpty()) {
+			managerNumber = "S" + String.format("%05d", Integer.parseInt(managerNumber));
+		}
+		
+		model.addAttribute("managerNumber",managerNumber);
 		return "workManage/WorkManageList";
 	}
 	
@@ -56,6 +66,10 @@ public class WorkManageController {
 	@PostMapping(value = "/workManage")
 	public Map<String, Object> WorkManage(WorkManage search) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(!search.getManagerNumber().isEmpty()) {
+			search.setWorkManageKeyNum(Integer.parseInt(search.getManagerNumber().replace("S", "")));
+		}
 		ArrayList<WorkManage> list = new ArrayList<>(workManageService.getWorkManageList(search));
 		
 		int totalCount = workManageService.getWorkManageListCount(search);
@@ -109,7 +123,7 @@ public class WorkManageController {
 		List<String> workManageProductType = categoryService.getCategoryValue("managementServer");
 
 		model.addAttribute("viewType", "update").addAttribute("workManage", workManage)
-		.addAttribute("workManageCustomer", workManageCustomer).addAttribute("workManageProductType", workManageProductType);
+		.addAttribute("workManageCustomer", workManageCustomer).addAttribute("workManageProductType", workManageProductType).addAttribute("workManageKeyNum", workManageKeyNum);
 		return "/workManage/WorkManageView";
 	}
 	
@@ -142,10 +156,13 @@ public class WorkManageController {
 	
 	@GetMapping(value = "/workManageDownLoad/fileDownload")
 	public View FileDownload(@RequestParam String fileName, Principal principal, Model model) {
+		// 앞의 숫자_ 제거
+		String logicalName = fileName.replaceFirst("^\\d+_", "");
+		
 		String filePath = this.filePath + File.separator + "workManage";
 		model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
 		model.addAttribute("filePhysicalName", "/"+fileName);     // 파일 이름    
-		model.addAttribute("fileLogicalName", fileName);          // 출력할 파일 이름
+		model.addAttribute("fileLogicalName", logicalName);          // 출력할 파일 이름
 	
 		return new FileDownloadView();
 	}
@@ -156,7 +173,7 @@ public class WorkManageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/workManage/mailSend")
-	public String MailSend(int workManageKeyNum, Principal principal) {
+	public String MailSend(int workManageKeyNum, Principal principal) throws UnknownHostException {
 		String result = "OK";
 		WorkManage workManage =workManageService.getWorkManageOne(workManageKeyNum);
 		
@@ -164,7 +181,12 @@ public class WorkManageController {
 		String host = "mail.secuve.com";                                                                           
 		String port = "25";                                                                           
 		String password = "";                                                                   
-		String from = principal.getName() + "@secuve.com";   
+		String from = "";
+		if("admin".equals(principal.getName())) {
+			from = "ksyang@secuve.com";
+		} else {
+			from = principal.getName() + "@secuve.com";
+		} 
 
 		String[] to = workManage.getWorkManageTester().split("\\s*,\\s*");
 		
@@ -203,6 +225,14 @@ public class WorkManageController {
 		}
 
 		String subject = "[" + workManage.getWorkManageCustomer() + "] " + workManage.getWorkManageOneLine();
+		
+		String url = "";
+		String localIp = InetAddress.getLocalHost().getHostAddress();
+		if(localIp.equals("172.16.100.90")) {
+			url = "https://172.16.100.90/AgentInfo/workManageDownLoad/downloadUrl?number=";
+		} else {
+			url = "https://qa.secuve.com/AgentInfo/workManageDownLoad/downloadUrl?number=";
+		}
 
 		String text =
 		        "<div style='font-family:맑은 고딕; font-size:14px; line-height:1.6;'>"
@@ -242,7 +272,7 @@ public class WorkManageController {
 		        
 		        + "<div style='font-weight:bold; color:#2F5597;'>■ 다운로드 URL</div>"
 		        + "<div style='padding-left:5px;'>"
-		        + "https://172.16.100.90/AgentInfo/workManageDownLoad/downloadUrl?number=" + workManageKeyNum
+		        + url + workManageKeyNum
 		        + "</div><br>"
 
 		        + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 일정</div>"
@@ -341,7 +371,7 @@ public class WorkManageController {
 	@GetMapping(value = "/workManageDownLoad/downloadUrl")
 	public String FileDownloadUrl(int number, Model model) {
 		WorkManage workManage = workManageService.getWorkManageOne(number);
-		model.addAttribute("workManage", workManage);
+		model.addAttribute("workManage", workManage).addAttribute("workManageKeyNum", number);
 		return "/workManage/WorkManageDownLoad";
 	}
 	
@@ -357,7 +387,7 @@ public class WorkManageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/workManage/progressChange")
-	public Map<String, String> progressChange(@RequestParam int[] chkList, @RequestParam String workManageCommentView, @RequestParam String workManageProgressView, Principal principal) {
+	public Map<String, String> progressChange(@RequestParam int[] chkList, @RequestParam String workManageCommentView, @RequestParam String workManageProgressView, Principal principal) throws UnknownHostException {
 
 		Map<String, String> map = new HashMap<String, String>();
 		String result = workManageService.progressChange(chkList, workManageCommentView, workManageProgressView, principal);
@@ -365,12 +395,26 @@ public class WorkManageController {
 			for (int workManageKeyNum : chkList) {
 				WorkManage workManage = workManageService.getWorkManageOne(workManageKeyNum);
 				
+				String url = "";
+				String to = "";
+				String localIp = InetAddress.getLocalHost().getHostAddress();
+				if(localIp.equals("172.16.100.90")) {
+					url = "https://172.16.100.90/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
+					to = "khkim@secuve.com";
+				} else {
+					url = "https://qa.secuve.com/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
+					to = "ksyang@secuve.com";
+				}
+				
 				String host = "mail.secuve.com";                                                                           
 				String port = "25";                                                                           
-				String password = "";                                                                   
-				String from = principal.getName() + "@secuve.com";   
-				//String to = "ksyang@secuve.com";
-				String to = "khkim@secuve.com";
+				String password = "";      
+				String from = "";
+				if("admin".equals(principal.getName())) {
+					from = "ksyang@secuve.com";
+				} else {
+					from = principal.getName() + "@secuve.com";
+				}
 				
 				String[] productTypes = {
 				        workManage.getWorkManageProductTypeOne(),
@@ -399,11 +443,11 @@ public class WorkManageController {
 				}
 	
 				String subject = "[" + workManage.getWorkManageCustomer() + "] 진행률 100%로 변경";
-
+				
 				String text =
 				"<div style='font-family:맑은 고딕; font-size:14px; line-height:1.6;'>"
 				    + "<div style='font-size:16px; font-weight:bold; color:#2F5597;'>"
-				    + "진행률 100% 변경 안내"
+				    + "진행률 100% 변경 안내<br>코드번호 : "+"S" + String.format("%05d", workManageKeyNum)
 				    + "</div><br>"
 
 				    + "<table style='border-collapse:collapse; font-size:14px;'>"
@@ -450,8 +494,7 @@ public class WorkManageController {
 				    + "border-radius:6px;'>"
 
 				    + workManage.getWorkManageComment()
-//				    + "<a href='https://qa.secuve.com/AgentInfo/workManage/list' "
-					+ "<a href='https://172.16.100.90/AgentInfo/workManage/list' "
+					+ "<a href='"+url+"' "
 				    + "style='color:#2F5597; text-decoration:none; font-weight:bold;'>"
 				    + "업무관리 바로가기"
 				    + "</a>"
@@ -514,8 +557,8 @@ public class WorkManageController {
 		return map;
 	}
 	
-	@GetMapping("/workManage/weeklyReportDownload")
-	public void weeklyReportDownload(HttpServletResponse response)
+	@GetMapping("/workManage/allReportDownload")
+	public void allReportDownload(HttpServletResponse response)
 	        throws Exception {
 	    StringBuilder txt = new StringBuilder();
 	    txt.append("주간업무내역서\r\n\r\n");
@@ -524,12 +567,113 @@ public class WorkManageController {
 	    txt.append("확 인 자 :    한 승 호       (서명)\r\n\r\n");
 	    txt.append("제 출 처 :    주덕규 상무   (서명)\r\n\r\n");
 	    txt.append("O 진행사항\r\n\r\n");
-	    txt.append("1. rGRIFFIN 성능테스트(진척률 : 90%)\r\n");
-	    txt.append("   - 성능테스트 환경 구성 완료\r\n");
-	    txt.append("   - 결과 보고서 작성 진행중\r\n\r\n");
 
+	    List<String> customerList = workManageService.getCustomerList();
+	    int count = 1;
+	    
+	    for(String workManageCustomer : customerList) {
+	    	List<WorkManage> workManageCustomerProgressList = workManageService.getWorkManageCustomerAllProgressList(workManageCustomer);
+	    	if(workManageCustomerProgressList == null || workManageCustomerProgressList.isEmpty()) {
+	    		continue;
+	    	}
+	    	txt.append(count + ". " + workManageCustomer + "\r\n");
+	    	for(WorkManage workManage : workManageCustomerProgressList) {
+	    		String tester = workManage.getWorkManageTester().replaceAll("\\([^)]*\\)", "").replace(",", " /");
+	    		txt.append("     - " + workManage.getWorkManageOneLine() + "  (진척률 : " + workManage.getWorkManageProgress() + ")  " + tester + "\r\n");
+	    	}
+	    	txt.append("\r\n");
+	    	count++;
+	    }
+	    
+	    count = 1;
+	    txt.append("\r\n\r\n\r\n");
+	    txt.append("O 예정사항\r\n\r\n");
+	    for(String workManageCustomer : customerList) {
+	    	List<WorkManage> workManageCustomerExpectedList = workManageService.getWorkManageCustomerAllExpectedList(workManageCustomer);
+	    	if(workManageCustomerExpectedList == null || workManageCustomerExpectedList.isEmpty()) {
+	    		continue;
+	    	}
+	    	txt.append(count + ". " + workManageCustomer + "\r\n");
+	    	for(WorkManage workManage : workManageCustomerExpectedList) {
+	    		String tester = workManage.getWorkManageTester().replaceAll("\\([^)]*\\)", "").replace(",", " /");
+	    		if(workManage.getWorkManageTestScheduleEnd().isEmpty()) {
+	    			workManage.setWorkManageTestScheduleEnd("테스트 완료 시 까지");
+	    		}
+	    		txt.append("     - " + workManage.getWorkManageOneLine() + "  (~ 완료예정 : " + workManage.getWorkManageTestScheduleEnd() + ")  " + tester + "\r\n");
+	    	}
+	    	txt.append("\r\n");
+	    	count++;
+	    }
+	    
+
+	    Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+		
 	    // 파일명
-	    String fileName = "주간업무내역서.txt";
+	    String fileName = "평가인증개발본부_QA팀(양기석)_" + formatter.format(now) + ".txt";
+	    response.setContentType("text/plain; charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+	    response.setHeader(
+	            "Content-Disposition",
+	            "attachment; filename=\""
+	            + URLEncoder.encode(fileName, "UTF-8")
+	            + "\""
+	    );
+
+	    OutputStream os = response.getOutputStream();
+	    os.write(txt.toString().getBytes(StandardCharsets.UTF_8));
+	    os.flush();
+	    os.close();
+	}
+	
+	@GetMapping("/workManage/weeklyReportDownload")
+	public void weeklyReportDownload(HttpServletResponse response, Principal principal) throws Exception {
+		String employeeName = employeeService.getEmployeeOne(principal.getName()).getEmployeeName();
+	    StringBuilder txt = new StringBuilder();
+	    txt.append("주간업무내역서\r\n\r\n");
+	    txt.append(workManageService.getPeriod());
+	    txt.append("작 성 자 :    양 기 석       (서명)\r\n\r\n");
+	    txt.append("확 인 자 :    " + employeeName.replaceAll("", " ").trim() + "       (서명)\r\n\r\n");
+	    txt.append("제 출 처 :    주덕규 상무   (서명)\r\n\r\n");
+	    txt.append("O 진행사항\r\n\r\n");
+
+	    List<String> customerList = workManageService.getCustomerList();
+	    int count = 1;
+	    
+	    for(String workManageCustomer : customerList) {
+	    	List<WorkManage> workManageCustomerProgressList = workManageService.getWorkManageCustomerWeeklyProgressList(workManageCustomer, employeeName);
+	    	if(workManageCustomerProgressList == null || workManageCustomerProgressList.isEmpty()) {
+	    		continue;
+	    	}
+	    	txt.append(count + ". " + workManageCustomer + "\r\n");
+	    	for(WorkManage workManage : workManageCustomerProgressList) {
+	    		txt.append("     - " + workManage.getWorkManageOneLine() + "\r\n");
+	    	}
+	    	txt.append("\r\n");
+	    	count++;
+	    }
+	    
+	    count = 1;
+	    txt.append("\r\n\r\n\r\n");
+	    txt.append("O 예정사항\r\n\r\n");
+	    for(String workManageCustomer : customerList) {
+	    	List<WorkManage> workManageCustomerExpectedList = workManageService.getWorkManageCustomerWeeklyExpectedList(workManageCustomer, employeeName);
+	    	if(workManageCustomerExpectedList == null || workManageCustomerExpectedList.isEmpty()) {
+	    		continue;
+	    	}
+	    	txt.append(count + ". " + workManageCustomer + "\r\n");
+	    	for(WorkManage workManage : workManageCustomerExpectedList) {
+	    		txt.append("     - " + workManage.getWorkManageOneLine() + "\r\n");
+	    	}
+	    	txt.append("\r\n");
+	    	count++;
+	    }
+	    
+	    Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		
+	    // 파일명
+	    String fileName = "QA("+employeeName+")-"+formatter.format(now)+".txt";
 	    response.setContentType("text/plain; charset=UTF-8");
 	    response.setCharacterEncoding("UTF-8");
 	    response.setHeader(
