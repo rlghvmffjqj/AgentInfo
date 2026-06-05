@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<div class="modal-body" style="width: 100%; height: 810px;">
+<div class="modal-body" style="width: 100%; height: 810px; overflow-y: scroll;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="workManageKeyNum" name="workManageKeyNum" class="form-control viewForm" value="${workManage.workManageKeyNum}">
 		<div style="display: flow-root; padding-bottom: 10px;">
@@ -47,123 +47,59 @@
 				</div>
 			</div>
 		</div>
-		<div style="display: flow-root; padding-bottom: 10px; border-top: 1px solid #d17c7c;">
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">제품유형 1</label>
-				  	<select class="form-control selectpicker selectForm" id="workManageProductTypeOneView" name="workManageProductTypeOneView" data-live-search="true" data-size="5">
-				  		<option value=""></option>
-						<c:forEach var="item" items="${workManageProductType}">
-							<option value="${item}" <c:if test="${item eq workManage.workManageProductTypeOne}">selected</c:if>><c:out value="${item}"/></option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">패키지명 1</label>
-	    		    <input type="text" id="workManagePackageNameOneView" name="workManagePackageNameOneView" class="form-control viewForm" value="${workManage.workManagePackageNameOne}">
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div class="packageFile">
-					<input type="file" id="workManagePackageFileOneView" name="workManagePackageFileOneView" hidden>
-					<div style="width: 55px;"><label>${workManage.workManagePackageSizeOne}</label></div>
-					<button type="button" class="package-upload-btn" id="packageUploadOneBtn">패키지 선택</button>
-					<c:if test="${not empty workManage.workManagePackageFileOne}">
-						<button type="button" class="package-download-btn" id="packageDownLoadOneBtn">다운로드</button>
-						<button type="button" class="package-delete-btn" id="packageFileDeleteOneBtn">제거</button>
-					</c:if>
+		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
+		    <!-- 추가 버튼 -->
+		    <div style="margin: 10px 0;">
+		        <button type="button" id="addPackageBtn" class="btn btn-primary">+ 패키지 추가</button>
+		    </div>
+		
+		    <!-- 패키지 영역 -->
+		    <div id="packageArea">
+			
+		        <!-- 기본 1개 -->
+		        <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
+					<div class="packageRow">
+		            	<div class="pading5Width33 packageHeight">
+		            	    <div>
+		            	        <label class="labelFontSize">제품유형</label>
+		            	        <select class="form-control selectpicker selectForm" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
+		            	            <option value=""></option>
+		            	            <c:forEach var="item" items="${workManageProductType}">
+		            	                <option value="${item}">
+		            	                    <c:out value="${item}"/>
+		            	                </option>
+		            	            </c:forEach>
+								
+		            	        </select>
+		            	    </div>
+		            	</div>
 					
-				</div>
-			</div>
-
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">제품유형 2</label>
-				  	<select class="form-control selectpicker selectForm" id="workManageProductTypeTwoView" name="workManageProductTypeTwoView" data-live-search="true" data-size="5">
-				  		<option value=""></option>
-						<c:forEach var="item" items="${workManageProductType}">
-							<option value="${item}" <c:if test="${item eq workManage.workManageProductTypeTwo}">selected</c:if>><c:out value="${item}"/></option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">패키지명 2</label>
-	    		    <input type="text" id="workManagePackageNameTwoView" name="workManagePackageNameTwoView" class="form-control viewForm" value="${workManage.workManagePackageNameTwo}">
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div class="packageFile">
-					<input type="file" id="workManagePackageFileTwoView" name="workManagePackageFileTwoView" hidden>
-					<div style="width: 55px;"><label>${workManage.workManagePackageSizeTwo}</label></div>
-					<button type="button" class="package-upload-btn" id="packageUploadTwoBtn">패키지 선택</button>
-					<c:if test="${not empty workManage.workManagePackageFileTwo}">
-						<button type="button" class="package-download-btn" id="packageDownLoadTwoBtn">다운로드</button>
-						<button type="button" class="package-delete-btn" id="packageFileDeleteTwoBtn">제거</button>
-					</c:if>
-				</div>
-			</div>
-
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">제품유형 3</label>
-				  	<select class="form-control selectpicker selectForm" id="workManageProductTypeThreeView" name="workManageProductTypeThreeView" data-live-search="true" data-size="5">
-				  		<option value=""></option>
-						<c:forEach var="item" items="${workManageProductType}">
-							<option value="${item}" <c:if test="${item eq workManage.workManageProductTypeThree}">selected</c:if>><c:out value="${item}"/></option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">패키지명 3</label>
-	    		    <input type="text" id="workManagePackageNameThreeView" name="workManagePackageNameThreeView" class="form-control viewForm" value="${workManage.workManagePackageNameThree}">
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div class="packageFile">
-					<input type="file" id="workManagePackageFileThreeView" name="workManagePackageFileThreeView" hidden>
-					<div style="width: 55px;"><label>${workManage.workManagePackageSizeThree}</label></div>
-					<button type="button" class="package-upload-btn" id="packageUploadThreeBtn">패키지 선택</button>
-					<c:if test="${not empty workManage.workManagePackageFileThree}">
-						<button type="button" class="package-download-btn" id="packageDownLoadThreeBtn">다운로드</button>
-						<button type="button" class="package-delete-btn" id="packageFileDeleteThreeBtn">제거</button>
-					</c:if>
-				</div>
-			</div>
-
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">제품유형 4</label>
-				  	<select class="form-control selectpicker selectForm" id="workManageProductTypeFourView" name="workManageProductTypeFourView" data-live-search="true" data-size="5">
-				  		<option value=""></option>
-						<c:forEach var="item" items="${workManageProductType}">
-							<option value="${item}" <c:if test="${item eq workManage.workManageProductTypeFour}">selected</c:if>><c:out value="${item}"/></option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div>
-					<label class="labelFontSize">패키지명 4</label>
-	    		    <input type="text" id="workManagePackageNameFourView" name="workManagePackageNameFourView" class="form-control viewForm" value="${workManage.workManagePackageNameFour}">
-				</div>
-			</div>
-			<div class="pading5Width33 packageHeight">
-				<div class="packageFile">
-					<input type="file" id="workManagePackageFileFourView" name="workManagePackageFileFourView" hidden>
-					<div style="width: 55px;"><label>${workManage.workManagePackageSizeFour}</label></div>
-					<button type="button" class="package-upload-btn" id="packageUploadFourBtn">패키지 선택</button>
-					<c:if test="${not empty workManage.workManagePackageFileFour}">
-						<button type="button" class="package-download-btn" id="packageDownLoadFourBtn">다운로드</button>
-						<button type="button" class="package-delete-btn" id="packageFileDeleteFourBtn">제거</button>
-					</c:if>
-				</div>
-			</div>
+		            	<div class="pading5Width33 packageHeight">
+		            	    <div>
+		            	        <label class="labelFontSize">패키지명</label>
+		            	        <input type="text" name="workManagePackageNameView[]" class="form-control viewForm">
+		            	    </div>
+		            	</div>
+					
+		            	<div class="pading5Width33 packageHeight">
+		            	    <div class="packageFile">
+		            	        <input type="file" name="workManagePackageFileView[]" hidden class="packageFileInput">
+								<input type="hidden" name="workManagePackageFileNameView[]" class="packageFileNameInput">
+		            	        <div style="width: 65px; height:12px">
+									<label class="workManagePackageSizeView">0MB</label>
+								</div>
+		            	        <sec:authorize access="hasRole('ADMIN')">
+									<button type="button" class="package-upload-btn">패키지 선택</button>
+								</sec:authorize>
+								<button type="button" class="package-download-btn packageDownLoadBtn" style="display: none;">다운로드</button>
+								<sec:authorize access="hasRole('ADMIN')">
+		            	        	<button type="button" class="package-delete-btn">제거</button>
+								</sec:authorize>
+		            	    </div>
+		            	</div>
+					</div>
+		        </div>
+		    </div>
 		</div>
 		<div style="border-top: 1px solid #d17c7c; padding-top: 10px;">
 			<div class="pading5Width33">
@@ -175,6 +111,9 @@
 			<div class="pading5Width33">
 				<label class="labelFontSize">진행상태</label>
 				<div>
+					<sec:authorize access="!hasRole('ADMIN')">
+					    <input type="hidden" name="workManageProgressStatusView" value="${workManage.workManageProgressStatus}" />
+					</sec:authorize>
 					<select class="form-control selectpicker"
 						id="workManageProgressStatusView"
 						name="workManageProgressStatusView"
@@ -184,13 +123,14 @@
 						<option value="진행중" <c:if test="${'진행중' eq workManage.workManageProgressStatus}">selected</c:if>>진행중</option>
 						<option value="보류" <c:if test="${'보류' eq workManage.workManageProgressStatus}">selected</c:if>>보류</option>
 						<option value="완료" <c:if test="${'완료' eq workManage.workManageProgressStatus}">selected</c:if>>완료</option>
+						<option value="미처리 완료" <c:if test="${'미처리 완료' eq workManage.workManageProgressStatus}">selected</c:if>>미처리 완료</option>
 					</select>
 				</div>
 			</div>
 			<div class="pading5Width33">
 				<div class="percent-wrap" style="width: 100%;">
 					<label class="labelFontSize">진행률</label>
-	    		    <input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold;" <sec:authorize access="!hasRole('ADMIN')">disabled="disabled"</sec:authorize>>
+	    		    <input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold; <sec:authorize access="!hasRole('ADMIN')">background: #e9ecefb5 !important;</sec:authorize>" <sec:authorize access="!hasRole('ADMIN')">readonly="readonly";</sec:authorize>>
 					<span style="top: 65%;">%</span>
 				</div>
 			</div>
@@ -228,234 +168,184 @@
     
 </div>
 
+<!-- progress Modal -->
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="margin-top: 20%;">
+        <div class="modal-content" style="border:1px solid !important; width: 95%; margin-left: 3%;">
+            <div class="modal-header" style="background: burlywood;">
+                <h3 style="font-weight: bold; font-family: none; color: white;">파일 업로드 중 ...</h3>
+            </div>
+            <div class="modal-body">
+                <!-- progress , bar, percent를 표시할 div 생성한다. -->
+                <div class="progress">
+                    <div class="bar"></div>
+                    <div class="percent">0%</div>
+                </div>
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+	$(document).ready(function () {
+		const isAdmin = <sec:authorize access="hasRole('ADMIN')">true</sec:authorize><sec:authorize access="!hasRole('ADMIN')">false</sec:authorize>;
+	    // 패키지 추가
+	    $("#addPackageBtn").on("click", function () {
+	        var html = '';
+
+	        html += '<div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">';
+			html += '<div class="packageRow">'
+	        // 제품유형
+	        html += '    <div class="pading5Width33 packageHeight">';
+	        html += '        <div>';
+	        html += '            <label class="labelFontSize">제품유형</label>';
+
+	        html += '            <select class="form-control selectpicker selectForm" name="workManageProductTypeView[]" data-live-search="true" data-size="5">';
+
+	        html += '                <option value=""></option>';
+
+	        html += '                <c:forEach var="item" items="${workManageProductType}">';
+	        html += '                    <option value="${item}">';
+	        html += '                        <c:out value="${item}"/>';
+	        html += '                    </option>';
+	        html += '                </c:forEach>';
+
+	        html += '            </select>';
+	        html += '        </div>';
+	        html += '    </div>';
+
+	        // 패키지명
+	        html += '    <div class="pading5Width33 packageHeight">';
+	        html += '        <div>';
+	        html += '            <label class="labelFontSize">패키지명</label>';
+
+	        html += '            <input type="text" name="workManagePackageNameView[]" class="form-control viewForm">';
+	        html += '        </div>';
+	        html += '    </div>';
+
+	        // 파일
+	        html += '    <div class="pading5Width33 packageHeight">';
+	        html += '        <div class="packageFile">';
+
+	        html += '            <input type="file" name="workManagePackageFileView[]" hidden class="packageFileInput">';
+
+	        html += '            <div style="width: 65px; height: 12px">';
+	        html += '                <label class="workManagePackageSizeView">0MB</label>';
+	        html += '            </div>';
+
+			if (isAdmin) {
+	        	html += '            <button type="button" class="package-upload-btn">패키지 선택</button>';
+	        	html += '            <button type="button" class="package-delete-btn">제거</button>';
+			}
+	        html += '        </div>';
+	        html += '    </div>';
+
+			html += '</div>';
+	        html += '</div>';
+
+	        $("#packageArea").append(html);
+	        $('.selectpicker').selectpicker('refresh');
+	    });
+
+		$(document).on("change", "#workManageCompleteDateView", function() {
+    	    // 현재 입력되거나 선택된 날짜 값을 가져옵니다.
+    	    var selectedDate = $(this).val();
+			
+    	    // 2. 테스트 종료일(workManageTestScheduleEnd)의 값을 동일하게 변경합니다.
+    	    $("#workManageTestScheduleEnd").val(selectedDate);
+    	});
+
+
+	    // 파일 선택 버튼
+	    // .off("click")을 추가하여 중복 등록된 기존 이벤트를 먼저 지워줍니다.
+		$(document).off("click", ".package-upload-btn").on("click", ".package-upload-btn", function () {
+		    const packageRow = $(this).closest(".packageRow");
+		    const productType = packageRow
+		        .find("select[name='workManageProductTypeView[]']")
+		        .val();
+		
+		    // 제품유형 체크
+		    if (!productType) {
+		        alert("제품유형을 먼저 선택해주세요.");
+		        return;
+		    }
+		
+		    packageRow
+		        .find(".packageFileInput")
+		        .click();
+		});
+
+
+		$(document).on("change", ".packageFileInput", function () {
+		    const packageRow = $(this).closest(".packageRow");
+		    const file = this.files[0];
+
+		    if (!file) {
+		        return;
+		    }
+		
+		    // 파일명
+		    const fileName = file.name;
+		
+		    // 패키지명 입력
+		    packageRow
+		        .find("input[name='workManagePackageNameView[]']")
+		        .val(fileName);
+		
+		    // 파일 크기 계산
+		    const fileSize = file.size;
+		
+		    let sizeText = "";
+		
+		    if (fileSize >= 1024 * 1024 * 1024) {
+		        sizeText = (fileSize / (1024 * 1024 * 1024)).toFixed(2) + "GB";
+			
+		    } else if (fileSize >= 1024 * 1024) {
+		        sizeText = (fileSize / (1024 * 1024)).toFixed(2) + "MB";
+		    } else if (fileSize >= 1024) {
+		        sizeText = (fileSize / 1024).toFixed(2) + "KB";
+		    } else {
+		        sizeText = fileSize + "B";
+		    }
+		
+		    // 라벨 표시
+		    packageRow
+		        .find(".workManagePackageSizeView")
+		        .text(sizeText);
+		});
+
+
+	    // 패키지 제거
+	    $(document).on("click", ".package-delete-btn", function () {
+			Swal.fire({
+				  title: '삭제!',
+				  text: "선택한 작업를 삭제하시겠습니까?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#7066e0',
+				  cancelButtonColor: '#FF99AB',
+				  confirmButtonText: 'OK'
+			}).then((result) => {
+	        	$(this)
+	        	    .closest(".packageItem")
+	        	    .remove();
+			});
+	    });
+
+	});
+
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
-
-	$("#packageUploadOneBtn").click(function () {
-		var workManageProductTypeOne = $("#workManageProductTypeOneView").val();
-		if(workManageProductTypeOne == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '제품유형1을 선택해주세요.',
-			});
-		} else {
-    		$("#workManagePackageFileOneView").click();
-		}
-	});
-
-	$("#workManagePackageFileOneView").change(function () {
-	    if (this.files.length > 0) {
-	        let fileName = this.files[0].name;
-	        $("#workManagePackageNameOneView").val(fileName);
-	    }
-	});
-
-	$("#packageUploadTwoBtn").click(function () {
-		var workManageProductTypeTwo = $("#workManageProductTypeTwoView").val();
-		if(workManageProductTypeTwo == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '제품유형2을 선택해주세요.',
-			});
-		} else {
-    		$("#workManagePackageFileTwoView").click();
-		}
-	});
-
-	$("#workManagePackageFileTwoView").change(function () {
-	    if (this.files.length > 0) {
-	        let fileName = this.files[0].name;
-	        $("#workManagePackageNameTwoView").val(fileName);
-	    }
-	});
-
-	$("#packageUploadThreeBtn").click(function () {
-		var workManageProductTypeThree = $("#workManageProductTypeThreeView").val();
-		if(workManageProductTypeThree == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '제품유형3을 선택해주세요.',
-			});
-		} else {
-    		$("#workManagePackageFileThreeView").click();
-		}
-	});
-
-	$("#workManagePackageFileThreeView").change(function () {
-	    if (this.files.length > 0) {
-	        let fileName = this.files[0].name;
-	        $("#workManagePackageNameThreeView").val(fileName);
-	    }
-	});
-
-	$("#packageUploadFourBtn").click(function () {
-		var workManageProductTypeFour = $("#workManageProductTypeFourView").val();
-		if(workManageProductTypeFour == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '제품유형4을 선택해주세요.',
-			});
-		} else {
-    		$("#workManagePackageFileFourView").click();
-		}
-	});
-
-	$("#workManagePackageFileFourView").change(function () {
-	    if (this.files.length > 0) {
-	        let fileName = this.files[0].name;
-	        $("#workManagePackageNameFourView").val(fileName);
-	    }
-	});
-
-	$("#packageDownLoadOneBtn").click(function () {
-		var workManageKeyNum = "${workManageKeyNum}";
-		var fileName = "${workManage.workManagePackageFileOne}";
-		if(fileName == null || fileName.trim() == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '패키지1이 존재하지 않습니다.',
-			});
-		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
-		}
-	});
-
-	$("#packageDownLoadTwoBtn").click(function () {
-		var workManageKeyNum = "${workManageKeyNum}";
-		var fileName = "${workManage.workManagePackageFileTwo}";
-		if("${workManage.workManagePackageFileTwo}" == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '패키지2가 존재하지 않습니다.',
-			});
-		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
-		}
-	});
-
-	$("#packageDownLoadThreeBtn").click(function () {
-		var workManageKeyNum = "${workManageKeyNum}";
-		var fileName = "${workManage.workManagePackageFileThree}";
-		if("${workManage.workManagePackageFileThree}" == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '패키지3이 존재하지 않습니다.',
-			});
-		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
-		}
-	});
-
-	$("#packageDownLoadFourBtn").click(function () {
-		var workManageKeyNum = "${workManageKeyNum}";
-		var fileName = "${workManage.workManagePackageFileFour}";
-		if("${workManage.workManagePackageFileFour}" == "") {
-			Swal.fire({
-				icon: 'error',
-				title: '실패!',
-				text: '패키지4가 존재하지 않습니다.',
-			});
-		} else {
-			window.location ="<c:url value='/workManageDownLoad/fileDownload?fileName="+workManageKeyNum+"_"+fileName+"'/>";
-		}
-	});
-
-	$("#packageFileDeleteOneBtn").click(function () {
-		Swal.fire({
-			title: '제거!',
-			text: "첨부파일을 제거하시겠습니까?",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#7066e0',
-			cancelButtonColor: '#FF99AB',
-			confirmButtonText: 'OK'
-		}).then((result) => {
-		  	if (result.isConfirmed) {
-            	$("#workManageProductTypeOneView").val("");
-				$("#workManageProductTypeOneView").selectpicker("refresh");
-	            $("#workManagePackageNameOneView").val("");
-	            $("#workManagePackageFileOneView").val("");
-				$("#packageDownLoadOneBtn").remove();
-            	$("#packageFileDeleteOneBtn").remove();
-		  	}
-		})
-	});
-
-	$("#packageFileDeleteTwoBtn").click(function () {
-		Swal.fire({
-			title: '제거!',
-			text: "첨부파일을 제거하시겠습니까?",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#7066e0',
-			cancelButtonColor: '#FF99AB',
-			confirmButtonText: 'OK'
-		}).then((result) => {
-		  	if (result.isConfirmed) {
-            	$("#workManageProductTypeTwoView").val("");
-				$("#workManageProductTypeTwoView").selectpicker("refresh");
-	            $("#workManagePackageNameTwoView").val("");
-	            $("#workManagePackageFileTwoView").val("");
-				$("#packageDownLoadTwoBtn").remove();
-            	$("#packageFileDeleteTwoBtn").remove();
-		  	}
-		})
-	});
-
-	$("#packageFileDeleteThreeBtn").click(function () {
-		Swal.fire({
-			title: '제거!',
-			text: "첨부파일을 제거하시겠습니까?",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#7066e0',
-			cancelButtonColor: '#FF99AB',
-			confirmButtonText: 'OK'
-		}).then((result) => {
-		  	if (result.isConfirmed) {
-            	$("#workManageProductTypeThreeView").val("");
-				$("#workManageProductTypeThreeView").selectpicker("refresh");
-	            $("#workManagePackageNameThreeView").val("");
-	            $("#workManagePackageFileThreeView").val("");
-				$("#packageDownLoadThreeBtn").remove();
-            	$("#packageFileDeleteThreeBtn").remove();
-		  	}
-		})
-	});
-
-	$("#packageFileDeleteFourBtn").click(function () {
-		Swal.fire({
-			title: '제거!',
-			text: "첨부파일을 제거하시겠습니까?",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#7066e0',
-			cancelButtonColor: '#FF99AB',
-			confirmButtonText: 'OK'
-		}).then((result) => {
-		  	if (result.isConfirmed) {
-            	$("#workManageProductTypeFourView").val("");
-				$("#workManageProductTypeFourView").selectpicker("refresh");
-	            $("#workManagePackageNameFourView").val("");
-	            $("#workManagePackageFileFourView").val("");
-				$("#packageDownLoadFourBtn").remove();
-            	$("#packageFileDeleteFourBtn").remove();
-		  	}
-		})
-	});
-	
 	
 	/* =========== 추가 ========= */
 	$('#insertBtn').click(function() {
 		var postData = $('#modalForm').serializeObject();
 		var formData = new FormData();
+		
+		/* progressbar 정보 */
+		var bar = $('.bar');
+        var percent = $('.percent');
+        var status = $('#status')
 
     	// 일반 데이터 추가
     	$.each(postData, function(key, value) {
@@ -463,34 +353,35 @@
     	});
 
     	// 파일 추가
-    	var workManagePackageFileOneView = $('#workManagePackageFileOneView')[0];
-		var workManagePackageFileTwoView = $('#workManagePackageFileTwoView')[0];
-		var workManagePackageFileThreeView = $('#workManagePackageFileThreeView')[0];
-		var workManagePackageFileFourView = $('#workManagePackageFileFourView')[0];
+    	var workManagePackageFileView = $('.packageFileInput');
 
-    	if (workManagePackageFileOneView.files.length > 0) {
-    	    formData.append('workManagePackageFileOneView', workManagePackageFileOneView.files[0]);
-    	}
-
-		if (workManagePackageFileTwoView.files.length > 0) {
-    	    formData.append('workManagePackageFileTwoView', workManagePackageFileTwoView.files[0]);
-    	}
-
-		if (workManagePackageFileThreeView.files.length > 0) {
-    	    formData.append('workManagePackageFileThreeView', workManagePackageFileThreeView.files[0]);
-    	}
-
-		if (workManagePackageFileFourView.files.length > 0) {
-    	    formData.append('workManagePackageFileFourView', workManagePackageFileFourView.files[0]);
-    	}
-
+    	workManagePackageFileView.each(function () {
+		    if (this.files.length > 0) {
+		        for (let i = 0; i < this.files.length; i++) {
+		            formData.append('workManagePackageFileView', this.files[i]);
+		        }
+		    }
+		});
+		
 		$.ajax({
 			url: "<c:url value='/workManage/insert'/>",
 	       	type: 'post',
 	        data: formData,
-	        async: false,
+	        //async: false,
 	        processData: false,
 	        contentType: false,
+			beforeSend:function(){
+                // progress Modal 열기
+                $("#pleaseWaitDialog").modal('show')
+                status.empty();
+                var percentVal = '0%';
+                bar.width(percentVal);
+                percent.html(percentVal)
+            },
+            complete:function(){
+                // progress Modal 닫기
+                $("#pleaseWaitDialog").modal('hide');
+            },
 	        success: function(data) {
 				if(data.result == "OK") {
 					Swal.fire({
@@ -526,26 +417,15 @@
     	});
 
     	// 파일 추가
-    	var workManagePackageFileOneView = $('#workManagePackageFileOneView')[0];
-		var workManagePackageFileTwoView = $('#workManagePackageFileTwoView')[0];
-		var workManagePackageFileThreeView = $('#workManagePackageFileThreeView')[0];
-		var workManagePackageFileFourView = $('#workManagePackageFileFourView')[0];
+    	var workManagePackageFileView = $('.packageFileInput');
 
-    	if (workManagePackageFileOneView.files.length > 0) {
-    	    formData.append('workManagePackageFileOneView', workManagePackageFileOneView.files[0]);
-    	}
-
-		if (workManagePackageFileTwoView.files.length > 0) {
-    	    formData.append('workManagePackageFileTwoView', workManagePackageFileTwoView.files[0]);
-    	}
-
-		if (workManagePackageFileThreeView.files.length > 0) {
-    	    formData.append('workManagePackageFileThreeView', workManagePackageFileThreeView.files[0]);
-    	}
-
-		if (workManagePackageFileFourView.files.length > 0) {
-    	    formData.append('workManagePackageFileFourView', workManagePackageFileFourView.files[0]);
-    	}
+    	workManagePackageFileView.each(function () {
+		    if (this.files.length > 0) {
+		        for (let i = 0; i < this.files.length; i++) {
+		            formData.append('workManagePackageFileView', this.files[i]);
+		        }
+		    }
+		});
 
 		$.ajax({
 			url: "<c:url value='/workManage/update'/>",
@@ -629,6 +509,117 @@
 	        return false;
 	    }
 	});
+
+	// .off()와 .on()을 함께 사용하여 중복 등록을 방지하고 동적 버튼을 지원합니다.
+	$(document).off("click", ".packageDownLoadBtn").on("click", ".packageDownLoadBtn", function () {
+	    // 1. 클릭한 버튼이 속한 현재 행(줄)을 찾습니다.
+	    const packageRow = $(this).closest(".packageItem"); // 또는 구조에 따라 .packageRow 등 부모 클래스 지정
+	
+	    // 2. 현재 행 내부에 있는 .packageFileNameInput의 값을 정확하게 가져옵니다.
+	    const fileName = packageRow.find(".packageFileNameInput").val();
+	
+	    // 3. 고유 Key 번호를 가져옵니다.
+	    const workManageKeyNum = "${workManageKeyNum}";
+	
+	    // 4. 파일명 유효성 체크
+	    if (!fileName || fileName.trim() === "") {
+	        Swal.fire({
+	            icon: 'error',
+	            title: '실패!',
+	            text: '다운로드할 패키지 파일명이 존재하지 않습니다.',
+	        });
+	        return;
+	    }
+	
+	    // 5. 조립된 경로로 파일 다운로드 실행
+	    window.location = "<c:url value='/workManageDownLoad/fileDownload'/>?fileName=" + workManageKeyNum + "_" + fileName;
+	});
+
+
+
+
+	$(function() {
+	    setPackageData(
+	        "${workManage.workManageProductType}",
+	        "${workManage.workManagePackageName}",
+			"${workManage.workManagePackageFileName}",
+	        "${workManage.workManagePackageSize}"
+	    );
+	});
+
+	function setPackageData(
+	    workManageProductTypeView,
+	    workManagePackageNameView,
+		workManagePackageFileNameView,
+	    workManagePackageSizeView
+	) {
+    	const packageArea = $("#packageArea");
+
+    	// 1. 순수한 템플릿(복사본) 만들기
+    	const template = packageArea.find(".packageItem").first().clone();
+		
+    	template.find(".bootstrap-select").each(function() {
+    	    const pureSelect = $(this).find("select");
+    	    $(this).replaceWith(pureSelect);
+    	});
+	
+    	template.find("select").show().removeClass('bs-select-hidden'); 
+
+    	// [핵심 추가] 최초 등록이라 데이터가 전부 비어있는 경우 예외 처리
+    	if (!workManageProductTypeView && !workManagePackageNameView && !workManagePackageSizeView && !workManagePackageFileNameView) {
+    	    // 기존 영역을 비우고, 기본값(0MB 등)이 그대로 살아있는 순수 템플릿 1개만 노출
+    	    packageArea.empty();
+    	    packageArea.append(template);
+    	    packageArea.find('.selectpicker').selectpicker('render');
+    	    return; // 함수 종료
+    	}
+
+    	// 데이터가 존재하는 경우에만 split 진행
+    	workManageProductTypeView = (workManageProductTypeView || "").split(",");
+    	workManagePackageNameView = (workManagePackageNameView || "").split(",");
+		workManagePackageFileNameView = (workManagePackageFileNameView || "").split(",");
+    	workManagePackageSizeView = (workManagePackageSizeView || "").split(",");
+
+    	// 기존 전체 제거
+    	packageArea.empty();
+
+    	// 데이터 개수만큼 생성
+    	for (let i = 0; i < workManageProductTypeView.length; i++) {
+    	    const item = template.clone();
+
+    	    // 제품유형 세팅
+    	    item
+    	        .find("select[name='workManageProductTypeView[]']")
+    	        .val(workManageProductTypeView[i]);
+
+    	    // 패키지명 세팅
+    	    item
+    	        .find("input[name='workManagePackageNameView[]']")
+    	        .val(workManagePackageNameView[i]);
+
+			item
+    	        .find("input[name='workManagePackageFileNameView[]']")
+    	        .val(workManagePackageFileNameView[i]);
+
+    	    // 파일 사이즈 세팅 (값이 없거나 공백이면 기본값 0MB 유지)
+    	    const sizeText = workManagePackageSizeView[i] ? workManagePackageSizeView[i] : "0MB";
+    	    item.find(".workManagePackageSizeView").text(sizeText);
+
+    	    // 추가
+    	    if (workManagePackageSizeView[i] && workManagePackageSizeView[i] !== "0MB") {
+    	    	item.find(".packageDownLoadBtn").show();
+    		} else {
+    		    item.find(".packageDownLoadBtn").hide();
+    		}
+
+    		packageArea.append(item);
+    	}
+
+    	// 2. 부트스트랩 다시 적용
+    	packageArea.find('.selectpicker').selectpicker('render');
+	}
+
+
 </script>
 <style>
 	.pading5Width33 {

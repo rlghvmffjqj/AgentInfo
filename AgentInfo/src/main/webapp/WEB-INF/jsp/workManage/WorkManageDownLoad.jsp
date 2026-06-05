@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html style="height: 100%; background: aliceblue;">
@@ -125,82 +124,32 @@
         <div class="download-sub-title">
             요청된 패키지 파일을 다운로드할 수 있습니다.
         </div>
-        
-        <c:if test="${not empty workManage.workManagePackageFileOne}">
-            <div class="package-card">
-                <div class="package-left">
-                    <div class="package-type">
-                        ${workManage.workManageProductTypeOne}
+        <c:if test="${not empty workManage.workManagePackageFileNameView}">
+    
+            <c:forEach var="fileName" items="${workManage.workManagePackageFileNameView}" varStatus="status">
+
+                <c:if test="${not empty fileName}">
+                    <div class="package-card">
+                        <div class="package-left">
+                            <div class="package-type">
+                                <c:out value="${workManage.workManageProductTypeView[status.index]}" />
+                            </div>
+                            <div class="package-name">
+                                <c:out value="${workManage.workManagePackageNameView[status.index]}" />
+                            </div>
+                            <div class="package-size">
+                                <c:out value="${workManage.workManagePackageSizeView[status.index]}" />
+                            </div>
+                        </div>
+                        <button type="button" class="download-btn" onClick="btnFileDownload('${fileName}')">
+                            다운로드
+                        </button>
                     </div>
-                    <div class="package-name">
-                        ${workManage.workManagePackageNameOne}
-                    </div>
-                    <div class="package-size">
-                        ${workManage.workManagePackageSizeOne}
-                    </div>
-                </div>
-                <button type="button" class="download-btn" onClick="btnFileDownload('one')">
-                    다운로드
-                </button>
-            </div>
+                </c:if>
+
+            </c:forEach>
         </c:if>
 
-        <c:if test="${not empty workManage.workManagePackageFileTwo}">
-            <div class="package-card">
-                <div class="package-left">
-                    <div class="package-type">
-                        ${workManage.workManageProductTypeTwo}
-                    </div>
-                    <div class="package-name">
-                        ${workManage.workManagePackageNameTwo}
-                    </div>
-                    <div class="package-size">
-                        ${workManage.workManagePackageSizeTwo}
-                    </div>
-                </div>
-                <button type="button" class="download-btn" onClick="btnFileDownload('two')">
-                    다운로드
-                </button>
-            </div>
-        </c:if>
-
-        <c:if test="${not empty workManage.workManagePackageFileThree}">
-            <div class="package-card">
-                <div class="package-left">
-                    <div class="package-type">
-                        ${workManage.workManageProductTypeThree}
-                    </div>
-                    <div class="package-name">
-                        ${workManage.workManagePackageNameThree}
-                    </div>
-                    <div class="package-size">
-                        ${workManage.workManagePackageSizeThree}
-                    </div>
-                </div>
-                <button type="button" class="download-btn" onClick="btnFileDownload('three')">
-                    다운로드
-                </button>
-            </div>
-        </c:if>
-
-        <c:if test="${not empty workManage.workManagePackageFileFour}">
-            <div class="package-card">
-                <div class="package-left">
-                    <div class="package-type">
-                        ${workManage.workManageProductTypeFour}
-                    </div>
-                    <div class="package-name">
-                        ${workManage.workManagePackageNameFour}
-                    </div>
-                    <div class="package-size">
-                        ${workManage.workManagePackageSizeFour}
-                    </div>
-                </div>
-                <button type="button" class="download-btn" onClick="btnFileDownload('four')">
-                    다운로드
-                </button>
-            </div>
-        </c:if>
         
 
         <div class="info-box">
@@ -213,7 +162,7 @@
                 <b>고객사</b> : ${workManage.workManageCustomer}<br>
                 <b>엔지니어</b> : ${workManage.workManageEngineer}<br>
                 <b>테스트 일정</b> : ${workManage.workManageTestScheduleStart} ~ ${workManage.workManageTestScheduleEnd}<br><br>
-                ${workManage.workManageDetailNote}
+                <pre>${workManage.workManageDetailNote}</pre>
             </div>
         </div>
 
@@ -224,18 +173,8 @@
 </body>
 
 <script>
-    function btnFileDownload(number) {
+    function btnFileDownload(fileName) {
         var workManageKeyNum = "${workManageKeyNum}";
-        var fileName = "";
-        if(number == "one") {
-            fileName  = "${workManage.workManagePackageNameOne}";
-        } else if(number == "two") {
-            fileName  = "${workManage.workManagePackageNameTwo}";
-        } else if(number == "three") {
-            fileName  = "${workManage.workManagePackageNameThree}";
-        } else if(number == "four") {
-            fileName  = "${workManage.workManagePackageNameFour}";
-        }
 
 		if(fileName == null || fileName.trim() == "") {
 			Swal.fire({

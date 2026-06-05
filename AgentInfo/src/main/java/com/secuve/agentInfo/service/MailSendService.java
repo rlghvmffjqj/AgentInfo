@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.secuve.agentInfo.dao.License5Dao;
 import com.secuve.agentInfo.dao.MailSendDao;
+import com.secuve.agentInfo.vo.MailSendList;
 import com.secuve.agentInfo.vo.SendMailSetting;
 
 @Service
@@ -130,6 +131,28 @@ public class MailSendService {
 
 	    // 남은 일수 계산
 	    return ChronoUnit.DAYS.between(today, expirationDate);
+	}
+	
+	public String mailSendList() {
+		
+		return "OK";
+	}
+
+	public void setMailSendList(String pageName, int pageKeyNum, String employeeId, String nowDate) {
+		MailSendList mailSendList = new MailSendList();
+		mailSendList.setMailSendListPage(pageName);
+		mailSendList.setMailSendListPageNumber(pageKeyNum);
+		mailSendList.setMailSendListRegistrant(employeeId);
+		mailSendList.setMailSendListRegistrationDate(nowDate);
+		
+		mailSendDao.setMailSendList(mailSendList);
+	}
+
+	public List<MailSendList> getMailSendList(String pageName, int pageNumber) {
+		MailSendList mailSendList = new MailSendList();
+		mailSendList.setMailSendListPage(pageName);
+		mailSendList.setMailSendListPageNumber(pageNumber);
+		return mailSendDao.getMailSendList(mailSendList);
 	}
 
 

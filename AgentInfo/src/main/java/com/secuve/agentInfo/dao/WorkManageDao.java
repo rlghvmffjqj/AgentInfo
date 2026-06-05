@@ -83,4 +83,12 @@ public class WorkManageDao {
 		return sqlSession.selectList("workManage.getWorkManageCustomerWeeklyExpectedList", parameters);
 	}
 
+	public int delWorkManageFlag(int workManageKeyNum, String workManageDelReaon) {
+		Map<String, Object> parameters = createParameterMap(
+			    "workManageKeyNum", workManageKeyNum,
+			    "workManageDelReaon", workManageDelReaon
+			);
+		return sqlSession.update("workManage.delWorkManageFlag", parameters);
+	}
+
 }

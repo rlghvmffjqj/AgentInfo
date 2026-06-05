@@ -5,30 +5,19 @@
 <script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
 <div class="modelHead">
-	<div class="modelHeadFont">상태 변경</div>
+	<div class="modelHeadFont">업무 삭제</div>
 </div>
-<div class="modal-body modalBody" style="width: 100%; height: 360px; margin-left: 25px;">
-	<table>
+<div class="modal-body modalBody" style="width: 100%; height: 280px;">
+	<table style="width: 100%;">
 		<tbody>
-			<tr class="hight60">
-				<td style="width: 50px;">진행률 : </td>
-				<td class="percent-wrap" style="width: 100px;">
-					<input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold; background: #e9967a36 !important;">
-					<span style="top: 50%;">%</span>
-				</td>
-				<td>
-			</tr>
 			<tr>
-				<td colspan='3'>비고 : </td>
-			</tr>
-			<tr>
-				<td colspan='3'><textarea class="summerNoteSize" id="summernote" name="summernote">${workManage.workManageComment}</textarea></td>
+				<td><textarea class="summerNoteSize" id="summernote" name="summernote"></textarea></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default btn-outline-info-add" id="BtnProgressChange" onClick="btnProgressChange()">변경</button>	
+	<button class="btn btn-default btn-outline-info-add" id="BtnDeleteFlag" onClick="btnDeleteFlag()">삭제</button>	
     <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 </div>
 
@@ -39,29 +28,28 @@
 	$(function() {
 		$('#summernote').summernote({
 			height:200,
-			placeholder:"테스트 중 발생한 특이사항 및 진행 상황을 입력합니다."
+			placeholder:"삭제 사유를 입력 바랍니다."
 		});
 	});
 	
 	/* =========== 상태 변경 ========= */
-	function btnProgressChange() {
+	function btnDeleteFlag() {
 		var chkList = $("#list").getGridParam('selarrrow');
-		var workManageCommentView = $('#summernote').val();
-		var workManageProgressView = $("#workManageProgressView").val();
+		var workManageDelReaon = $('#summernote').val();
 		
 		$.ajax({
-			url: "<c:url value='/workManage/progressChange'/>",
+			url: "<c:url value='/workManage/deleteFlag'/>",
 			type: "POST",
 			data: {
 					chkList: chkList,
-					"workManageCommentView" : workManageCommentView,
-					"workManageProgressView" : workManageProgressView
+					"workManageDelReaon": workManageDelReaon,
 				},
-			dataType: "json",
+			dataType: "text",
 			async: false,
 			traditional: true,
-			success: function(data) {
-				if(data.result == "OK"){
+			success: function(result) {
+				console.log(result);
+				if(result == "OK"){
 					Swal.fire({
 						icon: 'success',
 						title: '성공!',

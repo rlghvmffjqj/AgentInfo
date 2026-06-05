@@ -21,7 +21,7 @@
 	    </div>
 		<div class="pading5">
 			<label class="labelFontSize">행동 단계</label>
-			<
+			<textarea class="form-control" id="seleniumActionStepsView" name="seleniumActionStepsView" spellcheck="false">${selenium.seleniumActionSteps}
 			 class="form-control" id="seleniumActionStepsView" name="seleniumActionStepsView" spellcheck="false">${selenium.seleniumActionSteps}</textarea>
 		</div>
 		<input class="form-control" type="hidden" id="seleniumKeyNum" name="seleniumKeyNum" value="${selenium.seleniumKeyNum}">

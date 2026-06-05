@@ -10,8 +10,19 @@
     	(
     		SELECT ROW_NUMBER() OVER(ORDER BY ${sidx} ${sord}) RowNo, a.*
     		FROM (
-				SELECT *
-				FROM workManage
+				SELECT
+				    w.*,
+				    CASE
+				        WHEN EXISTS (
+				            SELECT 1
+				            FROM mailSendList m
+				            WHERE m.mailSendListPage = 'workmanage'
+				              AND m.mailSendListPageNumber = w.workManageKeyNum
+				        )
+				        THEN 'Y'
+				        ELSE 'N'
+				    END AS mailSendYn
+				FROM workmanage w
 					<include refid="sqlWorkManage" />
 			) a
 		) b
@@ -26,22 +37,10 @@
 	<insert id="insertWorkManage" parameterType="workManage" useGeneratedKeys="true" keyProperty="workManageKeyNum">
 		INSERT INTO workManage(
 			workManageCustomer,
-			workManageProductTypeOne,
-			workManageProductTypeTwo,
-			workManageProductTypeThree,
-			workManageProductTypeFour,
-			workManagePackageNameOne,
-			workManagePackageNameTwo,
-			workManagePackageNameThree,
-			workManagePackageNameFour,
-			workManagePackageFileOne,
-			workManagePackageFileTwo,
-			workManagePackageFileThree,
-			workManagePackageFileFour,
-			workManagePackageSizeOne,
-			workManagePackageSizeTwo,
-			workManagePackageSizeThree,
-			workManagePackageSizeFour,
+			workManageProductType,
+			workManagePackageName,
+			workManagePackageFileName,
+			workManagePackageSize,
 			workManageEngineer,
 			workManageDivision,
 			workManageRequestDate,
@@ -59,22 +58,10 @@
 		)
 		VALUES(
 			#{workManageCustomerView},
-			#{workManageProductTypeOneView},
-			#{workManageProductTypeTwoView},
-			#{workManageProductTypeThreeView},
-			#{workManageProductTypeFourView},
-			#{workManagePackageNameOneView},
-			#{workManagePackageNameTwoView},
-			#{workManagePackageNameThreeView},
-			#{workManagePackageNameFourView},
-			#{workManagePackageFileOne},
-			#{workManagePackageFileTwo},
-			#{workManagePackageFileThree},
-			#{workManagePackageFileFour},
-			#{workManagePackageSizeOne},
-			#{workManagePackageSizeTwo},
-			#{workManagePackageSizeThree},
-			#{workManagePackageSizeFour},
+			#{workManageProductType},
+			#{workManagePackageName},
+			#{workManagePackageFileName},
+			#{workManagePackageSize},
 			#{workManageEngineerView},
 			#{workManageDivisionView},
 			#{workManageRequestDateView},
@@ -108,35 +95,16 @@
 		UPDATE workManage
 		SET
 			workManageCustomer = #{workManageCustomerView},
-			workManageProductTypeOne = #{workManageProductTypeOneView},
-			workManageProductTypeTwo = #{workManageProductTypeTwoView},
-			workManageProductTypeThree = #{workManageProductTypeThreeView},
-			workManageProductTypeFour = #{workManageProductTypeFourView},
-			workManagePackageNameOne = #{workManagePackageNameOneView},
-			workManagePackageNameTwo = #{workManagePackageNameTwoView},
-			workManagePackageNameThree = #{workManagePackageNameThreeView},
-			workManagePackageNameFour = #{workManagePackageNameFourView},
-			<if test="workManagePackageFileOne != null and workManagePackageFileOne != '' or workManageProductTypeOneView == null or workManageProductTypeOneView == ''">
-				workManagePackageFileOne = #{workManagePackageFileOne},
-				workManagePackageSizeOne = #{workManagePackageSizeOne},
-			</if>
-			<if test="workManagePackageFileTwo != null and workManagePackageFileTwo != '' or workManageProductTypeTwoView == null or workManageProductTypeTwoView == ''">
-				workManagePackageFileTwo = #{workManagePackageFileTwo},
-				workManagePackageSizeTwo = #{workManagePackageSizeTwo},
-			</if>
-			<if test="workManagePackageFileThree != null and workManagePackageFileThree != '' or workManageProductTypeThreeView == null or workManageProductTypeThreeView == ''">
-				workManagePackageFileThree = #{workManagePackageFileThree},
-				workManagePackageSizeThree = #{workManagePackageSizeThree},
-			</if>
-			<if test="workManagePackageFileFour != null and workManagePackageFileFour != '' or workManageProductTypeFourView == null or workManageProductTypeFourView == ''">
-				workManagePackageFileFour = #{workManagePackageFileFour},
-				workManagePackageSizeFour = #{workManagePackageSizeFour},
+			workManageProductType = #{workManageProductType},
+			workManagePackageName = #{workManagePackageName},
+			<if test="workManagePackageFileName != null and workManagePackageFileName != ''">
+				workManagePackageFileName = #{workManagePackageFileName},
+				workManagePackageSize = #{workManagePackageSize},
 			</if>
 			workManageEngineer = #{workManageEngineerView},
 			workManageDivision = #{workManageDivisionView},
 			workManageRequestDate = #{workManageRequestDateView},
 			workManageCompleteDate = #{workManageCompleteDateView},
-			workManageAuthor = #{workManageAuthorView},
 			workManageTester = #{workManageTesterView},
 			workManageProgressStatus = #{workManageProgressStatusView},
 			workManageProgress = #{workManageProgressView},
@@ -189,6 +157,10 @@
 		ORDER BY workManageTestScheduleStart ASC;
 	</select>
 	
+	<update id="delWorkManageFlag">
+		UPDATE workmanage SET workManageDelReaon = #{workManageDelReaon}, workManageDelFlag = 'Y' WHERE workManageKeyNum = #{workManageKeyNum};
+	</update>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlWorkManage">
@@ -196,6 +168,14 @@
 			<if test="workManageKeyNum != 0">
 				AND workManageKeyNum = ${workManageKeyNum}
 			</if>
+			<choose>
+			    <when test="workManageDelFlag != null and workManageDelFlag != ''">
+			        AND workManageDelFlag = #{workManageDelFlag}
+			    </when>
+			    <otherwise>
+			        AND (workManageDelFlag IS NULL OR workManageDelFlag != 'Y')
+			    </otherwise>
+			</choose>
 			<if test="workManageCustomer != null and workManageCustomer != ''">
 				AND (
 				<trim prefix="" prefixOverrides="OR">

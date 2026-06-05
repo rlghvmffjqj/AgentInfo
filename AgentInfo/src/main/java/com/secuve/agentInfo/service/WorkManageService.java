@@ -8,6 +8,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -26,27 +27,6 @@ public class WorkManageService {
 	public List<WorkManage> getWorkManageList(WorkManage search) {
 	    List<WorkManage> workManageList = workManageDao.getWorkManageList(workManageSearch(search));
 
-	    for (WorkManage workManage : workManageList) {
-	        List<String> list = new ArrayList<>();
-
-	        String[] productTypes = {
-	                workManage.getWorkManageProductTypeOne(),
-	                workManage.getWorkManageProductTypeTwo(),
-	                workManage.getWorkManageProductTypeThree(),
-	                workManage.getWorkManageProductTypeFour()
-	        };
-
-	        for (String productType : productTypes) {
-	            if (productType != null && !productType.isEmpty()) {
-	                list.add(productType);
-	            }
-	        }
-
-	        // 쉼표로 문자열 변환
-	        workManage.setWorkManageProductTypeList(
-	                String.join(", ", list)
-	        );
-	    }
 	    return workManageList;
 	}
 
@@ -73,26 +53,22 @@ public class WorkManageService {
 		return formatter.format(now);
 	}
 
-	public String insertWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView) throws IllegalStateException, IOException {
-		if(workManagePackageFileOneView != null) {
-			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeOne(getFileSize(workManagePackageFileOneView.getSize()));			
-		}
+	public String insertWorkManage(WorkManage workManage, List<MultipartFile> workManagePackageFileView) throws IllegalStateException, IOException {
+		List<String> fileNames = new ArrayList<>();
+		List<String> fileSizes = new ArrayList<>();
 		
-		if(workManagePackageFileTwoView != null) {
-			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeTwo(getFileSize(workManagePackageFileTwoView.getSize()));
+		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
+			for(MultipartFile workManagePackageFile : workManagePackageFileView) {
+				if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
+					fileNames.add(workManagePackageFile.getOriginalFilename());
+			        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
+				}
+			}
 		}
-		
-		if(workManagePackageFileThreeView != null) {
-			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeThree(getFileSize(workManagePackageFileThreeView.getSize()));
-		}
-		
-		if(workManagePackageFileFourView != null) {
-			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeFour(getFileSize(workManagePackageFileFourView.getSize()));
-		}
+		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
+		workManage.setWorkManagePackageName(String.join(",", workManage.getWorkManagePackageNameView()));
+		workManage.setWorkManagePackageFileName(String.join(",", fileNames));
+		workManage.setWorkManagePackageSize(String.join(",", fileSizes));
 		
 		String tester = workManage.getWorkManageTesterView();
 		if (tester != null) {
@@ -104,21 +80,12 @@ public class WorkManageService {
 		
 		if (success <= 0) return "FALSE";
 		
-		// 파일 다운로드 시 keyNum_filename 형식을 위해 키값을 받고 업로드 진행
-		if(workManagePackageFileOneView != null) {
-			fileUpLoad(workManage, workManagePackageFileOneView);
-		}
-		
-		if(workManagePackageFileTwoView != null) {
-			fileUpLoad(workManage, workManagePackageFileTwoView);
-		}
-		
-		if(workManagePackageFileThreeView != null) {
-			fileUpLoad(workManage, workManagePackageFileThreeView);
-		}
-		
-		if(workManagePackageFileFourView != null) {
-			fileUpLoad(workManage, workManagePackageFileFourView);
+		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
+			for(MultipartFile workManagePackageFile : workManagePackageFileView) {
+				if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
+			        fileUpLoad(workManage, workManagePackageFile);
+				}
+			}
 		}
 		
 		return "OK";
@@ -142,39 +109,46 @@ public class WorkManageService {
 	}
 
 	public WorkManage getWorkManageOne(int workManageKeyNum) {
-		return workManageDao.getWorkManageOne(workManageKeyNum);
+		WorkManage workManage = workManageDao.getWorkManageOne(workManageKeyNum);
+		
+		if (workManage.getWorkManageProductType() != null && !workManage.getWorkManageProductType().isEmpty()) {
+		    workManage.setWorkManageProductTypeView(Arrays.asList(workManage.getWorkManageProductType().split(",")));
+		    workManage.setWorkManagePackageNameView(Arrays.asList(workManage.getWorkManagePackageName().split(",")));
+		    workManage.setWorkManagePackageFileNameView(Arrays.asList(workManage.getWorkManagePackageFileName().split(",")));
+		    workManage.setWorkManagePackageSizeView(Arrays.asList(workManage.getWorkManagePackageSize().split(",")));
+		}
+		
+		return workManage;
 	}
 
-	public String updateWorkManage(WorkManage workManage, MultipartFile workManagePackageFileOneView, MultipartFile workManagePackageFileTwoView, MultipartFile workManagePackageFileThreeView, MultipartFile workManagePackageFileFourView) throws IllegalStateException, IOException {
-		if(workManagePackageFileOneView != null) {
-			workManage.setWorkManagePackageFileOne(workManagePackageFileOneView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeOne(getFileSize(workManagePackageFileOneView.getSize()));
-			fileUpLoad(workManage, workManagePackageFileOneView);
+	public String updateWorkManage(WorkManage workManage, List<MultipartFile> workManagePackageFileView) throws IllegalStateException, IOException {
+		List<String> fileNames = new ArrayList<>();
+		List<String> fileSizes = new ArrayList<>();
+		
+		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
+			for(MultipartFile workManagePackageFile : workManagePackageFileView) {
+				if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
+					fileNames.add(workManagePackageFile.getOriginalFilename());
+			        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
+	
+			        fileUpLoad(workManage, workManagePackageFile);
+				}
+			}
 		}
 		
-		if(workManagePackageFileTwoView != null) {
-			workManage.setWorkManagePackageFileTwo(workManagePackageFileTwoView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeTwo(getFileSize(workManagePackageFileTwoView.getSize()));
-			fileUpLoad(workManage, workManagePackageFileTwoView);
-		}
-		
-		if(workManagePackageFileThreeView != null) {
-			workManage.setWorkManagePackageFileThree(workManagePackageFileThreeView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeThree(getFileSize(workManagePackageFileThreeView.getSize()));
-			fileUpLoad(workManage, workManagePackageFileThreeView);
-		}
-		
-		if(workManagePackageFileFourView != null) {
-			workManage.setWorkManagePackageFileFour(workManagePackageFileFourView.getOriginalFilename());
-			workManage.setWorkManagePackageSizeFour(getFileSize(workManagePackageFileFourView.getSize()));
-			fileUpLoad(workManage, workManagePackageFileFourView);
-		}
 		
 		String tester = workManage.getWorkManageTesterView();
 		if (tester != null) {
 		    tester = tester.replaceAll(",\\s*$", "");
 		}
 		workManage.setWorkManageTesterView(tester);
+		
+		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
+		workManage.setWorkManagePackageName(String.join(",", workManage.getWorkManagePackageNameView()));
+		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
+			workManage.setWorkManagePackageFileName(String.join(",", fileNames));
+			workManage.setWorkManagePackageSize(String.join(",", fileSizes));
+		}
 		
 		int success = workManageDao.updateWorkManage(workManage);
 		
@@ -242,5 +216,19 @@ public class WorkManageService {
 	public List<WorkManage> getWorkManageCustomerWeeklyExpectedList(String workManageCustomer, String employeeName) {
 		return workManageDao.getWorkManageCustomerWeeklyExpectedList(workManageCustomer, employeeName);
 	}
-	
+
+	public String delWorkManageFlag(int[] chkList, String workManageDelReaon) {
+		if (chkList == null || chkList.length == 0) {
+            return "FALSE";
+        }
+		
+		for (int workManageKeyNum : chkList) {
+			int success = workManageDao.delWorkManageFlag(workManageKeyNum, workManageDelReaon);
+			if (success <= 0) {
+				return "FALSE";
+			}
+		}
+		return "OK";
+	}
+
 }

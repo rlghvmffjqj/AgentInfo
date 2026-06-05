@@ -3,6 +3,7 @@
         
 <mapper namespace="mainSend">
 	<resultMap type="com.secuve.agentInfo.vo.SendMailSetting" id="sendMailSetting"></resultMap>
+	<resultMap type="com.secuve.agentInfo.vo.MailSendList" id="mailSendList"></resultMap>
 	
 	<select id="getTargetSetting" resultMap="sendMailSetting" parameterType="string">
 		SELECT * FROM sendMailSetting WHERE sendMailSettingTarget = #{sendMailSettingTarget};
@@ -12,4 +13,24 @@
 		UPDATE sendMailSetting SET sendMailSettingManager = #{sendMailSettingManager}, sendMailSettingSubject = #{sendMailSettingSubject}, sendMailSettingSingle = ${sendMailSettingSingle}, sendMailSettingDaily = ${sendMailSettingDaily}, sendMailSettingRequester = #{sendMailSettingRequester}, sendMailSettingSalesManager = #{sendMailSettingSalesManager}, sendMailSettingIssuance = #{sendMailSettingIssuance}
 		WHERE sendMailSettingTarget = #{sendMailSettingTarget};
 	</update>
+	
+	<insert id="setMailSendList">
+		INSERT INTO mailSendList(mailSendListPage, mailSendListPageNumber, mailSendListRegistrant, mailSendListRegistrationDate)
+		VALUES(#{mailSendListPage}, ${mailSendListPageNumber}, #{mailSendListRegistrant}, #{mailSendListRegistrationDate});
+	</insert>
+	
+	<select id="getMailSendList" resultMap="mailSendList">
+		SELECT
+		    m.mailSendListKeyNum,
+		    m.mailSendListPage,
+		    m.mailSendListPageNumber,
+		    m.mailSendListRegistrant,
+		    e.employeeName,
+		    m.mailSendListRegistrationDate
+		FROM mailSendList m
+		LEFT JOIN employee e
+		    ON e.employeeId = m.mailSendListRegistrant
+		WHERE mailSendListPage = #{mailSendListPage} AND mailSendListPageNumber = ${mailSendListPageNumber}
+		ORDER BY mailSendListRegistrationDate DESC;
+	</select>
 </mapper>

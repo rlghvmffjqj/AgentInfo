@@ -9,12 +9,13 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +40,9 @@ import com.secuve.agentInfo.core.XssConfig;
 import com.secuve.agentInfo.service.CategoryService;
 import com.secuve.agentInfo.service.EmployeeService;
 import com.secuve.agentInfo.service.FavoritePageService;
+import com.secuve.agentInfo.service.MailSendService;
 import com.secuve.agentInfo.service.WorkManageService;
+import com.secuve.agentInfo.vo.MailSendList;
 import com.secuve.agentInfo.vo.WorkManage;
 
 @Controller
@@ -49,6 +52,7 @@ public class WorkManageController {
 	@Autowired FavoritePageService favoritePageService;
 	@Autowired CategoryService categoryService;
 	@Autowired XssConfig xssConfig;
+	@Autowired MailSendService mailSendService;
 
 	@GetMapping(value = "/workManage/list")
 	public String WorkManageList(Model model, Principal principal, HttpServletRequest req, @RequestParam(required = false) String managerNumber) {
@@ -97,19 +101,13 @@ public class WorkManageController {
 	
 	@ResponseBody
 	@PostMapping(value = "/workManage/insert")
-	public Map InsertWorkManage(
-	        WorkManage workManage,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileOneView,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileTwoView,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileThreeView,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileFourView,
-	        Principal principal) throws IllegalStateException, IOException {
+	public Map InsertWorkManage(WorkManage workManage, @RequestParam(required = false) List<MultipartFile> workManagePackageFileView, Principal principal) throws IllegalStateException, IOException {
 		workManage.setWorkManageRegistrant(principal.getName());
 		workManage.setWorkManageRegistrationDate(workManageService.nowDateDetail());
 		workManage.setWorkManageAuthorView(employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 
 		Map<String, Object> map = new HashMap<>();
-		String result = workManageService.insertWorkManage(workManage, workManagePackageFileOneView, workManagePackageFileTwoView, workManagePackageFileThreeView, workManagePackageFileFourView);
+		String result = workManageService.insertWorkManage(workManage, workManagePackageFileView);
 		
 		map.put("workManageKeyNum", workManage.getWorkManageKeyNum());
 		map.put("result", result);
@@ -130,17 +128,12 @@ public class WorkManageController {
 	@ResponseBody
 	@PostMapping(value = "/workManage/update")
 	public Map<String, String> UpdateWorkManage(
-	        WorkManage workManage,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileOneView,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileTwoView,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileThreeView,
-	        @RequestParam(required = false) MultipartFile workManagePackageFileFourView,
-	        Principal principal) throws IllegalStateException, IOException {
+	        WorkManage workManage, @RequestParam(required = false) List<MultipartFile> workManagePackageFileView, Principal principal) throws IllegalStateException, IOException {
 		workManage.setWorkManageModifier(principal.getName());
 		workManage.setWorkManageModifiedDate(workManageService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = workManageService.updateWorkManage(workManage, workManagePackageFileOneView, workManagePackageFileTwoView, workManagePackageFileThreeView, workManagePackageFileFourView);
+		String result = workManageService.updateWorkManage(workManage, workManagePackageFileView);
 		map.put("result", result);
 		return map;
 	}
@@ -149,6 +142,12 @@ public class WorkManageController {
 	@PostMapping(value = "/workManage/delete")
 	public String WorkManageDelete(@RequestParam int[] chkList) {
 		return workManageService.delWorkManage(chkList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/workManage/deleteFlag")
+	public String WorkManageDeleteFlag(@RequestParam int[] chkList, String workManageDelReaon) {
+		return workManageService.delWorkManageFlag(chkList, workManageDelReaon);
 	}
 	
 	@Value("${spring.servlet.multipart.location}")
@@ -174,6 +173,7 @@ public class WorkManageController {
 	@ResponseBody
 	@PostMapping(value = "/workManage/mailSend")
 	public String MailSend(int workManageKeyNum, Principal principal) throws UnknownHostException {
+		String localIp = InetAddress.getLocalHost().getHostAddress();
 		String result = "OK";
 		WorkManage workManage =workManageService.getWorkManageOne(workManageKeyNum);
 		
@@ -182,13 +182,41 @@ public class WorkManageController {
 		String port = "25";                                                                           
 		String password = "";                                                                   
 		String from = "";
+		String fromName = "";
+		
 		if("admin".equals(principal.getName())) {
 			from = "ksyang@secuve.com";
+			fromName = "양 기석";
 		} else {
 			from = principal.getName() + "@secuve.com";
-		} 
+			fromName = employeeService.getEmployeeOne(principal.getName()).getEmployeeName();
+		}
+		
+		String to[] = workManage.getWorkManageTester().split("\\s*,\\s*");
+		
+		Set<String> toSet = new HashSet<>();
+		for (String t : to) {
+		    if (t != null) toSet.add(t.trim().toLowerCase());
+		}
 
-		String[] to = workManage.getWorkManageTester().split("\\s*,\\s*");
+		List<String> ccList = new ArrayList<>();
+		Map<String, String> qaMap = new HashMap<>();
+		qaMap.put("khkim@secuve.com", "김 기호");
+		
+		if(localIp.equals("172.16.100.90")) {
+			ccList.add("김 기호 <khkim@secuve.com>");
+		} else {
+			ccList.add("양 기석 <ksyang@secuve.com>");
+			qaMap.put("bspark@secuve.com", "박 범수");
+			qaMap.put("smlee@secuve.com", "이 상민");
+		}
+		
+		for (String email : qaMap.keySet()) {
+			String name = qaMap.get(email);
+			
+			String formattedEmail = name + " <" + email + ">";
+			ccList.add(formattedEmail);
+		}
 		
 		for (int i = 0; i < to.length; i++) {
 		    String inner = to[i].replaceAll(".*\\(([^)]+)\\).*", "$1");
@@ -197,48 +225,70 @@ public class WorkManageController {
 		        return "Korean";
 		    }
 		}
-		String[] productTypes = {
-		        workManage.getWorkManageProductTypeOne(),
-		        workManage.getWorkManageProductTypeTwo(),
-		        workManage.getWorkManageProductTypeThree(),
-		        workManage.getWorkManageProductTypeFour()
-		};
-
-		String[] packageNames = {
-		        workManage.getWorkManagePackageNameOne(),
-		        workManage.getWorkManagePackageNameTwo(),
-		        workManage.getWorkManagePackageNameThree(),
-		        workManage.getWorkManagePackageNameFour()
-		};
 
 		StringBuilder testProduct = new StringBuilder();
 
-		for (int i = 0; i < packageNames.length; i++) {
-
-		    if (packageNames[i] != null && !packageNames[i].isEmpty()) {
-
-		        testProduct.append("<b>" + productTypes[i] + "</b>")
-		                   .append("  /  ")
-		                   .append(packageNames[i])
-		                   .append("<br>");
-		    }
+		if(workManage.getWorkManagePackageNameView() != null) {
+			for (int i = 0; i < workManage.getWorkManagePackageNameView().size(); i++) {
+	
+			    if (workManage.getWorkManagePackageNameView().get(i) != null && !workManage.getWorkManagePackageNameView().get(i).isEmpty()) {
+	
+			        testProduct.append("<b>" + workManage.getWorkManageProductTypeView().get(i) + "</b>")
+			                   .append("  /  ")
+			                   .append(workManage.getWorkManagePackageNameView().get(i))
+			                   .append("<br>");
+			    }
+			}
 		}
 
 		String subject = "[" + workManage.getWorkManageCustomer() + "] " + workManage.getWorkManageOneLine();
 		
 		String url = "";
-		String localIp = InetAddress.getLocalHost().getHostAddress();
 		if(localIp.equals("172.16.100.90")) {
 			url = "https://172.16.100.90/AgentInfo/workManageDownLoad/downloadUrl?number=";
 		} else {
 			url = "https://qa.secuve.com/AgentInfo/workManageDownLoad/downloadUrl?number=";
 		}
+		
+		String detailNote = workManage.getWorkManageDetailNote();
+		if (detailNote == null) {
+		    detailNote = "";
+		} else {
+		    detailNote = detailNote.trim();
+
+		    detailNote = detailNote.replaceAll("(?i)<html[^>]*>\\s*(<br\\s*/?>\\s*)*", "")
+		                           .replaceAll("(?i)<head[^>]*>.*?</head>\\s*(<br\\s*/?>\\s*)*", "")
+		                           .replaceAll("(?i)<body[^>]*>\\s*(<br\\s*/?>\\s*)*", "")
+		                           .replaceAll("(?i)(<br\\s*/?>\\s*)*</body>", "")
+		                           .replaceAll("(?i)(<br\\s*/?>\\s*)</html>", "");
+
+		    detailNote = detailNote.replaceAll("(?=\\d\\.\\s)", "<br><br>")   // 대항목 번호 앞에 여백 주입
+		                           .replaceAll("(?<=\\))\\s+(?=\\d\\.)", "") 
+		                           .replaceAll("(?<=\\S)\\s+(?=-)", "<br>- "); // 항목 대시 기호 바로 앞에 줄바꿈 1번만 주입
+
+		    detailNote = detailNote.replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>");
+		    
+		    while (true) {
+		        detailNote = detailNote.trim();
+		        if (detailNote.startsWith("<br>")) {
+		            detailNote = detailNote.substring(4);
+		        } else if (detailNote.startsWith("<br />")) {
+		            detailNote = detailNote.substring(6);
+		        } else {
+		            break;
+		        }
+		    }
+		    
+		    detailNote = detailNote.trim();
+		}
+
 
 		String text =
 		        "<div style='font-family:맑은 고딕; font-size:14px; line-height:1.6;'>"
 
 		        + "<div style='font-size:16px; font-weight:bold; color:#2F5597;'>"
-		        + "패키지 테스트 바랍니다."
+		        + "패키지 테스트 바랍니다.<br>"
+		        + "코드번호 : "+"S" + String.format("%05d", workManageKeyNum)
 		        + "</div><br>"
 
 		        + "<table style='border-collapse:collapse; font-size:14px;'>"
@@ -274,9 +324,11 @@ public class WorkManageController {
 		        + "<div style='padding-left:5px;'>"
 		        + url + workManageKeyNum
 		        + "</div><br>"
-
-		        + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 일정</div>"
+		        
+		        + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 담당자 / 일정</div>"
 		        + "<div style='padding-left:5px;'>"
+		        + workManage.getWorkManageTester() + " /"
+		        + "<br>" 
 		        + workManage.getWorkManageTestScheduleStart()
 		        + " ~ "
 		        + workManage.getWorkManageTestScheduleEnd()
@@ -284,12 +336,17 @@ public class WorkManageController {
 
 		        + "<div style='font-weight:bold; color:#2F5597;'>■ 상세 내용</div>"
 
-		        + "<div style='margin-top:5px; padding:12px; "
+		        + "<div style='padding:15px; "
 		        + "border:1px solid #d9d9d9; "
 		        + "background-color:#f8f9fa; "
-		        + "border-radius:6px;'>"
+		        //+ "border-radius:6px; "
+		        + "color:#333333; "
+		        + "font-size:14px; "
+		        //+ "line-height:1.8; " // 본문 줄간격을 여유 있게 조정
+		        + "font-family:\"Malgun Gothic\", sans-serif; "
+		        + "word-break:break-all;'>"
 
-		        + workManage.getWorkManageDetailNote()
+		        + detailNote
 
 		        + "</div>"
 
@@ -316,9 +373,15 @@ public class WorkManageController {
 		try {                                                                                                         
 			MimeMessage message = mail.createMimeMessage();                                                             
 			MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
-			                                                                                                            
-			msg.setFrom(from);                                                                                          
+			  
+			msg.setFrom(new javax.mail.internet.InternetAddress(from, fromName, "UTF-8"));
+			//msg.setFrom(from);                                                                                          
 			msg.setTo(to);
+			if (!ccList.isEmpty()) {
+			    // 조립된 한글이름 포함 주소 리스트를 배열로 변환하여 주입
+			    String[] ccArray = ccList.toArray(new String[0]);
+			    msg.setCc(ccArray); 
+			}
 			msg.setSubject(subject);                                                                                    
 			msg.setText(text, true);
 			
@@ -326,39 +389,37 @@ public class WorkManageController {
 	        String basePath = this.filePath + File.separator + "workManage" + File.separator;
 	        long maxFileSize = 5 * 1024 * 1024;
 
-	        // 첨부파일 목록
-	        String[] fileNames = {
-	                workManage.getWorkManagePackageFileOne(),
-	                workManage.getWorkManagePackageFileTwo(),
-	                workManage.getWorkManagePackageFileThree(),
-	                workManage.getWorkManagePackageFileFour()
-	        };
 
 	        // 첨부파일 추가
-	        for (String fileName : fileNames) {
-	            if (fileName != null && !fileName.isEmpty()) {
-	                File attFile = new File(basePath + fileName);
-	                if (attFile.exists()) {
-	                    long fileSize = attFile.length();
-
-	                    if (fileSize > maxFileSize) {
-	                    	System.out.println("첨부 제외(5MB 초과) : " + attFile.getName() + " / " + (fileSize / 1024 / 1024) + "MB");
-	                    	result = "SizeFull";
-	                    	continue;
-	                    }
-
-	                    msg.addAttachment(attFile.getName(), attFile);
-	                    System.out.println("첨부파일 추가 : " + attFile.getAbsolutePath());
-	                } else {
-	                    System.out.println("첨부파일 없음 : " + attFile.getAbsolutePath());
-	                }
-	            }
+	        if(workManage.getWorkManagePackageNameView() != null) {
+		        for (String fileName : workManage.getWorkManagePackageFileNameView()) {
+		            if (fileName != null && !fileName.isEmpty()) {
+		                File attFile = new File(basePath + fileName);
+		                if (attFile.exists()) {
+		                    long fileSize = attFile.length();
+	
+		                    if (fileSize > maxFileSize) {
+		                    	System.out.println("첨부 제외(5MB 초과) : " + attFile.getName() + " / " + (fileSize / 1024 / 1024) + "MB");
+		                    	result = "SizeFull";
+		                    	continue;
+		                    }
+	
+		                    msg.addAttachment(attFile.getName(), attFile);
+		                    System.out.println("첨부파일 추가 : " + attFile.getAbsolutePath());
+		                } else {
+		                    System.out.println("첨부파일 없음 : " + attFile.getAbsolutePath());
+		                }
+		            }
+		        }
 	        }
 			
 			mail.send(message);                                                                                         
 			System.out.println("sendMail() success.");                                                                   
 			System.out.println("------------------------------ SecuveMailSender END ------------------------------");
 
+			if(result == "OK") {
+				mailSendService.setMailSendList("WorkManage",workManageKeyNum,principal.getName(),workManageService.nowDateDetail());
+			}
 			return result;                                                                                                
 		}                                                                                                             
 		catch (Exception e) {
@@ -385,6 +446,18 @@ public class WorkManageController {
 		return "/workManage/ProgressView";
 	}
 	
+	@PostMapping(value = "/workManage/deleteFlagView")
+	public String deleteFlagView(@RequestParam int[] chkList, Model model) {
+		return "/workManage/DeleteFlagView";
+	}
+	
+	@PostMapping(value = "/workManage/mailSendListView")
+	public String mailSendListView(@RequestParam int[] chkList, Model model) {
+		ArrayList<MailSendList> mailSendList = new ArrayList<>(mailSendService.getMailSendList("workManage", chkList[0]));
+		model.addAttribute("mailSendList", mailSendList);
+		return "/workManage/MailSendListView";
+	}
+	
 	@ResponseBody
 	@PostMapping(value = "/workManage/progressChange")
 	public Map<String, String> progressChange(@RequestParam int[] chkList, @RequestParam String workManageCommentView, @RequestParam String workManageProgressView, Principal principal) throws UnknownHostException {
@@ -397,49 +470,57 @@ public class WorkManageController {
 				
 				String url = "";
 				String to = "";
+				String toName = "";
 				String localIp = InetAddress.getLocalHost().getHostAddress();
+				
+				Map<String, String> qaMap = new HashMap<>();
+				qaMap.put("khkim@secuve.com", "김 기호");
+				
 				if(localIp.equals("172.16.100.90")) {
 					url = "https://172.16.100.90/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
 					to = "khkim@secuve.com";
+					toName = "김 기호";
 				} else {
 					url = "https://qa.secuve.com/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
 					to = "ksyang@secuve.com";
+					toName = "양 기석";
+					qaMap.put("bspark@secuve.com", "박 범수");
+					qaMap.put("smlee@secuve.com", "이 상민");
 				}
 				
 				String host = "mail.secuve.com";                                                                           
 				String port = "25";                                                                           
 				String password = "";      
 				String from = "";
+				String fromName = "";
 				if("admin".equals(principal.getName())) {
 					from = "ksyang@secuve.com";
+					fromName = "양 기석";
 				} else {
 					from = principal.getName() + "@secuve.com";
+					fromName = employeeService.getEmployeeOne(principal.getName()).getEmployeeName();
 				}
 				
-				String[] productTypes = {
-				        workManage.getWorkManageProductTypeOne(),
-				        workManage.getWorkManageProductTypeTwo(),
-				        workManage.getWorkManageProductTypeThree(),
-				        workManage.getWorkManageProductTypeFour()
-				};
+				List<String> ccList = new ArrayList<>();
 				
-				String[] packageNames = {
-				        workManage.getWorkManagePackageNameOne(),
-				        workManage.getWorkManagePackageNameTwo(),
-				        workManage.getWorkManagePackageNameThree(),
-				        workManage.getWorkManagePackageNameFour()
-				};
+				for (String email : qaMap.keySet()) {
+					String name = qaMap.get(email);
+					
+					String formattedEmail = name + " <" + email + ">";
+					ccList.add(formattedEmail);
+				}
 
 				StringBuilder testProduct = new StringBuilder();
-
-				for (int i = 0; i < packageNames.length; i++) {
-				    if (packageNames[i] != null && !packageNames[i].isEmpty()) {
-
-				        testProduct.append("<b>" + productTypes[i] + "</b>")
-				                   .append("  /  ")
-				                   .append(packageNames[i])
-				                   .append("<br>");
-				    }
+				if(workManage.getWorkManagePackageNameView() != null) {
+					for (int i = 0; i < workManage.getWorkManagePackageNameView().size(); i++) {
+					    if (workManage.getWorkManagePackageNameView().get(i) != null && !workManage.getWorkManagePackageNameView().get(i).isEmpty()) {
+	
+					        testProduct.append("<b>" + workManage.getWorkManageProductTypeView().get(i) + "</b>")
+					                   .append("  /  ")
+					                   .append(workManage.getWorkManagePackageNameView().get(i))
+					                   .append("<br>");
+					    }
+					}
 				}
 	
 				String subject = "[" + workManage.getWorkManageCustomer() + "] 진행률 100%로 변경";
@@ -537,8 +618,13 @@ public class WorkManageController {
 					MimeMessage message = mail.createMimeMessage();                                                             
 					MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
 					                                                                                                            
-					msg.setFrom(from);                                                                                          
-					msg.setTo(to);
+					msg.setFrom(new javax.mail.internet.InternetAddress(from, fromName, "UTF-8"));
+					msg.setTo(new javax.mail.internet.InternetAddress(to, toName, "UTF-8"));
+					if (!ccList.isEmpty()) {
+					    // 조립된 한글이름 포함 주소 리스트를 배열로 변환하여 주입
+					    String[] ccArray = ccList.toArray(new String[0]);
+					    msg.setCc(ccArray); 
+					}
 					msg.setSubject(subject);                                                                                    
 					msg.setText(text, true);
 					
