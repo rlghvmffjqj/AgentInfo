@@ -3,6 +3,7 @@ package com.secuve.agentInfo.vo;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -73,4 +74,6 @@ public class WorkManage {
 	private int rows=25;						// 데이터 보여줄 갯수
 	private String sidx="workManageKeyNum";		// 정렬할 기준 데이터
 	private String sord;						// 오름차순, 내림차순
+	
+	private List<MultipartFile> workManagePackageFileView;
 }

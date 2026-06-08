@@ -216,13 +216,13 @@
 				AND workManageRequestDate BETWEEN #{workManageRequestDateStart} AND #{workManageRequestDateEnd}
 			</if>
 			<if test="workManageEngineer != null and workManageEngineer != ''">
-				AND workManageEngineer LIKE '%${workManageEngineer}%'
+				AND workManageEngineer LIKE '%#{workManageEngineer}%'
 			</if>
 			<if test="workManageAuthor != null and workManageAuthor != ''">
-				AND workManageAuthor = #{workManageAuthor}
+				AND workManageAuthor LIKE '%#{workManageAuthor}%'
 			</if>
 			<if test="workManageTester != null and workManageTester != ''">
-				AND workManageTester = #{workManageTester}
+				AND workManageTester LIKE '%#{workManageTester}%'
 			</if>
 		</trim>
 	</sql>

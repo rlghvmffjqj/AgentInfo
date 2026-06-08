@@ -47,6 +47,49 @@
 				</div>
 			</div>
 		</div>
+
+		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
+		    <!-- 추가 버튼 -->
+		    <div style="margin: 10px 0;">
+		        <button type="button" id="addProductBtn" class="btn btn-primary">+ 제품유형 추가</button>
+		    </div>
+		
+		    <!-- 제품유형 영역 -->
+		    <div id="packageArea">
+		        <!-- 기본 1개 -->
+		        <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 115px;">
+		            <div class="packageRow">
+					
+		                <!-- 전체를 감싸는 박스 너비 고정 (기존 25% 대용 또는 스타일 유지) -->
+		                <div class="pading5Width33" style="width: 280px;">
+						
+		                    <!-- [상단] 제품유형 선택 -->
+		                    <div>
+		                        <label class="labelFontSize">제품유형</label>
+		                        <select class="form-control selectpicker selectForm" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
+		                            <option value=""></option>
+		                            <c:forEach var="item" items="${workManageProductType}">
+		                                <option value="${item}">
+		                                    <c:out value="${item}"/>
+		                                </option>
+		                            </c:forEach>
+		                        </select>
+		                    </div>
+						
+		                    <!-- [하단] 있어 보이는 인라인 수량 입력창 (라벨 삭제) -->
+		                    <div class="premiumQuantityBox">
+		                        
+		                        <input type="number" class="form-control premiumCount" min="0" placeholder="0">
+		                        <span class="qtyUnit">개</span>
+		                    </div>
+						
+		                </div>
+					
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
 		    <!-- 추가 버튼 -->
 		    <div style="margin: 10px 0;">
@@ -59,22 +102,7 @@
 		        <!-- 기본 1개 -->
 		        <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
 					<div class="packageRow">
-		            	<div class="pading5Width33 packageHeight">
-		            	    <div>
-		            	        <label class="labelFontSize">제품유형</label>
-		            	        <select class="form-control selectpicker selectForm" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
-		            	            <option value=""></option>
-		            	            <c:forEach var="item" items="${workManageProductType}">
-		            	                <option value="${item}">
-		            	                    <c:out value="${item}"/>
-		            	                </option>
-		            	            </c:forEach>
-								
-		            	        </select>
-		            	    </div>
-		            	</div>
-					
-		            	<div class="pading5Width33 packageHeight">
+		            	<div class="pading5Width33 packageHeight" style="width: 66%;">
 		            	    <div>
 		            	        <label class="labelFontSize">패키지명</label>
 		            	        <input type="text" name="workManagePackageNameView[]" class="form-control viewForm">
@@ -196,27 +224,9 @@
 
 	        html += '<div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">';
 			html += '<div class="packageRow">'
-	        // 제품유형
-	        html += '    <div class="pading5Width33 packageHeight">';
-	        html += '        <div>';
-	        html += '            <label class="labelFontSize">제품유형</label>';
-
-	        html += '            <select class="form-control selectpicker selectForm" name="workManageProductTypeView[]" data-live-search="true" data-size="5">';
-
-	        html += '                <option value=""></option>';
-
-	        html += '                <c:forEach var="item" items="${workManageProductType}">';
-	        html += '                    <option value="${item}">';
-	        html += '                        <c:out value="${item}"/>';
-	        html += '                    </option>';
-	        html += '                </c:forEach>';
-
-	        html += '            </select>';
-	        html += '        </div>';
-	        html += '    </div>';
 
 	        // 패키지명
-	        html += '    <div class="pading5Width33 packageHeight">';
+	        html += '    <div class="pading5Width33 packageHeight" style="width: 66%;">';
 	        html += '        <div>';
 	        html += '            <label class="labelFontSize">패키지명</label>';
 
@@ -261,19 +271,8 @@
 	    // .off("click")을 추가하여 중복 등록된 기존 이벤트를 먼저 지워줍니다.
 		$(document).off("click", ".package-upload-btn").on("click", ".package-upload-btn", function () {
 		    const packageRow = $(this).closest(".packageRow");
-		    const productType = packageRow
-		        .find("select[name='workManageProductTypeView[]']")
-		        .val();
-		
-		    // 제품유형 체크
-		    if (!productType) {
-		        alert("제품유형을 먼저 선택해주세요.");
-		        return;
-		    }
-		
-		    packageRow
-		        .find(".packageFileInput")
-		        .click();
+		   
+		    packageRow.find(".packageFileInput").click();
 		});
 
 
@@ -338,126 +337,323 @@
 	$('.selectpicker').selectpicker(); // 부투스트랩 Select Box 사용 필수
 	
 	/* =========== 추가 ========= */
-	$('#insertBtn').click(function() {
-		var postData = $('#modalForm').serializeObject();
-		var formData = new FormData();
+	$('#insertBtn').click(function () {
+		if($('#workManageCustomerView').val() == "") {
+			$('#NotWorkManageCustomer').show();
+			Swal.fire({
+	            icon: 'error',
+	            title: '실패!',
+	            text: '필수 값 입력 바랍니다.'
+	        });
+			return false;
+		}
 		
-		/* progressbar 정보 */
+	   	var postData = $('#modalForm').serializeObject();
+		var formData = new FormData();
+
+		// Progress Bar 객체
 		var bar = $('.bar');
-        var percent = $('.percent');
-        var status = $('#status')
+		var percent = $('.percent');
+		var status = $('#status');
 
-    	// 일반 데이터 추가
-    	$.each(postData, function(key, value) {
-    	    formData.append(key, value);
-    	});
+		var hasFile = false;
 
-    	// 파일 추가
-    	var workManagePackageFileView = $('.packageFileInput');
+		// 1. 일반 데이터 추가 (파일명 배열 및 파일 관련 Key는 중복 방지를 위해 제외)
+		$.each(postData, function (key, value) {
+		    if (key === 'workManagePackageFileNameView' || 
+		        key === 'workManagePackageFileNameView[]' ||
+		        key === 'workManagePackageFileView' ||
+		        key === 'workManagePackageFileView[]') {
+		        return true; // continue와 동일 (스킵)
+		    }
+		    formData.append(key, value);
+		});
 
-    	workManagePackageFileView.each(function () {
-		    if (this.files.length > 0) {
-		        for (let i = 0; i < this.files.length; i++) {
-		            formData.append('workManagePackageFileView', this.files[i]);
-		        }
+		// 2. 파일명 추가 (순서 유지를 위해 input을 순회하며 직접 추가)
+		$('.packageFileNameInput').each(function(index) {
+		    formData.append(
+		        'workManagePackageFileNameView[' + index + ']',
+		        $(this).val() || ''
+		    );
+		});
+
+		// 3. 파일 추가 (★개선: 파일이 없더라도 빈 파일 객체를 보내 순서를 명시)
+		$('.packageFileInput').each(function (index) {
+		    if (this.files && this.files.length > 0) {
+		        hasFile = true;
+		        formData.append(
+		            'workManagePackageFileView[' + index + ']',
+		            this.files[0]
+		        );
+		    } else {
+		        // 파일이 없는 칸은 빈 Blob 객체를 보내어 서버가 이 자리를 인식하게 만듭니다.
+		        // 스프링 MultipartFile에서 '파일은 선택되었으나 내용이 없는 상태'로 받아 리스트 크기가 유지됩니다.
+		        formData.append(
+		            'workManagePackageFileView[' + index + ']',
+		            new Blob([], { type: 'application/octet-stream' }), 
+		            "" // 파일명을 빈 값으로 지정
+		        );
 		    }
 		});
-		
-		$.ajax({
-			url: "<c:url value='/workManage/insert'/>",
-	       	type: 'post',
+
+		// [확인용 콘솔 로그] 제대로 데이터가 구성되었는지 브라우저 콘솔에서 확인 가능합니다.
+		for (let pair of formData.entries()) {
+		    console.log(pair[0], pair[1]);
+		}
+
+	    $.ajax({
+	        url: "<c:url value='/workManage/insert'/>",
+	        type: 'POST',
 	        data: formData,
-	        //async: false,
 	        processData: false,
 	        contentType: false,
-			beforeSend:function(){
-                // progress Modal 열기
-                $("#pleaseWaitDialog").modal('show')
-                status.empty();
-                var percentVal = '0%';
-                bar.width(percentVal);
-                percent.html(percentVal)
-            },
-            complete:function(){
-                // progress Modal 닫기
-                $("#pleaseWaitDialog").modal('hide');
-            },
-	        success: function(data) {
-				if(data.result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					$('#modal').modal("hide"); // 모달 닫기
-		   			$('#modal').on('hidden.bs.modal', function () {
-		   				tableRefresh();
-		   			});
-				} else {
-					Swal.fire({
-						icon: 'error',
-						title: '실패!',
-						text: '작업을 실패하였습니다.',
-					});
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
+
+	        // 업로드 진행률
+	        xhr: function () {
+	            var xhr = $.ajaxSettings.xhr();
+	            if (xhr.upload) {
+	                xhr.upload.addEventListener('progress', function (event) {
+	                    if (event.lengthComputable) {
+	                        var percentVal =
+	                            Math.round((event.loaded / event.total) * 100);
+
+	                        bar.css('width', percentVal + '%');
+	                        percent.html(percentVal + '%');
+	                        status.html(
+	                            event.loaded.toLocaleString() +
+	                            ' / ' +
+	                            event.total.toLocaleString() +
+	                            ' bytes'
+	                        );
+	                    }
+
+	                }, false);
+	            }
+	            return xhr;
+	        },
+
+	        beforeSend: function () {
+        	    if (hasFile) {
+        	        $("#pleaseWaitDialog").modal('show');
+        	        status.empty();
+        	        bar.css('width', '0%');
+        	        percent.html('0%');
+				
+        	        // 시간 계산용 (적용 중이신 로직 유지)
+        	        startTime = new Date().getTime(); 
+        	    }
+        	},
+			
+        	complete: function () {
+        	    if (hasFile) {
+        	        var elapsed = new Date().getTime() - startTime;
+        	        var minDisplayTime = 400; // 너무 짧으면 애니메이션이 꼬이므로 최소 400ms 추천
+        	        var delay = Math.max(0, minDisplayTime - elapsed);
+				
+        	        setTimeout(function () {
+        	            // 1. 우선 모달 정상 종료 시도
+        	            $("#pleaseWaitDialog").modal('hide');
+					
+        	            // 2. ★핵심 안전장치: 너무 빨라서 꼬인 부트스트랩 잔여물 강제 철거
+        	            // 모달 창을 강제로 숨김 처리하고, 회색 배경을 무조건 지웁니다.
+        	            setTimeout(function() {
+        	                $("#pleaseWaitDialog").hide(); 
+        	                $('.modal-backdrop').remove(); // 회색 화면 강제 삭제
+        	                $('body').removeClass('modal-open').css('overflow', ''); // 스크롤 잠금 강제 해제
+        	            }, 150); // hide 명령 후 잔여물이 남는 타이밍에 즉시 처형
+					
+        	        }, delay);
+        	    }
+        	},
+
+	        success: function (data) {
+	            if (data.result === "OK") {
+	                Swal.fire({
+	                    icon: 'success',
+	                    title: '성공!',
+	                    text: '작업을 완료했습니다.'
+	                });
+	                $('#modal').modal('hide');
+
+	                $('#modal').one('hidden.bs.modal', function () {
+	                    tableRefresh();
+	                });
+	            } else {
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: '실패!',
+	                    text: '작업을 실패하였습니다.'
+	                });
+	            }
+	        },
+
+	        error: function (xhr, statusText, error) {
+	            console.error(xhr);
+	            console.error(statusText);
+	            console.error(error);
+
+	            Swal.fire({
+	                icon: 'error',
+	                title: '오류!',
+	                text: '업로드 중 오류가 발생했습니다.'
+	            });
+	        }
 	    });
+
 	});
 	
-	$('#updateBtn').click(function() {
-		var postData = $('#modalForm').serializeObject();
+	$('#updateBtn').click(function () {
+	    var postData = $('#modalForm').serializeObject();
 		var formData = new FormData();
-
-    	// 일반 데이터 추가
-    	$.each(postData, function(key, value) {
-    	    formData.append(key, value);
-    	});
-
-    	// 파일 추가
-    	var workManagePackageFileView = $('.packageFileInput');
-
-    	workManagePackageFileView.each(function () {
-		    if (this.files.length > 0) {
-		        for (let i = 0; i < this.files.length; i++) {
-		            formData.append('workManagePackageFileView', this.files[i]);
-		        }
+			
+		// Progress Bar 객체
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+			
+		var hasFile = false;
+			
+		// 1. 일반 데이터 추가 (파일명 배열 및 파일 관련 Key는 중복 방지를 위해 제외)
+		$.each(postData, function (key, value) {
+		    if (key === 'workManagePackageFileNameView' || 
+		        key === 'workManagePackageFileNameView[]' ||
+		        key === 'workManagePackageFileView' ||
+		        key === 'workManagePackageFileView[]') {
+		        return true; // continue와 동일 (스킵)
+		    }
+		    formData.append(key, value);
+		});
+		
+		// 2. 파일명 추가 (순서 유지를 위해 input을 순회하며 직접 추가)
+		$('.packageFileNameInput').each(function(index) {
+		    formData.append(
+		        'workManagePackageFileNameView[' + index + ']',
+		        $(this).val() || ''
+		    );
+		});
+		
+		// 3. 파일 추가 (★개선: 파일이 없더라도 빈 파일 객체를 보내 순서를 명시)
+		$('.packageFileInput').each(function (index) {
+		    if (this.files && this.files.length > 0) {
+		        hasFile = true;
+		        formData.append(
+		            'workManagePackageFileView[' + index + ']',
+		            this.files[0]
+		        );
+		    } else {
+		        // 파일이 없는 칸은 빈 Blob 객체를 보내어 서버가 이 자리를 인식하게 만듭니다.
+		        // 스프링 MultipartFile에서 '파일은 선택되었으나 내용이 없는 상태'로 받아 리스트 크기가 유지됩니다.
+		        formData.append(
+		            'workManagePackageFileView[' + index + ']',
+		            new Blob([], { type: 'application/octet-stream' }), 
+		            "" // 파일명을 빈 값으로 지정
+		        );
 		    }
 		});
+		
+		// [확인용 콘솔 로그] 제대로 데이터가 구성되었는지 브라우저 콘솔에서 확인 가능합니다.
+		for (let pair of formData.entries()) {
+		    console.log(pair[0], pair[1]);
+		}
 
-		$.ajax({
-			url: "<c:url value='/workManage/update'/>",
-	        type: 'post',
+	
+	    $.ajax({
+	        url: "<c:url value='/workManage/update'/>",
+	        type: 'POST',
 	        data: formData,
 	        processData: false,
-        	contentType: false,
-        	async: false,
-	        success: function(data) {
-				if(data.result == "OK") {
-					Swal.fire({
-						icon: 'success',
-						title: '성공!',
-						text: '작업을 완료했습니다.',
-					});
-					$('#modal').modal("hide"); // 모달 닫기
-	            	$('#modal').on('hidden.bs.modal', function () {
-	            		tableRefresh();
-	            	});
-				} else {
-					Swal.fire({               
-						icon: 'error',          
-						title: '실패!',           
-						text: '작업을 실패했습니다.',    
-					});  
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
+	        contentType: false,
+		
+	        xhr: function () {
+	            var xhr = $.ajaxSettings.xhr();
+	            if (hasFile && xhr.upload) {
+	                xhr.upload.addEventListener('progress', function (event) {
+	                    if (event.lengthComputable) {
+	                        var percentVal = Math.round(
+	                            (event.loaded / event.total) * 100
+	                        );
+	                        bar.css('width', percentVal + '%');
+	                        percent.html(percentVal + '%');
+	                        status.html(
+	                            event.loaded.toLocaleString() +
+	                            ' / ' +
+	                            event.total.toLocaleString() +
+	                            ' bytes'
+	                        );
+	                    }
+	                }, false);
+	            }
+	            return xhr;
+	        },
+		
+			beforeSend: function () {
+        	    if (hasFile) {
+        	        $("#pleaseWaitDialog").modal('show');
+        	        status.empty();
+        	        bar.css('width', '0%');
+        	        percent.html('0%');
+				
+        	        // 시간 계산용 (적용 중이신 로직 유지)
+        	        startTime = new Date().getTime(); 
+        	    }
+        	},
+			
+        	complete: function () {
+        	    if (hasFile) {
+        	        var elapsed = new Date().getTime() - startTime;
+        	        var minDisplayTime = 400; // 너무 짧으면 애니메이션이 꼬이므로 최소 400ms 추천
+        	        var delay = Math.max(0, minDisplayTime - elapsed);
+				
+        	        setTimeout(function () {
+        	            // 1. 우선 모달 정상 종료 시도
+        	            $("#pleaseWaitDialog").modal('hide');
+					
+        	            // 2. ★핵심 안전장치: 너무 빨라서 꼬인 부트스트랩 잔여물 강제 철거
+        	            // 모달 창을 강제로 숨김 처리하고, 회색 배경을 무조건 지웁니다.
+        	            setTimeout(function() {
+        	                $("#pleaseWaitDialog").hide(); 
+        	                $('.modal-backdrop').remove(); // 회색 화면 강제 삭제
+        	                $('body').removeClass('modal-open').css('overflow', ''); // 스크롤 잠금 강제 해제
+        	            }, 150); // hide 명령 후 잔여물이 남는 타이밍에 즉시 처형
+					
+        	        }, delay);
+        	    }
+        	},
+
+	        success: function (data) {
+	            if (data.result === "OK") {
+	                Swal.fire({
+	                    icon: 'success',
+	                    title: '성공!',
+	                    text: '작업을 완료했습니다.'
+	                });
+	                $('#modal').modal('hide');
+	                $('#modal').one('hidden.bs.modal', function () {
+	                    tableRefresh();
+	                });
+	            } else {
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: '실패!',
+	                    text: '작업을 실패했습니다.'
+	                });
+	            }
+	        },
+		
+	        error: function (xhr, status, error) {
+	            console.error(xhr);
+	            console.error(status);
+	            console.error(error);
+	            Swal.fire({
+	                icon: 'error',
+	                title: '오류!',
+	                text: '업데이트 중 오류가 발생했습니다.'
+	            });
+	        }
 	    });
+	
 	});
+
 	
 	$("#workManageTesterView").autocomplete({
 	    minLength: 1,
@@ -489,23 +685,16 @@
 	    },
 
 	    select: function(event, ui) {
-
 	        let current = $(this).val();
-
 	        // 기존 값 배열화
 	        let arr = current.split(",");
-
 	        // 마지막 검색중인 값 제거
 	        arr.pop();
-
 	        // 새 값 추가
 	        arr.push(ui.item.value);
-
 	        // 마지막 콤마 추가 (다음 검색 가능)
 	        arr.push("");
-
 	        $(this).val(arr.join(", "));
-
 	        return false;
 	    }
 	});
@@ -729,6 +918,82 @@
 	    cursor: not-allowed !important;
 	    opacity: 1 !important;
 	}
+
+	.bar {	
+		background: #5858fd;
+	}
+
+	/* 상단 제품유형 기본 라벨 */
+	.labelFontSize {
+	    display: block;
+	    font-size: 13px;
+	    font-weight: 600;
+	    margin-bottom: 6px;
+	    color: #495057;
+	}
+
+	/* 아래 배치되는 고급스러운 수량 입력 그룹 */
+	.premiumQuantityBox {
+	    display: flex;
+	    align-items: center;
+	    margin-top: 8px; /* 제품유형 창과의 간격 */
+	    background-color: #f8f9fa;
+	    border: 1px solid #ced4da;
+	    border-radius: 6px;
+	    padding: 2px 10px 2px 0; /* 좌측 태그 영역 확보 */
+	    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	    width: 100%; /* 부모 너비에 맞춤 */
+	}
+
+	/* 왼쪽에 고정된 미니 QTY 뱃지 (라벨 대신 세련미를 주는 포인트) */
+	.qtyTag {
+	    font-size: 10px;
+	    font-weight: 800;
+	    color: #4b5563;
+	    background-color: #e5e7eb;
+	    padding: 4px 8px;
+	    border-radius: 4px;
+	    margin-left: 6px;
+	    letter-spacing: 0.5px;
+	}
+
+	/* 실제 input 스타일 (테두리를 없애고 투명하게 처리하여 그룹 박스에 동화됨) */
+	.premiumCount {
+	    flex: 1;
+	    border: none !important;
+	    background: transparent !important;
+	    box-shadow: none !important;
+	    height: 34px;
+	    text-align: right;
+	    font-size: 15px;
+	    font-weight: 600;
+	    color: #212529;
+	    padding: 0 8px;
+	}
+
+	/* 포커스 되었을 때 전체 감싸는 상자가 함께 빛나는 효과 */
+	.premiumQuantityBox:focus-within {
+	    border-color: #4f46e5; /* 세련된 인디고 블루 색상 */
+	    background-color: #ffffff;
+	    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+	}
+
+	/* 우측 단위 표시 */
+	.qtyUnit {
+	    font-size: 13px;
+	    font-weight: 500;
+	    color: #6b7280;
+	    margin-left: 4px;
+	    padding-right: 2px;
+	}
+
+	/* 크롬 숫자 화살표 크기 최적화 및 정렬 */
+	.premiumCount::-webkit-inner-spin-button,
+	.premiumCount::-webkit-outer-spin-button {
+	    height: 24px;
+	    margin-left: 4px;
+	}
+
 
 </style>
 

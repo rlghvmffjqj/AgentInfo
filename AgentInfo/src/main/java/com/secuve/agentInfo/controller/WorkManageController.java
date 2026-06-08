@@ -128,12 +128,12 @@ public class WorkManageController {
 	@ResponseBody
 	@PostMapping(value = "/workManage/update")
 	public Map<String, String> UpdateWorkManage(
-	        WorkManage workManage, @RequestParam(required = false) List<MultipartFile> workManagePackageFileView, Principal principal) throws IllegalStateException, IOException {
+	        WorkManage workManage, Principal principal) throws IllegalStateException, IOException {
 		workManage.setWorkManageModifier(principal.getName());
 		workManage.setWorkManageModifiedDate(workManageService.nowDate());
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = workManageService.updateWorkManage(workManage, workManagePackageFileView);
+		String result = workManageService.updateWorkManage(workManage);
 		map.put("result", result);
 		return map;
 	}

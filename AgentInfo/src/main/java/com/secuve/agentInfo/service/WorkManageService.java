@@ -57,12 +57,20 @@ public class WorkManageService {
 		List<String> fileNames = new ArrayList<>();
 		List<String> fileSizes = new ArrayList<>();
 		
-		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
-			for(MultipartFile workManagePackageFile : workManagePackageFileView) {
-				if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
-					fileNames.add(workManagePackageFile.getOriginalFilename());
-			        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
+		if (workManage.getWorkManagePackageFileView() != null && !workManage.getWorkManagePackageFileView().isEmpty()) {
+			int i=0;
+			for(MultipartFile workManagePackageFile : workManage.getWorkManagePackageFileView()) {
+				if(workManagePackageFile.getSize() == 0) {
+					fileNames.add(workManage.getWorkManagePackageNameView().get(i));
+			        fileSizes.add("0MB");
+				} else {
+					if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
+						fileNames.add(workManagePackageFile.getOriginalFilename());
+				        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
+				        fileUpLoad(workManage, workManagePackageFile);
+					}
 				}
+				++i;
 			}
 		}
 		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
@@ -121,19 +129,39 @@ public class WorkManageService {
 		return workManage;
 	}
 
-	public String updateWorkManage(WorkManage workManage, List<MultipartFile> workManagePackageFileView) throws IllegalStateException, IOException {
+	public String updateWorkManage(WorkManage workManage) throws IllegalStateException, IOException {
 		List<String> fileNames = new ArrayList<>();
 		List<String> fileSizes = new ArrayList<>();
 		
-		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
-			for(MultipartFile workManagePackageFile : workManagePackageFileView) {
-				if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
-					fileNames.add(workManagePackageFile.getOriginalFilename());
-			        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
-	
-			        fileUpLoad(workManage, workManagePackageFile);
+		WorkManage workManageOld = workManageDao.getWorkManageOne(workManage.getWorkManageKeyNum());
+		String[] fileNameOld = workManageOld.getWorkManagePackageFileName().split(",");
+		String[] fileSizeOld = workManageOld.getWorkManagePackageSize().split(",");
+		if (workManage.getWorkManagePackageFileView() != null && !workManage.getWorkManagePackageFileView().isEmpty()) {
+			int i=0;
+			for(MultipartFile workManagePackageFile : workManage.getWorkManagePackageFileView()) {
+				if(workManagePackageFile.getSize() == 0) {
+					try {
+						fileNames.add(fileNameOld[i]);
+			        	fileSizes.add(fileSizeOld[i]);
+			        } catch (Exception e) {
+			        	fileNames.add(workManage.getWorkManagePackageNameView().get(i));
+			        	fileSizes.add("0MB");
+					}
+			        
+				} else {
+					if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
+						fileNames.add(workManagePackageFile.getOriginalFilename());
+				        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
+				        fileUpLoad(workManage, workManagePackageFile);
+					}
 				}
+				++i;
 			}
+			workManage.setWorkManagePackageFileName(String.join(",", fileNames));
+			workManage.setWorkManagePackageSize(String.join(",", fileSizes));
+		} else {
+			workManage.setWorkManagePackageFileName(String.join(",", workManage.getWorkManagePackageFileNameView()));
+			workManage.setWorkManagePackageSize(workManageOld.getWorkManagePackageSize());
 		}
 		
 		
@@ -145,10 +173,6 @@ public class WorkManageService {
 		
 		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
 		workManage.setWorkManagePackageName(String.join(",", workManage.getWorkManagePackageNameView()));
-		if (workManagePackageFileView != null && !workManagePackageFileView.isEmpty()) {
-			workManage.setWorkManagePackageFileName(String.join(",", fileNames));
-			workManage.setWorkManagePackageSize(String.join(",", fileSizes));
-		}
 		
 		int success = workManageDao.updateWorkManage(workManage);
 		
