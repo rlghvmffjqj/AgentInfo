@@ -38,6 +38,7 @@
 		INSERT INTO workManage(
 			workManageCustomer,
 			workManageProductType,
+			workManageProductTypeCount,
 			workManagePackageName,
 			workManagePackageFileName,
 			workManagePackageSize,
@@ -59,6 +60,7 @@
 		VALUES(
 			#{workManageCustomerView},
 			#{workManageProductType},
+			#{workManageProductTypeCount},
 			#{workManagePackageName},
 			#{workManagePackageFileName},
 			#{workManagePackageSize},
@@ -96,6 +98,7 @@
 		SET
 			workManageCustomer = #{workManageCustomerView},
 			workManageProductType = #{workManageProductType},
+			workManageProductTypeCount = #{workManageProductTypeCount},
 			workManagePackageName = #{workManagePackageName},
 			<if test="workManagePackageFileName != null and workManagePackageFileName != ''">
 				workManagePackageFileName = #{workManagePackageFileName},

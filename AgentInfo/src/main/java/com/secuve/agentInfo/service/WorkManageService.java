@@ -74,6 +74,7 @@ public class WorkManageService {
 			}
 		}
 		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
+		workManage.setWorkManageProductTypeCount(String.join(",", workManage.getWorkManageProductTypeCountView()));
 		workManage.setWorkManagePackageName(String.join(",", workManage.getWorkManagePackageNameView()));
 		workManage.setWorkManagePackageFileName(String.join(",", fileNames));
 		workManage.setWorkManagePackageSize(String.join(",", fileSizes));
@@ -121,6 +122,7 @@ public class WorkManageService {
 		
 		if (workManage.getWorkManageProductType() != null && !workManage.getWorkManageProductType().isEmpty()) {
 		    workManage.setWorkManageProductTypeView(Arrays.asList(workManage.getWorkManageProductType().split(",")));
+		    workManage.setWorkManageProductTypeCountView(Arrays.asList(workManage.getWorkManageProductTypeCount().split(",")));
 		    workManage.setWorkManagePackageNameView(Arrays.asList(workManage.getWorkManagePackageName().split(",")));
 		    workManage.setWorkManagePackageFileNameView(Arrays.asList(workManage.getWorkManagePackageFileName().split(",")));
 		    workManage.setWorkManagePackageSizeView(Arrays.asList(workManage.getWorkManagePackageSize().split(",")));
@@ -172,6 +174,7 @@ public class WorkManageService {
 		workManage.setWorkManageTesterView(tester);
 		
 		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
+		workManage.setWorkManageProductTypeCount(String.join(",", workManage.getWorkManageProductTypeCountView()));
 		workManage.setWorkManagePackageName(String.join(",", workManage.getWorkManagePackageNameView()));
 		
 		int success = workManageDao.updateWorkManage(workManage);

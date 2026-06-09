@@ -124,16 +124,33 @@
         <div class="download-sub-title">
             요청된 패키지 파일을 다운로드할 수 있습니다.
         </div>
+        <c:if test="${not empty workManage.workManageProductTypeView}">
+            <!-- 가로로 나열하기 위한 플렉스 컨테이너 -->
+            <div class="product-type-container" style="display: block; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #e5e7eb;">
+                <c:forEach var="productType" items="${workManage.workManageProductTypeView}" varStatus="status">
+
+                    <!-- 개별 제품 유형 배지 카드 -->
+                    <div class="product-type-badge" style="display: inline-flex; align-items: center; background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 20px; height:37px; padding: 6px 14px; font-size: 13px; color: #334155; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                        <!-- 제품유형명 (강조) -->
+                        <span style="font-weight: 700; color: #1e293b;"><c:out value="${productType}" /></span>
+
+                        <!-- 수량 정보가 있을 때만 구분선과 수량 노출 -->
+                        <c:if test="${not empty workManage.workManageProductTypeCountView[status.index]}">
+                            <span style="display: inline-block; width: 1px; height: 10px; background-color: #cbd5e1; margin: 0 8px;"></span>
+                            <span style="font-weight: 500; color: #64748b;"><c:out value="${workManage.workManageProductTypeCountView[status.index]}" />개</span>
+                        </c:if>
+                    </div>                    
+                </c:forEach>
+                <button type="button" class="download-btn" onClick="btnFileBatchDownload('${workManageKeyNum}')" style="float: right;">일괄 다운로드</button>
+            </div>
+        </c:if>
+
         <c:if test="${not empty workManage.workManagePackageFileNameView}">
-    
             <c:forEach var="fileName" items="${workManage.workManagePackageFileNameView}" varStatus="status">
 
                 <c:if test="${not empty fileName}">
                     <div class="package-card">
                         <div class="package-left">
-                            <div class="package-type">
-                                <c:out value="${workManage.workManageProductTypeView[status.index]}" />
-                            </div>
                             <div class="package-name">
                                 <c:out value="${workManage.workManagePackageNameView[status.index]}" />
                             </div>
@@ -146,11 +163,9 @@
                         </button>
                     </div>
                 </c:if>
-
+            
             </c:forEach>
         </c:if>
-
-        
 
         <div class="info-box">
             <div class="info-title">

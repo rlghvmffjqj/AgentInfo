@@ -49,6 +49,7 @@ public class WorkManage {
 	private String workManageDetailNoteView;
 	
 	private String workManageProductType;
+	private String workManageProductTypeCount;
 	private String workManagePackageName;
 	private String workManagePackageFileName;
 	private String workManagePackageSize;
@@ -59,6 +60,7 @@ public class WorkManage {
 	private List<String> workManagePackageNameView;
 	private List<String> workManagePackageFileNameView;
 	private List<String> workManagePackageSizeView;
+	private List<String> workManageProductTypeCountView;
 	
 	private String workManageRequestDateStart;
 	private String workManageRequestDateEnd;

@@ -8,7 +8,7 @@
 		<div style="display: flow-root; padding-bottom: 10px;">
 			<div class="pading5Width33">
 				<div>
-					<label class="labelFontSize">고객사</label><label class="colorRed">*</label>
+					<label class="labelFontSize" style="float: left;">고객사</label><label class="colorRed" style="float: left;">*</label>
 				 	<select class="form-control selectpicker selectForm" id="workManageCustomerView" name="workManageCustomerView" data-live-search="true" data-size="5">
 				 		<option value=""></option>
 						<c:forEach var="item" items="${workManageCustomer}">
@@ -50,44 +50,56 @@
 
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
 		    <!-- 추가 버튼 -->
-		    <div style="margin: 10px 0;">
-		        <button type="button" id="addProductBtn" class="btn btn-primary">+ 제품유형 추가</button>
-		    </div>
-		
-		    <!-- 제품유형 영역 -->
-		    <div id="packageArea">
-		        <!-- 기본 1개 -->
-		        <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 115px;">
-		            <div class="packageRow">
+			<div style="margin: 10px 0;">
+			    <button type="button" id="addProductBtn" class="btn btn-primary">+ 제품유형 추가</button>
+				<button type="button" id="delProductBtn" class="btn btn-danger">- 제품유형 삭제</button>
+			</div>
+
+			<!-- 제품유형 영역 -->
+			<div>
+			    <!-- 기본 1개 -->
+			    <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 115px;">
+			        <div class="packageRow">
 					
-		                <!-- 전체를 감싸는 박스 너비 고정 (기존 25% 대용 또는 스타일 유지) -->
-		                <div class="pading5Width33" style="width: 280px;">
+			            <!-- [주의] 기존 pading5Width33의 width: 200px 스타일은 건드리지 않고 그대로 유지합니다 -->
+			            <div class="pading5Width33" style="width: 200px;">
 						
-		                    <!-- [상단] 제품유형 선택 -->
-		                    <div>
-		                        <label class="labelFontSize">제품유형</label>
-		                        <select class="form-control selectpicker selectForm" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
-		                            <option value=""></option>
-		                            <c:forEach var="item" items="${workManageProductType}">
-		                                <option value="${item}">
-		                                    <c:out value="${item}"/>
-		                                </option>
-		                            </c:forEach>
-		                        </select>
-		                    </div>
+			                <!-- [상단] 제품유형 라벨 -->
+			                <div>
+			                    <label class="labelFontSize">제품유형</label>
+			                </div>
 						
-		                    <!-- [하단] 있어 보이는 인라인 수량 입력창 (라벨 삭제) -->
-		                    <div class="premiumQuantityBox">
-		                        
-		                        <input type="number" class="form-control premiumCount" min="0" placeholder="0">
-		                        <span class="qtyUnit">개</span>
-		                    </div>
+			                <div class="fields-container" style="display: flex; gap: 15px; width: max-content;">
+							
+			                    <!-- 최초 1개 입력 폼 세트 -->
+			                    <div class="field-item" style="width: 200px; flex-shrink: 0;">
+			                        <!-- 제품유형 선택 -->
+			                        <div>
+			                            <select class="form-control selectpicker selectForm productType" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
+			                                <option value=""></option>
+			                                <c:forEach var="item" items="${workManageProductType}">
+			                                    <option value="${item}">
+			                                        <c:out value="${item}"/>
+			                                    </option>
+			                                </c:forEach>
+			                            </select>
+			                        </div>
+								
+			                        <!-- [하단] 있어 보이는 인라인 수량 입력창 (라벨 삭제) -->
+			                        <div class="premiumQuantityBox" style="margin-top: 5px;">
+			                            <input type="number" class="form-control premiumCount" name="workManageProductTypeCountView[]" min="0" placeholder="0">
+			                            <span class="qtyUnit">개</span>
+			                        </div>
+			                    </div>
+							
+			                </div>
 						
-		                </div>
+			            </div>
 					
-		            </div>
-		        </div>
-		    </div>
+			        </div>
+			    </div>
+			</div>
+
 		</div>
 
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
@@ -724,20 +736,57 @@
 	    window.location = "<c:url value='/workManageDownLoad/fileDownload'/>?fileName=" + workManageKeyNum + "_" + fileName;
 	});
 
-
-
-
 	$(function() {
 	    setPackageData(
-	        "${workManage.workManageProductType}",
 	        "${workManage.workManagePackageName}",
 			"${workManage.workManagePackageFileName}",
 	        "${workManage.workManagePackageSize}"
 	    );
+
+		loadEditData("${workManage.workManageProductType}", "${workManage.workManageProductTypeCount}");
 	});
 
+	function loadEditData(typeStr, countStr) {
+	    // 콤마(,) 기준 분리 및 문자열 앞뒤 공백 제거하여 배열화
+	    var typeArray = typeStr ? typeStr.split(',').map(function(item) { return item.trim(); }) : [];
+	    var countArray = countStr ? countStr.split(',').map(function(item) { return item.trim(); }) : [];
+		
+	    // 매pping할 데이터가 없으면 함수를 빠져나감
+	    if (typeArray.length === 0) return;
+
+	    // 기존 화면에 복사되어 있던 필드들을 모두 청소하고 첫 번째 기본 틀만 남김
+	    $('.field-item').not(':first').remove();
+		
+	    // [i = 0] 첫 번째 데이터는 이미 화면에 존재하는 기본 폼에 매핑
+	    var $firstItem = $('.field-item').first();
+	    $firstItem.find('select').val(typeArray[0]);
+	    $firstItem.find('.premiumCount').val(countArray[0]);
+	    $firstItem.find('select').selectpicker('refresh'); // 스타일 및 빨간 테두리 반영
+
+	    // [i = 1부터] 두 번째 데이터부터 배열의 개수만큼 반복하며 우측으로 추가 및 값 매핑
+	    for (var i = 1; i < typeArray.length; i++) {
+	        // 첫 번째 폼을 원본 삼아 깨끗하게 복사
+	        var $clone = $('.field-item').first().clone();
+		
+	        // ID 중복 방지 처리 및 현재 순서(i)의 배열 값 할당
+	        $clone.find('select').removeAttr('id');
+	        $clone.find('select').val(typeArray[i]);         // 해당 순서의 제품유형 값 매핑
+	        $clone.find('.premiumCount').val(countArray[i]); // 해당 순서의 수량 값 매핑
+		
+	        // Bootstrap Selectpicker 깨짐 방지 구조 초기화
+	        $clone.find('.bootstrap-select').replaceWith(function() {
+	            return $('select', this);
+	        });
+		
+	        // 우측 독립 컨테이너에 차례대로 붙이기
+	        $('.fields-container').append($clone);
+		
+	        // 빨간 테두리 클래스 등 셀렉트박스 스타일 최종 반영
+	        $clone.find('select').selectpicker('refresh');
+	    }
+	}
+
 	function setPackageData(
-	    workManageProductTypeView,
 	    workManagePackageNameView,
 		workManagePackageFileNameView,
 	    workManagePackageSizeView
@@ -755,7 +804,7 @@
     	template.find("select").show().removeClass('bs-select-hidden'); 
 
     	// [핵심 추가] 최초 등록이라 데이터가 전부 비어있는 경우 예외 처리
-    	if (!workManageProductTypeView && !workManagePackageNameView && !workManagePackageSizeView && !workManagePackageFileNameView) {
+    	if (!workManagePackageNameView && !workManagePackageSizeView && !workManagePackageFileNameView) {
     	    // 기존 영역을 비우고, 기본값(0MB 등)이 그대로 살아있는 순수 템플릿 1개만 노출
     	    packageArea.empty();
     	    packageArea.append(template);
@@ -764,7 +813,6 @@
     	}
 
     	// 데이터가 존재하는 경우에만 split 진행
-    	workManageProductTypeView = (workManageProductTypeView || "").split(",");
     	workManagePackageNameView = (workManagePackageNameView || "").split(",");
 		workManagePackageFileNameView = (workManagePackageFileNameView || "").split(",");
     	workManagePackageSizeView = (workManagePackageSizeView || "").split(",");
@@ -773,13 +821,8 @@
     	packageArea.empty();
 
     	// 데이터 개수만큼 생성
-    	for (let i = 0; i < workManageProductTypeView.length; i++) {
+    	for (let i = 0; i < workManagePackageNameView.length; i++) {
     	    const item = template.clone();
-
-    	    // 제품유형 세팅
-    	    item
-    	        .find("select[name='workManageProductTypeView[]']")
-    	        .val(workManageProductTypeView[i]);
 
     	    // 패키지명 세팅
     	    item
@@ -807,6 +850,46 @@
     	// 2. 부트스트랩 다시 적용
     	packageArea.find('.selectpicker').selectpicker('render');
 	}
+
+	$(document).ready(function() {
+	    $('#addProductBtn').on('click', function() {
+	        // 1. 첫 번째 입력 폼 세트(.field-item)만 깨끗하게 복사
+	        var $clone = $('.field-item').first().clone();
+		
+	        // 2. 복사본의 입력값 초기화
+	        $clone.find('select').val('');
+	        $clone.find('input[type="number"]').val('');
+		
+	        // 3. ID 중복 방지 및 Bootstrap Selectpicker 내부 껍데기 제거
+	        $clone.find('select').removeAttr('id');
+	        $clone.find('.bootstrap-select').replaceWith(function() {
+	            return $('select', this);
+	        });
+		
+	        // 4. 가로로만 늘어나는 독립 박스(.fields-container)에 우측으로 붙이기
+	        $('.fields-container').append($clone);
+		
+	        // 5. 새 Select 박스에 selectpicker 스타일 다시 입히기
+	        $clone.find('select').selectpicker('refresh');
+	    });
+
+		// ★ [삭제 버튼 클릭] 가장 우측 항목부터 제거
+    	$('#delProductBtn').on('click', function() {
+    	    // 현재 화면에 있는 field-item의 개수를 파악
+    	    var itemCount = $('.field-item').length;
+		
+    	    // 최소 1개는 남겨두고, 2개 이상일 때만 맨 우측(.last()) 요소를 삭제
+    	    if (itemCount > 1) {
+    	        $('.field-item').last().remove();
+    	    } else {
+				Swal.fire({
+	                icon: 'error',
+	                title: '오류!',
+	                text: '최소 하나의 제품유형은 유지해야 합니다.'
+	            });
+    	    }
+    	});
+	});
 
 
 </script>
@@ -992,6 +1075,10 @@
 	.premiumCount::-webkit-outer-spin-button {
 	    height: 24px;
 	    margin-left: 4px;
+	}
+
+	.bootstrap-select.productType > button.dropdown-toggle {
+	    border: 1px solid #b71a1a !important;
 	}
 
 

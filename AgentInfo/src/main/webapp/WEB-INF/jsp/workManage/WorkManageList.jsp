@@ -569,54 +569,53 @@
 		}
 
 		function toggleDetail(rowId) {
-		    var detailId = "detail_" + rowId;
-				
-		    // 이미 존재하면 toggle
-		    if ($("#" + detailId).length > 0) {
-		        $("#" + detailId).toggle();
-		        return;
-		    }
+    var detailId = "detail_" + rowId;
 		
-		    var rowData = $("#list").jqGrid('getRowData', rowId);
-		
-		    // [핵심 변경] 쉼표로 연결된 문자열을 배열로 변환 (값이 없을 경우를 대비해 빈 문자열 예외 처리)
-		    var typeArray = (rowData.workManageProductType || "").split(",");
-		    var nameArray = (rowData.workManagePackageName || "").split(",");
-		
-		    var html = "";
-		    html += "<tr id='" + detailId + "' class='detail-row'>";
-		    html += "<td colspan='13' style='padding:10px; background:#f4f6f9;'>";
-			
-		    // 카드 시작
-		    html += "<div style='background:white; border-radius:10px; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,0.08); border:1px solid #e5e7eb;'>";
-			
-		    // 제목
-		    html += "<div style='font-size:16px; font-weight:bold; color:#2F5597; margin-bottom:20px;'>패키지 상세 정보</div>";
-			
-		    // 패키지 영역
-		    html += "<div style='display:flex; flex-direction:column; gap:12px;'>";
-			
-		    // 배열의 개수(유형 개수 기준)만큼 반복하여 가로줄(카드) 생성
-		    for (var i = 0; i < typeArray.length; i++) {
-		        var type = typeArray[i] ? typeArray[i].trim() : "";
-		        var name = nameArray[i] ? nameArray[i].trim() : "";
-			
-		        // 유형 데이터가 존재하는 경우에만 HTML 태그 생성
-		        if (type != "") {
-		            html += "<div style='padding:14px; border-radius:8px; background:#f8f9fa; border:1px solid #e5e7eb;'>";
-		            html += "  <div style='font-size:12px; font-weight:bold; color:#2F5597; margin-bottom:6px;'>" + type + "</div>";
-		            html += "  <div style='font-size:15px; font-weight:bold; color:#222;'>" + name + "</div>";
-		            html += "</div>";
-		        }
-		    }
-		
-		    html += "</div>"; // 패키지 영역 끝
-		    html += "</div>"; // 카드 끝
-		    html += "</td>";
-		    html += "</tr>";
-		
-		    $("#" + rowId).after(html);
-		}
+    // 이미 존재하면 toggle
+    if ($("#" + detailId).length > 0) {
+        $("#" + detailId).toggle();
+        return;
+    }
+
+    var rowData = $("#list").jqGrid('getRowData', rowId);
+
+    // [수정] 제품유형(Type) 제거, 오직 패키지명(Name) 쉼표 문자열만 배열로 변환
+    var nameArray = (rowData.workManagePackageName || "").split(",");
+
+    var html = "";
+    html += "<tr id='" + detailId + "' class='detail-row'>";
+    html += "<td colspan='13' style='padding:10px; background:#f4f6f9;'>";
+	
+    // 카드 시작
+    html += "<div style='background:white; border-radius:10px; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,0.08); border:1px solid #e5e7eb;'>";
+	
+    // 제목
+    html += "<div style='font-size:16px; font-weight:bold; color:#2F5597; margin-bottom:20px;'>패키지 상세 정보</div>";
+	
+    // 패키지 영역
+    html += "<div style='display:flex; flex-direction:column; gap:12px;'>";
+	
+    // [수정] 패키지명 배열의 개수만큼만 반복문 수행
+    for (var i = 0; i < nameArray.length; i++) {
+        var name = nameArray[i] ? nameArray[i].trim() : "";
+	
+        // 패키지명 데이터가 존재하는 경우에만 HTML 태그 생성
+        if (name != "") {
+            html += "<div style='padding:14px; border-radius:8px; background:#f8f9fa; border:1px solid #e5e7eb;'>";
+            // [수정] 제품유형 표시 영역 제거, 패키지명만 크게 노출
+            html += "  <div style='font-size:15px; font-weight:bold; color:#222;'>" + name + "</div>";
+            html += "</div>";
+        }
+    }
+
+    html += "</div>"; // 패키지 영역 끝
+    html += "</div>"; // 카드 끝
+    html += "</td>";
+    html += "</tr>";
+
+    $("#" + rowId).after(html);
+}
+
 
 		function stateFormatter(value, options, row) {
 			var state = row.workManageProgressStatus.toUpperCase();

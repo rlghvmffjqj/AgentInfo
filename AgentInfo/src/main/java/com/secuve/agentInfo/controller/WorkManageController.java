@@ -229,13 +229,18 @@ public class WorkManageController {
 		StringBuilder testProduct = new StringBuilder();
 
 		if(workManage.getWorkManagePackageNameView() != null) {
+			for(int i = 0; i < workManage.getWorkManageProductTypeView().size(); i++) {
+				testProduct.append("<b>" + workManage.getWorkManageProductTypeView().get(i) + "</b> : " + workManage.getWorkManageProductTypeCountView().get(i)) 
+                .append(", ");
+			}
+			if (testProduct.length() > 0) {
+			    testProduct.setLength(testProduct.length() - 2);
+			}
+			testProduct.append("<br>");
+			
 			for (int i = 0; i < workManage.getWorkManagePackageNameView().size(); i++) {
-	
 			    if (workManage.getWorkManagePackageNameView().get(i) != null && !workManage.getWorkManagePackageNameView().get(i).isEmpty()) {
-	
-			        testProduct.append("<b>" + workManage.getWorkManageProductTypeView().get(i) + "</b>")
-			                   .append("  /  ")
-			                   .append(workManage.getWorkManagePackageNameView().get(i))
+			        testProduct.append(workManage.getWorkManagePackageNameView().get(i))
 			                   .append("<br>");
 			    }
 			}
@@ -251,36 +256,45 @@ public class WorkManageController {
 		}
 		
 		String detailNote = workManage.getWorkManageDetailNote();
-		if (detailNote == null) {
-		    detailNote = "";
-		} else {
-		    detailNote = detailNote.trim();
 
-		    detailNote = detailNote.replaceAll("(?i)<html[^>]*>\\s*(<br\\s*/?>\\s*)*", "")
-		                           .replaceAll("(?i)<head[^>]*>.*?</head>\\s*(<br\\s*/?>\\s*)*", "")
-		                           .replaceAll("(?i)<body[^>]*>\\s*(<br\\s*/?>\\s*)*", "")
-		                           .replaceAll("(?i)(<br\\s*/?>\\s*)*</body>", "")
-		                           .replaceAll("(?i)(<br\\s*/?>\\s*)</html>", "");
+		if (detailNote != null) {
+		    // 1. 의미 없는 껍데기 <html>, <body> 관련 텍스트 부호들을 먼저 지웁니다.
+		    detailNote = detailNote.replaceAll("(?i)<html>", "")
+		                           .replaceAll("(?i)</html>", "")
+		                           .replaceAll("(?i)<body>", "")
+		                           .replaceAll("(?i)</body>", "")
+		                           .replaceAll("(?i)<head>[\\s\\S]*?</head>", "");
 
-		    detailNote = detailNote.replaceAll("(?=\\d\\.\\s)", "<br><br>")   // 대항목 번호 앞에 여백 주입
-		                           .replaceAll("(?<=\\))\\s+(?=\\d\\.)", "") 
-		                           .replaceAll("(?<=\\S)\\s+(?=-)", "<br>- "); // 항목 대시 기호 바로 앞에 줄바꿈 1번만 주입
+		    // 2. DB 내부의 기존 <br> 태그 형태를 자바 표준 엔터값(\n)으로 먼저 일치시켜 둡니다.
+		    detailNote = detailNote.replaceAll("(?i)<br\\s*/?>", "\n");
 
-		    detailNote = detailNote.replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>");
+		    // 3. 특수문자 안전하게 이스케이프 처리
+		    detailNote = detailNote.replace("&", "&amp;")
+		                           .replace("<", "&lt;")
+		                           .replace(">", "&gt;");
+
+		    // 4. [패턴 보정] 한 줄로 뭉친 문자열 중 특정 목차 기호 앞에 강제로 엔터(\n) 주입
+		    // ★ [추가] 숫자 목차 (1., 2., 3. ...) 앞에 줄바꿈 추가
+		    detailNote = detailNote.replaceAll("(?<=\\s)(\\d+\\.)", "\n$1");
 		    
-		    while (true) {
-		        detailNote = detailNote.trim();
-		        if (detailNote.startsWith("<br>")) {
-		            detailNote = detailNote.substring(4);
-		        } else if (detailNote.startsWith("<br />")) {
-		            detailNote = detailNote.substring(6);
-		        } else {
-		            break;
-		        }
-		    }
+		    // 알파벳 대목차 (A., B., C. ...) 앞에 줄바꿈 추가
+		    detailNote = detailNote.replaceAll("(?<=\\s)([A-Z]\\.)", "\n$1");
 		    
-		    detailNote = detailNote.trim();
+		    // 하위 붙임표 기호 (- 문구수정, - 관련설정 등) 앞에 줄바꿈 추가
+		    detailNote = detailNote.replaceAll("(?<=\\s)(-\\s)", "\n$1");
+		    
+		    // TOSMS 설정 세부 항목 (tp.interface 등) 앞에 줄바꿈 추가
+		    detailNote = detailNote.replaceAll("(?<=\\s)(tp\\.interface)", "\n$1");
+
+		    // 5. 최종적으로 깨끗해진 엔터값(\n)들을 진짜 HTML 줄바꿈 태그(<br>)로 전면 치환합니다.
+		    detailNote = detailNote.replace("\r\n", "<br>")
+		                           .replace("\n", "<br>")
+		                           .replace("\r", "<br>");
+		                           
+		    // 6. 양 끝의 불필요한 공백 및 유령 연속 <br> 청소
+		    detailNote = detailNote.trim().replaceAll("(<br>\\s*){2,}", "<br>");
 		}
+
 
 
 		String text =
@@ -336,18 +350,13 @@ public class WorkManageController {
 
 		        + "<div style='font-weight:bold; color:#2F5597;'>■ 상세 내용</div>"
 
-		        + "<div style='padding:15px; "
+		        // ★ 본문 내용 가독성을 위해 line-height와 white-space 스타일을 추가 보정했습니다.
+		        + "<div style='margin-top:5px; padding:12px; "
 		        + "border:1px solid #d9d9d9; "
 		        + "background-color:#f8f9fa; "
-		        //+ "border-radius:6px; "
-		        + "color:#333333; "
-		        + "font-size:14px; "
-		        //+ "line-height:1.8; " // 본문 줄간격을 여유 있게 조정
-		        + "font-family:\"Malgun Gothic\", sans-serif; "
-		        + "word-break:break-all;'>"
-
+		        + "border-radius:6px; "
+		        + "line-height:1.6; white-space: pre-wrap; word-break: break-all;'>"
 		        + detailNote
-
 		        + "</div>"
 
 		        + "<br><br>"
@@ -356,6 +365,7 @@ public class WorkManageController {
 		        + "</div>"
 
 		        + "</div>";
+
 		
 		System.out.println("------------------------------ SecuveMailSender START ------------------------------");
 		System.out.println("server: host=" + host + ", port=" + port);                                                 
@@ -463,182 +473,190 @@ public class WorkManageController {
 	public Map<String, String> progressChange(@RequestParam int[] chkList, @RequestParam String workManageCommentView, @RequestParam String workManageProgressView, Principal principal) throws UnknownHostException {
 
 		Map<String, String> map = new HashMap<String, String>();
-		String result = workManageService.progressChange(chkList, workManageCommentView, workManageProgressView, principal);
 		if ("100".equals(workManageProgressView)) {
 			for (int workManageKeyNum : chkList) {
 				WorkManage workManage = workManageService.getWorkManageOne(workManageKeyNum);
-				
-				String url = "";
-				String to = "";
-				String toName = "";
-				String localIp = InetAddress.getLocalHost().getHostAddress();
-				
-				Map<String, String> qaMap = new HashMap<>();
-				qaMap.put("khkim@secuve.com", "김 기호");
-				
-				if(localIp.equals("172.16.100.90")) {
-					url = "https://172.16.100.90/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
-					to = "khkim@secuve.com";
-					toName = "김 기호";
-				} else {
-					url = "https://qa.secuve.com/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
-					to = "ksyang@secuve.com";
-					toName = "양 기석";
-					qaMap.put("bspark@secuve.com", "박 범수");
-					qaMap.put("smlee@secuve.com", "이 상민");
-				}
-				
-				String host = "mail.secuve.com";                                                                           
-				String port = "25";                                                                           
-				String password = "";      
-				String from = "";
-				String fromName = "";
-				if("admin".equals(principal.getName())) {
-					from = "ksyang@secuve.com";
-					fromName = "양 기석";
-				} else {
-					from = principal.getName() + "@secuve.com";
-					fromName = employeeService.getEmployeeOne(principal.getName()).getEmployeeName();
-				}
-				
-				List<String> ccList = new ArrayList<>();
-				
-				for (String email : qaMap.keySet()) {
-					String name = qaMap.get(email);
+				if(workManage.getWorkManageProgress() < 100) {
 					
-					String formattedEmail = name + " <" + email + ">";
-					ccList.add(formattedEmail);
-				}
-
-				StringBuilder testProduct = new StringBuilder();
-				if(workManage.getWorkManagePackageNameView() != null) {
-					for (int i = 0; i < workManage.getWorkManagePackageNameView().size(); i++) {
-					    if (workManage.getWorkManagePackageNameView().get(i) != null && !workManage.getWorkManagePackageNameView().get(i).isEmpty()) {
-	
-					        testProduct.append("<b>" + workManage.getWorkManageProductTypeView().get(i) + "</b>")
-					                   .append("  /  ")
-					                   .append(workManage.getWorkManagePackageNameView().get(i))
-					                   .append("<br>");
-					    }
-					}
-				}
-	
-				String subject = "[" + workManage.getWorkManageCustomer() + "] 진행률 100%로 변경";
-				
-				String text =
-				"<div style='font-family:맑은 고딕; font-size:14px; line-height:1.6;'>"
-				    + "<div style='font-size:16px; font-weight:bold; color:#2F5597;'>"
-				    + "진행률 100% 변경 안내<br>코드번호 : "+"S" + String.format("%05d", workManageKeyNum)
-				    + "</div><br>"
-
-				    + "<table style='border-collapse:collapse; font-size:14px;'>"
-
-				    + "<tr>"
-				    + "<td style='width:100px; font-weight:bold;'>고객사</td>"
-				    + "<td>" + workManage.getWorkManageCustomer() + "</td>"
-				    + "</tr>"
-
-				    + "<tr>"
-				    + "<td style='font-weight:bold;'>엔지니어</td>"
-				    + "<td>" + workManage.getWorkManageEngineer() + "</td>"
-				    + "</tr>"
-
-				    + "<tr>"
-				    + "<td style='font-weight:bold;'>요청일자</td>"
-				    + "<td>" + workManage.getWorkManageRequestDate() + "</td>"
-				    + "</tr>"
-
-				    + "<tr>"
-				    + "<td style='font-weight:bold;'>희망일자</td>"
-				    + "<td>" + workManage.getWorkManageCompleteDate() + "</td>"
-				    + "</tr>"
-
-				    + "</table><br>"
-
-				    + "<div style='font-weight:bold; color:#2F5597;'>■ 패키지 목록</div>"
-				    + "<div style='padding-left:5px;'>"
-				    + testProduct
-				    + "</div><br>"
-
-				    + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 일정</div>"
-				    + "<div style='padding-left:5px;'>"
-				    + workManage.getWorkManageTestScheduleStart()
-				    + " ~ "
-				    + workManage.getWorkManageTestScheduleEnd()
-				    + "</div><br>"
-
-				    + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 결과 비고</div>"
-
-				    + "<div style='margin-top:5px; padding:12px; "
-				    + "border:1px solid #d9d9d9; "
-				    + "background-color:#f8f9fa; "
-				    + "border-radius:6px;'>"
-
-				    + workManage.getWorkManageComment()
-					+ "<a href='"+url+"' "
-				    + "style='color:#2F5597; text-decoration:none; font-weight:bold;'>"
-				    + "업무관리 바로가기"
-				    + "</a>"
-
-				    + "</div><br>"
-				    
-				    + "<div style='font-weight:bold; color:#2F5597;'>■ 안내 내용</div>"
-
-				    + "<div style='margin-top:5px; padding:12px; "
-				    + "border:1px solid #d9d9d9; "
-				    + "background-color:#f8f9fa; "
-				    + "border-radius:6px;'>"
-
-				    + "테스트 진행률이 <b style='color:#d9534f;'>100%</b> 로 변경되었습니다.<br>"
-				    + "진행 확인 후 진행 상태 변경 부탁드립니다."
-
-				    + "</div>"
-
-				    + "<br><br>"
-				    + "<div style='font-size:12px; color:#888888;'>"
-				    + "※ 본 메일은 시스템에서 자동 발송되었습니다."
-				    + "</div>"
-
-				    + "</div>";
-				
-				System.out.println("------------------------------ SecuveMailSender START ------------------------------");
-				System.out.println("server: host=" + host + ", port=" + port);                                                 
-				System.out.println("message: " + from + "," + to + "," + subject);                                             
-				                                                                                                              
-				JavaMailSenderImpl mail = new JavaMailSenderImpl();                                                           
-				mail.setHost(host);                                                                                           
-				mail.setPort(Integer.parseInt(port));                                                                            
-				                                                                                                              
-				if (!StringUtils.isEmpty(password)) {                                                                         
-					mail.setUsername(from);                                                                                     
-					mail.setPassword(password);                                                                                 
-				}                                                                                                             
-				                                                                                                              
-				try {                                                                                                         
-					MimeMessage message = mail.createMimeMessage();                                                             
-					MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
-					                                                                                                            
-					msg.setFrom(new javax.mail.internet.InternetAddress(from, fromName, "UTF-8"));
-					msg.setTo(new javax.mail.internet.InternetAddress(to, toName, "UTF-8"));
-					if (!ccList.isEmpty()) {
-					    // 조립된 한글이름 포함 주소 리스트를 배열로 변환하여 주입
-					    String[] ccArray = ccList.toArray(new String[0]);
-					    msg.setCc(ccArray); 
-					}
-					msg.setSubject(subject);                                                                                    
-					msg.setText(text, true);
+					String url = "";
+					String to = "";
+					String toName = "";
+					String localIp = InetAddress.getLocalHost().getHostAddress();
 					
-					mail.send(message);                                                                                         
-					System.out.println("sendMail() success.");                                                                   
-					System.out.println("------------------------------ SecuveMailSender END ------------------------------");
+					Map<String, String> qaMap = new HashMap<>();
+					qaMap.put("khkim@secuve.com", "김 기호");
+					
+					if(localIp.equals("172.16.100.90")) {
+						url = "https://172.16.100.90/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
+						to = "khkim@secuve.com";
+						toName = "김 기호";
+					} else {
+						url = "https://qa.secuve.com/AgentInfo/workManage/list?managerNumber="+workManageKeyNum;
+						to = "ksyang@secuve.com";
+						toName = "양 기석";
+						qaMap.put("bspark@secuve.com", "박 범수");
+						qaMap.put("smlee@secuve.com", "이 상민");
+					}
+					
+					String host = "mail.secuve.com";                                                                           
+					String port = "25";                                                                           
+					String password = "";      
+					String from = "";
+					String fromName = "";
+					if("admin".equals(principal.getName())) {
+						from = "ksyang@secuve.com";
+						fromName = "양 기석";
+					} else {
+						from = principal.getName() + "@secuve.com";
+						fromName = employeeService.getEmployeeOne(principal.getName()).getEmployeeName();
+					}
+					
+					List<String> ccList = new ArrayList<>();
+					
+					for (String email : qaMap.keySet()) {
+						String name = qaMap.get(email);
+						
+						String formattedEmail = name + " <" + email + ">";
+						ccList.add(formattedEmail);
+					}
 	
-				}                                                                                                             
-				catch (Exception e) {
-					System.out.println("sendMail() failed.");
-					System.out.println(e);
-				} 
+					StringBuilder testProduct = new StringBuilder();
+					if(workManage.getWorkManagePackageNameView() != null) {
+						for(int i = 0; i < workManage.getWorkManageProductTypeView().size(); i++) {
+							testProduct.append("<b>" + workManage.getWorkManageProductTypeView().get(i) + "</b> : " + workManage.getWorkManageProductTypeCountView().get(i)) 
+			                .append(", ");
+						}
+						if (testProduct.length() > 0) {
+						    testProduct.setLength(testProduct.length() - 2);
+						}
+						testProduct.append("<br>");
+						
+						for (int i = 0; i < workManage.getWorkManagePackageNameView().size(); i++) {
+						    if (workManage.getWorkManagePackageNameView().get(i) != null && !workManage.getWorkManagePackageNameView().get(i).isEmpty()) {
+						        testProduct.append(workManage.getWorkManagePackageNameView().get(i))
+						                   .append("<br>");
+						    }
+						}
+					}
+		
+					String subject = "[" + workManage.getWorkManageCustomer() + "] 진행률 100%로 변경";
+					
+					String text =
+					"<div style='font-family:맑은 고딕; font-size:14px; line-height:1.6;'>"
+					    + "<div style='font-size:16px; font-weight:bold; color:#2F5597;'>"
+					    + "진행률 100% 변경 안내<br>코드번호 : "+"S" + String.format("%05d", workManageKeyNum)
+					    + "</div><br>"
+	
+					    + "<table style='border-collapse:collapse; font-size:14px;'>"
+	
+					    + "<tr>"
+					    + "<td style='width:100px; font-weight:bold;'>고객사</td>"
+					    + "<td>" + workManage.getWorkManageCustomer() + "</td>"
+					    + "</tr>"
+	
+					    + "<tr>"
+					    + "<td style='font-weight:bold;'>엔지니어</td>"
+					    + "<td>" + workManage.getWorkManageEngineer() + "</td>"
+					    + "</tr>"
+	
+					    + "<tr>"
+					    + "<td style='font-weight:bold;'>요청일자</td>"
+					    + "<td>" + workManage.getWorkManageRequestDate() + "</td>"
+					    + "</tr>"
+	
+					    + "<tr>"
+					    + "<td style='font-weight:bold;'>희망일자</td>"
+					    + "<td>" + workManage.getWorkManageCompleteDate() + "</td>"
+					    + "</tr>"
+	
+					    + "</table><br>"
+	
+					    + "<div style='font-weight:bold; color:#2F5597;'>■ 패키지 목록</div>"
+					    + "<div style='padding-left:5px;'>"
+					    + testProduct
+					    + "</div><br>"
+	
+					    + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 일정</div>"
+					    + "<div style='padding-left:5px;'>"
+					    + workManage.getWorkManageTestScheduleStart()
+					    + " ~ "
+					    + workManage.getWorkManageTestScheduleEnd()
+					    + "</div><br>"
+	
+					    + "<div style='font-weight:bold; color:#2F5597;'>■ 테스트 결과 비고</div>"
+	
+					    + "<div style='margin-top:5px; padding:12px; "
+					    + "border:1px solid #d9d9d9; "
+					    + "background-color:#f8f9fa; "
+					    + "border-radius:6px;'>"
+	
+					    + workManage.getWorkManageComment()
+						+ "<a href='"+url+"' "
+					    + "style='color:#2F5597; text-decoration:none; font-weight:bold;'>"
+					    + "업무관리 바로가기"
+					    + "</a>"
+	
+					    + "</div><br>"
+					    
+					    + "<div style='font-weight:bold; color:#2F5597;'>■ 안내 내용</div>"
+	
+					    + "<div style='margin-top:5px; padding:12px; "
+					    + "border:1px solid #d9d9d9; "
+					    + "background-color:#f8f9fa; "
+					    + "border-radius:6px;'>"
+	
+					    + "테스트 진행률이 <b style='color:#d9534f;'>100%</b> 로 변경되었습니다.<br>"
+					    + "진행 확인 후 진행 상태 변경 부탁드립니다."
+	
+					    + "</div>"
+	
+					    + "<br><br>"
+					    + "<div style='font-size:12px; color:#888888;'>"
+					    + "※ 본 메일은 시스템에서 자동 발송되었습니다."
+					    + "</div>"
+	
+					    + "</div>";
+					
+					System.out.println("------------------------------ SecuveMailSender START ------------------------------");
+					System.out.println("server: host=" + host + ", port=" + port);                                                 
+					System.out.println("message: " + from + "," + to + "," + subject);                                             
+					                                                                                                              
+					JavaMailSenderImpl mail = new JavaMailSenderImpl();                                                           
+					mail.setHost(host);                                                                                           
+					mail.setPort(Integer.parseInt(port));                                                                            
+					                                                                                                              
+					if (!StringUtils.isEmpty(password)) {                                                                         
+						mail.setUsername(from);                                                                                     
+						mail.setPassword(password);                                                                                 
+					}                                                                                                             
+					                                                                                                              
+					try {                                                                                                         
+						MimeMessage message = mail.createMimeMessage();                                                             
+						MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
+						                                                                                                            
+						msg.setFrom(new javax.mail.internet.InternetAddress(from, fromName, "UTF-8"));
+						msg.setTo(new javax.mail.internet.InternetAddress(to, toName, "UTF-8"));
+						if (!ccList.isEmpty()) {
+						    // 조립된 한글이름 포함 주소 리스트를 배열로 변환하여 주입
+						    String[] ccArray = ccList.toArray(new String[0]);
+						    msg.setCc(ccArray); 
+						}
+						msg.setSubject(subject);                                                                                    
+						msg.setText(text, true);
+						
+						mail.send(message);                                                                                         
+						System.out.println("sendMail() success.");                                                                   
+						System.out.println("------------------------------ SecuveMailSender END ------------------------------");
+		
+					}                                                                                                             
+					catch (Exception e) {
+						System.out.println("sendMail() failed.");
+						System.out.println(e);
+					} 
+				}
 			}
 	    }
+		String result = workManageService.progressChange(chkList, workManageCommentView, workManageProgressView, principal);
 		map.put("result", result);
 		return map;
 	}
