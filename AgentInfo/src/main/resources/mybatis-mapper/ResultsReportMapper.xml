@@ -24,8 +24,8 @@
 	</select>
 	
 	<insert id="insertResultsReport">
-		INSERT INTO resultsReport(resultsReportKeyNum,resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportTemplate,resultsReportRegistrant,resultsReportRegistrationDate)
-		VALUES(#{resultsReportKeyNum},#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportTemplate},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
+		INSERT INTO resultsReport(resultsReportKeyNum,resultsReportCustomerName,resultsReportNumber,resultsReportClient,resultsReportVerifier,resultsReportReviewer,resultsReportDate,resultsReportTestDate,resultsReportContent,resultsReportTemplate,workManageKeyNum,resultsReportRegistrant,resultsReportRegistrationDate)
+		VALUES(#{resultsReportKeyNum},#{resultsReportCustomerName},#{resultsReportNumber},#{resultsReportClient},#{resultsReportVerifier},#{resultsReportReviewer},#{resultsReportDate},#{resultsReportTestDate},#{resultsReportContent},#{resultsReportTemplate},#{workManageKeyNum},#{resultsReportRegistrant},#{resultsReportRegistrationDate});
 	</insert>
 	
 	<select id="resultsReportKeyNumMax" resultType="_int">
@@ -59,6 +59,10 @@
 	
 	<select id="resultsReportDelKeyNumMax" resultType="_int">
 		SELECT MAX(resultsReportKeyNum) FROM resultsreport WHERE resultsReportTemplate = 'del';
+	</select>
+	
+	<select id="selectTemplatList" resultMap="resultsReport" parameterType="_int">
+		SELECT * FROM resultsreport WHERE workManageKeyNum = ${workManageKeyNum};
 	</select>
 	
 	<!-- ==================================================================================== -->

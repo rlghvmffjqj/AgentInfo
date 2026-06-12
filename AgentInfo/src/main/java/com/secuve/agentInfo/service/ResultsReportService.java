@@ -138,4 +138,8 @@ public class ResultsReportService {
 		return resultsReportDao.getSelectInput(selectInput);
 	}
 
+	public ResultsReport selectTemplatList(int workManageKeyNum) {
+		return resultsReportDao.selectTemplatList(workManageKeyNum);
+	}
+
 }

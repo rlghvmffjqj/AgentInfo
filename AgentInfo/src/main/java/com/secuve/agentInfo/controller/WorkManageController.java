@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -165,6 +167,23 @@ public class WorkManageController {
 	
 		return new FileDownloadView();
 	}
+	
+//	@GetMapping(value = "/workManageDownLoad/batchFileDownload")
+//	public View batchFileDownload(@RequestParam int workManageKeyNum, Principal principal, Model model) {
+//		String[] workManageFileName = workManageService.getWorkManageOne(workManageKeyNum).getWorkManagePackageFileName().split(",");
+//		
+//		for(String fileName : workManageFileName) {
+//			String logicalName = fileName.replaceFirst("^\\d+_", "");
+//			
+//			String filePath = this.filePath + File.separator + "workManage";
+//			model.addAttribute("fileUploadPath", filePath);           // 파일 경로    
+//			model.addAttribute("filePhysicalName", "/"+fileName);     // 파일 이름    
+//			model.addAttribute("fileLogicalName", logicalName);          // 출력할 파일 이름
+//		}
+//		// 앞의 숫자_ 제거
+//	
+//		return new FileDownloadView();
+//	}
 	
 	public static boolean isKorean(String str) {
         return str.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*");
@@ -385,8 +404,12 @@ public class WorkManageController {
 			MimeMessageHelper msg = new MimeMessageHelper(message, true, "UTF-8");                                      
 			  
 			msg.setFrom(new javax.mail.internet.InternetAddress(from, fromName, "UTF-8"));
-			//msg.setFrom(from);                                                                                          
-			msg.setTo(to);
+			//msg.setFrom(from);   
+			try {
+				msg.setTo(to);
+			}catch (Exception e) {
+				return "ToFail";
+			}
 			if (!ccList.isEmpty()) {
 			    // 조립된 한글이름 포함 주소 리스트를 배열로 변환하여 주입
 			    String[] ccArray = ccList.toArray(new String[0]);
@@ -590,7 +613,7 @@ public class WorkManageController {
 					    + "background-color:#f8f9fa; "
 					    + "border-radius:6px;'>"
 	
-					    + workManage.getWorkManageComment()
+					    + workManageCommentView
 						+ "<a href='"+url+"' "
 					    + "style='color:#2F5597; text-decoration:none; font-weight:bold;'>"
 					    + "업무관리 바로가기"
@@ -615,7 +638,7 @@ public class WorkManageController {
 					    + "※ 본 메일은 시스템에서 자동 발송되었습니다."
 					    + "</div>"
 	
-					    + "</div>";
+					    + "</div> ";
 					
 					System.out.println("------------------------------ SecuveMailSender START ------------------------------");
 					System.out.println("server: host=" + host + ", port=" + port);                                                 
@@ -785,6 +808,68 @@ public class WorkManageController {
 	            "attachment; filename=\""
 	            + URLEncoder.encode(fileName, "UTF-8")
 	            + "\""
+	    );
+
+	    OutputStream os = response.getOutputStream();
+	    os.write(txt.toString().getBytes(StandardCharsets.UTF_8));
+	    os.flush();
+	    os.close();
+	}
+	
+	@GetMapping("/workManage/dailyReportDownload")
+	public void dailyReportDownload(HttpServletResponse response, Principal principal) throws Exception {
+
+	    String employeeName = employeeService
+	            .getEmployeeOne(principal.getName())
+	            .getEmployeeName();
+
+	    StringBuilder txt = new StringBuilder();
+
+	    LocalDate today = LocalDate.now();
+
+	    String[] weekNames = {"일", "월", "화", "수", "목", "금", "토"};
+	    String weekDay = weekNames[today.getDayOfWeek().getValue() % 7];
+
+	    txt.append(today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd")));
+	    txt.append(" (" + weekDay + ") 일일 업무보고\r\n\r\n");
+
+	    // 오늘 업무내용
+	    txt.append("[오늘 업무내용]\r\n");
+
+	    List<WorkManage> todayList = workManageService.getDailyWorkList(employeeName);
+
+	    int count = 1;
+	    for (WorkManage workManage : todayList) {
+	        txt.append(count++ + ".\t");
+	        txt.append(workManage.getWorkManageOneLine());
+	        txt.append("\r\n");
+	    }
+
+	    txt.append("\r\n");
+
+	    // 내일 업무내용
+	    txt.append("[내일 업무내용]\r\n");
+
+	    List<WorkManage> tomorrowList = workManageService.getTomorrowWorkList(employeeName);
+
+	    count = 1;
+	    for (WorkManage workManage : tomorrowList) {
+	        txt.append(count++ + ".\t");
+	        txt.append(workManage.getWorkManageOneLine());
+	        txt.append("\r\n");
+	    }
+
+	    String fileName = "일일업무보고(" + employeeName + ")-"
+	            + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+	            + ".txt";
+
+	    response.setContentType("text/plain; charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+	    response.setHeader(
+	            "Content-Disposition",
+	            "attachment; filename=\"" +
+	            URLEncoder.encode(fileName, "UTF-8") +
+	            "\""
 	    );
 
 	    OutputStream os = response.getOutputStream();

@@ -130,9 +130,9 @@
                 <c:forEach var="productType" items="${workManage.workManageProductTypeView}" varStatus="status">
 
                     <!-- 개별 제품 유형 배지 카드 -->
-                    <div class="product-type-badge" style="display: inline-flex; align-items: center; background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 20px; height:37px; padding: 6px 14px; font-size: 13px; color: #334155; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                    <div class="product-type-badge" style="display: inline-flex; align-items: center; background-color: #b9d1ff8c; border: 1px solid #cbd5e1; border-radius: 20px; height:37px; padding: 6px 14px; font-size: 13px; color: #334155; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
                         <!-- 제품유형명 (강조) -->
-                        <span style="font-weight: 700; color: #1e293b;"><c:out value="${productType}" /></span>
+                        <span style="font-weight: 700; color: #00108f;"><c:out value="${productType}" /></span>
 
                         <!-- 수량 정보가 있을 때만 구분선과 수량 노출 -->
                         <c:if test="${not empty workManage.workManageProductTypeCountView[status.index]}">
@@ -150,7 +150,7 @@
 
                 <c:if test="${not empty fileName}">
                     <div class="package-card">
-                        <div class="package-left">
+                        <div class="package-left" style="width: 55vw;">
                             <div class="package-name">
                                 <c:out value="${workManage.workManagePackageNameView[status.index]}" />
                             </div>
@@ -158,7 +158,7 @@
                                 <c:out value="${workManage.workManagePackageSizeView[status.index]}" />
                             </div>
                         </div>
-                        <button type="button" class="download-btn" onClick="btnFileDownload('${fileName}')">
+                        <button type="button" class="download-btn" onClick="btnFileDownload('${fileName}')" style="width: 140px !important;">
                             다운로드
                         </button>
                     </div>
@@ -202,5 +202,20 @@
 		}
     }
 
+    function btnFileBatchDownload(workManageKeyNum) {
+    <c:forEach var="fileName" items="${workManage.workManagePackageFileNameView}">
+        window.open(
+            "<c:url value='/workManageDownLoad/fileDownload'/>?fileName="
+            + workManageKeyNum + "_"
+            + encodeURIComponent('${fileName}')
+        );
+    </c:forEach>
+}
+
 </script>
+<style>
+    pre {
+        font-family: 'AdobeClean-Bold';
+    }
+</style>
 </html>

@@ -70,12 +70,13 @@ public class ResultsReportController {
 	}
 	
 	@GetMapping(value = "/resultsReport/copyView")
-	public String ResultsReportCopyView(Model model, Principal principal, int resultsReportNumber) {
+	public String ResultsReportCopyView(Model model, Principal principal, int resultsReportNumber, String workManageKeyNum) {
 		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReportNumber);
 		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
 		model.addAttribute("username", employeeService.getEmployeeOne(principal.getName()).getEmployeeName());
 		model.addAttribute("yearDate", resultsReportService.yearDate());
 		model.addAttribute("maxNumber", resultsReportService.resultsReportKeyNumMax());
+		model.addAttribute("workManageKeyNum", workManageKeyNum);
 		return "/resultsReport/ResultsReportCopyView";
 	}
 	
@@ -166,10 +167,31 @@ public class ResultsReportController {
 	}
 	
 	@PostMapping(value = "/resultsReport/insertTemplatList")
-	public String InsertTemplatList(Model model) {
+	public String InsertTemplatList(@RequestParam(required = false) Integer workManageKeyNum, Model model) {
 		ArrayList<ResultsReport> list = new ArrayList<>(resultsReportService.getResultsReportTemplatList());
-		model.addAttribute("resultsReportTemplatList", list);
+		model.addAttribute("resultsReportTemplatList", list).addAttribute("workManageKeyNum", workManageKeyNum);
 		return "/resultsReport/InsertTemplatList";
 	}
+	
+	@ResponseBody
+	@PostMapping(value = "/resultsReport/selectTemplatList")
+	public String selectTemplatList(Integer workManageKeyNum) {
+		ResultsReport resultsReport = resultsReportService.selectTemplatList(workManageKeyNum);
+		if(resultsReport != null) {
+			return "WorkManage";
+		}
+		return "ResultsReport";
+	}
+	
+	@GetMapping(value = "/resultsReport/updateWorkManageView")
+	public String ResultsReportUpdateView(Model model, Integer workManageKeyNum) {
+		ResultsReport resultsReport = resultsReportService.selectTemplatList(workManageKeyNum);
+		
+		ResultsReport resultsReportOne = resultsReportService.getResultsReportOne(resultsReport.getResultsReportKeyNum());
+		model.addAttribute("resultsReportContent", resultsReportOne.getResultsReportContent());
+		model.addAttribute("resultsReportKeyNum", resultsReportOne.getResultsReportKeyNum());
+		return "/resultsReport/ResultsReportUpdateView";
+	}
+	
 	
 }

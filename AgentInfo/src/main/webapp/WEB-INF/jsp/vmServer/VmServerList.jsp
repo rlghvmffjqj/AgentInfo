@@ -138,15 +138,48 @@
 														<table style="width:100%">
 														<tbody>
 															<tr>
-																<td style="font-weight:bold;">서버 관리 :
-																	<sec:authorize access="hasAnyRole('ADMIN','QA')">
-																		<button class="btn btn-outline-info-add myBtn" id="BtnInsert">호스트 추가</button>
-																		<button class="btn btn-outline-info-del myBtn" id="BtnDelect">호스트 삭제</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnSynchronization">동기화</button>
-																		<button class="btn btn-outline-info-nomal myBtn" onClick="doExportExec()">Excel 내보내기</button>
-																	</sec:authorize>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'vmServer');">컬럼 선택</button>
-																</td>
+															    <td>
+																
+															        <div class="work-toolbar">
+																	
+															            <div class="toolbar-title">🖥 서버 관리</div>
+																	
+															            <sec:authorize access="hasAnyRole('ADMIN','QA')">
+																	
+															                <!-- 기본 작업 -->
+															                <div class="toolbar-group">
+															                    <div class="group-label">기본 작업</div>
+																			
+															                    <button class="btn2 btn-primary myBtn" id="BtnInsert">➕ 호스트 추가</button>
+															                    <button class="btn2 btn-danger myBtn" id="BtnDelect">🗑 호스트 삭제</button>
+															                </div>
+																		
+															                <!-- 서버 -->
+															                <div class="toolbar-group">
+															                    <div class="group-label">서버</div>
+																			
+															                    <button class="btn2 btn-warning myBtn" id="BtnSynchronization">🔄 동기화</button>
+															                </div>
+																		
+															                <!-- 데이터 -->
+															                <div class="toolbar-group">
+															                    <div class="group-label">데이터</div>
+																			
+															                    <button class="btn2 btn-light2 myBtn" onclick="doExportExec()">📤 Excel 내보내기</button>
+															                </div>
+																		
+															            </sec:authorize>
+																	
+															            <!-- 공통 -->
+															            <div class="toolbar-group">
+															                <div class="group-label">설정</div>
+																		
+															                <button class="btn2 btn-light2 myBtn" onclick="selectColumns('#list', 'vmServer');">⚙ 컬럼 선택</button>
+															            </div>
+																	
+															        </div>
+																
+															    </td>
 															</tr>
 															<tr>
 																<td class="border1" colspan="2">
@@ -323,6 +356,174 @@
 			top: 50%;
 			left: 50%;
 			position: absolute;
+		}
+	</style>
+	<style>
+		.work-toolbar{
+		    display:flex;
+		    align-items:center;
+		    gap:15px;
+		    flex-wrap:wrap;
+		
+		    padding:5px;
+		    background:#fafafa;
+		    border:1px solid #e5e7eb;
+		    border-radius:12px;
+		}
+
+		.toolbar-title{
+		    font-size:18px;
+		    font-weight:700;
+		    color:#111827;
+		    margin-right:10px;
+		}
+
+		.toolbar-group{
+		    display:flex;
+		    align-items:center;
+		    gap:8px;
+		
+		    padding:10px 15px;
+		
+		    background:#fff;
+		    border:1px solid #e5e7eb;
+		    border-radius:10px;
+		
+		    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+		}
+
+		.group-label{
+		    font-size:12px;
+		    color:#6b7280;
+		    font-weight:600;
+		    margin-right:5px;
+		    white-space:nowrap;
+		}
+
+		.work-toolbar .btn2{
+		    border-radius:8px !important;
+		    font-size:12px !important;
+		    font-weight:600 !important;
+		    padding:6px 12px;
+		    border:none;
+		    transition:all 0.2s ease;
+		}
+
+		.work-toolbar .btn2:hover{
+		    transform:translateY(-1px);
+		}
+
+		/* 추가 */
+		.btn-primary{
+		    background:#2563eb !important;
+		    color:#fff !important;
+		}
+
+		/* 삭제 */
+		.btn-danger{
+		    background:#dc2626 !important;
+		    color:#fff !important;
+		}
+
+		/* 처리완료 */
+		.btn-success{
+		    background:#22c55e !important;
+		    color:#fff !important;
+		}
+
+		/* 상태변경 */
+		.btn-warning{
+		    background:#f59e0b !important;
+		    color:#fff !important;
+		}
+
+		/* 국내/국외 이동 */
+		.btn-info{
+		    background:#0891b2 !important;
+		    color:#fff !important;
+		}
+
+		/* 일반 버튼 */
+		.btn-light2{
+		    background:#ffffff !important;
+		    color:#374151 !important;
+		    border:1px solid #d1d5db !important;
+		}
+
+		/* 복사 */
+		.btn-copy{
+		    background:#8b5cf6 !important;
+		    color:#fff !important;
+		}
+
+		/* 자동화 */
+		.btn-automation{
+		    background:#6366f1 !important;
+		    color:#fff !important;
+		}
+
+		/* 보고서 조회 */
+		.btn-report{
+		    background:#10b981 !important;
+		    color:#fff !important;
+		}
+
+		/* 템플릿 */
+		.btn-template{
+		    background:#f59e0b !important;
+		    color:#fff !important;
+		}
+
+		/* 삭제 보고서 */
+		.btn-delete-report{
+		    background:#ef4444 !important;
+		    color:#fff !important;
+		}
+
+		/* 국내/국외 이동 */
+		.btn-move{
+		    background:#0ea5e9 !important;
+		    color:#fff !important;
+		}
+
+		.btn-primary:hover{
+		    background:#1d4ed8 !important;
+		}
+
+		.btn-danger:hover{
+		    background:#b91c1c !important;
+		}
+
+		.btn-success:hover{
+		    background:#16a34a !important;
+		}
+
+		.btn-warning:hover{
+		    background:#d97706 !important;
+		}
+
+		.btn-copy:hover{
+		    background:#7c3aed !important;
+		}
+
+		.btn-automation:hover{
+		    background:#4f46e5 !important;
+		}
+
+		.btn-report:hover{
+		    background:#059669 !important;
+		}
+
+		.btn-template:hover{
+		    background:#d97706 !important;
+		}
+
+		.btn-delete-report:hover{
+		    background:#dc2626 !important;
+		}
+
+		.btn-move:hover{
+		    background:#0284c7 !important;
 		}
 	</style>
 </html>

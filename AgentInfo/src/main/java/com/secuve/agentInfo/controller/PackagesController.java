@@ -458,4 +458,10 @@ public class PackagesController {
 		return new FileDownloadView();
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "/packages/selectManager")
+	public String selectManager(String manager) {
+		return packagesService.selectManager(manager);
+	}
+	
 }

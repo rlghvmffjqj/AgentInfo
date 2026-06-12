@@ -1198,6 +1198,7 @@
 			var resultsReportReviewer = $("#resultsReportReviewer").val();
 			var resultsReportDate = $("#resultsReportDate").val();
 			var resultsReportTestDate = $("#resultsReportTestDate").val();
+			var workManageKeyNum = "${workManageKeyNum}";
 			var resultsReportContent = domupdate();
 			if(resultsReportNumber == "") {
 				Swal.fire({
@@ -1217,7 +1218,8 @@
 						"resultsReportReviewer" : resultsReportReviewer,
 						"resultsReportContent" : resultsReportContent,
 						"resultsReportDate" : resultsReportDate,
-						"resultsReportTestDate" : resultsReportTestDate
+						"resultsReportTestDate" : resultsReportTestDate,
+						"workManageKeyNum" : workManageKeyNum
 					},
 			        async: false,
 			        success: function(result2) {

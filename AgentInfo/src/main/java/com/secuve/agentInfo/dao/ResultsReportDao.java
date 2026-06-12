@@ -56,4 +56,8 @@ public class ResultsReportDao {
 		return sqlSession.selectOne("resultsReport.resultsReportDelKeyNumMax");
 	}
 
+	public ResultsReport selectTemplatList(int workManageKeyNum) {
+		return sqlSession.selectOne("resultsReport.selectTemplatList", workManageKeyNum);
+	}
+
 }

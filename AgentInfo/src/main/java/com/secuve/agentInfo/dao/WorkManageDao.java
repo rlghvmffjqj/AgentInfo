@@ -91,4 +91,12 @@ public class WorkManageDao {
 		return sqlSession.update("workManage.delWorkManageFlag", parameters);
 	}
 
+	public List<WorkManage> getDailyWorkList(String employeeName) {
+		return sqlSession.selectList("workManage.getDailyWorkList", employeeName);
+	}
+
+	public List<WorkManage> getTomorrowWorkList(String employeeName) {
+		return sqlSession.selectList("workManage.getTomorrowWorkList", employeeName);
+	}
+
 }

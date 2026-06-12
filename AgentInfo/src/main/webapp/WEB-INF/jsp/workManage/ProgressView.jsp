@@ -4,32 +4,36 @@
 <!-- SummerNote -->
 <script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
-<div class="modelHead">
-	<div class="modelHeadFont">상태 변경</div>
-</div>
-<div class="modal-body modalBody" style="width: 100%; height: 360px; margin-left: 25px;">
-	<table>
-		<tbody>
-			<tr class="hight60">
-				<td style="width: 50px;">진행률 : </td>
-				<td class="percent-wrap" style="width: 100px;">
-					<input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold; background: #e9967a36 !important;">
-					<span style="top: 50%;">%</span>
-				</td>
-				<td>
-			</tr>
-			<tr>
-				<td colspan='3'>비고 : </td>
-			</tr>
-			<tr>
-				<td colspan='3'><textarea class="summerNoteSize" id="summernote" name="summernote">${workManage.workManageComment}</textarea></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-<div class="modal-footer">
-	<button class="btn btn-default btn-outline-info-add" id="BtnProgressChange" onClick="btnProgressChange()">변경</button>	
-    <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+<div class="status-modal">
+    <div class="status-card">
+
+        <div class="card-title">🔄 진행 정보</div>
+
+        <div class="progress-info">
+
+            <div class="progress-label">진행률</div>
+
+            <div class="progress-value">
+                <span id="progressText">${workManage.workManageProgress}</span>%
+            </div>
+
+        </div>
+
+        <input type="range" id="progressSlider" min="0" max="100" value="${workManage.workManageProgress}">
+        <input type="hidden" id="workManageProgressView" value="${workManage.workManageProgress}">
+    </div>
+
+    <div class="status-card">
+        <div class="card-title">📝 비고</div>
+        <textarea id="summernote"name="summernote">${workManage.workManageComment}</textarea>
+
+    </div>
+
+    <div class="status-footer">
+        <button class="btn-close-custom" data-dismiss="modal">닫기</button>
+        <button class="btn-save" id="BtnProgressChange" onclick="btnProgressChange()">변경</button>
+    </div>
+
 </div>
 
 <script>
@@ -41,6 +45,18 @@
 			height:200,
 			placeholder:"테스트 중 발생한 특이사항 및 진행 상황을 입력합니다."
 		});
+
+		$('#progressSlider').on('input change', function() {
+		
+	        let value = $(this).val();
+		
+	        // 화면 표시 숫자 변경
+	        $('#progressText').text(value);
+		
+	        // 저장용 값 변경
+	        $('#workManageProgressView').val(value);
+		
+	    });
 	});
 	
 	/* =========== 상태 변경 ========= */
@@ -100,5 +116,101 @@
 	    right:10px;
 	    top:50%;
 	    transform:translateY(-50%);
+	}
+
+	.status-modal{
+	    padding:20px;
+	    background:#fff;
+	}
+
+	.status-header{
+	    display:flex;
+	    align-items:center;
+	    gap:20px;
+	    margin-bottom:25px;
+	}
+
+	.icon-circle{
+	    width:70px;
+	    height:70px;
+	    border-radius:50%;
+	    background:#eef4ff;
+	    display:flex;
+	    align-items:center;
+	    justify-content:center;
+	    font-size:32px;
+	}
+
+	.status-title{
+	    font-size:30px;
+	    font-weight:700;
+	    color:#111827;
+	}
+
+	.status-desc{
+	    color:#6b7280;
+	    margin-top:5px;
+	}
+
+	.status-card{
+	    border:1px solid #e5e7eb;
+	    border-radius:15px;
+	    padding:25px;
+	    margin-bottom:20px;
+	}
+
+	.card-title{
+	    font-size:22px;
+	    font-weight:700;
+	    margin-bottom:25px;
+	}
+
+	.progress-info{
+	    display:flex;
+	    justify-content:space-between;
+	    align-items:center;
+	    margin-bottom:15px;
+	}
+
+	.progress-label{
+	    font-size:20px;
+	    font-weight:600;
+	}
+
+	.progress-value{
+	    font-size:42px;
+	    font-weight:700;
+	    color:#2563eb;
+	}
+
+	#progressSlider{
+	    width:100%;
+	    height:8px;
+	}
+
+	.status-footer{
+	    display:flex;
+	    justify-content:flex-end;
+	    gap:15px;
+	    margin-top:30px;
+	}
+
+	.btn-close-custom{
+	    min-width:120px;
+	    height:50px;
+	    border:1px solid #d1d5db;
+	    background:#fff;
+	    border-radius:10px;
+	    font-weight:600;
+	}
+
+	.btn-save{
+	    min-width:120px;
+	    height:50px;
+	    border:none;
+	    background:#2563eb;
+	    color:#fff;
+	    border-radius:10px;
+	    font-weight:600;
 	}
 </style>

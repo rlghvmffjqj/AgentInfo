@@ -177,6 +177,11 @@
 		SELECT businessName FROM packages WHERE customerName = #{categoryCustomerName} AND businessName = #{categoryBusinessName};
 	</select>
 	
+	<select id="selectManager" resultType="string" parameterType="string">
+		SELECT manager FROM packages WHERE customerName = #{manager}
+		ORDER BY packagesKeyNum DESC LIMiT 1;
+	</select>
+	
 	
 	<!-- ==================================================================================== -->
 	

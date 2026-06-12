@@ -164,6 +164,26 @@
 		UPDATE workmanage SET workManageDelReaon = #{workManageDelReaon}, workManageDelFlag = 'Y' WHERE workManageKeyNum = #{workManageKeyNum};
 	</update>
 	
+	<select id="getDailyWorkList" resultMap="workManage" parameterType="string">
+		<![CDATA[
+        SELECT *
+        FROM workmanage
+        WHERE workManageTester LIKE CONCAT('%', #{employeeName}, '%')
+          AND workManageTestScheduleStart <= CURDATE()
+          AND workManageTestScheduleEnd >= CURDATE()
+    	]]>
+	</select>
+	
+	<select id="getTomorrowWorkList" resultMap="workManage" parameterType="string">
+	    <![CDATA[
+	        SELECT *
+	        FROM workmanage
+	        WHERE workManageTester LIKE CONCAT('%', #{employeeName}, '%')
+	          AND workManageTestScheduleStart <= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+	          AND workManageTestScheduleEnd >= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+	    ]]>
+	</select>
+	
 	<!-- ==================================================================================== -->
 	
 	<sql id="sqlWorkManage">

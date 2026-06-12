@@ -131,10 +131,10 @@
 													</div>
 			                      						<div class="col-lg-12 text-right">
 														<p class="search-btn">
-															<button class="btn btn-primary btnm" type="button" id="btnSearch">
+															<button class="btn2 btn-primary btnm" type="button" id="btnSearch">
 																<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 															</button>
-															<button class="btn btn-default btnm" type="button" id="btnReset">
+															<button class="btn2 btn-default btnm" type="button" id="btnReset">
 																<span>초기화</span>
 															</button>
 														</p>
@@ -148,16 +148,41 @@
 														<table style="width:100%">
 														<tbody>
 															<tr>
-																<td style="font-weight:bold;">라이선스 관리 :
-																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">발급</button>
-																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">제거</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnUpdate">수정</button>
-																	<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 YML 파일을 다운로드합니다.">YML 다운로드</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="YML 파일을 첨부하여 데이터를 추가합니다.">YML Import</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button> -->
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnExcelExport" onClick="doExportExec()" title="현제 테이블 조회된 데이터를 Excel로 Export합니다.">Excel 내보내기</button>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'secuveOTPList');">컬럼 선택</button>
-																</td>
+															    <td>
+																
+															        <div class="work-toolbar">
+																	
+															            <div class="toolbar-title">🔑 라이선스 관리</div>
+																	
+															            <!-- 라이선스 -->
+															            <div class="toolbar-group">
+															                <div class="group-label">라이선스</div>
+																		
+															                <button class="btn2 btn-primary myBtn" id="BtnInsert">➕ 발급</button>
+															                <button class="btn2 btn-warning myBtn" id="BtnUpdate">✏ 수정</button>
+															                <button class="btn2 btn-danger myBtn" id="BtnDelect">🗑 제거</button>
+															            </div>
+																	
+															            <!-- 데이터 -->
+															            <div class="toolbar-group">
+															                <div class="group-label">데이터</div>
+																		
+															                <button class="btn2 btn-light2 myBtn" id="BtnExcelExport" onclick="doExportExec()" title="현재 테이블 조회 데이터를 Excel로 Export합니다.">📤 Excel 내보내기</button>
+															            </div>
+																	
+															            <!-- 기타 -->
+															            <div class="toolbar-group">
+															                <div class="group-label">기타</div>
+																		
+															                <button class="btn2 btn-light2 myBtn" onclick="selectColumns('#list', 'secuveOTPList');">⚙ 컬럼 선택</button>
+																			<!-- <button class="btn btn-outline-info-nomal myBtn" id="BtnDownload" title="선택한 테이블 행의 YML 파일을 다운로드합니다.">YML 다운로드</button>
+																			<button class="btn btn-outline-info-nomal myBtn" id="BtnImport" title="YML 파일을 첨부하여 데이터를 추가합니다.">YML Import</button>
+																			<button class="btn btn-outline-info-nomal myBtn" id="BtnRoute" title="라이선스 발급 설정 경로를 지정합니다.">경로설정</button> -->
+															            </div>
+																	
+															        </div>
+																
+															    </td>
 															</tr>
 															<tr>
 																<td class="border1" colspan="2">
@@ -514,4 +539,173 @@
 		});
 		
 	</script>
+	<style>
+		.work-toolbar{
+		    display:flex;
+		    align-items:center;
+		    gap:15px;
+		    flex-wrap:wrap;
+		
+		    padding:5px;
+		    background:#fafafa;
+		    border:1px solid #e5e7eb;
+		    border-radius:12px;
+			height: 107px;
+		}
+
+		.toolbar-title{
+		    font-size:18px;
+		    font-weight:700;
+		    color:#111827;
+		    margin-right:10px;
+		}
+
+		.toolbar-group{
+		    display:flex;
+		    align-items:center;
+		    gap:8px;
+		
+		    padding:10px 15px;
+		
+		    background:#fff;
+		    border:1px solid #e5e7eb;
+		    border-radius:10px;
+		
+		    box-shadow:0 1px 3px rgba(0,0,0,0.05);
+		}
+
+		.group-label{
+		    font-size:12px;
+		    color:#6b7280;
+		    font-weight:600;
+		    margin-right:5px;
+		    white-space:nowrap;
+		}
+
+		.work-toolbar .btn2{
+		    border-radius:8px !important;
+		    font-size:12px !important;
+		    font-weight:600 !important;
+		    padding:6px 12px;
+		    border:none;
+		    transition:all 0.2s ease;
+		}
+
+		.work-toolbar .btn2:hover{
+		    transform:translateY(-1px);
+		}
+
+		/* 추가 */
+		.btn-primary{
+		    background:#2563eb !important;
+		    color:#fff !important;
+		}
+
+		/* 삭제 */
+		.btn-danger{
+		    background:#dc2626 !important;
+		    color:#fff !important;
+		}
+
+		/* 처리완료 */
+		.btn-success{
+		    background:#22c55e !important;
+		    color:#fff !important;
+		}
+
+		/* 상태변경 */
+		.btn-warning{
+		    background:#f59e0b !important;
+		    color:#fff !important;
+		}
+
+		/* 국내/국외 이동 */
+		.btn-info{
+		    background:#0891b2 !important;
+		    color:#fff !important;
+		}
+
+		/* 일반 버튼 */
+		.btn-light2{
+		    background:#ffffff !important;
+		    color:#374151 !important;
+		    border:1px solid #d1d5db !important;
+		}
+
+		/* 복사 */
+		.btn-copy{
+		    background:#8b5cf6 !important;
+		    color:#fff !important;
+		}
+
+		/* 자동화 */
+		.btn-automation{
+		    background:#6366f1 !important;
+		    color:#fff !important;
+		}
+
+		/* 보고서 조회 */
+		.btn-report{
+		    background:#10b981 !important;
+		    color:#fff !important;
+		}
+
+		/* 템플릿 */
+		.btn-template{
+		    background:#f59e0b !important;
+		    color:#fff !important;
+		}
+
+		/* 삭제 보고서 */
+		.btn-delete-report{
+		    background:#ef4444 !important;
+		    color:#fff !important;
+		}
+
+		/* 국내/국외 이동 */
+		.btn-move{
+		    background:#0ea5e9 !important;
+		    color:#fff !important;
+		}
+
+		.btn-primary:hover{
+		    background:#1d4ed8 !important;
+		}
+
+		.btn-danger:hover{
+		    background:#b91c1c !important;
+		}
+
+		.btn-success:hover{
+		    background:#16a34a !important;
+		}
+
+		.btn-warning:hover{
+		    background:#d97706 !important;
+		}
+
+		.btn-copy:hover{
+		    background:#7c3aed !important;
+		}
+
+		.btn-automation:hover{
+		    background:#4f46e5 !important;
+		}
+
+		.btn-report:hover{
+		    background:#059669 !important;
+		}
+
+		.btn-template:hover{
+		    background:#d97706 !important;
+		}
+
+		.btn-delete-report:hover{
+		    background:#dc2626 !important;
+		}
+
+		.btn-move:hover{
+		    background:#0284c7 !important;
+		}
+	</style>
 </html>

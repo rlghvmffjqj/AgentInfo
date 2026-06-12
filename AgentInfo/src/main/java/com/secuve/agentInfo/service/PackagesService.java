@@ -1506,4 +1506,8 @@ public class PackagesService {
 		
 		packagesInternationalDao.insertPackagesInternational(packagesInternational);
 	}
+
+	public String selectManager(String manager) {
+		return packagesDao.selectManager(manager);
+	}
 }

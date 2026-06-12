@@ -201,10 +201,10 @@
 		
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
-														<button class="btn btn-primary btnm" type="button" id="btnSearch">
+														<button class="btn2 btn-primary btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 														</button>
-														<button class="btn btn-default btnm" type="button" id="btnReset">
+														<button class="btn2 btn-default btnm" type="button" id="btnReset">
 															<span>초기화</span>
 														</button>
 													</p>
@@ -218,20 +218,47 @@
 														<table style="width:100%">
 														<tbody>
 															<tr>
-																<td style="font-weight:bold;">작업 관리 :
-																	<button class="btn btn-outline-info-add myBtn" id="BtnInsert">추가</button>
-																	<button class="btn btn-outline-info-del myBtn" id="BtnDelect">삭제</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnDelectList">삭제 업무 조회</button>
-																	<button class="btn btn-outline-info-nomal myBtn" id="BtnMailSendList">메일 발송 이력</button>
-																	<sec:authorize access="hasRole('ADMIN')">
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnAllReport">통합 업무 보고서</button>
-																	</sec:authorize>
-																	<sec:authorize access="!hasRole('ADMIN') or principal.username == 'khkim'">
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnComplete">진행상태 변경</button>
-																		<button class="btn btn-outline-info-nomal myBtn" id="BtnWeeklyReport">개별 업무 보고서</button>
-																	</sec:authorize>
-																	<button class="btn btn-outline-info-nomal myBtn" onclick="selectColumns('#list', 'workManageKeyNum');">컬럼 선택</button>
-																</td>
+															    <td>
+																
+															        <div class="work-toolbar">
+																	
+															            <div class="toolbar-title">
+															                <span>📋 작업 관리</span>
+															            </div>
+																	
+															            <div class="toolbar-group">
+															                <div class="group-label">기본 작업</div>
+																		
+															                <button class="btn2 btn-primary listBtn myBtn" id="BtnInsert">➕ 추가</button>
+															                <button class="btn2 btn-danger listBtn myBtn" id="BtnDelect">🗑 삭제</button>
+															            </div>
+																	
+															            <div class="toolbar-group">
+															                <div class="group-label">업무 관리</div>
+																		
+															                <button class="btn2 btn-warning listBtn myBtn" id="BtnComplete">🔄 진행상태 변경</button>
+															            </div>
+																	
+															            <div class="toolbar-group">
+															                <div class="group-label">보고서</div>
+																			
+																			<button class="btn2 btn-light listBtn myBtn" id="BtnResultsReport">📄 결과 보고서</button>
+															                <button class="btn2 btn-light listBtn myBtn" id="BtnAllReport">📊 통합</button>
+																			<button class="btn2 btn-light listBtn myBtn" id="BtnWeeklyReport">📈 주간</button>
+															                <button class="btn2 btn-light listBtn myBtn" id="BtnDailyReport">📅 일일</button>
+															            </div>
+																	
+															            <div class="toolbar-group">
+															                <div class="group-label">기타</div>
+																		
+															                <button class="btn2 btn-light listBtn myBtn" id="BtnMailSendList">📧 메일 이력</button>
+															                <button class="btn2 btn-light listBtn myBtn" id="BtnDelectList">🗂 삭제 업무</button>
+															                <button class="btn2 btn-light listBtn myBtn" onclick="selectColumns('#list', 'workManageKeyNum');">⚙ 컬럼 설정</button>
+															            </div>
+																	
+															        </div>
+																
+															    </td>
 															</tr>
 															<tr>
 																<td class="border1" colspan="2">
@@ -490,6 +517,66 @@
 		$('#BtnWeeklyReport').click(function() {
 			 window.location = "<c:url value='/workManage/weeklyReportDownload'/>";
 		});
+
+		$('#BtnDailyReport').click(function() {
+			 window.location = "<c:url value='/workManage/dailyReportDownload'/>";
+		});
+
+		$('#BtnResultsReport').click(function() {
+			var chkList = $("#list").getGridParam('selarrrow');
+			if(chkList == 0) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '선택한 행이 존재하지 않습니다.',    
+				});    
+			} else if(chkList.length > 1) {
+				Swal.fire({               
+					icon: 'error',          
+					title: '실패!',           
+					text: '한개의 행만 선택 바랍니다.',    
+				});
+			} else {			
+				 $.ajax({
+				    type: 'POST',
+				    url: "<c:url value='/resultsReport/selectTemplatList'/>",
+				    async: false,
+					data: {"workManageKeyNum": chkList[0]},
+				    success: function (result) {
+				    	if(result === "WorkManage") {
+							location.href="<c:url value='/resultsReport/updateWorkManageView'/>?workManageKeyNum="+chkList[0];
+						} else if(result === "ResultsReport") {
+							insertTemplatList (chkList[0]);
+						}
+				    },
+				    error: function(e) {
+				        alert(e);
+				    },
+					complete: function() {
+	        	    	modalOpened = false; // 요청이 완료되면 모달이 닫혔다고 가정
+	        		}
+				});
+			}
+		});
+
+		function insertTemplatList (workManageKeyNum) {
+			$.ajax({
+			    type: 'POST',
+			    url: "<c:url value='/resultsReport/insertTemplatList'/>",
+			    async: false,
+				data: {workManageKeyNum: workManageKeyNum},
+			    success: function (data) {
+			    	$.modal(data, 'resultsReportTemplateList'); //modal창 호출
+					modalOpened = true; // 모달이 열렸음을 표시
+			    },
+			    error: function(e) {
+			        alert(e);
+			    },
+				complete: function() {
+	            	modalOpened = false; // 요청이 완료되면 모달이 닫혔다고 가정
+	        	}
+			});
+		}
 		
 		/* =========== 작업 수정 Modal ========= */
 		function updateView(data) {
@@ -528,7 +615,7 @@
 			$("#managerNumber").val("${managerNumber}").trigger("change");
 			setTimeout(function() {
 				tableRefresh();
-			}, 50);
+			}, 300);
 
 			$('input[name="workManageRequestDate"]').click(function() {
 	            const value = $(this).val();
@@ -569,52 +656,52 @@
 		}
 
 		function toggleDetail(rowId) {
-    var detailId = "detail_" + rowId;
+		    var detailId = "detail_" + rowId;
+
+		    // 이미 존재하면 toggle
+		    if ($("#" + detailId).length > 0) {
+		        $("#" + detailId).toggle();
+		        return;
+		    }
 		
-    // 이미 존재하면 toggle
-    if ($("#" + detailId).length > 0) {
-        $("#" + detailId).toggle();
-        return;
-    }
-
-    var rowData = $("#list").jqGrid('getRowData', rowId);
-
-    // [수정] 제품유형(Type) 제거, 오직 패키지명(Name) 쉼표 문자열만 배열로 변환
-    var nameArray = (rowData.workManagePackageName || "").split(",");
-
-    var html = "";
-    html += "<tr id='" + detailId + "' class='detail-row'>";
-    html += "<td colspan='13' style='padding:10px; background:#f4f6f9;'>";
-	
-    // 카드 시작
-    html += "<div style='background:white; border-radius:10px; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,0.08); border:1px solid #e5e7eb;'>";
-	
-    // 제목
-    html += "<div style='font-size:16px; font-weight:bold; color:#2F5597; margin-bottom:20px;'>패키지 상세 정보</div>";
-	
-    // 패키지 영역
-    html += "<div style='display:flex; flex-direction:column; gap:12px;'>";
-	
-    // [수정] 패키지명 배열의 개수만큼만 반복문 수행
-    for (var i = 0; i < nameArray.length; i++) {
-        var name = nameArray[i] ? nameArray[i].trim() : "";
-	
-        // 패키지명 데이터가 존재하는 경우에만 HTML 태그 생성
-        if (name != "") {
-            html += "<div style='padding:14px; border-radius:8px; background:#f8f9fa; border:1px solid #e5e7eb;'>";
-            // [수정] 제품유형 표시 영역 제거, 패키지명만 크게 노출
-            html += "  <div style='font-size:15px; font-weight:bold; color:#222;'>" + name + "</div>";
-            html += "</div>";
-        }
-    }
-
-    html += "</div>"; // 패키지 영역 끝
-    html += "</div>"; // 카드 끝
-    html += "</td>";
-    html += "</tr>";
-
-    $("#" + rowId).after(html);
-}
+		    var rowData = $("#list").jqGrid('getRowData', rowId);
+		
+		    // [수정] 제품유형(Type) 제거, 오직 패키지명(Name) 쉼표 문자열만 배열로 변환
+		    var nameArray = (rowData.workManagePackageName || "").split(",");
+		
+		    var html = "";
+		    html += "<tr id='" + detailId + "' class='detail-row'>";
+		    html += "<td colspan='13' style='padding:10px; background:#f4f6f9;'>";
+			
+		    // 카드 시작
+		    html += "<div style='background:white; border-radius:10px; padding:20px; box-shadow:0 2px 6px rgba(0,0,0,0.08); border:1px solid #e5e7eb;'>";
+			
+		    // 제목
+		    html += "<div style='font-size:16px; font-weight:bold; color:#2F5597; margin-bottom:20px;'>패키지 상세 정보</div>";
+			
+		    // 패키지 영역
+		    html += "<div style='display:flex; flex-direction:column; gap:12px;'>";
+			
+		    // [수정] 패키지명 배열의 개수만큼만 반복문 수행
+		    for (var i = 0; i < nameArray.length; i++) {
+		        var name = nameArray[i] ? nameArray[i].trim() : "";
+			
+		        // 패키지명 데이터가 존재하는 경우에만 HTML 태그 생성
+		        if (name != "") {
+		            html += "<div style='padding:14px; border-radius:8px; background:#f8f9fa; border:1px solid #e5e7eb;'>";
+		            // [수정] 제품유형 표시 영역 제거, 패키지명만 크게 노출
+		            html += "  <div style='font-size:15px; font-weight:bold; color:#222;'>" + name + "</div>";
+		            html += "</div>";
+		        }
+		    }
+		
+		    html += "</div>"; // 패키지 영역 끝
+		    html += "</div>"; // 카드 끝
+		    html += "</td>";
+		    html += "</tr>";
+		
+		    $("#" + rowId).after(html);
+		}
 
 
 		function stateFormatter(value, options, row) {
@@ -656,6 +743,12 @@
 							icon: 'info',
 							title: '메일 계정 확인!',
 							text: '테스터 다시 확인 바랍니다.',
+						});
+					} else if(result == "ToFail") {
+						Swal.fire({
+							icon: 'error',
+							title: '테스터 미지정!',
+							text: '테스터 지정 후 메일 발송 바랍니다.',
 						});
 					} else {
 						Swal.fire({
@@ -707,6 +800,78 @@
 		.btn-mail.sent {
 		    background: #0d6efd;
 		    color: #fff;
+		}
+
+		.work-toolbar{
+		    display:flex;
+		    align-items:center;
+		    gap:15px;
+		    flex-wrap:wrap;
+
+		    padding:15px;
+		    background:#fafafa;
+		    border:1px solid #e5e7eb;
+		    border-radius:12px;
+		}
+
+		.toolbar-title{
+		    font-size:18px;
+		    font-weight:700;
+		    margin-right:10px;
+		}
+
+		.toolbar-group{
+		    display:flex;
+		    align-items:center;
+		    gap:8px;
+		
+		    padding:10px 15px;
+		
+		    background:#fff;
+		    border:1px solid #e5e7eb;
+		    border-radius:10px;
+		}
+
+		.group-label{
+		    font-size:12px;
+		    color:#6b7280;
+		    font-weight:600;
+		    margin-right:5px;
+		}
+
+		.btn2{
+		    border-radius:8px !important;
+		    font-size:12px !important;
+		    font-weight:600;
+		    padding:5px 12px;
+		}
+
+		.btn-primary{
+		    background:#2563eb;
+		    color:#fff;
+		}
+
+		.btn-primary:hover {
+			background:#548aff;
+		}
+
+		.btn-danger{
+		    background:#dc2626;
+		    color:#fff;
+		}
+
+		.btn-warning{
+		    background:#f59e0b;
+		    color:#fff;
+		}
+
+		.btn-light{
+		    background:#fff;
+		    border:1px solid #d1d5db;
+		}
+
+		.listBtn {
+			height: 35px;
 		}
 
 	</style>

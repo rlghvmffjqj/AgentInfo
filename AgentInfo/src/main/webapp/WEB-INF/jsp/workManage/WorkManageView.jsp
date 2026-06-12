@@ -51,18 +51,18 @@
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
 		    <!-- 추가 버튼 -->
 			<div style="margin: 10px 0;">
-			    <button type="button" id="addProductBtn" class="btn btn-primary">+ 제품유형 추가</button>
-				<button type="button" id="delProductBtn" class="btn btn-danger">- 제품유형 삭제</button>
+			    <button type="button" id="addProductBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff;">+ 제품유형 추가</button>
+				<button type="button" id="delProductBtn" class="btn btn-danger" style="border-radius: 25px !important; background: #ff5252;">- 제품유형 삭제</button>
 			</div>
 
 			<!-- 제품유형 영역 -->
 			<div>
 			    <!-- 기본 1개 -->
-			    <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 115px;">
+			    <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 90px;">
 			        <div class="packageRow">
 					
 			            <!-- [주의] 기존 pading5Width33의 width: 200px 스타일은 건드리지 않고 그대로 유지합니다 -->
-			            <div class="pading5Width33" style="width: 200px;">
+			            <div class="pading5Width33" style="width: 150px;">
 						
 			                <!-- [상단] 제품유형 라벨 -->
 			                <div>
@@ -72,7 +72,7 @@
 			                <div class="fields-container" style="display: flex; gap: 15px; width: max-content;">
 							
 			                    <!-- 최초 1개 입력 폼 세트 -->
-			                    <div class="field-item" style="width: 200px; flex-shrink: 0;">
+			                    <div class="field-item" style="width: 150px; flex-shrink: 0;">
 			                        <!-- 제품유형 선택 -->
 			                        <div>
 			                            <select class="form-control selectpicker selectForm productType" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
@@ -105,7 +105,7 @@
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
 		    <!-- 추가 버튼 -->
 		    <div style="margin: 10px 0;">
-		        <button type="button" id="addPackageBtn" class="btn btn-primary">+ 패키지 추가</button>
+		        <button type="button" id="addPackageBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff;">+ 패키지 추가</button>
 		    </div>
 		
 		    <!-- 패키지 영역 -->
@@ -198,13 +198,13 @@
 <div class="modal-footer">
 	<c:choose>
 		<c:when test="${viewType eq 'insert'}">
-			<button class="btn btn-default btn-outline-info-add" id="insertBtn">추가</button>
+			<button class="btn btn-default btn-outline-info-add" id="insertBtn" style="border-radius: 25px !important;">추가</button>
 		</c:when>
 		<c:when test="${viewType eq 'update'}">
-			<button class="btn btn-default btn-outline-info-add" id="updateBtn">수정</button>	
+			<button class="btn btn-default btn-outline-info-add" id="updateBtn" style="border-radius: 25px !important;">수정</button>	
 		</c:when>
 	</c:choose>
-    <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
+    <button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal" style="border-radius: 25px !important;">닫기</button>
     
 </div>
 
@@ -889,6 +889,20 @@
 	            });
     	    }
     	});
+
+		$('#workManageCustomerView').on('change', function () {
+    	    var selectedValue = $(this).val();
+
+			$.ajax({
+	            url: "<c:url value='/packages/selectManager'/>",
+	            type: "post",
+	            dataType: "text",
+	            data: { "manager": selectedValue },
+	            success: function(result) {
+	                $("#workManageEngineerView").val(result);
+	            }
+	        });
+    	});
 	});
 
 
@@ -1046,7 +1060,7 @@
 	    border: none !important;
 	    background: transparent !important;
 	    box-shadow: none !important;
-	    height: 34px;
+	    height: 15px;
 	    text-align: right;
 	    font-size: 15px;
 	    font-weight: 600;

@@ -131,5 +131,9 @@ public class PackagesDao {
 	public List<String> getCategoryBusinessCustomerNameList(CategoryBusiness categoryBusiness) {
 		return sqlSession.selectList("packages.getCategoryBusinessCustomerNameList", categoryBusiness);
 	}
+
+	public String selectManager(String manager) {
+		return sqlSession.selectOne("packages.selectManager", manager);
+	}
 	
 }

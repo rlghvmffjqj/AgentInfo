@@ -67,7 +67,6 @@ public class WorkManageService {
 					if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
 						fileNames.add(workManagePackageFile.getOriginalFilename());
 				        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
-				        fileUpLoad(workManage, workManagePackageFile);
 					}
 				}
 				++i;
@@ -86,6 +85,16 @@ public class WorkManageService {
 		workManage.setWorkManageTesterView(tester);
 		
 		int success = workManageDao.insertWorkManage(workManage);
+		
+		if (workManage.getWorkManagePackageFileView() != null && !workManage.getWorkManagePackageFileView().isEmpty()) {
+			for(MultipartFile workManagePackageFile : workManage.getWorkManagePackageFileView()) {
+				if(workManagePackageFile.getSize() != 0) {
+					if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
+				        fileUpLoad(workManage, workManagePackageFile);
+					}
+				}
+			}
+		}
 		
 		if (success <= 0) return "FALSE";
 		
@@ -256,6 +265,14 @@ public class WorkManageService {
 			}
 		}
 		return "OK";
+	}
+
+	public List<WorkManage> getDailyWorkList(String employeeName) {
+		return workManageDao.getDailyWorkList(employeeName);
+	}
+
+	public List<WorkManage> getTomorrowWorkList(String employeeName) {
+		return workManageDao.getTomorrowWorkList(employeeName);
 	}
 
 }

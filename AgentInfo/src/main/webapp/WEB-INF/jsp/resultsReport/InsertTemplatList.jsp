@@ -15,7 +15,8 @@
 
 <script>
 	function templatSelect(resultsReportNumber) {
-		location.href="<c:url value='/resultsReport/copyView'/>?resultsReportNumber="+resultsReportNumber;		
+		var workManageKeyNum = "${workManageKeyNum}";
+		location.href="<c:url value='/resultsReport/copyView'/>?resultsReportNumber="+resultsReportNumber+"&workManageKeyNum=" + workManageKeyNum;		
 	}
 
 </script>
