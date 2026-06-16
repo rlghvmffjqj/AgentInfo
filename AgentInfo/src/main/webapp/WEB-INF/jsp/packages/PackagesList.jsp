@@ -109,193 +109,200 @@
                                 <div class="page-wrapper">
                                 	<div class="ibox">
 	                                	<div class="searchbos">
-	                                		<form id="form" name="form" method ="post">
-	                      						<div style="padding-left:15px; width:100%; float: left;">
-	                      							<label class="labelFontSize">전달일자</label>
-	                      							<div>
-														<input class="form-control" style="width: 12.5%; float: left;" type="date" id="deliveryDateStart" name="deliveryDateStart" max="9999-12-31">
-														<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-														<input class="form-control" style="width: 12.5%; float: left;" type="date" id="deliveryDateEnd" name="deliveryDateEnd" max="9999-12-31">
-													</div>
-													<div style="padding-left: 50px; float: left;">
-														<div class="form-check radioDate">
-														  <input class="form-check-input" type="radio" name="packageDate" id="toDay" value="0">
-														  <label class="form-check-label" for="toDay">
-														    당일
-														  </label>
+											<div style="float: right;">
+    										    <button type="button" class="btn btn-info btn-sm" id="btnToggleSearch">
+    										        <span id="toggleIcon">▼</span>
+    										    </button>
+    										</div>
+	                                		<form id="form" name="form" method ="post" style="display: flex;">
+												<div id="searchFields" style="display: none;" class="clearfix">
+	                      							<div style="padding-left:15px; width:100%; float: left;">
+	                      								<label class="labelFontSize">전달일자</label>
+	                      								<div>
+															<input class="form-control" style="width: 12.5%; float: left;" type="date" id="deliveryDateStart" name="deliveryDateStart" max="9999-12-31">
+															<span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
+															<input class="form-control" style="width: 12.5%; float: left;" type="date" id="deliveryDateEnd" name="deliveryDateEnd" max="9999-12-31">
 														</div>
-														<div class="form-check radioDate">
-														  <input class="form-check-input" type="radio" name="packageDate" id="oneWeek" value="7">
-														  <label class="form-check-label" for="oneWeek">
-														    1주일
-														  </label>
+														<div style="padding-left: 50px; float: left;">
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="packageDate" id="toDay" value="0">
+															  <label class="form-check-label" for="toDay">
+															    당일
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="packageDate" id="oneWeek" value="7">
+															  <label class="form-check-label" for="oneWeek">
+															    1주일
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="packageDate" id="oneMonth" value="30">
+															  <label class="form-check-label" for="oneMonth">
+															    1개월
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="packageDate" id="threeMonth" value="90">
+															  <label class="form-check-label" for="threeMonth">
+															    3개월
+															  </label>
+															</div>
+															<div class="form-check radioDate">
+															  <input class="form-check-input" type="radio" name="packageDate" id="dateFull" value="full" checked>
+															  <label class="form-check-label" for="dateFull">
+															    전체
+															  </label>
+															</div>
 														</div>
-														<div class="form-check radioDate">
-														  <input class="form-check-input" type="radio" name="packageDate" id="oneMonth" value="30">
-														  <label class="form-check-label" for="oneMonth">
-														    1개월
-														  </label>
-														</div>
-														<div class="form-check radioDate">
-														  <input class="form-check-input" type="radio" name="packageDate" id="threeMonth" value="90">
-														  <label class="form-check-label" for="threeMonth">
-														    3개월
-														  </label>
-														</div>
-														<div class="form-check radioDate">
-														  <input class="form-check-input" type="radio" name="packageDate" id="dateFull" value="full" checked>
-														  <label class="form-check-label" for="dateFull">
-														    전체
-														  </label>
-														</div>
-													</div>
-	                      						</div>
-												  <div class="col-lg-2">
-													<label class="labelFontSize">고객사ID</label>
-													  <select class="form-control selectpicker" id="customerIdMulti" name="customerIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														  <c:forEach var="item" items="${customerId}">
-															  <option value="${item}"><c:out value="${item}"/></option>
-														  </c:forEach>
-													  </select>
-												  </div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">고객사명</label>
-													<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${customerName}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">사업명</label>
-													<select class="form-control selectpicker" id="businessNameMulti" name="businessNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${businessName}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">망 구분</label>
-	                      							<input type="text" id="networkClassification" name="networkClassification" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">요청일자</label>
-													<input class="form-control" type="date" id="requestDate" name="requestDate" max="9999-12-31"> 
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">상태</label>
-													<select class="form-control selectpicker" id="stateMulti" name="stateMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<option value="배포완료">배포완료</option>
-														<option value="적용">적용</option>
-														<option value="대기">대기</option>
-													</select>
-												</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">패키지 종류</label>
-													<select class="form-control selectpicker" id="managementServerMulti" name="managementServerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${managementServer}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">일반/커스텀</label>
-													<select class="form-control selectpicker" id="generalCustomMulti" name="generalCustomMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${generalCustom}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">Agent ver</label>
-													<select class="form-control selectpicker" id="agentVerMulti" name="agentVerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${agentVer}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">패키지명</label>
-	                      							<input type="text" id="packageName" name="packageName" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">담당자</label>
-	                      							<input type="text" id="manager" name="manager" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">OS종류</label>
-													<select class="form-control selectpicker" id="osTypeMulti" name="osTypeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${osType}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">패키지 상세버전</label>
-	                      							<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">OS버전</label>
-													<select class="form-control selectpicker" id="agentOSMulti" name="agentOSMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${agentOS}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">기존/신규</label>
-													<select class="form-control selectpicker" id="existingNewMulti" name="existingNewMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${existingNew}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-													</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">요청 제품구분</label>
-		                      							<select class="form-control selectpicker" id="requestProductCategoryMulti" name="requestProductCategoryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${requestProductCategory}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-		                      						</div>
-		                      						<div class="col-lg-2">
-		                      							<label class="labelFontSize">전달 방법</label>
-		                      							<select class="form-control selectpicker" id="deliveryMethodMulti" name="deliveryMethodMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-															<c:forEach var="item" items="${deliveryMethod}">
-																<option value="${item}"><c:out value="${item}"/></option>
-															</c:forEach>
-														</select>
-		                      						</div>
+	                      							</div>
 													  <div class="col-lg-2">
-														<label class="labelFontSize">구매구분</label>
-														<select class="form-control selectpicker" id="purchaseCategoryMulti" name="purchaseCategoryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														  <c:forEach var="item" items="${purchaseCategory}">
-															  <option value="${item}"><c:out value="${item}"/></option>
-														  </c:forEach>
-													  </select>
+														<label class="labelFontSize">고객사ID</label>
+														  <select class="form-control selectpicker" id="customerIdMulti" name="customerIdMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															  <c:forEach var="item" items="${customerId}">
+																  <option value="${item}"><c:out value="${item}"/></option>
+															  </c:forEach>
+														  </select>
+													  </div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">고객사명</label>
+														<select class="form-control selectpicker" id="customerNameMulti" name="customerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${customerName}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
 													</div>
-		                      						<input type="hidden" id="managementServer" name="managementServer" class="form-control">
-		                      						<input type="hidden" id="generalCustom" name="generalCustom" class="form-control">
-		                      						<input type="hidden" id="agentVer" name="agentVer" class="form-control">
-		                      						<input type="hidden" id="osType" name="osType" class="form-control">
-		                      						<input type="hidden" id="agentOS" name="agentOS" class="form-control">
-		                      						<input type="hidden" id="state" name="state" class="form-control">
-		                      						<input type="hidden" id="existingNew" name="existingNew" class="form-control">
-		                      						<input type="hidden" id="requestProductCategory" name="requestProductCategory" class="form-control">
-		                      						<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
-													<input type="hidden" id="purchaseCategory" name="purchaseCategory" class="form-control">
-		                      						<input type="hidden" id="customerName" name="customerName" class="form-control">
-		                      						<input type="hidden" id="businessName" name="businessName" class="form-control">
-													<input type="hidden" id="customerId" name="customerId" class="form-control">
-		                      						<div class="col-lg-12 text-right">
-													<p class="search-btn" style="margin-top: 10px;">
-														<button class="btn2 btn-primary btnm" type="button" id="btnSearch">
-															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
-														</button>
-														<button class="btn2 btn-default btnm" type="button" id="btnReset">
-															<span>초기화</span>
-														</button>
-													</p>
+													<div class="col-lg-2">
+	                      								<label class="labelFontSize">사업명</label>
+														<select class="form-control selectpicker" id="businessNameMulti" name="businessNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${businessName}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+	                      								<label class="labelFontSize">망 구분</label>
+	                      								<input type="text" id="networkClassification" name="networkClassification" class="form-control">
+	                      							</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">요청일자</label>
+														<input class="form-control" type="date" id="requestDate" name="requestDate" max="9999-12-31"> 
+	                      							</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">상태</label>
+														<select class="form-control selectpicker" id="stateMulti" name="stateMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<option value="배포완료">배포완료</option>
+															<option value="적용">적용</option>
+															<option value="대기">대기</option>
+														</select>
+													</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">패키지 종류</label>
+														<select class="form-control selectpicker" id="managementServerMulti" name="managementServerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${managementServer}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+	                      								<label class="labelFontSize">일반/커스텀</label>
+														<select class="form-control selectpicker" id="generalCustomMulti" name="generalCustomMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${generalCustom}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+	                      								<label class="labelFontSize">Agent ver</label>
+														<select class="form-control selectpicker" id="agentVerMulti" name="agentVerMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${agentVer}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">패키지명</label>
+	                      								<input type="text" id="packageName" name="packageName" class="form-control">
+	                      							</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">담당자</label>
+	                      								<input type="text" id="manager" name="manager" class="form-control">
+	                      							</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">OS종류</label>
+														<select class="form-control selectpicker" id="osTypeMulti" name="osTypeMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${osType}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+													<div class="col-lg-2">
+	                      								<label class="labelFontSize">패키지 상세버전</label>
+	                      								<input type="text" id="osDetailVersion" name="osDetailVersion" class="form-control">
+	                      							</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">OS버전</label>
+														<select class="form-control selectpicker" id="agentOSMulti" name="agentOSMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															<c:forEach var="item" items="${agentOS}">
+																<option value="${item}"><c:out value="${item}"/></option>
+															</c:forEach>
+														</select>
+													</div>
+	                      							<div class="col-lg-2">
+	                      								<label class="labelFontSize">기존/신규</label>
+														<select class="form-control selectpicker" id="existingNewMulti" name="existingNewMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${existingNew}">
+																	<option value="${item}"><c:out value="${item}"/></option>
+																</c:forEach>
+															</select>
+														</div>
+		                      							<div class="col-lg-2">
+		                      								<label class="labelFontSize">요청 제품구분</label>
+		                      								<select class="form-control selectpicker" id="requestProductCategoryMulti" name="requestProductCategoryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${requestProductCategory}">
+																	<option value="${item}"><c:out value="${item}"/></option>
+																</c:forEach>
+															</select>
+		                      							</div>
+		                      							<div class="col-lg-2">
+		                      								<label class="labelFontSize">전달 방법</label>
+		                      								<select class="form-control selectpicker" id="deliveryMethodMulti" name="deliveryMethodMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+																<c:forEach var="item" items="${deliveryMethod}">
+																	<option value="${item}"><c:out value="${item}"/></option>
+																</c:forEach>
+															</select>
+		                      							</div>
+														  <div class="col-lg-2">
+															<label class="labelFontSize">구매구분</label>
+															<select class="form-control selectpicker" id="purchaseCategoryMulti" name="purchaseCategoryMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+															  <c:forEach var="item" items="${purchaseCategory}">
+																  <option value="${item}"><c:out value="${item}"/></option>
+															  </c:forEach>
+														  </select>
+														</div>
+		                      							<input type="hidden" id="managementServer" name="managementServer" class="form-control">
+		                      							<input type="hidden" id="generalCustom" name="generalCustom" class="form-control">
+		                      							<input type="hidden" id="agentVer" name="agentVer" class="form-control">
+		                      							<input type="hidden" id="osType" name="osType" class="form-control">
+		                      							<input type="hidden" id="agentOS" name="agentOS" class="form-control">
+		                      							<input type="hidden" id="state" name="state" class="form-control">
+		                      							<input type="hidden" id="existingNew" name="existingNew" class="form-control">
+		                      							<input type="hidden" id="requestProductCategory" name="requestProductCategory" class="form-control">
+		                      							<input type="hidden" id="deliveryMethod" name="deliveryMethod" class="form-control">
+														<input type="hidden" id="purchaseCategory" name="purchaseCategory" class="form-control">
+		                      							<input type="hidden" id="customerName" name="customerName" class="form-control">
+		                      							<input type="hidden" id="businessName" name="businessName" class="form-control">
+														<input type="hidden" id="customerId" name="customerId" class="form-control">
+		                      							<div class="col-lg-12 text-right">
+														<p class="search-btn" style="margin-top: 10px;">
+															<button class="btn btn-search btnm" type="button" id="btnSearch">
+																<i class="fa fa-search"></i>&nbsp;<span>검색</span>
+															</button>
+															<button class="btn btn-default btnm" type="button" id="btnReset">
+																<span>초기화</span>
+															</button>
+														</p>
+													</div>
 												</div>
 												</form>
 		                     				</div>
@@ -869,83 +876,24 @@
 			    { solt:"U", col: "상태 변경 의견", title: "상태 변경 의견" }
 			]
     	};
-	
+
+		$(document).ready(function() {
+    $('#btnToggleSearch').on('click', function(e) {
+        e.preventDefault();
+        
+        var $fields = $('#searchFields');
+        var $icon = $('#toggleIcon');
+        
+        $fields.slideToggle(300, function() {
+            if ($fields.is(':visible')) {
+                $icon.text('▲'); // 열려있을 때는 접기 모양
+            } else {
+                $icon.text('▼'); // 닫혀있을 때는 펼치기 모양
+            }
+        });
+    });
+});
+
 	</script>
-	<style>
-		.work-toolbar{
-		    display:flex;
-		    flex-wrap:wrap;
-		    align-items:center;
-		    gap:12px;
-
-		    padding:15px;
-		    border:1px solid #e5e7eb;
-		    border-radius:12px;
-		    background:#fafafa;
-		}
-
-		.toolbar-title{
-		    font-size:18px;
-		    font-weight:700;
-		    margin-right:10px;
-		}
-
-		.toolbar-group{
-		    display:flex;
-		    align-items:center;
-		    gap:8px;
-		
-		    padding:10px 15px;
-		
-		    background:#fff;
-		    border:1px solid #e5e7eb;
-		    border-radius:10px;
-		}
-
-		.group-label{
-		    color:#6b7280;
-		    font-size:12px;
-		    font-weight:600;
-		    margin-right:5px;
-		}
-
-		.btn2{
-		    border-radius:8px !important;
-		    font-size:12px !important;
-		    font-weight:600 !important;
-		}
-
-		.btn-primary{
-		    background:#2563eb !important;
-		    color:#fff !important;
-		}
-
-		.btn-danger{
-		    background:#dc2626 !important;
-		    color:#fff !important;
-		}
-
-		.btn-warning{
-		    background:#f59e0b !important;
-		    color:#fff !important;
-		}
-
-		.btn-copy{
-		    background:#8b5cf6 !important;
-		    color:#fff !important;
-		    border:none;
-		}
-
-		.btn-move{
-		    background:#0ea5e9 !important;
-		    color:#fff !important;
-		    border:none;
-		}
-
-		.btn-light2{
-		    background:#fff !important;
-		    border:1px solid #d1d5db !important;
-		    color:#374151 !important;
-		}
-	</style>
+	
 </html>

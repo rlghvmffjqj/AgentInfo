@@ -51,8 +51,8 @@
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
 		    <!-- 추가 버튼 -->
 			<div style="margin: 10px 0;">
-			    <button type="button" id="addProductBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff;">+ 제품유형 추가</button>
-				<button type="button" id="delProductBtn" class="btn btn-danger" style="border-radius: 25px !important; background: #ff5252;">- 제품유형 삭제</button>
+			    <button type="button" id="addProductBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff; height: 30px;">+ 제품유형 추가</button>
+				<button type="button" id="delProductBtn" class="btn btn-danger" style="border-radius: 25px !important; background: #ff5252; height: 30px;">- 제품유형 삭제</button>
 			</div>
 
 			<!-- 제품유형 영역 -->
@@ -87,7 +87,7 @@
 								
 			                        <!-- [하단] 있어 보이는 인라인 수량 입력창 (라벨 삭제) -->
 			                        <div class="premiumQuantityBox" style="margin-top: 5px;">
-			                            <input type="number" class="form-control premiumCount" name="workManageProductTypeCountView[]" min="0" placeholder="0">
+			                            <input type="number" class="form-control premiumCount" name="workManageProductTypeCountView[]" min="0" placeholder="0" value="1">
 			                            <span class="qtyUnit">개</span>
 			                        </div>
 			                    </div>
@@ -105,7 +105,7 @@
 		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
 		    <!-- 추가 버튼 -->
 		    <div style="margin: 10px 0;">
-		        <button type="button" id="addPackageBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff;">+ 패키지 추가</button>
+		        <button type="button" id="addPackageBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff; height: 30px;">+ 패키지 추가</button>
 		    </div>
 		
 		    <!-- 패키지 영역 -->
@@ -858,7 +858,7 @@
 		
 	        // 2. 복사본의 입력값 초기화
 	        $clone.find('select').val('');
-	        $clone.find('input[type="number"]').val('');
+	        $clone.find('input[type="number"]').val('1');
 		
 	        // 3. ID 중복 방지 및 Bootstrap Selectpicker 내부 껍데기 제거
 	        $clone.find('select').removeAttr('id');
@@ -1062,7 +1062,7 @@
 	    box-shadow: none !important;
 	    height: 15px;
 	    text-align: right;
-	    font-size: 15px;
+	    font-size: 14px;
 	    font-weight: 600;
 	    color: #212529;
 	    padding: 0 8px;

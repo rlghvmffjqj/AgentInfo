@@ -92,7 +92,7 @@
 				<input type="hidden" id="parentChkList" name="parentChkList" class="form-control" value="${parentChkList}">
 				<div class="col-lg-12 text-right" style="margin-top: 30px;">
 					<p class="search-btn">
-						<button class="btn btn-primary btnm" type="button" id="btnSearchCompatibility">
+						<button class="btn btn-search btnm" type="button" id="btnSearchCompatibility">
 							<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 						</button>
 						<button class="btn btn-default btnm" type="button" id="btnResetCompatibility">

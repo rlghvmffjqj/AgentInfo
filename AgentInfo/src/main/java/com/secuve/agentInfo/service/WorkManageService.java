@@ -57,20 +57,24 @@ public class WorkManageService {
 		List<String> fileNames = new ArrayList<>();
 		List<String> fileSizes = new ArrayList<>();
 		
-		if (workManage.getWorkManagePackageFileView() != null && !workManage.getWorkManagePackageFileView().isEmpty()) {
-			int i=0;
-			for(MultipartFile workManagePackageFile : workManage.getWorkManagePackageFileView()) {
-				if(workManagePackageFile.getSize() == 0) {
-					fileNames.add(workManage.getWorkManagePackageNameView().get(i));
-			        fileSizes.add("0MB");
-				} else {
-					if(workManagePackageFile != null && !workManagePackageFile.isEmpty()) {
-						fileNames.add(workManagePackageFile.getOriginalFilename());
-				        fileSizes.add(getFileSize(workManagePackageFile.getSize()));
-					}
-				}
-				++i;
-			}
+		if (workManage.getWorkManagePackageFileView() != null) {
+		    int i = 0;
+
+		    for (MultipartFile workManagePackageFile : workManage.getWorkManagePackageFileView()) {
+
+		        // 새 파일을 선택하지 않은 경우
+		        if (workManagePackageFile == null || workManagePackageFile.isEmpty()) {
+		            if (i < workManage.getWorkManagePackageNameView().size()) {
+		                fileNames.add(workManage.getWorkManagePackageNameView().get(i));
+		                fileSizes.add("0MB");
+		            }
+		        } else {
+		            fileNames.add(workManagePackageFile.getOriginalFilename());
+		            fileSizes.add(getFileSize(workManagePackageFile.getSize()));
+		        }
+
+		        i++;
+		    }
 		}
 		workManage.setWorkManageProductType(String.join(",", workManage.getWorkManageProductTypeView()));
 		workManage.setWorkManageProductTypeCount(String.join(",", workManage.getWorkManageProductTypeCountView()));

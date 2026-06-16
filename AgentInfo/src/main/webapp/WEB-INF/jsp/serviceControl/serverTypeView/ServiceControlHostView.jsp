@@ -131,7 +131,7 @@
 			    <label class="float-label headLabel">커널 정보</label>
 			</div>
 			<input type="text" id="searchInput" class="form-control" placeholder="가상서버 이름" style="width: 50%; margin-bottom: 5px;">
-			<button class="btn btn-primary btnm" type="button" onclick="searchVM()">
+			<button class="btn btn-search btnm" type="button" onclick="searchVM()">
 				<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 			</button>
 			<div class="hostListDiv" style="overflow: auto;">

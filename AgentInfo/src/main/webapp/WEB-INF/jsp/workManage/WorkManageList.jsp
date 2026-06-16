@@ -201,10 +201,10 @@
 		
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
-														<button class="btn2 btn-primary btnm" type="button" id="btnSearch">
+														<button class="btn btn-search btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 														</button>
-														<button class="btn2 btn-default btnm" type="button" id="btnReset">
+														<button class="btn btn-default btnm" type="button" id="btnReset">
 															<span>초기화</span>
 														</button>
 													</p>
@@ -643,12 +643,9 @@
 		}
 
 		function mailFormatter(cellValue, options, rowdata, action) {
-		    var cls = rowdata.mailSendYn == 'Y'
-		        ? 'btn-mail sent'
-		        : 'btn-mail';
+		    var cls = rowdata.mailSendYn == 'Y' ? 'btn-mail sent' : 'btn-mail';
 
-		    return '<button type="button" class="' + cls +
-		           '" onclick="sendMail(\'' + rowdata.workManageKeyNum + '\')">메일발송</button>';
+		    return '<button type="button" class="' + cls + '" onclick="sendMail(\'' + rowdata.workManageKeyNum + '\')">메일발송</button>';
 		}
 
 		function subPackage(cellvalue, options, rowObject) {
@@ -765,7 +762,6 @@
 		}
 
 	</script>
-
 	<style>
 		.btn-mail {
 		    padding: 4px 8px;
@@ -798,80 +794,8 @@
 		}
 
 		.btn-mail.sent {
-		    background: #0d6efd;
+		    background: #4c84ff !important;
 		    color: #fff;
-		}
-
-		.work-toolbar{
-		    display:flex;
-		    align-items:center;
-		    gap:15px;
-		    flex-wrap:wrap;
-
-		    padding:15px;
-		    background:#fafafa;
-		    border:1px solid #e5e7eb;
-		    border-radius:12px;
-		}
-
-		.toolbar-title{
-		    font-size:18px;
-		    font-weight:700;
-		    margin-right:10px;
-		}
-
-		.toolbar-group{
-		    display:flex;
-		    align-items:center;
-		    gap:8px;
-		
-		    padding:10px 15px;
-		
-		    background:#fff;
-		    border:1px solid #e5e7eb;
-		    border-radius:10px;
-		}
-
-		.group-label{
-		    font-size:12px;
-		    color:#6b7280;
-		    font-weight:600;
-		    margin-right:5px;
-		}
-
-		.btn2{
-		    border-radius:8px !important;
-		    font-size:12px !important;
-		    font-weight:600;
-		    padding:5px 12px;
-		}
-
-		.btn-primary{
-		    background:#2563eb;
-		    color:#fff;
-		}
-
-		.btn-primary:hover {
-			background:#548aff;
-		}
-
-		.btn-danger{
-		    background:#dc2626;
-		    color:#fff;
-		}
-
-		.btn-warning{
-		    background:#f59e0b;
-		    color:#fff;
-		}
-
-		.btn-light{
-		    background:#fff;
-		    border:1px solid #d1d5db;
-		}
-
-		.listBtn {
-			height: 35px;
 		}
 
 	</style>

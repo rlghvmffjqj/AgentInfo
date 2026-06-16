@@ -230,7 +230,7 @@
 			    		<input class="form-control titleInput" type="text" id="issueTitle" name="issueTitle" style="background: white !important;" value="">
 			    	</div>
 					<p class="search-btn" style="padding-top: 125px; text-align: right;">
-						<button class="btn btn-primary btnm" type="button" id="btnSearch">
+						<button class="btn btn-search btnm" type="button" id="btnSearch">
 							<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 						</button>
 						<button class="btn btn-default btnm" type="button" id="btnReset">

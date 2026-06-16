@@ -288,10 +288,10 @@
 													<input type="hidden" id="customerId" name="customerId" class="form-control">
 		                      						<div class="col-lg-12 text-right">
 													<p class="search-btn" style="margin-top: 10px;">
-														<button class="btn2 btn-primary btnm" type="button" id="btnSearch">
+														<button class="btn btn-search btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 														</button>
-														<button class="btn2 btn-default btnm" type="button" id="btnReset">
+														<button class="btn btn-default btnm" type="button" id="btnReset">
 															<span>초기화</span>
 														</button>
 													</p>
@@ -734,90 +734,5 @@
 		}
 
 	</script>
-	<style>
-		.work-toolbar{
-		    display:flex;
-		    align-items:center;
-		    gap:15px;
-		    flex-wrap:wrap;
-
-		    padding:15px;
-		    background:#fafafa;
-		    border:1px solid #e5e7eb;
-		    border-radius:12px;
-		}
-
-		.toolbar-title{
-		    font-size:18px;
-		    font-weight:700;
-		    color:#111827;
-		    margin-right:10px;
-		}
-
-		.toolbar-group{
-		    display:flex;
-		    align-items:center;
-		    gap:8px;
-		
-		    padding:10px 15px;
-		
-		    background:#fff;
-		    border:1px solid #e5e7eb;
-		    border-radius:10px;
-		
-		    box-shadow:0 1px 3px rgba(0,0,0,0.05);
-		}
-
-		.group-label{
-		    font-size:12px;
-		    color:#6b7280;
-		    font-weight:600;
-		    margin-right:5px;
-		    white-space:nowrap;
-		}
-
-		.work-toolbar .btn2{
-		    border-radius:8px !important;
-		    font-size:12px !important;
-		    font-weight:600 !important;
-		    border:none;
-		    padding:8px 10px;
-		}
-
-		.btn-primary{
-		    background:#2563eb !important;
-		    color:#fff !important;
-		}
-
-		.btn-danger{
-		    background:#dc2626 !important;
-		    color:#fff !important;
-		}
-
-		.btn-warning{
-		    background:#f59e0b !important;
-		    color:#fff !important;
-		}
-
-		.btn-copy{
-		    background:#8b5cf6 !important;
-		    color:#fff !important;
-		}
-
-		.btn-move{
-		    background:#0891b2 !important;
-		    color:#fff !important;
-		}
-
-		.btn-light2{
-		    background:#ffffff !important;
-		    color:#374151 !important;
-		    border:1px solid #d1d5db !important;
-		}
-
-		.work-toolbar .btn:hover{
-		    transform:translateY(-1px);
-		    transition:all 0.2s ease;
-		}
-	</style>
+	
 </html>

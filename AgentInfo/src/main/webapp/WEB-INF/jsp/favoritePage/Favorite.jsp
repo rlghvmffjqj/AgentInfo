@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-primary" id="hideTodayBtn" onClick="hideTodayBtn()"><i class="fa fa-check"></i> 오늘 하루 보지 않기</button>
+		<button type="button" class="btn btn-search" id="hideTodayBtn" onClick="hideTodayBtn()"><i class="fa fa-check"></i> 오늘 하루 보지 않기</button>
 		<button class="btn btn-default btn-outline-info-nomal" data-dismiss="modal">닫기</button>
 	</div>
 </div>

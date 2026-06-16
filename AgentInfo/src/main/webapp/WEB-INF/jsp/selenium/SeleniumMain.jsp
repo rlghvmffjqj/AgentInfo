@@ -115,7 +115,7 @@
 	                      								</div>
 		                      								<div class="col-lg-12 text-right">
 																<p class="search-btn" style="margin-top: 10px;">
-																	<button class="btn btn-primary btnm" type="button" id="btnSearch">
+																	<button class="btn btn-search btnm" type="button" id="btnSearch">
 																		<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 																	</button>
 																	<button class="btn btn-default btnm" type="button" id="btnReset">
@@ -144,9 +144,9 @@
 																	            <!-- 그룹 관리 -->
 																	            <div class="toolbar-group">
 																	                <div class="group-label">그룹 관리</div>
-																	                <button class="btn btn-primary myBtn" id="BtnSeleniumGroupInsert" onclick="btnSeleniumGroupInsert()">➕ 추가</button>
-																	                <button class="btn btn-warning myBtn" id="BtnSeleniumGroupUpdate" onclick="btnSeleniumGroupUpdate()">✏ 수정</button>
-																	                <button class="btn btn-danger myBtn" id="BtnSeleniumGroupDelect" onclick="btnSeleniumGroupDelect()">🗑 삭제</button>
+																	                <button class="btn2 btn-primary myBtn" id="BtnSeleniumGroupInsert" onclick="btnSeleniumGroupInsert()">➕ 추가</button>
+																	                <button class="btn2 btn-warning myBtn" id="BtnSeleniumGroupUpdate" onclick="btnSeleniumGroupUpdate()">✏ 수정</button>
+																	                <button class="btn2 btn-danger myBtn" id="BtnSeleniumGroupDelect" onclick="btnSeleniumGroupDelect()">🗑 삭제</button>
 																	            </div>
 																			
 																	        </div>
@@ -166,7 +166,7 @@
 																	</tr>
 																</tbody>
 															</table>
-															<table style="width:80%; float:right;">
+															<table style="width:79%; float:right;">
 															<tbody>
 																<tr>
 																    <td>
@@ -179,15 +179,15 @@
 																            <div class="toolbar-group">
 																                <div class="group-label">기본 작업</div>
 																			
-																                <button class="btn btn-primary myBtn" id="createButton">➕ 추가</button>
-																                <button class="btn btn-danger myBtn" id="deleteButton">🗑 삭제</button>
+																                <button class="btn2 btn-primary myBtn" id="createButton">➕ 추가</button>
+																                <button class="btn2 btn-danger myBtn" id="deleteButton">🗑 삭제</button>
 																            </div>
 																		
 																            <!-- 자동화 -->
 																            <div class="toolbar-group">
 																                <div class="group-label">자동화</div>
 																			
-																                <button class="btn btn-automation myBtn" onclick="seleniumCopy()">🤖 자동화 복사</button>
+																                <button class="btn2 btn-automation myBtn" onclick="seleniumCopy()">🤖 자동화 복사</button>
 																            </div>
 																		
 																        </div>
@@ -667,171 +667,7 @@
 	</script>
 	<style>
 		.work-toolbar{
-		    display:flex;
-		    align-items:center;
-		    gap:15px;
-		    flex-wrap:wrap;
-		
-		    padding:5px;
-		    background:#fafafa;
-		    border:1px solid #e5e7eb;
-		    border-radius:12px;
 			height: 107px;
-		}
-
-		.toolbar-title{
-		    font-size:18px;
-		    font-weight:700;
-		    color:#111827;
-		    margin-right:10px;
-		}
-
-		.toolbar-group{
-		    display:flex;
-		    align-items:center;
-		    gap:8px;
-		
-		    padding:10px 15px;
-		
-		    background:#fff;
-		    border:1px solid #e5e7eb;
-		    border-radius:10px;
-		
-		    box-shadow:0 1px 3px rgba(0,0,0,0.05);
-		}
-
-		.group-label{
-		    font-size:12px;
-		    color:#6b7280;
-		    font-weight:600;
-		    margin-right:5px;
-		    white-space:nowrap;
-		}
-
-		.work-toolbar .btn{
-		    border-radius:8px !important;
-		    font-size:12px !important;
-		    font-weight:600 !important;
-		    padding:6px 12px;
-		    border:none;
-		    transition:all 0.2s ease;
-		}
-
-		.work-toolbar .btn:hover{
-		    transform:translateY(-1px);
-		}
-
-		/* 추가 */
-		.btn-primary{
-		    background:#2563eb !important;
-		    color:#fff !important;
-		}
-
-		/* 삭제 */
-		.btn-danger{
-		    background:#dc2626 !important;
-		    color:#fff !important;
-		}
-
-		/* 처리완료 */
-		.btn-success{
-		    background:#22c55e !important;
-		    color:#fff !important;
-		}
-
-		/* 상태변경 */
-		.btn-warning{
-		    background:#f59e0b !important;
-		    color:#fff !important;
-		}
-
-		/* 국내/국외 이동 */
-		.btn-info{
-		    background:#0891b2 !important;
-		    color:#fff !important;
-		}
-
-		/* 일반 버튼 */
-		.btn-light{
-		    background:#ffffff !important;
-		    color:#374151 !important;
-		    border:1px solid #d1d5db !important;
-		}
-
-		/* 복사 */
-		.btn-copy{
-		    background:#8b5cf6 !important;
-		    color:#fff !important;
-		}
-
-		/* 자동화 */
-		.btn-automation{
-		    background:#6366f1 !important;
-		    color:#fff !important;
-		}
-
-		/* 보고서 조회 */
-		.btn-report{
-		    background:#10b981 !important;
-		    color:#fff !important;
-		}
-
-		/* 템플릿 */
-		.btn-template{
-		    background:#f59e0b !important;
-		    color:#fff !important;
-		}
-
-		/* 삭제 보고서 */
-		.btn-delete-report{
-		    background:#ef4444 !important;
-		    color:#fff !important;
-		}
-
-		/* 국내/국외 이동 */
-		.btn-move{
-		    background:#0ea5e9 !important;
-		    color:#fff !important;
-		}
-
-		.btn-primary:hover{
-		    background:#1d4ed8 !important;
-		}
-
-		.btn-danger:hover{
-		    background:#b91c1c !important;
-		}
-
-		.btn-success:hover{
-		    background:#16a34a !important;
-		}
-
-		.btn-warning:hover{
-		    background:#d97706 !important;
-		}
-
-		.btn-copy:hover{
-		    background:#7c3aed !important;
-		}
-
-		.btn-automation:hover{
-		    background:#4f46e5 !important;
-		}
-
-		.btn-report:hover{
-		    background:#059669 !important;
-		}
-
-		.btn-template:hover{
-		    background:#d97706 !important;
-		}
-
-		.btn-delete-report:hover{
-		    background:#dc2626 !important;
-		}
-
-		.btn-move:hover{
-		    background:#0284c7 !important;
 		}
 	</style>
 </html>

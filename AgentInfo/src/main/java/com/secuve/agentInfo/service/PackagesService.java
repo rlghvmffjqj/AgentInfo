@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -481,10 +482,12 @@ public class PackagesService {
 			}
 			// 행의 3번째 열(사업명)
 			cell = row.getCell(2);
-			if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-				cell.setCellType(Cell.CELL_TYPE_STRING);
+			if (null != cell) {
+				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+				}
+				packages.setBusinessNameView(cell.getStringCellValue());
 			}
-			packages.setBusinessNameView(cell.getStringCellValue());
 			// 행의 4번째 열(요청일자)
 			cell = row.getCell(3);
 			if (null != cell) {
@@ -634,202 +637,199 @@ public class PackagesService {
 	 */
 	@SuppressWarnings({ "deprecation", "resource" })
 	public String importPackagesXlxs2022(MultipartFile mfile, Principal principal) throws IOException {
-		Date date = null;
+	    Date date = null;
 
-		XSSFWorkbook workbook = new XSSFWorkbook(mfile.getInputStream());
-		// 첫번째 시트 불러오기
-		XSSFSheet sheet = workbook.getSheetAt(0);
+	    XSSFWorkbook workbook = new XSSFWorkbook(mfile.getInputStream());
+	    XSSFSheet sheet = workbook.getSheetAt(0);
+	    
+	    // 셀의 데이터를 문자열로 안전하게 변환해주는 POI 유틸리티
+	    DataFormatter formatter = new DataFormatter();
 
-		// 4번 째 행부터 조회
-		for (int i = 4; i < sheet.getLastRowNum() + 1; i++) {
-			Packages packages = new Packages();
-			XSSFRow row = sheet.getRow(i);
+	    for (int i = 4; i < sheet.getLastRowNum() + 1; i++) {
+	        Packages packages = new Packages();
+	        XSSFRow row = sheet.getRow(i);
 
-			// 행이 존재하기 않으면 패스
-			if (null == row) {
-				continue;
-			}
+	        // 행이 존재하지 않으면 패스
+	        if (row == null || row.getPhysicalNumberOfCells() == 0) {
+	            continue;
+	        }
 
-			// 1번째 열을 사용하지 않음.
-			// 행의 2번째 열(고객사 명)
-			XSSFCell cell = row.getCell(1);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				if (cell.getStringCellValue() == "" || cell.getStringCellValue() == null) {
-					return "OK";
-				}
-				packages.setCustomerNameView(cell.getStringCellValue());
-				if (categoryService.getCategory("customerName", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("customerName", cell.getStringCellValue(), principal.getName(),	nowDate());
-				}
-			}
-			// 행의 3번째 열(사업명)
-			cell = row.getCell(2);
-			if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-			}
-			packages.setBusinessNameView(cell.getStringCellValue());
-			// 행의 4번째 열(요청일자)
-			cell = row.getCell(3);
-			if (null != cell) {
-				date = cell.getDateCellValue();
-				String cellString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-				packages.setRequestDateView(cellString);
-			}
-			// 행의 5번째 열(전달일자)
-			cell = row.getCell(4);
-			if (null != cell)
-				date = cell.getDateCellValue();
-			String cellString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-			packages.setDeliveryDataView(cellString);
-			// 행의 6번째 열(기존/신규)
-			cell = row.getCell(5);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setExistingNewView(cell.getStringCellValue());
-				if (categoryService.getCategory("existingNew", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("existingNew", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 7번째 열(패키지 종류)
-			cell = row.getCell(6);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setManagementServerView(cell.getStringCellValue());
-				if (categoryService.getCategory("managementServer", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("managementServer", cell.getStringCellValue(), principal.getName(),	nowDate());
-				}
-			}
-			// 행의 8번째 열(Agent OS)
-			cell = row.getCell(7);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setAgentOSView(cell.getStringCellValue());
-				if (categoryService.getCategory("agentOS", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("agentOS", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 9번째 열(패키지 상세버전)
-			cell = row.getCell(8);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setOsDetailVersionView(cell.getStringCellValue());
-			}
-			// 행의 10번째 열(일반/커스텀)
-			cell = row.getCell(9);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setGeneralCustomView(cell.getStringCellValue());
-				if (categoryService.getCategory("generalCustom", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("generalCustom", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 11번째 열(OS종류)
-			cell = row.getCell(10);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setOsTypeView(cell.getStringCellValue());
-				if (categoryService.getCategory("osType", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("osType", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 12번째 열(Agent ver)
-			cell = row.getCell(11);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setAgentVerView(cell.getStringCellValue());
-				if (categoryService.getCategory("agentVer", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("agentVer", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 13번째 열(패키지명)
-			cell = row.getCell(12);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setPackageNameView(cell.getStringCellValue());
-			}
-			// 행의 14번째 열(담당자)
-			cell = row.getCell(13);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setManagerView(cell.getStringCellValue());
-			}
-			// 행의 15번째 열(요청 제품구분)
-			cell = row.getCell(14);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setRequestProductCategoryView(cell.getStringCellValue());
-				if (categoryService.getCategory("requestProductCategory", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("requestProductCategory", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 16번째 열(전달 방법)
-			cell = row.getCell(15);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setDeliveryMethodView(cell.getStringCellValue());
-				if (categoryService.getCategory("deliveryMethod", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("deliveryMethod", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 17번째 열(구매구분)
-			cell = row.getCell(16);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setPurchaseCategoryView(cell.getStringCellValue());
-				if (categoryService.getCategory("purchaseCategory", cell.getStringCellValue()) == 0) {
-					categoryService.setCategory("purchaseCategory", cell.getStringCellValue(), principal.getName(), nowDate());
-				}
-			}
-			// 행의 22번째 열(비고)
-			cell = row.getCell(21);
-			if (null != cell) {
-				if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-				}
-				packages.setNoteView(cell.getStringCellValue());
-			}
+	        // [1번째 열 패스]
+	        
+	        // 행의 2번째 열(고객사 명)
+	        XSSFCell cell = row.getCell(1);
+	        String customerName = (cell != null) ? formatter.formatCellValue(cell).trim() : "";
+	        
+	        // 고객사 명이 비어있거나 null이면 종료 (기존 로직 유지)
+	        if (customerName.isEmpty()) {
+	            continue;
+	        }
+	        
+	        packages.setCustomerNameView(customerName);
+	        if (categoryService.getCategory("customerName", customerName) == 0) {
+	            categoryService.setCategory("customerName", customerName, principal.getName(), nowDate());
+	        }
 
-			// 키값 저장
-			packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
-			// 로그인 사용자 아이디
-			packages.setPackagesRegistrant(principal.getName());
-			// 저장 시간(현재 시간)
-			packages.setPackagesRegistrationDate(nowDate());
+	        // 행의 3번째 열(사업명)
+	        cell = row.getCell(2);
+	        if (cell != null) {
+	            packages.setBusinessNameView(formatter.formatCellValue(cell).trim());
+	        }
 
-			packagesDao.insertPackages(packages);
-			// 고객사 사업명 매핑
-			categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
-			// uid 로그 기록
-			packageUidLog(packages, principal, "INSERT");
-		}
-		return "OK";
+	        // 행의 4번째 열(요청일자)
+	        cell = row.getCell(3);
+	        if (cell != null) {
+	            try {
+	                date = cell.getDateCellValue();
+	                if (date != null) { // 날짜 데이터가 실제 존재할 때만 포맷팅
+	                    String cellString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	                    packages.setRequestDateView(cellString);
+	                }
+	            } catch (Exception e) {
+	                // 셀 형식이 날짜가 아니거나 텍스트로 적힌 날짜인 경우 안전하게 문자열로 가져옴
+	                packages.setRequestDateView(formatter.formatCellValue(cell).trim());
+	            }
+	        }
+
+	        // 행의 5번째 열(전달일자)
+	        cell = row.getCell(4);
+	        if (cell != null) {
+	            try {
+	                date = cell.getDateCellValue();
+	                if (date != null) { // 날짜 데이터가 실제 존재할 때만 포맷팅
+	                    String cellString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	                    packages.setDeliveryDataView(cellString);
+	                }
+	            } catch (Exception e) {
+	                // 셀 형식이 날짜가 아니거나 텍스트로 적힌 날짜인 경우 안전하게 문자열로 가져옴
+	                packages.setDeliveryDataView(formatter.formatCellValue(cell).trim());
+	            }
+	        }
+
+	        // 행의 6번째 열(기존/신규)
+	        cell = row.getCell(5);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setExistingNewView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("existingNew", val) == 0) {
+	                categoryService.setCategory("existingNew", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 7번째 열(패키지 종류)
+	        cell = row.getCell(6);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setManagementServerView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("managementServer", val) == 0) {
+	                categoryService.setCategory("managementServer", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 8번째 열(Agent OS)
+	        cell = row.getCell(7);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setAgentOSView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("agentOS", val) == 0) {
+	                categoryService.setCategory("agentOS", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 9번째 열(패키지 상세버전)
+	        cell = row.getCell(8);
+	        if (cell != null) {
+	            packages.setOsDetailVersionView(formatter.formatCellValue(cell).trim());
+	        }
+
+	        // 행의 10번째 열(일반/커스텀)
+	        cell = row.getCell(9);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setGeneralCustomView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("generalCustom", val) == 0) {
+	                categoryService.setCategory("generalCustom", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 11번째 열(OS종류)
+	        cell = row.getCell(10);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setOsTypeView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("osType", val) == 0) {
+	                categoryService.setCategory("osType", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 12번째 열(Agent ver)
+	        cell = row.getCell(11);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setAgentVerView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("agentVer", val) == 0) {
+	                categoryService.setCategory("agentVer", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 13번째 열(패키지명)
+	        cell = row.getCell(12);
+	        if (cell != null) {
+	            packages.setPackageNameView(formatter.formatCellValue(cell).trim());
+	        }
+
+	        // 행의 14번째 열(담당자)
+	        cell = row.getCell(13);
+	        if (cell != null) {
+	            packages.setManagerView(formatter.formatCellValue(cell).trim());
+	        }
+
+	        // 행의 15번째 열(요청 제품구분)
+	        cell = row.getCell(14);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setRequestProductCategoryView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("requestProductCategory", val) == 0) {
+	                categoryService.setCategory("requestProductCategory", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 16번째 열(전달 방법)
+	        cell = row.getCell(15);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setDeliveryMethodView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("deliveryMethod", val) == 0) {
+	                categoryService.setCategory("deliveryMethod", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 17번째 열(구매구분)
+	        cell = row.getCell(16);
+	        if (cell != null) {
+	            String val = formatter.formatCellValue(cell).trim();
+	            packages.setPurchaseCategoryView(val);
+	            if (!val.isEmpty() && categoryService.getCategory("purchaseCategory", val) == 0) {
+	                categoryService.setCategory("purchaseCategory", val, principal.getName(), nowDate());
+	            }
+	        }
+
+	        // 행의 22번째 열(비고)
+	        cell = row.getCell(21);
+	        if (cell != null) {
+	            packages.setNoteView(formatter.formatCellValue(cell).trim());
+	        }
+
+	        // 키값 저장
+	        packages.setPackagesKeyNumOrigin(PackagesKeyNumOrigin());
+	        packages.setPackagesRegistrant(principal.getName());
+	        packages.setPackagesRegistrationDate(nowDate());
+
+	        packagesDao.insertPackages(packages);
+	        categoryService.insertCustomerBusinessMapping(packages.getCustomerNameView(), packages.getBusinessNameView());
+	        packageUidLog(packages, principal, "INSERT");
+	    }
+	    return "OK";
 	}
 
 	/**

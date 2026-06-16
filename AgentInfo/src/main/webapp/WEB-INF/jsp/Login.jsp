@@ -62,7 +62,7 @@
 	                                 <div class="row m-t-30">
 	                                     <div class="col-md-12">
 	                                         <!-- <button type="submit" id="btn" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center">Login</button> -->
-	                                         <button type="button" id="btn" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center" onClick="pwdCheck();">Login</button>
+	                                         <button type="button" id="btn" class="btn btn-search btn-md btn-block waves-effect waves-light text-center" onClick="pwdCheck();">Login</button>
 	                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	                                     </div>
 	                                 </div>

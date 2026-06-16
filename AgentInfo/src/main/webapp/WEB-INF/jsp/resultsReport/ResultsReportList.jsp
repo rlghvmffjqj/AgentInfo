@@ -12,34 +12,7 @@
 		    	$.cookie('name','resultsReport');
 		    });
 		</script>
-		<style>
-			.template-row-highlight {
-			    background: #ffa438ab !important;
-			}
-
-			.template-row-highlight:hover {
-			    background: #fcc179ab !important;
-			}
-
-			.template-row-highlightDel {
-			    background: #ff7070 !important;
-			}
-
-			.template-row-highlightDel:hover {
-			    background: #ff7070d6 !important;
-				color: rgb(26, 26, 26);
-				border-color: rgba(224, 207, 194, 0.527);
-			}
-
-
-			.templateColor {
-				background-color: #ffa438ab !important;
-			}
-
-			.deleteColor {
-				background-color: #ff7070;
-			}
-		</style>
+		
 
 		<script>
 			function templateFormatter(cellValue, options, rowdata, action) {
@@ -213,7 +186,7 @@
 												<input type="hidden" id="resultsreportDelNote" name="resultsreportDelNote" class="form-control">
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
-														<button class="btn btn-primary btnm" type="button" id="btnSearch">
+														<button class="btn btn-search btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 														</button>
 														<button class="btn btn-default btnm" type="button" id="btnReset">
@@ -241,31 +214,31 @@
 															            <div class="toolbar-group">
 															                <div class="group-label">기본 작업</div>
 																		
-															                <button class="btn btn-primary myBtn" id="BtnInsert">➕ 추가</button>
-															                <button class="btn btn-danger myBtn" id="BtnDelect">🗑 삭제</button>
-															                <button class="btn btn-copy myBtn" id="BtnCopy">📄 복사</button>
+															                <button class="btn2 btn-primary myBtn" id="BtnInsert">➕ 추가</button>
+															                <button class="btn2 btn-danger myBtn" id="BtnDelect">🗑 삭제</button>
+															                <button class="btn2 btn-copy myBtn" id="BtnCopy">📄 복사</button>
 															            </div>
 																	
 															            <!-- 보고서 -->
 															            <div class="toolbar-group">
 															                <div class="group-label">보고서</div>
 																		
-															                <button class="btn btn-report myBtn" onclick="reportGet();">📋 보고서 조회</button>
+															                <button class="btn2 btn-report myBtn" onclick="reportGet();">📋 보고서 조회</button>
 															            </div>
 																	
 															            <!-- 템플릿 -->
 															            <div class="toolbar-group">
 															                <div class="group-label">템플릿</div>
 																		
-															                <button class="btn btn-template myBtn" onclick="templateAdd();">📝 템플릿 등록</button>
-															                <button class="btn btn-template myBtn" onclick="templateGet();">🔍 템플릿 조회</button>
+															                <button class="btn2 btn-template myBtn" onclick="templateAdd();">📝 템플릿 등록</button>
+															                <button class="btn2 btn-template myBtn" onclick="templateGet();">🔍 템플릿 조회</button>
 															            </div>
 																	
 															            <!-- 기타 -->
 															            <div class="toolbar-group">
 															                <div class="group-label">기타</div>
 																		
-															                <button class="btn btn-delete-report myBtn" onclick="deleteGet();">🗂 삭제 보고서 조회</button>
+															                <button class="btn2 btn-delete-report myBtn" onclick="deleteGet();">🗂 삭제 보고서 조회</button>
 															            </div>
 																	
 															        </div>
@@ -521,93 +494,6 @@
 			$('#resultsReportTemplate').val('del');
 			tableRefresh();
 		}
-
-		
 	</script>
 
-	<style>
-		.work-toolbar{
-		    display:flex;
-		    align-items:center;
-		    gap:15px;
-		    flex-wrap:wrap;
-
-		    padding:15px;
-		    background:#fafafa;
-		    border:1px solid #e5e7eb;
-		    border-radius:12px;
-		}
-
-		.toolbar-title{
-		    font-size:18px;
-		    font-weight:700;
-		    color:#111827;
-		    margin-right:10px;
-		}
-
-		.toolbar-group{
-		    display:flex;
-		    align-items:center;
-		    gap:8px;
-		
-		    padding:10px 15px;
-		
-		    background:#fff;
-		    border:1px solid #e5e7eb;
-		    border-radius:10px;
-		
-		    box-shadow:0 1px 3px rgba(0,0,0,0.05);
-		}
-
-		.group-label{
-		    font-size:12px;
-		    color:#6b7280;
-		    font-weight:600;
-		    margin-right:5px;
-		    white-space:nowrap;
-		}
-
-		.work-toolbar .btn{
-		    border-radius:8px !important;
-		    font-size:12px !important;
-		    font-weight:600 !important;
-		    border:none;
-		    padding:6px 12px;
-		}
-
-		.btn-primary{
-		    background:#2563eb !important;
-		    color:#fff !important;
-		}
-
-		.btn-danger{
-		    background:#dc2626 !important;
-		    color:#fff !important;
-		}
-
-		.btn-copy{
-		    background:#8b5cf6 !important;
-		    color:#fff !important;
-		}
-
-		.btn-report{
-		    background:#10b981 !important;
-		    color:#fff !important;
-		}
-
-		.btn-template{
-		    background:#f59e0b !important;
-		    color:#fff !important;
-		}
-
-		.btn-delete-report{
-		    background:#ef4444 !important;
-		    color:#fff !important;
-		}
-
-		.work-toolbar .btn:hover{
-		    transform:translateY(-1px);
-		    transition:all 0.2s ease;
-		}
-	</style>
 </html>

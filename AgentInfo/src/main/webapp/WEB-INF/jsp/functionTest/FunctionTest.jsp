@@ -155,7 +155,7 @@
 		                      					<input type="hidden" id="functionTestTitle" name="functionTestTitle" class="form-control">
 		                      					<div class="col-lg-12 text-right">
 													<p class="search-btn">
-														<button class="btn btn-primary btnm" type="button" id="btnSearch">
+														<button class="btn btn-search btnm" type="button" id="btnSearch">
 															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 														</button>
 														<button class="btn btn-default btnm" type="button" id="btnReset">

@@ -105,7 +105,7 @@
 																		  			</select>
 																				</div>
 																		  		<input type="text" id="searchInput" name="searchInput" class="form-control" style="float: left; width: 250px;">
-																		  		<button class="btn btn-primary btnm" type="button" id="btnSearch" style="float: left; min-width: 0px !important; height: 32px">
+																		  		<button class="btn btn-search btnm" type="button" id="btnSearch" style="float: left; min-width: 0px !important; height: 32px">
 																					<i class="fa fa-search"></i>&nbsp;<span>검색</span>
 																				</button>
 																			</form>
