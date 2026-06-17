@@ -1,499 +1,487 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths">
-	<head>
-		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
-		<!-- datetimepicker -->
-		<link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>">
-		<script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
-		<script>
-			/* =========== 페이지 쿠키 값 저장 ========= */
-		    $(function() {
-		    	$.cookie('name','resultsReport');
-		    });
-		</script>
-		
+<html
+  lang="en"
+  class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"
+>
+  <head>
+    <%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
+    <!-- datetimepicker -->
+    <link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>" />
+    <script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
+    
+    <script>
+      /* =========== 페이지 쿠키 값 저장 ========= */
+      $(function () {
+        $.cookie("name", "resultsReport");
+      });
+    </script>
 
-		<script>
-			function templateFormatter(cellValue, options, rowdata, action) {
-			    const backgroundStyle = rowdata.resultsReportTemplate === 'template' 
-			        ? 'background: #ffffcc;'
-			        : '';
-			    return `<div style="${backgroundStyle}">${cellValue != null ? cellValue : ''}</div>`;
-			}
+    <script>
+      function templateFormatter(cellValue, options, rowdata, action) {
+        const backgroundStyle = rowdata.resultsReportTemplate === "template" ? "background: #ffffcc;" : "";
+        return `<div style="${backgroundStyle}">${cellValue != null ? cellValue : ""}</div>`;
+      }
 
-			$(document).ready(function(){
-				var formData = $('#form').serializeObject();
-				$("#list").jqGrid({
-					url: "<c:url value='/resultsReport'/>",
-					mtype: 'POST',
-					postData: formData,
-					datatype: 'json',
-					colNames:['문서 번호','고객사명','의뢰자','검증자','검토자','문서 작성일','테스트 일정','템플릿 적용 여부','노트'],
-					colModel:[
-						{name:'resultsReportNumber', index:'resultsReportNumber', align:'center', width: 200, formatter: linkFormatter},
-						{name:'resultsReportCustomerName', index:'resultsReportCustomerName', align:'center', width: 200},
-						{name:'resultsReportClient', index:'resultsReportClient', align:'center', width: 200},
-						{name:'resultsReportVerifier', index:'resultsReportVerifier', align:'center', width: 120},
-						{name:'resultsReportReviewer', index:'resultsReportReviewer', align:'center', width: 120},
-						{name:'resultsReportDate', index:'resultsReportDate', align:'center', width: 200},
-						{name:'resultsReportTestDate', index:'resultsReportTestDate', align:'center', width: 200},
-						{name:'resultsReportTemplate', index:'resultsReportTemplate', align:'center', width: 100, formatter: templateFormatter, hidden:true},
-						{name:'resultsreportDelNote', index:'resultsreportDelNote', align:'center', width: 250},
-					],
-					rowattr: function(rowData) {
-					    if (rowData.resultsReportTemplate?.toLowerCase() === 'template') {
-					        return { "class": "template-row-highlight" };
-					    }
-						if (rowData.resultsReportTemplate?.toLowerCase() === 'del') {
-					        return { "class": "template-row-highlightDel" };
-					    }
-					},
-					jsonReader : {
-			        	id: 'resultsReportKeyNum',
-			        	repeatitems: false
-			        },
-			        pager: '#pager',			// 페이징
-			        rowNum: 25,					// 보여중 행의 수
-			        sortname: 'resultsReportKeyNum',	// 기본 정렬 
-			        sortorder: 'desc',			// 정렬 방식
-			        
-			        multiselect: true,			// 체크박스를 이용한 다중선택
-			        viewrecords: false,			// 시작과 끝 레코드 번호 표시
-			        gridview: true,				// 그리드뷰 방식 랜더링
-			        sortable: true,				// 컬럼을 마우스 순서 변경
-			        height : '670',
-			        autowidth:true,				// 가로 넒이 자동조절
-			        shrinkToFit: false,			// 컬럼 폭 고정값 유지
-			        altRows: false,				// 라인 강조
-				}); 
-				loadColumns('#list','resultsReportList');
-			});
-			
-			$(window).on('resize.list', function () {
-			    jQuery("#list").jqGrid( 'setGridWidth', $(".page-wrapper").width() );
-			});
-		</script>
-	</head>
-	<body>
-	<div id="pcoded" class="pcoded iscollapsed">
-		<div class="pcoded-overlay-box"></div>
-		<div class="pcoded-container navbar-wrapper">
-			<%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%>
-			<%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
-			<div class="pcoded-main-container" style="margin-top: 56px;">
-				<div class="pcoded-wrapper">
-					<%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
-					<div class="pcoded-content" id="page-wrapper">
-						<div class="page-header">
-							<div class="page-block">
-							    <div class="row align-items-center">
-							        <div class="col-md-8">
-							            <div class="page-header-title" >
-							                <h5 class="m-b-10">결과 보고서</h5>
-							                <p class="m-b-0">Results Report</p>
-							            </div>
-							        </div>
-							        <div class="col-md-4">
-							            <ul class="breadcrumb-title">
-							                <li class="breadcrumb-item">
-							                    <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
-							                </li>
-							                <li class="breadcrumb-item"><a href="#!">결과 보고서</a>
-							                </li>
-							            </ul>
-							        </div>
-							    </div>
-							</div>
-						</div>
-                        <div class="pcoded-inner-content">
-                            <div class="main-body">
-                                <div class="page-wrapper">
-                                	<div class="ibox">
-	                                	<div class="searchbos">
-	                                		<form id="form" name="form" method ="post">
-												<div style="padding-left:15px; width:100%; float: left;">
-													<label class="labelFontSize">문서 작성일</label>
-													<div>
-													  <input class="form-control" style="width: 12%; float: left;" type="date" id="resultsReportDateStart" name="resultsReportDateStart" max="9999-12-31">
-													  <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px;"> ~ </span>
-													  <input class="form-control" style="width: 12%; float: left;" type="date" id="resultsReportDateEnd" name="resultsReportDateEnd" max="9999-12-31">
-												  </div>
-												  <div style="padding-left: 50px; float: left;">
-													  <div class="form-check radioDate">
-														<input class="form-check-input" type="radio" name="reportDate" id="toDay" value="0">
-														<label class="form-check-label" for="toDay">
-														  당일
-														</label>
-													  </div>
-													  <div class="form-check radioDate">
-														<input class="form-check-input" type="radio" name="reportDate" id="oneWeek" value="7">
-														<label class="form-check-label" for="oneWeek">
-														  1주일
-														</label>
-													  </div>
-													  <div class="form-check radioDate">
-														<input class="form-check-input" type="radio" name="reportDate" id="oneMonth" value="30">
-														<label class="form-check-label" for="oneMonth">
-														  1개월
-														</label>
-													  </div>
-													  <div class="form-check radioDate">
-														<input class="form-check-input" type="radio" name="reportDate" id="threeMonth" value="90">
-														<label class="form-check-label" for="threeMonth">
-														  3개월
-														</label>
-													  </div>
-													  <div class="form-check radioDate">
-														<input class="form-check-input" type="radio" name="reportDate" id="dateFull" value="full" checked>
-														<label class="form-check-label" for="dateFull">
-														  전체
-														</label>
-													  </div>
-												  </div>
-												</div>
-												<div class="col-lg-2">
-													<label class="labelFontSize">문서 번호</label>
-												  	<select class="form-control selectpicker" id="resultsReportNumberMulti" name="resultsReportNumberMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${resultsReportNumber}">
-														  <option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-												  	</select>
-											  	</div>
-	                                			<div class="col-lg-2">
-	                      							<label class="labelFontSize">고객사명</label>
-													<select class="form-control selectpicker" id="resultsReportCustomerNameMulti" name="resultsReportCustomerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-														<c:forEach var="item" items="${resultsReportCustomerName}">
-															<option value="${item}"><c:out value="${item}"/></option>
-														</c:forEach>
-													</select>
-												</div>
-												<div class="col-lg-2">
-													<label class="labelFontSize">의뢰자</label>
-													<input type="text" id="resultsReportClient" name="resultsReportClient" class="form-control">
-												</div>
-												<div class="col-lg-2">
-	                      							<label class="labelFontSize">검증자</label>
-	                      							<input type="text" id="resultsReportVerifier" name="resultsReportVerifier" class="form-control">
-	                      						</div>
-	                      						<div class="col-lg-2">
-	                      							<label class="labelFontSize">검토자</label>
-	                      							<input type="text" id="resultsReportReviewer" name="resultsReportReviewer" class="form-control">
-	                      						</div>
-	                      						<input type="hidden" id="resultsReportNumber" name="resultsReportNumber" class="form-control">
-		                      					<input type="hidden" id="resultsReportCustomerName" name="resultsReportCustomerName" class="form-control">
-												<input type="hidden" id="resultsReportTemplate" name="resultsReportTemplate" class="form-control">
-												<input type="hidden" id="resultsreportDelNote" name="resultsreportDelNote" class="form-control">
-		                      					<div class="col-lg-12 text-right">
-													<p class="search-btn">
-														<button class="btn btn-search btnm" type="button" id="btnSearch">
-															<i class="fa fa-search"></i>&nbsp;<span>검색</span>
-														</button>
-														<button class="btn btn-default btnm" type="button" id="btnReset">
-															<span>초기화</span>
-														</button>
-													</p>
-												</div>
-												</form>
-		                     				</div>
-	                     				 </div>
-			                           	 <table style="width:99%;">
-											<tbody>
-												<tr>
-													<td style="padding:0px 0px 0px 0px;" class="box">
-														<table style="width:100%">
-														<tbody>
-															<tr>
-															    <td>
-																
-															        <div class="work-toolbar">
-																	
-															            <div class="toolbar-title">📑 결과 보고서 관리</div>
-																	
-															            <!-- 기본 작업 -->
-															            <div class="toolbar-group">
-															                <div class="group-label">기본 작업</div>
-																		
-															                <button class="btn2 btn-primary myBtn" id="BtnInsert">➕ 추가</button>
-															                <button class="btn2 btn-danger myBtn" id="BtnDelect">🗑 삭제</button>
-															                <button class="btn2 btn-copy myBtn" id="BtnCopy">📄 복사</button>
-															            </div>
-																	
-															            <!-- 보고서 -->
-															            <div class="toolbar-group">
-															                <div class="group-label">보고서</div>
-																		
-															                <button class="btn2 btn-report myBtn" onclick="reportGet();">📋 보고서 조회</button>
-															            </div>
-																	
-															            <!-- 템플릿 -->
-															            <div class="toolbar-group">
-															                <div class="group-label">템플릿</div>
-																		
-															                <button class="btn2 btn-template myBtn" onclick="templateAdd();">📝 템플릿 등록</button>
-															                <button class="btn2 btn-template myBtn" onclick="templateGet();">🔍 템플릿 조회</button>
-															            </div>
-																	
-															            <!-- 기타 -->
-															            <div class="toolbar-group">
-															                <div class="group-label">기타</div>
-																		
-															                <button class="btn2 btn-delete-report myBtn" onclick="deleteGet();">🗂 삭제 보고서 조회</button>
-															            </div>
-																	
-															        </div>
-																
-															    </td>
-															</tr>
-															<tr>
-																<td class="border1" colspan="2">
-																	<!------- Grid ------->
-																	<div class="jqGrid_wrapper">
-																		<table id="list"></table>
-																		<div id="pager"></div>
-																	</div>
-																	<!------- Grid ------->
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												</td>
-											</tbody>
-										</table>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</body>
+      $(document).ready(function () {
+        var formData = $("#form").serializeObject();
+        $("#list").jqGrid({
+          url: "<c:url value='/resultsReport'/>",
+          mtype: "POST",
+          postData: formData,
+          datatype: "json",
+          colNames: ["문서 번호", "고객사명", "의뢰자", "검증자", "검토자", "문서 작성일", "테스트 일정", "템플릿 적용 여부", "노트"],
+          colModel: [
+            { name: "resultsReportNumber", index: "resultsReportNumber", align: "center", width: 200, formatter: linkFormatter },
+            { name: "resultsReportCustomerName", index: "resultsReportCustomerName", align: "center", width: 200 },
+            { name: "resultsReportClient", index: "resultsReportClient", align: "center", width: 200 },
+            { name: "resultsReportVerifier", index: "resultsReportVerifier", align: "center", width: 120 },
+            { name: "resultsReportReviewer", index: "resultsReportReviewer", align: "center", width: 120 },
+            { name: "resultsReportDate", index: "resultsReportDate", align: "center", width: 200 },
+            { name: "resultsReportTestDate", index: "resultsReportTestDate", align: "center", width: 200 },
+            { name: "resultsReportTemplate", index: "resultsReportTemplate", align: "center", width: 100, formatter: templateFormatter, hidden: true },
+            { name: "resultsreportDelNote", index: "resultsreportDelNote", align: "center", width: 250 },
+          ],
+          rowattr: function (rowData) {
+            if (rowData.resultsReportTemplate?.toLowerCase() === "template") {
+              return { class: "template-row-highlight" };
+            }
+            if (rowData.resultsReportTemplate?.toLowerCase() === "del") {
+              return { class: "template-row-highlightDel" };
+            }
+          },
+          jsonReader: {
+            id: "resultsReportKeyNum",
+            repeatitems: false,
+          },
+          pager: "#pager", // 페이징
+          rowNum: 25, // 보여중 행의 수
+          sortname: "resultsReportKeyNum", // 기본 정렬
+          sortorder: "desc", // 정렬 방식
 
-	<script>
-		/* =========== 결과 보고서 추가 Modal ========= */
-		$('#BtnInsert').click(function() {
-			// location.href="<c:url value='/resultsReport/insertView'/>";
-			$.ajax({
-			    type: 'POST',
-			    url: "<c:url value='/resultsReport/insertTemplatList'/>",
-			    async: false,
-			    success: function (data) {
-			    	$.modal(data, 'resultsReportTemplateList'); //modal창 호출
-					modalOpened = true; // 모달이 열렸음을 표시
-			    },
-			    error: function(e) {
-			        alert(e);
-			    },
-				complete: function() {
-        	    	modalOpened = false; // 요청이 완료되면 모달이 닫혔다고 가정
-        		}
-			});
-		});
-		
-		/* =========== 검색 ========= */
-		$('#btnSearch').click(function() {
-			tableRefresh();	
-		});
-		
-		/* =========== 테이블 새로고침 ========= */
-		function tableRefresh() {
-			setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-			$('#resultsReportCustomerName').val($('#resultsReportCustomerNameMulti').val().join());
-			$('#resultsReportNumber').val($('#resultsReportNumberMulti').val().join());
+          multiselect: true, // 체크박스를 이용한 다중선택
+          viewrecords: false, // 시작과 끝 레코드 번호 표시
+          gridview: true, // 그리드뷰 방식 랜더링
+          sortable: true, // 컬럼을 마우스 순서 변경
+          height: "670",
+          autowidth: true, // 가로 넒이 자동조절
+          shrinkToFit: false, // 컬럼 폭 고정값 유지
+          altRows: false, // 라인 강조
+        });
+        loadColumns("#list", "resultsReportList");
+      });
 
-			var _postDate = $("#form").serializeObject();
-			
-			var jqGrid = $("#list");
-			jqGrid.clearGridData();
-			jqGrid.setGridParam({ postData: _postDate });
-			jqGrid.trigger('reloadGrid');
-		}
-	
-		/* =========== jpgrid의 formatter 함수 ========= */
-		function linkFormatter(cellValue, options, rowdata, action) {
-			return '<a onclick="updateView('+"'"+rowdata.resultsReportKeyNum+"'"+')" style="color:#366cb3;">' + cellValue + '</a>';
-		}
+      $(window).on("resize.list", function () {
+        jQuery("#list").jqGrid("setGridWidth", $(".page-wrapper").width());
+      });
+    </script>
+  </head>
+  <body>
+    <div id="pcoded" class="pcoded iscollapsed">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+        <%@ include file="/WEB-INF/jsp/common/_LoginSession.jsp"%> <%@ include file="/WEB-INF/jsp/common/_TopMenu.jsp"%>
+        <div class="pcoded-main-container" style="margin-top: 56px">
+          <div class="pcoded-wrapper">
+            <%@ include file="/WEB-INF/jsp/common/_LeftMenu.jsp"%>
+            <div class="pcoded-content" id="page-wrapper">
+              <div class="page-header">
+                <div class="page-block">
+                  <div class="row align-items-center">
+                    <div class="col-md-8">
+                      <div class="page-header-title">
+                        <h5 class="m-b-10">결과 보고서</h5>
+                        <p class="m-b-0">Results Report</p>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                          <a href="<c:url value='/index'/>"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">결과 보고서</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pcoded-inner-content">
+                <div class="main-body">
+                  <div class="page-wrapper">
+                    <div class="ibox">
+                      <div class="searchbos">
+                        <div style="float: right">
+                          <button type="button" class="btn btn-info btn-sm" id="btnToggleSearch">
+                            <span id="toggleIcon">▼</span>
+                          </button>
+                        </div>
+                        <form id="form" name="form" method="post" style="display: flex">
+                          <div id="searchFields" style="display: none" class="clearfix">
+                            <div style="padding-left: 15px; width: 100%; float: left">
+                              <label class="labelFontSize">문서 작성일</label>
+                              <div>
+                                <input class="form-control" style="width: 12%; float: left" type="date" id="resultsReportDateStart" name="resultsReportDateStart" max="9999-12-31" />
+                                <span style="float: left; padding-left: 10px; padding-right: 10px; padding-top: 5px"> ~ </span>
+                                <input class="form-control" style="width: 12%; float: left" type="date" id="resultsReportDateEnd" name="resultsReportDateEnd" max="9999-12-31" />
+                              </div>
+                              <div style="padding-left: 50px; float: left">
+                                <div class="form-check radioDate">
+                                  <input class="form-check-input" type="radio" name="reportDate" id="toDay" value="0" />
+                                  <label class="form-check-label" for="toDay"> 당일 </label>
+                                </div>
+                                <div class="form-check radioDate">
+                                  <input class="form-check-input" type="radio" name="reportDate" id="oneWeek" value="7" />
+                                  <label class="form-check-label" for="oneWeek"> 1주일 </label>
+                                </div>
+                                <div class="form-check radioDate">
+                                  <input class="form-check-input" type="radio" name="reportDate" id="oneMonth" value="30" />
+                                  <label class="form-check-label" for="oneMonth"> 1개월 </label>
+                                </div>
+                                <div class="form-check radioDate">
+                                  <input class="form-check-input" type="radio" name="reportDate" id="threeMonth" value="90" />
+                                  <label class="form-check-label" for="threeMonth"> 3개월 </label>
+                                </div>
+                                <div class="form-check radioDate">
+                                  <input class="form-check-input" type="radio" name="reportDate" id="dateFull" value="full" checked />
+                                  <label class="form-check-label" for="dateFull"> 전체 </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-2">
+                              <label class="labelFontSize">문서 번호</label>
+                              <select class="form-control selectpicker" id="resultsReportNumberMulti" name="resultsReportNumberMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+                                <c:forEach var="item" items="${resultsReportNumber}">
+                                  <option value="${item}"><c:out value="${item}" /></option>
+                                </c:forEach>
+                              </select>
+                            </div>
+                            <div class="col-lg-2">
+                              <label class="labelFontSize">고객사명</label>
+                              <select class="form-control selectpicker" id="resultsReportCustomerNameMulti" name="resultsReportCustomerNameMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
+                                <c:forEach var="item" items="${resultsReportCustomerName}">
+                                  <option value="${item}"><c:out value="${item}" /></option>
+                                </c:forEach>
+                              </select>
+                            </div>
+                            <div class="col-lg-2">
+                              <label class="labelFontSize">의뢰자</label>
+                              <input type="text" id="resultsReportClient" name="resultsReportClient" class="form-control" />
+                            </div>
+                            <div class="col-lg-2">
+                              <label class="labelFontSize">검증자</label>
+                              <input type="text" id="resultsReportVerifier" name="resultsReportVerifier" class="form-control" />
+                            </div>
+                            <div class="col-lg-2">
+                              <label class="labelFontSize">검토자</label>
+                              <input type="text" id="resultsReportReviewer" name="resultsReportReviewer" class="form-control" />
+                            </div>
+                            <input type="hidden" id="resultsReportNumber" name="resultsReportNumber" class="form-control" />
+                            <input type="hidden" id="resultsReportCustomerName" name="resultsReportCustomerName" class="form-control" />
+                            <input type="hidden" id="resultsReportTemplate" name="resultsReportTemplate" class="form-control" />
+                            <input type="hidden" id="resultsreportDelNote" name="resultsreportDelNote" class="form-control" />
+                            <div class="col-lg-12 text-right">
+                              <p class="search-btn">
+                                <button class="btn btn-search btnm" type="button" id="btnSearch"><i class="fa fa-search"></i>&nbsp;<span>검색</span></button>
+                                <button class="btn btn-default btnm" type="button" id="btnReset">
+                                  <span>초기화</span>
+                                </button>
+                              </p>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <table style="width: 99%">
+                      <tbody>
+                        <tr>
+                          <td style="padding: 0px 0px 0px 0px" class="box">
+                            <table style="width: 100%">
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <div class="work-toolbar">
+                                      <div class="toolbar-title">📑 결과 보고서 관리</div>
 
-		
-		/* =========== Enter 검색 ========= */
-		$("input[type=text]").keypress(function(event) {
-			if (window.event.keyCode == 13) {
-				tableRefresh();
-			}
-		});
-		
-		/* =========== Select Box 선택 ========= */
-		$("select").change(function() {
-			tableRefresh();
-		});
-		
-		/* =========== 검색 초기화 ========= */
-		$('#btnReset').click(function() {
-			$("input[type='text']").val("");
-			$('.selectpicker').val('');
-	        $('.filter-option-inner-inner').text('');
+                                      <!-- 기본 작업 -->
+                                      <div class="toolbar-group">
+                                        <div class="group-label">기본 작업</div>
 
-			$("input[type='date']").val("");
-			$("#dateFull").prop("checked",true);
-	        
-			tableRefresh();
-		});
-		
-		/* =========== 결과 보고서 삭제 ========= */
-		$('#BtnDelect').click(function() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else {
-				Swal.fire({
-					  title: '삭제!',
-					  text: "선택한 결과 보고서를 삭제하시겠습니까?",
-					  icon: 'warning',
-					  showCancelButton: true,
-					  confirmButtonColor: '#7066e0',
-					  cancelButtonColor: '#FF99AB',
-					  confirmButtonText: 'OK'
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  	$.ajax({
-		        		    type: 'POST',
-		        		    url: "<c:url value='/resultsReport/deleteNote'/>",
-		        		    async: false,
-		        		    success: function (data) {
-		        		    	if(data.indexOf("<!DOCTYPE html>") != -1) 
-									location.reload();
-		        		        $.modal(data, 'resultsReportDelNote'); //modal창 호출
-		        		    },
-		        		    error: function(e) {
-		        		        // TODO 에러 화면
-		        		    }
-		        		});
-				  	}
-				})
-			}
-			
-		});
+                                        <button class="btn2 btn-primary myBtn" id="BtnInsert">➕ 추가</button>
+                                        <button class="btn2 btn-danger myBtn" id="BtnDelect">🗑 삭제</button>
+                                        <button class="btn2 btn-copy myBtn" id="BtnCopy">📄 복사</button>
+                                      </div>
 
-		function deletelst() {
-			var chkList = $("#list").getGridParam('selarrrow');
-			var resultsreportDelNote = $('#resultsreportDelNote').val();
-			$.ajax({
-				url: "<c:url value='/resultsReport/delete'/>",
-				type: "POST",
-				data: {
-					"chkList": chkList,
-					"resultsreportDelNote": resultsreportDelNote
-				},
-				dataType: "text",
-				traditional: true,
-				async: false,
-				success: function(data) {
-					if(data == "OK")
-						Swal.fire(
-						  '성공!',
-						  '삭제 완료하였습니다.',
-						  'success'
-						)
-					else if(data == "NOTDELETE") 
-						Swal.fire(
-						  '실패!',
-						  '삭제 보고서 조회에서 삭제는 불가능합니다.',
-						  'error'
-						)
-					else
-						Swal.fire(
-						  '실패!',
-						  '삭제 실패하였습니다.',
-						  'error'
-						)
-					tableRefresh();
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			});  	
-		}
+                                      <!-- 보고서 -->
+                                      <div class="toolbar-group">
+                                        <div class="group-label">보고서</div>
 
-		$('#BtnCopy').click(function() {
-			var resultNumber = "";
-			var chkList = $("#list").getGridParam('selarrrow');
-			
-			if(chkList == 0) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '선택한 행이 존재하지 않습니다.',    
-				});    
-			} else if(chkList.length > 1) {
-				Swal.fire({               
-					icon: 'error',          
-					title: '실패!',           
-					text: '복사할 행을 한 개만 선택해주시기 바랍니다.',    
-				});   
-			} else {
-				var rowData = $("#list").getRowData(chkList).resultsReportNumber;
-				var match = rowData.match(/updateView\('([^']+)'\)/);
+                                        <button class="btn2 btn-report myBtn" onclick="reportGet()">📋 보고서 조회</button>
+                                      </div>
 
-				if (match && match[1]) {
-				    resultNumber = match[1];
-				}
-				location.href="<c:url value='/resultsReport/copyView'/>?resultsReportNumber="+resultNumber;	
-			}
-			
-		});
-		
-		/* =========== 결과 보고서 수정 Modal ========= */
-		function updateView(data) {
-			location.href="<c:url value='/resultsReport/updateView'/>?resultsReportNumber="+data;
-		}
+                                      <!-- 템플릿 -->
+                                      <div class="toolbar-group">
+                                        <div class="group-label">템플릿</div>
 
-		/* =========== 작성일자 업데이트 ========= */
-		function changeDate(term) {
-			const dateTo = new Date();
- 	        const dateFrom = new Date(Date.parse(dateTo) - term * 1000 * 60 * 60 * 24);
- 	        
-	        if(term == "full") {
-	        	$("#resultsReportDateStart").val("");
-	        	$("#resultsReportDateEnd").val("");
-	        } else {
-	        	$("#resultsReportDateStart").val($.datepicker.formatDate("yy-mm-dd", dateFrom));
-	        	$("#resultsReportDateEnd").val($.datepicker.formatDate("yy-mm-dd", dateTo));
-	        }
-	    }
-		
-		/* =========== 작성일자 라이오 버튼 클릭 ========= */
-		$(function() {
-			$('input[name="reportDate"]').click(function() {
-	            const value = $(this).val();
-	            if (value !== undefined) {
-	            	changeDate(value);
-	            }
-	        });
-		});
+                                        <button class="btn2 btn-template myBtn" onclick="templateAdd()">📝 템플릿 등록</button>
+                                        <button class="btn2 btn-template myBtn" onclick="templateGet()">🔍 템플릿 조회</button>
+                                      </div>
 
-		function templateAdd() {
-			location.href="<c:url value='/resultsReport/templateAdd'/>";
-		}
+                                      <!-- 기타 -->
+                                      <div class="toolbar-group">
+                                        <div class="group-label">기타</div>
 
-		function templateGet() {
-			$('#resultsReportTemplate').val('template');
-			tableRefresh();
-		}
-		
-		function reportGet() {
-			$('#resultsReportTemplate').val('');
-			tableRefresh();
-		}
+                                        <button class="btn2 btn-delete-report myBtn" onclick="deleteGet()">🗂 삭제 보고서 조회</button>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="border1" colspan="2">
+                                    <!------- Grid ------->
+                                    <div class="jqGrid_wrapper">
+                                      <table id="list"></table>
+                                      <div id="pager"></div>
+                                    </div>
+                                    <!------- Grid ------->
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 
-		function deleteGet() {
-			$('#resultsReportTemplate').val('del');
-			tableRefresh();
-		}
-	</script>
+  <script>
+    /* =========== 결과 보고서 추가 Modal ========= */
+    $("#BtnInsert").click(function () {
+      // location.href="<c:url value='/resultsReport/insertView'/>";
+      $.ajax({
+        type: "POST",
+        url: "<c:url value='/resultsReport/insertTemplatList'/>",
+        async: false,
+        success: function (data) {
+          $.modal(data, "resultsReportTemplateList"); //modal창 호출
+          modalOpened = true; // 모달이 열렸음을 표시
+        },
+        error: function (e) {
+          alert(e);
+        },
+        complete: function () {
+          modalOpened = false; // 요청이 완료되면 모달이 닫혔다고 가정
+        },
+      });
+    });
 
+    /* =========== 검색 ========= */
+    $("#btnSearch").click(function () {
+      tableRefresh();
+    });
+
+    /* =========== 테이블 새로고침 ========= */
+    function tableRefresh() {
+      setTimerSessionTimeoutCheck(); // 세션 타임아웃 리셋
+      $("#resultsReportCustomerName").val($("#resultsReportCustomerNameMulti").val().join());
+      $("#resultsReportNumber").val($("#resultsReportNumberMulti").val().join());
+
+      var _postDate = $("#form").serializeObject();
+
+      var jqGrid = $("#list");
+      jqGrid.clearGridData();
+      jqGrid.setGridParam({ postData: _postDate });
+      jqGrid.trigger("reloadGrid");
+    }
+
+    /* =========== jpgrid의 formatter 함수 ========= */
+    function linkFormatter(cellValue, options, rowdata, action) {
+      return '<a onclick="updateView(' + "'" + rowdata.resultsReportKeyNum + "'" + ')" style="color:#366cb3;">' + cellValue + "</a>";
+    }
+
+    /* =========== Enter 검색 ========= */
+    $("input[type=text]").keypress(function (event) {
+      if (window.event.keyCode == 13) {
+        tableRefresh();
+      }
+    });
+
+    /* =========== Select Box 선택 ========= */
+    $("select").change(function () {
+      tableRefresh();
+    });
+
+    /* =========== 검색 초기화 ========= */
+    $("#btnReset").click(function () {
+      $("input[type='text']").val("");
+      $(".selectpicker").val("");
+      $(".filter-option-inner-inner").text("");
+
+      $("input[type='date']").val("");
+      $("#dateFull").prop("checked", true);
+
+      tableRefresh();
+    });
+
+    /* =========== 결과 보고서 삭제 ========= */
+    $("#BtnDelect").click(function () {
+      var chkList = $("#list").getGridParam("selarrrow");
+      if (chkList == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else {
+        Swal.fire({
+          title: "삭제!",
+          text: "선택한 결과 보고서를 삭제하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#7066e0",
+          cancelButtonColor: "#FF99AB",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              type: "POST",
+              url: "<c:url value='/resultsReport/deleteNote'/>",
+              async: false,
+              success: function (data) {
+                if (data.indexOf("<!DOCTYPE html>") != -1) location.reload();
+                $.modal(data, "resultsReportDelNote"); //modal창 호출
+              },
+              error: function (e) {
+                // TODO 에러 화면
+              },
+            });
+          }
+        });
+      }
+    });
+
+    function deletelst() {
+      var chkList = $("#list").getGridParam("selarrrow");
+      var resultsreportDelNote = $("#resultsreportDelNote").val();
+      $.ajax({
+        url: "<c:url value='/resultsReport/delete'/>",
+        type: "POST",
+        data: {
+          chkList: chkList,
+          resultsreportDelNote: resultsreportDelNote,
+        },
+        dataType: "text",
+        traditional: true,
+        async: false,
+        success: function (data) {
+          if (data == "OK") Swal.fire("성공!", "삭제 완료하였습니다.", "success");
+          else if (data == "NOTDELETE") Swal.fire("실패!", "삭제 보고서 조회에서 삭제는 불가능합니다.", "error");
+          else Swal.fire("실패!", "삭제 실패하였습니다.", "error");
+          tableRefresh();
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    }
+
+    $("#BtnCopy").click(function () {
+      var resultNumber = "";
+      var chkList = $("#list").getGridParam("selarrrow");
+
+      if (chkList == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else if (chkList.length > 1) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "복사할 행을 한 개만 선택해주시기 바랍니다.",
+        });
+      } else {
+        var rowData = $("#list").getRowData(chkList).resultsReportNumber;
+        var match = rowData.match(/updateView\('([^']+)'\)/);
+
+        if (match && match[1]) {
+          resultNumber = match[1];
+        }
+        location.href = "<c:url value='/resultsReport/copyView'/>?resultsReportNumber=" + resultNumber;
+      }
+    });
+
+    /* =========== 결과 보고서 수정 Modal ========= */
+    function updateView(data) {
+      location.href = "<c:url value='/resultsReport/updateView'/>?resultsReportNumber=" + data;
+    }
+
+    /* =========== 작성일자 업데이트 ========= */
+    function changeDate(term) {
+      const dateTo = new Date();
+      const dateFrom = new Date(Date.parse(dateTo) - term * 1000 * 60 * 60 * 24);
+
+      if (term == "full") {
+        $("#resultsReportDateStart").val("");
+        $("#resultsReportDateEnd").val("");
+      } else {
+        $("#resultsReportDateStart").val($.datepicker.formatDate("yy-mm-dd", dateFrom));
+        $("#resultsReportDateEnd").val($.datepicker.formatDate("yy-mm-dd", dateTo));
+      }
+    }
+
+    /* =========== 작성일자 라이오 버튼 클릭 ========= */
+    $(function () {
+      $('input[name="reportDate"]').click(function () {
+        const value = $(this).val();
+        if (value !== undefined) {
+          changeDate(value);
+        }
+      });
+    });
+
+    function templateAdd() {
+      location.href = "<c:url value='/resultsReport/templateAdd'/>";
+    }
+
+    function templateGet() {
+      $("#resultsReportTemplate").val("template");
+      tableRefresh();
+    }
+
+    function reportGet() {
+      $("#resultsReportTemplate").val("");
+      tableRefresh();
+    }
+
+    function deleteGet() {
+      $("#resultsReportTemplate").val("del");
+      tableRefresh();
+    }
+
+    $(document).ready(function () {
+      $("#btnToggleSearch").on("click", function (e) {
+        e.preventDefault();
+
+        var $fields = $("#searchFields");
+        var $icon = $("#toggleIcon");
+
+        $fields.slideToggle(300, function () {
+          if ($fields.is(":visible")) {
+            $icon.text("▲"); // 열려있을 때는 접기 모양
+          } else {
+            $icon.text("▼"); // 닫혀있을 때는 펼치기 모양
+          }
+        });
+      });
+    });
+  </script>
 </html>
