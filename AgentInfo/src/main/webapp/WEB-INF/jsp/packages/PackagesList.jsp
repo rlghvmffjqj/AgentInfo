@@ -9,7 +9,7 @@
     <!-- datetimepicker -->
     <link rel="stylesheet" type="text/css" href="<c:url value='/datetimepicker/jquery.datetimepicker.min.css'/>" />
     <script type="text/javascript" src="<c:url value='/datetimepicker/jquery.datetimepicker.full.min.js'/>"></script>
-    
+
     <script>
       /* =========== 페이지 쿠키 값 저장 ========= */
       $(function () {
@@ -404,386 +404,362 @@
 
   <script>
     /* =========== Excel Import Modal ========= */
-    $('#BtnImport').click(function () {
-    	$.ajax({
-    		type: 'POST',
-    		url: "<c:url value='/packages/importView'/>",
-    		async: false,
-    		success: function (data) {
-    			if (data.indexOf("<!DOCTYPE html>") != -1)
-    				location.reload();
-    			$.modal(data, 'packagesImport'); //modal창 호출
-    		},
-    		error: function (e) {
-    			// TODO 에러 화면
-    		}
-    	});
-    })
+    $("#BtnImport").click(function () {
+      $.ajax({
+        type: "POST",
+        url: "<c:url value='/packages/importView'/>",
+        async: false,
+        success: function (data) {
+          if (data.indexOf("<!DOCTYPE html>") != -1) location.reload();
+          $.modal(data, "packagesImport"); //modal창 호출
+        },
+        error: function (e) {
+          // TODO 에러 화면
+        },
+      });
+    });
 
     /* =========== 패키지 추가 Modal ========= */
-    $('#BtnInsert').click(function () {
-    	$.ajax({
-    		type: 'POST',
-    		url: "<c:url value='/packages/insertView'/>",
-    		async: false,
-    		success: function (data) {
-    			if (data.indexOf("<!DOCTYPE html>") != -1)
-    				location.reload();
-    			$.modal(data, 'packages'); //modal창 호출
-    		},
-    		error: function (e) {
-    			alert(e);
-    		}
-    	});
+    $("#BtnInsert").click(function () {
+      $.ajax({
+        type: "POST",
+        url: "<c:url value='/packages/insertView'/>",
+        async: false,
+        success: function (data) {
+          if (data.indexOf("<!DOCTYPE html>") != -1) location.reload();
+          $.modal(data, "packages"); //modal창 호출
+        },
+        error: function (e) {
+          alert(e);
+        },
+      });
     });
 
     /* =========== 검색 ========= */
-    $('#btnSearch').click(function () {
-    	var deliveryDateStart = $("#deliveryDateStart").val();
-    	var deliveryDateEnd = $("#deliveryDateEnd").val();
+    $("#btnSearch").click(function () {
+      var deliveryDateStart = $("#deliveryDateStart").val();
+      var deliveryDateEnd = $("#deliveryDateEnd").val();
 
-    	if (deliveryDateStart == "" && deliveryDateEnd != "") {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '전달일자 시작일을 입력해주세요.',
-    		});
-    	} else if (deliveryDateEnd == "" && deliveryDateStart != "") {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '전달일자 종료일을 입력해주세요.',
-    		});
-    	} else if (deliveryDateStart > deliveryDateEnd) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '전달일자 시작일이 종료일자 보다 큽니다.',
-    		});
-    	} else {
-    		tableRefresh();
-    	}
-
+      if (deliveryDateStart == "" && deliveryDateEnd != "") {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "전달일자 시작일을 입력해주세요.",
+        });
+      } else if (deliveryDateEnd == "" && deliveryDateStart != "") {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "전달일자 종료일을 입력해주세요.",
+        });
+      } else if (deliveryDateStart > deliveryDateEnd) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "전달일자 시작일이 종료일자 보다 큽니다.",
+        });
+      } else {
+        tableRefresh();
+      }
     });
 
     /* =========== 테이블 새로고침 ========= */
     function tableRefresh() {
-    	setTimerSessionTimeoutCheck() // 세션 타임아웃 리셋
-    	$('#managementServer').val($('#managementServerMulti').val().join());
-    	$('#generalCustom').val($('#generalCustomMulti').val().join());
-    	$('#agentVer').val($('#agentVerMulti').val().join());
-    	$('#osType').val($('#osTypeMulti').val().join());
-    	$('#agentOS').val($('#agentOSMulti').val().join());
-    	$('#state').val($('#stateMulti').val().join());
-    	$('#existingNew').val($('#existingNewMulti').val().join());
-    	$('#requestProductCategory').val($('#requestProductCategoryMulti').val().join());
-    	$('#deliveryMethod').val($('#deliveryMethodMulti').val().join());
-    	$('#purchaseCategory').val($('#purchaseCategoryMulti').val().join());
-    	$('#customerName').val($('#customerNameMulti').val().join());
-    	$('#businessName').val($('#businessNameMulti').val().join());
-    	$('#customerId').val($('#customerIdMulti').val().join());
+      setTimerSessionTimeoutCheck(); // 세션 타임아웃 리셋
+      $("#managementServer").val($("#managementServerMulti").val().join());
+      $("#generalCustom").val($("#generalCustomMulti").val().join());
+      $("#agentVer").val($("#agentVerMulti").val().join());
+      $("#osType").val($("#osTypeMulti").val().join());
+      $("#agentOS").val($("#agentOSMulti").val().join());
+      $("#state").val($("#stateMulti").val().join());
+      $("#existingNew").val($("#existingNewMulti").val().join());
+      $("#requestProductCategory").val($("#requestProductCategoryMulti").val().join());
+      $("#deliveryMethod").val($("#deliveryMethodMulti").val().join());
+      $("#purchaseCategory").val($("#purchaseCategoryMulti").val().join());
+      $("#customerName").val($("#customerNameMulti").val().join());
+      $("#businessName").val($("#businessNameMulti").val().join());
+      $("#customerId").val($("#customerIdMulti").val().join());
 
-    	var _postDate = $("#form").serializeObject();
+      var _postDate = $("#form").serializeObject();
 
-    	var jqGrid = $("#list");
-    	jqGrid.clearGridData();
-    	jqGrid.setGridParam({ postData: _postDate });
-    	jqGrid.trigger('reloadGrid');
+      var jqGrid = $("#list");
+      jqGrid.clearGridData();
+      jqGrid.setGridParam({ postData: _postDate });
+      jqGrid.trigger("reloadGrid");
     }
 
     /* =========== jpgrid의 formatter 함수 ========= */
     function linkFormatter(cellValue, options, rowdata, action) {
-    	return '<a onclick="updateView(' + "'" + rowdata.packagesKeyNum + "'" + ')" style="color:#366cb3;">' + cellValue + '</a>';
+      return '<a onclick="updateView(' + "'" + rowdata.packagesKeyNum + "'" + ')" style="color:#366cb3;">' + cellValue + "</a>";
     }
 
     /* =========== 상태에 따른 이미지 부여 ========= */
     function stateFormatter(value, options, row) {
-    	var state = row.state.toUpperCase();
-    	if (state == "배포완료") {
-    		return '<div><img src="/AgentInfo/images/distribute.png" style="width:50px;"></div';
-    	} else if (state == "적용") {
-    		return '<div><img src="/AgentInfo/images/apply.png" style="width:50px;"></div';
-    	} else if (state == "대기") {
-    		return '<div><img src="/AgentInfo/images/waiting.png" style="width:50px;"></div';
-    	}
-    	return '<div></div>';
+      var state = row.state.toUpperCase();
+      if (state == "배포완료") {
+        return '<div><img src="/AgentInfo/images/distribute.png" style="width:50px;"></div';
+      } else if (state == "적용") {
+        return '<div><img src="/AgentInfo/images/apply.png" style="width:50px;"></div';
+      } else if (state == "대기") {
+        return '<div><img src="/AgentInfo/images/waiting.png" style="width:50px;"></div';
+      }
+      return "<div></div>";
     }
 
     /* =========== Enter 검색 ========= */
     $("input[type=text]").keypress(function (event) {
-    	if (window.event.keyCode == 13) {
-    		tableRefresh();
-    	}
+      if (window.event.keyCode == 13) {
+        tableRefresh();
+      }
     });
 
     /* =========== 갤린더 검색 ========= */
     $("#requestDate").change(function () {
-    	tableRefresh();
+      tableRefresh();
     });
 
     /* =========== Select Box 선택 ========= */
     $("select").change(function () {
-    	tableRefresh();
+      tableRefresh();
     });
 
     /* =========== 검색 초기화 ========= */
-    $('#btnReset').click(function () {
-    	$("input[type='text']").val("");
-    	$("input[type='date']").val("");
-    	$("#dateFull").prop("checked", true);
+    $("#btnReset").click(function () {
+      $("input[type='text']").val("");
+      $("input[type='date']").val("");
+      $("#dateFull").prop("checked", true);
 
-    	$('.selectpicker').val('');
-    	$('.filter-option-inner-inner').text('');
+      $(".selectpicker").val("");
+      $(".filter-option-inner-inner").text("");
 
-    	tableRefresh();
+      tableRefresh();
     });
 
     /* =========== 패키지 삭제 ========= */
-    $('#BtnDelect').click(function () {
-    	var chkList = $("#list").getGridParam('selarrrow');
-    	if (chkList == 0) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '선택한 행이 존재하지 않습니다.',
-    		});
-    	} else {
-    		Swal.fire({
-    			title: '삭제!',
-    			text: "선택한 패키지를 삭제하시겠습니까?",
-    			icon: 'warning',
-    			showCancelButton: true,
-    			confirmButtonColor: '#7066e0',
-    			cancelButtonColor: '#FF99AB',
-    			confirmButtonText: 'OK'
-    		}).then((result) => {
-    			if (result.isConfirmed) {
-    				$.ajax({
-    					url: "<c:url value='/packages/delete'/>",
-    					type: "POST",
-    					data: { chkList: chkList },
-    					dataType: "text",
-    					traditional: true,
-    					async: false,
-    					success: function (data) {
-    						if (data == "OK")
-    							Swal.fire(
-    								'성공!',
-    								'삭제 완료하였습니다.',
-    								'success'
-    							)
-    						else
-    							Swal.fire(
-    								'실패!',
-    								'삭제 실패하였습니다.',
-    								'error'
-    							)
-    						tableRefresh();
-    					},
-    					error: function (error) {
-    						console.log(error);
-    					}
-    				});
-    			}
-    		})
-    	}
+    $("#BtnDelect").click(function () {
+      var chkList = $("#list").getGridParam("selarrrow");
+      if (chkList == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else {
+        Swal.fire({
+          title: "삭제!",
+          text: "선택한 패키지를 삭제하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#7066e0",
+          cancelButtonColor: "#FF99AB",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "<c:url value='/packages/delete'/>",
+              type: "POST",
+              data: { chkList: chkList },
+              dataType: "text",
+              traditional: true,
+              async: false,
+              success: function (data) {
+                if (data == "OK") Swal.fire("성공!", "삭제 완료하였습니다.", "success");
+                else Swal.fire("실패!", "삭제 실패하였습니다.", "error");
+                tableRefresh();
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            });
+          }
+        });
+      }
     });
 
     /* =========== 데이터 복사 Modal ========= */
-    $('#BtnCopy').click(function () {
-    	var chkList = $("#list").getGridParam('selarrrow');
-    	var packagesKeyNum = chkList[0];
-    	if (chkList.length == 0) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '선택한 행이 존재하지 않습니다.',
-    		});
-    	} else if (chkList.length == 1) {
-    		$.ajax({
-    			type: 'POST',
-    			url: "<c:url value='/packages/copyView'/>",
-    			data: { "packagesKeyNum": packagesKeyNum },
-    			async: false,
-    			success: function (data) {
-    				if (data.indexOf("<!DOCTYPE html>") != -1)
-    					location.reload();
-    				$.modal(data, 'packages'); //modal창 호출
-    			},
-    			error: function (e) {
-    				// TODO 에러 화면
-    			}
-    		});
-    	} else {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '복사를 원하는 데이터 한 행만 체크 해주세요.',
-    		});
-    	}
+    $("#BtnCopy").click(function () {
+      var chkList = $("#list").getGridParam("selarrrow");
+      var packagesKeyNum = chkList[0];
+      if (chkList.length == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else if (chkList.length == 1) {
+        $.ajax({
+          type: "POST",
+          url: "<c:url value='/packages/copyView'/>",
+          data: { packagesKeyNum: packagesKeyNum },
+          async: false,
+          success: function (data) {
+            if (data.indexOf("<!DOCTYPE html>") != -1) location.reload();
+            $.modal(data, "packages"); //modal창 호출
+          },
+          error: function (e) {
+            // TODO 에러 화면
+          },
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "복사를 원하는 데이터 한 행만 체크 해주세요.",
+        });
+      }
     });
 
     /* =========== 패키지 수정 Modal ========= */
     function updateView(data) {
-    	<sec:authorize access="hasRole('ADMIN')">
-    		$.ajax({
-    			type: 'POST',
-    		url: "<c:url value='/packages/updateView' />",
-    		data: {"packagesKeyNum" : data},
-    		async: false,
-    		success: function (data) {
-                	if(data.indexOf("<!DOCTYPE html>") != -1)
-    		location.reload();
-    		$.modal(data, 'packages'); //modal창 호출
-                },
-    		error: function(e) {
-    			// TODO 에러 화면
-    		}
-            });
-    	</sec:authorize>
+      var isAdmin = false;
+      <sec:authorize access="hasRole('ADMIN')">isAdmin = true;</sec:authorize>;
+      if (isAdmin) {
+        $.ajax({
+          type: "POST",
+          url: "<c:url value='/packages/updateView' />",
+          data: { packagesKeyNum: data },
+          async: false,
+          success: function (data) {
+            if (data.indexOf("<!DOCTYPE html>") != -1) location.reload();
+            $.modal(data, "packages"); //modal창 호출
+          },
+          error: function (e) {
+            // TODO 에러 화면
+          },
+        });
+      }
     }
 
     /* =========== 상태 변경 ========= */
     function btnState() {
-    	var chkList = $("#list").getGridParam('selarrrow');
-    	if (chkList == 0) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '선택한 행이 존재하지 않습니다.',
-    		});
-    	} else {
-    		$.ajax({
-    			type: 'POST',
-    			url: "<c:url value='/packages/stateView'/>",
-    			async: false,
-    			success: function (data) {
-    				if (data.indexOf("<!DOCTYPE html>") != -1)
-    					location.reload();
-    				$.modal(data, 'r'); //modal창 호출
-    			},
-    			error: function (e) {
-    				// TODO 에러 화면
-    			}
-    		});
-    	}
+      var chkList = $("#list").getGridParam("selarrrow");
+      if (chkList == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "<c:url value='/packages/stateView'/>",
+          async: false,
+          success: function (data) {
+            if (data.indexOf("<!DOCTYPE html>") != -1) location.reload();
+            $.modal(data, "r"); //modal창 호출
+          },
+          error: function (e) {
+            // TODO 에러 화면
+          },
+        });
+      }
     }
 
     /* =========== 전달일자 업데이트 ========= */
     function changeDate(term) {
-    	const dateTo = new Date();
-    	const dateFrom = new Date(Date.parse(dateTo) - term * 1000 * 60 * 60 * 24);
+      const dateTo = new Date();
+      const dateFrom = new Date(Date.parse(dateTo) - term * 1000 * 60 * 60 * 24);
 
-    	if (term == "full") {
-    		$("#deliveryDateStart").val("");
-    		$("#deliveryDateEnd").val("");
-    	} else {
-    		$("#deliveryDateStart").val($.datepicker.formatDate("yy-mm-dd", dateFrom));
-    		$("#deliveryDateEnd").val($.datepicker.formatDate("yy-mm-dd", dateTo));
-    	}
+      if (term == "full") {
+        $("#deliveryDateStart").val("");
+        $("#deliveryDateEnd").val("");
+      } else {
+        $("#deliveryDateStart").val($.datepicker.formatDate("yy-mm-dd", dateFrom));
+        $("#deliveryDateEnd").val($.datepicker.formatDate("yy-mm-dd", dateTo));
+      }
     }
 
     /* =========== 전달일자 라이오 버튼 클릭 ========= */
     $(function () {
-    	$('input[name="packageDate"]').click(function () {
-    		const value = $(this).val();
-    		if (value !== undefined) {
-    			changeDate(value);
-    		}
-    	});
+      $('input[name="packageDate"]').click(function () {
+        const value = $(this).val();
+        if (value !== undefined) {
+          changeDate(value);
+        }
+      });
     });
 
     function strFormatter(cellValue, options, rowdata, action) {
-    	var code = "S_";
-    	for (var i = cellValue.toString().length; i < 5; i++) {
-    		code = code + "0";
-    	}
-    	return code + cellValue;
+      var code = "S_";
+      for (var i = cellValue.toString().length; i < 5; i++) {
+        code = code + "0";
+      }
+      return code + cellValue;
     }
 
     function btnOverseas() {
-    	var chkList = $("#list").getGridParam('selarrrow');
-    	if (chkList == 0) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '선택한 행이 존재하지 않습니다.',
-    		});
-    	} else {
-    		Swal.fire({
-    			title: '이동!',
-    			text: "선택한 패키지를 국외로 이동하시겠습니까?",
-    			icon: 'warning',
-    			showCancelButton: true,
-    			confirmButtonColor: '#7066e0',
-    			cancelButtonColor: '#FF99AB',
-    			confirmButtonText: 'OK'
-    		}).then((result) => {
-    			if (result.isConfirmed) {
-    				$.ajax({
-    					url: "<c:url value='/packages/overseasMove'/>",
-    					type: "POST",
-    					data: { chkList: chkList },
-    					dataType: "text",
-    					traditional: true,
-    					async: false,
-    					success: function (data) {
-    						if (data == "OK")
-    							Swal.fire(
-    								'성공!',
-    								'이동 완료하였습니다.',
-    								'success'
-    							)
-    						else
-    							Swal.fire(
-    								'실패!',
-    								'이동 실패하였습니다.',
-    								'error'
-    							)
-    						tableRefresh();
-    					},
-    					error: function (error) {
-    						console.log(error);
-    					}
-    				});
-    			}
-    		})
-    	}
+      var chkList = $("#list").getGridParam("selarrrow");
+      if (chkList == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else {
+        Swal.fire({
+          title: "이동!",
+          text: "선택한 패키지를 국외로 이동하시겠습니까?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#7066e0",
+          cancelButtonColor: "#FF99AB",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "<c:url value='/packages/overseasMove'/>",
+              type: "POST",
+              data: { chkList: chkList },
+              dataType: "text",
+              traditional: true,
+              async: false,
+              success: function (data) {
+                if (data == "OK") Swal.fire("성공!", "이동 완료하였습니다.", "success");
+                else Swal.fire("실패!", "이동 실패하였습니다.", "error");
+                tableRefresh();
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            });
+          }
+        });
+      }
     }
 
     function btnHistory() {
-    	var packagesKeyNumArr = $("#list").getGridParam('selarrrow');
-    	var packagesKeyNum = packagesKeyNumArr[0];
-    	var packageName = $("#list").jqGrid('getCell', packagesKeyNum, 'packageName');
-    	if (packagesKeyNumArr.length == 0) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '선택한 행이 존재하지 않습니다.',
-    		});
-    	} else if (packagesKeyNumArr.length > 1) {
-    		Swal.fire({
-    			icon: 'error',
-    			title: '실패!',
-    			text: '한 개의 행만 선택 바랍니다.',
-    		});
-    	} else {
-    		$.ajax({
-    			url: "<c:url value='/packages/historyView'/>",
-    			type: "POST",
-    			data: {
-    				"packagesKeyNum": packagesKeyNum,
-    				"packageName": packageName
-    			},
-    			async: false,
-    			success: function (data) {
-    				$.modal(data, 'packagesHistory'); //modal창 호출
-    			},
-    			error: function (e) {
-    				// TODO 에러 화면
-    			}
-    		});
-    	}
+      var packagesKeyNumArr = $("#list").getGridParam("selarrrow");
+      var packagesKeyNum = packagesKeyNumArr[0];
+      var packageName = $("#list").jqGrid("getCell", packagesKeyNum, "packageName");
+      if (packagesKeyNumArr.length == 0) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "선택한 행이 존재하지 않습니다.",
+        });
+      } else if (packagesKeyNumArr.length > 1) {
+        Swal.fire({
+          icon: "error",
+          title: "실패!",
+          text: "한 개의 행만 선택 바랍니다.",
+        });
+      } else {
+        $.ajax({
+          url: "<c:url value='/packages/historyView'/>",
+          type: "POST",
+          data: {
+            packagesKeyNum: packagesKeyNum,
+            packageName: packageName,
+          },
+          async: false,
+          success: function (data) {
+            $.modal(data, "packagesHistory"); //modal창 호출
+          },
+          error: function (e) {
+            // TODO 에러 화면
+          },
+        });
+      }
     }
   </script>
 

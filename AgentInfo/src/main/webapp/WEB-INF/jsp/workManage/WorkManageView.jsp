@@ -2,196 +2,536 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+<style>
+	input, filter-option-inner-inner {
+		color: black !important;
+	}
+	
+	input::placeholder,
+	textarea::placeholder {
+  		color: #989ba3 !important;
+  		opacity: 1 !important;
+	}
+	
+	.bootstrap-select .dropdown-toggle.bs-placeholder {
+    	color: #989ba3 !important;
+  		opacity: 1 !important;
+	}
+	
+	.package-modal {
+		width: 100%;
+		max-height: 770px;
+		padding: 0;
+		background: #fff;
+		border-radius: 10px;
+		overflow: hidden;
+		color: #172033;
+		font-family: "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+	}
+
+	.package-modal *,
+	.package-modal *::before,
+	.package-modal *::after {
+		box-sizing: border-box;
+	}
+
+	.package-modal__header {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 22px 24px 12px;
+	}
+
+	.package-modal__title {
+		margin: 0;
+		font-size: 20px;
+		font-weight: 700;
+		color: #172033;
+	}
+
+	.package-modal__subtitle {
+		font-size: 14px;
+		font-weight: 500;
+		color: #7b8798;
+	}
+
+	.package-modal__content {
+		height: 770px;
+		padding: 12px 24px 18px;
+		overflow-y: auto;
+	}
+
+	.package-modal__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: 18px;
+	}
+
+	.package-modal__column {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		min-width: 0;
+	}
+
+	.package-card{
+	    background:#fff;
+	    /* border:1px solid #eef2f7; */
+	    border-radius:14px;
+	    padding:26px;
+	    box-shadow:
+	        0 2px 6px rgba(16,24,40,.04),
+	        0 12px 24px rgba(16,24,40,.05);
+	    transition:.2s;
+	}
+
+	.package-card:hover{
+	    box-shadow:
+	        0 6px 12px rgba(16,24,40,.06),
+	        0 20px 40px rgba(16,24,40,.08);
+	}
+
+	.package-card__title {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin: 0 0 20px;
+		font-size: 16px;
+		font-weight: 700;
+		color: #172033;
+	}
+
+	.package-card__icon {
+		width: 20px;
+		height: 20px;
+		color: #1f66e5;
+		flex: 0 0 auto;
+	}
+
+	.package-form-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: 26px;
+		row-gap: 18px;
+	}
+
+	.package-field {
+		min-width: 0;
+	}
+
+	.package-field--full {
+		grid-column: 1 / -1;
+	}
+
+	.package-field__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 2px;
+	}
+
+	.package-field label,
+	.package-field__label {
+		margin: 0;
+		margin-bottom: 2px;
+		font-size: 13px;
+		font-weight: 700;
+		color: #172033;
+	}
+
+	.bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover {
+		border: 1px solid gray;
+	}
+
+	.package-field .colorRed,
+	.package-required {
+		margin-left: 3px;
+		color: #e32929;
+		font-weight: 700;
+	}
+
+	.package-field .selfInput {
+		font-size: 12px;
+		font-weight: 600;
+		color: #1f66e5;
+		text-decoration: none;
+	}
+
+	.package-field .form-control,
+	.package-field .bootstrap-select > .dropdown-toggle {
+		/* width: 100% !important; */
+		/* height: 45px; */
+		/* min-height: 45px; */
+		/* padding: 10px 14px; */
+		border: 1px solid #d6dee9;
+		border-radius: 6px;
+		background-color: #fff;
+		box-shadow: none;
+		font-size: 12px;
+		color: black;
+		border-radius: 0px !important;
+
+	}
+
+	.package-field .form-control::placeholder {
+		color: #8b97a8;
+	}
+
+	.package-field textarea.form-control {
+		height: 72px;
+		min-height: 72px;
+		resize: vertical;
+	}
+
+	.package-date-range {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.selectForm {
+		border: none !important;
+	}
+
+	.package-date-presets {
+		display: flex;
+		justify-content: flex-end;
+		gap: 5px;
+		margin: -4px 0 8px;
+	}
+
+	.package-date-presets button {
+		height: 28px;
+		padding: 0 13px;
+		border: 1px solid #d6dee9;
+		border-radius: 6px;
+		background: #f4f7fb;
+		color: #344054;
+		font-size: 12px;
+		font-weight: 600;
+	}
+	
+	.package-date-presets button:hover {
+		background: #959595;
+    	color: white;
+	}
+
+	.package-check {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		white-space: nowrap;
+		font-size: 13px;
+		font-weight: 700;
+		color: #25324a;
+	}
+
+	.package-help,
+	.package-field span[id^="Not"],
+	.package-field span[id^="Period"] {
+		display: block;
+		margin-top: 7px;
+		font-size: 12px;
+		line-height: 1.4;
+	}
+
+	.package-help {
+		color: #7b8798;
+	}
+
+	.package-upload {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 7px;
+		min-height: 86px;
+		border: 1px dashed #b8c5d8;
+		border-radius: 8px;
+		background: #fff;
+		text-align: center;
+		color: #172033;
+	}
+
+	.package-upload input[type="file"] {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.package-upload__icon {
+		width: 24px;
+		height: 24px;
+		color: #e5581f;
+	}
+
+	.package-upload__title {
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	.package-upload__desc {
+		font-size: 12px;
+		color: #7b8798;
+	}
+
+	.package-modal-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 5px;
+		padding: 16px 24px;
+		border-top: 1px solid #e5ebf2;
+		background: #fff;
+	}
+
+	.package-modal-footer .btn {
+		min-width: 104px;
+		height: 46px;
+		border-radius: 7px;
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	.package-modal-footer .btn-primary-save {
+		border: 1px solid #1f66e5;
+		background: white;
+		color: #1f66e5;
+	}
+
+	.package-modal-footer .btn-cancel {
+		border: 1px solid #d6dee9;
+		background: #fff;
+		color: #25324a;
+	}
+
+	@media (max-width: 1100px) {
+		.package-modal__grid,
+		.package-form-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.package-modal__content {
+			height: auto;
+			max-height: 90vh;
+		}
+
+		.package-date-range {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
 <div class="modal-body" style="width: 100%; height: 810px; overflow-y: scroll;">
 	<form id="modalForm" name="form" method ="post" enctype="multipart/form-data"> 
 		<input type="hidden" id="workManageKeyNum" name="workManageKeyNum" class="form-control viewForm" value="${workManage.workManageKeyNum}">
-		<div style="display: flow-root; padding-bottom: 10px;">
-			<div class="pading5Width33">
-				<div>
-					<label class="labelFontSize" style="float: left;">고객사</label><label class="colorRed" style="float: left;">*</label>
-				 	<select class="form-control selectpicker selectForm" id="workManageCustomerView" name="workManageCustomerView" data-live-search="true" data-size="5">
-				 		<option value=""></option>
-						<c:forEach var="item" items="${workManageCustomer}">
-							<option value="${item}" <c:if test="${item eq workManage.workManageCustomer}">selected</c:if>><c:out value="${item}"/></option>
-						</c:forEach>
-					</select>
-				</div>
-				<span class="colorRed" id="NotWorkManageCustomer" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
-			 </div>
-			 <div class="pading5Width33">
-				<div>
-			 		<label class="labelFontSize">엔지니어</label>
-					<input type="text" id="workManageEngineerView" name="workManageEngineerView" class="form-control viewForm" value="${workManage.workManageEngineer}">
-				</div>
-			</div>
-			<div class="pading5Width33">
-				<label class="labelFontSize">요청구분</label>
-				<div>
-					<select class="form-control selectpicker" id="workManageDivisionView" name="workManageDivisionView" data-size="5" data-actions-box="true">
-						<option value="이메일" <c:if test="${'이메일' eq workManage.workManageDivision}">selected</c:if>>이메일</option>
-						<option value="전화" <c:if test="${'전화' eq workManage.workManageDivision}">selected</c:if>>전화</option>
-						<option value="방문" <c:if test="${'방문' eq workManage.workManageDivision}">selected</c:if>>방문</option>
-					</select>
-				</div>
-			</div>
-			<div class="pading5Width33">
-				<div>
-					<label class="labelFontSize">요청일자</label>
-	    		    <input type="date" id="workManageRequestDateView" name="workManageRequestDateView" class="form-control viewForm" value="${workManage.workManageRequestDate}" max="9999-12-31">
-				</div>
-			</div>
-			<div class="pading5Width33">
-				<div>
-					<label class="labelFontSize">희망 완료일자</label>
-	    		    <input type="date" id="workManageCompleteDateView" name="workManageCompleteDateView" class="form-control viewForm" value="${workManage.workManageRequestDate}" max="9999-12-31">
-				</div>
-			</div>
+
+		<div class="package-modal__header">
+			<h2 class="package-modal__title">패키지 배포</h2>
+			<span class="package-modal__subtitle">패키지 정보를 입력해주세요.</span>
 		</div>
-
-		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
-		    <!-- 추가 버튼 -->
-			<div style="margin: 10px 0;">
-			    <button type="button" id="addProductBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff; height: 30px;">+ 제품유형 추가</button>
-				<button type="button" id="delProductBtn" class="btn btn-danger" style="border-radius: 25px !important; background: #ff5252; height: 30px;">- 제품유형 삭제</button>
+		<div class="package-modal__column">
+		<section class="package-card">
+			<div style="display: flow-root; padding-bottom: 10px;">
+				<div class="pading5Width33">
+					<div>
+						<label class="labelFontSize" style="float: left;">고객사</label><label class="colorRed" style="float: left;">*</label>
+					 	<select class="form-control selectpicker selectForm" id="workManageCustomerView" name="workManageCustomerView" data-live-search="true" data-size="5">
+					 		<option value=""></option>
+							<c:forEach var="item" items="${workManageCustomer}">
+								<option value="${item}" <c:if test="${item eq workManage.workManageCustomer}">selected</c:if>><c:out value="${item}"/></option>
+							</c:forEach>
+						</select>
+					</div>
+					<span class="colorRed" id="NotWorkManageCustomer" style="display: none; line-height: initial;">고객사명을 입력해주세요.</span>
+				 </div>
+				 <div class="pading5Width33">
+					<div>
+				 		<label class="labelFontSize">엔지니어</label>
+						<input type="text" id="workManageEngineerView" name="workManageEngineerView" class="form-control viewForm" value="${workManage.workManageEngineer}">
+					</div>
+				</div>
+				<div class="pading5Width33">
+					<label class="labelFontSize">요청구분</label>
+					<div>
+						<select class="form-control selectpicker" id="workManageDivisionView" name="workManageDivisionView" data-size="5" data-actions-box="true">
+							<option value="이메일" <c:if test="${'이메일' eq workManage.workManageDivision}">selected</c:if>>이메일</option>
+							<option value="전화" <c:if test="${'전화' eq workManage.workManageDivision}">selected</c:if>>전화</option>
+							<option value="방문" <c:if test="${'방문' eq workManage.workManageDivision}">selected</c:if>>방문</option>
+						</select>
+					</div>
+				</div>
+				<div class="pading5Width33">
+					<div>
+						<label class="labelFontSize">요청일자</label>
+	    			    <input type="date" id="workManageRequestDateView" name="workManageRequestDateView" class="form-control viewForm" value="${workManage.workManageRequestDate}" max="9999-12-31">
+					</div>
+				</div>
+				<div class="pading5Width33">
+					<div>
+						<label class="labelFontSize">희망 완료일자</label>
+	    			    <input type="date" id="workManageCompleteDateView" name="workManageCompleteDateView" class="form-control viewForm" value="${workManage.workManageRequestDate}" max="9999-12-31">
+					</div>
+				</div>
 			</div>
+		</section>
 
-			<!-- 제품유형 영역 -->
-			<div>
-			    <!-- 기본 1개 -->
-			    <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 90px;">
-			        <div class="packageRow">
-					
-			            <!-- [주의] 기존 pading5Width33의 width: 200px 스타일은 건드리지 않고 그대로 유지합니다 -->
-			            <div class="pading5Width33" style="width: 150px;">
+		<section class="package-card">
+			<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
+			    <!-- 추가 버튼 -->
+				<div style="margin: 10px 0; float: right;">
+				    <button type="button" id="addProductBtn" class="btn btn-outline-info-add">+ 제품유형 추가</button>
+					<button type="button" id="delProductBtn" class="btn btn-outline-info-del">- 제품유형 삭제</button>
+				</div>
+
+				<!-- 제품유형 영역 -->
+				<div>
+				    <!-- 기본 1개 -->
+				    <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; height: 90px;">
+				        <div class="packageRow">
 						
-			                <!-- [상단] 제품유형 라벨 -->
-			                <div>
-			                    <label class="labelFontSize">제품유형</label>
-			                </div>
-						
-			                <div class="fields-container" style="display: flex; gap: 15px; width: max-content;">
+				            <!-- [주의] 기존 pading5Width33의 width: 200px 스타일은 건드리지 않고 그대로 유지합니다 -->
+				            <div class="pading5Width33" style="width: 150px;">
 							
-			                    <!-- 최초 1개 입력 폼 세트 -->
-			                    <div class="field-item" style="width: 150px; flex-shrink: 0;">
-			                        <!-- 제품유형 선택 -->
-			                        <div>
-			                            <select class="form-control selectpicker selectForm productType" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
-			                                <option value=""></option>
-			                                <c:forEach var="item" items="${workManageProductType}">
-			                                    <option value="${item}">
-			                                        <c:out value="${item}"/>
-			                                    </option>
-			                                </c:forEach>
-			                            </select>
-			                        </div>
+				                <!-- [상단] 제품유형 라벨 -->
+				                <div>
+				                    <label class="labelFontSize">제품유형</label>
+				                </div>
+							
+				                <div class="fields-container" style="display: flex; gap: 15px; width: max-content;">
 								
-			                        <!-- [하단] 있어 보이는 인라인 수량 입력창 (라벨 삭제) -->
-			                        <div class="premiumQuantityBox" style="margin-top: 5px;">
-			                            <input type="number" class="form-control premiumCount" name="workManageProductTypeCountView[]" min="0" placeholder="0" value="1">
-			                            <span class="qtyUnit">개</span>
-			                        </div>
-			                    </div>
+				                    <!-- 최초 1개 입력 폼 세트 -->
+				                    <div class="field-item" style="width: 150px; flex-shrink: 0;">
+				                        <!-- 제품유형 선택 -->
+				                        <div>
+				                            <select class="form-control selectpicker selectForm productType" name="workManageProductTypeView[]" data-live-search="true" data-size="5">
+				                                <option value=""></option>
+				                                <c:forEach var="item" items="${workManageProductType}">
+				                                    <option value="${item}">
+				                                        <c:out value="${item}"/>
+				                                    </option>
+				                                </c:forEach>
+				                            </select>
+				                        </div>
+									
+				                        <!-- [하단] 있어 보이는 인라인 수량 입력창 (라벨 삭제) -->
+				                        <div class="premiumQuantityBox" style="margin-top: 5px;">
+				                            <input type="number" class="form-control premiumCount" name="workManageProductTypeCountView[]" min="0" placeholder="0" value="1">
+				                            <span class="qtyUnit">개</span>
+				                        </div>
+				                    </div>
+								
+				                </div>
 							
-			                </div>
+				            </div>
 						
-			            </div>
-					
+				        </div>
+				    </div>
+				</div>
+
+			</div>
+		</section>
+		
+		<section class="package-card">
+			<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
+			    <!-- 추가 버튼 -->
+			    <div style="margin: 10px 0; text-align: right;">
+			        <button type="button" id="addPackageBtn" class="btn btn-outline-info-add" style="">+ 패키지 추가</button>
+			    </div>
+			
+			    <!-- 패키지 영역 -->
+			    <div id="packageArea">
+				
+			        <!-- 기본 1개 -->
+			        <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
+						<div class="packageRow">
+			            	<div class="pading5Width33 packageHeight" style="width: 70%;">
+			            	    <div>
+			            	        <label class="labelFontSize">패키지명</label>
+			            	        <input type="text" name="workManagePackageNameView[]" class="form-control viewForm">
+			            	    </div>
+			            	</div>
+						
+			            	<div class="packageHeight">
+			            	    <div class="packageFile">
+								    <input type="file" name="workManagePackageFileView[]" hidden class="packageFileInput" multiple>
+								    <input type="hidden" name="workManagePackageFileNameView[]" class="packageFileNameInput">
+								    <div style="width: 65px; height:12px">
+								        <label class="workManagePackageSizeView">0MB</label>
+								    </div>
+								    <sec:authorize access="hasRole('ADMIN')">
+								        <button type="button" class="package-upload-btn">패키지 선택</button>
+								    </sec:authorize>
+								    <button type="button" class="package-download-btn packageDownLoadBtn" style="display: none;">다운로드</button>
+								    <sec:authorize access="hasRole('ADMIN')">
+								        <button type="button" class="package-delete-btn">제거</button>
+								    </sec:authorize>
+								</div>
+			            	</div>
+						</div>
 			        </div>
 			    </div>
 			</div>
-
-		</div>
-
-		<div style="padding-bottom: 10px; border-top: 1px solid #d17c7c;">
-		    <!-- 추가 버튼 -->
-		    <div style="margin: 10px 0;">
-		        <button type="button" id="addPackageBtn" class="btn btn-primary" style="border-radius: 25px !important; background: #3473ff; height: 30px;">+ 패키지 추가</button>
-		    </div>
+		</section>
 		
-		    <!-- 패키지 영역 -->
-		    <div id="packageArea">
-			
-		        <!-- 기본 1개 -->
-		        <div class="packageItem" style="display: flow-root; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 10px;">
-					<div class="packageRow">
-		            	<div class="pading5Width33 packageHeight" style="width: 66%;">
-		            	    <div>
-		            	        <label class="labelFontSize">패키지명</label>
-		            	        <input type="text" name="workManagePackageNameView[]" class="form-control viewForm">
-		            	    </div>
-		            	</div>
-					
-		            	<div class="pading5Width33 packageHeight">
-		            	    <div class="packageFile">
-		            	        <input type="file" name="workManagePackageFileView[]" hidden class="packageFileInput">
-								<input type="hidden" name="workManagePackageFileNameView[]" class="packageFileNameInput">
-		            	        <div style="width: 65px; height:12px">
-									<label class="workManagePackageSizeView">0MB</label>
-								</div>
-		            	        <sec:authorize access="hasRole('ADMIN')">
-									<button type="button" class="package-upload-btn">패키지 선택</button>
-								</sec:authorize>
-								<button type="button" class="package-download-btn packageDownLoadBtn" style="display: none;">다운로드</button>
-								<sec:authorize access="hasRole('ADMIN')">
-		            	        	<button type="button" class="package-delete-btn">제거</button>
-								</sec:authorize>
-		            	    </div>
-		            	</div>
+		<section class="package-card">
+			<div style="border-top: 1px solid #d17c7c; padding-top: 10px;">
+				<div class="pading5Width33">
+					<div>
+						<label class="labelFontSize">테스터</label>
+	    			    <input type="text" id="workManageTesterView" name="workManageTesterView" class="form-control viewForm" value="${workManage.workManageTester}" placeholder="김기호, 박범수, 이상민">
 					</div>
-		        </div>
-		    </div>
-		</div>
-		<div style="border-top: 1px solid #d17c7c; padding-top: 10px;">
-			<div class="pading5Width33">
-				<div>
-					<label class="labelFontSize">테스터</label>
-	    		    <input type="text" id="workManageTesterView" name="workManageTesterView" class="form-control viewForm" value="${workManage.workManageTester}" placeholder="김기호, 박범수, 이상민">
+				</div>
+				<div class="pading5Width33">
+					<label class="labelFontSize">진행상태</label>
+					<div>
+						<sec:authorize access="!hasRole('ADMIN')">
+						    <input type="hidden" name="workManageProgressStatusView" value="${workManage.workManageProgressStatus}" />
+						</sec:authorize>
+						<select class="form-control selectpicker"
+							id="workManageProgressStatusView"
+							name="workManageProgressStatusView"
+							data-size="5"
+							data-actions-box="true"
+							<sec:authorize access="!hasRole('ADMIN')">disabled="disabled"</sec:authorize>>
+							<option value="진행중" <c:if test="${'진행중' eq workManage.workManageProgressStatus}">selected</c:if>>진행중</option>
+							<option value="보류" <c:if test="${'보류' eq workManage.workManageProgressStatus}">selected</c:if>>보류</option>
+							<option value="완료" <c:if test="${'완료' eq workManage.workManageProgressStatus}">selected</c:if>>완료</option>
+							<option value="미처리 완료" <c:if test="${'미처리 완료' eq workManage.workManageProgressStatus}">selected</c:if>>미처리 완료</option>
+						</select>
+					</div>
+				</div>
+				<div class="pading5Width33">
+					<div class="percent-wrap" style="width: 100%;">
+						<label class="labelFontSize">진행률</label>
+	    			    <input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold; <sec:authorize access="!hasRole('ADMIN')">background: #e9ecefb5 !important;</sec:authorize>" <sec:authorize access="!hasRole('ADMIN')">readonly="readonly";</sec:authorize>>
+						<span style="top: 65%;">%</span>
+					</div>
+				</div>
+				<div class="pading5Width33">
+					<label class="labelFontSize">테스트일정</label>
+					<div style="display: ruby-text;">
+	    			    <input type="date" id="workManageTestScheduleStart" name="workManageTestScheduleStart" class="form-control viewForm" value="${workManage.workManageTestScheduleStart}" max="9999-12-31">
+						~
+						<input type="date" id="workManageTestScheduleEnd" name="workManageTestScheduleEnd" class="form-control viewForm" value="${workManage.workManageTestScheduleEnd}" max="9999-12-31">
+					</div>
+				</div>
+				<div class="pading5Width33" style="width: 100%;">
+					<div>
+						<label class="labelFontSize">한줄설명</label>
+	    			    <input type="text" id="workManageOneLineView" name="workManageOneLineView" class="form-control viewForm" value="${workManage.workManageOneLine}" placeholder="주간 업무 작성을위한 한줄 설명 간략하게 입력바랍니다.">
+					</div>
+				</div>
+				<div class="pading5Width33" style="width: 100%;">
+	    			<label class="labelFontSize">상세 내용</label>
+	    			<textarea class="form-control" id="workManageDetailNoteView" name="workManageDetailNoteView" spellcheck="false" placeholder="이슈내용 또는 테스트 내용 상세히 입력 바랍니다." style="resize: none;">${workManage.workManageDetailNote}</textarea>
 				</div>
 			</div>
-			<div class="pading5Width33">
-				<label class="labelFontSize">진행상태</label>
-				<div>
-					<sec:authorize access="!hasRole('ADMIN')">
-					    <input type="hidden" name="workManageProgressStatusView" value="${workManage.workManageProgressStatus}" />
-					</sec:authorize>
-					<select class="form-control selectpicker"
-						id="workManageProgressStatusView"
-						name="workManageProgressStatusView"
-						data-size="5"
-						data-actions-box="true"
-						<sec:authorize access="!hasRole('ADMIN')">disabled="disabled"</sec:authorize>>
-						<option value="진행중" <c:if test="${'진행중' eq workManage.workManageProgressStatus}">selected</c:if>>진행중</option>
-						<option value="보류" <c:if test="${'보류' eq workManage.workManageProgressStatus}">selected</c:if>>보류</option>
-						<option value="완료" <c:if test="${'완료' eq workManage.workManageProgressStatus}">selected</c:if>>완료</option>
-						<option value="미처리 완료" <c:if test="${'미처리 완료' eq workManage.workManageProgressStatus}">selected</c:if>>미처리 완료</option>
-					</select>
-				</div>
-			</div>
-			<div class="pading5Width33">
-				<div class="percent-wrap" style="width: 100%;">
-					<label class="labelFontSize">진행률</label>
-	    		    <input type="number" id="workManageProgressView" name="workManageProgressView" class="form-control viewForm" min="0" max="100" value="${workManage.workManageProgress}" style="text-align: right; font-weight: bold; <sec:authorize access="!hasRole('ADMIN')">background: #e9ecefb5 !important;</sec:authorize>" <sec:authorize access="!hasRole('ADMIN')">readonly="readonly";</sec:authorize>>
-					<span style="top: 65%;">%</span>
-				</div>
-			</div>
-			<div class="pading5Width33">
-				<label class="labelFontSize">테스트일정</label>
-				<div style="display: ruby-text;">
-	    		    <input type="date" id="workManageTestScheduleStart" name="workManageTestScheduleStart" class="form-control viewForm" value="${workManage.workManageTestScheduleStart}" max="9999-12-31">
-					~
-					<input type="date" id="workManageTestScheduleEnd" name="workManageTestScheduleEnd" class="form-control viewForm" value="${workManage.workManageTestScheduleEnd}" max="9999-12-31">
-				</div>
-			</div>
-			<div class="pading5Width33" style="width: 100%;">
-				<div>
-					<label class="labelFontSize">한줄설명</label>
-	    		    <input type="text" id="workManageOneLineView" name="workManageOneLineView" class="form-control viewForm" value="${workManage.workManageOneLine}" placeholder="주간 업무 작성을위한 한줄 설명 간략하게 입력바랍니다.">
-				</div>
-			</div>
-			<div class="pading5Width33" style="width: 100%;">
-	    		<label class="labelFontSize">상세 내용</label>
-	    		<textarea class="form-control" id="workManageDetailNoteView" name="workManageDetailNoteView" spellcheck="false" placeholder="이슈내용 또는 테스트 내용 상세히 입력 바랍니다." style="resize: none;">${workManage.workManageDetailNote}</textarea>
-			</div>
+		</section>
 		</div>
 	</form>
 </div>
@@ -238,7 +578,7 @@
 			html += '<div class="packageRow">'
 
 	        // 패키지명
-	        html += '    <div class="pading5Width33 packageHeight" style="width: 66%;">';
+	        html += '    <div class="packageHeight" style="width: 70%;">';
 	        html += '        <div>';
 	        html += '            <label class="labelFontSize">패키지명</label>';
 
@@ -250,7 +590,7 @@
 	        html += '    <div class="pading5Width33 packageHeight">';
 	        html += '        <div class="packageFile">';
 
-	        html += '            <input type="file" name="workManagePackageFileView[]" hidden class="packageFileInput">';
+	        html += '            <input type="file" name="workManagePackageFileView[]" hidden class="packageFileInput" multiple>';
 
 	        html += '            <div style="width: 65px; height: 12px">';
 	        html += '                <label class="workManagePackageSizeView">0MB</label>';
@@ -279,51 +619,84 @@
     	});
 
 
-	    // 파일 선택 버튼
-	    // .off("click")을 추가하여 중복 등록된 기존 이벤트를 먼저 지워줍니다.
+	    // 파일 크기 포맷 변환 함수
+		function formatFileSize(fileSize) {
+		    if (fileSize >= 1024 * 1024 * 1024) {
+		        return (fileSize / (1024 * 1024 * 1024)).toFixed(2) + "GB";
+		    } else if (fileSize >= 1024 * 1024) {
+		        return (fileSize / (1024 * 1024)).toFixed(2) + "MB";
+		    } else if (fileSize >= 1024) {
+		        return (fileSize / 1024).toFixed(2) + "KB";
+		    } else {
+		        return fileSize + "B";
+		    }
+		}
+
+		// 패키지 선택 버튼 클릭 이벤트
 		$(document).off("click", ".package-upload-btn").on("click", ".package-upload-btn", function () {
 		    const packageRow = $(this).closest(".packageRow");
-		   
 		    packageRow.find(".packageFileInput").click();
 		});
 
+		// 이벤트 중복 실행 방지용 플래그 변수
+		let isCloning = false;
 
-		$(document).on("change", ".packageFileInput", function () {
-		    const packageRow = $(this).closest(".packageRow");
-		    const file = this.files[0];
-
-		    if (!file) {
+		// 파일 선택 변경 이벤트 (off()를 추가하여 중복 등록 방지)
+		$(document).off("change", ".packageFileInput").on("change", ".packageFileInput", function (e) {
+		    // 복사 프로세스 중 발생하는 change 이벤트는 무시합니다.
+		    if (isCloning) return;
+		
+		    const currentItem = $(this).closest(".packageItem"); 
+		    const files = this.files;
+		
+		    if (!files || files.length === 0) {
 		        return;
 		    }
 		
-		    // 파일명
-		    const fileName = file.name;
+		    // 파일 복사 가동 (플래그 On)
+		    isCloning = true;
 		
-		    // 패키지명 입력
-		    packageRow
-		        .find("input[name='workManagePackageNameView[]']")
-		        .val(fileName);
+		    // 루프를 돌기 전, 나중에 생성될 아이템들이 올바른 위치에 쌓이도록 마지막 아이템 기준점을 잡아둡니다.
+		    let lastItem = currentItem.parent().find(".packageItem").last();
 		
-		    // 파일 크기 계산
-		    const fileSize = file.size;
-		
-		    let sizeText = "";
-		
-		    if (fileSize >= 1024 * 1024 * 1024) {
-		        sizeText = (fileSize / (1024 * 1024 * 1024)).toFixed(2) + "GB";
+		    // 파일 데이터를 순회하며 처리
+		    for (let i = 0; i < files.length; i++) {
+		        const file = files[i];
+		        const sizeText = formatFileSize(file.size);
 			
-		    } else if (fileSize >= 1024 * 1024) {
-		        sizeText = (fileSize / (1024 * 1024)).toFixed(2) + "MB";
-		    } else if (fileSize >= 1024) {
-		        sizeText = (fileSize / 1024).toFixed(2) + "KB";
-		    } else {
-		        sizeText = fileSize + "B";
+		        let targetItem;
+			
+		        if (i === 0) {
+		            // 첫 번째 파일은 현재 활성화된 아이템에 매핑
+		            targetItem = currentItem;
+		        } else {
+		            // 두 번째 파일부터는 복사본 생성
+		            targetItem = currentItem.clone();
+				
+		            // [중요] 복사본의 file input은 더 이상 다중 선택(multiple)을 하지 않도록 제거합니다.
+		            const clonedFileInput = targetItem.find(".packageFileInput");
+		            clonedFileInput.removeAttr("multiple"); 
+				
+		            // DataTransfer를 사용해 복사본 input에 순수 순서대로 파일 데이터 강제 바인딩
+		            if (clonedFileInput.length > 0) {
+		                const dataTransfer = new DataTransfer();
+		                dataTransfer.items.add(file);
+		                clonedFileInput[0].files = dataTransfer.files;
+		            }
+				
+		            // 정렬이 꼬이지 않게 순차적으로 바로 다음에 붙여넣기
+		            lastItem.after(targetItem);
+		            lastItem = targetItem; // 기준점을 방금 생성된 아이템으로 업데이트
+		        }
+			
+		        // 값 매핑
+		        targetItem.find("input[name='workManagePackageNameView[]']").val(file.name);
+		        targetItem.find("input[name='workManagePackageFileNameView[]']").val(file.name);
+		        targetItem.find(".workManagePackageSizeView").text(sizeText);
 		    }
 		
-		    // 라벨 표시
-		    packageRow
-		        .find(".workManagePackageSizeView")
-		        .text(sizeText);
+		    // 작업 완료 후 플래그 해제
+		    isCloning = false;
 		});
 
 
@@ -853,25 +1226,33 @@
 
 	$(document).ready(function() {
 	    $('#addProductBtn').on('click', function() {
-	        // 1. 첫 번째 입력 폼 세트(.field-item)만 깨끗하게 복사
-	        var $clone = $('.field-item').first().clone();
+		    // 0. 현재 화면에 생성된 field-item의 개수를 체크 (최대 4개 제한)
+		    var currentCount = $('.field-item').length;
+		    if (currentCount >= 4) {
+		        alert("최대 4개까지만 추가할 수 있습니다.");
+		        return; // 함수를 즉시 종료하여 추가를 막음
+		    }
 		
-	        // 2. 복사본의 입력값 초기화
-	        $clone.find('select').val('');
-	        $clone.find('input[type="number"]').val('1');
+		    // 1. 첫 번째 입력 폼 세트(.field-item)만 깨끗하게 복사
+		    var $clone = $('.field-item').first().clone();
 		
-	        // 3. ID 중복 방지 및 Bootstrap Selectpicker 내부 껍데기 제거
-	        $clone.find('select').removeAttr('id');
-	        $clone.find('.bootstrap-select').replaceWith(function() {
-	            return $('select', this);
-	        });
+		    // 2. 복사본의 입력값 초기화
+		    $clone.find('select').val('');
+		    $clone.find('input[type="number"]').val('1');
 		
-	        // 4. 가로로만 늘어나는 독립 박스(.fields-container)에 우측으로 붙이기
-	        $('.fields-container').append($clone);
+		    // 3. ID 중복 방지 및 Bootstrap Selectpicker 내부 껍데기 제거
+		    $clone.find('select').removeAttr('id');
+		    $clone.find('.bootstrap-select').replaceWith(function() {
+		        return $('select', this);
+		    });
 		
-	        // 5. 새 Select 박스에 selectpicker 스타일 다시 입히기
-	        $clone.find('select').selectpicker('refresh');
-	    });
+		    // 4. 가로로만 늘어나는 독립 박스(.fields-container)에 우측으로 붙이기
+		    $('.fields-container').append($clone);
+		
+		    // 5. 새 Select 박스에 selectpicker 스타일 다시 입히기
+		    $clone.find('select').selectpicker('refresh');
+		});
+
 
 		// ★ [삭제 버튼 클릭] 가장 우측 항목부터 제거
     	$('#delProductBtn').on('click', function() {

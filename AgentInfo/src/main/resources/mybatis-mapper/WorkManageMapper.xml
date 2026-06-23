@@ -130,7 +130,7 @@
 		;
 	</update>
 	
-	<select id="getCustomerList" resultType="string">
+	<select id="getWorkManageCustomer" resultType="string">
 		SELECT DISTINCT workManageCustomer FROM workmanage;
 	</select>
 	
@@ -182,6 +182,10 @@
 	          AND workManageTestScheduleStart <= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
 	          AND workManageTestScheduleEnd >= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
 	    ]]>
+	</select>
+	
+	<select id="getPackageNameList" resultType="string">
+		SELECT workManagePackageName FROM workmanage;
 	</select>
 	
 	<!-- ==================================================================================== -->
@@ -239,13 +243,13 @@
 				AND workManageRequestDate BETWEEN #{workManageRequestDateStart} AND #{workManageRequestDateEnd}
 			</if>
 			<if test="workManageEngineer != null and workManageEngineer != ''">
-				AND workManageEngineer LIKE '%#{workManageEngineer}%'
+			    AND workManageEngineer LIKE CONCAT('%', #{workManageEngineer}, '%')
 			</if>
 			<if test="workManageAuthor != null and workManageAuthor != ''">
-				AND workManageAuthor LIKE '%#{workManageAuthor}%'
+				AND workManageAuthor LIKE CONCAT('%', #{workManageAuthor}, '%')
 			</if>
 			<if test="workManageTester != null and workManageTester != ''">
-				AND workManageTester LIKE '%#{workManageTester}%'
+				AND workManageTester LIKE CONCAT('%', #{workManageTester}, '%')
 			</if>
 		</trim>
 	</sql>

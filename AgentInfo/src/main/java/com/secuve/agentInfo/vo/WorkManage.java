@@ -68,6 +68,7 @@ public class WorkManage {
 	private String[] workManageCustomerArr;
 	private String[] workManageDivisionArr;
 	private String[] workManageProgressStatusArr;
+	private String[] workManagePackageNameArr;
 	
 	private String workManageProductTypeList;
 	private String managerNumber;

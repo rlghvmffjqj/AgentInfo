@@ -104,7 +104,7 @@
                               <span id="toggleIcon">▼</span>
                             </button>
                           </div>
-                          <form id="form" name="form" method="post" style="display: flex">
+                          <form id="form" name="form" method="post" style="display: block">
                             <div id="searchFields" style="display: none" class="clearfix">
                               <input type="hidden" id="seleniumGroupName" name="seleniumGroupName" class="form-control" />
                               <input type="hidden" id="seleniumGroupFullPath" name="seleniumGroupFullPath" class="form-control" />

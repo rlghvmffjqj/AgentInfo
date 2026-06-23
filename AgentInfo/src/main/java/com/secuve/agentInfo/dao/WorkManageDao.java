@@ -55,8 +55,8 @@ public class WorkManageDao {
 		return sqlSession.update("workManage.progressChange", parameters);
 	}
 
-	public List<String> getCustomerList() {
-		return sqlSession.selectList("workManage.getCustomerList");
+	public List<String> getWorkManageCustomer() {
+		return sqlSession.selectList("workManage.getWorkManageCustomer");
 	}
 
 	public List<WorkManage> getWorkManageCustomerAllProgressList(String workManageCustomer) {
@@ -97,6 +97,10 @@ public class WorkManageDao {
 
 	public List<WorkManage> getTomorrowWorkList(String employeeName) {
 		return sqlSession.selectList("workManage.getTomorrowWorkList", employeeName);
+	}
+
+	public List<String> getPackageNameList() {
+		return sqlSession.selectList("workManage.getPackageNameList");
 	}
 
 }

@@ -122,27 +122,26 @@ p {
 
 .btn-outline-info-add {
   background-image: none;
-  border-color: blue;
-  color: blue;
+  border-color: #1f66e5;
+  color: #1f66e5;
   background: white;
   margin: 1px;
 }
 
 .btn-outline-info-nomal {
-  background-image: none;
-  border-color: black;
-  color: black;
-  background: white;
+	border: 1px solid #959595;
+    background: #fff;
+    color: black;
 }
 
 .btn-outline-info-add:hover {
   color: white;
-  background: blue;
+  background: #1f66e5;
 }
 
 .btn-outline-info-nomal:hover {
   color: white;
-  background: #ff7a82;
+  background: #787878;
 }
 
 .btn-outline-info-del {

@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,8 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -59,12 +59,15 @@ public class WorkManageController {
 	@GetMapping(value = "/workManage/list")
 	public String WorkManageList(Model model, Principal principal, HttpServletRequest req, @RequestParam(required = false) String managerNumber) {
 		favoritePageService.insertFavoritePage(principal, req, "테스트 업무 관리");
+		List<String> workManageCustomer = workManageService.getWorkManageCustomer();
+		List<String> workManagePackageName = workManageService.getPackageNameList();
 		
 		if(managerNumber != null && !managerNumber.isEmpty()) {
 			managerNumber = "S" + String.format("%05d", Integer.parseInt(managerNumber));
 		}
 		
 		model.addAttribute("managerNumber",managerNumber);
+		model.addAttribute("workManageCustomer", workManageCustomer).addAttribute("workManagePackageName", workManagePackageName);
 		return "workManage/WorkManageList";
 	}
 	
@@ -695,7 +698,7 @@ public class WorkManageController {
 	    txt.append("제 출 처 :    주덕규 상무   (서명)\r\n\r\n");
 	    txt.append("O 진행사항\r\n\r\n");
 
-	    List<String> customerList = workManageService.getCustomerList();
+	    List<String> customerList = workManageService.getWorkManageCustomer();
 	    int count = 1;
 	    
 	    for(String workManageCustomer : customerList) {
@@ -764,7 +767,7 @@ public class WorkManageController {
 	    txt.append("제 출 처 :    주덕규 상무   (서명)\r\n\r\n");
 	    txt.append("O 진행사항\r\n\r\n");
 
-	    List<String> customerList = workManageService.getCustomerList();
+	    List<String> customerList = workManageService.getWorkManageCustomer();
 	    int count = 1;
 	    
 	    for(String workManageCustomer : customerList) {

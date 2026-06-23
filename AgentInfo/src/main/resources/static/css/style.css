@@ -12153,7 +12153,7 @@ body.menu-bottom #collapse-menu {
 
 .btn {
   border-radius: 2px;
-  text-transform: capitalize;
+  /**text-transform: capitalize;**/
   font-size: 11px;
   font-family: math;
   padding: 9px 12px;
@@ -12385,6 +12385,7 @@ body.menu-bottom #collapse-menu {
   border-color: #D8D8B3;
 }
 
+/**
 .btn-primary:active,
 .sweet-alert button.confirm:active,
 .wizard>.actions a:active {
@@ -12394,6 +12395,7 @@ body.menu-bottom #collapse-menu {
   box-shadow: none;
   color: #fff;
 }
+**/
 
 .btn-primary:focus,
 .sweet-alert button.confirm:focus,

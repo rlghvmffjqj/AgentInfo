@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,7 @@ public class WorkManageService {
 		search.setWorkManageCustomerArr(search.getWorkManageCustomer().split(","));
 		search.setWorkManageDivisionArr(search.getWorkManageDivision().split(","));
 		search.setWorkManageProgressStatusArr(search.getWorkManageProgressStatus().split(","));
+		search.setWorkManagePackageNameArr(search.getWorkManagePackageName().split(","));
 		return search;
 	}
 	
@@ -237,8 +239,8 @@ public class WorkManageService {
 		return "업무기간 : " + period + "\r\n\r\n";
 	}
 
-	public List<String> getCustomerList() {
-		return workManageDao.getCustomerList();
+	public List<String> getWorkManageCustomer() {
+		return workManageDao.getWorkManageCustomer();
 	}
 
 	public List<WorkManage> getWorkManageCustomerAllProgressList(String workManageCustomer) {
@@ -277,6 +279,18 @@ public class WorkManageService {
 
 	public List<WorkManage> getTomorrowWorkList(String employeeName) {
 		return workManageDao.getTomorrowWorkList(employeeName);
+	}
+
+	public List<String> getPackageNameList() {
+		List<String> packageNameList = workManageDao.getPackageNameList();
+		
+		List<String> result = packageNameList.stream()
+			    .flatMap(s -> Arrays.stream(s.split(",")))
+			    .map(String::trim)
+			    .filter(s -> !s.isEmpty())
+			    .distinct()
+			    .collect(Collectors.toList());
+		return result;
 	}
 
 }
