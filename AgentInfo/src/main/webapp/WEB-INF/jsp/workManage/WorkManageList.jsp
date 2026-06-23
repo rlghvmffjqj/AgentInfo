@@ -119,7 +119,7 @@
                           </button>
                         </div>
                         <form id="form" name="form" method="post" style="display: flex">
-                          <div id="searchFields" style="display: none" class="clearfix">
+                          <div id="searchFields" style="display: none; width: 100%" class="clearfix">
                             <div style="padding-left: 15px; width: 100%; float: left">
                               <label class="labelFontSize">요청일자</label>
                               <div>
@@ -177,10 +177,9 @@
                             <div class="col-lg-2">
                               <label class="labelFontSize">요청구분</label>
                               <select class="form-control selectpicker" id="workManageDivisionMulti" name="workManageDivisionMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-                                <option value="" selected><c:out value="" /></option>
-                                <option value="email">이메일</option>
-                                <option value="phoine">전화</option>
-                                <option value="visit">방문</option>
+                                <option value="이메일">이메일</option>
+                                <option value="전화">전화</option>
+                                <option value="방문">방문</option>
                               </select>
                             </div>
                             <div class="col-lg-2">
@@ -194,9 +193,10 @@
                             <div class="col-lg-2">
                               <label class="labelFontSize">진행상태</label>
                               <select class="form-control selectpicker" id="workManageProgressStatusMulti" name="workManageProgressStatusMulti" data-live-search="true" data-size="5" data-actions-box="true" multiple>
-                                <c:forEach var="item" items="${workManageProgressStatus}">
-                                  <option value="${item}"><c:out value="${item}" /></option>
-                                </c:forEach>
+                                <option value="진행중" selected>진행중</option>
+						                    <option value="보류">보류</option>
+						                    <option value="완료">완료</option>
+						                    <option value="미처리 완료">미처리 완료</option>
                               </select>
                             </div>
 
