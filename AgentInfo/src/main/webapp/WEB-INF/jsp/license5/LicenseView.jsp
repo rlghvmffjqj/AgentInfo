@@ -1,6 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/newInputForm.css'/>">
+<style>
+	.package-modal__content {
+		height: 728px;
+		padding: 12px 24px 18px;
+		overflow-y: auto;
+	}
+
+	.package-field__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 2px;
+	}
+
+	.custom-btn {
+	    border-radius: 0px !important;
+	    margin-top: 1px;
+	}
+</style>
+
 <div class="modal-body" id="licenseModal" style="width: 100%; height: 880px;">
 	<form id="modalForm" name="form" method ="post">
 		<div style="width: 100%; height: 25px; border-bottom: dashed 1px silver; float:left">
@@ -9,156 +31,237 @@
 		    	<label for="chkLicenseIssuance"></label><span class="margin17">라이선스 발급(해제할 경우 Database에 입력한 정보만 저장되고 라이선스 발급하지 않습니다.)</span>
 		    </div>
 		    <div style="width: 35%; float:right">
-			<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none" value="${license.serialNumber}">
-		</div>
+				<input id="serialNumberView" name="serialNumberView" placeholder="시리얼 번호" style="border: 1px solid silver; width: 90%; display: none" value="${license.serialNumber}">
+			</div>
 		</div>
 		
-		<div class="leftDiv">
-			<div class="newLicense scribePeriod">
-				<c:choose>
-					<c:when test="${viewType eq 'issued'}">
-						<div class="pading5Width450">
-						 	<div>
-						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-								<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
-						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
-						  	</div>
-						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="customerNameViewSelf">
-							  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
-							  		<option value=""></option>
-									<c:forEach var="item" items="${customerName}">
-										<option value="${item}"><c:out value="${item}"/></option>
-									</c:forEach>
-								</select>
-							</div>
-						 </div>
-						 <div class="pading5Width450">
-						 	<div>
-						  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-								<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
-						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
-						  	</div>
-						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="businessNameViewSelf">
-							  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
-							  		<option value=""></option>
-								</select>
-							</div>
-						 </div>
-	        	 	</c:when>
-	        	 	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback' || viewType eq 'reIssue' }">
-	        	 		<div class="pading5Width450">
-							<div>
-						  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
-								<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
-						  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
-						  	</div>
-						  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="customerNameViewSelf">
-					         	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
-					         		<c:if test="${license.customerName ne ''}"><option value=""></option></c:if>
-					         		<c:if test="${license.customerName eq ''}"><option value=""></option></c:if>
-					         		<c:forEach var="item" items="${customerName}">
-										<option value="${item}" <c:if test="${item eq license.customerName}">selected</c:if>><c:out value="${item}"/></option>
-									</c:forEach>
-								</select>
-							</div>
-				         </div>
-				         <div class="pading5Width450">
-							<div>
-						  		<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
-								<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
-						  		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
-						  	</div>
-						  	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
-						  	<div id="businessNameViewSelf">
-					         	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
-					         		<c:if test="${license.businessName ne ''}"><option value=""></option></c:if>
-					         		<c:if test="${license.businessName eq ''}"><option value=""></option></c:if>
-					         		<c:forEach var="item" items="${businessName}">
-										<option value="${item}" <c:if test="${item eq license.businessName}">selected</c:if>><c:out value="${item}"/></option>
-									</c:forEach>
-								</select>
-							</div>
-				         </div>
-	        	 	</c:when>
-				</c:choose>
-			</div>
-			<div class="oldLicense">
-				<div class="pading5Width450">
-					<div>
-						<label class="labelFontSize">고객사명</label><label class="colorRed" style="font-size: 12px;">* (구) 버전 라이선스는 영문만 입력 가능합니다.</label>
-					    <span class="colorRed fontSize10 licenseShow" id="NotCustomerNameOld" style="display: none; line-height: initial; float: right;">고객사명을 입력해주세요.</span>
-					</div>
-					<input type="text" id="customerNameOldView" name="customerNameOldView" class="form-control viewForm" value="${license.customerName}">
-				</div>
-				<div class="pading5Width450">
-					<div>
-						<label class="labelFontSize">사업명</label>
-					</div>
-					<input type="text" id="businessNameOldView" name="businessNameOldView" class="form-control viewForm" value="${license.businessName}">
-				</div>
-			</div>
-			<div class="pading5Width450">
-				<label class="labelFontSize">추가정보</label>
-				<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
-		   </div>
-	        <c:choose>
-				<c:when test="${viewType eq 'issued'}">
-			         <div class="pading5Width450">
-			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
-			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
-							<option value="mGRIFFIN">mGRIFFIN</option>
-							<option value="iGRIFFIN">iGRIFFIN</option>
-							<option value="TOS" selected>TOS</option>
-							<option value="TOSSuite">TOSSuite</option>
-						</select>
-			         </div>
-		         </c:when>
-		         <c:when test="${viewType eq 'update' || viewType eq 'reIssue' || viewType eq 'issuedback' || viewType eq 'updateback'}">
-		         	<div class="pading5Width450">
-			         	<label class="labelFontSize">제품유형</label><label class="colorRed">*</label>
-			         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
-							<option value="mGRIFFIN" <c:if test="${'mGRIFFIN' eq license.productType}">selected</c:if>>mGRIFFIN</option>
-							<option value="iGRIFFIN" <c:if test="${'iGRIFFIN' eq license.productType}">selected</c:if>>iGRIFFIN</option>
-							<option value="TOS" <c:if test="${'TOS' eq license.productType}">selected</c:if>>TOS</option>
-							<option value="TOSSuite" <c:if test="${'TOSSuite' eq license.productType}">selected</c:if>>TOSSuite</option>
-						</select>
-			         </div>
-		         </c:when>
-	        </c:choose>
-	        <div class="pading5Width450">
-	         	<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
-	         	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요</span>
-	         	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
-	        </div>
-			<div class="pading5Width450">
-	         	<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
-				 <span class="colorRed licenseShow" id="NotWriteDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
-	         	<input type="date" id="writeDateView" name="writeDateView" class="form-control viewForm" value="${license.writeDate}">
-	        </div>
-	        <div class="pading5Width450">
-	         	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
-				 <span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
-	         	<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
-	        </div>
-	        <c:choose>
-				<c:when test="${viewType eq 'issued'}">
-					<div class="pading5Width450">
-			         	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
-			         	<div class="floatRight oldLicense newLicense">
-			         		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
-		    				<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
-		    			</div>
-		    			<a href="#" class="selfInput" style="margin-right: 2%;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
-			         	<div id="expirationDaysViewSelf" style="display:none; width: 100%">
-			         		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
-			         	</div>
-			         	<div id="expirationDaysViewSelect">
-				         	<input type="number" id="expirationDaysDay" name="expirationDaysDay" class="form-control viewForm" value="90">
+		<div class="package-modal__content">
+			<div class="package-modal__grid">
+				<div class="package-modal__column">
+					<section class="package-card">
+						<h3 class="package-card__title">
+							<svg class="package-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14H4V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+							기본 정보
+						</h3>
+						<div class="newLicense scribePeriod">
+							<c:choose>
+								<c:when test="${viewType eq 'issued'}">
+									<div class="package-form-grid">
+										<div class="package-field">
+											<div class="package-field__head">
+												<span class="package-field__label">고객사명<span class="package-required">*</span></span>
+												<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
+									  			<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+									  		</div>
+										  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+										  	<div id="customerNameViewSelf">
+											  	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+											  		<option value=""></option>
+													<c:forEach var="item" items="${customerName}">
+														<option value="${item}"><c:out value="${item}"/></option>
+													</c:forEach>
+												</select>
+											</div>
+									 	</div>
+									 	<div class="package-field">
+											<div class="package-field__head">
+									 	 		<span class="package-field__label">사업명</label><label class="colorRed">*</span>
+												<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
+									 	 		<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+									 	 	</div>
+									 	 	<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+									 	 	<div id="businessNameViewSelf">
+											  	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+											  		<option value=""></option>
+												</select>
+											</div>
+									 	</div>
+									</div>
+	        				 	</c:when>
+	        				 	<c:when test="${viewType eq 'update' || viewType eq 'issuedback' || viewType eq 'updateback' || viewType eq 'reIssue' }">
+	        				 		<div class="package-form-grid">
+										<div class="package-field">
+											<div class="package-field__head">
+										  		<label class="labelFontSize">고객사명</label><label class="colorRed">*</label>
+												<span class="colorRed fontSize10 licenseShow" id="NotCustomerName" style="display: none; line-height: initial;">고객사명을 선택해주세요.</span>
+										  		<a href="#" class="selfInput" id="customerNameChange" onclick="selfInput('customerNameChange');">직접입력</a>
+										  	</div>
+										  	<input type="hidden" id="customerNameSelf" name="customerNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+										  	<div id="customerNameViewSelf">
+								    	     	<select class="form-control selectpicker selectForm" id="customerNameView" name="customerNameView" data-live-search="true" data-size="5">
+								    	     		<c:if test="${license.customerName ne ''}"><option value=""></option></c:if>
+								    	     		<c:if test="${license.customerName eq ''}"><option value=""></option></c:if>
+								    	     		<c:forEach var="item" items="${customerName}">
+														<option value="${item}" <c:if test="${item eq license.customerName}">selected</c:if>><c:out value="${item}"/></option>
+													</c:forEach>
+												</select>
+											</div>
+							        	 </div>
+							    	     <div class="package-field">
+											<div class="package-field__head">
+									  			<label class="labelFontSize">사업명</label><label class="colorRed">*</label>
+												<span class="colorRed fontSize10 licenseShow" id="NotBusinessName" style="display: none; line-height: initial;">사업명을 선택해주세요.</span>
+									  			<a href="#" class="selfInput" id="businessNameChange" onclick="selfInput('businessNameChange');">직접입력</a>
+									  		</div>
+									  		<input type="hidden" id="businessNameSelf" name="businessNameSelf" class="form-control viewForm" placeholder="직접입력" value="">
+									  		<div id="businessNameViewSelf">
+								      	   	<select class="form-control selectpicker selectForm" id="businessNameView" name="businessNameView" data-live-search="true" data-size="5">
+								      	   		<c:if test="${license.businessName ne ''}"><option value=""></option></c:if>
+								      	   		<c:if test="${license.businessName eq ''}"><option value=""></option></c:if>
+								      	   		<c:forEach var="item" items="${businessName}">
+														<option value="${item}" <c:if test="${item eq license.businessName}">selected</c:if>><c:out value="${item}"/></option>
+													</c:forEach>
+												</select>
+											</div>
+							         	</div>
+									</div>
+	        				 	</c:when>
+							</c:choose>
 						</div>
-			        </div>
+						<div class="oldLicense">
+							<div class="package-form-grid">
+								<div class="package-field">
+									<div class="package-field__head">
+										<label class="labelFontSize">고객사명</label><label class="colorRed" style="font-size: 12px;">* (구) 버전 라이선스는 영문만 입력 가능합니다.</label>
+									    <span class="colorRed fontSize10 licenseShow" id="NotCustomerNameOld" style="display: none; line-height: initial; float: right;">고객사명을 입력해주세요.</span>
+									</div>
+									<input type="text" id="customerNameOldView" name="customerNameOldView" class="form-control viewForm" value="${license.customerName}">
+								</div>
+								<div class="package-field">
+									<div class="package-field__head">
+										<label class="labelFontSize">사업명</label>
+									</div>
+									<input type="text" id="businessNameOldView" name="businessNameOldView" class="form-control viewForm" value="${license.businessName}">
+								</div>
+							</div>
+						</div>
+						<div class="package-field" style="margin-top: 18px; margin-bottom: 18px;">
+							<label class="labelFontSize">추가정보</label>
+							<input type="text" id="additionalInformationView" name="additionalInformationView" class="form-control viewForm" value="${license.additionalInformation}" max="9999-12-31">
+		   				</div>
+						<div class="package-form-grid">
+							<div class="package-field">
+	        				 	<label class="labelFontSize">MAC주소</label><label class="colorRed">*</label>
+	        				 	<span class="colorRed licenseShow" id="NotMacAddress" style="display: none; line-height: initial; float: right; font-size: 11px;">MAC주소를 입력해주세요</span>
+	        				 	<input type="text" id="macAddressView" name="macAddressView" class="form-control viewForm" value="${license.macAddress}" placeholder="00:1A:2B:3C:4D:5E">
+	        				</div>
+						
+
+							<div class="package-field">
+	        				 	<label class="labelFontSize">요청자</label>
+								<input type="text" id="requesterView" name="requesterView" class="form-control viewForm"  value="${license.requester}" style="width: 90%;" placeholder="담당 엔지니어" />
+								<div class="custom-btn" style="float: right; width: 45px;">
+									<button class="btn custom-btn" type="button" onclick="requesterSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
+								</div>
+	        				</div>
+						</div>
+						<div class="package-form-grid">
+							<div class="package-field scribePeriod scribeMetering">
+	        				 	<label class="labelFontSize">담당 영업</label>
+								<input type="text" id="salesManagerView" name="salesManagerView" class="form-control viewForm"  value="${license.salesManager}" style="width: 90%;" placeholder="담당 영업" />
+								<div class="custom-btn" style="float: right; width: 45px;">
+									<button class="btn custom-btn" type="button" onclick="salesManagerSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
+								</div>
+	        				</div>
+						</div>
+					</section>
+
+					<section class="package-card" style="height: 58%;">
+						<h3 class="package-card__title">
+							<svg class="package-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><rect x="3" y="4" width="2" height="2"/><rect x="3" y="10" width="2" height="2"/><rect x="3" y="16" width="2" height="2"/></svg>
+							라이선스 기간
+						</h3>
+
+						<div class="package-form-grid">
+							<div class="package-field">
+								<div class="package-field__head">
+	        					 	<label class="labelFontSize">발급일</label><label class="colorRed">*</label>
+								</div>
+								<span class="colorRed licenseShow" id="NotWriteDate" style="display: none; line-height: initial; float: right; font-size: 11px;">발급일을 입력해주세요.</span>
+	        					<input type="date" id="writeDateView" name="writeDateView" class="form-control viewForm" value="${license.writeDate}">
+							</div>
+							<div class="package-field">
+	        					<div class="package-field__head">
+	        					 	<label class="labelFontSize">시작일</label><label class="colorRed">*</label>
+								</div>
+								<span class="colorRed licenseShow" id="NotIssueDate" style="display: none; line-height: initial; float: right; font-size: 11px;">시작일을 입력해주세요.</span>
+	        					<input type="date" id="issueDateView" name="issueDateView" class="form-control viewForm" value="${license.issueDate}">
+							</div>
+						</div>
+						<div class="package-field" style="margin-top: 18px; margin-bottom: 18px;">
+							<c:choose>
+								<c:when test="${viewType eq 'issued'}">
+									<div class="package-field__head">
+			    				     	<label class="labelFontSize">만료일</label><label class="colorRed">*</label>
+									</div>
+			    				     	<div class="floatRight oldLicense newLicense" style="margin-top: 7px;">
+			    				     		<input class="cssCheck" type="checkbox" id="chkExpirationDays" name="chkExpirationDays" value="무제한">
+		    								<label for="chkExpirationDays"></label><span class="margin17">무제한</span>
+		    							</div>
+		    							<a href="#" class="selfInput" style="margin-right: 2%; margin-top: 9px;" id="expirationDaysChange" onclick="selfInputCalendar('expirationDaysChange');">달력</a>
+			    				     	<div id="expirationDaysViewSelf" style="display:none; width: 85%">
+			    				     		<input type="date" id="expirationDaysCalender" name="expirationDaysCalender" class="form-control viewForm">
+			    				     	</div>
+			    				     	<div id="expirationDaysViewSelect">
+								         	<input type="number" id="expirationDaysDay" name="expirationDaysDay" class="form-control viewForm" value="90" style="width: 85%">
+										</div>
+			    				    
+								</c:when>
+							</c:choose>
+						</div>
+					</section>
+				</div>
+				<div class="package-modal__column">
+					<section class="package-card">
+						<h3 class="package-card__title">
+							<svg class="package-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+							라이선스 정보
+						</h3>
+						<div class="package-form-grid">
+							<c:choose>
+								<c:when test="${viewType eq 'issued'}">
+							         <div class="package-field">
+										<div class="package-field__head">
+							         		<span class="package-field__label">제품유형<span class="package-required">*</span></span>
+										</div>
+							         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
+											<option value="mGRIFFIN">mGRIFFIN</option>
+											<option value="iGRIFFIN">iGRIFFIN</option>
+											<option value="TOS" selected>TOS</option>
+											<option value="TOSSuite">TOSSuite</option>
+										</select>
+							         </div>
+		    				     </c:when>
+		    				     <c:when test="${viewType eq 'update' || viewType eq 'reIssue' || viewType eq 'issuedback' || viewType eq 'updateback'}">
+		    				     	<div class="package-field">
+										<div class="package-field__head">
+							         		<span class="package-field__label">제품유형<span class="package-required">*</span></span>
+										</div>
+							         	<select class="form-control selectpicker selectForm" id="productTypeView" name="productTypeView" data-live-search="true" data-size="5" data-actions-box="true">
+											<option value="mGRIFFIN" <c:if test="${'mGRIFFIN' eq license.productType}">selected</c:if>>mGRIFFIN</option>
+											<option value="iGRIFFIN" <c:if test="${'iGRIFFIN' eq license.productType}">selected</c:if>>iGRIFFIN</option>
+											<option value="TOS" <c:if test="${'TOS' eq license.productType}">selected</c:if>>TOS</option>
+											<option value="TOSSuite" <c:if test="${'TOSSuite' eq license.productType}">selected</c:if>>TOSSuite</option>
+										</select>
+							         </div>
+		    				     </c:when>
+	        				</c:choose>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+
+		<div class="leftDiv">
+			
+			
+			
+	        
+	        
+			
+	        <c:choose>
+				<c:when test="${viewType eq 'issued'}">
+					
 			         <div class="pading5Width450">
 			         	<label class="labelFontSize">iGRIFFIN Agent 수량</label><label class="colorRed">*</label>
 			         	<div class="floatRight">
@@ -401,20 +504,7 @@
 			        </div>
 		        </c:when>
 	        </c:choose>
-	        <div class="pading5Width450">
-	         	<label class="labelFontSize">요청자</label>
-				<input type="text" id="requesterView" name="requesterView" class="form-control viewForm"  value="${license.requester}" style="width: 90%;" placeholder="담당 엔지니어" />
-				<div class="custom-btn" style="float: right; width: 45px;">
-					<button class="btn custom-btn" type="button" onclick="requesterSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
-				</div>
-	        </div>
-			<div class="pading5Width450 scribePeriod scribeMetering">
-	         	<label class="labelFontSize">담당 영업</label>
-				<input type="text" id="salesManagerView" name="salesManagerView" class="form-control viewForm"  value="${license.salesManager}" style="width: 90%;" placeholder="담당 영업" />
-				<div class="custom-btn" style="float: right; width: 45px;">
-					<button class="btn custom-btn" type="button" onclick="salesManagerSearch()" style="margin-right: 7px; background: #ffc4c4; margin-top: -48px; height: 35px;">검색</button>
-				</div>
-	        </div>
+	        
         </div>
         <input type="hidden" id="licenseKeyNum" name="licenseKeyNum" value="${license.licenseKeyNum}">
         <input type="hidden" id="viewType" name="viewType" value="${viewType}">
