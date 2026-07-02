@@ -5,8 +5,8 @@
 	<head>
 		<%@ include file="/WEB-INF/jsp/common/_Head.jsp"%>
 		<!-- SummerNote -->
-		<script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
-		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>">
+		<!-- <script type="text/javascript" src="<c:url value='/js/summernote/summernote.js'/>"></script>
+		<link rel="stylesheet" type="text/css" href="<c:url value='/js/summernote/summernote.css'/>"> -->
 		<!-- 쿠키 스크립트 -->
 	    <script>
 	    	/* =========== 페이지 쿠키 값 저장 ========= */
@@ -138,11 +138,11 @@
 		                                			</div>
 													<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">Target</label>
-														<select class="form-control selectpicker" id="issueTarget" name="issueTarget" data-live-search="true" data-size="5" data-actions-box="true">
+														<!-- <select class="form-control selectpicker" id="issueTarget" name="issueTarget" data-live-search="true" data-size="5" data-actions-box="true">
 															<option value="TOSMS" <c:if test="${'TOSMS' eq issueTitle.issueTarget}">selected</c:if>>TOSMS</option>
 															<option value="Agent" <c:if test="${'Agent' eq issueTitle.issueTarget}">selected</c:if>>Agent</option>
 															<option value="기타" <c:if test="${'기타' eq issueTitle.issueTarget}">selected</c:if>>기타</option>
-														</select>
+														</select> -->
 		                                			</div>
 													<div class="col-lg-4">
 		                                				<label class="labelFontSize marginBottom2">Sub_target</label>
@@ -237,13 +237,15 @@
 																	                </td>
 																				</c:when>
 																				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
-																					<td><select class="form-control selectpicker selectForm" id="issueOsList" name="issueOsList" data-live-search="true" data-size="5">
-																						<option value="Linux" <c:if test="${list.issueOs eq 'Linux'}">selected</c:if>>Linux</option>
-																				    	<option value="Windows" <c:if test="${list.issueOs eq 'Windows'}">selected</c:if>>Windows</option>
-																				    	<option value="AIX" <c:if test="${list.issueOs eq 'AIX'}">selected</c:if>>AIX</option>
-																				    	<option value="HP-UX" <c:if test="${list.issueOs eq 'HP-UX'}">selected</c:if>>HP-UX</option>
-																				    	<option value="Solaris" <c:if test="${list.issueOs eq 'Solaris'}">selected</c:if>>Solaris</option>
-																				    </select></td>
+																					<td>
+																						<!-- <select class="form-control selectpicker selectForm" id="issueOsList" name="issueOsList" data-live-search="true" data-size="5">
+																							<option value="Linux" <c:if test="${list.issueOs eq 'Linux'}">selected</c:if>>Linux</option>
+																				    		<option value="Windows" <c:if test="${list.issueOs eq 'Windows'}">selected</c:if>>Windows</option>
+																				    		<option value="AIX" <c:if test="${list.issueOs eq 'AIX'}">selected</c:if>>AIX</option>
+																				    		<option value="HP-UX" <c:if test="${list.issueOs eq 'HP-UX'}">selected</c:if>>HP-UX</option>
+																				    		<option value="Solaris" <c:if test="${list.issueOs eq 'Solaris'}">selected</c:if>>Solaris</option>
+																				    	</select> -->
+																					</td>
 																				    <td class="alignCenter">작성자</td>
 								                                					<td>
 								                                						<input  class="form-control" type="text" id="issueWriterList" name="issueWriterList" value="${list.issueWriter}" readonly>
@@ -282,11 +284,13 @@
 																					</select></td>
 																				</c:when>
 																				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
-																					<td><select class="form-control selectpicker selectForm" id="issueEffectList" name="issueEffectList" data-live-search="true" data-size="5">
-																						<option value="상" <c:if test="${list.issueEffect eq '상'}">selected</c:if>>상</option>
-																				    	<option value="중" <c:if test="${list.issueEffect eq '중'}">selected</c:if>>중</option>
-																				    	<option value="하" <c:if test="${list.issueEffect eq '하'}">selected</c:if>>하</option>
-																				    </select></td>
+																					<td>
+																						<!-- <select class="form-control selectpicker selectForm" id="issueEffectList" name="issueEffectList" data-live-search="true" data-size="5">
+																							<option value="상" <c:if test="${list.issueEffect eq '상'}">selected</c:if>>상</option>
+																				    		<option value="중" <c:if test="${list.issueEffect eq '중'}">selected</c:if>>중</option>
+																				    		<option value="하" <c:if test="${list.issueEffect eq '하'}">selected</c:if>>하</option>
+																				    	</select> -->
+																					</td>
 																				</c:when>
 																			</c:choose>
 						                                				</tr>
@@ -300,10 +304,12 @@
 																					</select></td>
 																				</c:when>
 																				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
-																					<td><select class="form-control selectpicker selectForm" id="issueTextResultList" name="issueTextResultList" data-live-search="true" data-size="5">
-																						<option value="오류" <c:if test="${list.issueTextResult eq '오류'}">selected</c:if>>오류</option>
-																				    	<option value="개선사항" <c:if test="${list.issueTextResult eq '개선사항'}">selected</c:if>>개선사항</option>
-																				    </select></td>
+																					<td>
+																						<!-- <select class="form-control selectpicker selectForm" id="issueTextResultList" name="issueTextResultList" data-live-search="true" data-size="5">
+																							<option value="오류" <c:if test="${list.issueTextResult eq '오류'}">selected</c:if>>오류</option>
+																				    		<option value="개선사항" <c:if test="${list.issueTextResult eq '개선사항'}">selected</c:if>>개선사항</option>
+																				    	</select> -->
+																					</td>
 																				</c:when>
 																			</c:choose>
 						                                					<td class="alignCenter">적용여부</td>
@@ -316,11 +322,13 @@
 																					</select></td>
 																				</c:when>
 																				<c:when test="${viewType eq 'update' || viewType eq 'copy'}">
-																					<td><select class="form-control selectpicker selectForm" id="issueApplyYnList" name="issueApplyYnList" data-live-search="true" data-size="5">
-																						<option value="미해결" <c:if test="${list.issueApplyYn eq '미해결'}">selected</c:if>>미해결</option>
-																				    	<option value="해결" <c:if test="${list.issueApplyYn eq '해결'}">selected</c:if>>해결</option>
-																				    	<option value="보류" <c:if test="${list.issueApplyYn eq '보류'}">selected</c:if>>보류</option>
-																				    </select></td>
+																					<td>
+																						<!-- <select class="form-control selectpicker selectForm" id="issueApplyYnList" name="issueApplyYnList" data-live-search="true" data-size="5">
+																							<option value="미해결" <c:if test="${list.issueApplyYn eq '미해결'}">selected</c:if>>미해결</option>
+																				    		<option value="해결" <c:if test="${list.issueApplyYn eq '해결'}">selected</c:if>>해결</option>
+																				    		<option value="보류" <c:if test="${list.issueApplyYn eq '보류'}">selected</c:if>>보류</option>
+																				    	</select> -->
+																					</td>
 																				</c:when>
 																			</c:choose>
 						                                				</tr>
@@ -411,7 +419,7 @@
 			<div style="text-align: right;">
 				<a onclick="fixedClose();">x</a>
 			</div>
-			<% int num = 1; %>
+			<!-- <% int num = 1; %> -->
 			<c:forEach var="list" items="${issue}">
 				<a onClick="moveScroll('${list.issuePrimaryKeyNum}');">
 					<div class="${list.issueApplyYn}">
@@ -423,12 +431,12 @@
 						</c:if>
 						<c:if test="${fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">
 							<p class="text" style="color: green;" id="p_${list.issuePrimaryKeyNum}">
-								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
+								<!-- <%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if> -->
 							</p>
 						</c:if>
 						<c:if test="${!fn:contains(alarmIndex, list.issuePrimaryKeyNum)}">		
 							<p class="text" id="p_${list.issuePrimaryKeyNum}">
-								<%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if>
+								<!-- <%= num++ %>. ${list.issueDivision} <c:if test="${list.issueDivision eq '' || list.issueDivision eq null}">미입력</c:if> -->
 							</p>
 						</c:if>
 					</div>
@@ -2060,6 +2068,25 @@
     		background: #c19595;
     		color: white;
 			font-weight: bold;
+		}
+
+		.form-control, .dropdown-toggle {
+    		border: 1px solid #d6dee9 !important;
+    		border-radius: 6px !important;
+    		background-color: #fff !important;
+    		box-shadow: none !important;
+    		font-size: 12px !important;
+    		color: black !important;
+    		border-radius: 0px !important;
+			height: 31px !important;
+		}
+		
+		input:not([disabled]), .dropdown-toggle {
+			border-radius: 0px !important;
+		}
+
+		.selectForm {
+			border: none !important;
 		}
 	</style>
 </html>
